@@ -36,15 +36,18 @@
 
     checks = forAllSystems ({ pkgs, system }: {
       # Validate that the registry has the expected structure:
-      # each entry is a list of { min, max, patch } attrsets.
+      # each entry is a list of { min, max, patch } or { always, patch } attrsets.
       registry-valid =
         let
           validateEntry = name: entries:
             builtins.all (e:
-              e ? min && e ? max && e ? patch
-              && builtins.isString e.min
-              && builtins.isString e.max
-              && builtins.isFunction e.patch
+              if e ? always && e.always then
+                e ? patch && builtins.isFunction e.patch
+              else
+                e ? min && e ? max && e ? patch
+                && builtins.isString e.min
+                && builtins.isString e.max
+                && builtins.isFunction e.patch
             ) entries;
 
           allValid = builtins.all (name: validateEntry name registry.${name})
@@ -52,10 +55,10 @@
         in
         pkgs.runCommand "registry-valid" { } (
           if allValid then ''
-            echo "Registry validation passed: all entries have { min, max, patch }"
+            echo "Registry validation passed: all entries valid"
             touch $out
           '' else
-            throw "Registry validation failed: entries must have { min : string, max : string, patch : function }"
+            throw "Registry validation failed: entries must have { min, max, patch } or { always = true; patch }"
         );
 
       # Force evaluation of the overlay to catch Nix-level errors.
@@ -67,11 +70,15 @@
         let
           ghc9122HasHasql = pkgs.haskell.packages.ghc9122 ? hasql;
           ghc914HasHasql = pkgs.haskell.packages.ghc914 ? hasql;
+          ghc9122HasOrmolu = pkgs.haskell.packages.ghc9122 ? ormolu;
+          ghc914HasOrmolu = pkgs.haskell.packages.ghc914 ? ormolu;
         in
         pkgs.runCommand "overlay-eval" { } ''
           echo "Overlay evaluation succeeded"
           echo "  ghc9122 has hasql: ${lib.boolToString ghc9122HasHasql}"
           echo "  ghc914 has hasql: ${lib.boolToString ghc914HasHasql}"
+          echo "  ghc9122 has ormolu: ${lib.boolToString ghc9122HasOrmolu}"
+          echo "  ghc914 has ormolu: ${lib.boolToString ghc914HasOrmolu}"
           touch $out
         '';
     });
