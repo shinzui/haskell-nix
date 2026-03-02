@@ -5,7 +5,7 @@
 { lib }:
 
 { registry
-, compilers ? [ "ghc96" "ghc98" "ghc910" ]
+, compilers ? [ "ghc9122" "ghc914" ]
 }:
 
 let

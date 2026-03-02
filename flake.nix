@@ -65,13 +65,13 @@
       # a package is actually built) — this only checks structural integrity.
       overlay-eval =
         let
-          ghc96HasHasql = pkgs.haskell.packages.ghc96 ? hasql;
-          ghc98HasHasql = pkgs.haskell.packages.ghc98 ? hasql;
+          ghc9122HasHasql = pkgs.haskell.packages.ghc9122 ? hasql;
+          ghc914HasHasql = pkgs.haskell.packages.ghc914 ? hasql;
         in
         pkgs.runCommand "overlay-eval" { } ''
           echo "Overlay evaluation succeeded"
-          echo "  ghc96 has hasql: ${lib.boolToString ghc96HasHasql}"
-          echo "  ghc98 has hasql: ${lib.boolToString ghc98HasHasql}"
+          echo "  ghc9122 has hasql: ${lib.boolToString ghc9122HasHasql}"
+          echo "  ghc914 has hasql: ${lib.boolToString ghc914HasHasql}"
           touch $out
         '';
     });
