@@ -22,10 +22,10 @@ let
   composeManyExtensions = lib.composeManyExtensions or
     (extensions: lib.foldr lib.composeExtensions (_: _: { }) extensions);
 
-  # haskellLib is passed at overlay-application time so patches get access
-  # to the full haskell.lib.compose API.
-  mkCombinedOverride = haskellLib:
-    composeManyExtensions (map (f: f haskellLib) perPackageOverrides);
+  # haskellLib and pkgs are passed at overlay-application time so patches
+  # get access to the full haskell.lib.compose API and top-level nixpkgs.
+  mkCombinedOverride = haskellLib: pkgs:
+    composeManyExtensions (map (f: f haskellLib pkgs) perPackageOverrides);
 
 in
 # nixpkgs-level overlay
@@ -39,7 +39,7 @@ let
     hpkgs.override (old: {
       overrides = lib.composeExtensions
         (old.overrides or (_: _: { }))
-        (mkCombinedOverride haskellLib);
+        (mkCombinedOverride haskellLib prev);
     });
 
 in

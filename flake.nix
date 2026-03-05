@@ -34,15 +34,15 @@
       inherit fixPackageByVersion mkHaskellOverlay registry;
 
       # Combined registry extension for direct composition.
-      # Signature: haskellLib -> hself -> hsuper -> { ... }
+      # Signature: haskellLib -> pkgs -> hself -> hsuper -> { ... }
       haskellExtension =
         let
           perPackageOverrides = lib.mapAttrsToList
             (name: table: fixPackageByVersion name table)
             registry;
         in
-        haskellLib:
-          lib.composeManyExtensions (map (f: f haskellLib) perPackageOverrides);
+        haskellLib: pkgs:
+          lib.composeManyExtensions (map (f: f haskellLib pkgs) perPackageOverrides);
     };
 
     checks = forAllSystems ({ pkgs, system }: {

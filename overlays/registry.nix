@@ -10,7 +10,7 @@
 #   Always-apply:   { always = true; patch } — skips version check entirely
 #                   (use for packages replaced wholesale via callCabal2nix)
 #
-# Patch functions receive { pkg, lib, haskellLib, hself, hsuper }.
+# Patch functions receive { pkg, lib, haskellLib, pkgs, hself, hsuper }.
 let
   dontCheckDoJailbreak = { pkg, haskellLib, ... }:
     haskellLib.dontCheck (haskellLib.doJailbreak pkg);
@@ -38,16 +38,34 @@ in
   # ── Misc compatibility ─────────────────────────────────────────────
   unicode-data        = always dontCheckOnly;
   fuzzyfind           = always markUnbrokenDontCheckDoJailbreak;
-  hasql-migration     = always markUnbrokenDontCheckDoJailbreak;
 
   # ── Hackage version pins ───────────────────────────────────────────
   optparse-applicative = always (import ../patches/optparse-applicative/0.19.nix);
   streamly-core        = always (import ../patches/streamly-core/0.3.nix);
   streamly             = always (import ../patches/streamly/0.11.nix);
 
-  # ── Version-scoped patches ────────────────────────────────────────
+  # ── hasql ecosystem ────────────────────────────────────────────────
   hasql = [
     { min = "1.9";  max = "1.10"; patch = import ../patches/hasql/1.9.nix; }
     { min = "1.10"; max = "1.11"; patch = import ../patches/hasql/1.10.nix; }
   ];
+  postgresql-binary   = always (import ../patches/postgresql-binary/0.15.nix);
+  hasql-pool          = always (import ../patches/hasql-pool/1.4.nix);
+  hasql-transaction   = always (import ../patches/hasql-transaction/1.2.nix);
+  hasql-migration     = always (import ../patches/hasql-migration/shinzui.nix);
+
+  # ── pgmq ecosystem ────────────────────────────────────────────────
+  pgmq-core           = always (import ../patches/pgmq-core/0.1.nix);
+  pgmq-hasql          = always (import ../patches/pgmq-hasql/0.1.nix);
+  pgmq-effectful      = always (import ../patches/pgmq-effectful/0.1.nix);
+  pgmq-migration      = always (import ../patches/pgmq-migration/0.1.nix);
+
+  # ── shibuya ────────────────────────────────────────────────────────
+  shibuya-core            = always (import ../patches/shibuya-core/0.1.nix);
+  shibuya-pgmq-adapter    = always (import ../patches/shibuya-pgmq-adapter/0.1.nix);
+
+  # ── test stubs ─────────────────────────────────────────────────────
+  ephemeral-pg        = always (import ../patches/ephemeral-pg/stub.nix);
+
+  # ── Version-scoped patches ────────────────────────────────────────
 }

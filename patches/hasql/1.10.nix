@@ -1,4 +1,8 @@
-# hasql 1.10.x — enable new-api configure flag
-{ pkg, lib, haskellLib, ... }:
+# hasql 1.10.2.4 — pin from Hackage (replaces --flag=new-api approach)
+{ hself, haskellLib, ... }:
 
-haskellLib.appendConfigureFlags pkg [ "--flag=new-api" ]
+haskellLib.dontCheck (haskellLib.doJailbreak (hself.callHackageDirect {
+  pkg = "hasql";
+  ver = "1.10.2.4";
+  sha256 = "sha256-mUQETQuvWW+AenCprqD3IPyfdpMIFO2Dzke3wz/ae24=";
+} {}))

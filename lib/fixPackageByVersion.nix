@@ -1,4 +1,4 @@
-# fixPackageByVersion :: String -> [{ min; max; patch } | { always; patch }] -> HaskellLib -> (hself -> hsuper -> AttrSet)
+# fixPackageByVersion :: String -> [{ min; max; patch } | { always; patch }] -> HaskellLib -> Pkgs -> (hself -> hsuper -> AttrSet)
 #
 # Core version-dispatch primitive. Given a package name and a version table,
 # returns a Haskell-level override function that applies the matching patch
@@ -17,7 +17,7 @@
 # happen lazily when the attribute is actually consumed.
 { lib }:
 
-name: table: haskellLib:
+name: table: haskellLib: pkgs:
 
 hself: hsuper:
 {
@@ -39,6 +39,6 @@ hself: hsuper:
       match = if alwaysEntry != null then alwaysEntry else versionMatch;
     in
     if match != null
-    then match.patch { inherit pkg lib haskellLib hself hsuper; }
+    then match.patch { inherit pkg lib haskellLib pkgs hself hsuper; }
     else pkg;
 }
