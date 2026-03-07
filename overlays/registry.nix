@@ -45,10 +45,7 @@ in
   streamly             = always (import ../patches/streamly/0.11.nix);
 
   # ── hasql ecosystem ────────────────────────────────────────────────
-  hasql = [
-    { min = "1.9";  max = "1.10"; patch = import ../patches/hasql/1.9.nix; }
-    { min = "1.10"; max = "1.11"; patch = import ../patches/hasql/1.10.nix; }
-  ];
+  hasql               = always (import ../patches/hasql/1.10.nix);
   postgresql-binary   = always (import ../patches/postgresql-binary/0.15.nix);
   hasql-pool          = always (import ../patches/hasql-pool/1.4.nix);
   hasql-transaction   = always (import ../patches/hasql-transaction/1.2.nix);
