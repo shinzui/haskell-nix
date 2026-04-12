@@ -45,11 +45,13 @@ in
   streamly             = always (import ../patches/streamly/0.11.nix);
 
   # ── hasql ecosystem ────────────────────────────────────────────────
-  hasql               = always (import ../patches/hasql/1.10.nix);
-  postgresql-binary   = always (import ../patches/postgresql-binary/0.15.nix);
-  hasql-pool          = always (import ../patches/hasql-pool/1.4.nix);
-  hasql-transaction   = always (import ../patches/hasql-transaction/1.2.nix);
-  hasql-migration     = always (import ../patches/hasql-migration/shinzui.nix);
+  hasql                    = always (import ../patches/hasql/1.10.nix);
+  postgresql-binary        = always (import ../patches/postgresql-binary/0.15.nix);
+  hasql-pool               = always (import ../patches/hasql-pool/1.4.nix);
+  hasql-transaction        = always (import ../patches/hasql-transaction/1.2.nix);
+  hasql-migration          = always (import ../patches/hasql-migration/shinzui.nix);
+  hasql-implicits          = always (import ../patches/hasql-implicits/0.2.nix);
+  hasql-dynamic-statements = always (import ../patches/hasql-dynamic-statements/0.5.nix);
 
   # ── pgmq ecosystem ────────────────────────────────────────────────
   pgmq-core           = always (import ../patches/pgmq-core/0.1.nix);
