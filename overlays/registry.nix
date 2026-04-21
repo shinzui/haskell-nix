@@ -21,6 +21,9 @@ let
   dontCheckOnly = { pkg, haskellLib, ... }:
     haskellLib.dontCheck pkg;
 
+  doJailbreakOnly = { pkg, haskellLib, ... }:
+    haskellLib.doJailbreak pkg;
+
   always = patch: [{ always = true; inherit patch; }];
 in
 {
@@ -62,6 +65,33 @@ in
   # ── shibuya ────────────────────────────────────────────────────────
   shibuya-core            = always (import ../patches/shibuya-core/0.1.nix);
   shibuya-pgmq-adapter    = always (import ../patches/shibuya-pgmq-adapter/0.1.nix);
+
+  # ── crypton 1.1 / tls 2.3 / x509 1.9 cascade ───────────────────────
+  # nixpkgs' ghc9122 set ships crypton-1.0.5 (which uses `memory`).
+  # crypton-1.1.x switched to `ram`; downstream TLS / x509 / hpke bounds then
+  # force the whole stack forward in lockstep. Pinning them here keeps any
+  # consumer that depends on crypton-1.1.x (e.g. the shinzui hasql-migration
+  # fork) instance-coherent.
+  ram                      = always (import ../patches/ram/0.22.nix);
+  crypton                  = always (import ../patches/crypton/1.1.nix);
+  mlkem                    = always (import ../patches/mlkem/0.2.nix);
+  hpke                     = always (import ../patches/hpke/0.1.nix);
+  crypton-x509             = always (import ../patches/crypton-x509/1.9.nix);
+  crypton-x509-store       = always (import ../patches/crypton-x509-store/1.9.nix);
+  crypton-x509-system      = always (import ../patches/crypton-x509-system/1.9.nix);
+  crypton-x509-validation  = always (import ../patches/crypton-x509-validation/1.9.nix);
+  tls                      = always (import ../patches/tls/2.3.nix);
+  crypton-connection       = always (import ../patches/crypton-connection/0.4.nix);
+  http-client-tls          = always (import ../patches/http-client-tls/0.4.nix);
+
+  # http-conduit-2.3.9.1 caps http-client-tls < 0.4 in its original .cabal;
+  # Hackage has a revision relaxing it to < 0.5 that cabal picks up, but the
+  # nixpkgs snapshot ships the unrevised file. Jailbreak to match cabal.
+  http-conduit             = always doJailbreakOnly;
+
+  # dhall has a manual `use-http-client-tls` flag pinned to http-client-tls
+  # <0.4. Disable it so dhall compiles against 0.4.x.
+  dhall                    = always (import ../patches/dhall/no-http-client-tls.nix);
 
   # ── test stubs ─────────────────────────────────────────────────────
   ephemeral-pg        = always (import ../patches/ephemeral-pg/stub.nix);
