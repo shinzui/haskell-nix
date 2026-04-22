@@ -46,6 +46,7 @@ in
   optparse-applicative = always (import ../patches/optparse-applicative/0.19.nix);
   streamly-core        = always (import ../patches/streamly-core/0.3.nix);
   streamly             = always (import ../patches/streamly/0.11.nix);
+  validation           = always (import ../patches/validation/1.2.nix);
 
   # ── hasql ecosystem ────────────────────────────────────────────────
   hasql                    = always (import ../patches/hasql/1.10.nix);
