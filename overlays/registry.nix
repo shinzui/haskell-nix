@@ -57,6 +57,9 @@ in
   hasql-implicits          = always (import ../patches/hasql-implicits/0.2.nix);
   hasql-dynamic-statements = always (import ../patches/hasql-dynamic-statements/0.5.nix);
 
+  # ── OpenTelemetry (pgmq-effectful 0.2+ dependency) ─────────────────
+  hs-opentelemetry-semantic-conventions = always (import ../patches/hs-opentelemetry-semantic-conventions/0.1.nix);
+
   # ── pgmq ecosystem ────────────────────────────────────────────────
   pgmq-core           = always (import ../patches/pgmq-core/0.1.nix);
   pgmq-hasql          = always (import ../patches/pgmq-hasql/0.1.nix);
