@@ -79,6 +79,17 @@ in
   shibuya-core = always (import ../patches/shibuya-core/0.1.nix);
   shibuya-pgmq-adapter = always (import ../patches/shibuya-pgmq-adapter/0.1.nix);
 
+  # ── shinzui event-sourcing stack ───────────────────────────────────
+  keiki = always ({ ... }@args: (import ../patches/keiki/0.1.nix args).keiki);
+  keiki-codec-json = always ({ ... }@args: (import ../patches/keiki/0.1.nix args).keiki-codec-json);
+  kiroku-store = always ({ ... }@args: (import ../patches/kiroku/0.1.nix args).kiroku-store);
+  kiroku-store-migrations = always ({ ... }@args: (import ../patches/kiroku/0.1.nix args).kiroku-store-migrations);
+  kiroku-test-support = always ({ ... }@args: (import ../patches/kiroku/0.1.nix args).kiroku-test-support);
+  shibuya-kiroku-adapter = always ({ ... }@args: (import ../patches/kiroku/0.1.nix args).shibuya-kiroku-adapter);
+  keiro = always ({ ... }@args: (import ../patches/keiro/0.1.nix args).keiro);
+  keiro-core = always ({ ... }@args: (import ../patches/keiro/0.1.nix args).keiro-core);
+  keiro-migrations = always ({ ... }@args: (import ../patches/keiro/0.1.nix args).keiro-migrations);
+
   # ── crypton 1.1 / tls 2.3 / x509 1.9 cascade ───────────────────────
   # nixpkgs' ghc9122 set ships crypton-1.0.5 (which uses `memory`).
   # crypton-1.1.x switched to `ram`; downstream TLS / x509 / hpke bounds then
