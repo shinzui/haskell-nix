@@ -41,6 +41,9 @@ in
   # ── Misc compatibility ─────────────────────────────────────────────
   unicode-data = always dontCheckOnly;
   fuzzyfind = always markUnbrokenDontCheckDoJailbreak;
+  # nixpkgs marks sbv-11.7 broken; the library builds fine — only its test
+  # suite needs the z3 solver binary. keiki depends on it (symbolic core).
+  sbv = always markUnbrokenDontCheckDoJailbreak;
 
   # ── Hackage version pins ───────────────────────────────────────────
   optparse-applicative = always (import ../patches/optparse-applicative/0.19.nix);
@@ -56,6 +59,14 @@ in
   hasql-migration = always (import ../patches/hasql-migration/shinzui.nix);
   hasql-implicits = always (import ../patches/hasql-implicits/0.2.nix);
   hasql-dynamic-statements = always (import ../patches/hasql-dynamic-statements/0.5.nix);
+  # diogob/hasql-notifications master (0.2.5.0) targets hasql 1.10; the Hackage
+  # 0.2.4.0 release nixpkgs ships only supports hasql < 1.10.
+  hasql-notifications = always (import ../patches/hasql-notifications/0.2.nix);
+
+  # ── codd (SQL migration tool; kiroku-store-migrations dependency) ──
+  codd = always (import ../patches/codd/0.1.nix);
+  # haxl (codd dependency) caps `time < 1.13`; GHC 9.12 ships time 1.14.
+  haxl = always dontCheckDoJailbreak;
 
   # ── OpenTelemetry (pgmq-effectful 0.2+ dependency) ─────────────────
   hs-opentelemetry-semantic-conventions = always (import ../patches/hs-opentelemetry-semantic-conventions/0.1.nix);

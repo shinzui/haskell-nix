@@ -5,8 +5,8 @@ let
   src = pkgs.fetchFromGitHub {
     owner = "shinzui";
     repo = "keiro";
-    rev = "638aab4e969221a686dc655e684e8c92b8d0be11";
-    hash = "sha256-EKy35+ufjLCbU7bMwDX7vFKV1sz28RiYx18REzsdsdk=";
+    rev = "102b1e82e179281bdffebc59bde9104d8795bae3";
+    hash = "sha256-SsMOrdNncqRjeRCP+UCBd0+HScgVClMXy5EZlm8SjE0=";
   };
 in
 {
