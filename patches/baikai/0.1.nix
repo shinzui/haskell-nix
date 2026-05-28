@@ -1,11 +1,9 @@
 { hself, haskellLib, pkgs, ... }:
 
 let
-  src = pkgs.fetchFromGitHub {
-    owner = "shinzui";
-    repo = "baikai";
-    rev = "e47a02ba740945e5aacf545b98c9ce81d2c26c4b";
-    hash = "sha256-sGko8ZEBYYLT+MRNmLYAixTou4ezuRQ7sNJKyK2SDWE=";
+  src = builtins.fetchGit {
+    url = "https://github.com/shinzui/baikai";
+    rev = "1a9fbaba74ce9e41ead6963c57e5a271c15c383a";
   };
 
   stageRootFiles = drv: {
