@@ -4,8 +4,8 @@ let
   src = pkgs.fetchFromGitHub {
     owner = "shinzui";
     repo = "baikai";
-    rev = "1a9fbaba74ce9e41ead6963c57e5a271c15c383a";
-    hash = "sha256-76SlqTd83pIoEMmlJnYkbZ60AmxAcHeWNHWIJP0N4/0=";
+    rev = "72cb4034b61fe96fdadcebad1529351ec4b6f76f";
+    hash = "sha256-RHk9BXKLpYY9fm/n2KTHdNnD0mmZ1tqkntmzInwYcoE=";
   };
 
   stageRootFiles = drv: {
