@@ -68,8 +68,24 @@ in
   # haxl (codd dependency) caps `time < 1.13`; GHC 9.12 ships time 1.14.
   haxl = always dontCheckDoJailbreak;
 
-  # ── OpenTelemetry (pgmq-effectful 0.2+ dependency) ─────────────────
-  hs-opentelemetry-semantic-conventions = always (import ../patches/hs-opentelemetry-semantic-conventions/0.1.nix);
+  # ── OpenTelemetry spec v1.40 family (pgmq-effectful 0.3+ dependency) ─
+  # Built from the upstream iand675/hs-opentelemetry source; see
+  # ../patches/hs-opentelemetry/1.40.nix.
+  thread-utils-finalizers = always ({ ... }@args: (import ../patches/hs-opentelemetry/1.40.nix args).thread-utils-finalizers);
+  thread-utils-context = always ({ ... }@args: (import ../patches/hs-opentelemetry/1.40.nix args).thread-utils-context);
+  hs-opentelemetry-api-types = always ({ ... }@args: (import ../patches/hs-opentelemetry/1.40.nix args).hs-opentelemetry-api-types);
+  hs-opentelemetry-api = always ({ ... }@args: (import ../patches/hs-opentelemetry/1.40.nix args).hs-opentelemetry-api);
+  hs-opentelemetry-semantic-conventions = always ({ ... }@args: (import ../patches/hs-opentelemetry/1.40.nix args).hs-opentelemetry-semantic-conventions);
+  hs-opentelemetry-otlp = always ({ ... }@args: (import ../patches/hs-opentelemetry/1.40.nix args).hs-opentelemetry-otlp);
+  hs-opentelemetry-sdk = always ({ ... }@args: (import ../patches/hs-opentelemetry/1.40.nix args).hs-opentelemetry-sdk);
+  hs-opentelemetry-exporter-handle = always ({ ... }@args: (import ../patches/hs-opentelemetry/1.40.nix args).hs-opentelemetry-exporter-handle);
+  hs-opentelemetry-exporter-in-memory = always ({ ... }@args: (import ../patches/hs-opentelemetry/1.40.nix args).hs-opentelemetry-exporter-in-memory);
+  hs-opentelemetry-exporter-otlp = always ({ ... }@args: (import ../patches/hs-opentelemetry/1.40.nix args).hs-opentelemetry-exporter-otlp);
+  hs-opentelemetry-propagator-b3 = always ({ ... }@args: (import ../patches/hs-opentelemetry/1.40.nix args).hs-opentelemetry-propagator-b3);
+  hs-opentelemetry-propagator-datadog = always ({ ... }@args: (import ../patches/hs-opentelemetry/1.40.nix args).hs-opentelemetry-propagator-datadog);
+  hs-opentelemetry-propagator-jaeger = always ({ ... }@args: (import ../patches/hs-opentelemetry/1.40.nix args).hs-opentelemetry-propagator-jaeger);
+  hs-opentelemetry-propagator-w3c = always ({ ... }@args: (import ../patches/hs-opentelemetry/1.40.nix args).hs-opentelemetry-propagator-w3c);
+  hs-opentelemetry-propagator-xray = always ({ ... }@args: (import ../patches/hs-opentelemetry/1.40.nix args).hs-opentelemetry-propagator-xray);
 
   # ── Baikai provider abstraction ────────────────────────────────────
   baikai = always (import ../patches/baikai/0.1.nix);
@@ -100,6 +116,8 @@ in
   keiro = always ({ ... }@args: (import ../patches/keiro/0.1.nix args).keiro);
   keiro-core = always ({ ... }@args: (import ../patches/keiro/0.1.nix args).keiro-core);
   keiro-migrations = always ({ ... }@args: (import ../patches/keiro/0.1.nix args).keiro-migrations);
+  keiro-test-support = always ({ ... }@args: (import ../patches/keiro/0.1.nix args).keiro-test-support);
+  jitsurei = always ({ ... }@args: (import ../patches/keiro/0.1.nix args).jitsurei);
 
   # ── crypton 1.1 / tls 2.3 / x509 1.9 cascade ───────────────────────
   # nixpkgs' ghc9122 set ships crypton-1.0.5 (which uses `memory`).
