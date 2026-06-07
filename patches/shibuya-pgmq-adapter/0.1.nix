@@ -7,8 +7,8 @@ let
   src = pkgs.fetchFromGitHub {
     owner = "shinzui";
     repo = "shibuya-pgmq-adapter";
-    rev = "d81ce94464ae1fe914ff9eec0e313e0e758f7525"; # v0.6.0.0
-    hash = "sha256-1PT+59Obwrj+B2ZyFih4wwLBMBACZNzE7BZd3ZjWtEE=";
+    rev = "8e6f6e93e729bac129d7a9f2f8917f40fa4d6d9c"; # v0.7.0.0
+    hash = "sha256-ar/28pQDT7k1If8V1lA0nXnGxddgm2k7XATY52YMBRw=";
   };
 
   patched = pkgs.runCommand "shibuya-pgmq-adapter-patched" { } ''

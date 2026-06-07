@@ -146,8 +146,8 @@ in
   # <0.4. Disable it so dhall compiles against 0.4.x.
   dhall = always (import ../patches/dhall/no-http-client-tls.nix);
 
-  # ── test stubs ─────────────────────────────────────────────────────
-  ephemeral-pg = always (import ../patches/ephemeral-pg/stub.nix);
+  # ── ephemeral-pg (test PostgreSQL; keiro/kiroku test-support dependency) ──
+  ephemeral-pg = always (import ../patches/ephemeral-pg/0.2.nix);
 
   # ── Version-scoped patches ────────────────────────────────────────
 }

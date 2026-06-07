@@ -5,8 +5,8 @@ let
   src = pkgs.fetchFromGitHub {
     owner = "shinzui";
     repo = "shibuya";
-    rev = "1b86540beae8c483a302cc121032504dce8a3601"; # v0.6.0.0
-    hash = "sha256-tc89pY2BGMcTk0DiIYxVjtbMD5ftB62oeXnbCDEaeEE=";
+    rev = "8ed1257a91f355fee44cc011e74a53a0a69db75e"; # v0.7.0.0
+    hash = "sha256-wK/R/ALIPhKg3p0mzM1vPurZnlrke9czIn3LsrjeW9A=";
   };
 
   patched = pkgs.runCommand "shibuya-core-patched" { } ''
