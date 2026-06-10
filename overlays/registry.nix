@@ -90,8 +90,12 @@ in
   # ── Baikai provider abstraction ────────────────────────────────────
   baikai = always (import ../patches/baikai/0.1.nix);
   baikai-claude = always (import ../patches/baikai-claude/0.1.nix);
+  baikai-effectful = always (import ../patches/baikai-effectful/0.1.nix);
   baikai-openai = always (import ../patches/baikai-openai/0.1.nix);
   claude = always (import ../patches/claude/shinzui.nix);
+
+  # ── Shikumi typed LM programs (over baikai) ────────────────────────
+  shikumi = always (import ../patches/shikumi/0.1.nix);
   openai = always (import ../patches/openai/shinzui.nix);
   cradle = always (import ../patches/cradle/garnix.nix);
   wai-app-static = always (import ../patches/wai-app-static/3.1.nix);
