@@ -92,10 +92,17 @@ in
   baikai-claude = always (import ../patches/baikai-claude/0.1.nix);
   baikai-effectful = always (import ../patches/baikai-effectful/0.1.nix);
   baikai-openai = always (import ../patches/baikai-openai/0.1.nix);
+  baikai-trace-otel = always (import ../patches/baikai-trace-otel/0.1.nix);
   claude = always (import ../patches/claude/shinzui.nix);
 
   # ── Shikumi typed LM programs (over baikai) ────────────────────────
   shikumi = always (import ../patches/shikumi/0.1.nix);
+  shikumi-cache = always (import ../patches/shikumi-cache/0.1.nix);
+  shikumi-trace = always (import ../patches/shikumi-trace/0.1.nix);
+  shikumi-trace-otel = always (import ../patches/shikumi-trace-otel/0.1.nix);
+
+  # blake3 portable build for aarch64-darwin (shikumi-cache cache key).
+  blake3 = always (import ../patches/blake3/portable.nix);
   openai = always (import ../patches/openai/shinzui.nix);
   cradle = always (import ../patches/cradle/garnix.nix);
   wai-app-static = always (import ../patches/wai-app-static/3.1.nix);
