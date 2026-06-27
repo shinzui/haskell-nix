@@ -1,18 +1,19 @@
-# shibuya-core — from shinzui/shibuya monorepo with cabal-version patch
+# shibuya — from shinzui/shibuya monorepo.
 { hself, haskellLib, pkgs, ... }:
 
 let
+  callShibuyaPackage = name:
+    haskellLib.dontCheck (haskellLib.doJailbreak (hself.callCabal2nix name (src + "/${name}") { }));
+
   src = pkgs.fetchFromGitHub {
     owner = "shinzui";
     repo = "shibuya";
-    rev = "8ed1257a91f355fee44cc011e74a53a0a69db75e"; # v0.7.0.0
-    hash = "sha256-wK/R/ALIPhKg3p0mzM1vPurZnlrke9czIn3LsrjeW9A=";
+    rev = "3f276ee190e563fddb0bc81e01d62a96a1b31715";
+    hash = "sha256-me2v551ggAMtSI6NTy0OoimHWUVV5bzF7OsADV0fmG4=";
   };
-
-  patched = pkgs.runCommand "shibuya-core-patched" { } ''
-    cp -r ${src}/shibuya-core $out
-    chmod -R u+w $out
-    ${pkgs.gnused}/bin/sed -i 's/^cabal-version: *3\.14/cabal-version: 3.4/' $out/shibuya-core.cabal
-  '';
 in
-haskellLib.dontCheck (haskellLib.doJailbreak (hself.callCabal2nix "shibuya-core" patched {}))
+{
+  shibuya-core = callShibuyaPackage "shibuya-core";
+  shibuya-example = callShibuyaPackage "shibuya-example";
+  shibuya-metrics = callShibuyaPackage "shibuya-metrics";
+}

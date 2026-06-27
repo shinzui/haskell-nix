@@ -1,5 +1,5 @@
 # keiki - shinzui/keiki release source.
-# Keep the whole event-sourcing stack (keiro, rei) on one keiki revision.
+# Keep the whole event-sourcing stack (keiro, kioku, rei) on one keiki revision.
 { hself, haskellLib, pkgs, ... }:
 
 let

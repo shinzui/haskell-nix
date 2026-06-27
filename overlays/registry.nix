@@ -112,21 +112,34 @@ in
   pgmq-hasql = always (import ../patches/pgmq-hasql/0.1.nix);
   pgmq-effectful = always (import ../patches/pgmq-effectful/0.1.nix);
   pgmq-migration = always (import ../patches/pgmq-migration/0.1.nix);
+  pgmq-config = always (import ../patches/pgmq-config/0.3.nix);
 
   # ── shibuya ────────────────────────────────────────────────────────
-  shibuya-core = always (import ../patches/shibuya-core/0.1.nix);
+  shibuya-core = always ({ ... }@args: (import ../patches/shibuya-core/0.1.nix args).shibuya-core);
+  shibuya-example = always ({ ... }@args: (import ../patches/shibuya-core/0.1.nix args).shibuya-example);
+  shibuya-metrics = always ({ ... }@args: (import ../patches/shibuya-core/0.1.nix args).shibuya-metrics);
   shibuya-pgmq-adapter = always (import ../patches/shibuya-pgmq-adapter/0.1.nix);
 
   # ── shinzui event-sourcing stack ───────────────────────────────────
   keiki = always ({ ... }@args: (import ../patches/keiki/0.1.nix args).keiki);
   keiki-codec-json = always ({ ... }@args: (import ../patches/keiki/0.1.nix args).keiki-codec-json);
+  kioku-api = always ({ ... }@args: (import ../patches/kioku/0.1.nix args).kioku-api);
+  kioku-cli = always ({ ... }@args: (import ../patches/kioku/0.1.nix args).kioku-cli);
+  kioku-core = always ({ ... }@args: (import ../patches/kioku/0.1.nix args).kioku-core);
+  kioku-migrations = always ({ ... }@args: (import ../patches/kioku/0.1.nix args).kioku-migrations);
+  kiroku-cli = always ({ ... }@args: (import ../patches/kiroku/0.1.nix args).kiroku-cli);
+  kiroku-jitsurei = always ({ ... }@args: (import ../patches/kiroku/0.1.nix args).kiroku-jitsurei);
+  kiroku-metrics = always ({ ... }@args: (import ../patches/kiroku/0.1.nix args).kiroku-metrics);
+  kiroku-otel = always ({ ... }@args: (import ../patches/kiroku/0.1.nix args).kiroku-otel);
   kiroku-store = always ({ ... }@args: (import ../patches/kiroku/0.1.nix args).kiroku-store);
   kiroku-store-migrations = always ({ ... }@args: (import ../patches/kiroku/0.1.nix args).kiroku-store-migrations);
   kiroku-test-support = always ({ ... }@args: (import ../patches/kiroku/0.1.nix args).kiroku-test-support);
   shibuya-kiroku-adapter = always ({ ... }@args: (import ../patches/kiroku/0.1.nix args).shibuya-kiroku-adapter);
   keiro = always ({ ... }@args: (import ../patches/keiro/0.1.nix args).keiro);
   keiro-core = always ({ ... }@args: (import ../patches/keiro/0.1.nix args).keiro-core);
+  keiro-dsl = always ({ ... }@args: (import ../patches/keiro/0.1.nix args).keiro-dsl);
   keiro-migrations = always ({ ... }@args: (import ../patches/keiro/0.1.nix args).keiro-migrations);
+  keiro-pgmq = always ({ ... }@args: (import ../patches/keiro/0.1.nix args).keiro-pgmq);
   keiro-test-support = always ({ ... }@args: (import ../patches/keiro/0.1.nix args).keiro-test-support);
   jitsurei = always ({ ... }@args: (import ../patches/keiro/0.1.nix args).jitsurei);
 

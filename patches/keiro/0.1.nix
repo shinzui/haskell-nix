@@ -2,17 +2,22 @@
 { hself, haskellLib, pkgs, ... }:
 
 let
+  callKeiroPackage = name:
+    haskellLib.dontCheck (haskellLib.doJailbreak (hself.callCabal2nix name (src + "/${name}") { }));
+
   src = pkgs.fetchFromGitHub {
     owner = "shinzui";
     repo = "keiro";
-    rev = "8dfc1ccc5e0fc0cb885f490c298a8bdfd8fc60ea";
-    hash = "sha256-bVFYTtGUDtNBNH3WGrM/uXPGNw38OonAzmUNePbWXrc=";
+    rev = "67eb0b5cf2a2e1e4e7f5287f5fa275d394f30440";
+    hash = "sha256-toN2KJEIhHWKEQgmfqVeALWKsNXVbgZadUfttGznPK4=";
   };
 in
 {
-  keiro = haskellLib.dontCheck (haskellLib.doJailbreak (hself.callCabal2nix "keiro" (src + "/keiro") { }));
-  keiro-core = haskellLib.dontCheck (haskellLib.doJailbreak (hself.callCabal2nix "keiro-core" (src + "/keiro-core") { }));
-  keiro-migrations = haskellLib.dontCheck (haskellLib.doJailbreak (hself.callCabal2nix "keiro-migrations" (src + "/keiro-migrations") { }));
-  keiro-test-support = haskellLib.dontCheck (haskellLib.doJailbreak (hself.callCabal2nix "keiro-test-support" (src + "/keiro-test-support") { }));
-  jitsurei = haskellLib.dontCheck (haskellLib.doJailbreak (hself.callCabal2nix "jitsurei" (src + "/jitsurei") { }));
+  keiro = callKeiroPackage "keiro";
+  keiro-core = callKeiroPackage "keiro-core";
+  keiro-dsl = callKeiroPackage "keiro-dsl";
+  keiro-migrations = callKeiroPackage "keiro-migrations";
+  keiro-pgmq = callKeiroPackage "keiro-pgmq";
+  keiro-test-support = callKeiroPackage "keiro-test-support";
+  jitsurei = callKeiroPackage "jitsurei";
 }
