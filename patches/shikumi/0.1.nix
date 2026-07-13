@@ -4,8 +4,8 @@ let
   src = pkgs.fetchFromGitHub {
     owner = "shinzui";
     repo = "shikumi";
-    rev = "b12174dd1c4306f7af4c79fd8c69a6ca87b43917";
-    hash = "sha256-MMAURQjACef3O0sRLPJ77AmcQ4P7y+hqrcIrXlecjj8=";
+    rev = "0df4d85928c79cbfe78d7880a263fc0b9696ddc2";
+    hash = "sha256-NhsJUfH8Zw0VHL9xZQUGJOJ1CQhibvi9BCuqULEUrbs=";
   };
 in
 haskellLib.dontCheck (
