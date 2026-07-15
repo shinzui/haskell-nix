@@ -1,4 +1,4 @@
-# keiki - shinzui/keiki release source.
+# keiki - shinzui/keiki 0.2 release source.
 # Keep the whole event-sourcing stack (keiro, kioku, rei) on one keiki revision.
 { hself, haskellLib, pkgs, ... }:
 
@@ -6,8 +6,8 @@ let
   src = pkgs.fetchFromGitHub {
     owner = "shinzui";
     repo = "keiki";
-    rev = "bc987f46393b604c335f034385b4c3c1ad118074";
-    hash = "sha256-VPLtEAvJC7QiVDI0NYC66Q3gN8m8pGbRi9LFfxFfVHE=";
+    rev = "755a01de8febab5db81537b5235a1ab319017c33";
+    hash = "sha256-ccrKs5D82pMQn9GARxeKuLS7t7XnUj7BbM6dMpW+Pco=";
   };
 in
 {

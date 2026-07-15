@@ -22,7 +22,8 @@ Use `lib.haskellExtensions.github` when you want every catalogued first-party pa
 the family revision locked in this flake. This channel includes packages that have not been
 published. Use `lib.haskellExtensions.hackage` when you want the latest published release
 recorded in the package lock; packages without a Hackage release are absent from that
-channel.
+channel. The current lock contains 51 GitHub packages and 41 Hackage packages, so selecting
+Hackage does not silently substitute GitHub source for the 10 unpublished names.
 
 The legacy singular output `lib.haskellExtension` is an exact alias for the GitHub channel.
 Likewise, `lib.registry`, `overlays.default`, and `overlays.haskell` alias their GitHub
@@ -93,7 +94,18 @@ nix flake check
 ```
 
 This validates both channel registries, applies the local first-party fixture under both
-compiler sets, and forces evaluation of both channel overlays.
+compiler sets, resolves every locked package to its exact version under `ghc9122` and
+`ghc914`, and forces evaluation of both channel overlays.
+
+To exercise an unpushed local `haskell-nix` change from a real consumer without rewriting
+that consumer's lock file, run its normal build with an input override:
+
+```bash
+nix build --override-input haskell-nix path:/path/to/local/haskell-nix
+```
+
+The consumer still selects `.github` or `.hackage` in its own Nix configuration, so repeat
+the validation with each provenance when a change affects both channels.
 
 ## Next steps
 

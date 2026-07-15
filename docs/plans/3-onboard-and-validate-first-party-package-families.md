@@ -34,8 +34,8 @@ the generated registries pass these checks.
 - [x] (2026-07-15) Run CLI dry-run and refresh; review the generated 51-package/41-Hackage lock and confirm a second dry-run reports no changes.
 - [x] (2026-07-15) Compose generated registries, remove superseded manual entries/files, and preserve unrelated pins.
 - [x] (2026-07-15) Resolve exact versions for both channels under `ghc9122` and `ghc914`, with all four mismatch lists empty.
-- [ ] Build all 51 GitHub and 41 Hackage packages on the host with `ghc9122`.
-- [ ] Run online drift checks, document consumer/update workflows, and finalize outcomes.
+- [x] (2026-07-15) Build all 51 GitHub and 41 Hackage packages on the host with `ghc9122`.
+- [x] (2026-07-15) Run online drift checks, document consumer/update workflows, and finalize outcomes.
 
 
 ## Surprises & Discoveries
@@ -80,6 +80,23 @@ the generated registries pass these checks.
   components, while `lib.registries.hackage` still contains none of the ten names. The new
   flake check reports empty mismatch lists for GitHub/Hackage under both compilers.
 
+- The first GitHub build found that package directories can link back to repository-root
+  entries omitted by the isolated subdirectory source. Baikai links common files such as
+  `LICENSE -> ../LICENSE`, while `pgmq-migration` links its compile-time SQL tree as
+  `vendor -> ../vendor`. The GitHub registry now detects package symlinks whose names exist
+  at the family root and stages those root entries before Cabal configuration. Focused
+  `baikai-smoke` and `pgmq-migration` rebuilds then completed; the former kept its live test
+  suite disabled and the latter successfully embedded the vendored migrations.
+
+- The complete GitHub matrix exposed two stale shared pins after the generated families
+  replaced the old overrides. Current Keiro requires Keiki 0.2 and uses
+  `checkStateChangingEpsilon`, while the common registry still pinned Keiki 0.1. Mori
+  located the current Keiki source and its 0.2 release commit; pinning that immutable
+  revision made the focused Keiro build pass. `keiro-pgmq` 0.3.0.0 also explicitly requires
+  `shibuya-pgmq-adapter >=0.12 && <0.13`, but the preserved separate-project override was
+  still 0.8. Mori confirmed the 0.12 API and release, and the verified Hackage override now
+  builds both the adapter and `keiro-pgmq`.
+
 
 ## Decision Log
 
@@ -93,10 +110,12 @@ the generated registries pass these checks.
   make the channel label misleading.
   Date: 2026-07-15
 
-- Decision: Leave separate Shibuya adapter repositories out of scope and preserve the
-  existing `shibuya-pgmq-adapter` Hackage pin.
+- Decision: Leave separate Shibuya adapter repositories out of the generated family set,
+  while keeping their compatibility pins aligned with generated consumers.
   Rationale: Mori identifies the Kafka, Message DB, and PGMQ adapters as separate projects;
   the user asked for the main Shibuya package family rather than `shibuya*` repositories.
+  The shared PGMQ adapter override nevertheless must satisfy current Keiro's explicit 0.12
+  bound, so retaining a stale 0.8 pin would make the requested matrix internally inconsistent.
   Date: 2026-07-15
 
 - Decision: Retain `-f-example` only for `kiroku-metrics`.
@@ -131,10 +150,33 @@ the generated registries pass these checks.
   GitHub-only packages as Hackage packages or fetching their source into that channel.
   Date: 2026-07-15
 
+- Decision: Repair repository-relative root symlinks in the generic GitHub registry
+  before Cabal configuration.
+  Rationale: Nix's package-subdirectory source copy cannot retain a link to its omitted
+  parent, while staging only package symlinks backed by same-name family-root entries
+  preserves ordinary package source derivations and supports both metadata links and
+  compile-time source trees without upstream changes.
+  Date: 2026-07-15
+
 
 ## Outcomes & Retrospective
 
-(To be filled during and after implementation.)
+Completed on 2026-07-15. The seven-family catalog and generated lock now drive 51 GitHub
+packages and 41 Hackage packages, with ten explicit GitHub-only records. Exact-version
+checks pass for both channels under `ghc9122` and `ghc914`; complete no-link build matrices
+pass for all applicable packages under host `ghc9122`. Consumer-shaped direct extensions
+resolve `pg-migrate` 1.1.0.0 through GitHub, Hackage, and the compatibility alias.
+
+The migration removed the requested handwritten family patches without weakening unrelated
+compatibility overrides. Full builds justified three shared fixes that evaluation alone did
+not reveal: repository-root symlink staging for isolated monorepo packages, Keiki 0.2 for
+current Keiro, and `shibuya-pgmq-adapter` 0.12 for current `keiro-pgmq`. The updater's 37
+offline tests, successful rollback during a real transient Hackage failure, final online
+no-drift result, and passing flake check provide repeatable update and recovery evidence.
+
+Operational documentation now covers channel provenance, the 51/41/10 availability split,
+the production refresh command, review criteria, and downstream `--override-input`
+validation. No implementation work remains in this child.
 
 
 ## Context and Orientation
@@ -518,3 +560,14 @@ every retained commit remains a working state.
 compilers, supplied the Mori-located `okf-core` dependency, removed superseded handwritten
 family entries and files, and verified consumer-shaped extensions plus public Hackage
 exclusion of all ten unpublished names.
+
+2026-07-15: Began the full GitHub matrix and generalized source staging for dangling
+package-to-root symlinks. Focused `baikai-smoke` and `pgmq-migration` derivations now pass,
+including the latter's compile-time vendored SQL. The matrix also revealed stale Keiki 0.1
+and `shibuya-pgmq-adapter` 0.8 shared pins; Mori-verified Keiki 0.2 and adapter 0.12 pins now
+make focused Keiro and `keiro-pgmq` builds pass. Complete matrix validation continues.
+
+2026-07-15: Completed EP-3 after exact resolution under both supported compilers, full
+51-package GitHub and 41-package Hackage builds under host GHC 9.12.2, a clean online drift
+check, direct-extension compatibility validation, stale-path proof, and the full flake check
+all passed. Consumer and operator documentation is complete.

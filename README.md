@@ -35,7 +35,9 @@ Change `.github` to `.hackage` to select published Hackage releases. Each constr
 the signature `haskellLib -> pkgs -> hself -> hsuper -> { ... }`; after applying
 `haskellLib` and the top-level Nixpkgs set, it is a standard Haskell package-set extension.
 The legacy `lib.haskellExtension` output is an exact alias for
-`lib.haskellExtensions.github`.
+`lib.haskellExtensions.github`. In the current lock, GitHub exposes all 51 catalogued
+packages while Hackage exposes the 41 published packages; the other 10 names are
+deliberately unavailable from the Hackage registry.
 
 ### Alternative: nixpkgs overlay
 
@@ -145,14 +147,34 @@ Patch functions receive `{ pkg, lib, haskellLib, hself, hsuper }`.
 **Offline channel evaluation**: Nix reads the checked-in family config, package lock, and
 `flake.lock`. Hackage and GitHub are never queried during evaluation.
 
+## Refreshing first-party packages
+
+The packaged updater owns changes to `packages/first-party-lock.json`. Preview a refresh,
+apply it, and verify online state with:
+
+```bash
+nix run .#haskell-nix-update -- refresh --dry-run
+nix run .#haskell-nix-update -- refresh
+nix run .#haskell-nix-update -- check --online
+```
+
+A refresh advances the configured non-flake source inputs, discovers each family's Cabal
+packages, and records current Hackage releases and hashes. Review both `flake.lock` and the
+generated package lock, confirm GitHub-only packages still have `"hackage": null`, and run
+a second dry-run plus `nix flake check` before committing. See
+[Updating first-party packages](docs/user/updating-first-party-packages.md) for the full
+operator checklist and downstream `--override-input` validation.
+
 ## Verification
 
 ```bash
 nix flake check
 ```
 
-This runs three checks:
+The suite includes these channel checks:
 
 - **first-party-registry**: validates schemas, rejects invalid fixtures, and applies a local GitHub fixture under both compiler sets
 - **registry-valid**: validates both composed channel registries
+- **first-party-versions**: resolves every applicable locked package to its exact channel version under `ghc9122` and `ghc914`
 - **overlay-eval**: forces both overlays under `ghc9122` and `ghc914`
+- **haskell-nix-update**: builds the packaged refresh/check CLI

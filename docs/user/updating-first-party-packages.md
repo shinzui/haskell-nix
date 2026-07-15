@@ -97,6 +97,10 @@ uncommitted changes. It updates only inputs whose remote head moved, writes the 
 lock atomically, and runs the flake validation. Any failure after input updates restores
 both managed files byte-for-byte. The command never commits or pushes.
 
+The normal `refresh` invocation is the single production update command. The dry-run is a
+review aid, not an alternate writer, and a successful refresh preserves non-selected
+families when `--family` limits the operation.
+
 `check` is network-free. It validates both JSON contracts, verifies each package-lock
 revision against `flake.lock`, locates the registered checkout through Mori, requires the
 Git object to exist locally, and reparses the root Cabal packages. `check --online` also
@@ -115,3 +119,32 @@ nix flake check --print-build-logs
 The flake check rejects malformed fixtures, runs the updater's offline unit and workflow
 tests, proves that unpublished packages are omitted only from the Hackage registry, applies
 a local GitHub package under `ghc9122` and `ghc914`, and evaluates both channel overlays.
+
+## Review checklist
+
+Before committing a refresh:
+
+1. Confirm `flake.lock` changed only the intended `<family>-src` input nodes.
+2. Review every generated family revision, package path, GitHub version, Hackage version,
+   and archive hash. A package with no official release must retain `"hackage": null`.
+3. Confirm the generated file still has sorted families, sorted globally unique package
+   names, and only documented per-package Cabal2nix options.
+4. Run a second `refresh --dry-run`; it must report `No changes.`
+5. Run `check --online` and `nix flake check --print-build-logs`.
+
+For changes that alter package membership or compatibility, build both complete GHC 9.12.2
+channel matrices before merging. GitHub must build every locked package; Hackage must build
+only records whose `hackage` field is non-null.
+
+## Validate from a downstream consumer
+
+An unpushed checkout can be tested without changing a consumer lock:
+
+```bash
+nix build --override-input haskell-nix path:/path/to/local/haskell-nix
+nix develop --override-input haskell-nix path:/path/to/local/haskell-nix
+```
+
+Run the consumer's normal target with its GitHub selection and, when supported by that
+consumer, its Hackage selection. The override changes only where the `haskell-nix` flake is
+loaded from; channel selection remains explicit in the consumer's `flake.nix`.

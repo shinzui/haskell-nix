@@ -64,7 +64,7 @@ explicit refresh command, and committed lock files drive builds.
 |---|-------|------|-----------|-----------|--------|
 | 1 | Introduce manifest-driven Hackage and GitHub channels | docs/plans/1-introduce-manifest-driven-hackage-and-github-channels.md | None | None | Complete |
 | 2 | Build the Haskell package refresh CLI | docs/plans/2-build-the-haskell-package-refresh-cli.md | EP-1 | None | Complete |
-| 3 | Onboard and validate first-party package families | docs/plans/3-onboard-and-validate-first-party-package-families.md | EP-1, EP-2 | None | In Progress |
+| 3 | Onboard and validate first-party package families | docs/plans/3-onboard-and-validate-first-party-package-families.md | EP-1, EP-2 | None | Complete |
 
 Status values: Not Started, In Progress, Complete, Cancelled.
 Hard Deps and Soft Deps reference other rows by their # prefix (e.g., EP-1, EP-3).
@@ -135,7 +135,7 @@ pattern. EP-3 consumes the executable through `nix run .#haskell-nix-update`.
 - [x] EP-2: Implement refresh/check workflows with dry-run behavior and fixture/integration tests.
 - [x] EP-3: Add the seven source inputs and production family catalog, then run the updater.
 - [x] EP-3: Activate both channels and remove superseded handwritten family patches.
-- [ ] EP-3: Resolve both compiler sets, build the package matrices, and finalize consumer docs.
+- [x] EP-3: Resolve both compiler sets, build the package matrices, and finalize consumer docs.
 
 
 ## Surprises & Discoveries
@@ -180,6 +180,17 @@ pattern. EP-3 consumes the executable through `nix run .#haskell-nix-update`.
   Mori. Published Cabal files can also name unpublished siblings only in disabled tests or
   benchmarks, so the Hackage Haskell extension supplies null placeholders for those ten
   names without adding them to the public Hackage registry.
+
+- EP-3's first GitHub build showed that selecting a monorepo package subdirectory can leave
+  repository-relative symlinks dangling. Baikai's `LICENSE -> ../LICENSE` broke package
+  installation, and `pgmq-migration`'s `vendor -> ../vendor` omitted SQL embedded at compile
+  time. The generic GitHub registry now stages package symlinks backed by same-name
+  family-root entries; focused builds of both packages pass.
+
+- EP-3's complete GitHub matrix also exposed stale compatibility pins hidden by the old
+  family overrides. Current Keiro needs Keiki 0.2, and `keiro-pgmq` 0.3 explicitly requires
+  `shibuya-pgmq-adapter` 0.12. Mori-verified immutable pins replace Keiki 0.1 and adapter
+  0.8; focused Keiro and `keiro-pgmq` builds now pass with the generated PGMQ 0.4 family.
 
 
 ## Decision Log
@@ -239,15 +250,33 @@ pattern. EP-3 consumes the executable through `nix run .#haskell-nix-update`.
   preserving honest channel provenance and package availability.
   Date: 2026-07-15
 
+- Decision: Stage repository-root entries for matching symlinked package entries in generated
+  GitHub derivations.
+  Rationale: This preserves both monorepo package metadata and compile-time source trees
+  after Nix isolates the selected subdirectory, requires no upstream edits, and leaves
+  packages with ordinary files unchanged.
+  Date: 2026-07-15
+
 
 ## Outcomes & Retrospective
 
-EP-1 and EP-2 completed on 2026-07-15. The reproducible channel foundation, strict JSON
-contracts, public outputs, and compatibility aliases are now paired with a tested Haskell
-refresh/check CLI. Its 32 offline tests cover adapters, deterministic planning, dry-run,
-partial updates, no-change behavior, dirty-file refusal, failures, and byte-for-byte
-rollback. EP-3 is dependency-ready and is the only remaining child; initiative-level
-outcomes will be finalized after the seven-family onboarding and package builds complete.
+All three ExecPlans completed on 2026-07-15. The repository now exposes reproducible GitHub
+and Hackage channels backed by a seven-family catalog and generated lock containing 51
+GitHub packages, 41 published Hackage packages, and ten explicit GitHub-only packages. The
+legacy singular library and overlay outputs continue to behave as GitHub aliases.
+
+The packaged Haskell updater owns refresh/check operations and passes 37 offline tests. It
+bootstraps new families, validates Mori and official Hackage metadata, advances only named
+non-flake inputs, writes deterministically, and restores both managed lock files byte for
+byte after failure. A real transient Hackage response exercised that rollback before the
+successful production refresh; the final online check reports no drift.
+
+Exact package versions resolve for both channels under `ghc9122` and `ghc914`. Complete
+host builds pass for all 51 GitHub packages and all 41 Hackage packages under GHC 9.12.2,
+and the full flake check passes. The remaining handwritten registry is limited to shared
+compatibility dependencies outside the generated families, including Mori-verified pins
+needed by the current package graph. Consumer and operator documentation describes channel
+selection, availability, refresh review, and downstream validation. No child work remains.
 
 
 ## Revision Note
@@ -279,3 +308,13 @@ activation and retirement of handwritten family pins are next.
 four channel/compiler combinations, resolved `okf-core` and unpublished test-component
 dependencies, removed the legacy family modules, and verified direct public extension
 behavior. Full `ghc9122` package builds and operational documentation remain.
+
+2026-07-15: The GitHub matrix generalized package-to-root symlink staging after focused
+`baikai-smoke` and `pgmq-migration` failures, then exposed stale Keiki and
+`shibuya-pgmq-adapter` compatibility pins. Mori-verified Keiki 0.2 and adapter 0.12 pins now
+make focused Keiro builds pass; complete matrix validation continues.
+
+2026-07-15: Completed EP-3 and the master initiative. Both exact-version compiler checks,
+the 51-package GitHub matrix, the 41-package Hackage matrix, online no-drift verification,
+direct-extension compatibility check, stale-path audit, and full flake check pass. All
+living plans and user workflows now reflect the delivered system.

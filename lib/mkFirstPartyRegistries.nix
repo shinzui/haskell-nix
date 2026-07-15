@@ -57,7 +57,7 @@ let
     && (
       let overrides = family.packageOverrides or { };
       in builtins.isAttrs overrides
-        && builtins.all validOverride (builtins.attrValues overrides)
+      && builtins.all validOverride (builtins.attrValues overrides)
     );
 
   configTopValid =
@@ -177,18 +177,56 @@ let
   wrapPackage = haskellLib: package:
     haskellLib.dontCheck (haskellLib.doJailbreak package);
 
+  # Selecting a monorepo subdirectory as a Nix source can leave links such as
+  # LICENSE -> ../LICENSE or vendor -> ../vendor dangling in the copied source
+  # tree. Stage matching repository-root entries before Cabal configures the
+  # package.
+  stageFamilyLinks = haskellLib: familySource: packageSource: package:
+    let
+      packageEntries = builtins.readDir packageSource;
+      familyEntries = builtins.readDir familySource;
+      inheritedLinkNames = builtins.filter
+        (name:
+          (packageEntries.${name} or null) == "symlink"
+          && builtins.hasAttr name familyEntries)
+        (builtins.attrNames packageEntries);
+      stageLink = name:
+        let sourceEntry = familySource + "/${name}";
+        in
+        ''
+          if [ ! -e ${lib.escapeShellArg name} ]; then
+            unlink ${lib.escapeShellArg name}
+            cp -R ${sourceEntry} ${lib.escapeShellArg name}
+          fi
+        '';
+    in
+    if inheritedLinkNames == [ ] then package
+    else
+      haskellLib.overrideCabal
+        (drv: {
+          prePatch = (drv.prePatch or "")
+            + lib.concatMapStrings stageLink inheritedLinkNames;
+        })
+        package;
+
   mkGithubEntry = family: package: {
     name = package.name;
     value = [{
       always = true;
       patch = { hself, haskellLib, ... }:
         let
-          source = sources.${family.githubInput} + "/${package.path}";
-          calledPackage =
+          familySource = sources.${family.githubInput};
+          source = familySource + "/${package.path}";
+          rawPackage =
             if package.cabal2nixOptions == ""
             then hself.callCabal2nix package.name source { }
-            else hself.callCabal2nixWithOptions
-              package.name source package.cabal2nixOptions { };
+            else
+              hself.callCabal2nixWithOptions
+                package.name
+                source
+                package.cabal2nixOptions
+                { };
+          calledPackage = stageFamilyLinks haskellLib familySource source rawPackage;
         in
         wrapPackage haskellLib calledPackage;
     }];
@@ -199,11 +237,13 @@ let
     value = [{
       always = true;
       patch = { hself, haskellLib, ... }:
-        wrapPackage haskellLib (hself.callHackageDirect {
-          pkg = package.name;
-          ver = package.hackage.version;
-          sha256 = package.hackage.hash;
-        } { });
+        wrapPackage haskellLib (hself.callHackageDirect
+          {
+            pkg = package.name;
+            ver = package.hackage.version;
+            sha256 = package.hackage.hash;
+          }
+          { });
     }];
   };
 

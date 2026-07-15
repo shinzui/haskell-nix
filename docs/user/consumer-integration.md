@@ -126,3 +126,10 @@ nix develop --override-input haskell-nix path:/path/to/local/haskell-nix
 ```
 
 This temporarily replaces the locked haskell-nix input with your local checkout without modifying the lock file. Useful for testing patches end-to-end before committing.
+
+For a dual-channel change, exercise a consumer target once with
+`lib.haskellExtensions.github` selected and once with
+`lib.haskellExtensions.hackage` selected. A GitHub-only package is expected to be absent in
+the second run; that is an availability guarantee, not a resolution failure to work around.
+After the local checks pass, remove `--override-input`, push haskell-nix, update the locked
+input normally, and rerun the same consumer target.

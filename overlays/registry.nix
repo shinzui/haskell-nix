@@ -98,11 +98,11 @@ in
   wai-app-static = always (import ../patches/wai-app-static/3.1.nix);
 
   # ── separate Shibuya adapter repository ────────────────────────────
-  shibuya-pgmq-adapter = always (import ../patches/shibuya-pgmq-adapter/0.1.nix);
+  shibuya-pgmq-adapter = always (import ../patches/shibuya-pgmq-adapter/0.12.nix);
 
   # ── shinzui event-sourcing stack ───────────────────────────────────
-  keiki = always ({ ... }@args: (import ../patches/keiki/0.1.nix args).keiki);
-  keiki-codec-json = always ({ ... }@args: (import ../patches/keiki/0.1.nix args).keiki-codec-json);
+  keiki = always ({ ... }@args: (import ../patches/keiki/0.2.nix args).keiki);
+  keiki-codec-json = always ({ ... }@args: (import ../patches/keiki/0.2.nix args).keiki-codec-json);
   kioku-api = always ({ ... }@args: (import ../patches/kioku/0.1.nix args).kioku-api);
   kioku-cli = always ({ ... }@args: (import ../patches/kioku/0.1.nix args).kioku-cli);
   kioku-core = always ({ ... }@args: (import ../patches/kioku/0.1.nix args).kioku-core);
