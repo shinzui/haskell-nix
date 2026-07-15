@@ -2,7 +2,7 @@
 
 How to integrate haskell-nix patches into a downstream project.
 
-## Recommended: `haskellExtension` with `composeExtensions`
+## Recommended: a channel extension with `composeExtensions`
 
 ```nix
 {
@@ -16,9 +16,11 @@ How to integrate haskell-nix patches into a downstream project.
       system = "aarch64-darwin";
       pkgs = import nixpkgs { inherit system; };
 
+      firstPartyExtension = inputs.haskell-nix.lib.haskellExtensions.github;
+
       haskellPackages = pkgs.haskell.packages.ghc9122.override {
         overrides = pkgs.lib.composeExtensions
-          (inputs.haskell-nix.lib.haskellExtension pkgs.haskell.lib.compose)
+          (firstPartyExtension pkgs.haskell.lib.compose pkgs)
           (import ./nix/haskell-overlay.nix { inherit pkgs; });
       };
     in {
@@ -29,26 +31,36 @@ How to integrate haskell-nix patches into a downstream project.
 
 ### How it works
 
-`haskellExtension` has the signature:
+The GitHub and Hackage extension constructors have the signature:
 
-```
-haskellLib -> hself -> hsuper -> { ... }
+```text
+haskellLib -> pkgs -> hself -> hsuper -> { ... }
 ```
 
-Partially applying with `pkgs.haskell.lib.compose` yields a standard Haskell package set extension (`hself -> hsuper -> { ... }`). `composeExtensions` chains it with your local overlay so both sets of overrides are applied.
+Applying a constructor with `pkgs.haskell.lib.compose` and `pkgs` yields a standard Haskell
+package-set extension (`hself -> hsuper -> { ... }`). `composeExtensions` chains it with
+your local overlay so both sets of overrides are applied.
+
+Choose `.github` for every package at its locked source revision, including unpublished
+packages. Choose `.hackage` for the latest recorded official release; unpublished packages
+are omitted. Channel selection changes first-party package provenance but retains the
+common GHC compatibility registry in both cases.
 
 ### Ordering
 
 `composeExtensions first second` applies `first`, then `second` on top. Placing `haskellExtension` as the first argument means:
 
-1. haskell-nix patches are applied first
+1. haskell-nix patches and selected first-party packages are applied first
 2. Your local overrides see the patched package set and can build on or override them
 
 If your local overlay needs to further modify a package that haskell-nix already patches, your version wins because it runs second.
 
 ## Why not the overlay
 
-The overlay (`inputs.haskell-nix.overlays.default`) applies patches by calling `.override` internally. If you then call `.override { overrides = ...; }` on the same package set, nixpkgs **replaces** the previous overrides rather than composing them — your local overrides silently wipe out the haskell-nix patches.
+The channel overlays (`inputs.haskell-nix.overlays.github` and `.hackage`) apply patches by
+calling `.override` internally. If you then call `.override { overrides = ...; }` on the
+same package set, nixpkgs **replaces** the previous overrides rather than composing them —
+your local overrides silently wipe out the haskell-nix patches.
 
 There is an `old:` workaround:
 
@@ -62,6 +74,21 @@ pkgs.haskell.packages.ghc9122.override (old: {
 ```
 
 This preserves existing overrides by threading `old.overrides` through, but it's fragile and the composition order is implicit. The `haskellExtension` approach avoids the problem entirely — no overlay on pkgs, no `old:` pattern, explicit composition.
+
+## Compatibility aliases
+
+Existing consumers do not need an immediate source change. The singular and default names
+remain GitHub-channel aliases:
+
+```text
+lib.haskellExtension  -> lib.haskellExtensions.github
+lib.registry          -> lib.registries.github
+overlays.default      -> overlays.github
+overlays.haskell      -> overlays.github
+```
+
+New code should use the plural or named output so source provenance is visible at the call
+site.
 
 ## Updating the lock
 

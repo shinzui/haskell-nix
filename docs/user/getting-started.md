@@ -16,7 +16,19 @@
 
 `haskell-nix` pins its own nixpkgs but does not impose it on consumers — you use your own nixpkgs as usual.
 
-## Recommended: `haskellExtension`
+## Choose a first-party channel
+
+Use `lib.haskellExtensions.github` when you want every catalogued first-party package at
+the family revision locked in this flake. This channel includes packages that have not been
+published. Use `lib.haskellExtensions.hackage` when you want the latest published release
+recorded in the package lock; packages without a Hackage release are absent from that
+channel.
+
+The legacy singular output `lib.haskellExtension` is an exact alias for the GitHub channel.
+Likewise, `lib.registry`, `overlays.default`, and `overlays.haskell` alias their GitHub
+counterparts.
+
+## Recommended: direct extension composition
 
 Compose `haskellExtension` with your local overrides via `composeExtensions`:
 
@@ -32,9 +44,11 @@ Compose `haskellExtension` with your local overrides via `composeExtensions`:
       system = "aarch64-darwin"; # or your system
       pkgs = import nixpkgs { inherit system; };
 
+      firstPartyExtension = inputs.haskell-nix.lib.haskellExtensions.github;
+
       haskellPackages = pkgs.haskell.packages.ghc9122.override {
         overrides = pkgs.lib.composeExtensions
-          (inputs.haskell-nix.lib.haskellExtension pkgs.haskell.lib.compose)
+          (firstPartyExtension pkgs.haskell.lib.compose pkgs)
           (import ./nix/haskell-overlay.nix { inherit pkgs; });
       };
     in {
@@ -46,7 +60,10 @@ Compose `haskellExtension` with your local overrides via `composeExtensions`:
 }
 ```
 
-`haskellExtension` has the signature `haskellLib -> hself -> hsuper -> { ... }`. Partially applying it with `pkgs.haskell.lib.compose` yields a standard Haskell package set extension that slots directly into `composeExtensions`.
+Each channel extension has the signature
+`haskellLib -> pkgs -> hself -> hsuper -> { ... }`. Applying it to
+`pkgs.haskell.lib.compose` and the top-level `pkgs` set yields the standard Haskell
+package-set extension that slots into `composeExtensions`.
 
 Ordering matters: `haskell-nix` patches go first (left argument) so your local overrides can build on top of them.
 
@@ -58,13 +75,14 @@ For simpler setups where you have no local Haskell overrides:
 let
   pkgs = import nixpkgs {
     inherit system;
-    overlays = [ inputs.haskell-nix.overlays.default ];
+    overlays = [ inputs.haskell-nix.overlays.github ];
   };
 in
   # pkgs.haskell.packages.ghc9122 and ghc914 now include all patches
 ```
 
-This applies patches to `ghc9122` and `ghc914` automatically.
+Select `overlays.hackage` instead to use the Hackage channel. Both overlays apply patches
+to `ghc9122` and `ghc914` automatically.
 
 **Caveat**: calling `.override { overrides = ...; }` on a package set that received patches via the overlay **replaces** them. If you need local overrides, use the `haskellExtension` approach above. See [consumer-integration.md](consumer-integration.md) for a detailed explanation.
 
@@ -74,11 +92,11 @@ This applies patches to `ghc9122` and `ghc914` automatically.
 nix flake check
 ```
 
-This runs two checks:
-- **registry-valid** — validates that all registry entries have the expected structure
-- **overlay-eval** — forces evaluation of the overlay to catch wiring errors
+This validates both channel registries, applies the local first-party fixture under both
+compiler sets, and forces evaluation of both channel overlays.
 
 ## Next steps
 
 - [Adding patches](adding-patches.md) — how to add or modify entries in the patch registry
 - [Consumer integration](consumer-integration.md) — detailed integration patterns and troubleshooting
+- [Updating first-party packages](updating-first-party-packages.md) — the family config and generated package-lock contracts

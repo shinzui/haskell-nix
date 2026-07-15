@@ -62,7 +62,7 @@ explicit refresh command, and committed lock files drive builds.
 
 | # | Title | Path | Hard Deps | Soft Deps | Status |
 |---|-------|------|-----------|-----------|--------|
-| 1 | Introduce manifest-driven Hackage and GitHub channels | docs/plans/1-introduce-manifest-driven-hackage-and-github-channels.md | None | None | In Progress |
+| 1 | Introduce manifest-driven Hackage and GitHub channels | docs/plans/1-introduce-manifest-driven-hackage-and-github-channels.md | None | None | Complete |
 | 2 | Build the Haskell package refresh CLI | docs/plans/2-build-the-haskell-package-refresh-cli.md | EP-1 | None | Not Started |
 | 3 | Onboard and validate first-party package families | docs/plans/3-onboard-and-validate-first-party-package-families.md | EP-1, EP-2 | None | Not Started |
 
@@ -129,7 +129,7 @@ pattern. EP-3 consumes the executable through `nix run .#haskell-nix-update`.
 
 - [x] EP-1: Define and fixture-test the family catalog and generated package-lock schemas.
 - [x] EP-1: Implement generic Hackage/GitHub registries and backward-compatible channel outputs.
-- [ ] EP-1: Add deterministic Nix evaluation checks and channel documentation.
+- [x] EP-1: Add deterministic Nix evaluation checks and channel documentation.
 - [ ] EP-2: Scaffold the standards-compliant Haskell library, executable, tests, and Nix app.
 - [ ] EP-2: Implement Mori, Git, Hackage, Nix-lock, discovery, and atomic-write adapters.
 - [ ] EP-2: Implement refresh/check workflows with dry-run behavior and fixture/integration tests.
@@ -140,7 +140,20 @@ pattern. EP-3 consumes the executable through `nix run .#haskell-nix-update`.
 
 ## Surprises & Discoveries
 
-(None yet.)
+- EP-1 made JSON validation eager so `builtins.tryEval` rejects malformed manifests before
+  a registry attribute is forced. It also requires every generated `cabal2nixOptions`
+  value to mirror the config override or its empty default. EP-2 must preserve this exact
+  rendering invariant when it becomes the production lock writer.
+
+- The direct extension's compatibility signature is
+  `HaskellLib -> Pkgs -> HaskellExtension`, not the one-argument constructor shown in the
+  old user docs. EP-1 preserved the actual API and corrected the documentation. EP-3's
+  consumer-shaped validation already describes the correct two-argument application.
+
+- Function-valued Nix outputs cannot be proven equivalent with `==`, even when they are
+  direct aliases. EP-1 validates the legacy extension behavior by applying it and comparing
+  the produced package names. EP-3 should use the same behavioral strategy for final
+  compatibility acceptance.
 
 
 ## Decision Log
@@ -191,4 +204,13 @@ pattern. EP-3 consumes the executable through `nix run .#haskell-nix-update`.
 
 ## Outcomes & Retrospective
 
-(To be filled during and after implementation.)
+EP-1 completed on 2026-07-15. The reproducible channel foundation, strict JSON contracts,
+fixtures, public outputs, compatibility aliases, flake checks, and initial user documentation
+are in place. EP-2 is now dependency-ready; EP-3 remains blocked on EP-2. Initiative-level
+outcomes will be finalized after the updater and seven-family onboarding complete.
+
+
+## Revision Note
+
+2026-07-15: Marked EP-1 complete, recorded its schema and compatibility discoveries for
+dependent plans, and identified EP-2 as the next dependency-ready work stream.

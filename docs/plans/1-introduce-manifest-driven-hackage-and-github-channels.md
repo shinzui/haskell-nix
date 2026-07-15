@@ -34,7 +34,7 @@ updater and onboarding plans that follow.
 - [x] (2026-07-15T17:34:33Z) Implement `lib/mkFirstPartyRegistries.nix` and verify GitHub/Hackage registry shape from fixtures.
 - [x] (2026-07-15T17:36:41Z) Parameterize `overlays/haskell-overlay.nix` by registry and expose both channel outputs.
 - [x] (2026-07-15T17:36:41Z) Preserve singular GitHub compatibility aliases and existing registry behavior.
-- [ ] Add channel evaluation checks, update user documentation, and run final validation.
+- [x] (2026-07-15T17:39:05Z) Add channel evaluation checks, update user documentation, and run final validation.
 
 
 ## Surprises & Discoveries
@@ -59,6 +59,12 @@ updater and onboarding plans that follow.
   consumer evaluation succeeds with
   `lib.haskellExtensions.github pkgs.haskell.lib.compose pkgs`. Milestone 3 will correct
   the examples without changing the compatibility API.
+
+- Observation: The final flake check evaluates all four system outputs but builds only the
+  checks compatible with the current `aarch64-darwin` host.
+  Evidence: `nix flake check --print-build-logs` passed the fixture, registry, and overlay
+  checks and reported the three incompatible systems as omitted. Each built check still
+  exercises both `ghc9122` and `ghc914` as required.
 
 
 ## Decision Log
@@ -101,7 +107,19 @@ updater and onboarding plans that follow.
 
 ## Outcomes & Retrospective
 
-(To be filled during and after implementation.)
+Completed on 2026-07-15. The repository now has strict, versioned family-config and package-
+lock contracts; a generic constructor that produces GitHub and Hackage registries; explicit
+channel registries, extensions, and overlays; and exact GitHub compatibility bindings for
+all singular outputs. The fixture suite covers published, unpublished, and custom-option
+packages, rejects nine malformed contract variants, and applies a local source package
+under both supported compiler sets.
+
+`nix flake check --print-build-logs`, all JSON parses, both Nix parses, both public registry
+evaluations, and consumer-shaped extension applications pass. User documentation now makes
+source selection and the two-argument extension constructor explicit. No production family
+was migrated, by design; that remains in
+`docs/plans/3-onboard-and-validate-first-party-package-families.md` after the updater in
+`docs/plans/2-build-the-haskell-package-refresh-cli.md` is complete.
 
 
 ## Context and Orientation
@@ -333,3 +351,11 @@ The only external Nix APIs used here are `builtins.fromJSON`, `builtins.readFile
 `hself.callCabal2nix`, `hself.callCabal2nixWithOptions`, and
 `hself.callHackageDirect`, all already represented in this repository. No Haskell code or
 source dependency is added in this child plan.
+
+
+## Revision Note
+
+2026-07-15: Updated the living sections throughout implementation to record completed
+milestones, validation evidence, the preserved direct-extension signature, and the final
+outcome. The implementation follows the original scope and leaves production onboarding to
+the dependent plans.
