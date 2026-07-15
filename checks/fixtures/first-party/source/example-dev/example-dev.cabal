@@ -1,0 +1,10 @@
+cabal-version: 3.0
+name: example-dev
+version: 0.1.0.0
+build-type: Simple
+
+library
+  exposed-modules: Example.Dev
+  hs-source-dirs: src
+  build-depends: base >=4.9 && <5
+  default-language: Haskell2010

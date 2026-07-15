@@ -1,0 +1,15 @@
+cabal-version: 3.0
+name: example-special
+version: 2.0.0
+build-type: Simple
+
+flag example
+  description: Fixture flag used by callCabal2nixWithOptions
+  default: False
+  manual: True
+
+library
+  exposed-modules: Example.Special
+  hs-source-dirs: src
+  build-depends: base >=4.9 && <5
+  default-language: Haskell2010

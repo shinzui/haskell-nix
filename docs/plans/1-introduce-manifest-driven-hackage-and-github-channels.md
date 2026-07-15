@@ -30,8 +30,8 @@ updater and onboarding plans that follow.
 
 ## Progress
 
-- [ ] Add versioned family-config and generated package-lock schemas with valid and invalid fixtures.
-- [ ] Implement `lib/mkFirstPartyRegistries.nix` and verify GitHub/Hackage registry shape from fixtures.
+- [x] (2026-07-15T17:34:33Z) Add versioned family-config and generated package-lock schemas with valid and invalid fixtures.
+- [x] (2026-07-15T17:34:33Z) Implement `lib/mkFirstPartyRegistries.nix` and verify GitHub/Hackage registry shape from fixtures.
 - [ ] Parameterize `overlays/haskell-overlay.nix` by registry and expose both channel outputs.
 - [ ] Preserve singular GitHub compatibility aliases and existing registry behavior.
 - [ ] Add channel evaluation checks, update user documentation, and run final validation.
@@ -39,7 +39,11 @@ updater and onboarding plans that follow.
 
 ## Surprises & Discoveries
 
-(None yet.)
+- Observation: Evaluating the GitHub fixture package version invokes Cabal2nix once per
+  compiler set, even though the check does not build the Haskell library.
+  Evidence: The focused evaluation built `cabal2nix-example-core` derivations for both
+  `ghc9122` and `ghc914`, then reported version `1.2.0.0` for each. This is expected
+  evaluation-time work and keeps the check independent of a full package build.
 
 
 ## Decision Log
@@ -63,6 +67,13 @@ updater and onboarding plans that follow.
 - Decision: Represent Cabal2nix options as one string, empty when unused.
   Rationale: Existing special handling is already expressed as `"-f-example"`; a string maps
   directly to `callCabal2nixWithOptions` and avoids underspecified shell-argument joining.
+  Date: 2026-07-15
+
+- Decision: Validate all documented JSON fields eagerly and require each lock package's
+  `cabal2nixOptions` value to equal its config override or the empty default.
+  Rationale: `builtins.tryEval` otherwise accepts a lazy registry attrset before malformed
+  fields are forced, and allowing the two files to disagree would make generated state
+  ambiguous for Nix and the future updater.
   Date: 2026-07-15
 
 

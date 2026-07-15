@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "families": [
+    {
+      "name": "example",
+      "githubInput": "example-src",
+      "githubRev": "0123456789abcdef0123456789abcdef01234567",
+      "packages": [
+        {
+          "name": "example-core",
+          "path": "example-core",
+          "version": "release-1.2",
+          "cabal2nixOptions": "",
+          "hackage": null
+        }
+      ]
+    }
+  ]
+}
