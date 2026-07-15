@@ -1,5 +1,6 @@
 module Main (main) where
 
+import AdapterTest qualified
 import Data.ByteString qualified as ByteString
 import Data.ByteString.Lazy qualified as LazyByteString
 import Data.Text (Text)
@@ -9,8 +10,10 @@ import HaskellNix.Update.PackageLock (decodePackageLock, encodePackageLock)
 import HaskellNix.Update.Types (FamilyCatalog)
 import Options.Applicative (ParserResult (..), defaultPrefs, execParserPure)
 import Paths_haskell_nix_update (getDataFileName)
+import PlannerTest qualified
 import Test.Tasty (TestTree, defaultMain, testGroup)
 import Test.Tasty.HUnit (assertBool, assertFailure, testCase, (@?=))
+import WorkflowTest qualified
 
 main :: IO ()
 main = defaultMain tests
@@ -21,7 +24,10 @@ tests =
     "haskell-nix-update"
     [ catalogTests,
       packageLockTests,
-      cliTests
+      cliTests,
+      AdapterTest.tests,
+      PlannerTest.tests,
+      WorkflowTest.tests
     ]
 
 catalogTests :: TestTree

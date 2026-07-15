@@ -63,7 +63,7 @@ explicit refresh command, and committed lock files drive builds.
 | # | Title | Path | Hard Deps | Soft Deps | Status |
 |---|-------|------|-----------|-----------|--------|
 | 1 | Introduce manifest-driven Hackage and GitHub channels | docs/plans/1-introduce-manifest-driven-hackage-and-github-channels.md | None | None | Complete |
-| 2 | Build the Haskell package refresh CLI | docs/plans/2-build-the-haskell-package-refresh-cli.md | EP-1 | None | In Progress |
+| 2 | Build the Haskell package refresh CLI | docs/plans/2-build-the-haskell-package-refresh-cli.md | EP-1 | None | Complete |
 | 3 | Onboard and validate first-party package families | docs/plans/3-onboard-and-validate-first-party-package-families.md | EP-1, EP-2 | None | Not Started |
 
 Status values: Not Started, In Progress, Complete, Cancelled.
@@ -131,8 +131,8 @@ pattern. EP-3 consumes the executable through `nix run .#haskell-nix-update`.
 - [x] EP-1: Implement generic Hackage/GitHub registries and backward-compatible channel outputs.
 - [x] EP-1: Add deterministic Nix evaluation checks and channel documentation.
 - [x] EP-2: Scaffold the standards-compliant Haskell library, executable, tests, and Nix app.
-- [ ] EP-2: Implement Mori, Git, Hackage, Nix-lock, discovery, and atomic-write adapters.
-- [ ] EP-2: Implement refresh/check workflows with dry-run behavior and fixture/integration tests.
+- [x] EP-2: Implement Mori, Git, Hackage, Nix-lock, discovery, and atomic-write adapters.
+- [x] EP-2: Implement refresh/check workflows with dry-run behavior and fixture/integration tests.
 - [ ] EP-3: Add the seven source inputs and production family catalog, then run the updater.
 - [ ] EP-3: Activate both channels and remove superseded handwritten family patches.
 - [ ] EP-3: Resolve both compiler sets, build the package matrices, and finalize consumer docs.
@@ -154,6 +154,14 @@ pattern. EP-3 consumes the executable through `nix run .#haskell-nix-update`.
   direct aliases. EP-1 validates the legacy extension behavior by applying it and comparing
   the produced package names. EP-3 should use the same behavioral strategy for final
   compatibility acceptance.
+
+- EP-2's one-directory-deep discovery reads `.cabal` files through Git object commands but
+  deliberately records their parent directories. This matches EP-1's GitHub registry,
+  which appends the lock path to the family source and passes that directory to Cabal2nix.
+
+- The pinned Nixpkgs has optparse-applicative 0.18.1.0, so EP-2 privately overrides it with
+  the repository's audited 0.19 expression to obtain `parserOptionGroup`. The updater still
+  uses the plain Nixpkgs GHC 9.12.2 set and does not depend on either generated channel.
 
 
 ## Decision Log
@@ -204,10 +212,12 @@ pattern. EP-3 consumes the executable through `nix run .#haskell-nix-update`.
 
 ## Outcomes & Retrospective
 
-EP-1 completed on 2026-07-15. The reproducible channel foundation, strict JSON contracts,
-fixtures, public outputs, compatibility aliases, flake checks, and initial user documentation
-are in place. EP-2 is now dependency-ready; EP-3 remains blocked on EP-2. Initiative-level
-outcomes will be finalized after the updater and seven-family onboarding complete.
+EP-1 and EP-2 completed on 2026-07-15. The reproducible channel foundation, strict JSON
+contracts, public outputs, and compatibility aliases are now paired with a tested Haskell
+refresh/check CLI. Its 32 offline tests cover adapters, deterministic planning, dry-run,
+partial updates, no-change behavior, dirty-file refusal, failures, and byte-for-byte
+rollback. EP-3 is dependency-ready and is the only remaining child; initiative-level
+outcomes will be finalized after the seven-family onboarding and package builds complete.
 
 
 ## Revision Note
@@ -217,3 +227,7 @@ dependent plans, and identified EP-2 as the next dependency-ready work stream.
 
 2026-07-15: Began EP-2 after verifying EP-1 complete. The refresh CLI now owns the active
 implementation slot; EP-3 remains blocked until this plan finishes.
+
+2026-07-15: Completed EP-2 after its packaged build, 32-test offline suite, grouped CLI
+help, real empty-catalog check, development-shell Cabal test, and full flake check passed.
+EP-3 is now dependency-ready and awaits explicit continuation.

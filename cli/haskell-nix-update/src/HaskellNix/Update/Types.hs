@@ -10,6 +10,13 @@ module HaskellNix.Update.Types
     LockedPackage (..),
     LockedFamily (..),
     PackageLock (..),
+    DiscoveredPackage (..),
+    HackageRelease (..),
+    ObservedPackage (..),
+    ObservedFamily (..),
+    FamilyChange (..),
+    RefreshPlan (..),
+    UpdateError (..),
   )
 where
 
@@ -76,4 +83,52 @@ data PackageLock = PackageLock
   { schemaVersion :: !Int,
     families :: ![LockedFamily]
   }
+  deriving stock (Eq, Show)
+
+data DiscoveredPackage = DiscoveredPackage
+  { name :: !PackageName,
+    path :: !FilePath,
+    version :: !Version
+  }
+  deriving stock (Eq, Show)
+
+data HackageRelease = HackageRelease
+  { version :: !Version,
+    usedFallback :: !Bool
+  }
+  deriving stock (Eq, Show)
+
+data ObservedPackage = ObservedPackage
+  { discovered :: !DiscoveredPackage,
+    hackage :: !(Maybe HackagePin),
+    usedHackageFallback :: !Bool
+  }
+  deriving stock (Eq, Show)
+
+data ObservedFamily = ObservedFamily
+  { config :: !FamilyConfig,
+    githubRev :: !GitRevision,
+    packages :: ![ObservedPackage]
+  }
+  deriving stock (Eq, Show)
+
+data FamilyChange
+  = GitHubRevisionChanged !FamilyName !GitRevision !GitRevision
+  | PackageAdded !FamilyName !PackageName
+  | PackageRemoved !FamilyName !PackageName
+  | GitHubVersionChanged !FamilyName !PackageName !Version !Version
+  | HackagePublished !FamilyName !PackageName !Version
+  | HackageUnpublished !FamilyName !PackageName !Version
+  | HackageVersionChanged !FamilyName !PackageName !Version !Version
+  | HackageHashChanged !FamilyName !PackageName !SriHash !SriHash
+  | HackageFallbackUsed !FamilyName !PackageName !Version
+  deriving stock (Eq, Show)
+
+data RefreshPlan = RefreshPlan
+  { familyChanges :: ![FamilyChange],
+    nextPackageLock :: !PackageLock
+  }
+  deriving stock (Eq, Show)
+
+newtype UpdateError = UpdateError {message :: Text}
   deriving stock (Eq, Show)

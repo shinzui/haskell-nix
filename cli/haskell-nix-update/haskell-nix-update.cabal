@@ -61,6 +61,7 @@ library
     filepath ^>=1.5,
     http-client ^>=0.7,
     http-client-tls >=0.3.6 && <0.5,
+    http-types ^>=0.12,
     optparse-applicative >=0.19 && <0.20,
     process ^>=1.6,
     temporary ^>=1.3,
@@ -86,7 +87,11 @@ test-suite haskell-nix-update-test
   main-is: Main.hs
   hs-source-dirs: test
   autogen-modules: Paths_haskell_nix_update
-  other-modules: Paths_haskell_nix_update
+  other-modules:
+    AdapterTest
+    Paths_haskell_nix_update
+    PlannerTest
+    WorkflowTest
 
   build-depends:
     Cabal >=3.12 && <3.17,

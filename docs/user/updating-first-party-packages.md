@@ -77,12 +77,33 @@ refresh tool together. Unknown fields are rejected deliberately.
 
 ## Refresh and verification
 
-The production catalog is initially empty while the refresh command and family onboarding
-are implemented. The follow-up updater provides the only production writer for
-`packages/first-party-lock.json`; avoid hand-maintaining generated revisions, versions, or
-hashes in parallel.
+`haskell-nix-update` is the only production writer for
+`packages/first-party-lock.json`. Preview all configured families, apply the refresh, and
+then perform an online drift check with:
 
-Schema and channel behavior are already deterministic and can be checked now:
+```bash
+nix run .#haskell-nix-update -- refresh --dry-run
+nix run .#haskell-nix-update -- refresh
+nix run .#haskell-nix-update -- check --online
+```
+
+Add a repeatable `--family FAMILY` option to either subcommand to limit its scope. Without
+that option, every configured family is processed.
+
+`refresh --dry-run` reads remote Git heads, Cabal package metadata, and Hackage releases and
+prefetches proposed archives, but it does not change either managed lock file. A normal
+refresh refuses to begin when `flake.lock` or `packages/first-party-lock.json` already has
+uncommitted changes. It updates only inputs whose remote head moved, writes the generated
+lock atomically, and runs the flake validation. Any failure after input updates restores
+both managed files byte-for-byte. The command never commits or pushes.
+
+`check` is network-free. It validates both JSON contracts, verifies each package-lock
+revision against `flake.lock`, locates the registered checkout through Mori, requires the
+Git object to exist locally, and reparses the root Cabal packages. `check --online` also
+compares remote heads and current Hackage publication/version state, while still making no
+writes.
+
+Schema and channel behavior can also be checked directly:
 
 ```bash
 jq empty config/first-party-families.json packages/first-party-lock.json
@@ -91,6 +112,6 @@ nix eval --json .#lib.registries.github --apply builtins.attrNames
 nix flake check --print-build-logs
 ```
 
-The flake check rejects malformed fixtures, proves that unpublished packages are omitted
-only from the Hackage registry, applies a local GitHub package under `ghc9122` and `ghc914`,
-and evaluates both channel overlays.
+The flake check rejects malformed fixtures, runs the updater's offline unit and workflow
+tests, proves that unpublished packages are omitted only from the Hackage registry, applies
+a local GitHub package under `ghc9122` and `ghc914`, and evaluates both channel overlays.

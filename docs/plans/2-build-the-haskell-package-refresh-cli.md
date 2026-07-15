@@ -33,10 +33,10 @@ summary, and rely on the Nix checks from EP-1 for downstream validation.
 
 - [x] Scaffold the GHC2024 library, executable, test suite, root Cabal project, and plain-Nixpkgs flake app.
 - [x] Implement typed config/lock decoding and validation with golden round-trip tests.
-- [ ] Implement injectable process, Mori, Git, Nix-lock, and Hackage adapters.
-- [ ] Implement root-package discovery, version comparison, Hackage hashing, and deterministic planning.
-- [ ] Implement safe `refresh` and `check` commands, dry-run output, rollback, and offline tests.
-- [ ] Run standards, CLI help, package, test, and flake validation; document the workflow.
+- [x] Implement injectable process, Mori, Git, Nix-lock, and Hackage adapters.
+- [x] Implement root-package discovery, version comparison, Hackage hashing, and deterministic planning.
+- [x] Implement safe `refresh` and `check` commands, dry-run output, rollback, and offline tests.
+- [x] Run standards, CLI help, package, test, and flake validation; document the workflow.
 
 
 ## Surprises & Discoveries
@@ -49,6 +49,11 @@ summary, and rely on the Nix checks from EP-1 for downstream validation.
 - Cabal 3.14 warns that its published compatibility bounds predate GHC 9.12, but the
   Cabal library, executable, test suite, and Haddock all compile successfully with GHC
   9.12.2 in the repository's pinned Nixpkgs.
+
+- Git discovery reads each one-directory-deep `.cabal` file, but the generated lock must
+  store that file's directory rather than the filename. EP-1 appends `package.path` to the
+  family source before calling Cabal2nix, so retaining the filename would have selected a
+  file where a package source directory is required.
 
 
 ## Decision Log
@@ -90,7 +95,21 @@ summary, and rely on the Nix checks from EP-1 for downstream validation.
 
 ## Outcomes & Retrospective
 
-(To be filled during and after implementation.)
+Completed on 2026-07-15. The repository now provides a GHC 9.12.2/GHC2024
+`haskell-nix-update` library, executable, tests, flake app, and development shell. The CLI
+implements strict EP-1 codecs; injectable process and HTTP boundaries; Mori, Git, Hackage,
+Nix-lock, prefetch, and validation adapters; a deterministic planner with explicit change
+categories; grouped `refresh` and `check` interfaces; family scoping; dry-run and online
+checking; dirty-file refusal; atomic package-lock replacement; and byte-for-byte rollback.
+
+The network-free suite contains 32 tests covering schema fixtures, adapter parsing, every
+planner change category, legitimate GitHub/Hackage version differences, refresh success,
+no-change behavior, partial selection, dry-run, dirty refusal, missing Git objects,
+Hackage 404, prefetch failure, post-update validation failure, rollback, and offline/online
+check behavior. `nix build .#haskell-nix-update`, both subcommand help screens,
+`nix develop -c cabal test haskell-nix-update-test`, the real empty-catalog offline check,
+and `nix flake check --print-build-logs` all pass. EP-3 can now use the updater to create
+and validate the production seven-family lock instead of assembling it manually.
 
 
 ## Context and Orientation

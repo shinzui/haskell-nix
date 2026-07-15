@@ -10,7 +10,11 @@ where
 import Data.Text (Text)
 import Data.Text qualified as Text
 import Data.Text.IO qualified as TextIO
+import HaskellNix.Update.Types (UpdateError (..))
+import HaskellNix.Update.Workflow
 import Options.Applicative
+import System.Exit (exitFailure)
+import System.IO qualified
 
 data Command
   = Refresh !RefreshOptions
@@ -32,19 +36,15 @@ data CheckOptions = CheckOptions
 runCli :: IO ()
 runCli = do
   parsedCommand <- execParser parserInfo
-  case parsedCommand of
+  environment <- defaultWorkflowEnvironment
+  result <- case parsedCommand of
     Refresh RefreshOptions {families, dryRun} ->
-      TextIO.putStrLn
-        ( "Refresh workflow scaffolded for "
-            <> renderFamilies families
-            <> if dryRun then " (dry run)" else ""
-        )
+      runRefreshWorkflow environment (defaultWorkflowPaths ".") families dryRun
     Check CheckOptions {families, online} ->
-      TextIO.putStrLn
-        ( "Check workflow scaffolded for "
-            <> renderFamilies families
-            <> if online then " (online)" else " (offline)"
-        )
+      runCheckWorkflow environment (defaultWorkflowPaths ".") families online
+  case result of
+    Right summary -> TextIO.putStrLn summary
+    Left UpdateError {message} -> TextIO.hPutStrLn System.IO.stderr message >> exitFailure
 
 parserInfo :: ParserInfo Command
 parserInfo =
@@ -60,10 +60,16 @@ commandParser =
   subparser
     ( command
         "refresh"
-        (info (Refresh <$> refreshOptionsParser) (progDesc "Refresh GitHub and Hackage package locks"))
+        ( info
+            (Refresh <$> refreshOptionsParser <**> helper)
+            (fullDesc <> progDesc "Refresh GitHub and Hackage package locks")
+        )
         <> command
           "check"
-          (info (Check <$> checkOptionsParser) (progDesc "Check package-lock drift without changing files"))
+          ( info
+              (Check <$> checkOptionsParser <**> helper)
+              (fullDesc <> progDesc "Check package-lock drift without changing files")
+          )
     )
 
 refreshOptionsParser :: Parser RefreshOptions
@@ -103,7 +109,3 @@ familyOptionsParser =
               )
         )
     )
-
-renderFamilies :: [Text] -> Text
-renderFamilies [] = "all configured families"
-renderFamilies selected = Text.intercalate ", " selected
