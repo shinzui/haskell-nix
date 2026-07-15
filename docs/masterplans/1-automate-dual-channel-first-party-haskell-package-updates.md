@@ -136,6 +136,8 @@ pattern. EP-3 consumes the executable through `nix run .#haskell-nix-update`.
 - [x] EP-3: Add the seven source inputs and production family catalog, then run the updater.
 - [x] EP-3: Activate both channels and remove superseded handwritten family patches.
 - [x] EP-3: Resolve both compiler sets, build the package matrices, and finalize consumer docs.
+- [x] EP-3 follow-up: Audit `docs/user`, correct stale maintainer guidance, and add the
+  missing channel and troubleshooting references.
 
 
 ## Surprises & Discoveries
@@ -191,6 +193,14 @@ pattern. EP-3 consumes the executable through `nix run .#haskell-nix-update`.
   family overrides. Current Keiro needs Keiki 0.2, and `keiro-pgmq` 0.3 explicitly requires
   `shibuya-pgmq-adapter` 0.12. Mori-verified immutable pins replace Keiki 0.1 and adapter
   0.8; focused Keiro and `keiro-pgmq` builds now pass with the generated PGMQ 0.4 family.
+
+- The user-documentation audit found that `docs/user/adding-patches.md` still described the
+  handwritten common registry as the source of every package patch, omitted its fourth
+  helper and `pkgs` function argument, and recommended an overlay-evaluation check as if it
+  exercised the changed package. The corrected guide now separates common compatibility
+  work from generated family updates and requires a focused build; the new channel and
+  troubleshooting references make the dual-source behavior discoverable without reading
+  implementation plans.
 
 
 ## Decision Log
@@ -257,6 +267,13 @@ pattern. EP-3 consumes the executable through `nix run .#haskell-nix-update`.
   packages with ordinary files unchanged.
   Date: 2026-07-15
 
+- Decision: Keep the user-documentation hardening as an EP-3 follow-up and organize
+  `docs/user` around an audience-oriented index, a channel reference, and a troubleshooting
+  reference.
+  Rationale: The gaps concern the delivered channel interfaces and onboarding workflow,
+  while a separate implementation plan would add no independently deliverable behavior.
+  Date: 2026-07-15
+
 
 ## Outcomes & Retrospective
 
@@ -277,6 +294,12 @@ and the full flake check passes. The remaining handwritten registry is limited t
 compatibility dependencies outside the generated families, including Mori-verified pins
 needed by the current package graph. Consumer and operator documentation describes channel
 selection, availability, refresh review, and downstream validation. No child work remains.
+
+The follow-up audit added `docs/user/README.md`, `docs/user/channels.md`, and
+`docs/user/troubleshooting.md`; corrected the existing getting-started, consumer,
+compatibility-patch, and updater pages; and documented the exact focused and full-matrix
+build commands. Relative Markdown links, dynamic 51/41/10 inventory queries, a focused
+GitHub package build, the offline updater check, and the full flake check all pass.
 
 
 ## Revision Note
@@ -318,3 +341,8 @@ make focused Keiro builds pass; complete matrix validation continues.
 the 51-package GitHub matrix, the 41-package Hackage matrix, online no-drift verification,
 direct-extension compatibility check, stale-path audit, and full flake check pass. All
 living plans and user workflows now reflect the delivered system.
+
+2026-07-15: Reopened EP-3 for a user-requested documentation audit, added the missing guide
+index, channel inventory, and troubleshooting references, corrected stale compatibility
+patch and consumer verification guidance, documented new-family bootstrap and full matrix
+commands, revalidated the examples and flake suite, and marked the follow-up complete.

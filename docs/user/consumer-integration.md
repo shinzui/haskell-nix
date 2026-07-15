@@ -1,3 +1,5 @@
+[User guide](README.md)
+
 # Consumer integration
 
 How to integrate haskell-nix patches into a downstream project.
@@ -46,9 +48,13 @@ packages. Choose `.hackage` for the latest recorded official release; unpublishe
 are omitted. Channel selection changes first-party package provenance but retains the
 common GHC compatibility registry in both cases.
 
+See the [channel reference](channels.md) for the current package inventory and commands that
+show which names each registry exports.
+
 ### Ordering
 
-`composeExtensions first second` applies `first`, then `second` on top. Placing `haskellExtension` as the first argument means:
+`composeExtensions first second` applies `first`, then `second` on top. Placing the selected
+channel extension as the first argument means:
 
 1. haskell-nix patches and selected first-party packages are applied first
 2. Your local overrides see the patched package set and can build on or override them
@@ -133,3 +139,6 @@ For a dual-channel change, exercise a consumer target once with
 the second run; that is an availability guarantee, not a resolution failure to work around.
 After the local checks pass, remove `--override-input`, push haskell-nix, update the locked
 input normally, and rerun the same consumer target.
+
+See [Troubleshooting](troubleshooting.md) if a later package-set override removes the shared
+patches or a package is intentionally unavailable from the selected channel.

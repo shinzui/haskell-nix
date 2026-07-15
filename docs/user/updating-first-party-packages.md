@@ -1,9 +1,27 @@
+[User guide](README.md)
+
 # Updating first-party packages
 
 First-party package channels are driven by two versioned JSON files and the source
 revisions in `flake.lock`. The split keeps stable maintainer intent separate from generated
 package metadata. Nix reads only checked-in files, so evaluating a channel never contacts
 GitHub, Hackage, or Mori.
+
+## Prerequisites
+
+Run the updater from the repository root. Every configured `moriProject` must be registered
+and point to a usable local Git checkout. Verify the repository identity and each family
+before changing config:
+
+```bash
+mori show --full
+mori registry show OWNER/PROJECT --full
+```
+
+The online paths also require access to GitHub, Hackage metadata and archives, and the Nix
+substituters used by the flake. A normal refresh requires committed versions of
+`flake.lock` and `packages/first-party-lock.json`; unrelated working-tree changes are
+allowed.
 
 ## Family config
 
@@ -75,6 +93,34 @@ The lock mirrors each package's configured `cabal2nixOptions` value. Do not add 
 either JSON file without increasing the schema version and updating the Nix validator and
 refresh tool together. Unknown fields are rejected deliberately.
 
+## Add a first-party family
+
+Adding a family requires a source input before the updater can generate its package records:
+
+1. Register the repository with Mori and verify its qualified name with
+   `mori registry show OWNER/PROJECT --full`.
+2. Add a `flake = false` input named `<family>-src` to `flake.nix`.
+3. Add the matching sorted family record to `config/first-party-families.json`.
+4. Run `nix flake lock` to add the input node, then create a temporary local commit containing
+   `flake.nix`, `flake.lock`, and the family config. The updater needs that clean managed-file
+   baseline even though strict Nix evaluation will reject the temporary config/lock mismatch.
+5. Preview and apply the refresh. Refresh accepts a package lock that is temporarily missing
+   the new configured family, but the written lock and all normal checks require exact
+   catalog/lock equality.
+6. Stage the generated package lock and amend the temporary baseline commit before sharing
+   it. The retained commit must contain the input, config, and generated family together so
+   every published commit evaluates successfully.
+
+```bash
+nix run .#haskell-nix-update -- refresh --family FAMILY --dry-run
+nix run .#haskell-nix-update -- refresh --family FAMILY
+nix run .#haskell-nix-update -- check --family FAMILY --online
+```
+
+Review the new package paths, versions, publication state, and hashes before activating the
+family in a consumer. Do not hand-create its generated lock records or add parallel entries
+to `overlays/registry.nix`.
+
 ## Refresh and verification
 
 `haskell-nix-update` is the only production writer for
@@ -87,8 +133,9 @@ nix run .#haskell-nix-update -- refresh
 nix run .#haskell-nix-update -- check --online
 ```
 
-Add a repeatable `--family FAMILY` option to either subcommand to limit its scope. Without
-that option, every configured family is processed.
+Pass `--family FAMILY` once per distinct family to limit either subcommand. Without that
+option, every configured family is processed. Unknown family names and duplicate values are
+rejected before work begins.
 
 `refresh --dry-run` reads remote Git heads, Cabal package metadata, and Hackage releases and
 prefetches proposed archives, but it does not change either managed lock file. A normal
@@ -120,6 +167,47 @@ The flake check rejects malformed fixtures, runs the updater's offline unit and 
 tests, proves that unpublished packages are omitted only from the Hackage registry, applies
 a local GitHub package under `ghc9122` and `ghc914`, and evaluates both channel overlays.
 
+It does not compile the complete first-party inventory. For package membership or shared
+compatibility changes, build both GHC 9.12.2 matrices from the repository root.
+
+GitHub builds every locked package:
+
+```bash
+nix build --no-link --keep-going --print-build-logs --impure --expr '
+  let
+    flake = builtins.getFlake (toString ./.);
+    pkgs = import flake.inputs.nixpkgs {
+      system = builtins.currentSystem;
+      overlays = [ flake.overlays.github ];
+    };
+    lock = builtins.fromJSON (builtins.readFile ./packages/first-party-lock.json);
+    names = builtins.concatMap
+      (family: map (package: package.name) family.packages)
+      lock.families;
+  in
+  map (name: pkgs.haskell.packages.ghc9122.${name}) names
+'
+```
+
+Hackage builds only published records:
+
+```bash
+nix build --no-link --keep-going --print-build-logs --impure --expr '
+  let
+    flake = builtins.getFlake (toString ./.);
+    pkgs = import flake.inputs.nixpkgs {
+      system = builtins.currentSystem;
+      overlays = [ flake.overlays.hackage ];
+    };
+    lock = builtins.fromJSON (builtins.readFile ./packages/first-party-lock.json);
+    packages = builtins.concatMap (family: family.packages) lock.families;
+    names = map (package: package.name)
+      (builtins.filter (package: package.hackage != null) packages);
+  in
+  map (name: pkgs.haskell.packages.ghc9122.${name}) names
+'
+```
+
 ## Review checklist
 
 Before committing a refresh:
@@ -131,6 +219,8 @@ Before committing a refresh:
    names, and only documented per-package Cabal2nix options.
 4. Run a second `refresh --dry-run`; it must report `No changes.`
 5. Run `check --online` and `nix flake check --print-build-logs`.
+6. Update the snapshot counts and GitHub-only names in `docs/user/channels.md` when package
+   membership or publication state changes.
 
 For changes that alter package membership or compatibility, build both complete GHC 9.12.2
 channel matrices before merging. GitHub must build every locked package; Hackage must build
@@ -148,3 +238,7 @@ nix develop --override-input haskell-nix path:/path/to/local/haskell-nix
 Run the consumer's normal target with its GitHub selection and, when supported by that
 consumer, its Hackage selection. The override changes only where the `haskell-nix` flake is
 loaded from; channel selection remains explicit in the consumer's `flake.nix`.
+
+See [Troubleshooting](troubleshooting.md) for dirty managed files, missing Mori revisions,
+transient online failures, and the difference between flake evaluation checks and complete
+package builds.

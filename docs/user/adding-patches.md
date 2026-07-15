@@ -1,6 +1,13 @@
-# Adding patches
+[User guide](README.md)
 
-All patches live in `overlays/registry.nix` — the single source of truth. There are two entry types: **always-apply** and **version-scoped**.
+# Adding compatibility patches
+
+Shared compatibility patches live in `overlays/registry.nix`. That registry is composed into
+both the GitHub and Hackage channels. First-party family sources do not belong there: add or
+refresh those through `config/first-party-families.json` and `haskell-nix-update` as
+described in [Updating first-party packages](updating-first-party-packages.md).
+
+The common registry supports two entry types: **always-apply** and **version-scoped**.
 
 ## Always-apply entries
 
@@ -8,13 +15,14 @@ Use for patches that should apply regardless of the package version (jailbreaks,
 
 ### Built-in helpers
 
-The registry defines three helpers at the top of the file:
+The registry defines four helpers at the top of the file:
 
 | Helper | Effect |
 |--------|--------|
 | `dontCheckDoJailbreak` | `dontCheck` + `doJailbreak` |
 | `markUnbrokenDontCheckDoJailbreak` | `markUnbroken` + `dontCheck` + `doJailbreak` |
 | `dontCheckOnly` | `dontCheck` only |
+| `doJailbreakOnly` | `doJailbreak` only |
 
 Add an entry with the `always` wrapper:
 
@@ -34,13 +42,14 @@ my-package = always ({ pkg, haskellLib, ... }:
   haskellLib.appendConfigureFlags pkg [ "--flag=some-flag" ]);
 ```
 
-The patch function receives `{ pkg, lib, haskellLib, hself, hsuper }`:
+The patch function receives `{ pkg, lib, haskellLib, pkgs, hself, hsuper }`:
 
 | Argument | Description |
 |----------|-------------|
 | `pkg` | The package derivation from `hsuper` (i.e. the unpatched version) |
 | `lib` | `nixpkgs.lib` |
 | `haskellLib` | `haskell.lib.compose` — the standard Haskell derivation helpers |
+| `pkgs` | The top-level Nixpkgs package set |
 | `hself` | The final (fixed-point) Haskell package set |
 | `hsuper` | The previous Haskell package set before this overlay |
 
@@ -102,24 +111,51 @@ Wire it in the registry as an always-apply entry:
 optparse-applicative = always (import ../patches/optparse-applicative/0.19.nix);
 ```
 
-To get the `sha256` for a new tarball, use `nix-prefetch-url --unpack <url>` or set it to `lib.fakeHash` and let the build error tell you the correct hash.
+To get the SRI `sha256` for a new tarball, use the same prefetch operation as the first-party
+updater:
+
+```bash
+nix store prefetch-file --json --unpack URL
+```
+
+Copy the returned `hash` value, or temporarily use `lib.fakeHash` and let the focused build
+report the expected hash.
 
 ## Verification
 
 After adding or modifying a patch, run:
 
 ```bash
-nix flake check
+nix flake check --print-build-logs
 ```
 
-This validates registry structure and evaluates the overlay. Note that `overlay-eval` checks structural integrity but does **not** force version dispatch — the patch is only exercised when the package is actually built. To fully test a patch, build a package that uses it:
+This validates both composed registry structures and evaluates the channel overlays. The
+`overlay-eval` check does **not** build the changed package or guarantee that its version
+dispatch branch was selected. Build the actual package under a supported compiler:
 
 ```bash
-nix build .#checks.aarch64-darwin.overlay-eval
+nix build --no-link --print-build-logs --impure --expr '
+  let
+    flake = builtins.getFlake (toString ./.);
+    pkgs = import flake.inputs.nixpkgs {
+      system = builtins.currentSystem;
+      overlays = [ flake.overlays.github ];
+    };
+  in
+  pkgs.haskell.packages.ghc9122.PACKAGE
+'
 ```
 
-Or test from a consumer project with `--override-input`:
+Replace `PACKAGE` with the changed package attribute. Because common compatibility patches
+feed both source channels, repeat the focused build with `flake.overlays.hackage` when the
+package graph or source provenance could change the result.
+
+Finally, test the real consumer target with `--override-input`:
 
 ```bash
 nix build --override-input haskell-nix path:/path/to/haskell-nix
 ```
+
+For membership or shared dependency changes, follow the complete matrix procedure in
+[Updating first-party packages](updating-first-party-packages.md), not only the lightweight
+overlay check.

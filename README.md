@@ -112,7 +112,8 @@ For patches that should apply regardless of the package version (jailbreaks, unb
 my-package = always dontCheckDoJailbreak;
 ```
 
-Built-in patch helpers: `dontCheckDoJailbreak`, `markUnbrokenDontCheckDoJailbreak`, `dontCheckOnly`.
+Built-in patch helpers: `dontCheckDoJailbreak`, `markUnbrokenDontCheckDoJailbreak`,
+`dontCheckOnly`, and `doJailbreakOnly`.
 
 ### Version-scoped
 
@@ -136,7 +137,10 @@ For patches that need more than a one-liner, create a file under `patches/<packa
 haskellLib.doJailbreak pkg
 ```
 
-Patch functions receive `{ pkg, lib, haskellLib, hself, hsuper }`.
+Patch functions receive `{ pkg, lib, haskellLib, pkgs, hself, hsuper }`.
+
+See the [user guide](docs/user/README.md) for channel selection, consumer composition,
+maintainer workflows, and troubleshooting.
 
 ## Design notes
 

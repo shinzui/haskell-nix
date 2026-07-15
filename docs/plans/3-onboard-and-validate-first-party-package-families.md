@@ -36,6 +36,8 @@ the generated registries pass these checks.
 - [x] (2026-07-15) Resolve exact versions for both channels under `ghc9122` and `ghc914`, with all four mismatch lists empty.
 - [x] (2026-07-15) Build all 51 GitHub and 41 Hackage packages on the host with `ghc9122`.
 - [x] (2026-07-15) Run online drift checks, document consumer/update workflows, and finalize outcomes.
+- [x] (2026-07-15) Audit all `docs/user` pages, correct stale patch and verification
+  guidance, and add channel discovery plus troubleshooting references.
 
 
 ## Surprises & Discoveries
@@ -96,6 +98,13 @@ the generated registries pass these checks.
   `shibuya-pgmq-adapter >=0.12 && <0.13`, but the preserved separate-project override was
   still 0.8. Mori confirmed the 0.12 API and release, and the verified Hackage override now
   builds both the adapter and `keiro-pgmq`.
+
+- The follow-up documentation audit found that the compatibility-patch guide predated the
+  generated registries: it called `overlays/registry.nix` the source of every patch, omitted
+  `doJailbreakOnly` and the `pkgs` patch argument, and treated `overlay-eval` as a focused
+  package test. The current code and flake checks showed that the common registry feeds both
+  channels, generated families have separate JSON sources of truth, and a real package build
+  is required to exercise dispatch.
 
 
 ## Decision Log
@@ -158,6 +167,13 @@ the generated registries pass these checks.
   compile-time source trees without upstream changes.
   Date: 2026-07-15
 
+- Decision: Add an audience-oriented user-guide index plus dedicated channel and
+  troubleshooting references, while keeping family onboarding and complete build commands
+  in the updater guide.
+  Rationale: Consumers need provenance and composition guidance without maintainer detail;
+  maintainers need exact recovery and matrix commands close to the refresh workflow.
+  Date: 2026-07-15
+
 
 ## Outcomes & Retrospective
 
@@ -176,7 +192,11 @@ no-drift result, and passing flake check provide repeatable update and recovery 
 
 Operational documentation now covers channel provenance, the 51/41/10 availability split,
 the production refresh command, review criteria, and downstream `--override-input`
-validation. No implementation work remains in this child.
+validation. The follow-up audit added a user-guide index, current channel inventory,
+troubleshooting paths, a safe new-family bootstrap procedure, exact focused/full-matrix
+build commands, and corrected common-registry API details. Relative links, inventory
+queries, a focused GitHub build, the offline updater check, and the full flake check pass;
+no implementation or documentation work remains in this child.
 
 
 ## Context and Orientation
@@ -571,3 +591,8 @@ make focused Keiro and `keiro-pgmq` builds pass. Complete matrix validation cont
 51-package GitHub and 41-package Hackage builds under host GHC 9.12.2, a clean online drift
 check, direct-extension compatibility validation, stale-path proof, and the full flake check
 all passed. Consumer and operator documentation is complete.
+
+2026-07-15: Reopened the completed plan for a user-requested `docs/user` audit. Added the
+missing guide index, channel reference, and troubleshooting page; corrected stale patch and
+consumer validation guidance; documented safe family onboarding plus exact matrix builds;
+and revalidated links, inventory queries, a focused build, offline drift, and the flake suite.

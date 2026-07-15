@@ -1,3 +1,5 @@
+[User guide](README.md)
+
 # Getting started
 
 ## Add the flake input
@@ -25,13 +27,16 @@ recorded in the package lock; packages without a Hackage release are absent from
 channel. The current lock contains 51 GitHub packages and 41 Hackage packages, so selecting
 Hackage does not silently substitute GitHub source for the 10 unpublished names.
 
+See the [channel reference](channels.md) for the current family breakdown, package discovery
+commands, and the complete public output map.
+
 The legacy singular output `lib.haskellExtension` is an exact alias for the GitHub channel.
 Likewise, `lib.registry`, `overlays.default`, and `overlays.haskell` alias their GitHub
 counterparts.
 
 ## Recommended: direct extension composition
 
-Compose `haskellExtension` with your local overrides via `composeExtensions`:
+Compose the selected channel extension with your local overrides via `composeExtensions`:
 
 ```nix
 {
@@ -89,13 +94,18 @@ to `ghc9122` and `ghc914` automatically.
 
 ## Verify the setup
 
+From the consumer repository, run its declared checks and at least one normal target that
+uses the selected package set:
+
 ```bash
 nix flake check
+nix build .#YOUR-TARGET
 ```
 
-This validates both channel registries, applies the local first-party fixture under both
-compiler sets, resolves every locked package to its exact version under `ghc9122` and
-`ghc914`, and forces evaluation of both channel overlays.
+Those commands validate the consumer integration. In a `haskell-nix` checkout,
+`nix flake check --print-build-logs` additionally validates both channel registries,
+resolves every locked package to its exact version under `ghc9122` and `ghc914`, tests the
+updater, and forces evaluation of both channel overlays.
 
 To exercise an unpushed local `haskell-nix` change from a real consumer without rewriting
 that consumer's lock file, run its normal build with an input override:
@@ -109,6 +119,8 @@ the validation with each provenance when a change affects both channels.
 
 ## Next steps
 
+- [Channel reference](channels.md) — provenance, availability, aliases, and the current package inventory
 - [Adding patches](adding-patches.md) — how to add or modify entries in the patch registry
 - [Consumer integration](consumer-integration.md) — detailed integration patterns and troubleshooting
 - [Updating first-party packages](updating-first-party-packages.md) — the family config and generated package-lock contracts
+- [Troubleshooting](troubleshooting.md) — common consumer, updater, and validation failures
