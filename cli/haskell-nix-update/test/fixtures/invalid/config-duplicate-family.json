@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "families": [
+    {
+      "name": "example",
+      "moriProject": "example/example",
+      "github": "example/example",
+      "githubInput": "example-src"
+    },
+    {
+      "name": "example",
+      "moriProject": "example/duplicate",
+      "github": "example/duplicate",
+      "githubInput": "example-src"
+    }
+  ]
+}

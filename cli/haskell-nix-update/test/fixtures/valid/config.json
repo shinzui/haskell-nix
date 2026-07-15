@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "families": [
+    {
+      "name": "example",
+      "moriProject": "example/example",
+      "github": "example/example",
+      "githubInput": "example-src",
+      "packageOverrides": {
+        "example-special": {
+          "cabal2nixOptions": "-f-example"
+        }
+      }
+    }
+  ]
+}

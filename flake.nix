@@ -57,8 +57,32 @@
 
     systems = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ];
 
+    mkUpdaterHaskellPackages = pkgs:
+      pkgs.haskell.packages.ghc9122.override {
+        overrides = hself: _hsuper: {
+          optparse-applicative =
+            let
+              haskellLib = pkgs.haskell.lib.compose;
+            in
+            haskellLib.dontCheck (haskellLib.doJailbreak (hself.callCabal2nix
+              "optparse-applicative"
+              (builtins.fetchTarball {
+                url = "https://hackage.haskell.org/package/optparse-applicative-0.19.0.0/optparse-applicative-0.19.0.0.tar.gz";
+                sha256 = "sha256-dhqvRILfdbpYPMxC+WpAyO0KUfq2nLopGk1NdSN2SDM=";
+              })
+              { }));
+        };
+      };
+
+    mkUpdaterPackage = pkgs:
+      (mkUpdaterHaskellPackages pkgs).callCabal2nix
+        "haskell-nix-update"
+        ./cli/haskell-nix-update
+        { };
+
     forAllSystems = f: lib.genAttrs systems (system:
       let
+        pkgsPlain = import nixpkgs { inherit system; };
         pkgsGithub = import nixpkgs {
           inherit system;
           overlays = [ channelOverlays.github ];
@@ -67,8 +91,12 @@
           inherit system;
           overlays = [ channelOverlays.hackage ];
         };
+        updaterHaskellPackages = mkUpdaterHaskellPackages pkgsPlain;
+        updater = mkUpdaterPackage pkgsPlain;
       in
-      f { inherit system pkgsGithub pkgsHackage; });
+      f {
+        inherit system pkgsPlain pkgsGithub pkgsHackage updaterHaskellPackages updater;
+      });
   in
   {
     overlays = {
@@ -89,7 +117,30 @@
       haskellExtension = haskellExtensions.github;
     };
 
-    checks = forAllSystems ({ pkgsGithub, pkgsHackage, system }:
+    packages = forAllSystems ({ updater, ... }: {
+      default = updater;
+      haskell-nix-update = updater;
+    });
+
+    apps = forAllSystems ({ updater, ... }: {
+      default = {
+        type = "app";
+        program = "${updater}/bin/haskell-nix-update";
+      };
+      haskell-nix-update = {
+        type = "app";
+        program = "${updater}/bin/haskell-nix-update";
+      };
+    });
+
+    devShells = forAllSystems ({ pkgsPlain, updaterHaskellPackages, updater, ... }: {
+      default = updaterHaskellPackages.shellFor {
+        packages = _: [ updater ];
+        nativeBuildInputs = [ updaterHaskellPackages.cabal-install pkgsPlain.jq ];
+      };
+    });
+
+    checks = forAllSystems ({ pkgsGithub, pkgsHackage, updater, system, ... }:
       let
         fixture = import ./checks/first-party-registry.nix {
           inherit lib;
@@ -128,6 +179,8 @@
         );
 
       first-party-registry = fixture.check;
+
+      haskell-nix-update = updater;
 
       # Force evaluation of the overlay to catch Nix-level errors.
       # Verify both channel overlays and both supported compiler sets.

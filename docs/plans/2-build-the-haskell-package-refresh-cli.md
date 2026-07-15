@@ -31,8 +31,8 @@ summary, and rely on the Nix checks from EP-1 for downstream validation.
 
 ## Progress
 
-- [ ] Scaffold the GHC2024 library, executable, test suite, root Cabal project, and plain-Nixpkgs flake app.
-- [ ] Implement typed config/lock decoding and validation with golden round-trip tests.
+- [x] Scaffold the GHC2024 library, executable, test suite, root Cabal project, and plain-Nixpkgs flake app.
+- [x] Implement typed config/lock decoding and validation with golden round-trip tests.
 - [ ] Implement injectable process, Mori, Git, Nix-lock, and Hackage adapters.
 - [ ] Implement root-package discovery, version comparison, Hackage hashing, and deterministic planning.
 - [ ] Implement safe `refresh` and `check` commands, dry-run output, rollback, and offline tests.
@@ -41,7 +41,14 @@ summary, and rely on the Nix checks from EP-1 for downstream validation.
 
 ## Surprises & Discoveries
 
-(None yet.)
+- The pinned Nixpkgs revision provides optparse-applicative 0.18.1.0, while this plan's
+  option-group API requires 0.19. The updater therefore uses a private, fixed-output
+  optparse-applicative 0.19 override from the existing audited package expression; it
+  still builds entirely from the plain Nixpkgs GHC 9.12.2 package set.
+
+- Cabal 3.14 warns that its published compatibility bounds predate GHC 9.12, but the
+  Cabal library, executable, test suite, and Haddock all compile successfully with GHC
+  9.12.2 in the repository's pinned Nixpkgs.
 
 
 ## Decision Log
@@ -71,6 +78,13 @@ summary, and rely on the Nix checks from EP-1 for downstream validation.
 - Decision: Make online and process effects injectable and keep tests offline.
   Rationale: Refresh orchestration needs deterministic failure/rollback tests and must not
   depend on GitHub or Hackage availability in `nix flake check`.
+  Date: 2026-07-15
+
+- Decision: Override only optparse-applicative inside the updater's private plain-Nixpkgs
+  Haskell package set.
+  Rationale: Nixpkgs' 0.18.1.0 lacks `parserOptionGroup`, while the already-audited 0.19
+  expression supplies the required API without coupling the repair tool to either
+  generated first-party channel.
   Date: 2026-07-15
 
 

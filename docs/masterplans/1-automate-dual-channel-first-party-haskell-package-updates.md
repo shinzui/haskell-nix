@@ -63,7 +63,7 @@ explicit refresh command, and committed lock files drive builds.
 | # | Title | Path | Hard Deps | Soft Deps | Status |
 |---|-------|------|-----------|-----------|--------|
 | 1 | Introduce manifest-driven Hackage and GitHub channels | docs/plans/1-introduce-manifest-driven-hackage-and-github-channels.md | None | None | Complete |
-| 2 | Build the Haskell package refresh CLI | docs/plans/2-build-the-haskell-package-refresh-cli.md | EP-1 | None | Not Started |
+| 2 | Build the Haskell package refresh CLI | docs/plans/2-build-the-haskell-package-refresh-cli.md | EP-1 | None | In Progress |
 | 3 | Onboard and validate first-party package families | docs/plans/3-onboard-and-validate-first-party-package-families.md | EP-1, EP-2 | None | Not Started |
 
 Status values: Not Started, In Progress, Complete, Cancelled.
@@ -130,7 +130,7 @@ pattern. EP-3 consumes the executable through `nix run .#haskell-nix-update`.
 - [x] EP-1: Define and fixture-test the family catalog and generated package-lock schemas.
 - [x] EP-1: Implement generic Hackage/GitHub registries and backward-compatible channel outputs.
 - [x] EP-1: Add deterministic Nix evaluation checks and channel documentation.
-- [ ] EP-2: Scaffold the standards-compliant Haskell library, executable, tests, and Nix app.
+- [x] EP-2: Scaffold the standards-compliant Haskell library, executable, tests, and Nix app.
 - [ ] EP-2: Implement Mori, Git, Hackage, Nix-lock, discovery, and atomic-write adapters.
 - [ ] EP-2: Implement refresh/check workflows with dry-run behavior and fixture/integration tests.
 - [ ] EP-3: Add the seven source inputs and production family catalog, then run the updater.
@@ -214,3 +214,6 @@ outcomes will be finalized after the updater and seven-family onboarding complet
 
 2026-07-15: Marked EP-1 complete, recorded its schema and compatibility discoveries for
 dependent plans, and identified EP-2 as the next dependency-ready work stream.
+
+2026-07-15: Began EP-2 after verifying EP-1 complete. The refresh CLI now owns the active
+implementation slot; EP-3 remains blocked until this plan finishes.
