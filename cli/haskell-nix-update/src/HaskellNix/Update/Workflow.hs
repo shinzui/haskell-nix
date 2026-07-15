@@ -26,7 +26,7 @@ import HaskellNix.Update.Git (discoverPackages, ensureRevision, remoteHead, requ
 import HaskellNix.Update.Hackage (HttpClient, defaultHttpClient, queryHackage)
 import HaskellNix.Update.Mori (MoriProject (..), locateMoriProject)
 import HaskellNix.Update.Nix
-import HaskellNix.Update.PackageLock (decodePackageLock, encodePackageLock)
+import HaskellNix.Update.PackageLock (decodePackageLock, decodePackageLockForRefresh, encodePackageLock)
 import HaskellNix.Update.Plan (planRefresh, renderChanges)
 import HaskellNix.Update.Process (ProcessRunner, defaultProcessRunner)
 import HaskellNix.Update.Types
@@ -63,7 +63,7 @@ defaultWorkflowEnvironment = do
 
 runRefreshWorkflow :: WorkflowEnvironment -> WorkflowPaths -> [Text] -> Bool -> IO (Either UpdateError Text)
 runRefreshWorkflow environment paths requestedFamilies dryRun = do
-  loaded <- loadManagedState paths
+  loaded <- loadManagedState decodePackageLockForRefresh paths
   case loaded of
     Left updateError -> pure (Left updateError)
     Right state@ManagedState {catalog, packageLock} ->
@@ -75,7 +75,7 @@ runRefreshWorkflow environment paths requestedFamilies dryRun = do
 
 runCheckWorkflow :: WorkflowEnvironment -> WorkflowPaths -> [Text] -> Bool -> IO (Either UpdateError Text)
 runCheckWorkflow environment paths requestedFamilies online = do
-  loaded <- loadManagedState paths
+  loaded <- loadManagedState decodePackageLock paths
   case loaded of
     Left updateError -> pure (Left updateError)
     Right ManagedState {catalog, packageLock} ->
@@ -97,12 +97,12 @@ data ManagedState = ManagedState
     originalPackageLock :: !ByteString
   }
 
-loadManagedState :: WorkflowPaths -> IO (Either UpdateError ManagedState)
-loadManagedState paths = runExceptT $ do
+loadManagedState :: (FamilyCatalog -> ByteString -> Either Text PackageLock) -> WorkflowPaths -> IO (Either UpdateError ManagedState)
+loadManagedState decodeLock paths = runExceptT $ do
   catalogBytes <- readFileE (resolvePath paths (catalogPath paths))
   catalog <- liftEitherText "family catalog" (decodeFamilyCatalog catalogBytes)
   originalPackageLock <- readFileE (resolvePath paths (packageLockPath paths))
-  packageLock <- liftEitherText "package lock" (decodePackageLock catalog originalPackageLock)
+  packageLock <- liftEitherText "package lock" (decodeLock catalog originalPackageLock)
   originalFlakeLock <- readFileE (resolvePath paths (flakeLockPath paths))
   pure ManagedState {catalog, packageLock, originalFlakeLock, originalPackageLock}
 

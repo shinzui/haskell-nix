@@ -64,7 +64,7 @@ explicit refresh command, and committed lock files drive builds.
 |---|-------|------|-----------|-----------|--------|
 | 1 | Introduce manifest-driven Hackage and GitHub channels | docs/plans/1-introduce-manifest-driven-hackage-and-github-channels.md | None | None | Complete |
 | 2 | Build the Haskell package refresh CLI | docs/plans/2-build-the-haskell-package-refresh-cli.md | EP-1 | None | Complete |
-| 3 | Onboard and validate first-party package families | docs/plans/3-onboard-and-validate-first-party-package-families.md | EP-1, EP-2 | None | Not Started |
+| 3 | Onboard and validate first-party package families | docs/plans/3-onboard-and-validate-first-party-package-families.md | EP-1, EP-2 | None | In Progress |
 
 Status values: Not Started, In Progress, Complete, Cancelled.
 Hard Deps and Soft Deps reference other rows by their # prefix (e.g., EP-1, EP-3).
@@ -133,7 +133,7 @@ pattern. EP-3 consumes the executable through `nix run .#haskell-nix-update`.
 - [x] EP-2: Scaffold the standards-compliant Haskell library, executable, tests, and Nix app.
 - [x] EP-2: Implement Mori, Git, Hackage, Nix-lock, discovery, and atomic-write adapters.
 - [x] EP-2: Implement refresh/check workflows with dry-run behavior and fixture/integration tests.
-- [ ] EP-3: Add the seven source inputs and production family catalog, then run the updater.
+- [x] EP-3: Add the seven source inputs and production family catalog, then run the updater.
 - [ ] EP-3: Activate both channels and remove superseded handwritten family patches.
 - [ ] EP-3: Resolve both compiler sets, build the package matrices, and finalize consumer docs.
 
@@ -162,6 +162,18 @@ pattern. EP-3 consumes the executable through `nix run .#haskell-nix-update`.
 - The pinned Nixpkgs has optparse-applicative 0.18.1.0, so EP-2 privately overrides it with
   the repository's audited 0.19 expression to obtain `parserOptionGroup`. The updater still
   uses the plain Nixpkgs GHC 9.12.2 set and does not depend on either generated channel.
+
+- EP-3 found that exact catalog/lock equality made the first refresh from an empty generated
+  lock impossible. The refresh decoder now permits a sorted subset and the planner adds new
+  observed families, while `check`, final planning validation, and Nix registry construction
+  remain exact. The source-input baseline and generated lock will therefore land in one
+  retained working commit after a temporary clean baseline satisfies dirty-file protection.
+
+- Mori has no GitHub repository metadata for Baikai, Keiro, or Shikumi, although it does
+  provide their registered local paths. The updater now accepts an empty repository list and
+  uses the catalog slug for remote operations, but still rejects conflicting non-empty Mori
+  metadata. Live Hackage metadata also uses direct string statuses, so the decoder accepts
+  both that shape and the object-shaped test fixtures.
 
 
 ## Decision Log
@@ -209,6 +221,12 @@ pattern. EP-3 consumes the executable through `nix run .#haskell-nix-update`.
   building.
   Date: 2026-07-15
 
+- Decision: Preserve exact package-lock validation at steady state while allowing refresh to
+  bootstrap newly configured families from a subset lock.
+  Rationale: This breaks the catalog/lock onboarding cycle without weakening successful
+  refresh output, offline/online checks, or Nix evaluation.
+  Date: 2026-07-15
+
 
 ## Outcomes & Retrospective
 
@@ -231,3 +249,16 @@ implementation slot; EP-3 remains blocked until this plan finishes.
 2026-07-15: Completed EP-2 after its packaged build, 32-test offline suite, grouped CLI
 help, real empty-catalog check, development-shell Cabal test, and full flake check passed.
 EP-3 is now dependency-ready and awaits explicit continuation.
+
+2026-07-15: Began EP-3 after verifying EP-1 and EP-2 complete. The seven-family onboarding,
+dual-channel activation, package-matrix validation, and final consumer documentation now
+own the active implementation slot.
+
+2026-07-15: EP-3's first production dry-run found and repaired bootstrap validation, missing
+Mori GitHub metadata, and live Hackage JSON shape assumptions. All 37 offline updater tests
+and the 51-package online dry-run now pass; production lock generation is next.
+
+2026-07-15: Generated and audited the production lock after the updater proved rollback on
+a transient Hackage response failure. The lock contains 7 families, 51 GitHub packages, 41
+Hackage pins, 10 GitHub-only packages, exact flake revisions, and no dry-run drift. Channel
+activation and retirement of handwritten family pins are next.

@@ -6,8 +6,8 @@ import Data.ByteString.Lazy qualified as LazyByteString
 import Data.Text (Text)
 import HaskellNix.Update.Catalog (decodeFamilyCatalog, encodeFamilyCatalog)
 import HaskellNix.Update.Cli
-import HaskellNix.Update.PackageLock (decodePackageLock, encodePackageLock)
-import HaskellNix.Update.Types (FamilyCatalog)
+import HaskellNix.Update.PackageLock (decodePackageLock, decodePackageLockForRefresh, encodePackageLock)
+import HaskellNix.Update.Types (FamilyCatalog, PackageLock (..))
 import Options.Applicative (ParserResult (..), defaultPrefs, execParserPure)
 import Paths_haskell_nix_update (getDataFileName)
 import PlannerTest qualified
@@ -57,6 +57,11 @@ packageLockTests =
         let encoded = encodePackageLock packageLock
         assertTrailingNewline encoded
         decodePackageLock catalog (LazyByteString.toStrict encoded) @?= Right packageLock,
+      testCase "refresh accepts a lock missing newly configured families" $ do
+        catalog <- readValidCatalog
+        let bytes = LazyByteString.toStrict (encodePackageLock (PackageLock 1 []))
+        assertLeft (decodePackageLock catalog bytes)
+        decodePackageLockForRefresh catalog bytes @?= Right (PackageLock 1 []),
       testGroup
         "invalid EP-1 fixtures"
         [ testCase fileName (assertInvalidLock fileName)

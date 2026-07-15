@@ -1,4 +1,58 @@
 {
   "schemaVersion": 1,
-  "families": []
+  "families": [
+    {
+      "name": "baikai",
+      "moriProject": "shinzui/baikai",
+      "github": "shinzui/baikai",
+      "githubInput": "baikai-src",
+      "packageOverrides": {}
+    },
+    {
+      "name": "keiro",
+      "moriProject": "shinzui/keiro",
+      "github": "shinzui/keiro",
+      "githubInput": "keiro-src",
+      "packageOverrides": {}
+    },
+    {
+      "name": "kiroku",
+      "moriProject": "shinzui/kiroku",
+      "github": "shinzui/kiroku",
+      "githubInput": "kiroku-src",
+      "packageOverrides": {
+        "kiroku-metrics": {
+          "cabal2nixOptions": "-f-example"
+        }
+      }
+    },
+    {
+      "name": "pg-migrate",
+      "moriProject": "shinzui/pg-migrate",
+      "github": "shinzui/pg-migrate",
+      "githubInput": "pg-migrate-src",
+      "packageOverrides": {}
+    },
+    {
+      "name": "pgmq-hs",
+      "moriProject": "shinzui/pgmq-hs",
+      "github": "shinzui/pgmq-hs",
+      "githubInput": "pgmq-hs-src",
+      "packageOverrides": {}
+    },
+    {
+      "name": "shibuya",
+      "moriProject": "shinzui/shibuya",
+      "github": "shinzui/shibuya",
+      "githubInput": "shibuya-src",
+      "packageOverrides": {}
+    },
+    {
+      "name": "shikumi",
+      "moriProject": "shinzui/shikumi",
+      "github": "shinzui/shikumi",
+      "githubInput": "shikumi-src",
+      "packageOverrides": {}
+    }
+  ]
 }

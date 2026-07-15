@@ -1,13 +1,14 @@
 module AdapterTest (tests) where
 
 import Data.ByteString.Char8 qualified as ByteString
+import Data.Map.Strict qualified as Map
 import Data.Text (Text)
 import Data.Text qualified as Text
 import Distribution.Parsec (simpleParsec)
 import Distribution.Types.Version (Version)
 import HaskellNix.Update.Git (discoverPackages)
 import HaskellNix.Update.Hackage
-import HaskellNix.Update.Mori (MoriProject (..), decodeMoriProject)
+import HaskellNix.Update.Mori (MoriProject (..), decodeMoriProject, locateMoriProject)
 import HaskellNix.Update.Nix (decodeLockedRevision)
 import HaskellNix.Update.Process
 import HaskellNix.Update.Types
@@ -20,7 +21,10 @@ tests =
   testGroup
     "external adapters"
     [ testCase "Mori JSON exposes path and GitHub repositories" testMoriDecode,
+      testCase "Mori can locate a project without repository metadata" testMoriLocateWithoutRepository,
+      testCase "Mori rejects conflicting repository metadata" testMoriLocateMismatch,
       testCase "Hackage selects the greatest normal release" testHackageNormal,
+      testCase "Hackage accepts live string release statuses" testHackageStringStatus,
       testCase "Hackage falls back when no release is normal" testHackageFallback,
       testCase "Hackage 404 means unpublished" testHackage404,
       testCase "flake.lock resolves a named root input revision" testFlakeLock,
@@ -37,6 +41,35 @@ testMoriDecode = do
   path @?= "/projects/example"
   githubRepositories @?= ["owner/example"]
 
+testMoriLocateWithoutRepository :: IO ()
+testMoriLocateWithoutRepository = do
+  MoriProject {path = projectPath} <- assertRight =<< locateMoriProject (moriRunner "[]") exampleFamily
+  projectPath @?= "/projects/example"
+
+testMoriLocateMismatch :: IO ()
+testMoriLocateMismatch = do
+  result <- locateMoriProject (moriRunner "[{\"github\":\"other/example\"}]") exampleFamily
+  case result of
+    Left _ -> pure ()
+    Right project -> assertFailure ("expected repository mismatch, located: " <> show project)
+
+exampleFamily :: FamilyConfig
+exampleFamily =
+  FamilyConfig
+    { name = FamilyName "example",
+      moriProject = "owner/example",
+      github = "owner/example",
+      githubInput = "example-src",
+      packageOverrides = Map.empty
+    }
+
+moriRunner :: Text -> ProcessRunner
+moriRunner repositories = ProcessRunner $ \_ ->
+  pure
+    ( success
+        ("{\"path\":\"/projects/example\",\"repositories\":" <> repositories <> "}")
+    )
+
 testHackageNormal :: IO ()
 testHackageNormal = do
   release <-
@@ -46,6 +79,16 @@ testHackageNormal = do
           (ByteString.pack "{\"1.0\":{\"status\":\"normal\"},\"2.0\":{\"status\":\"deprecated\"},\"1.5\":{\"status\":\"normal\"}}")
       )
   release @?= HackageRelease {version = testVersion "1.5", usedFallback = False}
+
+testHackageStringStatus :: IO ()
+testHackageStringStatus = do
+  release <-
+    assertRight
+      ( decodeHackageRelease
+          (PackageName "example")
+          (ByteString.pack "{\"1.0\":\"normal\",\"2.0\":\"deprecated\"}")
+      )
+  release @?= HackageRelease {version = testVersion "1.0", usedFallback = False}
 
 testHackageFallback :: IO ()
 testHackageFallback = do

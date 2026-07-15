@@ -10,7 +10,7 @@ module HaskellNix.Update.Hackage
 where
 
 import Control.Exception (try)
-import Data.Aeson (Value, eitherDecodeStrict', withObject, (.:))
+import Data.Aeson (Value (..), eitherDecodeStrict', withObject, (.:))
 import Data.Aeson.Key qualified as Key
 import Data.Aeson.KeyMap qualified as KeyMap
 import Data.Aeson.Types (Parser, parseEither)
@@ -48,7 +48,7 @@ queryHackage HttpClient {performGet} packageName = do
   pure $ do
     HttpResponse {statusCode, body} <- prefixError ("Hackage request " <> url <> ": ") response
     case statusCode of
-      200 -> Just <$> decodeHackageRelease packageName body
+      200 -> Just <$> prefixError ("Hackage request " <> url <> ": ") (decodeHackageRelease packageName body)
       404 -> Right Nothing
       other -> Left (UpdateError ("Hackage request " <> url <> " returned HTTP " <> Text.pack (show other)))
 
@@ -99,8 +99,10 @@ parseReleases = withObject "Hackage releases" $ \fields ->
           (fail ("invalid Hackage version key: " <> Text.unpack (Key.toText key)))
           pure
           (simpleParsec (Text.unpack (Key.toText key)))
-      status <- withObject "Hackage release" (.: "status") value
+      status <- parseStatus value
       pure (version, status)
+    parseStatus (String status) = pure status
+    parseStatus value = withObject "Hackage release" (.: "status") value
 
 packageNameText :: PackageName -> Text
 packageNameText (PackageName name) = name

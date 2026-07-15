@@ -30,8 +30,8 @@ the generated registries pass these checks.
 
 ## Progress
 
-- [ ] Add seven non-flake source inputs and seven family config records, then commit a clean baseline lock.
-- [ ] Run CLI dry-run and refresh; review the generated 51-package/41-Hackage lock.
+- [x] (2026-07-15) Add seven non-flake source inputs and seven family config records, then establish a clean managed-file baseline.
+- [x] (2026-07-15) Run CLI dry-run and refresh; review the generated 51-package/41-Hackage lock and confirm a second dry-run reports no changes.
 - [ ] Compose generated registries, remove superseded manual entries/files, and preserve unrelated pins.
 - [ ] Resolve exact versions for both channels under `ghc9122` and `ghc914`.
 - [ ] Build all 51 GitHub and 41 Hackage packages on the host with `ghc9122`.
@@ -40,7 +40,31 @@ the generated registries pass these checks.
 
 ## Surprises & Discoveries
 
-(None yet.)
+- EP-1's eager validation and EP-2's original strict decoder both required the configured
+  and locked family sets to be exactly equal. That made the first production refresh from
+  an empty lock impossible and made the pre-generation flake check fail with
+  `config, lock, source inputs, and Cabal2nix options do not agree`. Refresh now accepts a
+  sorted lock containing a subset of configured families and the planner adds observed new
+  families; `check`, final planning validation, and Nix evaluation remain exact. Two new
+  tests cover the lenient decoder and end-to-end bootstrap, bringing the offline suite to
+  34 tests before the later adapter cases were added.
+
+- Mori records local paths but no GitHub repository metadata for Baikai, Keiro, and Shikumi.
+  The updater now accepts an empty Mori repository list because the catalog owns the GitHub
+  slug, while continuing to reject a non-empty list that conflicts with the catalog. Two
+  adapter tests cover both branches.
+
+- The live official Hackage package JSON maps versions directly to status strings such as
+  `"normal"`; the original fixtures used objects containing a `status` field. The decoder
+  now accepts both shapes, prefixes live failures with the package metadata URL, and has
+  direct plus workflow regression coverage. The resulting 37-test suite passes, and the
+  first complete production dry-run discovered all expected 51 packages without writing
+  either managed lock file.
+
+- The first mutating production refresh received `InvalidChunkHeaders` from Hackage while
+  querying `pg-migrate-test-support`. The updater restored both managed files exactly as
+  designed. A retry with warmed caches completed, wrote 7 families, 51 packages, 41 Hackage
+  pins, and 10 null pins, and a subsequent dry-run reported `No changes.`
 
 
 ## Decision Log
@@ -70,6 +94,20 @@ the generated registries pass these checks.
   `ghc914`.
   Rationale: Supporting both provenances requires compilation evidence for both, while a
   second complete compiler build would add disproportionate cost after exact evaluation.
+  Date: 2026-07-15
+
+- Decision: Permit refresh, but not check or Nix registry construction, to load a package
+  lock whose family set is a subset of the configured catalog.
+  Rationale: Adding a family is a normal refresh operation, and exact equality before the
+  updater runs creates an unbootstrappable cycle. Final planner validation still guarantees
+  that a successful refresh writes the complete exact family set.
+  Date: 2026-07-15
+
+- Decision: Keep the source-input baseline and generated package lock in one final working
+  commit by amending the temporary clean baseline after refresh.
+  Rationale: The updater requires committed managed lock files before mutation, but the
+  strict Nix registry intentionally rejects the transient non-empty-config/empty-lock state.
+  Amending preserves the updater's clean-file safety check without retaining a broken commit.
   Date: 2026-07-15
 
 
@@ -445,3 +483,12 @@ GitHub aliases. `config/first-party-families.json` is hand-authored; only the up
 `packages/first-party-lock.json`. The common registry retains all packages outside the seven
 families and the separate `shibuya-pgmq-adapter` pin. No downstream consumer or upstream
 Mori-located source repository is edited.
+
+
+## Revision Note
+
+2026-07-15: Began implementation, added the seven source inputs and family records, repaired
+the updater's empty-lock bootstrap, empty-Mori-repository, and live Hackage-status handling,
+and generated the reviewed 51-package production lock after one successfully rolled-back
+transient Hackage failure. The baseline/generated-lock commit sequence was consolidated so
+every retained commit remains a working state.

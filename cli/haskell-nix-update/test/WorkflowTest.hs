@@ -30,7 +30,8 @@ tests :: TestTree
 tests =
   testGroup
     "refresh workflow"
-    [ testCase "successful refresh updates both generated views" testSuccessfulRefresh,
+    [ testCase "bootstrap refresh adds newly configured families" testBootstrapRefresh,
+      testCase "successful refresh updates both generated views" testSuccessfulRefresh,
       testCase "no-change refresh leaves both lock files byte-for-byte unchanged" testNoChange,
       testCase "partial refresh preserves unselected families" testPartialRefresh,
       testCase "dry-run performs discovery without managed writes" testDryRun,
@@ -42,6 +43,17 @@ tests =
       testCase "offline check validates the locked Git package" testOfflineCheck,
       testCase "online check detects remote revision drift without writes" testOnlineCheckDrift
     ]
+
+testBootstrapRefresh :: IO ()
+testBootstrapRefresh = withFixture ["alpha"] $ \fixture -> do
+  let emptyPackageLock = LazyByteString.toStrict (encodePackageLock (PackageLock 1 []))
+      bootstrapFixture = fixture {originalPackageLock = emptyPackageLock}
+  ByteString.writeFile (fixtureRoot fixture </> "packages/first-party-lock.json") emptyPackageLock
+  (environment, _) <- fakeEnvironment bootstrapFixture (defaultSettings ["alpha"])
+  _ <- runRefreshWorkflow environment (fixturePaths fixture) [] False >>= assertRight
+  packageBytes <- ByteString.readFile (fixtureRoot fixture </> "packages/first-party-lock.json")
+  packageLock <- assertRight (decodePackageLock (fixtureCatalog fixture) packageBytes)
+  familyRevision packageLock (FamilyName "alpha") @?= GitRevision revisionA
 
 testSuccessfulRefresh :: IO ()
 testSuccessfulRefresh = withFixture ["alpha"] $ \fixture -> do
@@ -296,7 +308,7 @@ runFakeHttp settings url =
                 ByteStringChar8.pack
                   ( "{\""
                       <> prettyShow packageVersion
-                      <> "\":{\"status\":\"normal\"}}"
+                      <> "\":\"normal\"}"
                   )
             }
 

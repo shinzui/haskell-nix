@@ -1,5 +1,6 @@
 module HaskellNix.Update.PackageLock
   ( decodePackageLock,
+    decodePackageLockForRefresh,
     encodePackageLock,
     validatePackageLock,
   )
@@ -28,25 +29,45 @@ import System.FilePath (isAbsolute, splitDirectories)
 
 decodePackageLock :: FamilyCatalog -> ByteString -> Either Text PackageLock
 decodePackageLock catalog bytes = do
-  value <- firstText (eitherDecodeStrict' bytes)
-  packageLock <- firstText (parseEither parsePackageLock value)
+  packageLock <- decodePackageLockBytes bytes
   validatePackageLock catalog packageLock
+
+decodePackageLockForRefresh :: FamilyCatalog -> ByteString -> Either Text PackageLock
+decodePackageLockForRefresh catalog bytes = do
+  packageLock <- decodePackageLockBytes bytes
+  validatePackageLockForRefresh catalog packageLock
+
+decodePackageLockBytes :: ByteString -> Either Text PackageLock
+decodePackageLockBytes bytes = do
+  value <- firstText (eitherDecodeStrict' bytes)
+  firstText (parseEither parsePackageLock value)
 
 encodePackageLock :: PackageLock -> LazyByteString.ByteString
 encodePackageLock = (<> "\n") . encodePretty' prettyConfig . packageLockValue
 
 validatePackageLock :: FamilyCatalog -> PackageLock -> Either Text PackageLock
-validatePackageLock catalog packageLock@(PackageLock schemaVersion lockedFamilies)
+validatePackageLock = validatePackageLockAgainstCatalog False
+
+validatePackageLockForRefresh :: FamilyCatalog -> PackageLock -> Either Text PackageLock
+validatePackageLockForRefresh = validatePackageLockAgainstCatalog True
+
+validatePackageLockAgainstCatalog :: Bool -> FamilyCatalog -> PackageLock -> Either Text PackageLock
+validatePackageLockAgainstCatalog allowMissingConfigured catalog packageLock@(PackageLock schemaVersion lockedFamilies)
   | schemaVersion /= 1 = Left "package lock schemaVersion must be 1"
   | lockedNames /= sort lockedNames = Left "package-lock families must be sorted by name"
   | Set.size (Set.fromList lockedNames) /= length lockedNames = Left "package-lock family names must be unique"
   | Set.size (Set.fromList packageNames) /= length packageNames = Left "package names must be globally unique"
-  | configuredNames /= lockedNames = Left "family config and package lock family names do not match"
+  | allowMissingConfigured && not (lockedNameSet `Set.isSubsetOf` configuredNameSet) =
+      Left "package lock contains a family absent from the family config"
+  | not allowMissingConfigured && configuredNames /= lockedNames =
+      Left "family config and package lock family names do not match"
   | otherwise = traverse_ validateCross lockedFamilies >> Right packageLock
   where
     FamilyCatalog _ configuredFamilies = catalog
     configuredNames = [name | FamilyConfig {name} <- configuredFamilies]
     lockedNames = [name | LockedFamily {name} <- lockedFamilies]
+    configuredNameSet = Set.fromList configuredNames
+    lockedNameSet = Set.fromList lockedNames
     packageNames = [name | LockedFamily {packages} <- lockedFamilies, LockedPackage {name} <- packages]
     configuredByName = Map.fromList [(name, family) | family@FamilyConfig {name} <- configuredFamilies]
 

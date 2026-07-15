@@ -26,13 +26,14 @@ planRefresh catalog previousLock observations = do
     else Left (UpdateError ("observed unknown families: " <> renderFamilyNames (Set.toAscList unknownNames)))
   let nextFamilies =
         sortOn familyKey
-          [ maybe oldFamily fst (Map.lookup name replacementMap)
-            | oldFamily@LockedFamily {name} <- previousFamilies
-          ]
-      missingOldFamilies = Map.keysSet replacementMap `Set.difference` Map.keysSet previousByName
-  if Set.null missingOldFamilies
-    then pure ()
-    else Left (UpdateError ("package lock is missing observed families: " <> renderFamilyNames (Set.toAscList missingOldFamilies)))
+          ( [ maybe oldFamily fst (Map.lookup name replacementMap)
+              | oldFamily@LockedFamily {name} <- previousFamilies
+            ]
+              <> [ family
+                   | (name, (family, _)) <- Map.toAscList replacementMap,
+                     name `Map.notMember` previousByName
+                 ]
+          )
   let nextPackageLock = PackageLock {schemaVersion = 1, families = nextFamilies}
       familyChanges = concatMap snd replacements
   _ <- firstUpdateError (validatePackageLock catalog nextPackageLock)

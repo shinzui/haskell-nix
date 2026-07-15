@@ -38,7 +38,7 @@ locateMoriProject runner FamilyConfig {name = FamilyName familyName, moriProject
   pure $ do
     ProcessResult {standardOutput} <- prefixError ("family " <> familyName <> ": ") result
     project@MoriProject {githubRepositories} <- decodeMoriProject standardOutput
-    if github `elem` githubRepositories
+    if null githubRepositories || github `elem` githubRepositories
       then Right project
       else
         Left
