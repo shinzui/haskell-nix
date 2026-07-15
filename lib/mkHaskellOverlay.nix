@@ -6,6 +6,7 @@
 
 { registry
 , compilers ? [ "ghc9122" "ghc914" ]
+, extraOverrides ? (_: _: { })
 }:
 
 let
@@ -25,7 +26,8 @@ let
   # haskellLib and pkgs are passed at overlay-application time so patches
   # get access to the full haskell.lib.compose API and top-level nixpkgs.
   mkCombinedOverride = haskellLib: pkgs:
-    composeManyExtensions (map (f: f haskellLib pkgs) perPackageOverrides);
+    composeManyExtensions
+      ([ extraOverrides ] ++ map (f: f haskellLib pkgs) perPackageOverrides);
 
 in
 # nixpkgs-level overlay

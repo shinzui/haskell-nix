@@ -32,8 +32,8 @@ the generated registries pass these checks.
 
 - [x] (2026-07-15) Add seven non-flake source inputs and seven family config records, then establish a clean managed-file baseline.
 - [x] (2026-07-15) Run CLI dry-run and refresh; review the generated 51-package/41-Hackage lock and confirm a second dry-run reports no changes.
-- [ ] Compose generated registries, remove superseded manual entries/files, and preserve unrelated pins.
-- [ ] Resolve exact versions for both channels under `ghc9122` and `ghc914`.
+- [x] (2026-07-15) Compose generated registries, remove superseded manual entries/files, and preserve unrelated pins.
+- [x] (2026-07-15) Resolve exact versions for both channels under `ghc9122` and `ghc914`, with all four mismatch lists empty.
 - [ ] Build all 51 GitHub and 41 Hackage packages on the host with `ghc9122`.
 - [ ] Run online drift checks, document consumer/update workflows, and finalize outcomes.
 
@@ -65,6 +65,20 @@ the generated registries pass these checks.
   querying `pg-migrate-test-support`. The updater restored both managed files exactly as
   designed. A retry with warmed caches completed, wrote 7 families, 51 packages, 41 Hackage
   pins, and 10 null pins, and a subsequent dry-run reported `No changes.`
+
+- Exact GitHub resolution exposed `shikumi-okf`'s dependency on `okf-core`, which is not in
+  the pinned Nixpkgs. Mori located `shinzui/okf`; its current `okf-core` 0.1.2.0 release is
+  on Hackage with verified hash
+  `sha256-p2LC8DDdqeLnlQn/n8jBL6tt6Iid+bPK15zBRwIOnJg=`. A shared compatibility pin now
+  supplies it to both channels.
+
+- Removing legacy family entries exposed that Cabal2nix-generated Hackage functions still
+  require dependencies used only by disabled tests and benchmarks. For example, published
+  `keiro` names unpublished `keiro-test-support` only in its test and benchmark components.
+  The Hackage Haskell extension now supplies null placeholders for all ten GitHub-only names
+  during package construction; `dontCheck` and default-disabled benchmarks remove those
+  components, while `lib.registries.hackage` still contains none of the ten names. The new
+  flake check reports empty mismatch lists for GitHub/Hackage under both compilers.
 
 
 ## Decision Log
@@ -108,6 +122,13 @@ the generated registries pass these checks.
   Rationale: The updater requires committed managed lock files before mutation, but the
   strict Nix registry intentionally rejects the transient non-empty-config/empty-lock state.
   Amending preserves the updater's clean-file safety check without retaining a broken commit.
+  Date: 2026-07-15
+
+- Decision: Keep unpublished family packages out of the public Hackage registry while
+  supplying null placeholders inside the Hackage Haskell extension.
+  Rationale: Cabal2nix includes disabled test and benchmark dependencies in generated
+  function arguments. The placeholders let published libraries evaluate without presenting
+  GitHub-only packages as Hackage packages or fetching their source into that channel.
   Date: 2026-07-15
 
 
@@ -492,3 +513,8 @@ the updater's empty-lock bootstrap, empty-Mori-repository, and live Hackage-stat
 and generated the reviewed 51-package production lock after one successfully rolled-back
 transient Hackage failure. The baseline/generated-lock commit sequence was consolidated so
 every retained commit remains a working state.
+
+2026-07-15: Activated both generated channels, added exact-version checks for both supported
+compilers, supplied the Mori-located `okf-core` dependency, removed superseded handwritten
+family entries and files, and verified consumer-shaped extensions plus public Hackage
+exclusion of all ten unpublished names.

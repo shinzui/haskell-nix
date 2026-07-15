@@ -37,6 +37,17 @@
       lock = firstPartyLock;
     };
 
+    githubOnlyPackageNames = lib.concatMap
+      (family: map (package: package.name)
+        (builtins.filter (package: package.hackage == null) family.packages))
+      firstPartyLock.families;
+
+    # Published family Cabal files can mention an unpublished sibling only in
+    # tests or benchmarks. Null placeholders let callPackage resolve those
+    # disabled components without adding the names to the Hackage registry.
+    hackageDependencyOverrides = _: _:
+      lib.genAttrs githubOnlyPackageNames (_: null);
+
     registries = {
       hackage = commonRegistry // firstPartyRegistries.hackage;
       github = commonRegistry // firstPartyRegistries.github;
@@ -45,22 +56,35 @@
     composeManyExtensions = lib.composeManyExtensions or
       (extensions: lib.foldr lib.composeExtensions (_: _: { }) extensions);
 
-    mkHaskellExtension = registry:
+    mkHaskellExtension = { registry, extraOverrides ? (_: _: { }) }:
       let
         perPackageOverrides = lib.mapAttrsToList
           (name: table: fixPackageByVersion name table)
           registry;
       in
       haskellLib: pkgs:
-        composeManyExtensions (map (override: override haskellLib pkgs) perPackageOverrides);
+        composeManyExtensions
+          ([ extraOverrides ] ++ map (override: override haskellLib pkgs) perPackageOverrides);
 
-    haskellExtensions = lib.mapAttrs
-      (_: registry: mkHaskellExtension registry)
-      registries;
+    haskellExtensions = {
+      github = mkHaskellExtension { registry = registries.github; };
+      hackage = mkHaskellExtension {
+        registry = registries.hackage;
+        extraOverrides = hackageDependencyOverrides;
+      };
+    };
 
-    channelOverlays = lib.mapAttrs
-      (_: registry: import ./overlays/haskell-overlay.nix { inherit lib registry; })
-      registries;
+    channelOverlays = {
+      github = import ./overlays/haskell-overlay.nix {
+        inherit lib;
+        registry = registries.github;
+      };
+      hackage = import ./overlays/haskell-overlay.nix {
+        inherit lib;
+        registry = registries.hackage;
+        extraOverrides = hackageDependencyOverrides;
+      };
+    };
 
     systems = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ];
 
@@ -169,6 +193,48 @@
           builtins.all
             (name: validateEntry name registry.${name})
             (builtins.attrNames registry);
+
+        lockedPackages = lib.concatMap
+          (family: family.packages)
+          firstPartyLock.families;
+
+        githubExpectedVersions = lib.listToAttrs (map
+          (package: {
+            name = package.name;
+            value = package.version;
+          })
+          lockedPackages);
+
+        hackageExpectedVersions = lib.listToAttrs (map
+          (package: {
+            name = package.name;
+            value = package.hackage.version;
+          })
+          (builtins.filter (package: package.hackage != null) lockedPackages));
+
+        versionMismatches = packages: expected:
+          builtins.filter
+            (name: packages.${name}.version != expected.${name})
+            (builtins.attrNames expected);
+
+        firstPartyVersionMismatches = {
+          github-ghc9122 = versionMismatches
+            pkgsGithub.haskell.packages.ghc9122
+            githubExpectedVersions;
+          github-ghc914 = versionMismatches
+            pkgsGithub.haskell.packages.ghc914
+            githubExpectedVersions;
+          hackage-ghc9122 = versionMismatches
+            pkgsHackage.haskell.packages.ghc9122
+            hackageExpectedVersions;
+          hackage-ghc914 = versionMismatches
+            pkgsHackage.haskell.packages.ghc914
+            hackageExpectedVersions;
+        };
+
+        allFirstPartyVersionsMatch = builtins.all
+          (names: names == [ ])
+          (builtins.attrValues firstPartyVersionMismatches);
       in {
       # Validate that the registry has the expected structure:
       # each entry is a list of { min, max, patch } or { always, patch } attrsets.
@@ -186,6 +252,13 @@
         );
 
       first-party-registry = fixture.check;
+
+      first-party-versions =
+        assert allFirstPartyVersionsMatch;
+        pkgsGithub.runCommand "first-party-versions" { } ''
+          echo '${builtins.toJSON firstPartyVersionMismatches}'
+          touch "$out"
+        '';
 
       haskell-nix-update = updater;
 

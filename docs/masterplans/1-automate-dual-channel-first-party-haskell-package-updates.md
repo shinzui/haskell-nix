@@ -134,7 +134,7 @@ pattern. EP-3 consumes the executable through `nix run .#haskell-nix-update`.
 - [x] EP-2: Implement Mori, Git, Hackage, Nix-lock, discovery, and atomic-write adapters.
 - [x] EP-2: Implement refresh/check workflows with dry-run behavior and fixture/integration tests.
 - [x] EP-3: Add the seven source inputs and production family catalog, then run the updater.
-- [ ] EP-3: Activate both channels and remove superseded handwritten family patches.
+- [x] EP-3: Activate both channels and remove superseded handwritten family patches.
 - [ ] EP-3: Resolve both compiler sets, build the package matrices, and finalize consumer docs.
 
 
@@ -174,6 +174,12 @@ pattern. EP-3 consumes the executable through `nix run .#haskell-nix-update`.
   uses the catalog slug for remote operations, but still rejects conflicting non-empty Mori
   metadata. Live Hackage metadata also uses direct string statuses, so the decoder accepts
   both that shape and the object-shaped test fixtures.
+
+- EP-3 found two dependencies hidden by legacy family entries. `shikumi-okf` requires
+  Hackage `okf-core` 0.1.2.0, now supplied as a shared compatibility pin located through
+  Mori. Published Cabal files can also name unpublished siblings only in disabled tests or
+  benchmarks, so the Hackage Haskell extension supplies null placeholders for those ten
+  names without adding them to the public Hackage registry.
 
 
 ## Decision Log
@@ -227,6 +233,12 @@ pattern. EP-3 consumes the executable through `nix run .#haskell-nix-update`.
   refresh output, offline/online checks, or Nix evaluation.
   Date: 2026-07-15
 
+- Decision: Represent GitHub-only test and benchmark dependencies as internal null Hackage
+  extension placeholders rather than public registry entries.
+  Rationale: This satisfies Cabal2nix function arguments for disabled components while
+  preserving honest channel provenance and package availability.
+  Date: 2026-07-15
+
 
 ## Outcomes & Retrospective
 
@@ -262,3 +274,8 @@ and the 51-package online dry-run now pass; production lock generation is next.
 a transient Hackage response failure. The lock contains 7 families, 51 GitHub packages, 41
 Hackage pins, 10 GitHub-only packages, exact flake revisions, and no dry-run drift. Channel
 activation and retirement of handwritten family pins are next.
+
+2026-07-15: Activated the generated registries, added an exact-version flake check for all
+four channel/compiler combinations, resolved `okf-core` and unpublished test-component
+dependencies, removed the legacy family modules, and verified direct public extension
+behavior. Full `ghc9122` package builds and operational documentation remain.

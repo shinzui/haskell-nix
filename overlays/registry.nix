@@ -87,19 +87,9 @@ in
   hs-opentelemetry-propagator-w3c = always ({ ... }@args: (import ../patches/hs-opentelemetry/1.40.nix args).hs-opentelemetry-propagator-w3c);
   hs-opentelemetry-propagator-xray = always ({ ... }@args: (import ../patches/hs-opentelemetry/1.40.nix args).hs-opentelemetry-propagator-xray);
 
-  # ── Baikai provider abstraction ────────────────────────────────────
-  baikai = always (import ../patches/baikai/0.1.nix);
-  baikai-claude = always (import ../patches/baikai-claude/0.1.nix);
-  baikai-effectful = always (import ../patches/baikai-effectful/0.1.nix);
-  baikai-openai = always (import ../patches/baikai-openai/0.1.nix);
-  baikai-trace-otel = always (import ../patches/baikai-trace-otel/0.1.nix);
+  # ── Provider clients and generated-family dependencies ─────────────
   claude = always (import ../patches/claude/shinzui.nix);
-
-  # ── Shikumi typed LM programs (over baikai) ────────────────────────
-  shikumi = always (import ../patches/shikumi/0.1.nix);
-  shikumi-cache = always (import ../patches/shikumi-cache/0.1.nix);
-  shikumi-trace = always (import ../patches/shikumi-trace/0.1.nix);
-  shikumi-trace-otel = always (import ../patches/shikumi-trace-otel/0.1.nix);
+  okf-core = always (import ../patches/okf-core/0.1.nix);
 
   # blake3 portable build for aarch64-darwin (shikumi-cache cache key).
   blake3 = always (import ../patches/blake3/portable.nix);
@@ -107,17 +97,7 @@ in
   cradle = always (import ../patches/cradle/garnix.nix);
   wai-app-static = always (import ../patches/wai-app-static/3.1.nix);
 
-  # ── pgmq ecosystem ────────────────────────────────────────────────
-  pgmq-core = always (import ../patches/pgmq-core/0.1.nix);
-  pgmq-hasql = always (import ../patches/pgmq-hasql/0.1.nix);
-  pgmq-effectful = always (import ../patches/pgmq-effectful/0.1.nix);
-  pgmq-migration = always (import ../patches/pgmq-migration/0.1.nix);
-  pgmq-config = always (import ../patches/pgmq-config/0.3.nix);
-
-  # ── shibuya ────────────────────────────────────────────────────────
-  shibuya-core = always ({ ... }@args: (import ../patches/shibuya-core/0.1.nix args).shibuya-core);
-  shibuya-example = always ({ ... }@args: (import ../patches/shibuya-core/0.1.nix args).shibuya-example);
-  shibuya-metrics = always ({ ... }@args: (import ../patches/shibuya-core/0.1.nix args).shibuya-metrics);
+  # ── separate Shibuya adapter repository ────────────────────────────
   shibuya-pgmq-adapter = always (import ../patches/shibuya-pgmq-adapter/0.1.nix);
 
   # ── shinzui event-sourcing stack ───────────────────────────────────
@@ -127,22 +107,6 @@ in
   kioku-cli = always ({ ... }@args: (import ../patches/kioku/0.1.nix args).kioku-cli);
   kioku-core = always ({ ... }@args: (import ../patches/kioku/0.1.nix args).kioku-core);
   kioku-migrations = always ({ ... }@args: (import ../patches/kioku/0.1.nix args).kioku-migrations);
-  kiroku-cli = always ({ ... }@args: (import ../patches/kiroku/0.1.nix args).kiroku-cli);
-  kiroku-jitsurei = always ({ ... }@args: (import ../patches/kiroku/0.1.nix args).kiroku-jitsurei);
-  kiroku-metrics = always ({ ... }@args: (import ../patches/kiroku/0.1.nix args).kiroku-metrics);
-  kiroku-otel = always ({ ... }@args: (import ../patches/kiroku/0.1.nix args).kiroku-otel);
-  kiroku-store = always ({ ... }@args: (import ../patches/kiroku/0.1.nix args).kiroku-store);
-  kiroku-store-migrations = always ({ ... }@args: (import ../patches/kiroku/0.1.nix args).kiroku-store-migrations);
-  kiroku-test-support = always ({ ... }@args: (import ../patches/kiroku/0.1.nix args).kiroku-test-support);
-  shibuya-kiroku-adapter = always ({ ... }@args: (import ../patches/kiroku/0.1.nix args).shibuya-kiroku-adapter);
-  keiro = always ({ ... }@args: (import ../patches/keiro/0.1.nix args).keiro);
-  keiro-core = always ({ ... }@args: (import ../patches/keiro/0.1.nix args).keiro-core);
-  keiro-dsl = always ({ ... }@args: (import ../patches/keiro/0.1.nix args).keiro-dsl);
-  keiro-migrations = always ({ ... }@args: (import ../patches/keiro/0.1.nix args).keiro-migrations);
-  keiro-pgmq = always ({ ... }@args: (import ../patches/keiro/0.1.nix args).keiro-pgmq);
-  keiro-test-support = always ({ ... }@args: (import ../patches/keiro/0.1.nix args).keiro-test-support);
-  jitsurei = always ({ ... }@args: (import ../patches/keiro/0.1.nix args).jitsurei);
-
   # ── crypton 1.1 / tls 2.3 / x509 1.9 cascade ───────────────────────
   # nixpkgs' ghc9122 set ships crypton-1.0.5 (which uses `memory`).
   # crypton-1.1.x switched to `ram`; downstream TLS / x509 / hpke bounds then
