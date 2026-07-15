@@ -128,7 +128,7 @@ pattern. EP-3 consumes the executable through `nix run .#haskell-nix-update`.
 ## Progress
 
 - [x] EP-1: Define and fixture-test the family catalog and generated package-lock schemas.
-- [ ] EP-1: Implement generic Hackage/GitHub registries and backward-compatible channel outputs.
+- [x] EP-1: Implement generic Hackage/GitHub registries and backward-compatible channel outputs.
 - [ ] EP-1: Add deterministic Nix evaluation checks and channel documentation.
 - [ ] EP-2: Scaffold the standards-compliant Haskell library, executable, tests, and Nix app.
 - [ ] EP-2: Implement Mori, Git, Hackage, Nix-lock, discovery, and atomic-write adapters.

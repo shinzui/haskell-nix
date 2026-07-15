@@ -1,10 +1,7 @@
-# Default Haskell overlay — wires the registry to mkHaskellOverlay.
-#
-# This is what `overlays.default` points to in the flake.
-{ lib }:
+# Haskell overlay — wires a supplied registry to mkHaskellOverlay.
+{ lib, registry }:
 
 let
   mkHaskellOverlay = import ../lib/mkHaskellOverlay.nix { inherit lib; };
-  registry = import ./registry.nix;
 in
 mkHaskellOverlay { inherit registry; }

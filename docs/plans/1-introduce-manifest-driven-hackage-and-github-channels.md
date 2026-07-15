@@ -32,8 +32,8 @@ updater and onboarding plans that follow.
 
 - [x] (2026-07-15T17:34:33Z) Add versioned family-config and generated package-lock schemas with valid and invalid fixtures.
 - [x] (2026-07-15T17:34:33Z) Implement `lib/mkFirstPartyRegistries.nix` and verify GitHub/Hackage registry shape from fixtures.
-- [ ] Parameterize `overlays/haskell-overlay.nix` by registry and expose both channel outputs.
-- [ ] Preserve singular GitHub compatibility aliases and existing registry behavior.
+- [x] (2026-07-15T17:36:41Z) Parameterize `overlays/haskell-overlay.nix` by registry and expose both channel outputs.
+- [x] (2026-07-15T17:36:41Z) Preserve singular GitHub compatibility aliases and existing registry behavior.
 - [ ] Add channel evaluation checks, update user documentation, and run final validation.
 
 
@@ -44,6 +44,21 @@ updater and onboarding plans that follow.
   Evidence: The focused evaluation built `cabal2nix-example-core` derivations for both
   `ghc9122` and `ghc914`, then reported version `1.2.0.0` for each. This is expected
   evaluation-time work and keeps the check independent of a full package build.
+
+- Observation: Nix equality returns `false` for function-valued outputs even when one
+  output is bound directly to the other.
+  Evidence: `lib.registry == lib.registries.github` returned `true`, while equality checks
+  for the extension and overlay aliases returned `false`. Applying the GitHub, Hackage,
+  and legacy extensions produced identical compatibility-registry attribute names, so
+  function aliases must be checked behaviorally rather than with `==`.
+
+- Observation: The existing direct extension requires both `haskellLib` and `pkgs` before
+  it becomes an `hself: hsuper:` package-set extension, despite the old user docs showing
+  only the first argument.
+  Evidence: `flake.nix` has always passed both values to `fixPackageByVersion`; the focused
+  consumer evaluation succeeds with
+  `lib.haskellExtensions.github pkgs.haskell.lib.compose pkgs`. Milestone 3 will correct
+  the examples without changing the compatibility API.
 
 
 ## Decision Log
@@ -74,6 +89,13 @@ updater and onboarding plans that follow.
   Rationale: `builtins.tryEval` otherwise accepts a lazy registry attrset before malformed
   fields are forced, and allowing the two files to disagree would make generated state
   ambiguous for Nix and the future updater.
+  Date: 2026-07-15
+
+- Decision: Preserve the current two-argument direct-extension constructor and document
+  it accurately instead of changing the API while adding channels.
+  Rationale: Patch functions need the top-level `pkgs` set for existing source fetchers.
+  Keeping the constructor shape avoids an unrelated compatibility break, while exact
+  GitHub aliases preserve all existing call sites that already pass both arguments.
   Date: 2026-07-15
 
 

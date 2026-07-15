@@ -5,92 +5,148 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
   };
 
-  outputs = { self, nixpkgs }:
+  outputs = { self, nixpkgs, ... }@inputs:
   let
     lib = nixpkgs.lib;
 
-    registry = import ./overlays/registry.nix;
+    commonRegistry = import ./overlays/registry.nix;
+    firstPartyConfig = builtins.fromJSON
+      (builtins.readFile ./config/first-party-families.json);
+    firstPartyLock = builtins.fromJSON
+      (builtins.readFile ./packages/first-party-lock.json);
+    firstPartySources = lib.listToAttrs (map
+      (family: {
+        name = family.githubInput;
+        value = inputs.${family.githubInput};
+      })
+      firstPartyConfig.families);
+
     fixPackageByVersion = import ./lib/fixPackageByVersion.nix { inherit lib; };
     mkHaskellOverlay = import ./lib/mkHaskellOverlay.nix { inherit lib; };
-    haskellOverlay = import ./overlays/haskell-overlay.nix { inherit lib; };
+    mkFirstPartyRegistries = import ./lib/mkFirstPartyRegistries.nix { inherit lib; };
+    firstPartyRegistries = mkFirstPartyRegistries {
+      sources = firstPartySources;
+      config = firstPartyConfig;
+      lock = firstPartyLock;
+    };
+
+    registries = {
+      hackage = commonRegistry // firstPartyRegistries.hackage;
+      github = commonRegistry // firstPartyRegistries.github;
+    };
+
+    composeManyExtensions = lib.composeManyExtensions or
+      (extensions: lib.foldr lib.composeExtensions (_: _: { }) extensions);
+
+    mkHaskellExtension = registry:
+      let
+        perPackageOverrides = lib.mapAttrsToList
+          (name: table: fixPackageByVersion name table)
+          registry;
+      in
+      haskellLib: pkgs:
+        composeManyExtensions (map (override: override haskellLib pkgs) perPackageOverrides);
+
+    haskellExtensions = lib.mapAttrs
+      (_: registry: mkHaskellExtension registry)
+      registries;
+
+    channelOverlays = lib.mapAttrs
+      (_: registry: import ./overlays/haskell-overlay.nix { inherit lib registry; })
+      registries;
 
     systems = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ];
 
-    forAllSystems = f: lib.genAttrs systems (system: f {
-      pkgs = import nixpkgs {
-        inherit system;
-        overlays = [ haskellOverlay ];
-      };
-      inherit system;
-    });
+    forAllSystems = f: lib.genAttrs systems (system:
+      let
+        pkgsGithub = import nixpkgs {
+          inherit system;
+          overlays = [ channelOverlays.github ];
+        };
+        pkgsHackage = import nixpkgs {
+          inherit system;
+          overlays = [ channelOverlays.hackage ];
+        };
+      in
+      f { inherit system pkgsGithub pkgsHackage; });
   in
   {
     overlays = {
-      default = haskellOverlay;
-      haskell = haskellOverlay;
+      inherit (channelOverlays) hackage github;
+      default = channelOverlays.github;
+      haskell = channelOverlays.github;
     };
 
     lib = {
-      inherit fixPackageByVersion mkHaskellOverlay registry;
+      inherit
+        fixPackageByVersion
+        mkFirstPartyRegistries
+        mkHaskellOverlay
+        registries
+        haskellExtensions;
 
-      # Combined registry extension for direct composition.
-      # Signature: haskellLib -> pkgs -> hself -> hsuper -> { ... }
-      haskellExtension =
-        let
-          perPackageOverrides = lib.mapAttrsToList
-            (name: table: fixPackageByVersion name table)
-            registry;
-        in
-        haskellLib: pkgs:
-          lib.composeManyExtensions (map (f: f haskellLib pkgs) perPackageOverrides);
+      registry = registries.github;
+      haskellExtension = haskellExtensions.github;
     };
 
-    checks = forAllSystems ({ pkgs, system }: {
+    checks = forAllSystems ({ pkgsGithub, pkgsHackage, system }:
+      let
+        fixture = import ./checks/first-party-registry.nix {
+          inherit lib;
+          pkgs = pkgsGithub;
+        };
+
+        validateEntry = name: entries:
+          builtins.all (entry:
+            if entry ? always && entry.always then
+              entry ? patch && builtins.isFunction entry.patch
+            else
+              entry ? min && entry ? max && entry ? patch
+              && builtins.isString entry.min
+              && builtins.isString entry.max
+              && builtins.isFunction entry.patch
+          ) entries;
+
+        validateRegistry = registry:
+          builtins.all
+            (name: validateEntry name registry.${name})
+            (builtins.attrNames registry);
+      in {
       # Validate that the registry has the expected structure:
       # each entry is a list of { min, max, patch } or { always, patch } attrsets.
       registry-valid =
         let
-          validateEntry = name: entries:
-            builtins.all (e:
-              if e ? always && e.always then
-                e ? patch && builtins.isFunction e.patch
-              else
-                e ? min && e ? max && e ? patch
-                && builtins.isString e.min
-                && builtins.isString e.max
-                && builtins.isFunction e.patch
-            ) entries;
-
-          allValid = builtins.all (name: validateEntry name registry.${name})
-            (builtins.attrNames registry);
+          allValid = validateRegistry registries.github
+            && validateRegistry registries.hackage;
         in
-        pkgs.runCommand "registry-valid" { } (
+        pkgsGithub.runCommand "registry-valid" { } (
           if allValid then ''
-            echo "Registry validation passed: all entries valid"
-            touch $out
+            echo "Registry validation passed for GitHub and Hackage channels"
+            touch "$out"
           '' else
             throw "Registry validation failed: entries must have { min, max, patch } or { always = true; patch }"
         );
 
+      first-party-registry = fixture.check;
+
       # Force evaluation of the overlay to catch Nix-level errors.
-      # Verifies that the overlay wiring is correct by checking that
-      # overridden package sets exist and contain expected packages.
-      # Note: does NOT force version dispatch (which only happens when
-      # a package is actually built) — this only checks structural integrity.
+      # Verify both channel overlays and both supported compiler sets.
       overlay-eval =
         let
-          ghc9122HasHasql = pkgs.haskell.packages.ghc9122 ? hasql;
-          ghc914HasHasql = pkgs.haskell.packages.ghc914 ? hasql;
-          ghc9122HasOrmolu = pkgs.haskell.packages.ghc9122 ? ormolu;
-          ghc914HasOrmolu = pkgs.haskell.packages.ghc914 ? ormolu;
+          results = {
+            github-ghc9122 = pkgsGithub.haskell.packages.ghc9122 ? hasql;
+            github-ghc914 = pkgsGithub.haskell.packages.ghc914 ? hasql;
+            hackage-ghc9122 = pkgsHackage.haskell.packages.ghc9122 ? hasql;
+            hackage-ghc914 = pkgsHackage.haskell.packages.ghc914 ? hasql;
+          };
+          allPresent = builtins.all
+            (name: results.${name})
+            (builtins.attrNames results);
         in
-        pkgs.runCommand "overlay-eval" { } ''
-          echo "Overlay evaluation succeeded"
-          echo "  ghc9122 has hasql: ${lib.boolToString ghc9122HasHasql}"
-          echo "  ghc914 has hasql: ${lib.boolToString ghc914HasHasql}"
-          echo "  ghc9122 has ormolu: ${lib.boolToString ghc9122HasOrmolu}"
-          echo "  ghc914 has ormolu: ${lib.boolToString ghc914HasOrmolu}"
-          touch $out
+        assert allPresent;
+        pkgsGithub.runCommand "overlay-eval" { } ''
+          echo 'Overlay evaluation succeeded: ${builtins.toJSON results}'
+          touch "$out"
         '';
     });
   };
