@@ -1,13 +1,8 @@
-{ hself, haskellLib, pkgs, ... }:
+# shikumi-trace-otel 0.1.1.0 — pin from Hackage
+{ hself, haskellLib, ... }:
 
-let
-  src = pkgs.fetchFromGitHub {
-    owner = "shinzui";
-    repo = "shikumi";
-    rev = "0df4d85928c79cbfe78d7880a263fc0b9696ddc2";
-    hash = "sha256-NhsJUfH8Zw0VHL9xZQUGJOJ1CQhibvi9BCuqULEUrbs=";
-  };
-in
-haskellLib.dontCheck (
-  haskellLib.doJailbreak (hself.callCabal2nix "shikumi-trace-otel" (src + "/shikumi-trace-otel") { })
-)
+haskellLib.dontCheck (haskellLib.doJailbreak (hself.callHackageDirect {
+  pkg = "shikumi-trace-otel";
+  ver = "0.1.1.0";
+  sha256 = "sha256-zXv2Hx2qPAIj9IBiPeuUbxir9ZEDC+S9tDQBBqW3GKo=";
+} {}))

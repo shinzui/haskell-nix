@@ -1,13 +1,8 @@
-{ hself, haskellLib, pkgs, ... }:
+# shikumi-trace 0.2.0.0 — pin from Hackage
+{ hself, haskellLib, ... }:
 
-let
-  src = pkgs.fetchFromGitHub {
-    owner = "shinzui";
-    repo = "shikumi";
-    rev = "0df4d85928c79cbfe78d7880a263fc0b9696ddc2";
-    hash = "sha256-NhsJUfH8Zw0VHL9xZQUGJOJ1CQhibvi9BCuqULEUrbs=";
-  };
-in
-haskellLib.dontCheck (
-  haskellLib.doJailbreak (hself.callCabal2nix "shikumi-trace" (src + "/shikumi-trace") { })
-)
+haskellLib.dontCheck (haskellLib.doJailbreak (hself.callHackageDirect {
+  pkg = "shikumi-trace";
+  ver = "0.2.0.0";
+  sha256 = "sha256-ob8bvV8UlUpbLbQ7jQuYS7HKuDARoz35w4+pJck3Vfk=";
+} {}))
