@@ -146,6 +146,63 @@
             ]
         },
         {
+            "githubInput": "kioku-src",
+            "githubRev": "a99aa369701a76278ca33d83f8416dee443fa645",
+            "name": "kioku",
+            "packages": [
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-xEp7LuBdXnUDQYdVeWkO69gRwzi+HuYnymn9JgSk1Nw=",
+                        "version": "0.1.0.0"
+                    },
+                    "name": "kioku-api",
+                    "path": "kioku-api",
+                    "version": "0.1.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-mVX5yePWrxhTugeSgytuAfH4IpdxNRIZdJCn/GzWEWQ=",
+                        "version": "0.1.0.0"
+                    },
+                    "name": "kioku-cli",
+                    "path": "kioku-cli",
+                    "version": "0.1.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-lOP7wWxYqZDyRW5V10MtRa7pdqYOqf/XjWSJ9cN13vI=",
+                        "version": "0.1.0.0"
+                    },
+                    "name": "kioku-core",
+                    "path": "kioku-core",
+                    "version": "0.1.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-mT1ncwPlI5tJzNy8XKA7qnGF7r2gk+8prekCNsbGbrI=",
+                        "version": "0.1.0.0"
+                    },
+                    "name": "kioku-migrate",
+                    "path": "kioku-migrate",
+                    "version": "0.1.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-srM0ae70Taioh51+Rd6R+oewixAyPeohlmWlDZB0/9c=",
+                        "version": "0.1.0.0"
+                    },
+                    "name": "kioku-migrations",
+                    "path": "kioku-migrations",
+                    "version": "0.1.0.0"
+                }
+            ]
+        },
+        {
             "githubInput": "kiroku-src",
             "githubRev": "58aff77b3a6d6093e3613753a0543aab62db9fac",
             "name": "kiroku",

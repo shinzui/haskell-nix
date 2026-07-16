@@ -1,4 +1,4 @@
-{ lib, pkgs }:
+{ lib, pkgs, firstPartyRegistries }:
 
 let
   fixtures = ./fixtures/first-party;
@@ -12,6 +12,21 @@ let
 
   githubNames = builtins.attrNames registries.github;
   hackageNames = builtins.attrNames registries.hackage;
+
+  kiokuPackageNames = [
+    "kioku-api"
+    "kioku-cli"
+    "kioku-core"
+    "kioku-migrate"
+    "kioku-migrations"
+  ];
+
+  kiokuGithubNames = builtins.filter
+    (name: builtins.hasAttr name firstPartyRegistries.github)
+    kiokuPackageNames;
+  kiokuHackageNames = builtins.filter
+    (name: builtins.hasAttr name firstPartyRegistries.hackage)
+    kiokuPackageNames;
 
   applyGithubFixture = compiler:
     let
@@ -95,7 +110,13 @@ let
   allInvalidRejected = builtins.all (result: result.rejected) invalidResults;
 
   result = {
-    inherit githubNames hackageNames fixtureVersions invalidResults;
+    inherit
+      githubNames
+      hackageNames
+      kiokuGithubNames
+      kiokuHackageNames
+      fixtureVersions
+      invalidResults;
   };
 in
 {
@@ -104,12 +125,16 @@ in
   check =
     assert githubNames == [ "example-core" "example-dev" "example-special" ];
     assert hackageNames == [ "example-core" "example-special" ];
+    assert kiokuGithubNames == kiokuPackageNames;
+    assert kiokuHackageNames == kiokuPackageNames;
     assert allInvalidRejected;
     assert fixtureVersions.ghc9122 == "1.2.0.0";
     assert fixtureVersions.ghc914 == "1.2.0.0";
     pkgs.runCommand "first-party-registry" { } ''
       echo 'GitHub packages: ${builtins.toJSON githubNames}'
       echo 'Hackage packages: ${builtins.toJSON hackageNames}'
+      echo 'Kioku GitHub packages: ${builtins.toJSON kiokuGithubNames}'
+      echo 'Kioku Hackage packages: ${builtins.toJSON kiokuHackageNames}'
       echo 'Fixture versions: ${builtins.toJSON fixtureVersions}'
       echo 'Invalid fixtures: ${builtins.toJSON invalidResults}'
       touch "$out"

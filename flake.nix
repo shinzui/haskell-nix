@@ -5,6 +5,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     baikai-src = { url = "github:shinzui/baikai"; flake = false; };
     keiro-src = { url = "github:shinzui/keiro"; flake = false; };
+    kioku-src = { url = "github:shinzui/kioku"; flake = false; };
     kiroku-src = { url = "github:shinzui/kiroku"; flake = false; };
     pg-migrate-src = { url = "github:shinzui/pg-migrate"; flake = false; };
     pgmq-hs-src = { url = "github:shinzui/pgmq-hs"; flake = false; };
@@ -174,7 +175,7 @@
     checks = forAllSystems ({ pkgsGithub, pkgsHackage, updater, system, ... }:
       let
         fixture = import ./checks/first-party-registry.nix {
-          inherit lib;
+          inherit lib firstPartyRegistries;
           pkgs = pkgsGithub;
         };
 

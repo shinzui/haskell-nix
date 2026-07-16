@@ -16,6 +16,13 @@
       "packageOverrides": {}
     },
     {
+      "name": "kioku",
+      "moriProject": "shinzui/kioku",
+      "github": "shinzui/kioku",
+      "githubInput": "kioku-src",
+      "packageOverrides": {}
+    },
+    {
       "name": "kiroku",
       "moriProject": "shinzui/kiroku",
       "github": "shinzui/kiroku",

@@ -32,6 +32,22 @@
         "type": "github"
       }
     },
+    "kioku-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1784050025,
+        "narHash": "sha256-yBu8wQ0H5J58i2gyZI7ZQctDg5Mc78UE3iqw+gptJyE=",
+        "owner": "shinzui",
+        "repo": "kioku",
+        "rev": "a99aa369701a76278ca33d83f8416dee443fa645",
+        "type": "github"
+      },
+      "original": {
+        "owner": "shinzui",
+        "repo": "kioku",
+        "type": "github"
+      }
+    },
     "kiroku-src": {
       "flake": false,
       "locked": {
@@ -100,6 +116,7 @@
       "inputs": {
         "baikai-src": "baikai-src",
         "keiro-src": "keiro-src",
+        "kioku-src": "kioku-src",
         "kiroku-src": "kiroku-src",
         "nixpkgs": "nixpkgs",
         "pg-migrate-src": "pg-migrate-src",
