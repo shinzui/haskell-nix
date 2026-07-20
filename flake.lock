@@ -121,8 +121,25 @@
         "nixpkgs": "nixpkgs",
         "pg-migrate-src": "pg-migrate-src",
         "pgmq-hs-src": "pgmq-hs-src",
+        "settei-src": "settei-src",
         "shibuya-src": "shibuya-src",
         "shikumi-src": "shikumi-src"
+      }
+    },
+    "settei-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1784521789,
+        "narHash": "sha256-bXMbbCerfobJHs45KQrjyp2H9VS4tKuK7EEFySYgJqQ=",
+        "owner": "shinzui",
+        "repo": "settei",
+        "rev": "1bf62b0af110b4f42fe2528e9d459e0ccf12d626",
+        "type": "github"
+      },
+      "original": {
+        "owner": "shinzui",
+        "repo": "settei",
+        "type": "github"
       }
     },
     "shibuya-src": {

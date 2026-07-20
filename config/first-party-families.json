@@ -48,6 +48,13 @@
       "packageOverrides": {}
     },
     {
+      "name": "settei",
+      "moriProject": "shinzui/settei",
+      "github": "shinzui/settei",
+      "githubInput": "settei-src",
+      "packageOverrides": {}
+    },
+    {
       "name": "shibuya",
       "moriProject": "shinzui/shibuya",
       "github": "shinzui/shibuya",

@@ -415,6 +415,93 @@
             ]
         },
         {
+            "githubInput": "settei-src",
+            "githubRev": "1bf62b0af110b4f42fe2528e9d459e0ccf12d626",
+            "name": "settei",
+            "packages": [
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-lO9pMRWuzls8mj0ahRx9W/D8wChUBEorTbjwka/WzYk=",
+                        "version": "0.2.0.0"
+                    },
+                    "name": "settei",
+                    "path": "settei",
+                    "version": "0.2.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-Lxpa21XWKchTV3TZyVEDxGUwV/NPtI0iz9DBXw3HdDo=",
+                        "version": "0.2.0.0"
+                    },
+                    "name": "settei-dhall",
+                    "path": "settei-dhall",
+                    "version": "0.2.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-d4phi519sflWNQufM0XkxN59TaT4XQYArO7f3Jxj9TQ=",
+                        "version": "0.2.0.0"
+                    },
+                    "name": "settei-env",
+                    "path": "settei-env",
+                    "version": "0.2.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-UodO3JbB+yeBQlaujzEKslWXpQohTJ7RuAsoykRo+74=",
+                        "version": "0.2.0.0"
+                    },
+                    "name": "settei-formats",
+                    "path": "settei-formats",
+                    "version": "0.2.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-H4ElFUBVsqhQJWSjWOX/W4QiuKZtK4rrSbQi8zOjsw0=",
+                        "version": "0.2.0.0"
+                    },
+                    "name": "settei-kdl",
+                    "path": "settei-kdl",
+                    "version": "0.2.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-fZ/07mlruWMQ/VaRbsQ1VdByUErYEJRiRITR5IsqOwA=",
+                        "version": "0.2.0.0"
+                    },
+                    "name": "settei-kubernetes",
+                    "path": "settei-kubernetes",
+                    "version": "0.2.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-Jtws+RO/6FRn1WSP5fyjlBhZXadVWWNjy8PxJwO/PgI=",
+                        "version": "0.2.0.0"
+                    },
+                    "name": "settei-optparse-applicative",
+                    "path": "settei-optparse-applicative",
+                    "version": "0.2.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-5lZa3KJBOXLGdaFN1otNvXOLM5G5hqZbb/5L6PDPDCE=",
+                        "version": "0.2.0.0"
+                    },
+                    "name": "settei-yaml",
+                    "path": "settei-yaml",
+                    "version": "0.2.0.0"
+                }
+            ]
+        },
+        {
             "githubInput": "shibuya-src",
             "githubRev": "172df245f40a454af46dd7f4cde855eaa4414c5a",
             "name": "shibuya",
