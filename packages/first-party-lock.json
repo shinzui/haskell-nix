@@ -2,58 +2,58 @@
     "families": [
         {
             "githubInput": "baikai-src",
-            "githubRev": "55f7afd3053be0a0e1205980a5fdfe079d2935b2",
+            "githubRev": "d6d53b81b69bb4bd79e8cf19bc4eb86900180059",
             "name": "baikai",
             "packages": [
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-xcyjJt0+YwlXhxXclAayaJh6i7AFvDGTZRPOgUURXBc=",
-                        "version": "0.3.1.0"
+                        "hash": "sha256-GV5gqFj/1ht16KFn2EFUP+UaZrXO/3wC6LT7Mo372uU=",
+                        "version": "0.4.0.0"
                     },
                     "name": "baikai",
                     "path": "baikai",
-                    "version": "0.3.2.0"
+                    "version": "0.4.0.0"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-77bDSzeGfYlnKDmjHwpNaXezqOSgQUbO26hDoGYyP8w=",
-                        "version": "0.3.0.1"
+                        "hash": "sha256-1ks1QJcqhKZLORdJNRWFViggVpfNd+Js6664+RwMU4c=",
+                        "version": "0.3.0.2"
                     },
                     "name": "baikai-claude",
                     "path": "baikai-claude",
-                    "version": "0.3.0.1"
+                    "version": "0.3.0.2"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-ug/b9xQDt/GL6XUB8DqJiVqjfqVv4hhNEcsTzUxHXVY=",
-                        "version": "0.3.0.1"
+                        "hash": "sha256-uHBoblkmecp0CHY8q3XtDtboz6U1fnRM6MWkYBEHDOk=",
+                        "version": "0.3.0.2"
                     },
                     "name": "baikai-effectful",
                     "path": "baikai-effectful",
-                    "version": "0.3.0.1"
+                    "version": "0.3.0.2"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-kt+CMLJrn1No/reIPwLP6d8hpaxT5O940tGZfQacXNg=",
-                        "version": "0.1.0.2"
+                        "hash": "sha256-6Nu22t0NQho2GQ+xlgdUsHODNKALUFlqdXnxXTZjqFg=",
+                        "version": "0.1.0.3"
                     },
                     "name": "baikai-kit",
                     "path": "baikai-kit",
-                    "version": "0.1.0.2"
+                    "version": "0.1.0.3"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-meDqBNMvjlhTWFHVji0yJmg1381bB6HwQdo3SfWLm/w=",
-                        "version": "0.3.0.1"
+                        "hash": "sha256-9rk1HULcI+3AA5eaYDEUCvoAzNUzCOClSRyyzjMMaA8=",
+                        "version": "0.3.0.2"
                     },
                     "name": "baikai-openai",
                     "path": "baikai-openai",
-                    "version": "0.3.0.1"
+                    "version": "0.3.0.2"
                 },
                 {
                     "cabal2nixOptions": "",
@@ -65,12 +65,12 @@
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-VecnPvDchP1RwfiuTDrklBFnQ3KNJXQ5OeOG2eGSZnw=",
-                        "version": "0.3.0.1"
+                        "hash": "sha256-bsFHEItfVz4qhWXWFI3vn+sehWoOKaxVafWp1S19HJI=",
+                        "version": "0.3.0.2"
                     },
                     "name": "baikai-trace-otel",
                     "path": "baikai-trace-otel",
-                    "version": "0.3.0.1"
+                    "version": "0.3.0.2"
                 }
             ]
         },
