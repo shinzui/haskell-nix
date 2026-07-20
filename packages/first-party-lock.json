@@ -2,7 +2,7 @@
     "families": [
         {
             "githubInput": "baikai-src",
-            "githubRev": "d6d53b81b69bb4bd79e8cf19bc4eb86900180059",
+            "githubRev": "62e1d919def1c02023b14dfba567922347bbfe83",
             "name": "baikai",
             "packages": [
                 {
@@ -13,7 +13,7 @@
                     },
                     "name": "baikai",
                     "path": "baikai",
-                    "version": "0.4.0.0"
+                    "version": "0.4.1.0"
                 },
                 {
                     "cabal2nixOptions": "",
@@ -23,7 +23,7 @@
                     },
                     "name": "baikai-claude",
                     "path": "baikai-claude",
-                    "version": "0.3.0.2"
+                    "version": "0.4.0.0"
                 },
                 {
                     "cabal2nixOptions": "",
@@ -53,7 +53,7 @@
                     },
                     "name": "baikai-openai",
                     "path": "baikai-openai",
-                    "version": "0.3.0.2"
+                    "version": "0.4.0.0"
                 },
                 {
                     "cabal2nixOptions": "",
