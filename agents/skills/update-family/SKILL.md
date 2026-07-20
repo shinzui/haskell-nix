@@ -97,6 +97,13 @@ restores `flake.lock` and `packages/first-party-lock.json` byte-for-byte — ver
 `git diff --exit-code -- flake.lock packages/first-party-lock.json` before retrying, and see
 Troubleshooting for transient-network vs. dirty-file vs. missing-revision cases.
 
+If validation fails but the managed files came back clean, and a direct `nix flake check` reports
+`path '...-cabal2nix-<pkg>.drv' is not valid` or `evaluation of cached failed attribute
+'checks.<system>.first-party-versions' unexpectedly succeeded`, that is a poisoned Nix eval cache
+(a transient import-from-derivation build failure recorded as a permanent failure), not a lock
+problem. Clear it with `rm -rf ~/.cache/nix/eval-cache-v*` and retry. The current CLI validates with
+`--no-eval-cache` to avoid this; see the "stale eval cache" section in Troubleshooting.
+
 ### 3. Verify
 
 ```bash

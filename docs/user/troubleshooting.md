@@ -71,6 +71,37 @@ nix run .#haskell-nix-update -- check
 repeat after a network failure. If the error persists, run the scoped family command to
 identify the failing repository or package.
 
+## Refresh validation fails on a stale eval cache
+
+Symptom: `refresh` restored the managed lock files cleanly (they are byte-for-byte
+unchanged) but its validation failed, and a direct `nix flake check` reports either
+
+```text
+error: path '/nix/store/...-cabal2nix-<package>.drv' is not valid
+error: evaluation of cached failed attribute 'checks.<system>.first-party-versions' unexpectedly succeeded
+```
+
+This is not a lock problem. The first-party checks force cabal2nix import-from-derivation
+builds; a transient IFD or substituter failure (for example while fetching the `cabal2nix`
+tool from `cache.nixos.org`) can be recorded in the Nix eval cache as a failed attribute.
+Once the underlying build succeeds, cached-evaluation runs then abort with `unexpectedly
+succeeded`. The updater now runs its validation with `--no-eval-cache`, so a current CLI
+does not poison the cache; this remains a fallback for a poisoned cache left by an older
+run or a manual `nix flake check`.
+
+Clear the eval cache and retry:
+
+```bash
+rm -rf ~/.cache/nix/eval-cache-v*
+nix run .#haskell-nix-update -- refresh --family FAMILY
+```
+
+To pre-warm the import-from-derivation builds without the cache before retrying:
+
+```bash
+nix flake check --no-build --no-eval-cache
+```
+
 ## Family selection fails
 
 List the accepted family names from the hand-authored catalog:

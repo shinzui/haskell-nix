@@ -76,7 +76,13 @@ validateFlake runner repositoryRoot = do
       runner
       ProcessSpec
         { executable = "nix",
-          arguments = ["flake", "check", "--no-build"],
+          -- --no-eval-cache keeps validation deterministic: the first-party
+          -- checks force cabal2nix import-from-derivation builds, and a
+          -- transient IFD or substitution failure would otherwise be cached as
+          -- a failed attribute, wedging every later refresh with "cached failed
+          -- attribute ... unexpectedly succeeded" until the eval cache is
+          -- cleared by hand.
+          arguments = ["flake", "check", "--no-build", "--no-eval-cache"],
           workingDirectory = Just repositoryRoot,
           environmentAdditions = []
         }

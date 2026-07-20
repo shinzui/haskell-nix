@@ -285,7 +285,7 @@ runFakeProcess fixture settings commandLog spec@ProcessSpec {executable, argumen
             then failure 1 "prefetch failed"
             else success ("{\"hash\":\"" <> hashText (prefetchedHash settings) <> "\"}\n")
         )
-    ("nix", ["flake", "check", "--no-build"]) ->
+    ("nix", ["flake", "check", "--no-build", "--no-eval-cache"]) ->
       pure
         ( if validationFails settings
             then failure 1 "validation failed"
