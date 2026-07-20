@@ -80,6 +80,22 @@
         "type": "github"
       }
     },
+    "okf-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1784088999,
+        "narHash": "sha256-oJgcCeLMg0ZUQdL36uNUrFKU0pPtlhqQS5omf4Z5CVw=",
+        "owner": "shinzui",
+        "repo": "okf",
+        "rev": "3c4f06399832b01690007da482e06b07ae884671",
+        "type": "github"
+      },
+      "original": {
+        "owner": "shinzui",
+        "repo": "okf",
+        "type": "github"
+      }
+    },
     "pg-migrate-src": {
       "flake": false,
       "locked": {
@@ -119,6 +135,7 @@
         "kioku-src": "kioku-src",
         "kiroku-src": "kiroku-src",
         "nixpkgs": "nixpkgs",
+        "okf-src": "okf-src",
         "pg-migrate-src": "pg-migrate-src",
         "pgmq-hs-src": "pgmq-hs-src",
         "settei-src": "settei-src",

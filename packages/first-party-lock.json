@@ -284,6 +284,33 @@
             ]
         },
         {
+            "githubInput": "okf-src",
+            "githubRev": "3c4f06399832b01690007da482e06b07ae884671",
+            "name": "okf",
+            "packages": [
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-VaFTstQvCb9hSraPRBz5TKWxe/MHL4YLVx17jN24KYQ=",
+                        "version": "0.1.2.0"
+                    },
+                    "name": "okf-cli",
+                    "path": "okf-cli",
+                    "version": "0.1.2.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-p2LC8DDdqeLnlQn/n8jBL6tt6Iid+bPK15zBRwIOnJg=",
+                        "version": "0.1.2.0"
+                    },
+                    "name": "okf-core",
+                    "path": "okf-core",
+                    "version": "0.1.2.0"
+                }
+            ]
+        },
+        {
             "githubInput": "pg-migrate-src",
             "githubRev": "f39d64e354818999667d345a1452f33eb4857fc1",
             "name": "pg-migrate",

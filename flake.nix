@@ -7,6 +7,7 @@
     keiro-src = { url = "github:shinzui/keiro"; flake = false; };
     kioku-src = { url = "github:shinzui/kioku"; flake = false; };
     kiroku-src = { url = "github:shinzui/kiroku"; flake = false; };
+    okf-src = { url = "github:shinzui/okf"; flake = false; };
     pg-migrate-src = { url = "github:shinzui/pg-migrate"; flake = false; };
     pgmq-hs-src = { url = "github:shinzui/pgmq-hs"; flake = false; };
     settei-src = { url = "github:shinzui/settei"; flake = false; };
