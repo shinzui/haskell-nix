@@ -169,7 +169,7 @@
     devShells = forAllSystems ({ pkgsPlain, updaterHaskellPackages, updater, ... }: {
       default = updaterHaskellPackages.shellFor {
         packages = _: [ updater ];
-        nativeBuildInputs = [ updaterHaskellPackages.cabal-install pkgsPlain.jq ];
+        nativeBuildInputs = [ updaterHaskellPackages.cabal-install pkgsPlain.jq pkgsPlain.just ];
       };
     });
 
