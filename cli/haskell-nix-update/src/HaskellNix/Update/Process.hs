@@ -86,8 +86,12 @@ commandText ProcessSpec {executable, arguments} =
       | Text.any (`elem` [' ', '\t', '\n']) value = "'" <> Text.replace "'" "'\\''" value <> "'"
       | otherwise = value
 
+-- Keep the tail rather than the head of stderr. Tools like `nix` stream
+-- progress ("evaluating 'apps'...") first and write the actual error trace
+-- last, so a leading slice would surface only noise. Taking the end preserves
+-- the failure message that explains why the command exited non-zero.
 conciseStderr :: Text -> Text
 conciseStderr value =
   case Text.strip value of
     "" -> ""
-    stripped -> ": " <> Text.take 500 stripped
+    stripped -> ": " <> Text.takeEnd 4000 stripped
