@@ -2,7 +2,7 @@
     "families": [
         {
             "githubInput": "baikai-src",
-            "githubRev": "4bce32b934c8be302f06e835a72df9a5c9627535",
+            "githubRev": "55f7afd3053be0a0e1205980a5fdfe079d2935b2",
             "name": "baikai",
             "packages": [
                 {
@@ -13,7 +13,7 @@
                     },
                     "name": "baikai",
                     "path": "baikai",
-                    "version": "0.3.1.0"
+                    "version": "0.3.2.0"
                 },
                 {
                     "cabal2nixOptions": "",

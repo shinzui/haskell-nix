@@ -3,11 +3,11 @@
     "baikai-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1784124485,
-        "narHash": "sha256-AnLFoSyZ7voNyq323dAWHlGBPBPqMZ9e4lZZcQ5kytw=",
+        "lastModified": 1784555199,
+        "narHash": "sha256-EllPC9oOGxqTgtkA5HbS8DsUA10VifZ7dHDee4RSW4A=",
         "owner": "shinzui",
         "repo": "baikai",
-        "rev": "4bce32b934c8be302f06e835a72df9a5c9627535",
+        "rev": "55f7afd3053be0a0e1205980a5fdfe079d2935b2",
         "type": "github"
       },
       "original": {
