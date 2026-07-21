@@ -181,11 +181,11 @@
     "servant-openapi-hs-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1783137354,
-        "narHash": "sha256-DoY2v+zeCdDU4df+7DpnrHS5mqFUNP4xyPJ/gP5LthY=",
+        "lastModified": 1784670356,
+        "narHash": "sha256-4U2GKooWZyJQlCBPqrbzVrEAFdNStQPoI7ne8M8iwFY=",
         "owner": "shinzui",
         "repo": "servant-openapi-hs",
-        "rev": "7cbbc234cb7c0e900495b2f676e2912a7f456ff0",
+        "rev": "5eef3d48fc9c6efb5eeae1877e031bbc4e1b7190",
         "type": "github"
       },
       "original": {
