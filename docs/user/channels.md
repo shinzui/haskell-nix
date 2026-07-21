@@ -36,11 +36,12 @@ The committed lock currently has this family breakdown:
 | openapi-hs | 1 | 1 | 0 |
 | pg-migrate | 6 | 6 | 0 |
 | pgmq-hs | 6 | 5 | 1 |
+| relay-pagination | 4 | 4 | 0 |
 | servant-openapi-hs | 1 | 1 | 0 |
 | Settei | 8 | 8 | 0 |
 | Shibuya | 4 | 2 | 2 |
 | Shikumi | 13 | 11 | 2 |
-| **Total** | **68** | **58** | **10** |
+| **Total** | **72** | **62** | **10** |
 
 The GitHub-only packages are:
 

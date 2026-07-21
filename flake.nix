@@ -11,6 +11,7 @@
     openapi-hs-src = { url = "github:shinzui/openapi-hs"; flake = false; };
     pg-migrate-src = { url = "github:shinzui/pg-migrate"; flake = false; };
     pgmq-hs-src = { url = "github:shinzui/pgmq-hs"; flake = false; };
+    relay-pagination-src = { url = "github:shinzui/relay-pagination"; flake = false; };
     servant-openapi-hs-src = { url = "github:shinzui/servant-openapi-hs"; flake = false; };
     settei-src = { url = "github:shinzui/settei"; flake = false; };
     shibuya-src = { url = "github:shinzui/shibuya"; flake = false; };

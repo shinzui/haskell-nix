@@ -62,6 +62,13 @@
       "packageOverrides": {}
     },
     {
+      "name": "relay-pagination",
+      "moriProject": "shinzui/relay-pagination",
+      "github": "shinzui/relay-pagination",
+      "githubInput": "relay-pagination-src",
+      "packageOverrides": {}
+    },
+    {
       "name": "servant-openapi-hs",
       "moriProject": "shinzui/servant-openapi-hs",
       "github": "shinzui/servant-openapi-hs",

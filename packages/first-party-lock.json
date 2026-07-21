@@ -459,6 +459,53 @@
             ]
         },
         {
+            "githubInput": "relay-pagination-src",
+            "githubRev": "634ef07eaa27676be0edda330209f0710abb145b",
+            "name": "relay-pagination",
+            "packages": [
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-AxBIa+XK7L2/O/coBUwDBGJTvik4hxRBhaVAjRggftk=",
+                        "version": "0.1.0.0"
+                    },
+                    "name": "relay-pagination",
+                    "path": "relay-pagination",
+                    "version": "0.1.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-miJ+WZnBbIClkEWe7I2fV6V6WQwqYOtu19+qBONTY0k=",
+                        "version": "0.1.0.0"
+                    },
+                    "name": "relay-pagination-conformance",
+                    "path": "relay-pagination-conformance",
+                    "version": "0.1.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-B39F8bIaREevdwpOv9xIomDdp/qF0rq+5N6LNRkLwnI=",
+                        "version": "0.1.0.0"
+                    },
+                    "name": "relay-pagination-hasql",
+                    "path": "relay-pagination-hasql",
+                    "version": "0.1.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-O8I603k6fKLaz2NPqdriiPOXsB63DlAwfZLoJ1gQVro=",
+                        "version": "0.1.0.0"
+                    },
+                    "name": "relay-pagination-servant",
+                    "path": "relay-pagination-servant",
+                    "version": "0.1.0.0"
+                }
+            ]
+        },
+        {
             "githubInput": "servant-openapi-hs-src",
             "githubRev": "7cbbc234cb7c0e900495b2f676e2912a7f456ff0",
             "name": "servant-openapi-hs",

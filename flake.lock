@@ -144,6 +144,22 @@
         "type": "github"
       }
     },
+    "relay-pagination-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1784243082,
+        "narHash": "sha256-kprMYSNZiexZz7AlBg3srITq6o4QagyrzNZH+OmbQwE=",
+        "owner": "shinzui",
+        "repo": "relay-pagination",
+        "rev": "634ef07eaa27676be0edda330209f0710abb145b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "shinzui",
+        "repo": "relay-pagination",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "baikai-src": "baikai-src",
@@ -155,6 +171,7 @@
         "openapi-hs-src": "openapi-hs-src",
         "pg-migrate-src": "pg-migrate-src",
         "pgmq-hs-src": "pgmq-hs-src",
+        "relay-pagination-src": "relay-pagination-src",
         "servant-openapi-hs-src": "servant-openapi-hs-src",
         "settei-src": "settei-src",
         "shibuya-src": "shibuya-src",
