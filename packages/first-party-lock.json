@@ -2,14 +2,14 @@
     "families": [
         {
             "githubInput": "baikai-src",
-            "githubRev": "62e1d919def1c02023b14dfba567922347bbfe83",
+            "githubRev": "4b2c991246b246c061a62112ce94a96bf2ee76b6",
             "name": "baikai",
             "packages": [
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-GV5gqFj/1ht16KFn2EFUP+UaZrXO/3wC6LT7Mo372uU=",
-                        "version": "0.4.0.0"
+                        "hash": "sha256-OXuxc3ZUz2WoHSR2J4NHKhfojdEpF4UffWVPltl9Cu0=",
+                        "version": "0.4.1.0"
                     },
                     "name": "baikai",
                     "path": "baikai",
@@ -18,8 +18,8 @@
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-1ks1QJcqhKZLORdJNRWFViggVpfNd+Js6664+RwMU4c=",
-                        "version": "0.3.0.2"
+                        "hash": "sha256-MUsIFwYBCmqrvIaaybKrWKC/c0b1l4Gs1UC/07v56rU=",
+                        "version": "0.4.0.0"
                     },
                     "name": "baikai-claude",
                     "path": "baikai-claude",
@@ -48,8 +48,8 @@
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-9rk1HULcI+3AA5eaYDEUCvoAzNUzCOClSRyyzjMMaA8=",
-                        "version": "0.3.0.2"
+                        "hash": "sha256-nrujXC2D5eE6cxCRUQDXDoLW2q1epdrLUOdfdnerC/4=",
+                        "version": "0.4.0.0"
                     },
                     "name": "baikai-openai",
                     "path": "baikai-openai",
