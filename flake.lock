@@ -99,11 +99,11 @@
     "openapi-hs-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1783136261,
-        "narHash": "sha256-Eih2hPG6XqhHJdwsrkTh8W7+PqAB7REXjf6jn0gmxzM=",
+        "lastModified": 1784666864,
+        "narHash": "sha256-2dgC1aL4L3W5ABzsvaBIT7KLSypZpGihZbdFHFfMrhs=",
         "owner": "shinzui",
         "repo": "openapi-hs",
-        "rev": "965340a30fad0782f2c964ab97b4ab0f12fa044d",
+        "rev": "06fc11713094bf39ac00353b052f4ded5a534567",
         "type": "github"
       },
       "original": {

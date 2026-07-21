@@ -312,18 +312,18 @@
         },
         {
             "githubInput": "openapi-hs-src",
-            "githubRev": "965340a30fad0782f2c964ab97b4ab0f12fa044d",
+            "githubRev": "06fc11713094bf39ac00353b052f4ded5a534567",
             "name": "openapi-hs",
             "packages": [
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-SQOzbuAXxZ/i/ieSZAx1LPZR1Pitwu866hJeSAatwV4=",
-                        "version": "4.1.0"
+                        "hash": "sha256-NrIQlhmP727ABd31mRK+UGQLk2zeD0OSqmC+z8CzlKQ=",
+                        "version": "5.0.0"
                     },
                     "name": "openapi-hs",
                     "path": ".",
-                    "version": "4.1.0"
+                    "version": "5.0.0"
                 }
             ]
         },
