@@ -24,6 +24,13 @@
           "hackage": null
         },
         {
+          "name": "example-root",
+          "path": ".",
+          "version": "3.1.0.0",
+          "cabal2nixOptions": "",
+          "hackage": null
+        },
+        {
           "name": "example-special",
           "path": "example-special",
           "version": "2.0.0",

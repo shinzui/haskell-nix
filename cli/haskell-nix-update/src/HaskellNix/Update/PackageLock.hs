@@ -192,11 +192,15 @@ renderVersion = Text.pack . prettyShow
 validRevision :: Text -> Bool
 validRevision value = Text.length value == 40 && Text.all isHexDigit value
 
+-- A package that occupies its whole repository records the root path "."; every
+-- other package records a clean relative path below the repository root.
 validRelativePath :: FilePath -> Bool
 validRelativePath path =
-  not (null path)
-    && not (isAbsolute path)
-    && all validSegment (splitDirectories path)
+  path == "."
+    || ( not (null path)
+           && not (isAbsolute path)
+           && all validSegment (splitDirectories path)
+       )
   where
     validSegment segment = not (null segment) && segment /= "." && segment /= ".."
 

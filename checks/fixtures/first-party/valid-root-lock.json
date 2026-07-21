@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "families": [
+    {
+      "name": "example-root",
+      "githubInput": "example-root-src",
+      "githubRev": "0123456789abcdef0123456789abcdef01234567",
+      "packages": [
+        {
+          "name": "example-root",
+          "path": ".",
+          "version": "3.1.0.0",
+          "cabal2nixOptions": "",
+          "hackage": {
+            "version": "3.1.0.0",
+            "hash": "sha256-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC="
+          }
+        }
+      ]
+    }
+  ]
+}

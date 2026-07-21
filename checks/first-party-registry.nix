@@ -10,6 +10,13 @@ let
   lock = readJson (fixtures + "/valid-lock.json");
   registries = mkFirstPartyRegistries { inherit sources config lock; };
 
+  # A family whose only package occupies the repository root, recorded as ".".
+  rootRegistries = mkFirstPartyRegistries {
+    sources = { example-root-src = fixtures + "/root-source"; };
+    config = readJson (fixtures + "/valid-root-config.json");
+    lock = readJson (fixtures + "/valid-root-lock.json");
+  };
+
   githubNames = builtins.attrNames registries.github;
   hackageNames = builtins.attrNames registries.hackage;
 
@@ -28,9 +35,9 @@ let
     (name: builtins.hasAttr name firstPartyRegistries.hackage)
     kiokuPackageNames;
 
-  applyGithubFixture = compiler:
+  applyGithubEntry = registry: packageName: compiler:
     let
-      patch = (builtins.head registries.github.example-core).patch;
+      patch = (builtins.head registry.${packageName}).patch;
       hself = pkgs.haskell.packages.${compiler};
     in
     patch {
@@ -40,9 +47,17 @@ let
       hsuper = hself;
     };
 
+  applyGithubFixture = applyGithubEntry registries.github "example-core";
+  applyRootFixture = applyGithubEntry rootRegistries.github "example-root";
+
   fixtureVersions = {
     ghc9122 = (applyGithubFixture "ghc9122").version;
     ghc914 = (applyGithubFixture "ghc914").version;
+  };
+
+  rootFixtureVersions = {
+    ghc9122 = (applyRootFixture "ghc9122").version;
+    ghc914 = (applyRootFixture "ghc914").version;
   };
 
   invalidCases = [
@@ -65,6 +80,11 @@ let
       name = "parent-traversing package path";
       config = fixtures + "/valid-config.json";
       lock = fixtures + "/invalid-lock-parent-path.json";
+    }
+    {
+      name = "dot segment inside a package path";
+      config = fixtures + "/valid-config.json";
+      lock = fixtures + "/invalid-lock-dot-segment-path.json";
     }
     {
       name = "mismatched family";
@@ -116,6 +136,7 @@ let
       kiokuGithubNames
       kiokuHackageNames
       fixtureVersions
+      rootFixtureVersions
       invalidResults;
   };
 in
@@ -130,12 +151,17 @@ in
     assert allInvalidRejected;
     assert fixtureVersions.ghc9122 == "1.2.0.0";
     assert fixtureVersions.ghc914 == "1.2.0.0";
+    assert builtins.attrNames rootRegistries.github == [ "example-root" ];
+    assert builtins.attrNames rootRegistries.hackage == [ "example-root" ];
+    assert rootFixtureVersions.ghc9122 == "3.1.0.0";
+    assert rootFixtureVersions.ghc914 == "3.1.0.0";
     pkgs.runCommand "first-party-registry" { } ''
       echo 'GitHub packages: ${builtins.toJSON githubNames}'
       echo 'Hackage packages: ${builtins.toJSON hackageNames}'
       echo 'Kioku GitHub packages: ${builtins.toJSON kiokuGithubNames}'
       echo 'Kioku Hackage packages: ${builtins.toJSON kiokuHackageNames}'
       echo 'Fixture versions: ${builtins.toJSON fixtureVersions}'
+      echo 'Root fixture versions: ${builtins.toJSON rootFixtureVersions}'
       echo 'Invalid fixtures: ${builtins.toJSON invalidResults}'
       touch "$out"
     '';

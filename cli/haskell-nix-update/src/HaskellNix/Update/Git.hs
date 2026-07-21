@@ -120,11 +120,17 @@ gitSpec repository arguments =
       environmentAdditions = []
     }
 
+-- A family repository holds either a single package at its root or one package
+-- per top-level directory. Deeper Cabal files belong to examples, fixtures, or
+-- vendored trees and are never family packages.
 isRootPackagePath :: FilePath -> Bool
 isRootPackagePath path =
   case splitDirectories path of
-    [directory, fileName] -> not (null directory) && takeExtension fileName == ".cabal"
+    [fileName] -> isCabalFile fileName
+    [directory, fileName] -> not (null directory) && isCabalFile fileName
     _ -> False
+  where
+    isCabalFile fileName = takeExtension fileName == ".cabal"
 
 revisionText :: GitRevision -> Text
 revisionText (GitRevision revision) = revision

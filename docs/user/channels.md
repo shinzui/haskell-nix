@@ -33,12 +33,14 @@ The committed lock currently has this family breakdown:
 | Kioku | 5 | 5 | 0 |
 | Kiroku | 8 | 6 | 2 |
 | okf | 2 | 2 | 0 |
+| openapi-hs | 1 | 1 | 0 |
 | pg-migrate | 6 | 6 | 0 |
 | pgmq-hs | 6 | 5 | 1 |
+| servant-openapi-hs | 1 | 1 | 0 |
 | Settei | 8 | 8 | 0 |
 | Shibuya | 4 | 2 | 2 |
 | Shikumi | 13 | 11 | 2 |
-| **Total** | **66** | **56** | **10** |
+| **Total** | **68** | **58** | **10** |
 
 The GitHub-only packages are:
 

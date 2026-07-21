@@ -41,6 +41,13 @@
       "packageOverrides": {}
     },
     {
+      "name": "openapi-hs",
+      "moriProject": "shinzui/openapi-hs",
+      "github": "shinzui/openapi-hs",
+      "githubInput": "openapi-hs-src",
+      "packageOverrides": {}
+    },
+    {
       "name": "pg-migrate",
       "moriProject": "shinzui/pg-migrate",
       "github": "shinzui/pg-migrate",
@@ -52,6 +59,13 @@
       "moriProject": "shinzui/pgmq-hs",
       "github": "shinzui/pgmq-hs",
       "githubInput": "pgmq-hs-src",
+      "packageOverrides": {}
+    },
+    {
+      "name": "servant-openapi-hs",
+      "moriProject": "shinzui/servant-openapi-hs",
+      "github": "shinzui/servant-openapi-hs",
+      "githubInput": "servant-openapi-hs-src",
       "packageOverrides": {}
     },
     {

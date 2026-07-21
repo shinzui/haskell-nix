@@ -96,6 +96,22 @@
         "type": "github"
       }
     },
+    "openapi-hs-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1783136261,
+        "narHash": "sha256-Eih2hPG6XqhHJdwsrkTh8W7+PqAB7REXjf6jn0gmxzM=",
+        "owner": "shinzui",
+        "repo": "openapi-hs",
+        "rev": "965340a30fad0782f2c964ab97b4ab0f12fa044d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "shinzui",
+        "repo": "openapi-hs",
+        "type": "github"
+      }
+    },
     "pg-migrate-src": {
       "flake": false,
       "locked": {
@@ -136,11 +152,29 @@
         "kiroku-src": "kiroku-src",
         "nixpkgs": "nixpkgs",
         "okf-src": "okf-src",
+        "openapi-hs-src": "openapi-hs-src",
         "pg-migrate-src": "pg-migrate-src",
         "pgmq-hs-src": "pgmq-hs-src",
+        "servant-openapi-hs-src": "servant-openapi-hs-src",
         "settei-src": "settei-src",
         "shibuya-src": "shibuya-src",
         "shikumi-src": "shikumi-src"
+      }
+    },
+    "servant-openapi-hs-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1783137354,
+        "narHash": "sha256-DoY2v+zeCdDU4df+7DpnrHS5mqFUNP4xyPJ/gP5LthY=",
+        "owner": "shinzui",
+        "repo": "servant-openapi-hs",
+        "rev": "7cbbc234cb7c0e900495b2f676e2912a7f456ff0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "shinzui",
+        "repo": "servant-openapi-hs",
+        "type": "github"
       }
     },
     "settei-src": {

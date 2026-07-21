@@ -311,6 +311,23 @@
             ]
         },
         {
+            "githubInput": "openapi-hs-src",
+            "githubRev": "965340a30fad0782f2c964ab97b4ab0f12fa044d",
+            "name": "openapi-hs",
+            "packages": [
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-SQOzbuAXxZ/i/ieSZAx1LPZR1Pitwu866hJeSAatwV4=",
+                        "version": "4.1.0"
+                    },
+                    "name": "openapi-hs",
+                    "path": ".",
+                    "version": "4.1.0"
+                }
+            ]
+        },
+        {
             "githubInput": "pg-migrate-src",
             "githubRev": "f39d64e354818999667d345a1452f33eb4857fc1",
             "name": "pg-migrate",
@@ -438,6 +455,23 @@
                     "name": "pgmq-migration",
                     "path": "pgmq-migration",
                     "version": "0.4.0.1"
+                }
+            ]
+        },
+        {
+            "githubInput": "servant-openapi-hs-src",
+            "githubRev": "7cbbc234cb7c0e900495b2f676e2912a7f456ff0",
+            "name": "servant-openapi-hs",
+            "packages": [
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-gM5W4S8umUWV2dYz57ec7ZB+KVvz37J7TxQOLYcpod4=",
+                        "version": "4.1.0"
+                    },
+                    "name": "servant-openapi-hs",
+                    "path": ".",
+                    "version": "4.1.0"
                 }
             ]
         },

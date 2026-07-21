@@ -200,6 +200,40 @@ Four details matter:
 
 Observed on Determinate Nix 3.17.0 (Nix 2.33.3).
 
+### Warming a family that is not in the lock yet
+
+The sweeps above load `flake.overlays.<channel>`, which a newly configured family cannot do:
+until its generated records exist, config and lock disagree and the overlay throws. Warm a
+new family through a plain `nixpkgs` package set instead, taking sources from
+`flake.inputs.<family>-src` and Hackage pins from `nix store prefetch-file --json --unpack`
+against the release tarball.
+
+A plain package set cannot resolve first-party dependencies, and `builtins.tryEval` does not
+catch the resulting missing-argument error, so pass each first-party dependency explicitly
+and warm dependencies before dependents:
+
+```bash
+nix eval --no-eval-cache --impure --json --expr '
+  let
+    flake = builtins.getFlake (toString ./.);
+    pkgs = import flake.inputs.nixpkgs { system = builtins.currentSystem; };
+    sweep = compiler:
+      let
+        hp = pkgs.haskell.packages.${compiler};
+        dependency = hp.callCabal2nix "DEPENDENCY" flake.inputs.DEPENDENCY-src { };
+      in
+      [ dependency.version
+        (hp.callCabal2nix "PACKAGE" flake.inputs.PACKAGE-src { DEPENDENCY = dependency; }).version
+      ];
+  in
+  { ghc9122 = sweep "ghc9122"; ghc914 = sweep "ghc914"; }
+'
+```
+
+Warm the matching Hackage pins the same way with `hp.callHackageDirect { pkg; ver; sha256; }`,
+then run `refresh --family FAMILY` again. A new check fixture that calls `callCabal2nix` needs
+the same treatment before its first `refresh`.
+
 ## Family selection fails
 
 List the accepted family names from the hand-authored catalog:

@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "families": [
+    {
+      "name": "example-root",
+      "moriProject": "example/example-root",
+      "github": "example/example-root",
+      "githubInput": "example-root-src",
+      "packageOverrides": {}
+    }
+  ]
+}

@@ -55,7 +55,7 @@ and `cabal2nixOptions` is the only supported override field.
 ## Generated package lock
 
 `packages/first-party-lock.json` records the selected revision and every Cabal package
-found one directory below a family repository root:
+found at a family repository root or one directory below it:
 
 ```json
 {
@@ -83,8 +83,9 @@ found one directory below a family repository root:
 ```
 
 `githubRev` is the 40-character commit selected by `flake.lock`. Package paths are clean,
-relative paths without `.` or `..` segments. Versions contain dot-separated non-negative
-integers. A package that has no official release uses `"hackage": null`; it appears only
+relative paths without `.` or `..` segments, except for a single-package repository whose
+Cabal file sits at the repository root: that package records the exact path `"."` and is
+built from the whole family source. Versions contain dot-separated non-negative integers. A package that has no official release uses `"hackage": null`; it appears only
 in the GitHub channel. A published package records the latest Hackage version and its SRI
 SHA-256 hash. Families and packages are sorted by name, and package names are globally
 unique.
@@ -94,6 +95,10 @@ either JSON file without increasing the schema version and updating the Nix vali
 refresh tool together. Unknown fields are rejected deliberately.
 
 ## Add a first-party family
+
+A family is exactly one GitHub repository behind one `<family>-src` input, so repositories
+that release together but live apart are onboarded as separate families. The repository
+either holds a single package at its root or one package per top-level directory.
 
 Adding a family requires a source input before the updater can generate its package records:
 

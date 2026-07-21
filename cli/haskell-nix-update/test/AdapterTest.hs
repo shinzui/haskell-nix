@@ -28,7 +28,7 @@ tests =
       testCase "Hackage falls back when no release is normal" testHackageFallback,
       testCase "Hackage 404 means unpublished" testHackage404,
       testCase "flake.lock resolves a named root input revision" testFlakeLock,
-      testCase "Git discovery keeps exactly one-directory-deep Cabal files" testGitDiscovery
+      testCase "Git discovery keeps root and one-directory-deep Cabal files" testGitDiscovery
     ]
 
 testMoriDecode :: IO ()
@@ -122,6 +122,11 @@ testGitDiscovery = do
             { name = PackageName "example-package",
               path = "example-package",
               version = testVersion "1.2.3"
+            },
+          DiscoveredPackage
+            { name = PackageName "example-root",
+              path = ".",
+              version = testVersion "4.0.0"
             }
         ]
   where
@@ -131,7 +136,7 @@ testGitDiscovery = do
         ["-C", "/repo", "ls-tree", "-r", "--name-only", _] ->
           success
             ( Text.unlines
-                [ "root.cabal",
+                [ "example-root.cabal",
                   "example-package/example-package.cabal",
                   "nested/example/example.cabal",
                   "example-package/README.md"
@@ -141,6 +146,9 @@ testGitDiscovery = do
           | "example-package/example-package.cabal" `Text.isSuffixOf` Text.pack objectPath ->
               success
                 "cabal-version: 3.0\nname: example-package\nversion: 1.2.3\nbuild-type: Simple\n"
+          | ":example-root.cabal" `Text.isSuffixOf` Text.pack objectPath ->
+              success
+                "cabal-version: 3.0\nname: example-root\nversion: 4.0.0\nbuild-type: Simple\n"
         _ -> Left (UpdateError ("unexpected fake command: " <> Text.pack (show arguments)))
 
 success :: Text -> Either UpdateError ProcessResult

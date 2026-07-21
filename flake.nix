@@ -8,8 +8,10 @@
     kioku-src = { url = "github:shinzui/kioku"; flake = false; };
     kiroku-src = { url = "github:shinzui/kiroku"; flake = false; };
     okf-src = { url = "github:shinzui/okf"; flake = false; };
+    openapi-hs-src = { url = "github:shinzui/openapi-hs"; flake = false; };
     pg-migrate-src = { url = "github:shinzui/pg-migrate"; flake = false; };
     pgmq-hs-src = { url = "github:shinzui/pgmq-hs"; flake = false; };
+    servant-openapi-hs-src = { url = "github:shinzui/servant-openapi-hs"; flake = false; };
     settei-src = { url = "github:shinzui/settei"; flake = false; };
     shibuya-src = { url = "github:shinzui/shibuya"; flake = false; };
     shikumi-src = { url = "github:shinzui/shikumi"; flake = false; };

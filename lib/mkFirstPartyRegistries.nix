@@ -32,12 +32,19 @@ let
     nonEmptyString value
     && builtins.match "[0-9a-fA-F]{40}" value != null;
 
+  # A package that occupies its whole repository records the root path ".";
+  # every other package records a clean relative path below the repository root.
+  rootPath = ".";
+
   validRelativePath = value:
-    nonEmptyString value
-    && !(lib.hasPrefix "/" value)
-    && builtins.all
-      (segment: segment != "" && segment != "." && segment != "..")
-      (lib.splitString "/" value);
+    value == rootPath
+    || (
+      nonEmptyString value
+      && !(lib.hasPrefix "/" value)
+      && builtins.all
+        (segment: segment != "" && segment != "." && segment != "..")
+        (lib.splitString "/" value)
+    );
 
   validOverride = value:
     exactAttrs [ ] [ "cabal2nixOptions" ] value
@@ -216,7 +223,11 @@ let
       patch = { hself, haskellLib, ... }:
         let
           familySource = sources.${family.githubInput};
-          source = familySource + "/${package.path}";
+          isRootPackage = package.path == rootPath;
+          source =
+            if isRootPackage
+            then familySource
+            else familySource + "/${package.path}";
           rawPackage =
             if package.cabal2nixOptions == ""
             then hself.callCabal2nix package.name source { }
@@ -226,7 +237,12 @@ let
                 source
                 package.cabal2nixOptions
                 { };
-          calledPackage = stageFamilyLinks haskellLib familySource source rawPackage;
+          # A root package already owns every repository-root entry, so there is
+          # nothing to inherit from an enclosing tree.
+          calledPackage =
+            if isRootPackage
+            then rawPackage
+            else stageFamilyLinks haskellLib familySource source rawPackage;
         in
         wrapPackage haskellLib calledPackage;
     }];

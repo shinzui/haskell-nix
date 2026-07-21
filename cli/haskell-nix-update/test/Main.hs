@@ -68,6 +68,7 @@ packageLockTests =
           | fileName <-
               [ "invalid/lock-absolute-path.json",
                 "invalid/lock-parent-path.json",
+                "invalid/lock-dot-segment-path.json",
                 "invalid/lock-mismatched-family.json",
                 "invalid/lock-mismatched-input.json",
                 "invalid/lock-malformed-version.json",
