@@ -102,6 +102,104 @@ To pre-warm the import-from-derivation builds without the cache before retrying:
 nix flake check --no-build --no-eval-cache
 ```
 
+## Refresh validation fails on an unbuilt cabal2nix derivation
+
+Symptom: `refresh` restored the managed lock files cleanly, and its validation failed with only
+
+```text
+error: path '/nix/store/...-cabal2nix-<package>.drv' is not valid
+```
+
+This looks like the stale eval cache above but is a different failure. Tell them apart:
+
+| | Stale eval cache | Unbuilt cabal2nix derivation |
+| --- | --- | --- |
+| Also reports `unexpectedly succeeded` | often | never |
+| `rm -rf ~/.cache/nix/eval-cache-v*` fixes it | yes | no |
+| Retrying | may succeed | fails on the identical store path |
+
+The first-party version checks force a cabal2nix import-from-derivation for every package at the
+newly locked revision. Those derivations are computed during `nix flake check` evaluation but are
+not realised in the store, so the import cannot build them. The same import through `nix eval`
+succeeds, so evaluating the new packages once populates the store and lets the validation proceed.
+
+The error names only the first derivation that is missing. Warming that one package moves the
+error to the next, so warm the whole family in one pass rather than retrying `refresh` repeatedly.
+Take the new revision, versions, and hashes from `refresh --dry-run`, which writes nothing.
+
+Warm the GitHub channel at the proposed revision:
+
+```bash
+nix eval --no-eval-cache --impure --expr '
+  let
+    flake = builtins.getFlake (toString ./.);
+    pkgs = import flake.inputs.nixpkgs {
+      system = builtins.currentSystem;
+      overlays = [ flake.overlays.github ];
+    };
+    lock = builtins.fromJSON (builtins.readFile ./packages/first-party-lock.json);
+    family = builtins.head (builtins.filter (f: f.name == "FAMILY") lock.families);
+    src = builtins.fetchGit { url = "https://github.com/OWNER/FAMILY"; rev = "NEW_REV"; };
+    warm = hp: package:
+      let
+        target = src + "/${package.path}";
+        called =
+          if package.cabal2nixOptions == ""
+          then hp.callCabal2nix package.name target { }
+          else hp.callCabal2nixWithOptions package.name target package.cabal2nixOptions { };
+        result = builtins.tryEval called.version;
+      in
+      "${package.name}:" + (if result.success then result.value else "warmed");
+  in
+  {
+    ghc9122 = map (warm pkgs.haskell.packages.ghc9122) family.packages;
+    ghc914 = map (warm pkgs.haskell.packages.ghc914) family.packages;
+  }
+' --json
+```
+
+Warm the Hackage channel for every package whose release changed, using the versions and hashes
+the dry run proposed:
+
+```bash
+nix eval --no-eval-cache --impure --expr '
+  let
+    flake = builtins.getFlake (toString ./.);
+    pkgs = import flake.inputs.nixpkgs {
+      system = builtins.currentSystem;
+      overlays = [ flake.overlays.hackage ];
+    };
+    new = [
+      { pkg = "PACKAGE"; ver = "VERSION"; sha256 = "sha256-..."; }
+    ];
+    warm = hp: p:
+      let result = builtins.tryEval (hp.callHackageDirect p { }).version;
+      in "${p.pkg}:" + (if result.success then result.value else "warmed");
+  in
+  {
+    ghc9122 = map (warm pkgs.haskell.packages.ghc9122) new;
+    ghc914 = map (warm pkgs.haskell.packages.ghc914) new;
+  }
+' --json
+```
+
+Then rerun `refresh --family FAMILY` normally.
+
+Four details matter:
+
+1. Apply the matching channel overlay. A bare `nixpkgs` package set cannot resolve first-party
+   dependencies and aborts the sweep with `function 'anonymous lambda' called without required
+   argument '<dependency>'` before the remaining packages are warmed.
+2. Warm both `ghc9122` and `ghc914`. The cabal2nix derivation differs per package set, so warming
+   one compiler leaves the other unbuilt.
+3. The GitHub sweep reads `path` and `cabal2nixOptions` from the current lock, which still holds
+   the old revision. That is correct for a version or revision bump. If the update adds packages,
+   the new ones are absent from that list and must be warmed separately.
+4. The printed versions must match the versions `refresh --dry-run` proposed. A mismatch means the
+   warm ran against the wrong revision, not that the lock is wrong.
+
+Observed on Determinate Nix 3.17.0 (Nix 2.33.3).
+
 ## Family selection fails
 
 List the accepted family names from the hand-authored catalog:

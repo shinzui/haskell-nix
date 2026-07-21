@@ -97,12 +97,32 @@ restores `flake.lock` and `packages/first-party-lock.json` byte-for-byte — ver
 `git diff --exit-code -- flake.lock packages/first-party-lock.json` before retrying, and see
 Troubleshooting for transient-network vs. dirty-file vs. missing-revision cases.
 
-If validation fails but the managed files came back clean, and a direct `nix flake check` reports
-`path '...-cabal2nix-<pkg>.drv' is not valid` or `evaluation of cached failed attribute
-'checks.<system>.first-party-versions' unexpectedly succeeded`, that is a poisoned Nix eval cache
-(a transient import-from-derivation build failure recorded as a permanent failure), not a lock
-problem. Clear it with `rm -rf ~/.cache/nix/eval-cache-v*` and retry. The current CLI validates with
-`--no-eval-cache` to avoid this; see the "stale eval cache" section in Troubleshooting.
+Two distinct failures produce a clean rollback plus a cabal2nix error. Do not conflate them:
+
+- `evaluation of cached failed attribute 'checks.<system>.first-party-versions' unexpectedly
+  succeeded` is a poisoned Nix eval cache. Clear it with `rm -rf ~/.cache/nix/eval-cache-v*` and
+  retry. The current CLI validates with `--no-eval-cache`, so this should only come from an older
+  run or a manual `nix flake check`.
+- `path '...-cabal2nix-<pkg>.drv' is not valid`, **alone**, is the unbuilt-derivation case in step
+  2a. Clearing the eval cache does not fix it, and retrying fails on the identical store path.
+
+Both are covered in Troubleshooting.
+
+### 2a. Pre-warm when validation cannot build cabal2nix derivations
+
+`nix flake check` cannot realise cabal2nix import-from-derivation for packages at a newly locked
+revision, so `refresh` can fail with `path '...-cabal2nix-<pkg>.drv' is not valid`. The error names
+only the first missing derivation, so retrying `refresh` walks the family one package per attempt.
+
+Pre-warming the family with `nix eval` — which performs the same import successfully — avoids the
+loop entirely. The dry run in step 1 already produced the revision, versions, and hashes the warm
+needs, so run the two `nix eval` sweeps from the **"Refresh validation fails on an unbuilt cabal2nix
+derivation"** section of [Troubleshooting](../../../docs/user/troubleshooting.md): one over the
+GitHub channel at the proposed revision, one over the Hackage channel for every changed release.
+Cross-check that the versions they print match the dry run before applying.
+
+Warming is cheap relative to a failed refresh and is safe to run unconditionally, so prefer it up
+front for any family whose source revision moved rather than waiting for the failure.
 
 ### 3. Verify
 

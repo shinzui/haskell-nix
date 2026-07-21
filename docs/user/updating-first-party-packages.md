@@ -240,5 +240,5 @@ consumer, its Hackage selection. The override changes only where the `haskell-ni
 loaded from; channel selection remains explicit in the consumer's `flake.nix`.
 
 See [Troubleshooting](troubleshooting.md) for dirty managed files, missing Mori revisions,
-transient online failures, and the difference between flake evaluation checks and complete
-package builds.
+transient online failures, unbuilt cabal2nix derivations, and the difference between flake
+evaluation checks and complete package builds.
