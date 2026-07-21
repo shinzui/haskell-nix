@@ -571,48 +571,48 @@
         },
         {
             "githubInput": "shikumi-src",
-            "githubRev": "0df4d85928c79cbfe78d7880a263fc0b9696ddc2",
+            "githubRev": "580b6c70a58bc96a8d52502c2e7c9376d2c46a15",
             "name": "shikumi",
             "packages": [
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-mqcwh3LVPFCMz4aT0b33wjgyIecrOCVLu1Ea7lu5fPg=",
-                        "version": "0.3.0.0"
+                        "hash": "sha256-EbMZ6pQ5k8ueh6mQXDRq92WMjTdn+b7mtUhqqhFRN8M=",
+                        "version": "0.3.0.1"
                     },
                     "name": "shikumi",
                     "path": "shikumi",
-                    "version": "0.3.0.0"
+                    "version": "0.3.0.1"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-ut8xLUnZHiBUTElI9ciukCz4aPFbYJf3uxxzHnQQEsw=",
-                        "version": "0.1.2.0"
+                        "hash": "sha256-niggdRbHDdSQ8J4Kt1FWss7vFWvDSW4Y8Hs5FvcHkqo=",
+                        "version": "0.1.2.1"
                     },
                     "name": "shikumi-cache",
                     "path": "shikumi-cache",
-                    "version": "0.1.2.0"
+                    "version": "0.1.2.1"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-kL0yuZ9RHjOg4j1oiWcc8SkqNkJSxHzVIXhwLijLN6k=",
-                        "version": "0.1.2.0"
+                        "hash": "sha256-oMh/cB5dLzVVV06BQDkmefBVBtlen7kMV7127rwkP3E=",
+                        "version": "0.1.2.1"
                     },
                     "name": "shikumi-cache-postgres",
                     "path": "shikumi-cache-postgres",
-                    "version": "0.1.2.0"
+                    "version": "0.1.2.1"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-68FqOno3j08tzwm2hjbqk3yMMUanfDsF0BuSD0BV0Ms=",
-                        "version": "0.1.2.0"
+                        "hash": "sha256-o+VS+QAgvDyxchefJcUdICgL3X59uAI7lMvExw6Zu74=",
+                        "version": "0.1.2.1"
                     },
                     "name": "shikumi-cache-redis",
                     "path": "shikumi-cache-redis",
-                    "version": "0.1.2.0"
+                    "version": "0.1.2.1"
                 },
                 {
                     "cabal2nixOptions": "",
@@ -624,22 +624,22 @@
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-EclTCw4Nznc5vKxIR5KIhX2PJ4Dw+aHt0AKOthO4gCc=",
-                        "version": "0.2.0.0"
+                        "hash": "sha256-MdLL+hZ+AHLbYksfUD1iTaQ6r5qc87k4b8VFMA03Wf4=",
+                        "version": "0.2.0.1"
                     },
                     "name": "shikumi-compile",
                     "path": "shikumi-compile",
-                    "version": "0.2.0.0"
+                    "version": "0.2.0.1"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-Ia9G5n5nGQ3ZxCHbi67TmVSwToeT5FfhQRZwLgCIdIw=",
-                        "version": "0.2.0.0"
+                        "hash": "sha256-clxQft38uinjAx16PWuYQnIGm01AU4toh1S2z0gMN6o=",
+                        "version": "0.2.0.1"
                     },
                     "name": "shikumi-eval",
                     "path": "shikumi-eval",
-                    "version": "0.2.0.0"
+                    "version": "0.2.0.1"
                 },
                 {
                     "cabal2nixOptions": "",
@@ -661,32 +661,32 @@
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-x9Y/A3Hq7eKBJM8rszJ9WHJ+Xz+l0HuxeEjO/7oBK34=",
-                        "version": "0.2.1.0"
+                        "hash": "sha256-cL15xLWJ7XwQeBkuScYy7jbR3DYfEf/1BRc8ETBKLaA=",
+                        "version": "0.2.1.1"
                     },
                     "name": "shikumi-optimize",
                     "path": "shikumi-optimize",
-                    "version": "0.2.1.0"
+                    "version": "0.2.1.1"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-dQ80JWC/8oIhVnoT89bFsLetHrzby3ndjA8M/Sfi6kQ=",
-                        "version": "0.3.0.0"
+                        "hash": "sha256-pKUeXSCx1GYpaLt1ORh8CQHDGHRn4j4JlLG6DW42dCY=",
+                        "version": "0.3.0.1"
                     },
                     "name": "shikumi-tools",
                     "path": "shikumi-tools",
-                    "version": "0.3.0.0"
+                    "version": "0.3.0.1"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-ob8bvV8UlUpbLbQ7jQuYS7HKuDARoz35w4+pJck3Vfk=",
-                        "version": "0.2.0.0"
+                        "hash": "sha256-lcAy7dqnO9knvf7kbJRF2LXPIxpg4AAOHPB0TvdNC/E=",
+                        "version": "0.2.0.1"
                     },
                     "name": "shikumi-trace",
                     "path": "shikumi-trace",
-                    "version": "0.2.0.0"
+                    "version": "0.2.0.1"
                 },
                 {
                     "cabal2nixOptions": "",
