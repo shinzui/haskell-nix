@@ -128,6 +128,24 @@ to `overlays/registry.nix`.
 
 ## Refresh and verification
 
+To see which families are behind before changing anything, survey them:
+
+```bash
+just status                 # every configured family
+just status FAMILY [...]    # narrow to named families
+```
+
+The survey writes nothing. It runs one `refresh --dry-run` per family and tags each result by
+the kind of drift found: `git-commit` when the family's GitHub head moved, `hackage-release`
+when a package has a new or changed published release, and `source-version`, `membership`,
+`hackage-withdrawn`, or `hackage-rehash` for the remaining cases. A family tagged only
+`git-commit` has unreleased commits; a family tagged only `hackage-release` published without
+a source change reaching the locked head.
+
+Per-family dry runs keep a transient GitHub or Hackage failure to a single `query-failed` row
+rather than aborting the survey the way one all-family dry run would. Each family is retried
+once before it is reported as failed, and those rows are safe to rerun.
+
 `haskell-nix-update` is the only production writer for
 `packages/first-party-lock.json`. Preview all configured families, apply the refresh, and
 then perform an online drift check with:

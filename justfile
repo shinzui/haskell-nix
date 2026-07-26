@@ -20,6 +20,41 @@ preview family:
 preview-all:
     {{cli}} refresh --dry-run
 
+# Report which FAMILIES (default: all) need updates, tagged git-commit vs. hackage-release.
+status *families:
+    #!/usr/bin/env bash
+    set -o pipefail
+    names=({{families}})
+    if [ ${#names[@]} -eq 0 ]; then
+        while IFS= read -r name; do
+            names+=("$name")
+        done < <(jq -r '.families[].name' config/first-party-families.json)
+    fi
+    colour=0
+    if [ -t 1 ]; then colour=1; fi
+    stream=$(mktemp)
+    errors=$(mktemp)
+    trap 'rm -f "$stream" "$errors"' EXIT
+    # One dry run per family: a transient GitHub or Hackage failure then costs a single
+    # row instead of aborting the whole survey, as an all-family dry run would. Those
+    # failures are common enough to retry once before reporting the family as failed.
+    for name in "${names[@]}"; do
+        printf 'surveying %s...\n' "$name" >&2
+        printf '@family %s\n' "$name" >>"$stream"
+        for attempt in 1 2; do
+            if output=$({{cli}} refresh --family "$name" --dry-run 2>"$errors"); then
+                printf '%s\n' "$output" >>"$stream"
+                break
+            fi
+            if [ "$attempt" = 2 ]; then
+                # Skip Nix's own chatter so the reported line is the updater's error.
+                reason=$(grep -v -e '^warning:' -e '^evaluating' "$errors" | head -n 1 | cut -c 1-140)
+                printf '@error %s %s\n' "$name" "${reason:-dry run failed; rerun just preview $name}" >>"$stream"
+            fi
+        done
+    done
+    awk -v color="$colour" -f scripts/family-status.awk "$stream"
+
 # Refresh one FAMILY: bump GitHub HEAD + Hackage releases (needs clean flake.lock/package lock).
 refresh family:
     {{cli}} refresh --family {{family}}
