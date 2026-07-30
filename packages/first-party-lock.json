@@ -285,28 +285,28 @@
         },
         {
             "githubInput": "okf-src",
-            "githubRev": "18bcd46b26b79f72f2b2e2becd4582d7e19ccc37",
+            "githubRev": "88ceed847f8578fe1584e9290e60c82b28e4f0d2",
             "name": "okf",
             "packages": [
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-bWc9k1ldkKQP9QwLx74JHTHucydzZOWThAirKS1UGnU=",
-                        "version": "0.2.0.0"
+                        "hash": "sha256-CXMIRgpt42nSvTWVIV+rG0sdOo59/gGk0jBGbJOHhWY=",
+                        "version": "0.3.0.0"
                     },
                     "name": "okf-cli",
                     "path": "okf-cli",
-                    "version": "0.2.0.0"
+                    "version": "0.3.0.0"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-KSRAy8CIciMOHj1E//OntYyvkr2tQ3HVKai3mnfFWoo=",
-                        "version": "0.2.0.0"
+                        "hash": "sha256-u4JMJHjtim9/Fgeh2M4rQS42uEnxc3hbay5LoaCScKo=",
+                        "version": "0.3.0.0"
                     },
                     "name": "okf-core",
                     "path": "okf-core",
-                    "version": "0.2.0.0"
+                    "version": "0.3.0.0"
                 }
             ]
         },
