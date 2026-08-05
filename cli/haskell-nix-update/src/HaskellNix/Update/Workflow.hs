@@ -183,8 +183,31 @@ observeFamily WorkflowEnvironment {processRunner, httpClient} _paths fetchMissin
     then liftEitherIO (ensureRevision processRunner path revision)
     else liftEitherIO (requireRevision processRunner path revision)
   discoveredPackages <- liftEitherIO (discoverPackages processRunner path revision)
-  packages <- traverse (observePackage processRunner httpClient) discoveredPackages
+  includedPackages <- liftEitherE (applyExclusions family discoveredPackages)
+  packages <- traverse (observePackage processRunner httpClient) includedPackages
   pure ObservedFamily {config = family, githubRev = revision, packages}
+
+-- Drop configured exclusions from discovery. An exclusion that matches nothing
+-- is stale configuration, so it fails rather than silently doing nothing.
+applyExclusions :: FamilyConfig -> [DiscoveredPackage] -> Either UpdateError [DiscoveredPackage]
+applyExclusions FamilyConfig {name = familyName, excludedPackages} discoveredPackages
+  | not (null unmatched) =
+      Left
+        ( UpdateError
+            ( "family "
+                <> familyNameText familyName
+                <> ": excluded packages were not discovered: "
+                <> Text.intercalate ", " unmatched
+            )
+        )
+  | otherwise = Right (filter included discoveredPackages)
+  where
+    discoveredNames = Set.fromList [name | DiscoveredPackage {name} <- discoveredPackages]
+    unmatched =
+      [ packageName
+      | PackageName packageName <- Set.toAscList (Set.difference excludedPackages discoveredNames)
+      ]
+    included DiscoveredPackage {name} = not (Set.member name excludedPackages)
 
 observePackage :: ProcessRunner -> HttpClient -> DiscoveredPackage -> ExceptT UpdateError IO ObservedPackage
 observePackage processRunner httpClient discovered@DiscoveredPackage {name} = do
@@ -216,7 +239,8 @@ checkFamily WorkflowEnvironment {processRunner, httpClient} paths packageLock on
   MoriProject {path} <- liftEitherIO (locateMoriProject processRunner family)
   liftEitherIO (requireRevision processRunner path githubRev)
   discoveredPackages <- liftEitherIO (discoverPackages processRunner path githubRev)
-  liftEitherE (verifyDiscovered familyName lockedPackages discoveredPackages)
+  includedPackages <- liftEitherE (applyExclusions family discoveredPackages)
+  liftEitherE (verifyDiscovered familyName lockedPackages includedPackages)
   when online $ do
     remoteRevision <- liftEitherIO (remoteHead processRunner github)
     unless (remoteRevision == githubRev) $

@@ -8,6 +8,7 @@ import Data.IORef
 import Data.List (find)
 import Data.Map.Strict (Map)
 import Data.Map.Strict qualified as Map
+import Data.Set qualified as Set
 import Data.Text (Text)
 import Data.Text qualified as Text
 import Distribution.Parsec (simpleParsec)
@@ -41,7 +42,9 @@ tests =
       testCase "post-update validation failure rolls back byte-for-byte" testValidationRollback,
       testCase "Hackage 404 records an unpublished package" testHackage404,
       testCase "offline check validates the locked Git package" testOfflineCheck,
-      testCase "online check detects remote revision drift without writes" testOnlineCheckDrift
+      testCase "online check detects remote revision drift without writes" testOnlineCheckDrift,
+      testCase "excluded packages are kept out of the generated lock" testExcludedPackage,
+      testCase "an exclusion matching nothing fails without managed writes" testStaleExclusion
     ]
 
 testBootstrapRefresh :: IO ()
@@ -150,6 +153,40 @@ testOnlineCheckDrift = withFixture ["alpha"] $ \fixture -> do
   runCheckWorkflow environment (fixturePaths fixture) [] True >>= assertLeft
   assertOriginalBytes fixture
 
+-- A family repository may carry an example package whose name collides with
+-- another family. Excluding it keeps discovery honest without locking it.
+testExcludedPackage :: IO ()
+testExcludedPackage =
+  withConfiguredFixture ["alpha"] (excluding "shared-example") $ \fixture -> do
+    let settings =
+          (defaultSettings ["alpha"])
+            { extraPackages = ["shared-example"],
+              githubVersions =
+                Map.fromList
+                  [("alpha-package", testVersion "1.0"), ("shared-example", testVersion "1.0")]
+            }
+    (environment, commandLog) <- fakeEnvironment fixture settings
+    _ <- runRefreshWorkflow environment (fixturePaths fixture) [] False >>= assertRight
+    packageBytes <- ByteString.readFile (fixtureRoot fixture </> "packages/first-party-lock.json")
+    packageLock <- assertRight (decodePackageLock (fixtureCatalog fixture) packageBytes)
+    lockedPackageNames packageLock (FamilyName "alpha") @?= [PackageName "alpha-package"]
+    -- Discovery parses every Cabal file before exclusions apply, so the Git
+    -- read is expected; only the Hackage prefetch must never happen.
+    commands <- readIORef commandLog
+    assertBool
+      "an excluded package must never be prefetched from Hackage"
+      (not (any (\command -> isPrefetch command && commandMentions "shared-example" command) commands))
+
+testStaleExclusion :: IO ()
+testStaleExclusion =
+  withConfiguredFixture ["alpha"] (excluding "absent-example") $ \fixture -> do
+    (environment, _) <- fakeEnvironment fixture (defaultSettings ["alpha"])
+    runRefreshWorkflow environment (fixturePaths fixture) [] False >>= assertLeft
+    assertOriginalBytes fixture
+
+excluding :: Text -> FamilyConfig -> FamilyConfig
+excluding name config = config {excludedPackages = Set.singleton (PackageName name)}
+
 data Fixture = Fixture
   { fixtureRoot :: !FilePath,
     fixturePaths :: !WorkflowPaths,
@@ -160,11 +197,14 @@ data Fixture = Fixture
   }
 
 withFixture :: [Text] -> (Fixture -> IO value) -> IO value
-withFixture familyNames action =
+withFixture familyNames = withConfiguredFixture familyNames id
+
+withConfiguredFixture :: [Text] -> (FamilyConfig -> FamilyConfig) -> (Fixture -> IO value) -> IO value
+withConfiguredFixture familyNames configure action =
   withSystemTempDirectory "haskell-nix-update-test" $ \root -> do
     createDirectoryIfMissing True (root </> "config")
     createDirectoryIfMissing True (root </> "packages")
-    let familyConfigs = map familyConfig familyNames
+    let familyConfigs = map (configure . familyConfig) familyNames
         catalog = FamilyCatalog {schemaVersion = 1, families = familyConfigs}
         initialRevisions = Map.fromList [(familyName, GitRevision revisionA) | familyName <- familyNames]
         packageLock = PackageLock 1 (map lockedFamily familyNames)
@@ -193,7 +233,10 @@ data FakeSettings = FakeSettings
     dirtyManagedFiles :: !Bool,
     gitObjectMissing :: !Bool,
     prefetchFails :: !Bool,
-    validationFails :: !Bool
+    validationFails :: !Bool,
+    -- Additional packages every family repository discovers alongside its own
+    -- package, used to exercise configured exclusions.
+    extraPackages :: ![Text]
   }
 
 defaultSettings :: [Text] -> FakeSettings
@@ -206,7 +249,8 @@ defaultSettings familyNames =
       dirtyManagedFiles = False,
       gitObjectMissing = False,
       prefetchFails = False,
-      validationFails = False
+      validationFails = False,
+      extraPackages = []
     }
 
 changedSettings :: [Text] -> FakeSettings
@@ -256,11 +300,10 @@ runFakeProcess fixture settings commandLog spec@ProcessSpec {executable, argumen
     ("git", ["-C", _, "fetch", "origin", _]) -> pure (success "")
     ("git", ["-C", repository, "ls-tree", "-r", "--name-only", _]) ->
       let familyName = familyFromRepository repository
-          name = packageName familyName
-       in pure (success (name <> "/" <> name <> ".cabal\n"))
-    ("git", ["-C", repository, "show", _]) ->
-      let familyName = familyFromRepository repository
-          name = packageName familyName
+          names = packageName familyName : extraPackages settings
+       in pure (success (Text.concat [name <> "/" <> name <> ".cabal\n" | name <- names]))
+    ("git", ["-C", _, "show", target]) ->
+      let name = packageFromShowTarget (Text.pack target)
        in pure $ do
             packageVersion <- lookupSetting "GitHub version" name (githubVersions settings)
             success
@@ -319,7 +362,8 @@ familyConfig familyName =
       moriProject = "tests/" <> familyName,
       github = "owner/" <> familyName,
       githubInput = familyName <> "-src",
-      packageOverrides = Map.empty
+      packageOverrides = Map.empty,
+      excludedPackages = Set.empty
     }
 
 lockedFamily :: Text -> LockedFamily
@@ -370,6 +414,12 @@ packageHackage PackageLock {families} requestedName =
     Just LockedFamily {packages = [LockedPackage {hackage}]} -> hackage
     other -> error ("unexpected test family packages: " <> show other)
 
+lockedPackageNames :: PackageLock -> FamilyName -> [PackageName]
+lockedPackageNames PackageLock {families} requestedName =
+  case find (\LockedFamily {name} -> name == requestedName) families of
+    Just LockedFamily {packages} -> [name | LockedPackage {name} <- packages]
+    Nothing -> error ("missing test family " <> show requestedName)
+
 assertOriginalBytes :: Fixture -> IO ()
 assertOriginalBytes fixture = do
   ByteString.readFile (fixtureRoot fixture </> "flake.lock") >>= (@?= originalFlake fixture)
@@ -391,6 +441,12 @@ dropProjectNamespace = reverse . takeWhile (/= '/') . reverse
 packageName :: Text -> Text
 packageName familyName = familyName <> "-package"
 
+-- "<revision>:<package>/<package>.cabal" identifies which discovered package
+-- the fake repository is being asked for.
+packageFromShowTarget :: Text -> Text
+packageFromShowTarget target =
+  Text.takeWhile (/= '/') (Text.drop 1 (Text.dropWhile (/= ':') target))
+
 lookupSetting :: Ord key => Text -> key -> Map key value -> Either UpdateError value
 lookupSetting context key values =
   maybe (Left (UpdateError (context <> " is missing"))) Right (Map.lookup key values)
@@ -406,6 +462,10 @@ failure status standardError =
 isFlakeUpdate :: ProcessSpec -> Bool
 isFlakeUpdate ProcessSpec {executable = "nix", arguments = "flake" : "update" : _} = True
 isFlakeUpdate _ = False
+
+isPrefetch :: ProcessSpec -> Bool
+isPrefetch ProcessSpec {executable = "nix", arguments = "store" : "prefetch-file" : _} = True
+isPrefetch _ = False
 
 commandMentions :: Text -> ProcessSpec -> Bool
 commandMentions needle ProcessSpec {arguments} = needle `Text.isInfixOf` Text.pack (show arguments)

@@ -53,7 +53,7 @@ let
   validConfigFamily = family:
     exactAttrs
       [ "name" "moriProject" "github" "githubInput" ]
-      [ "packageOverrides" ]
+      [ "packageOverrides" "excludedPackages" ]
       family
     && nonEmptyString family.name
     && nonEmptyString family.moriProject
@@ -65,6 +65,18 @@ let
       let overrides = family.packageOverrides or { };
       in builtins.isAttrs overrides
       && builtins.all validOverride (builtins.attrValues overrides)
+    )
+    && (
+      let excluded = family.excludedPackages or [ ];
+      in builtins.isList excluded
+      && builtins.all nonEmptyString excluded
+      && allUnique excluded
+      && isSorted excluded
+      # An excluded package is never a family package, so it must not also
+      # carry a Cabal2nix override.
+      && builtins.all
+        (name: !(builtins.hasAttr name (family.packageOverrides or { })))
+        excluded
     );
 
   configTopValid =
@@ -148,6 +160,7 @@ let
           configuredFamily = configByName.${lockedFamily.name};
           packageNames = map (package: package.name) lockedFamily.packages;
           overrides = configuredFamily.packageOverrides or { };
+          excluded = configuredFamily.excludedPackages or [ ];
           expectedOptions = packageName:
             if builtins.hasAttr packageName overrides
             then overrides.${packageName}.cabal2nixOptions or ""
@@ -158,6 +171,9 @@ let
         && builtins.all
           (overrideName: builtins.elem overrideName packageNames)
           (builtins.attrNames overrides)
+        && builtins.all
+          (excludedName: !(builtins.elem excludedName packageNames))
+          excluded
         && builtins.all
           (package: package.cabal2nixOptions == expectedOptions package.name)
           lockedFamily.packages)

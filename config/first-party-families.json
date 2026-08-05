@@ -9,6 +9,16 @@
       "packageOverrides": {}
     },
     {
+      "name": "keiki",
+      "moriProject": "shinzui/keiki",
+      "github": "shinzui/keiki",
+      "githubInput": "keiki-src",
+      "packageOverrides": {},
+      "excludedPackages": [
+        "jitsurei"
+      ]
+    },
+    {
       "name": "keiro",
       "moriProject": "shinzui/keiro",
       "github": "shinzui/keiro",

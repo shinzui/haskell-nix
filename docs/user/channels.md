@@ -29,6 +29,7 @@ The committed lock currently has this family breakdown:
 | Family | GitHub | Hackage | GitHub-only |
 |--------|-------:|--------:|------------:|
 | Baikai | 7 | 6 | 1 |
+| Keiki | 3 | 3 | 0 |
 | Keiro | 7 | 5 | 2 |
 | Kioku | 5 | 5 | 0 |
 | Kiroku | 8 | 6 | 2 |
@@ -41,7 +42,7 @@ The committed lock currently has this family breakdown:
 | Settei | 8 | 8 | 0 |
 | Shibuya | 4 | 2 | 2 |
 | Shikumi | 13 | 11 | 2 |
-| **Total** | **72** | **62** | **10** |
+| **Total** | **75** | **65** | **10** |
 
 The GitHub-only packages are:
 

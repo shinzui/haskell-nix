@@ -16,6 +16,22 @@
         "type": "github"
       }
     },
+    "keiki-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1785900948,
+        "narHash": "sha256-VJ2NRVoIrXjdj1YaEPKdB+7Jid7UeQ9Dx95ODg2pbBk=",
+        "owner": "shinzui",
+        "repo": "keiki",
+        "rev": "9714d37033c37595e3aaa3319ca0ca77466782e0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "shinzui",
+        "repo": "keiki",
+        "type": "github"
+      }
+    },
     "keiro-src": {
       "flake": false,
       "locked": {
@@ -163,6 +179,7 @@
     "root": {
       "inputs": {
         "baikai-src": "baikai-src",
+        "keiki-src": "keiki-src",
         "keiro-src": "keiro-src",
         "kioku-src": "kioku-src",
         "kiroku-src": "kiroku-src",

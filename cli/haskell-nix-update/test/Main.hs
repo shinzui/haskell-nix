@@ -43,7 +43,9 @@ catalogTests =
       testCase "duplicate families are rejected" $
         assertInvalidCatalog "invalid/config-duplicate-family.json",
       testCase "unknown override keys are rejected" $
-        assertInvalidCatalog "invalid/config-unknown-override-key.json"
+        assertInvalidCatalog "invalid/config-unknown-override-key.json",
+      testCase "excluding an overridden package is rejected" $
+        assertInvalidCatalog "invalid/config-excluded-and-overridden.json"
     ]
 
 packageLockTests :: TestTree

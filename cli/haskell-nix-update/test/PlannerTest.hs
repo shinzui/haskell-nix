@@ -1,6 +1,7 @@
 module PlannerTest (tests) where
 
 import Data.Map.Strict qualified as Map
+import Data.Set qualified as Set
 import Data.Text qualified as Text
 import Distribution.Parsec (simpleParsec)
 import Distribution.Types.Version (Version)
@@ -43,7 +44,8 @@ testChangeCategories = do
           moriProject = "example/example",
           github = "example/example",
           githubInput = "example-src",
-          packageOverrides = Map.empty
+          packageOverrides = Map.empty,
+          excludedPackages = Set.empty
         }
     catalog = FamilyCatalog {schemaVersion = 1, families = [familyConfig]}
     previousLock =
@@ -90,7 +92,7 @@ testLegitimateVersionDifference = do
     revision = GitRevision "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
     hash = SriHash "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
     config =
-      FamilyConfig family "example/example" "example/example" "example-src" Map.empty
+      FamilyConfig family "example/example" "example/example" "example-src" Map.empty Set.empty
     catalog = FamilyCatalog 1 [config]
     previousLock = PackageLock 1 [LockedFamily family "example-src" revision [locked "example-package" "2.0" (Just (pin "2.0" hash))]]
     observation = ObservedFamily config revision [observedPackage packageName "3.0" (Just (pin "2.5" hash)) False]

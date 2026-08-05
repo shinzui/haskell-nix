@@ -41,7 +41,10 @@ source repository and its non-flake Nix input:
         "example-special": {
           "cabal2nixOptions": "-f-example"
         }
-      }
+      },
+      "excludedPackages": [
+        "example-demo"
+      ]
     }
   ]
 }
@@ -51,6 +54,20 @@ source repository and its non-flake Nix input:
 `github` uses the exact `owner/repository` form. The input name is `<family-name>-src` and
 must be unique. `packageOverrides` is optional; its keys name discovered Cabal packages,
 and `cabal2nixOptions` is the only supported override field.
+
+`excludedPackages` is optional and lists discovered Cabal packages that never become family
+packages. Package names must be globally unique across the lock, so a repository that carries
+an example or fixture package whose name is already taken by another family excludes it here
+rather than renaming it upstream. The list must be sorted and free of duplicates, and a name
+cannot be both excluded and overridden.
+
+Exclusions are checked against discovery: an entry that matches no discovered package fails
+the refresh instead of silently doing nothing, so a rename upstream surfaces immediately. An
+excluded package is never written to the lock, never queried on Hackage, and never appears in
+either channel registry — consumers that need it must depend on it some other way.
+
+`keiki` uses this for its `jitsurei` examples package, whose name collides with the unrelated
+`jitsurei` in `keiro`.
 
 ## Generated package lock
 

@@ -4,6 +4,7 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     baikai-src = { url = "github:shinzui/baikai"; flake = false; };
+    keiki-src = { url = "github:shinzui/keiki"; flake = false; };
     keiro-src = { url = "github:shinzui/keiro"; flake = false; };
     kioku-src = { url = "github:shinzui/kioku"; flake = false; };
     kiroku-src = { url = "github:shinzui/kiroku"; flake = false; };

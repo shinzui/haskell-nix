@@ -21,6 +21,7 @@ module HaskellNix.Update.Types
 where
 
 import Data.Map.Strict (Map)
+import Data.Set (Set)
 import Data.Text (Text)
 import Distribution.Types.Version (Version)
 
@@ -46,7 +47,11 @@ data FamilyConfig = FamilyConfig
     moriProject :: !Text,
     github :: !Text,
     githubInput :: !Text,
-    packageOverrides :: !(Map PackageName PackageOverride)
+    packageOverrides :: !(Map PackageName PackageOverride),
+    -- Discovered Cabal packages that never become family packages. A repository
+    -- may carry an example or fixture package whose name collides with another
+    -- family; excluding it keeps package names globally unique.
+    excludedPackages :: !(Set PackageName)
   }
   deriving stock (Eq, Show)
 

@@ -2,6 +2,7 @@ module AdapterTest (tests) where
 
 import Data.ByteString.Char8 qualified as ByteString
 import Data.Map.Strict qualified as Map
+import Data.Set qualified as Set
 import Data.Text (Text)
 import Data.Text qualified as Text
 import Distribution.Parsec (simpleParsec)
@@ -60,7 +61,8 @@ exampleFamily =
       moriProject = "owner/example",
       github = "owner/example",
       githubInput = "example-src",
-      packageOverrides = Map.empty
+      packageOverrides = Map.empty,
+          excludedPackages = Set.empty
     }
 
 moriRunner :: Text -> ProcessRunner

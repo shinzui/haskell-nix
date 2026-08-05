@@ -101,8 +101,8 @@ in
   shibuya-pgmq-adapter = always (import ../patches/shibuya-pgmq-adapter/0.12.nix);
 
   # ── shinzui event-sourcing stack ───────────────────────────────────
-  keiki = always ({ ... }@args: (import ../patches/keiki/0.2.nix args).keiki);
-  keiki-codec-json = always ({ ... }@args: (import ../patches/keiki/0.2.nix args).keiki-codec-json);
+  # keiki is a first-party family; its records are generated into
+  # packages/first-party-lock.json rather than pinned here.
   kioku-api = always ({ ... }@args: (import ../patches/kioku/0.1.nix args).kioku-api);
   kioku-cli = always ({ ... }@args: (import ../patches/kioku/0.1.nix args).kioku-cli);
   kioku-core = always ({ ... }@args: (import ../patches/kioku/0.1.nix args).kioku-core);

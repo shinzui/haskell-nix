@@ -43,12 +43,26 @@ validateFamilyCatalog catalog@(FamilyCatalog schemaVersion families)
     inputNames = [githubInput | FamilyConfig {githubInput} <- families]
 
 validateFamily :: FamilyConfig -> Either Text ()
-validateFamily FamilyConfig {name = FamilyName name, moriProject, github, githubInput}
+validateFamily FamilyConfig {name = FamilyName name, moriProject, github, githubInput, packageOverrides, excludedPackages}
   | Text.null name = Left "family name must not be empty"
   | Text.null moriProject = Left ("family " <> name <> " has an empty Mori project")
   | not (validGitHub github) = Left ("family " <> name <> " GitHub must be owner/repository")
   | githubInput /= name <> "-src" = Left ("family " <> name <> " input must be named " <> name <> "-src")
+  | any Text.null excludedNames = Left ("family " <> name <> " excluded package names must not be empty")
+  | not (null overriddenAndExcluded) =
+      Left
+        ( "family "
+            <> name
+            <> " cannot both override and exclude: "
+            <> Text.intercalate ", " overriddenAndExcluded
+        )
   | otherwise = Right ()
+  where
+    excludedNames = [packageName | PackageName packageName <- Set.toAscList excludedPackages]
+    overriddenAndExcluded =
+      [ packageName
+      | PackageName packageName <- Set.toAscList (Set.intersection excludedPackages (Map.keysSet packageOverrides))
+      ]
 
 parseFamilyCatalog :: Value -> Parser FamilyCatalog
 parseFamilyCatalog = withObject "FamilyCatalog" $ \fields -> do
@@ -62,7 +76,7 @@ parseFamilyConfig :: Value -> Parser FamilyConfig
 parseFamilyConfig = withObject "FamilyConfig" $ \fields -> do
   rejectUnknown
     "family"
-    ["name", "moriProject", "github", "githubInput", "packageOverrides"]
+    ["name", "moriProject", "github", "githubInput", "packageOverrides", "excludedPackages"]
     fields
   name <- FamilyName <$> fields .: "name"
   moriProject <- fields .: "moriProject"
@@ -70,7 +84,9 @@ parseFamilyConfig = withObject "FamilyConfig" $ \fields -> do
   githubInput <- fields .: "githubInput"
   overrideValue <- fields .:? "packageOverrides" .!= Object KeyMap.empty
   packageOverrides <- parsePackageOverrides overrideValue
-  pure FamilyConfig {name, moriProject, github, githubInput, packageOverrides}
+  excludedNames <- fields .:? "excludedPackages" .!= []
+  let excludedPackages = Set.fromList (map PackageName excludedNames)
+  pure FamilyConfig {name, moriProject, github, githubInput, packageOverrides, excludedPackages}
 
 parsePackageOverrides :: Value -> Parser (Map PackageName PackageOverride)
 parsePackageOverrides = withObject "packageOverrides" $ \fields ->
@@ -94,13 +110,14 @@ familyCatalogValue FamilyCatalog {schemaVersion, families} =
     ]
 
 familyConfigValue :: FamilyConfig -> Value
-familyConfigValue FamilyConfig {name = FamilyName name, moriProject, github, githubInput, packageOverrides} =
+familyConfigValue FamilyConfig {name = FamilyName name, moriProject, github, githubInput, packageOverrides, excludedPackages} =
   object
     [ "name" .= name,
       "moriProject" .= moriProject,
       "github" .= github,
       "githubInput" .= githubInput,
-      "packageOverrides" .= Object (KeyMap.fromList (map overrideEntry (Map.toAscList packageOverrides)))
+      "packageOverrides" .= Object (KeyMap.fromList (map overrideEntry (Map.toAscList packageOverrides))),
+      "excludedPackages" .= [packageName | PackageName packageName <- Set.toAscList excludedPackages]
     ]
   where
     overrideEntry (PackageName packageName, PackageOverride {cabal2nixOptions}) =
