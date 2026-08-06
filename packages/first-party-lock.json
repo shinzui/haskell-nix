@@ -82,8 +82,8 @@
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-B9qZdLifPXWurjpgP+o8mOyNAylM0N0a3330nNDdhbs=",
-                        "version": "0.8.0.0"
+                        "hash": "sha256-GCC/NWM3YsJz9pxheEa/IWrDVWEmxzgz1TU32L/57kw=",
+                        "version": "0.9.0.0"
                     },
                     "name": "keiki",
                     "path": ".",
@@ -92,8 +92,8 @@
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-Wl5yhWK4s3Wc92FqDFJ6bI+NBhn2TnevJ2xVXYU84HU=",
-                        "version": "0.8.0.0"
+                        "hash": "sha256-hvsn/At0HurZbjsYFp9E2EPaKDmw1jfa76LT95jL3SI=",
+                        "version": "0.9.0.0"
                     },
                     "name": "keiki-codec-json",
                     "path": "keiki-codec-json",
@@ -102,8 +102,8 @@
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-Cu1JFAp4sSDVQeqT3sFYylCw0HZu8lZULLFsX6XFEe4=",
-                        "version": "0.8.0.0"
+                        "hash": "sha256-YC07GGrvtUUmC0PE8TQIE3i0vRxeiZbAwOoZVO9iTl8=",
+                        "version": "0.9.0.0"
                     },
                     "name": "keiki-codec-json-test",
                     "path": "keiki-codec-json-test",
