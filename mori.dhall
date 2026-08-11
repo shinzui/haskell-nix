@@ -19,6 +19,16 @@ in  Schema.Project::{
         , github = Some "shinzui/haskell-nix"
         }
       ]
+    , okfBundles =
+      [ Schema.OkfBundle::{
+        , name = "improvement-requests"
+        , path = "docs/improvement-requests"
+        , profile = Some "mori/improvement-requests-profile.dhall"
+        , okfVersion = "0.2"
+        , description = Some
+            "Cross-repository improvement requests owned by haskell-nix"
+        }
+      ]
     , skills =
       [ Schema.Skill::{
         , name = "update-family"
