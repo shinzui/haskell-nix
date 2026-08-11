@@ -1,16 +1,23 @@
-# mkHaskellOverlay :: { registry, compilers? } -> NixpkgsOverlay
+# mkHaskellOverlay :: { registry, compilers?, extraOverrides?, disableProfiling? }
+#                  -> NixpkgsOverlay
 #
 # High-level combinator that turns a patch registry into a nixpkgs-level
 # overlay applying version-scoped patches to multiple GHC package sets.
+#
+# `disableProfiling` is opt-in and defaults to false, so this overlay changes
+# only which package versions resolve unless a caller asks for more. See
+# ./disableProfilingOverride.nix for what enabling it does.
 { lib }:
 
 { registry
 , compilers ? [ "ghc9122" "ghc914" ]
 , extraOverrides ? (_: _: { })
+, disableProfiling ? false
 }:
 
 let
   fixPackageByVersion = import ./fixPackageByVersion.nix { inherit lib; };
+  disableProfilingOverride = import ./disableProfilingOverride.nix;
 
   # Build one Haskell-level override per registry entry
   perPackageOverrides = lib.mapAttrsToList
@@ -27,7 +34,9 @@ let
   # get access to the full haskell.lib.compose API and top-level nixpkgs.
   mkCombinedOverride = haskellLib: pkgs:
     composeManyExtensions
-      ([ extraOverrides ] ++ map (f: f haskellLib pkgs) perPackageOverrides);
+      (lib.optional disableProfiling disableProfilingOverride
+        ++ [ extraOverrides ]
+        ++ map (f: f haskellLib pkgs) perPackageOverrides);
 
 in
 # nixpkgs-level overlay

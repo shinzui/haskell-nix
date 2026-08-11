@@ -36,6 +36,7 @@
       firstPartyConfig.families);
 
     fixPackageByVersion = import ./lib/fixPackageByVersion.nix { inherit lib; };
+    disableProfilingOverride = import ./lib/disableProfilingOverride.nix;
     mkHaskellOverlay = import ./lib/mkHaskellOverlay.nix { inherit lib; };
     mkFirstPartyRegistries = import ./lib/mkFirstPartyRegistries.nix { inherit lib; };
     firstPartyRegistries = mkFirstPartyRegistries {
@@ -63,7 +64,11 @@
     composeManyExtensions = lib.composeManyExtensions or
       (extensions: lib.foldr lib.composeExtensions (_: _: { }) extensions);
 
-    mkHaskellExtension = { registry, extraOverrides ? (_: _: { }) }:
+    mkHaskellExtension =
+      { registry
+      , extraOverrides ? (_: _: { })
+      , disableProfiling ? false
+      }:
       let
         perPackageOverrides = lib.mapAttrsToList
           (name: table: fixPackageByVersion name table)
@@ -71,15 +76,29 @@
       in
       haskellLib: pkgs:
         composeManyExtensions
-          ([ extraOverrides ] ++ map (override: override haskellLib pkgs) perPackageOverrides);
+          (lib.optional disableProfiling disableProfilingOverride
+            ++ [ extraOverrides ]
+            ++ map (override: override haskellLib pkgs) perPackageOverrides);
 
-    haskellExtensions = {
-      github = mkHaskellExtension { registry = registries.github; };
-      hackage = mkHaskellExtension {
+    # What distinguishes the two channels, independent of build settings.
+    channelSpecs = {
+      github = { registry = registries.github; };
+      hackage = {
         registry = registries.hackage;
         extraOverrides = hackageDependencyOverrides;
       };
     };
+
+    # Public constructor for consumers that want a build setting this flake does
+    # not impose by default. `lib.haskellExtensions.*` is this with every option
+    # left at its default.
+    mkChannelExtension =
+      { channel ? "github"
+      , disableProfiling ? false
+      }:
+      mkHaskellExtension (channelSpecs.${channel} // { inherit disableProfiling; });
+
+    haskellExtensions = lib.mapAttrs (_: mkHaskellExtension) channelSpecs;
 
     channelOverlays = {
       github = import ./overlays/haskell-overlay.nix {
@@ -145,7 +164,9 @@
 
     lib = {
       inherit
+        disableProfilingOverride
         fixPackageByVersion
+        mkChannelExtension
         mkFirstPartyRegistries
         mkHaskellOverlay
         registries

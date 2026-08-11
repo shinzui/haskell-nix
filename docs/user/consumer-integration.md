@@ -61,6 +61,47 @@ channel extension as the first argument means:
 
 If your local overlay needs to further modify a package that haskell-nix already patches, your version wins because it runs second.
 
+## Build settings the extension changes
+
+By default a channel extension changes only which package versions resolve. Build settings
+are **opt-in**, requested through `lib.mkChannelExtension` instead of reading
+`lib.haskellExtensions.*` directly:
+
+```nix
+firstPartyExtension = inputs.haskell-nix.lib.mkChannelExtension {
+  channel = "github";        # or "hackage"; defaults to "github"
+  disableProfiling = true;   # defaults to false
+};
+```
+
+`lib.haskellExtensions.github` is exactly `mkChannelExtension { }` — same signature, every
+option at its default — so nothing changes for a consumer that keeps using it.
+`lib.mkHaskellOverlay` takes the same `disableProfiling` argument.
+
+### `disableProfiling`
+
+Turns library profiling off for the whole package set by overriding `mkDerivation` in the
+package scope (`lib/disableProfilingOverride.nix`, exported as
+`lib.disableProfilingOverride` if you would rather compose it yourself).
+
+nixpkgs builds every Haskell library twice — a vanilla way and a `p_` way — because
+`enableLibraryProfiling` defaults to true. If you ship CLI tools, nothing consumes the
+profiling way: the profiling builds a human asks for happen through `cabal` in the dev
+shell, against its own package db. Nor is the second GHC pass paid for out of the binary
+cache — Hydra builds only the default compiler's `haskellPackages`, and this fleet pins a
+different GHC, so the whole closure is compiled locally either way.
+
+It is set-wide rather than per package because profiling is contagious across a dependency
+edge: a library built the `p_` way needs its dependencies' `p_hi` files, so a package set
+that mixes the two settings fails to build the moment a profiled package depends on an
+unprofiled one. That is also why it is a flag on the extension rather than something this
+flake does to registry packages behind your back. Your own packages are covered by the same
+hook once you enable it, so an explicit `disableLibraryProfiling` on them becomes redundant
+(harmless if left in).
+
+Enabling it changes every store path in the set, so expect one full rebuild on the switch.
+Leave it off if you need a profiled package set.
+
 ## Why not the overlay
 
 The channel overlays (`inputs.haskell-nix.overlays.github` and `.hackage`) apply patches by
