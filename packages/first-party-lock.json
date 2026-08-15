@@ -123,7 +123,7 @@
         },
         {
             "githubInput": "keiro-src",
-            "githubRev": "29bd7952fa5201adf789bbb21427b2cffe228d4b",
+            "githubRev": "7d7a200b25abfaeba006933bab6e3defc198b548",
             "name": "keiro",
             "packages": [
                 {
@@ -136,52 +136,52 @@
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-7WqKqynt7IQzNEM6nI/yjj2X4DG3qzuy5IPC1TvyPE0=",
-                        "version": "0.3.0.0"
+                        "hash": "sha256-2V07Tu4IcktMWYYroVp1I9ItBcVFhW5IOtoDjiOmL9o=",
+                        "version": "0.11.0.0"
                     },
                     "name": "keiro",
                     "path": "keiro",
-                    "version": "0.3.0.0"
+                    "version": "0.11.0.0"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-xwFtWsWOPSAQjNBRbY5Dp2iAkDWzfxcLsHtDClwGhcA=",
-                        "version": "0.3.0.0"
+                        "hash": "sha256-FDYBSi6QIsQMrEFBiTJx/7nrnn7yyp1ynyt0fIZR1do=",
+                        "version": "0.11.0.0"
                     },
                     "name": "keiro-core",
                     "path": "keiro-core",
-                    "version": "0.3.0.0"
+                    "version": "0.11.0.0"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-Bqd4O1Aryp56JgrkCSQZZd1SAtRjRLuB0QaO0F5ppIQ=",
-                        "version": "0.3.0.0"
+                        "hash": "sha256-U3Iy6ePyz9z3JLE0LBSddZxdSrC1vN68Dx2NcG3JZeo=",
+                        "version": "0.11.0.0"
                     },
                     "name": "keiro-dsl",
                     "path": "keiro-dsl",
-                    "version": "0.3.0.0"
+                    "version": "0.11.0.0"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-3G6NRoNrWcQeZh+CTYOE6NOCNHrTE8TeKGkCDtfn1yo=",
-                        "version": "0.3.0.0"
+                        "hash": "sha256-KIxHHX4gTccw0ckY9TatOCWd1LhEmne1YXINWpgaqlE=",
+                        "version": "0.11.0.0"
                     },
                     "name": "keiro-migrations",
                     "path": "keiro-migrations",
-                    "version": "0.3.0.0"
+                    "version": "0.11.0.0"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-SRbFmppgpopHuL48B/calGtJeGo+XXJzwJFyN5Fc35Y=",
-                        "version": "0.3.0.0"
+                        "hash": "sha256-4Aijs7CMar8sObGISw2oxuBuseiPz6FvxTT+4dZICpA=",
+                        "version": "0.11.0.0"
                     },
                     "name": "keiro-pgmq",
                     "path": "keiro-pgmq",
-                    "version": "0.3.0.0"
+                    "version": "0.11.0.0"
                 },
                 {
                     "cabal2nixOptions": "",
