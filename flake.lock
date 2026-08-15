@@ -147,11 +147,11 @@
     "pgmq-hs-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1784054261,
-        "narHash": "sha256-2UEv+L7kMLrAojU9yNf7FGxgeffPrZnwyZ1YJ9M9gvI=",
+        "lastModified": 1786224691,
+        "narHash": "sha256-9nB0ASeoNyQCn8AoQJEhSbLaz9zsfGM/acXU+id7Qc0=",
         "owner": "shinzui",
         "repo": "pgmq-hs",
-        "rev": "f4a101843ea6f5c055277fd84859ece02865eff4",
+        "rev": "9ee9a2f30fc461244ed7539fbfe2165d9f80df91",
         "type": "github"
       },
       "original": {
