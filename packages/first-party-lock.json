@@ -658,18 +658,18 @@
         },
         {
             "githubInput": "shibuya-src",
-            "githubRev": "172df245f40a454af46dd7f4cde855eaa4414c5a",
+            "githubRev": "daa1e0c8726bd407288bbeb065146e01a63a4046",
             "name": "shibuya",
             "packages": [
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-erAlvWBYXAekwhg0+YJOgCBgSlMpnDsYCq+f7xO7Qc8=",
-                        "version": "0.8.0.1"
+                        "hash": "sha256-lT6n2htloBD++jKV8JqX/B6OYI19vqv+b2GSIfcmHmo=",
+                        "version": "0.9.0.0"
                     },
                     "name": "shibuya-core",
                     "path": "shibuya-core",
-                    "version": "0.8.0.1"
+                    "version": "0.9.0.0"
                 },
                 {
                     "cabal2nixOptions": "",
@@ -688,12 +688,12 @@
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-9Nyb09EnPi1DpNSs4BjIqWeOlvIb8cWBh35t+kVAQsQ=",
-                        "version": "0.8.0.1"
+                        "hash": "sha256-X8AosuMJ6mElOO/z8EjVJbjVLLzzkHtW1bkIok01OgY=",
+                        "version": "0.9.0.0"
                     },
                     "name": "shibuya-metrics",
                     "path": "shibuya-metrics",
-                    "version": "0.8.0.1"
+                    "version": "0.9.0.0"
                 }
             ]
         },

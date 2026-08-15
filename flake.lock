@@ -230,11 +230,11 @@
     "shibuya-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1783204727,
-        "narHash": "sha256-b1NoMQDlz876+H8zJ/KUgb+9cWWZXy04jGgXX3GfDpA=",
+        "lastModified": 1786391485,
+        "narHash": "sha256-DqjTOmDS4lMkougeDhyyFIER/Etyp6nulz2NGD9I0do=",
         "owner": "shinzui",
         "repo": "shibuya",
-        "rev": "172df245f40a454af46dd7f4cde855eaa4414c5a",
+        "rev": "daa1e0c8726bd407288bbeb065146e01a63a4046",
         "type": "github"
       },
       "original": {
