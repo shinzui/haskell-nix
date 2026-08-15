@@ -67,11 +67,11 @@
     "kiroku-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1784038159,
-        "narHash": "sha256-XAFfhYHPcv/wbYxxXO77A5My7/saha289HsJO5/QnqQ=",
+        "lastModified": 1786661318,
+        "narHash": "sha256-XJ+FgscCPIFYwQC/iKpW5B2JnzmU+dP+CQ/vbIxk5O0=",
         "owner": "shinzui",
         "repo": "kiroku",
-        "rev": "58aff77b3a6d6093e3613753a0543aab62db9fac",
+        "rev": "b9aecf3a0f50911388c62df0d250fe5096afbfa4",
         "type": "github"
       },
       "original": {
