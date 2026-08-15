@@ -98,7 +98,7 @@ in
   wai-app-static = always (import ../patches/wai-app-static/3.1.nix);
 
   # ── separate Shibuya adapter repository ────────────────────────────
-  shibuya-pgmq-adapter = always (import ../patches/shibuya-pgmq-adapter/0.12.nix);
+  shibuya-pgmq-adapter = always (import ../patches/shibuya-pgmq-adapter/0.14.nix);
 
   # ── shinzui event-sourcing stack ───────────────────────────────────
   # keiki is a first-party family; its records are generated into
