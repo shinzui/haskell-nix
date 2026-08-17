@@ -110,7 +110,22 @@ Symptom: `refresh` restored the managed lock files cleanly, and its validation f
 error: path '/nix/store/...-cabal2nix-<package>.drv' is not valid
 ```
 
-This looks like the stale eval cache above but is a different failure. Tell them apart:
+**`refresh` now prevents this on its own, and no manual step is expected.** Before running
+`nix flake check`, it evaluates the check's own derivation path, which performs the same
+import-from-derivation builds through a path that realises them:
+
+```bash
+nix eval --no-eval-cache --raw '.#checks.<system>.first-party-versions.drvPath'
+```
+
+The warm is best-effort: if it cannot run, `nix flake check` still decides the refresh and reports
+the real failure, so a failed warm never masks a genuine one.
+
+This section remains for the case where you meet the error outside `refresh` — running
+`nix flake check` by hand after locking a new revision, for example. Run the command above from
+the repository root and rerun the check.
+
+Tell this apart from the stale eval cache above:
 
 | | Stale eval cache | Unbuilt cabal2nix derivation |
 | --- | --- | --- |
@@ -118,93 +133,37 @@ This looks like the stale eval cache above but is a different failure. Tell them
 | `rm -rf ~/.cache/nix/eval-cache-v*` fixes it | yes | no |
 | Retrying | may succeed | fails on the identical store path |
 
+### Why it must be that expression
+
 The first-party version checks force a cabal2nix import-from-derivation for every package at the
-newly locked revision. Those derivations are computed during `nix flake check` evaluation but are
-not realised in the store, so the import cannot build them. The same import through `nix eval`
-succeeds, so evaluating the new packages once populates the store and lets the validation proceed.
+newly locked revision. `nix flake check` computes those derivations during evaluation but does not
+realise them, so the import cannot build them.
 
-The error names only the first derivation that is missing. Warming that one package moves the
-error to the next, so warm the whole family in one pass rather than retrying `refresh` repeatedly.
-Take the new revision, versions, and hashes from `refresh --dry-run`, which writes nothing.
+It is tempting to warm the packages by hand with `nix eval --impure` over `callCabal2nix`. **Do
+not**: an impure evaluation computes a *different* derivation for the same package than the pure
+evaluation `nix flake check` performs, so it warms derivations the check never asks for. The error
+does not move, and it looks as though warming is not working. Two further traps in the same
+direction:
 
-Warm the GitHub channel at the proposed revision:
+- Passing the source as `src.outPath` rather than the input itself makes it a string rather than a
+  path, and `callCabal2nix` filters only path sources — another different derivation.
+- The error names only the first missing derivation, so warming one package at a time appears to
+  make progress while each step is warming the wrong thing.
 
-```bash
-nix eval --no-eval-cache --impure --expr '
-  let
-    flake = builtins.getFlake (toString ./.);
-    pkgs = import flake.inputs.nixpkgs {
-      system = builtins.currentSystem;
-      overlays = [ flake.overlays.github ];
-    };
-    lock = builtins.fromJSON (builtins.readFile ./packages/first-party-lock.json);
-    family = builtins.head (builtins.filter (f: f.name == "FAMILY") lock.families);
-    src = builtins.fetchGit { url = "https://github.com/OWNER/FAMILY"; rev = "NEW_REV"; };
-    warm = hp: package:
-      let
-        target = src + "/${package.path}";
-        called =
-          if package.cabal2nixOptions == ""
-          then hp.callCabal2nix package.name target { }
-          else hp.callCabal2nixWithOptions package.name target package.cabal2nixOptions { };
-        result = builtins.tryEval called.version;
-      in
-      "${package.name}:" + (if result.success then result.value else "warmed");
-  in
-  {
-    ghc9122 = map (warm pkgs.haskell.packages.ghc9122) family.packages;
-    ghc914 = map (warm pkgs.haskell.packages.ghc914) family.packages;
-  }
-' --json
-```
-
-Warm the Hackage channel for every package whose release changed, using the versions and hashes
-the dry run proposed:
-
-```bash
-nix eval --no-eval-cache --impure --expr '
-  let
-    flake = builtins.getFlake (toString ./.);
-    pkgs = import flake.inputs.nixpkgs {
-      system = builtins.currentSystem;
-      overlays = [ flake.overlays.hackage ];
-    };
-    new = [
-      { pkg = "PACKAGE"; ver = "VERSION"; sha256 = "sha256-..."; }
-    ];
-    warm = hp: p:
-      let result = builtins.tryEval (hp.callHackageDirect p { }).version;
-      in "${p.pkg}:" + (if result.success then result.value else "warmed");
-  in
-  {
-    ghc9122 = map (warm pkgs.haskell.packages.ghc9122) new;
-    ghc914 = map (warm pkgs.haskell.packages.ghc914) new;
-  }
-' --json
-```
-
-Then rerun `refresh --family FAMILY` normally.
-
-Four details matter:
-
-1. Apply the matching channel overlay. A bare `nixpkgs` package set cannot resolve first-party
-   dependencies and aborts the sweep with `function 'anonymous lambda' called without required
-   argument '<dependency>'` before the remaining packages are warmed.
-2. Warm both `ghc9122` and `ghc914`. The cabal2nix derivation differs per package set, so warming
-   one compiler leaves the other unbuilt.
-3. The GitHub sweep reads `path` and `cabal2nixOptions` from the current lock, which still holds
-   the old revision. That is correct for a version or revision bump. If the update adds packages,
-   the new ones are absent from that list and must be warmed separately.
-4. The printed versions must match the versions `refresh --dry-run` proposed. A mismatch means the
-   warm ran against the wrong revision, not that the lock is wrong.
+Evaluating `.#checks.<system>.first-party-versions.drvPath` sidesteps all of this by asking the
+check itself, purely, for exactly what it is about to import.
 
 Observed on Determinate Nix 3.17.0 (Nix 2.33.3).
 
 ### Warming a family that is not in the lock yet
 
-The sweeps above load `flake.overlays.<channel>`, which a newly configured family cannot do:
+This is the one case the automatic warm cannot cover, and the one case where an impure sweep over
+a plain package set is the right tool rather than a trap: the check cannot be evaluated at all, so
+there is no pure expression to ask.
+
+A newly configured family cannot load `flake.overlays.<channel>`:
 until its generated records exist, config and lock disagree and the overlay throws. Warm a
-new family through a plain `nixpkgs` package set instead, taking sources from
+new family through a plain `nixpkgs` package set, taking sources from
 `flake.inputs.<family>-src` and Hackage pins from `nix store prefetch-file --json --unpack`
 against the release tarball.
 

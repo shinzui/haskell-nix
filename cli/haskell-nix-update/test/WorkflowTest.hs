@@ -5,7 +5,7 @@ import Data.ByteString qualified as ByteString
 import Data.ByteString.Char8 qualified as ByteStringChar8
 import Data.ByteString.Lazy qualified as LazyByteString
 import Data.IORef
-import Data.List (find)
+import Data.List (find, isSuffixOf)
 import Data.Map.Strict (Map)
 import Data.Map.Strict qualified as Map
 import Data.Set qualified as Set
@@ -40,6 +40,7 @@ tests =
       testCase "missing Git object fails without managed writes" testMissingObject,
       testCase "prefetch failure rolls back byte-for-byte" testPrefetchRollback,
       testCase "post-update validation failure rolls back byte-for-byte" testValidationRollback,
+      testCase "validation warms the first-party checks before running them" testValidationWarmsChecks,
       testCase "Hackage 404 records an unpublished package" testHackage404,
       testCase "offline check validates the locked Git package" testOfflineCheck,
       testCase "online check detects remote revision drift without writes" testOnlineCheckDrift,
@@ -127,6 +128,30 @@ testValidationRollback = withFixture ["alpha"] $ \fixture -> do
   (environment, _) <- fakeEnvironment fixture settings
   runRefreshWorkflow environment (fixturePaths fixture) [] False >>= assertLeft
   assertOriginalBytes fixture
+
+-- The first-party checks perform cabal2nix import-from-derivation builds that
+-- `nix flake check` computes but does not realise, so validation must force them
+-- first or a refresh that locks an unseen revision fails on
+-- "path '/nix/store/...-cabal2nix-<package>.drv' is not valid".
+--
+-- The warm has to be this expression, evaluated purely against the flake: an
+-- impure sweep over callCabal2nix computes different derivations and warms
+-- something the check never imports, so asserting the shape here is the point.
+testValidationWarmsChecks :: IO ()
+testValidationWarmsChecks = withFixture ["alpha"] $ \fixture -> do
+  (environment, commandLog) <- fakeEnvironment fixture (changedSettings ["alpha"])
+  runRefreshWorkflow environment (fixturePaths fixture) [] False >>= assertRight
+  commands <- readIORef commandLog
+  assertBool
+    "validation must warm first-party-versions before checking"
+    (any isFirstPartyWarm commands)
+  let ordered = filter (\command -> isFirstPartyWarm command || isFlakeCheck command) commands
+  case ordered of
+    (warm : check : _) ->
+      assertBool
+        "the warm must run before the check"
+        (isFirstPartyWarm warm && isFlakeCheck check)
+    _ -> assertFailure ("expected a warm followed by a check, saw " <> show ordered)
 
 testHackage404 :: IO ()
 testHackage404 = withFixture ["alpha"] $ \fixture -> do
@@ -328,6 +353,14 @@ runFakeProcess fixture settings commandLog spec@ProcessSpec {executable, argumen
             then failure 1 "prefetch failed"
             else success ("{\"hash\":\"" <> hashText (prefetchedHash settings) <> "\"}\n")
         )
+    ("nix", ["eval", "--impure", "--raw", "--expr", "builtins.currentSystem"]) ->
+      pure (success "aarch64-darwin")
+    -- The import-from-derivation warm that runs before validation. It is
+    -- best-effort in production, so the fake answers it plainly and the
+    -- validation verdict below stays the only thing that decides the refresh.
+    ("nix", ["eval", "--no-eval-cache", "--raw", attribute])
+      | "first-party-versions.drvPath" `isSuffixOf` attribute ->
+          pure (success "/nix/store/0000000000000000000000000000000-first-party-versions.drv")
     ("nix", ["flake", "check", "--no-build", "--no-eval-cache"]) ->
       pure
         ( if validationFails settings
@@ -458,6 +491,15 @@ success standardOutput =
 failure :: Int -> Text -> Either UpdateError ProcessResult
 failure status standardError =
   Right ProcessResult {exitCode = ExitFailure status, standardOutput = "", standardError}
+
+isFirstPartyWarm :: ProcessSpec -> Bool
+isFirstPartyWarm ProcessSpec {executable = "nix", arguments = ["eval", "--no-eval-cache", "--raw", attribute]} =
+  "first-party-versions.drvPath" `isSuffixOf` attribute
+isFirstPartyWarm _ = False
+
+isFlakeCheck :: ProcessSpec -> Bool
+isFlakeCheck ProcessSpec {executable = "nix", arguments = "flake" : "check" : _} = True
+isFlakeCheck _ = False
 
 isFlakeUpdate :: ProcessSpec -> Bool
 isFlakeUpdate ProcessSpec {executable = "nix", arguments = "flake" : "update" : _} = True

@@ -177,6 +177,11 @@ Pass `--family FAMILY` once per distinct family to limit either subcommand. With
 option, every configured family is processed. Unknown family names and duplicate values are
 rejected before work begins.
 
+Before validating, `refresh` evaluates `.#checks.<system>.first-party-versions.drvPath` to realise
+the cabal2nix import-from-derivation builds the first-party checks perform. That step is
+best-effort and needs no flag; `nix flake check` remains the verdict. See
+[Troubleshooting](troubleshooting.md) for why warming those derivations by hand is unreliable.
+
 `refresh --dry-run` reads remote Git heads, Cabal package metadata, and Hackage releases and
 prefetches proposed archives, but it does not change either managed lock file. A normal
 refresh refuses to begin when `flake.lock` or `packages/first-party-lock.json` already has

@@ -71,6 +71,11 @@ prefetchHackage runner packageName version = do
 
 validateFlake :: ProcessRunner -> FilePath -> IO (Either UpdateError ())
 validateFlake runner repositoryRoot = do
+  -- Realise the import-from-derivation builds before the check needs them.
+  -- Deliberately best-effort: if this cannot run, `nix flake check` below is
+  -- still the authoritative verdict and reports the real failure, so a warm
+  -- that fails must not mask it.
+  _ <- warmFirstPartyChecks runner repositoryRoot
   result <-
     runChecked
       runner
@@ -87,6 +92,58 @@ validateFlake runner repositoryRoot = do
           environmentAdditions = []
         }
   pure (() <$ result)
+
+-- | Force the cabal2nix import-from-derivation builds that @first-party-versions@
+-- performs, so that @nix flake check@ finds them already in the store.
+--
+-- @nix flake check@ computes those derivations during evaluation but does not
+-- realise them, so the import fails with @path '/nix/store/...-cabal2nix-<pkg>.drv'
+-- is not valid@ on any refresh that locks a revision whose packages have never
+-- been evaluated. Evaluating the check's own @drvPath@ performs the same imports
+-- through a path that builds them.
+--
+-- It must be this expression, evaluated purely against the flake reference. A
+-- hand-written @nix eval --impure@ over @callCabal2nix@ computes a /different/
+-- derivation for the same package and warms something the check never asks for,
+-- which is why doing this by hand is unreliable.
+warmFirstPartyChecks :: ProcessRunner -> FilePath -> IO (Either UpdateError ())
+warmFirstPartyChecks runner repositoryRoot = do
+  attempted <- currentSystem runner
+  case attempted of
+    Left updateError -> pure (Left updateError)
+    Right system -> do
+      let attribute = ".#checks." <> Text.unpack system <> ".first-party-versions.drvPath"
+      result <-
+        runChecked
+          runner
+          ProcessSpec
+            { executable = "nix",
+              arguments = ["eval", "--no-eval-cache", "--raw", attribute],
+              workingDirectory = Just repositoryRoot,
+              environmentAdditions = []
+            }
+      pure (() <$ result)
+
+-- | The Nix system double this machine builds for.
+--
+-- @--impure@ is required to read @builtins.currentSystem@ and is safe here
+-- precisely because the expression is a bare string: it instantiates no package
+-- set, so it cannot pick up the impurities that make an impure evaluation
+-- disagree with the pure one.
+currentSystem :: ProcessRunner -> IO (Either UpdateError Text)
+currentSystem runner = do
+  result <-
+    runChecked
+      runner
+      ProcessSpec
+        { executable = "nix",
+          arguments = ["eval", "--impure", "--raw", "--expr", "builtins.currentSystem"],
+          workingDirectory = Nothing,
+          environmentAdditions = []
+        }
+  pure $ do
+    ProcessResult {standardOutput} <- result
+    Right (Text.strip standardOutput)
 
 managedFilesDirty :: ProcessRunner -> FilePath -> [FilePath] -> IO (Either UpdateError Bool)
 managedFilesDirty runner repositoryRoot managedPaths = do
