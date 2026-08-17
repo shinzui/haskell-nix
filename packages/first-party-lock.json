@@ -123,7 +123,7 @@
         },
         {
             "githubInput": "keiro-src",
-            "githubRev": "16594c5031ab2c7531a3071581e9760dca958411",
+            "githubRev": "15d004868e2f4f2a85ad192193d3ba0d3b47032d",
             "name": "keiro",
             "packages": [
                 {
@@ -136,62 +136,62 @@
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-pp4oMnu9qMfNOivqDb08qSCQ74NtTWAXenxDAzoKjcU=",
-                        "version": "0.12.0.0"
+                        "hash": "sha256-cEJyqlqJkhz1xL8aJ+gnVJragr8DPJCbeLymHlSHXv8=",
+                        "version": "0.13.0.0"
                     },
                     "name": "keiro",
                     "path": "keiro",
-                    "version": "0.12.0.0"
+                    "version": "0.13.0.0"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-t6LfLOeIFWJH/rJAIzJ1T+Pi00iaY9WntfTErl2Z0Pw=",
-                        "version": "0.12.0.0"
+                        "hash": "sha256-9w2NGlCv/WM098p4mXq0jRB5sfI3rAvqwl5TkiOYYus=",
+                        "version": "0.13.0.0"
                     },
                     "name": "keiro-core",
                     "path": "keiro-core",
-                    "version": "0.12.0.0"
+                    "version": "0.13.0.0"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-SMQzckMrrZoUOot9QyGYjU0scR6I4gWkWFK0zygshlU=",
-                        "version": "0.12.0.0"
+                        "hash": "sha256-P14iJEfslaF7L27G79PskGkBbfTFSSlsFdFiSpRpyp4=",
+                        "version": "0.13.0.0"
                     },
                     "name": "keiro-dsl",
                     "path": "keiro-dsl",
-                    "version": "0.12.0.0"
+                    "version": "0.13.0.0"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-BNmIJlFP01ttqtmf2xglB7GsY7GSX917mHPqdUKupNk=",
-                        "version": "0.12.0.0"
+                        "hash": "sha256-62Iz9MtRsTWFuHn6HQIe+BkS5UpXkAoUtPwbeaNvEXg=",
+                        "version": "0.13.0.0"
                     },
                     "name": "keiro-migrations",
                     "path": "keiro-migrations",
-                    "version": "0.12.0.0"
+                    "version": "0.13.0.0"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-NcuClhbZRILkKc5d0IKY7bKGks/90zS/ziwDAOLGE1M=",
-                        "version": "0.12.0.0"
+                        "hash": "sha256-NACIC9op8ROZyCBwssOvqiBiOJJooy1yRdXy5i/cn1s=",
+                        "version": "0.13.0.0"
                     },
                     "name": "keiro-ops",
                     "path": "keiro-ops",
-                    "version": "0.12.0.0"
+                    "version": "0.13.0.0"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-9vGKUjoBkghTHPtnP9DcyD+7UjGi7Z5uHuI7JnOZeyA=",
-                        "version": "0.12.0.0"
+                        "hash": "sha256-C3qW5YITIX/ZtNiingm+oXPANzrZ1My8Zmf/6JwewBQ=",
+                        "version": "0.13.0.0"
                     },
                     "name": "keiro-pgmq",
                     "path": "keiro-pgmq",
-                    "version": "0.12.0.0"
+                    "version": "0.13.0.0"
                 },
                 {
                     "cabal2nixOptions": "",
@@ -204,75 +204,75 @@
         },
         {
             "githubInput": "kioku-src",
-            "githubRev": "a99aa369701a76278ca33d83f8416dee443fa645",
+            "githubRev": "50fed52abd6f764efa4123ab13895bf3505b9622",
             "name": "kioku",
             "packages": [
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-xEp7LuBdXnUDQYdVeWkO69gRwzi+HuYnymn9JgSk1Nw=",
-                        "version": "0.1.0.0"
+                        "hash": "sha256-jH+Z3sJ4E1A34X8avuxumEaWrXLE/fS9qbAnThEetm4=",
+                        "version": "0.4.0.0"
                     },
                     "name": "kioku-api",
                     "path": "kioku-api",
-                    "version": "0.1.0.0"
+                    "version": "0.4.0.0"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-mVX5yePWrxhTugeSgytuAfH4IpdxNRIZdJCn/GzWEWQ=",
-                        "version": "0.1.0.0"
+                        "hash": "sha256-vPkw34DQ051aYq5nVOwLsF+qHMEZEaZZMcEDkx/bo8Q=",
+                        "version": "0.4.0.0"
                     },
                     "name": "kioku-cli",
                     "path": "kioku-cli",
-                    "version": "0.1.0.0"
+                    "version": "0.4.0.0"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-lOP7wWxYqZDyRW5V10MtRa7pdqYOqf/XjWSJ9cN13vI=",
-                        "version": "0.1.0.0"
+                        "hash": "sha256-dPGER3JIoxIyKTts6vozUxMrS2HMNqoRjrrUj5xVQsY=",
+                        "version": "0.4.0.0"
                     },
                     "name": "kioku-core",
                     "path": "kioku-core",
-                    "version": "0.1.0.0"
+                    "version": "0.4.0.0"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-mT1ncwPlI5tJzNy8XKA7qnGF7r2gk+8prekCNsbGbrI=",
-                        "version": "0.1.0.0"
+                        "hash": "sha256-5BY/3l/0YrVFgaPSihNppuZq8YZqXAPrB1VEOXfAfPw=",
+                        "version": "0.4.0.0"
                     },
                     "name": "kioku-migrate",
                     "path": "kioku-migrate",
-                    "version": "0.1.0.0"
+                    "version": "0.4.0.0"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-srM0ae70Taioh51+Rd6R+oewixAyPeohlmWlDZB0/9c=",
-                        "version": "0.1.0.0"
+                        "hash": "sha256-5UIa48yLmrn63BP51oDbNB5a4EitwqYaWn6fI6SbqTA=",
+                        "version": "0.4.0.0"
                     },
                     "name": "kioku-migrations",
                     "path": "kioku-migrations",
-                    "version": "0.1.0.0"
+                    "version": "0.4.0.0"
                 }
             ]
         },
         {
             "githubInput": "kiroku-src",
-            "githubRev": "b9aecf3a0f50911388c62df0d250fe5096afbfa4",
+            "githubRev": "b89670c34f0fdd6aab866d1cbb069404c00f4d63",
             "name": "kiroku",
             "packages": [
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-JDyQEulTKwrSr1KblwRZdZFm4xk66P6Tvs+OkjyolMs=",
-                        "version": "0.2.0.4"
+                        "hash": "sha256-d08WyTSehPwHdBvy1StPU3dIJDb7z5trAz2sGWKgrLM=",
+                        "version": "0.2.0.6"
                     },
                     "name": "kiroku-cli",
                     "path": "kiroku-cli",
-                    "version": "0.2.0.4"
+                    "version": "0.2.0.6"
                 },
                 {
                     "cabal2nixOptions": "",
@@ -284,42 +284,42 @@
                 {
                     "cabal2nixOptions": "-f-example",
                     "hackage": {
-                        "hash": "sha256-rJ0pG+p5Oda0dWJoyi7LBpPSEBSEiZOf8oZTlcatpWA=",
-                        "version": "0.1.0.6"
+                        "hash": "sha256-+HracwpMMD8nXzOsxq28E94aSmHwTV/lgUC2uqJOyXE=",
+                        "version": "0.1.0.8"
                     },
                     "name": "kiroku-metrics",
                     "path": "kiroku-metrics",
-                    "version": "0.1.0.6"
+                    "version": "0.1.0.8"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-h8ThcP19T5JENukU1Q4mO++lqUnoIUDZq5VXgzi+YBE=",
-                        "version": "0.2.0.5"
+                        "hash": "sha256-loMfrIkYGBxD2MDCUR3Z1GX7AZIIxnHXo5uAYvQpFAc=",
+                        "version": "0.2.0.7"
                     },
                     "name": "kiroku-otel",
                     "path": "kiroku-otel",
-                    "version": "0.2.0.5"
+                    "version": "0.2.0.7"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-KwRitQMC8iwB/3IUivI93leiLApPZypEJl8gYQevqWQ=",
-                        "version": "0.7.0.0"
+                        "hash": "sha256-wOSotVNhTm1jJTTjDw/2lKRH7Sh3mMAxVBV8IDmrDrA=",
+                        "version": "0.8.0.0"
                     },
                     "name": "kiroku-store",
                     "path": "kiroku-store",
-                    "version": "0.7.0.0"
+                    "version": "0.8.0.0"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-vXVYjdGppt/kYo7DrsdYQTkkWiY/7LattoDlTLHOO6A=",
-                        "version": "0.3.2.0"
+                        "hash": "sha256-vl3FHaDPeFqy5eLPOX82uJDyR+VUjVNvwrCg5jk7vhk=",
+                        "version": "0.4.0.0"
                     },
                     "name": "kiroku-store-migrations",
                     "path": "kiroku-store-migrations",
-                    "version": "0.3.2.0"
+                    "version": "0.4.0.0"
                 },
                 {
                     "cabal2nixOptions": "",
@@ -331,12 +331,12 @@
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-NswFfOieyitmyrqbvl4yXhpNK276f2cbt67RA+sNKiI=",
-                        "version": "0.5.0.2"
+                        "hash": "sha256-WfJTu/dZ8Ci8L/PcQYoFDrOdstaBgisPmwCRwHMR50A=",
+                        "version": "0.5.1.1"
                     },
                     "name": "shibuya-kiroku-adapter",
                     "path": "shibuya-kiroku-adapter",
-                    "version": "0.5.0.2"
+                    "version": "0.5.1.1"
                 }
             ]
         },
