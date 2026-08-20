@@ -130,9 +130,10 @@ in
   # nixpkgs snapshot ships the unrevised file. Jailbreak to match cabal.
   http-conduit = always doJailbreakOnly;
 
-  # dhall has a manual `use-http-client-tls` flag pinned to http-client-tls
-  # <0.4. Disable it so dhall compiles against 0.4.x.
-  dhall = always (import ../patches/dhall/no-http-client-tls.nix);
+  # dhall's `use-http-client-tls` flag pins http-client-tls <0.4. Relax the
+  # bound rather than disabling the flag: without the flag every remote Dhall
+  # import throws `TlsNotSupported` at runtime, on cache miss only.
+  dhall = always (import ../patches/dhall/keep-http-client-tls.nix);
 
   # ── ephemeral-pg (test PostgreSQL; keiro/kiroku test-support dependency) ──
   ephemeral-pg = always (import ../patches/ephemeral-pg/0.2.nix);
