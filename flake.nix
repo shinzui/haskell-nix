@@ -37,6 +37,7 @@
 
     fixPackageByVersion = import ./lib/fixPackageByVersion.nix { inherit lib; };
     disableProfilingOverride = import ./lib/disableProfilingOverride.nix;
+    disableHaddockOverride = import ./lib/disableHaddockOverride.nix;
     mkHaskellOverlay = import ./lib/mkHaskellOverlay.nix { inherit lib; };
     mkFirstPartyRegistries = import ./lib/mkFirstPartyRegistries.nix { inherit lib; };
     firstPartyRegistries = mkFirstPartyRegistries {
@@ -68,6 +69,7 @@
       { registry
       , extraOverrides ? (_: _: { })
       , disableProfiling ? false
+      , disableHaddock ? false
       }:
       let
         perPackageOverrides = lib.mapAttrsToList
@@ -77,6 +79,7 @@
       haskellLib: pkgs:
         composeManyExtensions
           (lib.optional disableProfiling disableProfilingOverride
+            ++ lib.optional disableHaddock disableHaddockOverride
             ++ [ extraOverrides ]
             ++ map (override: override haskellLib pkgs) perPackageOverrides);
 
@@ -95,8 +98,11 @@
     mkChannelExtension =
       { channel ? "github"
       , disableProfiling ? false
+      , disableHaddock ? false
       }:
-      mkHaskellExtension (channelSpecs.${channel} // { inherit disableProfiling; });
+      mkHaskellExtension (channelSpecs.${channel} // {
+        inherit disableProfiling disableHaddock;
+      });
 
     haskellExtensions = lib.mapAttrs (_: mkHaskellExtension) channelSpecs;
 
@@ -164,6 +170,7 @@
 
     lib = {
       inherit
+        disableHaddockOverride
         disableProfilingOverride
         fixPackageByVersion
         mkChannelExtension
@@ -199,7 +206,7 @@
       };
     });
 
-    checks = forAllSystems ({ pkgsGithub, pkgsHackage, updater, system, ... }:
+    checks = forAllSystems ({ pkgsPlain, pkgsGithub, pkgsHackage, updater, system, ... }:
       let
         fixture = import ./checks/first-party-registry.nix {
           inherit lib firstPartyRegistries;
@@ -289,6 +296,45 @@
         '';
 
       haskell-nix-update = updater;
+
+      # The opt-in build-setting flags must stay inert by default and actually
+      # reach the package scope when asked for. `doHaddock` is observable
+      # through `enableSeparateDocOutput`, which defaults to it: no Haddock, no
+      # `doc` output.
+      build-setting-flags =
+        let
+          mkSet = args: pkgsPlain.haskell.packages.ghc9122.override {
+            overrides = (mkChannelExtension args)
+              pkgsPlain.haskell.lib.compose
+              pkgsPlain;
+          };
+          hasDocOutput = set: builtins.elem "doc" set.hasql.outputs;
+
+          results = {
+            # Reading the extension the default way must not change the build.
+            default-keeps-haddock = hasDocOutput (mkSet { });
+            # ... and neither must an unrelated build-setting flag.
+            profiling-flag-keeps-haddock =
+              hasDocOutput (mkSet { disableProfiling = true; });
+            # The flag reaches every package in the scope.
+            flag-drops-haddock =
+              !(hasDocOutput (mkSet { disableHaddock = true; }));
+            # It sets a default, not a ceiling: `overrideCabal` re-applies its
+            # attrs on top of the scope's `mkDerivation`, so a consumer can
+            # still ask for documentation on one particular package.
+            per-package-opt-back-in =
+              builtins.elem "doc"
+                (pkgsPlain.haskell.lib.compose.doHaddock
+                  (mkSet { disableHaddock = true; }).hasql).outputs;
+          };
+          failures = builtins.filter (name: !results.${name})
+            (builtins.attrNames results);
+        in
+        assert failures == [ ];
+        pkgsPlain.runCommand "build-setting-flags" { } ''
+          echo 'Build-setting flags behave as documented: ${builtins.toJSON results}'
+          touch "$out"
+        '';
 
       # Force evaluation of the overlay to catch Nix-level errors.
       # Verify both channel overlays and both supported compiler sets.

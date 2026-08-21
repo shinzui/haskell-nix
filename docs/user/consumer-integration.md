@@ -71,12 +71,18 @@ are **opt-in**, requested through `lib.mkChannelExtension` instead of reading
 firstPartyExtension = inputs.haskell-nix.lib.mkChannelExtension {
   channel = "github";        # or "hackage"; defaults to "github"
   disableProfiling = true;   # defaults to false
+  disableHaddock = true;     # defaults to false
 };
 ```
 
 `lib.haskellExtensions.github` is exactly `mkChannelExtension { }` — same signature, every
 option at its default — so nothing changes for a consumer that keeps using it.
-`lib.mkHaskellOverlay` takes the same `disableProfiling` argument.
+`lib.mkHaskellOverlay` takes the same two arguments.
+
+Both work the same way: an override of `mkDerivation` in the package scope, which is the
+only hook that moves every package in the set at once. Both therefore change every store
+path in the set, so **turn them on together**. Adopting one and then the other costs two
+full rebuilds instead of one.
 
 ### `disableProfiling`
 
@@ -99,8 +105,43 @@ flake does to registry packages behind your back. Your own packages are covered 
 hook once you enable it, so an explicit `disableLibraryProfiling` on them becomes redundant
 (harmless if left in).
 
-Enabling it changes every store path in the set, so expect one full rebuild on the switch.
 Leave it off if you need a profiled package set.
+
+### `disableHaddock`
+
+Turns Haddock off for the whole package set (`lib/disableHaddockOverride.nix`, exported as
+`lib.disableHaddockOverride`).
+
+`doHaddock` defaults to true in nixpkgs' Haskell builder, so every library in the set
+carries a `doc` output and pays a full Haddock pass over its own modules and its
+dependencies' interfaces. If you ship CLI tools, nothing reads it: the documentation a
+human opens is on Hackage. The binary-cache argument from `disableProfiling` applies
+unchanged — this fleet pins a GHC that is not nixpkgs' default, so the closure is compiled
+locally either way and the Haddock pass costs real wall-clock on every toolchain or
+registry bump.
+
+Setting `doHaddock` is enough on its own. In `generic-builder.nix` the whole `haddockPhase`
+body is gated on `doHaddock && isLibrary`, so `doHoogle`, `doHaddockQuickjump` and
+`hyperlinkSource` never get a chance to apply; `doHaddockInterfaces` and
+`enableSeparateDocOutput` both default to `doHaddock`, so the interface `configureFlags`
+and the separate `doc` output fall away with it.
+
+Unlike profiling, Haddock is **not** contagious across a dependency edge — a package can
+skip its documentation whether or not its dependencies did — so this one could have been
+done per package. It is set-wide anyway because the same one-line hook covers everything
+correctly, whereas a hand-kept list drifts against every new registry entry and every
+dependency you add.
+
+It is a default, not a ceiling. `overrideCabal` re-applies its attrs on top of the scope's
+`mkDerivation`, so you can still ask for documentation on one package:
+
+```nix
+myPackage = pkgs.haskell.lib.compose.doHaddock hself.myPackage;
+```
+
+Leave it off if anything reads a package's `.doc` or its `haddockDir` passthru — a
+`shellFor` dev shell that wants dependency documentation, or a Hoogle index over this set.
+Those lose their inputs, which is why this is opt-in rather than the default.
 
 ## Why not the overlay
 

@@ -10,14 +10,21 @@ generated:
   at: "2026-08-11T03:59:38Z"
 origin: mori://shinzui/dotfiles.nix
 requestId: IR-1
-status: proposed
+status: completed
+resolution: >-
+  Landed as an opt-in `disableHaddock` flag on `lib.mkChannelExtension` and
+  `lib.mkHaskellOverlay`, backed by
+  `lib/disableHaddockOverride.nix` and guarded by the `build-setting-flags`
+  check. Kept as a second flag rather than collapsed into one `leanBuild`: no
+  consumer had adopted `disableProfiling`, so the fleet still pays a single
+  rebuild when it turns both on together.
 ---
 
 # Improvement Request: Stop building Haddock for the package sets haskell-nix patches
 
 ## Status
 
-- **Status:** proposed
+- **Status:** completed
 - **Origin:** `shinzui/dotfiles.nix` (raised while cutting the time
   `darwin-rebuild switch` spends compiling the globally installed Haskell CLIs).
   That repository is not yet Mori-registered; the URI above is its intended
@@ -90,6 +97,9 @@ flags keep the reasons distinct, which matters because the arguments for them
 are not the same strength — nothing consumes the profiling way, whereas Haddock
 has real consumers this fleet just doesn't happen to have.
 
+> **Decided: two flags.** The distinctness argument won, and the rebuild
+> argument turned out to cost nothing — see the resolution below.
+
 **Extend the `disableProfiling` section of
 `docs/user/consumer-integration.md`** rather than adding a second one, so the
 page reads as one list of build settings.
@@ -125,3 +135,44 @@ Flipping a `mkDerivation` attribute changes every store path in the set, so each
 flag costs a consumer one full rebuild when it turns it on. If both flags are
 wanted, land the second before any consumer adopts the first, or the fleet pays
 the rebuild twice — which is also the argument for collapsing them into one.
+
+## Resolution
+
+**Shipped as `disableHaddock`**, opt-in and defaulting to false, on
+`lib.mkChannelExtension` and `lib.mkHaskellOverlay` — and on the internal
+`mkHaskellExtension` they both route through. The hook is `lib/disableHaddockOverride.nix`, exported as
+`lib.disableHaddockOverride` for a consumer that would rather compose it
+directly — the same shape as `lib.disableProfilingOverride`.
+
+**Two flags, not one `leanBuild`.** The rebuild argument for collapsing them
+turned out to be free: no consumer had adopted `disableProfiling` at the time
+this landed, so the fleet pays one rebuild as long as a consumer enables both
+in the same commit. `docs/user/consumer-integration.md` now says so in the
+shared preamble to both flags. That leaves only the distinctness argument, and
+it stands — the case against profiling is that nothing consumes it, while the
+case against Haddock is that *this fleet* happens not to.
+
+**One attribute was enough.** `doHaddock = false` alone covers it: in
+`generic-builder.nix` the whole `haddockPhase` body is gated on `doHaddock &&
+isLibrary`, so `doHoogle`, `doHaddockQuickjump` and `hyperlinkSource` never
+apply, and `doHaddockInterfaces` and `enableSeparateDocOutput` both default to
+`doHaddock`, so the interface `configureFlags` and the separate `doc` output
+fall away with it.
+
+**The flag is a default, not a ceiling.** `overrideCabal` re-applies its attrs
+on top of the scope's `mkDerivation`, so `haskell.lib.compose.doHaddock` still
+re-enables documentation for one package inside a set that disabled it. This
+was measured, not assumed — it is one of the four assertions in the
+`build-setting-flags` check, alongside both flags staying inert by default and
+`disableHaddock` actually dropping the `doc` output.
+
+### Still outstanding
+
+The scope note below is unchanged and is now the remaining work: this reaches
+only consumers that opt in, and `mori` is the one that motivated the request.
+Since this request was written `mori` has started composing
+`lib.haskellExtension` alongside its own overlay, so it *is* reachable — it
+needs `lib.mkChannelExtension { disableHaddock = true; disableProfiling = true; }`
+in its `flake.module.nix` and a `flake.lock` bump. The other hand-rolled
+consumers still need either the same treatment locally or a migration onto the
+registry.
