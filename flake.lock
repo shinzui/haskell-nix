@@ -19,11 +19,11 @@
     "keiki-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1785900948,
-        "narHash": "sha256-VJ2NRVoIrXjdj1YaEPKdB+7Jid7UeQ9Dx95ODg2pbBk=",
+        "lastModified": 1787288082,
+        "narHash": "sha256-Vn0+26xZR6gQ5o61NGgtXicYpHULgfDlA4mH/JdxIfA=",
         "owner": "shinzui",
         "repo": "keiki",
-        "rev": "9714d37033c37595e3aaa3319ca0ca77466782e0",
+        "rev": "15bc83b1eb38d78488862f24bb1d873aa32a919a",
         "type": "github"
       },
       "original": {

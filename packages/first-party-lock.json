@@ -86,38 +86,38 @@
         },
         {
             "githubInput": "keiki-src",
-            "githubRev": "9714d37033c37595e3aaa3319ca0ca77466782e0",
+            "githubRev": "15bc83b1eb38d78488862f24bb1d873aa32a919a",
             "name": "keiki",
             "packages": [
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-GCC/NWM3YsJz9pxheEa/IWrDVWEmxzgz1TU32L/57kw=",
-                        "version": "0.9.0.0"
+                        "hash": "sha256-FdjCXyzFKXvq1B763sQOcVWcv9DkeTKK2RmW/yknngU=",
+                        "version": "0.9.1.0"
                     },
                     "name": "keiki",
                     "path": ".",
-                    "version": "0.9.0.0"
+                    "version": "0.9.1.0"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-hvsn/At0HurZbjsYFp9E2EPaKDmw1jfa76LT95jL3SI=",
-                        "version": "0.9.0.0"
+                        "hash": "sha256-y4zdM7UCwlkBZSdg3rDL67T6BpWlFK7p3afW/C4h4oc=",
+                        "version": "0.9.1.0"
                     },
                     "name": "keiki-codec-json",
                     "path": "keiki-codec-json",
-                    "version": "0.9.0.0"
+                    "version": "0.9.1.0"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-YC07GGrvtUUmC0PE8TQIE3i0vRxeiZbAwOoZVO9iTl8=",
-                        "version": "0.9.0.0"
+                        "hash": "sha256-1JyuWtOMH1BleK1m5LRhCoUOx3Oh6JfDK8LVW5KdND4=",
+                        "version": "0.9.1.0"
                     },
                     "name": "keiki-codec-json-test",
                     "path": "keiki-codec-json-test",
-                    "version": "0.9.0.0"
+                    "version": "0.9.1.0"
                 }
             ]
         },
