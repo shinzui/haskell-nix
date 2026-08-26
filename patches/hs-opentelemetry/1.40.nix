@@ -43,6 +43,9 @@ in
   hs-opentelemetry-exporter-in-memory = pkg "hs-opentelemetry-exporter-in-memory" "/exporters/in-memory";
   hs-opentelemetry-exporter-otlp = pkg "hs-opentelemetry-exporter-otlp" "/exporters/otlp";
 
+  # mori://iand675/hs-opentelemetry/packages/hs-opentelemetry-instrumentation-wai
+  hs-opentelemetry-instrumentation-wai = pkg "hs-opentelemetry-instrumentation-wai" "/instrumentation/wai";
+
   hs-opentelemetry-propagator-b3 = pkg "hs-opentelemetry-propagator-b3" "/propagators/b3";
   hs-opentelemetry-propagator-datadog = pkg "hs-opentelemetry-propagator-datadog" "/propagators/datadog";
   hs-opentelemetry-propagator-jaeger = pkg "hs-opentelemetry-propagator-jaeger" "/propagators/jaeger";

@@ -81,6 +81,7 @@ in
   hs-opentelemetry-exporter-handle = always ({ ... }@args: (import ../patches/hs-opentelemetry/1.40.nix args).hs-opentelemetry-exporter-handle);
   hs-opentelemetry-exporter-in-memory = always ({ ... }@args: (import ../patches/hs-opentelemetry/1.40.nix args).hs-opentelemetry-exporter-in-memory);
   hs-opentelemetry-exporter-otlp = always ({ ... }@args: (import ../patches/hs-opentelemetry/1.40.nix args).hs-opentelemetry-exporter-otlp);
+  hs-opentelemetry-instrumentation-wai = always ({ ... }@args: (import ../patches/hs-opentelemetry/1.40.nix args).hs-opentelemetry-instrumentation-wai);
   hs-opentelemetry-propagator-b3 = always ({ ... }@args: (import ../patches/hs-opentelemetry/1.40.nix args).hs-opentelemetry-propagator-b3);
   hs-opentelemetry-propagator-datadog = always ({ ... }@args: (import ../patches/hs-opentelemetry/1.40.nix args).hs-opentelemetry-propagator-datadog);
   hs-opentelemetry-propagator-jaeger = always ({ ... }@args: (import ../patches/hs-opentelemetry/1.40.nix args).hs-opentelemetry-propagator-jaeger);
@@ -115,6 +116,7 @@ in
   # fork) instance-coherent.
   ram = always (import ../patches/ram/0.22.nix);
   crypton = always (import ../patches/crypton/1.1.nix);
+  crypto-token = always (import ../patches/crypto-token/0.2.nix);
   mlkem = always (import ../patches/mlkem/0.2.nix);
   hpke = always (import ../patches/hpke/0.1.nix);
   crypton-x509 = always (import ../patches/crypton-x509/1.9.nix);
@@ -122,6 +124,9 @@ in
   crypton-x509-system = always (import ../patches/crypton-x509-system/1.9.nix);
   crypton-x509-validation = always (import ../patches/crypton-x509-validation/1.9.nix);
   tls = always (import ../patches/tls/2.3.nix);
+  # 0.0.9 caps crypto-token < 0.2 and tls < 2.3 even though both updates retain
+  # the APIs it uses. Keep the package on the instance-coherent shared stack.
+  tls-session-manager = always doJailbreakOnly;
   crypton-connection = always (import ../patches/crypton-connection/0.4.nix);
   http-client-tls = always (import ../patches/http-client-tls/0.4.nix);
 
