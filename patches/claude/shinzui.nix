@@ -1,11 +1,9 @@
-{ hself, haskellLib, pkgs, ... }:
+{ hself, haskellLib, ... }:
 
-haskellLib.dontCheck (haskellLib.doJailbreak (hself.callCabal2nix "claude"
-  (pkgs.fetchFromGitHub
-    {
-      owner = "shinzui";
-      repo = "claude-project";
-      rev = "60332ebb5686fa0a9ba2aa4ce9e582611cac4463";
-      hash = "sha256-WDQRhEqhU6y73cPC+WWNBlpRFOORNrlCI2yQK6X6nZk=";
-    } + "/claude")
-{ }))
+haskellLib.dontCheck (haskellLib.doJailbreak (hself.callHackageDirect
+  {
+    pkg = "claude";
+    ver = "1.5.0";
+    sha256 = "sha256-Jng3pCOl9d9XqXbHomBJNiXDMViKZYymj9AKTWwHhvY=";
+  }
+  { }))
