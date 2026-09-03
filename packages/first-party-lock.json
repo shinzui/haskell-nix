@@ -207,58 +207,58 @@
         },
         {
             "githubInput": "kioku-src",
-            "githubRev": "dd76c1346a93b7fd41e9805b98cfb58eb8cea1b9",
+            "githubRev": "14a7543f508a7d8110296383aa0500ab9e3b6a5d",
             "name": "kioku",
             "packages": [
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-lO9VBVIX3/9fiPC0P+H/Dx98uey05xSfbVndJ6Zf0b0=",
-                        "version": "0.5.0.0"
+                        "hash": "sha256-shqtTRXCxB6kB8pU0VLBCM/Azn1nOf6GgsEjaRpYByU=",
+                        "version": "0.5.2.0"
                     },
                     "name": "kioku-api",
                     "path": "kioku-api",
-                    "version": "0.5.0.0"
+                    "version": "0.5.2.0"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-H4LNJKJyE2r6wjdgq361JV7dVe+lPVCV5sJwPmiIZrE=",
-                        "version": "0.5.0.0"
+                        "hash": "sha256-LPIy8P2nqdrEvzPQnFV92t0BhLzreACQ3q5AmCqpHO0=",
+                        "version": "0.5.2.0"
                     },
                     "name": "kioku-cli",
                     "path": "kioku-cli",
-                    "version": "0.5.0.0"
+                    "version": "0.5.2.0"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-a2IP9Gmu0uAgLR9/BLGxEYJCxk4Fc1Onhq97OQIu1aw=",
-                        "version": "0.5.0.0"
+                        "hash": "sha256-7ZmShnGxSdeo43n2d+ZbWkdFJ95x3DrAQLGcSqE2jXY=",
+                        "version": "0.5.2.0"
                     },
                     "name": "kioku-core",
                     "path": "kioku-core",
-                    "version": "0.5.0.0"
+                    "version": "0.5.2.0"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-+AH5RtclJc76RVV7ZLKElxtRo7RyHYkENVdwxcfg87M=",
-                        "version": "0.5.0.0"
+                        "hash": "sha256-hb4Bina15a0hN/oCChst3AjMT3KPWBs9HURjdREB8po=",
+                        "version": "0.5.2.0"
                     },
                     "name": "kioku-migrate",
                     "path": "kioku-migrate",
-                    "version": "0.5.0.0"
+                    "version": "0.5.2.0"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-xrtlimQo8HZ0i484Oywqec2qaWize9KfxrT1mGObco4=",
-                        "version": "0.5.0.0"
+                        "hash": "sha256-pdGky95X5nqNeJCDVRQuGLSsBPM9z7EJ8mIC98VONck=",
+                        "version": "0.5.2.0"
                     },
                     "name": "kioku-migrations",
                     "path": "kioku-migrations",
-                    "version": "0.5.0.0"
+                    "version": "0.5.2.0"
                 }
             ]
         },
