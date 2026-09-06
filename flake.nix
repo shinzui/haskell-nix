@@ -68,8 +68,8 @@
     mkHaskellExtension =
       { registry
       , extraOverrides ? (_: _: { })
-      , disableProfiling ? false
-      , disableHaddock ? false
+      , disableProfiling ? true
+      , disableHaddock ? true
       }:
       let
         perPackageOverrides = lib.mapAttrsToList
@@ -92,13 +92,20 @@
       };
     };
 
-    # Public constructor for consumers that want a build setting this flake does
-    # not impose by default. `lib.haskellExtensions.*` is this with every option
+    # Public constructor for consumers that want a build setting other than the
+    # one this flake imposes. `lib.haskellExtensions.*` is this with every option
     # left at its default.
+    #
+    # Both build settings default to ON as of the profiling/Haddock flip: this
+    # fleet ships CLI tools, nothing consumes the `p_` way or the `doc` output,
+    # and `haskell.packages.ghc9124.*` is absent from cache.nixos.org, so every
+    # consumer was compiling both twice over from source. A consumer that does
+    # want either back passes `false` explicitly, and `haskell.lib.compose`
+    # still re-applies per package on top of the scope.
     mkChannelExtension =
       { channel ? "github"
-      , disableProfiling ? false
-      , disableHaddock ? false
+      , disableProfiling ? true
+      , disableHaddock ? true
       }:
       mkHaskellExtension (channelSpecs.${channel} // {
         inherit disableProfiling disableHaddock;
@@ -297,10 +304,12 @@
 
       haskell-nix-update = updater;
 
-      # The opt-in build-setting flags must stay inert by default and actually
-      # reach the package scope when asked for. `doHaddock` is observable
-      # through `enableSeparateDocOutput`, which defaults to it: no Haddock, no
-      # `doc` output.
+      # The build-setting flags must reach the package scope by default and be
+      # answerable by a consumer that wants either setting back. `doHaddock` is
+      # observable through `enableSeparateDocOutput`, which defaults to it: no
+      # Haddock, no `doc` output. Profiling has no such observable, so Haddock
+      # stands in for both -- they compose identically, through one
+      # `mkDerivation` override in the scope.
       build-setting-flags =
         let
           mkSet = args: pkgsPlain.haskell.packages.ghc9122.override {
@@ -311,21 +320,25 @@
           hasDocOutput = set: builtins.elem "doc" set.hasql.outputs;
 
           results = {
-            # Reading the extension the default way must not change the build.
-            default-keeps-haddock = hasDocOutput (mkSet { });
-            # ... and neither must an unrelated build-setting flag.
-            profiling-flag-keeps-haddock =
-              hasDocOutput (mkSet { disableProfiling = true; });
-            # The flag reaches every package in the scope.
-            flag-drops-haddock =
-              !(hasDocOutput (mkSet { disableHaddock = true; }));
+            # Reading the extension the default way now drops Haddock, and the
+            # flag reaches every package in the scope rather than the top one.
+            default-drops-haddock = !(hasDocOutput (mkSet { }));
+            # The default is answerable: a consumer that wants documentation
+            # back says so, and gets it for the whole set.
+            explicit-false-keeps-haddock =
+              hasDocOutput (mkSet { disableHaddock = false; });
+            # The two settings stay independent. Answering one must not answer
+            # the other, which is what a single shared `mkDerivation` override
+            # would silently do if they were ever collapsed.
+            profiling-flag-does-not-answer-haddock =
+              !(hasDocOutput (mkSet { disableProfiling = false; }));
             # It sets a default, not a ceiling: `overrideCabal` re-applies its
             # attrs on top of the scope's `mkDerivation`, so a consumer can
             # still ask for documentation on one particular package.
             per-package-opt-back-in =
               builtins.elem "doc"
                 (pkgsPlain.haskell.lib.compose.doHaddock
-                  (mkSet { disableHaddock = true; }).hasql).outputs;
+                  (mkSet { }).hasql).outputs;
           };
           failures = builtins.filter (name: !results.${name})
             (builtins.attrNames results);

@@ -1,10 +1,13 @@
 # disableProfilingOverride :: hself -> hsuper -> AttrSet
 #
-# Package-set-wide opt-out of GHC profiling libraries. OPT-IN: nothing composes
-# it unless a caller passes `disableProfiling = true` to `mkChannelExtension`
-# or `mkHaskellOverlay`, or composes this extension directly. The default stays
-# false because turning it on changes how a consumer's packages are built, not
-# just which versions they resolve, and that is the consumer's call.
+# Package-set-wide opt-out of GHC profiling libraries. ON BY DEFAULT: every
+# caller of `mkChannelExtension` or `mkHaskellOverlay` gets it unless they pass
+# `disableProfiling = false`. It was opt-in until the fleet-wide flip, on the
+# reasoning that changing how a consumer's packages are built rather than which
+# versions they resolve is the consumer's call. That reasoning did not survive
+# contact with the bill: every consumer is this fleet, none of them read the
+# `p_` way, and each was paying a second full GHC pass for it on every change.
+# A consumer that genuinely wants profiling libraries still says so.
 #
 # nixpkgs builds every Haskell library twice — a vanilla way and a `p_` way —
 # because `enableLibraryProfiling` defaults to true. Nothing in this fleet

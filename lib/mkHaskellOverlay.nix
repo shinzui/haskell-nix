@@ -5,18 +5,22 @@
 # High-level combinator that turns a patch registry into a nixpkgs-level
 # overlay applying version-scoped patches to multiple GHC package sets.
 #
-# `disableProfiling` and `disableHaddock` are opt-in and default to false, so
-# this overlay changes only which package versions resolve unless a caller asks
-# for more. See ./disableProfilingOverride.nix and ./disableHaddockOverride.nix
-# for what enabling each one does. Each flag changes every store path in the
-# set, so turning them on separately costs two full rebuilds rather than one.
+# `disableProfiling` and `disableHaddock` both default to true. Nothing in this
+# fleet consumes the `p_` way or the `doc` output, and this GHC's package set is
+# absent from cache.nixos.org, so leaving them on meant every consumer compiled
+# both from source on every change. See ./disableProfilingOverride.nix and
+# ./disableHaddockOverride.nix for what each one does and why each has to move
+# the whole set at once. A consumer that wants either back passes `false`.
+#
+# Each flag changes every store path in the set, so answering them separately
+# costs two full rebuilds rather than one.
 { lib }:
 
 { registry
 , compilers ? [ "ghc9122" "ghc914" ]
 , extraOverrides ? (_: _: { })
-, disableProfiling ? false
-, disableHaddock ? false
+, disableProfiling ? true
+, disableHaddock ? true
 }:
 
 let
