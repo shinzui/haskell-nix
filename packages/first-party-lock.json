@@ -86,7 +86,7 @@
         },
         {
             "githubInput": "keiki-src",
-            "githubRev": "15bc83b1eb38d78488862f24bb1d873aa32a919a",
+            "githubRev": "97d8b07e87ceb2d9b6e6b2b8a60a7de84e15e2bb",
             "name": "keiki",
             "packages": [
                 {
