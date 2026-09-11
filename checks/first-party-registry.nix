@@ -1,4 +1,4 @@
-{ lib, pkgs, firstPartyRegistries }:
+{ lib, pkgs, firstPartyRegistries, supportedGhcs }:
 
 let
   fixtures = ./fixtures/first-party;
@@ -50,15 +50,11 @@ let
   applyGithubFixture = applyGithubEntry registries.github "example-core";
   applyRootFixture = applyGithubEntry rootRegistries.github "example-root";
 
-  fixtureVersions = {
-    ghc9122 = (applyGithubFixture "ghc9122").version;
-    ghc914 = (applyGithubFixture "ghc914").version;
-  };
+  fixtureVersions = lib.genAttrs supportedGhcs
+    (ghc: (applyGithubFixture ghc).version);
 
-  rootFixtureVersions = {
-    ghc9122 = (applyRootFixture "ghc9122").version;
-    ghc914 = (applyRootFixture "ghc914").version;
-  };
+  rootFixtureVersions = lib.genAttrs supportedGhcs
+    (ghc: (applyRootFixture ghc).version);
 
   invalidCases = [
     {
@@ -149,12 +145,11 @@ in
     assert kiokuGithubNames == kiokuPackageNames;
     assert kiokuHackageNames == kiokuPackageNames;
     assert allInvalidRejected;
-    assert fixtureVersions.ghc9122 == "1.2.0.0";
-    assert fixtureVersions.ghc914 == "1.2.0.0";
+    assert supportedGhcs != [ ];
+    assert builtins.all (v: v == "1.2.0.0") (builtins.attrValues fixtureVersions);
     assert builtins.attrNames rootRegistries.github == [ "example-root" ];
     assert builtins.attrNames rootRegistries.hackage == [ "example-root" ];
-    assert rootFixtureVersions.ghc9122 == "3.1.0.0";
-    assert rootFixtureVersions.ghc914 == "3.1.0.0";
+    assert builtins.all (v: v == "3.1.0.0") (builtins.attrValues rootFixtureVersions);
     pkgs.runCommand "first-party-registry" { } ''
       echo 'GitHub packages: ${builtins.toJSON githubNames}'
       echo 'Hackage packages: ${builtins.toJSON hackageNames}'

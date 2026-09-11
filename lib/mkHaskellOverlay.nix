@@ -17,7 +17,8 @@
 { lib }:
 
 { registry
-, compilers ? [ "ghc9122" "ghc914" ]
+  # haskell-nix-dev's supported GHCs; the flake passes its `supportedGhcs`.
+, compilers ? [ "ghc9124" "ghc9141" ]
 , extraOverrides ? (_: _: { })
 , disableProfiling ? true
 , disableHaddock ? true

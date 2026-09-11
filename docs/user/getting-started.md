@@ -7,8 +7,14 @@
 ```nix
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    haskell-nix.url = "github:shinzui/haskell-nix";
+    # haskell-nix-dev supplies the GHC toolchains and the fleet's nixpkgs pin;
+    # haskell-nix follows the same haskell-nix-dev so the lock holds one nixpkgs.
+    haskell-nix-dev.url = "github:shinzui/haskell-nix-dev";
+    nixpkgs.follows = "haskell-nix-dev/nixpkgs";
+    haskell-nix = {
+      url = "github:shinzui/haskell-nix";
+      inputs.haskell-nix-dev.follows = "haskell-nix-dev";
+    };
   };
 
   outputs = { nixpkgs, ... }@inputs:
@@ -16,7 +22,11 @@
 }
 ```
 
-`haskell-nix` pins its own nixpkgs but does not impose it on consumers — you use your own nixpkgs as usual.
+`haskell-nix` is used together with
+[haskell-nix-dev](https://github.com/shinzui/haskell-nix-dev): its own nixpkgs follows
+haskell-nix-dev's, and it patches exactly the GHC package sets haskell-nix-dev ships
+toolchains for (`lib.supportedGhcs`: `ghc9124`, `ghc9141`). Following the same
+haskell-nix-dev from both sides keeps a single nixpkgs in your lock.
 
 ## Choose a first-party channel
 
@@ -41,8 +51,14 @@ Compose the selected channel extension with your local overrides via `composeExt
 ```nix
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    haskell-nix.url = "github:shinzui/haskell-nix";
+    # haskell-nix-dev supplies the GHC toolchains and the fleet's nixpkgs pin;
+    # haskell-nix follows the same haskell-nix-dev so the lock holds one nixpkgs.
+    haskell-nix-dev.url = "github:shinzui/haskell-nix-dev";
+    nixpkgs.follows = "haskell-nix-dev/nixpkgs";
+    haskell-nix = {
+      url = "github:shinzui/haskell-nix";
+      inputs.haskell-nix-dev.follows = "haskell-nix-dev";
+    };
   };
 
   outputs = { nixpkgs, ... }@inputs:
@@ -52,7 +68,7 @@ Compose the selected channel extension with your local overrides via `composeExt
 
       firstPartyExtension = inputs.haskell-nix.lib.haskellExtensions.github;
 
-      haskellPackages = pkgs.haskell.packages.ghc9122.override {
+      haskellPackages = pkgs.haskell.packages.ghc9124.override {
         overrides = pkgs.lib.composeExtensions
           (firstPartyExtension pkgs.haskell.lib.compose pkgs)
           (import ./nix/haskell-overlay.nix { inherit pkgs; });
@@ -84,11 +100,11 @@ let
     overlays = [ inputs.haskell-nix.overlays.github ];
   };
 in
-  # pkgs.haskell.packages.ghc9122 and ghc914 now include all patches
+  # pkgs.haskell.packages.ghc9124 and ghc9141 now include all patches
 ```
 
 Select `overlays.hackage` instead to use the Hackage channel. Both overlays apply patches
-to `ghc9122` and `ghc914` automatically.
+to `ghc9124` and `ghc9141` automatically.
 
 **Caveat**: calling `.override { overrides = ...; }` on a package set that received patches via the overlay **replaces** them. If you need local overrides, use the `haskellExtension` approach above. See [consumer-integration.md](consumer-integration.md) for a detailed explanation.
 
@@ -104,7 +120,7 @@ nix build .#YOUR-TARGET
 
 Those commands validate the consumer integration. In a `haskell-nix` checkout,
 `nix flake check --print-build-logs` additionally validates both channel registries,
-resolves every locked package to its exact version under `ghc9122` and `ghc914`, tests the
+resolves every locked package to its exact version under `ghc9124` and `ghc9141`, tests the
 updater, and forces evaluation of both channel overlays.
 
 To exercise an unpushed local `haskell-nix` change from a real consumer without rewriting

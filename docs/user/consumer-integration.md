@@ -9,8 +9,14 @@ How to integrate haskell-nix patches into a downstream project.
 ```nix
 {
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    haskell-nix.url = "github:shinzui/haskell-nix";
+    # haskell-nix-dev supplies the GHC toolchains and the fleet's nixpkgs pin;
+    # haskell-nix follows the same haskell-nix-dev so the lock holds one nixpkgs.
+    haskell-nix-dev.url = "github:shinzui/haskell-nix-dev";
+    nixpkgs.follows = "haskell-nix-dev/nixpkgs";
+    haskell-nix = {
+      url = "github:shinzui/haskell-nix";
+      inputs.haskell-nix-dev.follows = "haskell-nix-dev";
+    };
   };
 
   outputs = { nixpkgs, ... }@inputs:
@@ -20,7 +26,7 @@ How to integrate haskell-nix patches into a downstream project.
 
       firstPartyExtension = inputs.haskell-nix.lib.haskellExtensions.github;
 
-      haskellPackages = pkgs.haskell.packages.ghc9122.override {
+      haskellPackages = pkgs.haskell.packages.ghc9124.override {
         overrides = pkgs.lib.composeExtensions
           (firstPartyExtension pkgs.haskell.lib.compose pkgs)
           (import ./nix/haskell-overlay.nix { inherit pkgs; });
@@ -154,7 +160,7 @@ There is an `old:` workaround:
 
 ```nix
 # Fragile — works but easy to get wrong
-pkgs.haskell.packages.ghc9122.override (old: {
+pkgs.haskell.packages.ghc9124.override (old: {
   overrides = pkgs.lib.composeExtensions
     (old.overrides or (_: _: { }))
     myOverrides;

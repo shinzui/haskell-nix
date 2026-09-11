@@ -185,7 +185,7 @@ nix eval --no-eval-cache --impure --json --expr '
         (hp.callCabal2nix "PACKAGE" flake.inputs.PACKAGE-src { DEPENDENCY = dependency; }).version
       ];
   in
-  { ghc9122 = sweep "ghc9122"; ghc914 = sweep "ghc914"; }
+  { ghc9124 = sweep "ghc9124"; ghc9141 = sweep "ghc9141"; }
 '
 ```
 

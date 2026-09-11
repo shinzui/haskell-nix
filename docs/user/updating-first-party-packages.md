@@ -210,7 +210,7 @@ nix flake check --print-build-logs
 
 The flake check rejects malformed fixtures, runs the updater's offline unit and workflow
 tests, proves that unpublished packages are omitted only from the Hackage registry, applies
-a local GitHub package under `ghc9122` and `ghc914`, and evaluates both channel overlays.
+a local GitHub package under `ghc9124` and `ghc9141`, and evaluates both channel overlays.
 
 It does not compile the complete first-party inventory. For package membership or shared
 compatibility changes, build both GHC 9.12.2 matrices from the repository root.
@@ -230,7 +230,7 @@ nix build --no-link --keep-going --print-build-logs --impure --expr '
       (family: map (package: package.name) family.packages)
       lock.families;
   in
-  map (name: pkgs.haskell.packages.ghc9122.${name}) names
+  map (name: pkgs.haskell.packages.ghc9124.${name}) names
 '
 ```
 
@@ -249,7 +249,7 @@ nix build --no-link --keep-going --print-build-logs --impure --expr '
     names = map (package: package.name)
       (builtins.filter (package: package.hackage != null) packages);
   in
-  map (name: pkgs.haskell.packages.ghc9122.${name}) names
+  map (name: pkgs.haskell.packages.ghc9124.${name}) names
 '
 ```
 

@@ -1,8 +1,8 @@
 # validation 1.2.2 — pin from Hackage.
 #
 # validation-1.2.0 removed `toEither` in favour of the `Data.Validation.either`
-# iso. Consumers that use the new iso need 1.2.x; nixpkgs' ghc9122 set still
-# ships 1.1.3.
+# iso. Consumers that use the new iso need 1.2.x; nixpkgs' ghc9124 set still
+# ships 1.1.5.
 { hself, haskellLib, ... }:
 
 haskellLib.dontCheck (haskellLib.doJailbreak (hself.callHackageDirect

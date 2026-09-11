@@ -1,5 +1,5 @@
 # crypton 1.1.2 — Hackage pin.
-# nixpkgs' ghc9122 set still pins 1.0.5 (uses `memory`); 1.1.x switched to
+# nixpkgs' ghc9124 set still ships 1.0.6 (uses `memory`); 1.1.x switched to
 # `ram`. Bumping to 1.1.2 keeps the TLS / x509 / hpke stack instance-coherent.
 { hself, haskellLib, ... }:
 

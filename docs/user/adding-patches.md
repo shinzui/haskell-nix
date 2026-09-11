@@ -142,7 +142,7 @@ nix build --no-link --print-build-logs --impure --expr '
       overlays = [ flake.overlays.github ];
     };
   in
-  pkgs.haskell.packages.ghc9122.PACKAGE
+  pkgs.haskell.packages.ghc9124.PACKAGE
 '
 ```
 

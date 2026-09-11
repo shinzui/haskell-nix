@@ -2,7 +2,12 @@
   description = "Version-scoped Haskell patch management for multi-repository Nix builds";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    # The fleet's GHC toolchain flake and its single nixpkgs pin. Following that
+    # nixpkgs keeps these patches, checks, and the updater on the exact package
+    # sets consumers build against; consumers pair the two flakes with
+    # `haskell-nix.inputs.haskell-nix-dev.follows = "haskell-nix-dev"`.
+    haskell-nix-dev.url = "github:shinzui/haskell-nix-dev";
+    nixpkgs.follows = "haskell-nix-dev/nixpkgs";
     baikai-src = { url = "github:shinzui/baikai"; flake = false; };
     keiki-src = { url = "github:shinzui/keiki"; flake = false; };
     keiro-src = { url = "github:shinzui/keiro"; flake = false; };
@@ -19,9 +24,16 @@
     shikumi-src = { url = "github:shinzui/shikumi"; flake = false; };
   };
 
-  outputs = { self, nixpkgs, ... }@inputs:
+  outputs = { self, nixpkgs, haskell-nix-dev, ... }@inputs:
   let
     lib = nixpkgs.lib;
+
+    # The GHC package sets this flake patches and checks are exactly the ones
+    # haskell-nix-dev ships toolchains for. The list is system-independent;
+    # reading its names from one system's `ghcVersions` forces no toolchain.
+    devGhcs = haskell-nix-dev.lib.x86_64-linux;
+    supportedGhcs = builtins.attrNames devGhcs.ghcVersions;
+    inherit (devGhcs) defaultGhc;
 
     commonRegistry = import ./overlays/registry.nix;
     firstPartyConfig = builtins.fromJSON
@@ -117,18 +129,21 @@
       github = import ./overlays/haskell-overlay.nix {
         inherit lib;
         registry = registries.github;
+        compilers = supportedGhcs;
       };
       hackage = import ./overlays/haskell-overlay.nix {
         inherit lib;
         registry = registries.hackage;
+        compilers = supportedGhcs;
         extraOverrides = hackageDependencyOverrides;
       };
     };
 
-    systems = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ];
+    # haskell-nix-dev's systems: its nixpkgs (26.11) dropped x86_64-darwin.
+    systems = [ "x86_64-linux" "aarch64-linux" "aarch64-darwin" ];
 
     mkUpdaterHaskellPackages = pkgs:
-      pkgs.haskell.packages.ghc9122.override {
+      pkgs.haskell.packages.${defaultGhc}.override {
         overrides = hself: _hsuper: {
           optparse-applicative =
             let
@@ -186,6 +201,8 @@
         registries
         haskellExtensions;
 
+      inherit supportedGhcs defaultGhc;
+
       registry = registries.github;
       haskellExtension = haskellExtensions.github;
     };
@@ -206,17 +223,25 @@
       };
     });
 
-    devShells = forAllSystems ({ pkgsPlain, updaterHaskellPackages, updater, ... }: {
-      default = updaterHaskellPackages.shellFor {
-        packages = _: [ updater ];
-        nativeBuildInputs = [ updaterHaskellPackages.cabal-install pkgsPlain.jq pkgsPlain.just ];
-      };
-    });
+    # The updater's Haskell dependencies come from `shellFor`; cabal and HLS come
+    # from the haskell-nix-dev toolchain for the same GHC, so the editor setup
+    # matches every other fleet project (and HLS is a Cachix hit).
+    devShells = forAllSystems ({ pkgsPlain, updaterHaskellPackages, updater, system, ... }:
+      let
+        toolchain = haskell-nix-dev.lib.${system}.ghcVersions.${defaultGhc};
+      in
+      {
+        default = updaterHaskellPackages.shellFor {
+          packages = _: [ updater ];
+          nativeBuildInputs = [ toolchain.cabal pkgsPlain.jq pkgsPlain.just ]
+            ++ lib.optional (toolchain.hls != null) toolchain.hls;
+        };
+      });
 
     checks = forAllSystems ({ pkgsPlain, pkgsGithub, pkgsHackage, updater, system, ... }:
       let
         fixture = import ./checks/first-party-registry.nix {
-          inherit lib firstPartyRegistries;
+          inherit lib firstPartyRegistries supportedGhcs;
           pkgs = pkgsGithub;
         };
 
@@ -259,20 +284,15 @@
             (name: packages.${name}.version != expected.${name})
             (builtins.attrNames expected);
 
-        firstPartyVersionMismatches = {
-          github-ghc9122 = versionMismatches
-            pkgsGithub.haskell.packages.ghc9122
-            githubExpectedVersions;
-          github-ghc914 = versionMismatches
-            pkgsGithub.haskell.packages.ghc914
-            githubExpectedVersions;
-          hackage-ghc9122 = versionMismatches
-            pkgsHackage.haskell.packages.ghc9122
-            hackageExpectedVersions;
-          hackage-ghc914 = versionMismatches
-            pkgsHackage.haskell.packages.ghc914
-            hackageExpectedVersions;
-        };
+        # One entry per channel and supported GHC, e.g. `github-ghc9124`.
+        perChannelGhc = f: lib.listToAttrs (lib.concatMap
+          (ghc: [
+            { name = "github-${ghc}"; value = f pkgsGithub.haskell.packages.${ghc} githubExpectedVersions; }
+            { name = "hackage-${ghc}"; value = f pkgsHackage.haskell.packages.${ghc} hackageExpectedVersions; }
+          ])
+          supportedGhcs);
+
+        firstPartyVersionMismatches = perChannelGhc versionMismatches;
 
         allFirstPartyVersionsMatch = builtins.all
           (names: names == [ ])
@@ -312,7 +332,7 @@
       # `mkDerivation` override in the scope.
       build-setting-flags =
         let
-          mkSet = args: pkgsPlain.haskell.packages.ghc9122.override {
+          mkSet = args: pkgsPlain.haskell.packages.${defaultGhc}.override {
             overrides = (mkChannelExtension args)
               pkgsPlain.haskell.lib.compose
               pkgsPlain;
@@ -350,15 +370,10 @@
         '';
 
       # Force evaluation of the overlay to catch Nix-level errors.
-      # Verify both channel overlays and both supported compiler sets.
+      # Verify both channel overlays under every supported compiler set.
       overlay-eval =
         let
-          results = {
-            github-ghc9122 = pkgsGithub.haskell.packages.ghc9122 ? hasql;
-            github-ghc914 = pkgsGithub.haskell.packages.ghc914 ? hasql;
-            hackage-ghc9122 = pkgsHackage.haskell.packages.ghc9122 ? hasql;
-            hackage-ghc914 = pkgsHackage.haskell.packages.ghc914 ? hasql;
-          };
+          results = perChannelGhc (packages: _: packages ? hasql);
           allPresent = builtins.all
             (name: results.${name})
             (builtins.attrNames results);

@@ -28,9 +28,10 @@ overlays.hackage
 
 The direct Haskell extension is recommended when a consumer also has local Haskell
 overrides. The Nixpkgs overlay is convenient when the consumer does not override the same
-Haskell package set again. The flake exports outputs for `x86_64-linux`, `aarch64-linux`,
-`x86_64-darwin`, and `aarch64-darwin`; its channel overlays and checks target the
-`ghc9122` and `ghc914` package sets.
+Haskell package set again. The flake exports outputs for `x86_64-linux`, `aarch64-linux`, and
+`aarch64-darwin` (haskell-nix-dev's nixpkgs dropped `x86_64-darwin`); its channel overlays
+and checks target the
+`ghc9124` and `ghc9141` package sets.
 
 The current package lock contains 51 packages in the GitHub channel and 41 published
 packages in the Hackage channel. Ten unpublished packages are intentionally GitHub-only.

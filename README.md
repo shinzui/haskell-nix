@@ -8,13 +8,23 @@ A shared flake that provides GHC compatibility patches (jailbreaks, version pins
 
 ### Recommended: direct extension composition
 
-Add the flake input, choose the GitHub or Hackage channel, and compose its extension with
-your local overrides. The GitHub channel includes unpublished first-party packages and is
-the compatibility default:
+This flake is used together with
+[haskell-nix-dev](https://github.com/shinzui/haskell-nix-dev), which provides the GHC
+toolchains and the single nixpkgs pin the fleet follows. Take nixpkgs from haskell-nix-dev,
+make haskell-nix follow the same haskell-nix-dev, choose the GitHub or Hackage channel, and
+compose its extension with your local overrides. The GitHub channel includes unpublished
+first-party packages and is the compatibility default:
 
 ```nix
 {
-  inputs.haskell-nix.url = "github:shinzui/haskell-nix";
+  inputs = {
+    haskell-nix-dev.url = "github:shinzui/haskell-nix-dev";
+    nixpkgs.follows = "haskell-nix-dev/nixpkgs";
+    haskell-nix = {
+      url = "github:shinzui/haskell-nix";
+      inputs.haskell-nix-dev.follows = "haskell-nix-dev";
+    };
+  };
 
   outputs = { nixpkgs, ... }@inputs:
     let
@@ -22,7 +32,7 @@ the compatibility default:
 
       firstPartyExtension = inputs.haskell-nix.lib.haskellExtensions.github;
 
-      haskellPackages = pkgs.haskell.packages.ghc9122.override {
+      haskellPackages = pkgs.haskell.packages.ghc9124.override {
         overrides = pkgs.lib.composeExtensions
           (firstPartyExtension pkgs.haskell.lib.compose pkgs)
           (import ./nix/haskell-overlay.nix { inherit pkgs; });
@@ -30,6 +40,11 @@ the compatibility default:
     in { /* ... */ };
 }
 ```
+
+The patched GHCs are exactly haskell-nix-dev's supported toolchains, exposed as
+`lib.supportedGhcs` (currently `ghc9124` and `ghc9141`) and `lib.defaultGhc` (`ghc9124`).
+The `haskell-nix-dev.follows` line keeps one haskell-nix-dev, and therefore one nixpkgs, in
+your lock; without it your lock carries a second copy at this flake's pinned revision.
 
 Change `.github` to `.hackage` to select published Hackage releases. Each constructor has
 the signature `haskellLib -> pkgs -> hself -> hsuper -> { ... }`; after applying
@@ -58,8 +73,8 @@ For simpler setups where you don't need to compose with local overrides:
 ```
 
 Use `overlays.hackage` for published releases. `overlays.default` and `overlays.haskell`
-are exact aliases for `overlays.github`. Each overlay applies patches to `ghc9122` and
-`ghc914` automatically. Note that calling `.override { overrides = ...; }` on a package
+are exact aliases for `overlays.github`. Each overlay applies patches to every GHC in
+`lib.supportedGhcs` (`ghc9124` and `ghc9141`) automatically. Note that calling `.override { overrides = ...; }` on a package
 set that received patches via the overlay will **replace** them — use the direct
 composition approach above if you have local overrides.
 
@@ -146,7 +161,7 @@ maintainer workflows, and troubleshooting.
 
 **Lazy version dispatch**: Version checks are deferred into attribute values, not into attrset structure. Using `optionalAttrs` with version-dependent predicates forces evaluation of `hsuper.<pkg>`, triggering nixpkgs' splice machinery and causing infinite recursion. See `lib/fixPackageByVersion.nix` for details.
 
-**Multi-GHC support**: The overlay applies patches to all configured compiler sets (`ghc9122`, `ghc914` by default). `haskellPackages` is a self-referencing alias in nixpkgs that automatically picks up changes — no separate override needed.
+**Multi-GHC support**: The overlay applies patches to all configured compiler sets (haskell-nix-dev's supported GHCs: `ghc9124`, `ghc9141`). `haskellPackages` is a self-referencing alias in nixpkgs that automatically picks up changes — no separate override needed.
 
 **Offline channel evaluation**: Nix reads the checked-in family config, package lock, and
 `flake.lock`. Hackage and GitHub are never queried during evaluation.
@@ -177,8 +192,8 @@ nix flake check
 
 The suite includes these channel checks:
 
-- **first-party-registry**: validates schemas, rejects invalid fixtures, and applies a local GitHub fixture under both compiler sets
+- **first-party-registry**: validates schemas, rejects invalid fixtures, and applies a local GitHub fixture under every supported compiler set
 - **registry-valid**: validates both composed channel registries
-- **first-party-versions**: resolves every applicable locked package to its exact channel version under `ghc9122` and `ghc914`
-- **overlay-eval**: forces both overlays under `ghc9122` and `ghc914`
+- **first-party-versions**: resolves every applicable locked package to its exact channel version under `ghc9124` and `ghc9141`
+- **overlay-eval**: forces both overlays under `ghc9124` and `ghc9141`
 - **haskell-nix-update**: builds the packaged refresh/check CLI
