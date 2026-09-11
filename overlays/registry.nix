@@ -21,6 +21,9 @@ let
   dontCheckOnly = { pkg, haskellLib, ... }:
     haskellLib.dontCheck pkg;
 
+  markUnbrokenDontCheck = { pkg, haskellLib, ... }:
+    haskellLib.markUnbroken (haskellLib.dontCheck pkg);
+
   doJailbreakOnly = { pkg, haskellLib, ... }:
     haskellLib.doJailbreak pkg;
 
@@ -59,8 +62,8 @@ in
   hasql-migration = always (import ../patches/hasql-migration/shinzui.nix);
   hasql-implicits = always (import ../patches/hasql-implicits/0.2.nix);
   hasql-dynamic-statements = always (import ../patches/hasql-dynamic-statements/0.5.nix);
-  # diogob/hasql-notifications master (0.2.5.0) targets hasql 1.10; the Hackage
-  # 0.2.4.0 release nixpkgs ships only supports hasql < 1.10.
+  # Hackage 0.2.5.0 targets hasql 1.10; the 0.2.4.0 release nixpkgs ships only
+  # supports hasql < 1.10.
   hasql-notifications = always (import ../patches/hasql-notifications/0.2.nix);
 
   # ── codd (SQL migration tool; kiroku-store-migrations dependency) ──
@@ -69,10 +72,11 @@ in
   haxl = always dontCheckDoJailbreak;
 
   # ── OpenTelemetry spec v1.40 family (pgmq-effectful 0.3+ dependency) ─
-  # Built from the upstream iand675/hs-opentelemetry source; see
-  # ../patches/hs-opentelemetry/1.40.nix.
-  thread-utils-finalizers = always ({ ... }@args: (import ../patches/hs-opentelemetry/1.40.nix args).thread-utils-finalizers);
-  thread-utils-context = always ({ ... }@args: (import ../patches/hs-opentelemetry/1.40.nix args).thread-utils-context);
+  # Hackage 1.0.0.0 release line; see ../patches/hs-opentelemetry/1.40.nix.
+  # nixpkgs already ships the thread-utils releases the family needs
+  # (finalizers 0.1.1.0, context 0.4.1.0).
+  thread-utils-finalizers = always dontCheckDoJailbreak;
+  thread-utils-context = always dontCheckDoJailbreak;
   hs-opentelemetry-api-types = always ({ ... }@args: (import ../patches/hs-opentelemetry/1.40.nix args).hs-opentelemetry-api-types);
   hs-opentelemetry-api = always ({ ... }@args: (import ../patches/hs-opentelemetry/1.40.nix args).hs-opentelemetry-api);
   hs-opentelemetry-semantic-conventions = always ({ ... }@args: (import ../patches/hs-opentelemetry/1.40.nix args).hs-opentelemetry-semantic-conventions);
@@ -90,34 +94,37 @@ in
 
   # ── Provider clients and generated-family dependencies ─────────────
   claude = always (import ../patches/claude/shinzui.nix);
-  okf-core = always (import ../patches/okf-core/0.1.nix);
+  # okf-core comes from the okf first-party family (packages/first-party-lock.json).
 
   # blake3 portable build for aarch64-darwin (shikumi-cache cache key).
   blake3 = always (import ../patches/blake3/portable.nix);
-  openai = always (import ../patches/openai/shinzui.nix);
-  cradle = always (import ../patches/cradle/garnix.nix);
-  wai-app-static = always (import ../patches/wai-app-static/3.1.nix);
+  openai = always (import ../patches/openai/2.5.nix);
+  # nixpkgs marks the Hackage cradle-0.0.0.0 broken; the library (all baikai
+  # uses) builds with bounds relaxed and tests off.
+  cradle = always markUnbrokenDontCheckDoJailbreak;
+  # nixpkgs ships wai-app-static 3.1.9.1; its original bounds predate the
+  # crypton / http-client-tls stack pinned below.
+  wai-app-static = always dontCheckDoJailbreak;
 
   # ── separate Shibuya adapter repository ────────────────────────────
   shibuya-pgmq-adapter = always (import ../patches/shibuya-pgmq-adapter/0.14.nix);
 
   # ── shinzui event-sourcing stack ───────────────────────────────────
-  # keiki is a first-party family; its records are generated into
+  # keiki and kioku are first-party families; their records are generated into
   # packages/first-party-lock.json rather than pinned here.
-  kioku-api = always ({ ... }@args: (import ../patches/kioku/0.1.nix args).kioku-api);
-  kioku-cli = always ({ ... }@args: (import ../patches/kioku/0.1.nix args).kioku-cli);
-  kioku-core = always ({ ... }@args: (import ../patches/kioku/0.1.nix args).kioku-core);
-  kioku-migrations = always ({ ... }@args: (import ../patches/kioku/0.1.nix args).kioku-migrations);
+
   # ── crypton 1.1 / tls 2.3 / x509 1.9 cascade ───────────────────────
-  # nixpkgs' ghc9122 set ships crypton-1.0.5 (which uses `memory`).
+  # nixpkgs' ghc9124 set ships crypton-1.0.6 (which uses `memory`).
   # crypton-1.1.x switched to `ram`; downstream TLS / x509 / hpke bounds then
   # force the whole stack forward in lockstep. Pinning them here keeps any
   # consumer that depends on crypton-1.1.x (e.g. the shinzui hasql-migration
   # fork) instance-coherent.
-  ram = always (import ../patches/ram/0.22.nix);
+  # nixpkgs already ships ram 0.22.0 and mlkem 0.2.0.0 (tls 2.3 needs >= 0.2),
+  # but marks mlkem broken; unbreak it.
+  ram = always dontCheckOnly;
   crypton = always (import ../patches/crypton/1.1.nix);
   crypto-token = always (import ../patches/crypto-token/0.2.nix);
-  mlkem = always (import ../patches/mlkem/0.2.nix);
+  mlkem = always markUnbrokenDontCheck;
   hpke = always (import ../patches/hpke/0.1.nix);
   crypton-x509 = always (import ../patches/crypton-x509/1.9.nix);
   crypton-x509-store = always (import ../patches/crypton-x509-store/1.9.nix);
@@ -141,7 +148,9 @@ in
   dhall = always (import ../patches/dhall/keep-http-client-tls.nix);
 
   # ── ephemeral-pg (test PostgreSQL; keiro/kiroku test-support dependency) ──
-  ephemeral-pg = always (import ../patches/ephemeral-pg/0.2.nix);
+  # nixpkgs ships 0.2.1.0 but marks it broken; unbreak it with bounds relaxed
+  # and tests off.
+  ephemeral-pg = always markUnbrokenDontCheckDoJailbreak;
 
   # ── Version-scoped patches ────────────────────────────────────────
 }

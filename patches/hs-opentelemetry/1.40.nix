@@ -1,54 +1,39 @@
-# hs-opentelemetry — the OpenTelemetry spec v1.40 family, built from the upstream
-# iand675/hs-opentelemetry source (the project released v1.40 as a major version;
-# Hackage's old releases predate it). pgmq-effectful 0.3+ requires this family
-# (>=1.40 semantic-conventions and the matching api that exports the v1.40
-# Propagator names). thread-utils is the api's runtime dependency.
+# hs-opentelemetry — the OpenTelemetry spec v1.40 family (the 1.0.0.0 release
+# line, semantic-conventions 1.40.0.0), from Hackage. nixpkgs still ships the
+# pre-1.0 releases (api 0.3.1.0, sdk 0.1.0.1). pgmq-effectful 0.3+ requires
+# this family (>=1.40 semantic-conventions and the matching api that exports the
+# v1.40 Propagator names). Its runtime dependency thread-utils-context 0.4.1.0
+# already ships in nixpkgs (see ../../overlays/registry.nix).
 #
-# The whole core family is built from one source rev so api / api-types /
+# The whole core family is pinned to one release line so api / api-types /
 # semantic-conventions / sdk / exporters / propagators stay internally
 # consistent. The sdk's (disabled) test-suite still pulls every exporter and
 # propagator as a cabal2nix argument, so they are all provided here.
-{ hself, haskellLib, pkgs, ... }:
+{ hself, haskellLib, ... }:
 
 let
   inherit (haskellLib) doJailbreak dontCheck;
 
-  hsOpenTelemetrySrc = pkgs.fetchFromGitHub {
-    owner = "iand675";
-    repo = "hs-opentelemetry";
-    rev = "46a42cdf80405fdb36fbb48a309254b2332617b4";
-    hash = "sha256-4wMAK3WtoSlyrP0IFWFNME///HIXdMZcPfH6ZKpkVfw=";
-  };
-  threadUtilsSrc = pkgs.fetchFromGitHub {
-    owner = "iand675";
-    repo = "thread-utils";
-    rev = "519ff4613a5b5ee3904be7daefb94bf99ada5ee5";
-    hash = "sha256-nlKK794LNHGjXKB1lhCkFJuCEyH+aiGOg6ljV4P1Ijw=";
-  };
-
-  pkg = name: subdir: dontCheck (doJailbreak (hself.callCabal2nix name (hsOpenTelemetrySrc + subdir) { }));
-  tpkg = name: subdir: dontCheck (doJailbreak (hself.callCabal2nix name (threadUtilsSrc + subdir) { }));
+  hackage = pkg: ver: sha256:
+    dontCheck (doJailbreak (hself.callHackageDirect { inherit pkg ver sha256; } { }));
 in
 {
-  thread-utils-finalizers = tpkg "thread-utils-finalizers" "/thread-utils-finalizers";
-  thread-utils-context = tpkg "thread-utils-context" "/thread-utils-context";
+  hs-opentelemetry-api-types = hackage "hs-opentelemetry-api-types" "1.0.0.0" "sha256-9ByP41wlV45TMCqbyyVpwejQDi5fsG0+j8bMk8ORLw8=";
+  hs-opentelemetry-api = hackage "hs-opentelemetry-api" "1.0.0.0" "sha256-COhj9Ms1eu1Gt9wTC21oQ37k6vJ9mxlJvYpHtvXff6A=";
+  hs-opentelemetry-semantic-conventions = hackage "hs-opentelemetry-semantic-conventions" "1.40.0.0" "sha256-7cIC9dTrd5bJjAsiEyyupi1xSZyc17FpjbACnm0p5ik=";
+  hs-opentelemetry-otlp = hackage "hs-opentelemetry-otlp" "1.0.0.0" "sha256-kVuKKi6qRx+oBQclTpUnx20Eqw+CRQk8pT4tkcxt1xo=";
+  hs-opentelemetry-sdk = hackage "hs-opentelemetry-sdk" "1.0.0.0" "sha256-kG8gmP8Lr9mPCnJjukCduFI/tADgKCfuelxcQZcXyA8=";
 
-  hs-opentelemetry-api-types = pkg "hs-opentelemetry-api-types" "/api-types";
-  hs-opentelemetry-api = pkg "hs-opentelemetry-api" "/api";
-  hs-opentelemetry-semantic-conventions = pkg "hs-opentelemetry-semantic-conventions" "/semantic-conventions";
-  hs-opentelemetry-otlp = pkg "hs-opentelemetry-otlp" "/otlp";
-  hs-opentelemetry-sdk = pkg "hs-opentelemetry-sdk" "/sdk";
-
-  hs-opentelemetry-exporter-handle = pkg "hs-opentelemetry-exporter-handle" "/exporters/handle";
-  hs-opentelemetry-exporter-in-memory = pkg "hs-opentelemetry-exporter-in-memory" "/exporters/in-memory";
-  hs-opentelemetry-exporter-otlp = pkg "hs-opentelemetry-exporter-otlp" "/exporters/otlp";
+  hs-opentelemetry-exporter-handle = hackage "hs-opentelemetry-exporter-handle" "1.0.0.0" "sha256-DCoVG0Y2aaMjinOP2GWmew0WmjN96j3/UUzEWxN7Ajs=";
+  hs-opentelemetry-exporter-in-memory = hackage "hs-opentelemetry-exporter-in-memory" "1.0.0.0" "sha256-bJjUHBNMRKhmkqRRnUrAQIDLWpUrox7F418r2QbVQ6o=";
+  hs-opentelemetry-exporter-otlp = hackage "hs-opentelemetry-exporter-otlp" "1.0.0.0" "sha256-rHgsisH2d45CI9woEDb/j0WnTzllxaE2Mkx5/OmWn0c=";
 
   # mori://iand675/hs-opentelemetry/packages/hs-opentelemetry-instrumentation-wai
-  hs-opentelemetry-instrumentation-wai = pkg "hs-opentelemetry-instrumentation-wai" "/instrumentation/wai";
+  hs-opentelemetry-instrumentation-wai = hackage "hs-opentelemetry-instrumentation-wai" "1.0.0.0" "sha256-gPU9k2H1MpMEGh0F1Oi5ri8gdsZMCvQBRTnXgDhVAa0=";
 
-  hs-opentelemetry-propagator-b3 = pkg "hs-opentelemetry-propagator-b3" "/propagators/b3";
-  hs-opentelemetry-propagator-datadog = pkg "hs-opentelemetry-propagator-datadog" "/propagators/datadog";
-  hs-opentelemetry-propagator-jaeger = pkg "hs-opentelemetry-propagator-jaeger" "/propagators/jaeger";
-  hs-opentelemetry-propagator-w3c = pkg "hs-opentelemetry-propagator-w3c" "/propagators/w3c";
-  hs-opentelemetry-propagator-xray = pkg "hs-opentelemetry-propagator-xray" "/propagators/xray";
+  hs-opentelemetry-propagator-b3 = hackage "hs-opentelemetry-propagator-b3" "1.0.0.0" "sha256-gsNe818CprXM9l61mLUsdnePxIQChfml9kegmCDoAmw=";
+  hs-opentelemetry-propagator-datadog = hackage "hs-opentelemetry-propagator-datadog" "1.0.0.0" "sha256-nTXEtira3bktvycZkjDmPZewyMJ1IEEDygLT9OiIFYo=";
+  hs-opentelemetry-propagator-jaeger = hackage "hs-opentelemetry-propagator-jaeger" "1.0.0.0" "sha256-VL+3YwKbqe0elfZQ0EN7icNS0+pxmtlxlKauPHRqhb8=";
+  hs-opentelemetry-propagator-w3c = hackage "hs-opentelemetry-propagator-w3c" "1.0.0.0" "sha256-p8d2Tx8bCVRk6hps8k0qAg/L2gdBVoYuLYJbTzTbI3s=";
+  hs-opentelemetry-propagator-xray = hackage "hs-opentelemetry-propagator-xray" "1.0.0.0" "sha256-Tg7TrCMb8GA+jm+ohMAqMW7othRm/HLEyr9SifGa6qI=";
 }

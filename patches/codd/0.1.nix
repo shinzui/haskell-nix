@@ -1,8 +1,8 @@
 # codd - official mzabani/codd (codd 0.1.8, hasql-1.10 compatible).
 #
 # Required by kiroku-store-migrations (`codd >=0.1.8 && <0.2`); codd is not in
-# the nixpkgs haskell package set, so provide it from upstream. Pinned to
-# master, which is the revision the local mori corpus mirrors.
+# the nixpkgs haskell package set and has no Hackage release, so provide it
+# from upstream master.
 { hself, haskellLib, pkgs, ... }:
 
 let
