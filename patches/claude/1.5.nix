@@ -1,3 +1,5 @@
+# claude 1.5.0 — Hackage release of MercuryTechnologies/claude. baikai-claude
+# requires `claude ^>=1.5`; the haskell-nix-dev nixpkgs ships 1.4.0.
 { hself, haskellLib, ... }:
 
 haskellLib.dontCheck (haskellLib.doJailbreak (hself.callHackageDirect

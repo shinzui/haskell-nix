@@ -93,7 +93,7 @@ in
   hs-opentelemetry-propagator-xray = always ({ ... }@args: (import ../patches/hs-opentelemetry/1.40.nix args).hs-opentelemetry-propagator-xray);
 
   # ── Provider clients and generated-family dependencies ─────────────
-  claude = always (import ../patches/claude/shinzui.nix);
+  claude = always (import ../patches/claude/1.5.nix);
   # okf-core comes from the okf first-party family (packages/first-party-lock.json).
 
   # blake3 portable build for aarch64-darwin (shikumi-cache cache key).
