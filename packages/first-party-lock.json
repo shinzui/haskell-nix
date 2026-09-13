@@ -567,18 +567,18 @@
         },
         {
             "githubInput": "servant-openapi-hs-src",
-            "githubRev": "5eef3d48fc9c6efb5eeae1877e031bbc4e1b7190",
+            "githubRev": "181ca609688af3cad994a73988492605c71bc2d0",
             "name": "servant-openapi-hs",
             "packages": [
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-I/LW92IEeU6/CAP0hLIoqSJAxhyoMOUQPuRaNVtyyXI=",
-                        "version": "5.0.0"
+                        "hash": "sha256-NSIYDOidI7KCZ3M1/1gHTcp8UPEX4rpegc6d6T7du6Y=",
+                        "version": "5.1.0"
                     },
                     "name": "servant-openapi-hs",
                     "path": ".",
-                    "version": "5.0.0"
+                    "version": "5.1.0"
                 }
             ]
         },
