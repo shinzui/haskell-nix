@@ -142,21 +142,28 @@
     # haskell-nix-dev's systems: its nixpkgs (26.11) dropped x86_64-darwin.
     systems = [ "x86_64-linux" "aarch64-linux" "aarch64-darwin" ];
 
+    # The updater's closure is built from source for the same reason every
+    # consumer's is (`haskell.packages.ghc9124.*` is absent from
+    # cache.nixos.org), so it takes the same profiling and Haddock opt-outs.
     mkUpdaterHaskellPackages = pkgs:
       pkgs.haskell.packages.${defaultGhc}.override {
-        overrides = hself: _hsuper: {
-          optparse-applicative =
-            let
-              haskellLib = pkgs.haskell.lib.compose;
-            in
-            haskellLib.dontCheck (haskellLib.doJailbreak (hself.callCabal2nix
-              "optparse-applicative"
-              (builtins.fetchTarball {
-                url = "https://hackage.haskell.org/package/optparse-applicative-0.19.0.0/optparse-applicative-0.19.0.0.tar.gz";
-                sha256 = "sha256-dhqvRILfdbpYPMxC+WpAyO0KUfq2nLopGk1NdSN2SDM=";
-              })
-              { }));
-        };
+        overrides = composeManyExtensions [
+          disableProfilingOverride
+          disableHaddockOverride
+          (hself: _hsuper: {
+            optparse-applicative =
+              let
+                haskellLib = pkgs.haskell.lib.compose;
+              in
+              haskellLib.dontCheck (haskellLib.doJailbreak (hself.callCabal2nix
+                "optparse-applicative"
+                (builtins.fetchTarball {
+                  url = "https://hackage.haskell.org/package/optparse-applicative-0.19.0.0/optparse-applicative-0.19.0.0.tar.gz";
+                  sha256 = "sha256-dhqvRILfdbpYPMxC+WpAyO0KUfq2nLopGk1NdSN2SDM=";
+                })
+                { }));
+          })
+        ];
       };
 
     mkUpdaterPackage = pkgs:
