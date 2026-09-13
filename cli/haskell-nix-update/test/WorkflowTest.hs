@@ -292,7 +292,7 @@ fakeEnvironment fixture settings = do
   commandLog <- newIORef []
   let processRunner = ProcessRunner (runFakeProcess fixture settings commandLog)
       httpClient = HttpClient (runFakeHttp settings)
-  pure (WorkflowEnvironment {processRunner, httpClient}, commandLog)
+  pure (WorkflowEnvironment {processRunner, httpClient, progress = const (pure ())}, commandLog)
 
 runFakeProcess :: Fixture -> FakeSettings -> IORef [ProcessSpec] -> ProcessSpec -> IO (Either UpdateError ProcessResult)
 runFakeProcess fixture settings commandLog spec@ProcessSpec {executable, arguments} = do

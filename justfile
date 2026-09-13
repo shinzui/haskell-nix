@@ -1,8 +1,10 @@
 # Recipes for the haskell-nix-update CLI and first-party channel maintenance.
 # Run `just` with no arguments to list every recipe.
 
-# Invocation of the flake's updater app.
-cli := "nix run .#haskell-nix-update --"
+# Invocation of the flake's updater app. Build logs show when the updater itself
+# is being rebuilt (after a nixpkgs bump that takes a while); on a terminal the
+# updater then streams its own steps and the nix output behind them.
+cli := "nix run --print-build-logs .#haskell-nix-update --"
 
 # List available recipes.
 default:

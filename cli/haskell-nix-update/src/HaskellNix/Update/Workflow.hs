@@ -11,6 +11,7 @@ where
 
 import Control.Exception (IOException, catch, onException, try)
 import Control.Monad (unless, when)
+import Control.Monad.Trans.Class (lift)
 import Control.Monad.Trans.Except (ExceptT (..), runExceptT, throwE)
 import Data.ByteString (ByteString)
 import Data.ByteString qualified as ByteString
@@ -21,6 +22,7 @@ import Data.Map.Strict qualified as Map
 import Data.Set qualified as Set
 import Data.Text (Text)
 import Data.Text qualified as Text
+import Distribution.Pretty (prettyShow)
 import HaskellNix.Update.Catalog (decodeFamilyCatalog)
 import HaskellNix.Update.Git (discoverPackages, ensureRevision, remoteHead, requireRevision)
 import HaskellNix.Update.Hackage (HttpClient, defaultHttpClient, queryHackage)
@@ -28,11 +30,12 @@ import HaskellNix.Update.Mori (MoriProject (..), locateMoriProject)
 import HaskellNix.Update.Nix
 import HaskellNix.Update.PackageLock (decodePackageLock, decodePackageLockForRefresh, encodePackageLock)
 import HaskellNix.Update.Plan (planRefresh, renderChanges)
-import HaskellNix.Update.Process (ProcessRunner, defaultProcessRunner)
+import Data.Text.IO qualified as TextIO
+import HaskellNix.Update.Process (ProcessRunner, defaultProcessRunner, streamingProcessRunner)
 import HaskellNix.Update.Types
 import System.Directory (removeFile, renameFile)
 import System.FilePath (takeDirectory, (</>))
-import System.IO (hClose, openBinaryTempFile)
+import System.IO (hClose, hFlush, hIsTerminalDevice, openBinaryTempFile, stderr)
 
 data WorkflowPaths = WorkflowPaths
   { repositoryRoot :: !FilePath,
@@ -44,7 +47,10 @@ data WorkflowPaths = WorkflowPaths
 
 data WorkflowEnvironment = WorkflowEnvironment
   { processRunner :: !ProcessRunner,
-    httpClient :: !HttpClient
+    httpClient :: !HttpClient,
+    -- | Reports each step as it starts. Refreshes spend most of their time in
+    -- silent network and `nix` work, so this is what shows one is progressing.
+    progress :: !(Text -> IO ())
   }
 
 defaultWorkflowPaths :: FilePath -> WorkflowPaths
@@ -56,10 +62,22 @@ defaultWorkflowPaths repositoryRoot =
       flakeLockPath = "flake.lock"
     }
 
+-- | Streams step progress and subprocess stderr when stderr is a terminal, and
+-- stays quiet otherwise so a caller collecting stderr (such as `just status`,
+-- which reports its first line) sees only the final error.
 defaultWorkflowEnvironment :: IO WorkflowEnvironment
 defaultWorkflowEnvironment = do
   httpClient <- defaultHttpClient
-  pure WorkflowEnvironment {processRunner = defaultProcessRunner, httpClient}
+  interactive <- hIsTerminalDevice stderr
+  pure
+    WorkflowEnvironment
+      { processRunner = if interactive then streamingProcessRunner else defaultProcessRunner,
+        httpClient,
+        progress = if interactive then reportProgress else const (pure ())
+      }
+
+reportProgress :: Text -> IO ()
+reportProgress step = TextIO.hPutStrLn stderr ("==> " <> step) >> hFlush stderr
 
 runRefreshWorkflow :: WorkflowEnvironment -> WorkflowPaths -> [Text] -> Bool -> IO (Either UpdateError Text)
 runRefreshWorkflow environment paths requestedFamilies dryRun = do
@@ -113,7 +131,8 @@ previewRefresh environment paths catalog packageLock selectedFamilies = do
   pure ("Dry run; managed lock files were not changed.\n" <> renderChanges familyChanges)
 
 guardedRefresh :: WorkflowEnvironment -> WorkflowPaths -> ManagedState -> [FamilyConfig] -> IO (Either UpdateError Text)
-guardedRefresh environment@WorkflowEnvironment {processRunner} paths state@ManagedState {catalog, packageLock, originalPackageLock} selectedFamilies = do
+guardedRefresh environment@WorkflowEnvironment {processRunner, progress} paths state@ManagedState {catalog, packageLock, originalPackageLock} selectedFamilies = do
+  progress "checking that flake.lock and packages/first-party-lock.json are committed"
   dirty <-
     managedFilesDirty
       processRunner
@@ -132,29 +151,39 @@ guardedRefresh environment@WorkflowEnvironment {processRunner} paths state@Manag
           :: IO (Either IOException (Either UpdateError Text))
       case attempted of
         Right (Right summary) -> pure (Right summary)
-        Right (Left updateError) -> rollbackAfterFailure paths state updateError
+        Right (Left updateError) -> progress rollbackStep >> rollbackAfterFailure paths state updateError
         Left exception ->
-          rollbackAfterFailure paths state (UpdateError ("refresh failed: " <> Text.pack (show exception)))
+          progress rollbackStep
+            >> rollbackAfterFailure paths state (UpdateError ("refresh failed: " <> Text.pack (show exception)))
+  where
+    rollbackStep = "refresh failed; restoring flake.lock and packages/first-party-lock.json"
 
 applyRefresh :: WorkflowEnvironment -> WorkflowPaths -> FamilyCatalog -> PackageLock -> ByteString -> [FamilyConfig] -> ExceptT UpdateError IO Text
-applyRefresh environment@WorkflowEnvironment {processRunner} paths catalog previousLock originalPackageLock selectedFamilies = do
+applyRefresh environment@WorkflowEnvironment {processRunner, progress} paths catalog previousLock originalPackageLock selectedFamilies = do
   familiesWithRemoteHeads <- traverse addRemoteHead selectedFamilies
   traverse_ updateWhenChanged familiesWithRemoteHeads
   traverse_ verifyLockedHead familiesWithRemoteHeads
   observations <- traverse (observeLockedFamily environment paths) selectedFamilies
   RefreshPlan {familyChanges, nextPackageLock} <- liftEitherE (planRefresh catalog previousLock observations)
   let nextBytes = LazyByteString.toStrict (encodePackageLock nextPackageLock)
-  when (originalPackageLock /= nextBytes) $ writeFileE (resolvePath paths (packageLockPath paths)) nextBytes
+  when (originalPackageLock /= nextBytes) $ do
+    lift (progress ("writing " <> Text.pack (packageLockPath paths)))
+    writeFileE (resolvePath paths (packageLockPath paths)) nextBytes
+  lift (progress "validating: warming flake checks, then nix flake check (this is the slow step)")
   liftEitherIO (validateFlake processRunner (repositoryRoot paths))
   pure (renderChanges familyChanges)
   where
-    addRemoteHead family@FamilyConfig {github} = do
+    addRemoteHead family@FamilyConfig {name = FamilyName familyName, github} = do
+      lift (progress (familyName <> ": querying GitHub HEAD"))
       revision <- liftEitherIO (remoteHead processRunner github)
       pure (family, revision)
-    updateWhenChanged (FamilyConfig {githubInput}, remoteRevision) = do
+    updateWhenChanged (FamilyConfig {name = FamilyName familyName, githubInput}, remoteRevision) = do
       currentRevision <- liftEitherIO (readLockedRevision (resolvePath paths (flakeLockPath paths)) githubInput)
-      when (currentRevision /= remoteRevision) $
-        liftEitherIO (updateInput processRunner (repositoryRoot paths) githubInput)
+      if currentRevision /= remoteRevision
+        then do
+          lift (progress (familyName <> ": locking " <> githubInput <> " at " <> shortRevision remoteRevision))
+          liftEitherIO (updateInput processRunner (repositoryRoot paths) githubInput)
+        else lift (progress (familyName <> ": " <> githubInput <> " already at GitHub HEAD"))
     verifyLockedHead (FamilyConfig {name = FamilyName familyName, githubInput}, remoteRevision) = do
       lockedRevision <- liftEitherIO (readLockedRevision (resolvePath paths (flakeLockPath paths)) githubInput)
       unless (lockedRevision == remoteRevision) $
@@ -177,15 +206,19 @@ observeLockedFamily environment paths family@FamilyConfig {githubInput} = do
   observeFamily environment paths True family revision
 
 observeFamily :: WorkflowEnvironment -> WorkflowPaths -> Bool -> FamilyConfig -> GitRevision -> ExceptT UpdateError IO ObservedFamily
-observeFamily WorkflowEnvironment {processRunner, httpClient} _paths fetchMissing family revision = do
+observeFamily WorkflowEnvironment {processRunner, httpClient, progress} _paths fetchMissing family@FamilyConfig {name = FamilyName familyName} revision = do
+  lift (progress (familyName <> ": discovering packages at " <> shortRevision revision))
   MoriProject {path} <- liftEitherIO (locateMoriProject processRunner family)
   if fetchMissing
     then liftEitherIO (ensureRevision processRunner path revision)
     else liftEitherIO (requireRevision processRunner path revision)
   discoveredPackages <- liftEitherIO (discoverPackages processRunner path revision)
   includedPackages <- liftEitherE (applyExclusions family discoveredPackages)
-  packages <- traverse (observePackage processRunner httpClient) includedPackages
+  packages <- traverse (observePackage processRunner httpClient progress) includedPackages
   pure ObservedFamily {config = family, githubRev = revision, packages}
+
+shortRevision :: GitRevision -> Text
+shortRevision (GitRevision revision) = Text.take 7 revision
 
 -- Drop configured exclusions from discovery. An exclusion that matches nothing
 -- is stale configuration, so it fails rather than silently doing nothing.
@@ -209,12 +242,14 @@ applyExclusions FamilyConfig {name = familyName, excludedPackages} discoveredPac
       ]
     included DiscoveredPackage {name} = not (Set.member name excludedPackages)
 
-observePackage :: ProcessRunner -> HttpClient -> DiscoveredPackage -> ExceptT UpdateError IO ObservedPackage
-observePackage processRunner httpClient discovered@DiscoveredPackage {name} = do
+observePackage :: ProcessRunner -> HttpClient -> (Text -> IO ()) -> DiscoveredPackage -> ExceptT UpdateError IO ObservedPackage
+observePackage processRunner httpClient progress discovered@DiscoveredPackage {name} = do
+  lift (progress (packageNameText name <> ": querying Hackage"))
   hackageRelease <- liftEitherIO (queryHackage httpClient name)
   case hackageRelease of
     Nothing -> pure ObservedPackage {discovered, hackage = Nothing, usedHackageFallback = False}
     Just HackageRelease {version, usedFallback} -> do
+      lift (progress (packageNameText name <> ": prefetching " <> Text.pack (prettyShow version)))
       hash <- liftEitherIO (prefetchHackage processRunner name version)
       pure
         ObservedPackage
