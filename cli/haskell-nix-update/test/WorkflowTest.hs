@@ -5,7 +5,7 @@ import Data.ByteString qualified as ByteString
 import Data.ByteString.Char8 qualified as ByteStringChar8
 import Data.ByteString.Lazy qualified as LazyByteString
 import Data.IORef
-import Data.List (find, isSuffixOf)
+import Data.List (find)
 import Data.Map.Strict (Map)
 import Data.Map.Strict qualified as Map
 import Data.Set qualified as Set
@@ -143,14 +143,14 @@ testValidationWarmsChecks = withFixture ["alpha"] $ \fixture -> do
   runRefreshWorkflow environment (fixturePaths fixture) [] False >>= assertRight
   commands <- readIORef commandLog
   assertBool
-    "validation must warm first-party-versions before checking"
-    (any isFirstPartyWarm commands)
-  let ordered = filter (\command -> isFirstPartyWarm command || isFlakeCheck command) commands
+    "validation must warm every check before checking"
+    (any isChecksWarm commands)
+  let ordered = filter (\command -> isChecksWarm command || isFlakeCheck command) commands
   case ordered of
     (warm : check : _) ->
       assertBool
         "the warm must run before the check"
-        (isFirstPartyWarm warm && isFlakeCheck check)
+        (isChecksWarm warm && isFlakeCheck check)
     _ -> assertFailure ("expected a warm followed by a check, saw " <> show ordered)
 
 testHackage404 :: IO ()
@@ -358,9 +358,9 @@ runFakeProcess fixture settings commandLog spec@ProcessSpec {executable, argumen
     -- The import-from-derivation warm that runs before validation. It is
     -- best-effort in production, so the fake answers it plainly and the
     -- validation verdict below stays the only thing that decides the refresh.
-    ("nix", ["eval", "--no-eval-cache", "--raw", attribute])
-      | "first-party-versions.drvPath" `isSuffixOf` attribute ->
-          pure (success "/nix/store/0000000000000000000000000000000-first-party-versions.drv")
+    ("nix", ["eval", "--no-eval-cache", "--json", attribute, "--apply", _])
+      | ".#checks.aarch64-darwin" == attribute ->
+          pure (success "{\"first-party-versions\":true}\n")
     ("nix", ["flake", "check", "--no-build", "--no-eval-cache"]) ->
       pure
         ( if validationFails settings
@@ -492,10 +492,12 @@ failure :: Int -> Text -> Either UpdateError ProcessResult
 failure status standardError =
   Right ProcessResult {exitCode = ExitFailure status, standardOutput = "", standardError}
 
-isFirstPartyWarm :: ProcessSpec -> Bool
-isFirstPartyWarm ProcessSpec {executable = "nix", arguments = ["eval", "--no-eval-cache", "--raw", attribute]} =
-  "first-party-versions.drvPath" `isSuffixOf` attribute
-isFirstPartyWarm _ = False
+-- The warm must cover every check for the system, not one named check: the
+-- registry fixture and build-setting checks import cabal2nix derivations too.
+isChecksWarm :: ProcessSpec -> Bool
+isChecksWarm ProcessSpec {executable = "nix", arguments = ["eval", "--no-eval-cache", "--json", attribute, "--apply", expression]} =
+  attribute == ".#checks.aarch64-darwin" && "drvPath" `Text.isInfixOf` Text.pack expression
+isChecksWarm _ = False
 
 isFlakeCheck :: ProcessSpec -> Bool
 isFlakeCheck ProcessSpec {executable = "nix", arguments = "flake" : "check" : _} = True

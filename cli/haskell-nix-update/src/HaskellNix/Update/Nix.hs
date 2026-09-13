@@ -75,7 +75,7 @@ validateFlake runner repositoryRoot = do
   -- Deliberately best-effort: if this cannot run, `nix flake check` below is
   -- still the authoritative verdict and reports the real failure, so a warm
   -- that fails must not mask it.
-  _ <- warmFirstPartyChecks runner repositoryRoot
+  _ <- warmChecks runner repositoryRoot
   result <-
     runChecked
       runner
@@ -93,36 +93,47 @@ validateFlake runner repositoryRoot = do
         }
   pure (() <$ result)
 
--- | Force the cabal2nix import-from-derivation builds that @first-party-versions@
+-- | Force the cabal2nix import-from-derivation builds that every flake check
 -- performs, so that @nix flake check@ finds them already in the store.
 --
 -- @nix flake check@ computes those derivations during evaluation but does not
 -- realise them, so the import fails with @path '/nix/store/...-cabal2nix-<pkg>.drv'
 -- is not valid@ on any refresh that locks a revision whose packages have never
--- been evaluated. Evaluating the check's own @drvPath@ performs the same imports
+-- been evaluated. Evaluating each check's own @drvPath@ performs the same imports
 -- through a path that builds them.
+--
+-- It warms /every/ check for the system, not only @first-party-versions@: the
+-- registry fixture and build-setting checks import cabal2nix derivations too,
+-- and a nixpkgs bump invalidates all of them at once, so warming one check
+-- still left validation failing on the others. Each check is wrapped in
+-- @tryEval@ so one that genuinely fails its assertions does not stop the rest
+-- from being warmed; @nix flake check@ still reports that failure.
 --
 -- It must be this expression, evaluated purely against the flake reference. A
 -- hand-written @nix eval --impure@ over @callCabal2nix@ computes a /different/
 -- derivation for the same package and warms something the check never asks for,
 -- which is why doing this by hand is unreliable.
-warmFirstPartyChecks :: ProcessRunner -> FilePath -> IO (Either UpdateError ())
-warmFirstPartyChecks runner repositoryRoot = do
+warmChecks :: ProcessRunner -> FilePath -> IO (Either UpdateError ())
+warmChecks runner repositoryRoot = do
   attempted <- currentSystem runner
   case attempted of
     Left updateError -> pure (Left updateError)
     Right system -> do
-      let attribute = ".#checks." <> Text.unpack system <> ".first-party-versions.drvPath"
+      let attribute = ".#checks." <> Text.unpack system
       result <-
         runChecked
           runner
           ProcessSpec
             { executable = "nix",
-              arguments = ["eval", "--no-eval-cache", "--raw", attribute],
+              arguments = ["eval", "--no-eval-cache", "--json", attribute, "--apply", Text.unpack warmChecksExpression],
               workingDirectory = Just repositoryRoot,
               environmentAdditions = []
             }
       pure (() <$ result)
+
+-- | Maps each check to whether its derivation path evaluated.
+warmChecksExpression :: Text
+warmChecksExpression = "checks: builtins.mapAttrs (_: check: (builtins.tryEval check.drvPath).success) checks"
 
 -- | The Nix system double this machine builds for.
 --

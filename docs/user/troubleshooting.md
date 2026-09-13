@@ -111,12 +111,18 @@ error: path '/nix/store/...-cabal2nix-<package>.drv' is not valid
 ```
 
 **`refresh` now prevents this on its own, and no manual step is expected.** Before running
-`nix flake check`, it evaluates the check's own derivation path, which performs the same
+`nix flake check`, it evaluates every check's own derivation path, which performs the same
 import-from-derivation builds through a path that realises them:
 
 ```bash
-nix eval --no-eval-cache --raw '.#checks.<system>.first-party-versions.drvPath'
+nix eval --no-eval-cache --json '.#checks.<system>' \
+  --apply 'checks: builtins.mapAttrs (_: check: (builtins.tryEval check.drvPath).success) checks'
 ```
+
+It covers every check, not only `first-party-versions`: `first-party-registry` (its
+`example-*` fixture packages) and `build-setting-flags` (for example `hasql`) import cabal2nix
+derivations too. A nixpkgs bump changes all of them at once, and an earlier updater that warmed
+only `first-party-versions` still failed validation on the others.
 
 The warm is best-effort: if it cannot run, `nix flake check` still decides the refresh and reports
 the real failure, so a failed warm never masks a genuine one.
@@ -150,8 +156,8 @@ direction:
 - The error names only the first missing derivation, so warming one package at a time appears to
   make progress while each step is warming the wrong thing.
 
-Evaluating `.#checks.<system>.first-party-versions.drvPath` sidesteps all of this by asking the
-check itself, purely, for exactly what it is about to import.
+Evaluating each `.#checks.<system>.<check>.drvPath` sidesteps all of this by asking the checks
+themselves, purely, for exactly what they are about to import.
 
 Observed on Determinate Nix 3.17.0 (Nix 2.33.3).
 
