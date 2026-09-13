@@ -520,48 +520,48 @@
         },
         {
             "githubInput": "relay-pagination-src",
-            "githubRev": "634ef07eaa27676be0edda330209f0710abb145b",
+            "githubRev": "224163d11c97afe13366e9c440450a25f448599c",
             "name": "relay-pagination",
             "packages": [
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-AxBIa+XK7L2/O/coBUwDBGJTvik4hxRBhaVAjRggftk=",
-                        "version": "0.1.0.0"
+                        "hash": "sha256-EI97uyoJ+IhxlAzd19jaDfsnvwxTctY2PRY+GV6N6y0=",
+                        "version": "0.1.1.0"
                     },
                     "name": "relay-pagination",
                     "path": "relay-pagination",
-                    "version": "0.1.0.0"
+                    "version": "0.1.1.0"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-miJ+WZnBbIClkEWe7I2fV6V6WQwqYOtu19+qBONTY0k=",
-                        "version": "0.1.0.0"
+                        "hash": "sha256-5WXeDhldg8bLXw7adlCih24sA+zVEmUofZmUJ+QpPyc=",
+                        "version": "0.1.1.0"
                     },
                     "name": "relay-pagination-conformance",
                     "path": "relay-pagination-conformance",
-                    "version": "0.1.0.0"
+                    "version": "0.1.1.0"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-B39F8bIaREevdwpOv9xIomDdp/qF0rq+5N6LNRkLwnI=",
-                        "version": "0.1.0.0"
+                        "hash": "sha256-VN21ZzGfLjZJJA2vbClfQLCr16pQrnj5GvdIoXQtzOA=",
+                        "version": "0.1.1.0"
                     },
                     "name": "relay-pagination-hasql",
                     "path": "relay-pagination-hasql",
-                    "version": "0.1.0.0"
+                    "version": "0.1.1.0"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-O8I603k6fKLaz2NPqdriiPOXsB63DlAwfZLoJ1gQVro=",
-                        "version": "0.1.0.0"
+                        "hash": "sha256-TCkWf2icEh/Um/i1615GuY2FL0NNkRyf6BlsnXuaTLA=",
+                        "version": "0.1.1.0"
                     },
                     "name": "relay-pagination-servant",
                     "path": "relay-pagination-servant",
-                    "version": "0.1.0.0"
+                    "version": "0.1.1.0"
                 }
             ]
         },
