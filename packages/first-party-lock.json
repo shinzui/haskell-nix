@@ -456,7 +456,7 @@
         },
         {
             "githubInput": "pgmq-hs-src",
-            "githubRev": "9ee9a2f30fc461244ed7539fbfe2165d9f80df91",
+            "githubRev": "8a704c336dea742a426eb737848367681dc9ebf7",
             "name": "pgmq-hs",
             "packages": [
                 {
@@ -469,52 +469,52 @@
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-hTNH5SLNj7RgiIq0U+M2rsuebTV/3i4iD1uvXqYQLDE=",
-                        "version": "0.5.0.0"
+                        "hash": "sha256-SRuaxhIv9Dg2F3z2HyM3tclrdyrJbLC64yz2Z2CJZYM=",
+                        "version": "0.6.0.0"
                     },
                     "name": "pgmq-config",
                     "path": "pgmq-config",
-                    "version": "0.5.0.0"
+                    "version": "0.6.0.0"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-Vo06KbYw4UhEW3Jl7mY+fxO/lltD0sQBM3hNkLPAR1Y=",
-                        "version": "0.5.0.0"
+                        "hash": "sha256-gsQvL02NX3uXcDWPhhf7bEd935tbY7ktaHcx9Qc6BqI=",
+                        "version": "0.6.0.0"
                     },
                     "name": "pgmq-core",
                     "path": "pgmq-core",
-                    "version": "0.5.0.0"
+                    "version": "0.6.0.0"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-c7s3BC/n7EEkMyX2wtc6dEJV5gzt52C8JHcdXfJjwpE=",
-                        "version": "0.5.0.0"
+                        "hash": "sha256-KeEFobDBLWCkJO4soYbMns9uaQtcU6WeaL+qwowBxi8=",
+                        "version": "0.6.0.0"
                     },
                     "name": "pgmq-effectful",
                     "path": "pgmq-effectful",
-                    "version": "0.5.0.0"
+                    "version": "0.6.0.0"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-A6nq1A1GOIgfskKJDioM499YGwAlCtxMJnljv5Pefac=",
-                        "version": "0.5.0.0"
+                        "hash": "sha256-JHAnX3RAQMjwkQToh9OsZ176vgqvv5CCaKfIc2YARR0=",
+                        "version": "0.6.0.0"
                     },
                     "name": "pgmq-hasql",
                     "path": "pgmq-hasql",
-                    "version": "0.5.0.0"
+                    "version": "0.6.0.0"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-P/WhTUyO9SzXAmEo40mbyID6F16zcPtPWr0ZwEciWc4=",
-                        "version": "0.5.0.0"
+                        "hash": "sha256-PpXMUaLb+Ykns6IgKTuSLFXyS3IN49aOoc/bOgK5gjI=",
+                        "version": "0.6.0.0"
                     },
                     "name": "pgmq-migration",
                     "path": "pgmq-migration",
-                    "version": "0.5.0.0"
+                    "version": "0.6.0.0"
                 }
             ]
         },
