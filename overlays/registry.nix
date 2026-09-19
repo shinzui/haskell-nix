@@ -107,7 +107,7 @@ in
   wai-app-static = always dontCheckDoJailbreak;
 
   # ── separate Shibuya adapter repository ────────────────────────────
-  shibuya-pgmq-adapter = always (import ../patches/shibuya-pgmq-adapter/0.14.nix);
+  shibuya-pgmq-adapter = always (import ../patches/shibuya-pgmq-adapter/0.16.nix);
 
   # ── shinzui event-sourcing stack ───────────────────────────────────
   # keiki and kioku are first-party families; their records are generated into

@@ -123,7 +123,7 @@
         },
         {
             "githubInput": "keiro-src",
-            "githubRev": "240e720378d038e7c89f656c6835880e1c743b9a",
+            "githubRev": "b284379c937092a8dc2cc66e5474f3e17ef3454d",
             "name": "keiro",
             "packages": [
                 {
@@ -136,129 +136,129 @@
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-DqMQVq8Lt3x+pmkPWdifrn6pV+8urPpjm/f7xoVBX3I=",
-                        "version": "0.16.0.0"
+                        "hash": "sha256-cDTQcuP9ihkQpPzzfFe2HMhiMCpZe4+LHrTld+tNmvA=",
+                        "version": "0.17.0.0"
                     },
                     "name": "keiro",
                     "path": "keiro",
-                    "version": "0.16.0.0"
+                    "version": "0.17.0.0"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-1GiW38RT9hX4wPxYEUGg4p4tSyc3lbIvYMEeHRD4tHs=",
-                        "version": "0.16.0.0"
+                        "hash": "sha256-srl0l2lLxVEwkXDjXU0vNt9WliamVh4i8VnUykWv+rs=",
+                        "version": "0.17.0.0"
                     },
                     "name": "keiro-core",
                     "path": "keiro-core",
-                    "version": "0.16.0.0"
+                    "version": "0.17.0.0"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-tO3aM5SPUaMrahw8xWBTb43IMjEdECLcxBamK6mwcpI=",
-                        "version": "0.16.0.0"
+                        "hash": "sha256-zmwZLhmrhpcD5sLwE2ojpOC7zAtzAFS9QtQLzjaYmxw=",
+                        "version": "0.17.0.0"
                     },
                     "name": "keiro-dsl",
                     "path": "keiro-dsl",
-                    "version": "0.16.0.0"
+                    "version": "0.17.0.0"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-Y2Ws6/Lc1oAwZ/CuTPGTpm+nWejpnznQ6RaxP6rzXFs=",
-                        "version": "0.16.0.0"
+                        "hash": "sha256-GIVefwcc1424grmE/3CVWgDpsPS8bYj+bBqlnbCBpZs=",
+                        "version": "0.17.0.0"
                     },
                     "name": "keiro-migrations",
                     "path": "keiro-migrations",
-                    "version": "0.16.0.0"
+                    "version": "0.17.0.0"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-MgjerWQaqcABQgO23yKh00PaO4GUT/XFDAXb/p8Af5k=",
-                        "version": "0.16.0.0"
+                        "hash": "sha256-L43mVGOwPpU0Ixsrvd1FnP9U8q/7RYnuaIshzG0M/Us=",
+                        "version": "0.17.0.0"
                     },
                     "name": "keiro-ops",
                     "path": "keiro-ops",
-                    "version": "0.16.0.0"
+                    "version": "0.17.0.0"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-EEvuuSr8P8j4I5DNBmckmzWw+E3UTN6c+55i3RjfFTE=",
-                        "version": "0.16.0.0"
+                        "hash": "sha256-8X5yXrnPT3K7SzmGe/dydU83Q0KKKolzhBqrTOwrqhE=",
+                        "version": "0.17.0.0"
                     },
                     "name": "keiro-pgmq",
                     "path": "keiro-pgmq",
-                    "version": "0.16.0.0"
+                    "version": "0.17.0.0"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-EzVaYM2HysvmI1Wox0yzk0PAsBXzvhYHR+hhA8QVSkU=",
-                        "version": "0.16.0.0"
+                        "hash": "sha256-kqCdyVRKMmwVXegAeKb6T/EgNoEfcrnCYvjFrjXZ7bs=",
+                        "version": "0.17.0.0"
                     },
                     "name": "keiro-test-support",
                     "path": "keiro-test-support",
-                    "version": "0.16.0.0"
+                    "version": "0.17.0.0"
                 }
             ]
         },
         {
             "githubInput": "kioku-src",
-            "githubRev": "1fb4fa39747f03ff5be6c5f07ae3a1d385cdfbee",
+            "githubRev": "37c3acd2d16e18c49217bc6189ea20b496907e3b",
             "name": "kioku",
             "packages": [
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-aRKyiZfBbJHOYiQKy7l9J9UtUP5XhDU2mrzdtRD8QK0=",
-                        "version": "0.6.0.0"
+                        "hash": "sha256-DXZRq9+VVzn44dzCTanBm4ugppGtJg7u6RoEhgbp5FI=",
+                        "version": "0.7.0.0"
                     },
                     "name": "kioku-api",
                     "path": "kioku-api",
-                    "version": "0.6.0.0"
+                    "version": "0.7.0.0"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-8fCi1zP2bCLus5u5N9FkZ4iumo5luWhePHzMgUnrawU=",
-                        "version": "0.6.0.0"
+                        "hash": "sha256-kxspqzg9eTAM2onORPFBCY/STZOGww33qNv+YUBznQM=",
+                        "version": "0.7.0.0"
                     },
                     "name": "kioku-cli",
                     "path": "kioku-cli",
-                    "version": "0.6.0.0"
+                    "version": "0.7.0.0"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-PSdj5VPYMP8eQlNDZABkWEwiU8z38qtmNABA7z9QIsQ=",
-                        "version": "0.6.0.0"
+                        "hash": "sha256-+6aIFmuoSkj0p8Yl7vxw6ghsU5WrIrpEFmXiq0pmvpQ=",
+                        "version": "0.7.0.0"
                     },
                     "name": "kioku-core",
                     "path": "kioku-core",
-                    "version": "0.6.0.0"
+                    "version": "0.7.0.0"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-jgvRvC7JuJXFSdcrwaoSJa3gAHi3PHfk3HyoncGpm28=",
-                        "version": "0.6.0.0"
+                        "hash": "sha256-8D3I8JbtNd3oS2qWAmbeq2N24DTPnk9RFlgmQxMd9fg=",
+                        "version": "0.7.0.0"
                     },
                     "name": "kioku-migrate",
                     "path": "kioku-migrate",
-                    "version": "0.6.0.0"
+                    "version": "0.7.0.0"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-8L8sePAZyvaTtFWvOX5+omLc/rGQQJ+2a9MmkNd4iKc=",
-                        "version": "0.6.0.0"
+                        "hash": "sha256-PSNBpHfv5SyuseubzGj4YlnK5yMK78v9WE69Gtb/t7k=",
+                        "version": "0.7.0.0"
                     },
                     "name": "kioku-migrations",
                     "path": "kioku-migrations",
-                    "version": "0.6.0.0"
+                    "version": "0.7.0.0"
                 }
             ]
         },
@@ -456,7 +456,7 @@
         },
         {
             "githubInput": "pgmq-hs-src",
-            "githubRev": "8a704c336dea742a426eb737848367681dc9ebf7",
+            "githubRev": "8fff5fb154a754252116c1a8c3ff1c6cd3b6e25e",
             "name": "pgmq-hs",
             "packages": [
                 {
@@ -469,52 +469,52 @@
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-SRuaxhIv9Dg2F3z2HyM3tclrdyrJbLC64yz2Z2CJZYM=",
-                        "version": "0.6.0.0"
+                        "hash": "sha256-Q1wWzjgAVyc2LARFAiVmjMDivmXhUmaFBrNfcjk+GE0=",
+                        "version": "0.6.1.0"
                     },
                     "name": "pgmq-config",
                     "path": "pgmq-config",
-                    "version": "0.6.0.0"
+                    "version": "0.6.1.0"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-gsQvL02NX3uXcDWPhhf7bEd935tbY7ktaHcx9Qc6BqI=",
-                        "version": "0.6.0.0"
+                        "hash": "sha256-TQOKR6oJ7tTciUyJQutZNZpSHdEp5c0a4Lek2+9WWDI=",
+                        "version": "0.6.1.0"
                     },
                     "name": "pgmq-core",
                     "path": "pgmq-core",
-                    "version": "0.6.0.0"
+                    "version": "0.6.1.0"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-KeEFobDBLWCkJO4soYbMns9uaQtcU6WeaL+qwowBxi8=",
-                        "version": "0.6.0.0"
+                        "hash": "sha256-5TCuXQNvtbDlBom4wAY/oHftOT7rPOUcsBG478Iko2U=",
+                        "version": "0.6.1.0"
                     },
                     "name": "pgmq-effectful",
                     "path": "pgmq-effectful",
-                    "version": "0.6.0.0"
+                    "version": "0.6.1.0"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-JHAnX3RAQMjwkQToh9OsZ176vgqvv5CCaKfIc2YARR0=",
-                        "version": "0.6.0.0"
+                        "hash": "sha256-25r4ZFxGOfNgAzY2SeqgERQVubCxZ22kUV6nxf8Xtrc=",
+                        "version": "0.6.1.0"
                     },
                     "name": "pgmq-hasql",
                     "path": "pgmq-hasql",
-                    "version": "0.6.0.0"
+                    "version": "0.6.1.0"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-PpXMUaLb+Ykns6IgKTuSLFXyS3IN49aOoc/bOgK5gjI=",
-                        "version": "0.6.0.0"
+                        "hash": "sha256-6Nu5KrNU6XZogZ0yuyKmvsuQVZUryyUjIGuVwgpcaes=",
+                        "version": "0.6.1.0"
                     },
                     "name": "pgmq-migration",
                     "path": "pgmq-migration",
-                    "version": "0.6.0.0"
+                    "version": "0.6.1.0"
                 }
             ]
         },
