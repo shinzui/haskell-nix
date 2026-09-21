@@ -14,7 +14,10 @@ let
     haskellLib.disableCabalFlag "sse2" (
       haskellLib.disableCabalFlag "sse41" (
         haskellLib.disableCabalFlag "avx2" (
-          haskellLib.disableCabalFlag "avx512" pkg)));
+          haskellLib.disableCabalFlag "avx512" pkg
+        )
+      )
+    );
 in
 haskellLib.overrideCabal
   (drv: {

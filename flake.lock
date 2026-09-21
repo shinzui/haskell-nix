@@ -294,6 +294,10 @@
     "root": {
       "inputs": {
         "baikai-src": "baikai-src",
+        "flake-parts": [
+          "haskell-nix-dev",
+          "flake-parts"
+        ],
         "haskell-nix-dev": "haskell-nix-dev",
         "keiki-src": "keiki-src",
         "keiro-src": "keiro-src",
@@ -311,7 +315,11 @@
         "servant-openapi-hs-src": "servant-openapi-hs-src",
         "settei-src": "settei-src",
         "shibuya-src": "shibuya-src",
-        "shikumi-src": "shikumi-src"
+        "shikumi-src": "shikumi-src",
+        "treefmt-nix": [
+          "haskell-nix-dev",
+          "treefmt-nix"
+        ]
       }
     },
     "servant-openapi-hs-src": {

@@ -5,6 +5,24 @@ title: "Decouple first-party upgrades with composable package sets"
 kind: master-plan
 created_at: 2026-09-14T04:03:47Z
 intention: "intention_01m2f17g4ye8qtz89rnbvndk5s"
+provenance:
+  revisions:
+    - model: "gpt-6-astra"
+      harness: "codex-cli"
+      at: 2026-09-21T14:06:31Z
+      mode: "update"
+      note: "Review-driven corrections to snapshot retention, Nix composition, validation, and migration contracts."
+    - model: "gpt-6-astra"
+      harness: "codex-cli"
+      at: 2026-09-21T14:26:45Z
+      mode: "update"
+      note: "Adopt flake-parts, treefmt-nix, nix-unit, and nix-diff; native checks pass with unchanged existing derivations."
+  reviews:
+    - model: "gpt-6-astra"
+      harness: "codex-cli"
+      at: 2026-09-21T14:06:31Z
+      verdict: "approved"
+      note: "Reviewed revised plan against repository and Nix semantics; implementation build and cache acceptance gates remain pending."
 ---
 
 # Decouple first-party upgrades with composable package sets
@@ -28,8 +46,11 @@ must move together across repositories can form an update group; the first produ
 multi-family group is Baikai plus Shikumi, while an ungrouped family such as OKF or Keiro is
 an implicit single-family group. A package set selects one immutable generation of every
 resolved update group. The selected snapshot identities, not the package-set name, determine
-the resulting Nix derivations, so two package sets that select the same Keiro generation
-must produce the same Keiro derivation path and reuse the same binary-cache entry.
+the resulting Nix derivations. Two package sets selecting the same Keiro generation reuse
+its derivation only when its entire transitive build inputs also remain equal, including
+Nixpkgs, system, compiler, dependency derivations, patches, and build settings. An OKF-only
+change outside that closure must not change Keiro's path. Updating this flake does not itself
+freeze the consumer's Nixpkgs or the common registry.
 
 `haskell-nix` owns an append-only catalog of released family and update-group snapshots, a
 small set of curated named package sets, and a constructor for consumer-owned selections.
@@ -46,8 +67,23 @@ scope, changing upstream release cadences, and provisioning or publishing to a r
 cache. A project package that directly depends on changed OKF will still rebuild; the goal is
 to keep its unchanged Keiro closure identical and cacheable.
 
+Version 2 deliberately keeps the configured family identities and update-group partition
+fixed after publication. Adding/removing a family or regrouping families needs a separately
+designed catalog migration; a complete consumer mapping must never acquire new groups by
+silently consulting the moving default. Ordinary package additions, removals, exclusions,
+and Cabal2nix options within a family are supported by capturing discovery policy in each
+family snapshot. Retention promises selectable first-party inputs, not perpetual buildability
+on future toolchains. See [the architecture decision](../adr/1-compose-first-party-snapshots-in-one-haskell-scope.md).
+
 
 ## Decomposition Strategy
+
+The tooling foundation is adopted ahead of the four work streams. `flake.nix` uses
+flake-parts with the existing toolchain's pinned input. `nix/tooling.nix` wires treefmt-nix
+and a nix-unit check; `checks/unit.nix` is the pure contract-test suite. Existing build checks
+live in `checks/default.nix`. The development shell provides nix-unit and nix-diff from pinned
+Nixpkgs. EP-4 extends the unit suite, EP-5/EP-7 use nix-diff for failed cache comparisons, and
+all plans use the same formatting check. See [maintainer tools](../user/maintainer-tools.md).
 
 The work is divided into four functional streams. EP-4 defines the durable domain model and
 strict JSON contracts without changing production selection. EP-5 consumes that contract to
@@ -130,6 +166,12 @@ set behind compatibility aliases.
 EP-5 reads and projects this graph; EP-6 is its only production writer; EP-7 migrates real
 data into it.
 
+Each family snapshot also owns its discovery policy (`packageOverrides` and
+`excludedPackages`). Current policy governs new observations only; retained snapshots are
+validated against their own policy. Compatibility profile names are immutable definitions:
+a changed fragment gets a new name. EP-5 deduplicates selected profile names, then rejects
+overlapping package keys between distinct profiles or between profiles and selected families.
+
 EP-4 owns the shared Haskell types in
 `cli/haskell-nix-update/src/HaskellNix/Update/Types.hs`, codecs and validators in `Catalog.hs`
 and `PackageLock.hs`, and matching Nix fixture validation. EP-6 extends planning and workflow
@@ -142,6 +184,20 @@ registry, a composable Haskell extension, and an overlay. The constructor must k
 name and generation labels out of derivation inputs. EP-7 wires the designated default into
 `flake.nix` and preserves all current output aliases.
 
+EP-5 owns reusable extension construction and the focused check wiring in `flake.nix`;
+EP-7 extends that wiring with production aliases and the curated matrix. Every value under
+`checks.<system>.<name>` is a derivation; inspectable JSON results live in its
+`passthru.results`. EP-4 owns structural fixtures in `checks/fixtures/package-sets/`, EP-5
+adds source/composition fixtures there, and EP-7 owns its real consumer fixture. EP-6 retains
+the version-1 CLI dispatch until EP-7 performs the migration, and owns an explicit selected-set
+validation boundary so a non-default historical candidate cannot escape evaluation.
+
+After tooling adoption, build-check definitions belong in `checks/default.nix`, imported by
+the flake-parts `perSystem` function. EP-4 owns contract-test additions to `checks/unit.nix`;
+EP-5 adds its composition tests there and its derivation checks to `checks/default.nix`;
+EP-7 extends the latter with the curated matrix. `nix/tooling.nix` and `treefmt.nix` own tool
+wiring and formatting policy, keeping the package-set constructor framework-independent.
+
 EP-6 owns the CLI behavior in `HaskellNix.Update.Cli`, `Plan`, `Nix`, and `Workflow`. Normal
 refresh updates one implicit family group or an explicit multi-family group, appends family
 and group generations, and moves only the requested curated package set. EP-7 uses the
@@ -149,14 +205,17 @@ migration command to convert the production version-1 lock and to import a histo
 mixed-version set without hand-editing generated records.
 
 EP-5 and EP-7 share the cache acceptance invariant: if two package sets differ only in OKF,
-an unchanged Keiro package must have equal `drvPath` values under the same channel, GHC, and
-common compatibility registry. EP-7 additionally builds the supported sets under every
+an unchanged Keiro package must have equal `drvPath` values under the same full transitive
+build inputs. A dependent fixture must instead rebuild when its selected dependency changes.
+EP-7 additionally builds the supported sets under every
 `lib.supportedGhcs` compiler and records which set combinations are curated rather than
 claiming arbitrary compatibility.
 
 
 ## Progress
 
+- [x] (2026-09-21) Adopt flake-parts, treefmt-nix, nix-unit, and nix-diff; native flake check and 13 pure tests pass, and all six existing native check derivation paths are unchanged.
+- [x] (2026-09-21) Review and revise the coordination contract and all four child plans against repository behavior and official Nix semantics; implementation remains unstarted.
 - [ ] EP-4: Define update groups, immutable snapshot generations, package sets, and strict version-2 codecs.
 - [ ] EP-4: Prove cross-reference, sorting, coverage, and selected-package uniqueness validation in Haskell and Nix fixtures.
 - [ ] EP-4: Add a deterministic version-1-to-version-2 projection/migration model while leaving production on version 1.
@@ -172,6 +231,17 @@ claiming arbitrary compatibility.
 
 
 ## Surprises & Discoveries
+
+- A minimal evaluation on the installed Nix 2.33.3 confirmed that changing a dependency
+  changes the dependent derivation and that shallow `tryEval` misses an error in a lazy
+  record while `deepSeq` exposes it. This is a semantics probe, not a substitute for EP-5's
+  Haskell fixtures or EP-7's real compatibility builds.
+
+- Review found mutable policy was being applied to historical snapshots, JSON records were
+  proposed under derivation-only flake checks, and consecutive rollout mutations conflicted
+  with the updater's clean-lock guard. EP-4 now snapshots policy; EP-5 uses derivation
+  passthru results; EP-6/EP-7 specify validation and commit boundaries. The live lock on
+  2026-09-21 selects Keiro 0.18.0.0, so rollout must capture its actual baseline.
 
 - The current lock retains only one `LockedFamily` per family and `planRefresh` replaces it
   by family name. Historical locks and matching `flake.lock` nodes nevertheless contain the
@@ -203,6 +273,13 @@ claiming arbitrary compatibility.
 
 
 ## Decision Log
+
+- Decision: Adopt flake-parts, treefmt-nix, nix-unit, and nix-diff before package-set work.
+  Rationale: Reuse the pinned tooling inputs from `mori://shinzui/haskell-nix-dev`, provide
+  named pure tests and actionable derivation diagnostics, and make formatting an executable
+  flake check. Defer nix-eval-jobs until evaluation cost is measured; do not install hooks
+  automatically or replace the existing package-composition primitives.
+  Date: 2026-09-21
 
 - Decision: Decompose the initiative into contracts, Nix composition, updater workflow, and
   production migration.
@@ -262,12 +339,21 @@ claiming arbitrary compatibility.
   makes any cache-path difference an explicit input rather than hidden global state.
   Date: 2026-09-13
 
-- Decision: Require derivation-path equality for unchanged family selections across package
-  sets.
+- Decision: Require derivation-path equality for unchanged transitive build inputs across
+  package sets, and prove that unrelated selection changes do not enter those inputs.
   Rationale: The motivating outcome is binary-cache reuse, not merely a more expressive
   manifest. Package-set names, generation labels, and unrelated selections must not enter an
-  unchanged family's derivation.
-  Date: 2026-09-13
+  unchanged family's derivation. Changing an actual dependency must rebuild its dependents;
+  one Haskell scope still resolves one version per package name.
+  Date: 2026-09-21
+
+- Decision: Retain four child plans and use ordinary Nixpkgs Haskell fixed-point extensions
+  over locked source data, with immutable snapshot policy and profile names.
+  Rationale: Separate derivation universes per family would duplicate shared dependencies
+  and complicate linking. A source-selection layer addresses the actual release-cadence
+  problem without replacing Nixpkgs or adding a solver. Version-2 topology changes remain
+  an explicit migration boundary rather than an accidental break of complete selections.
+  Date: 2026-09-21
 
 - Decision: Do not implement automatic compatibility solving.
   Rationale: Named and consumer-owned sets are explicit support claims backed by builds. A
@@ -282,3 +368,22 @@ Summarize outcomes, gaps, and lessons learned at major milestones or at completi
 Compare the result against the original vision.
 
 (To be filled during and after implementation.)
+
+Review/update 2026-09-21: the decomposition is retained. Corrected snapshot-policy lifetime,
+cache scope, profile conflicts, Nix check output shape, updater migration/validation semantics,
+and rollout recovery. No package implementation or production lock changed. No pre-existing
+local ADR corpus was present; the new ADR records these durable constraints. All five plans
+lacked provenance on entry, so prior author and review history are unknown.
+
+Tooling adoption 2026-09-21: the shared flake now uses flake-parts, pinned treefmt formatting,
+named nix-unit contract tests, and nix-diff in the shell. Child plan instructions and the ADR
+now use this foundation; schema-version-2 package-set implementation remains unstarted.
+
+Validation: `nix flake check --print-build-logs --no-eval-cache` passed on aarch64-darwin,
+including the 13 nix-unit cases and formatting. Filtered interactive nix-unit and the
+development-shell nix-diff command succeeded. The six pre-existing native check derivation
+paths matched their pre-refactor values exactly. `flake.lock` added only two root `follows`
+aliases; existing locked nodes and the package lock were unchanged. The all-system no-build
+check could not complete because Linux Cabal2nix IFD derivations were unavailable locally;
+Linux compilation is not claimed. Initial formatter normalization touched existing Nix files
+as whitespace-only maintenance.

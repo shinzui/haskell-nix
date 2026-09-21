@@ -6,4 +6,4 @@ haskellLib.dontCheck (haskellLib.doJailbreak (hself.callCabal2nix "optparse-appl
     url = "https://hackage.haskell.org/package/optparse-applicative-0.19.0.0/optparse-applicative-0.19.0.0.tar.gz";
     sha256 = "sha256-dhqvRILfdbpYPMxC+WpAyO0KUfq2nLopGk1NdSN2SDM=";
   })
-  { }))
+{ }))

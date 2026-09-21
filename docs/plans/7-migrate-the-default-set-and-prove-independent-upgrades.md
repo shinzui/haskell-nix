@@ -6,6 +6,24 @@ kind: exec-plan
 created_at: 2026-09-14T04:03:54Z
 intention: "intention_01m2f17g4ye8qtz89rnbvndk5s"
 master_plan: "docs/masterplans/2-decouple-first-party-upgrades-with-composable-package-sets.md"
+provenance:
+  revisions:
+    - model: "gpt-6-astra"
+      harness: "codex-cli"
+      at: 2026-09-21T14:06:32Z
+      mode: "update"
+      note: "Review-driven corrections to snapshot retention, Nix composition, validation, and migration contracts."
+    - model: "gpt-6-astra"
+      harness: "codex-cli"
+      at: 2026-09-21T14:26:46Z
+      mode: "update"
+      note: "Adopt flake-parts, treefmt-nix, nix-unit, and nix-diff; native checks pass with unchanged existing derivations."
+  reviews:
+    - model: "gpt-6-astra"
+      harness: "codex-cli"
+      at: 2026-09-21T14:06:32Z
+      verdict: "approved"
+      note: "Reviewed revised plan against repository and Nix semantics; implementation build and cache acceptance gates remain pending."
 ---
 
 # Migrate the default set and prove independent upgrades
@@ -41,6 +59,7 @@ This section must always reflect the actual current state of the work.
 - [ ] Bind package-set selection into public flake outputs while preserving every legacy alias.
 - [ ] Add cache-identity, selected-version, and full curated matrix build checks.
 - [ ] Document consumer selection, update-group maintenance, support levels, and cache behavior.
+- [ ] Preserve clean-lock transaction boundaries and record per-system build coverage separately from evaluation.
 
 
 ## Surprises & Discoveries
@@ -50,8 +69,9 @@ implementation. Provide concise evidence.
 
 - The current repository history contains a suitable complete legacy pair at commit
   `1f3efedb04d71d066043f42cfb8017c122d9a351`, the parent of the Keiro 0.15 update. Its flat
-  lock selects Keiro 0.14.0.0 and OKF 0.8.0.0. The current lock selects Keiro 0.16.0.0 and
-  OKF 0.9.0.0, so changing only the imported baseline's OKF group is a real skewed-family
+  lock selects Keiro 0.14.0.0 and OKF 0.8.0.0. At the 2026-09-21 review the current lock
+  selects Keiro 0.18.0.0 and OKF 0.9.0.0; capture the actual current lock at implementation
+  time rather than restoring a stale planned version. Changing only the imported baseline's OKF group is a real skewed-family
   scenario rather than a synthetic fixture.
 
 - That historical commit's family catalog is byte-identical to the current schema-version-1
@@ -82,6 +102,12 @@ implementation. Provide concise evidence.
 ## Decision Log
 
 Record every decision made while working on the plan.
+
+- Decision: Commit each validated lock mutation before the next mutating CLI command and
+  keep temporary compatibility candidates historical until builds pass.
+  Rationale: The clean-lock guard intentionally rejects uncommitted prior writes. Explicit
+  commit boundaries preserve rollback semantics and make the documented rollout executable.
+  Date: 2026-09-21
 
 - Decision: Add exactly one explicit production update group,
   `shikumi-baikai = [baikai, shikumi]`; keep every other family an implicit singleton.
@@ -125,6 +151,16 @@ Compare the result against the original purpose.
 
 ## Context and Orientation
 
+The flake-parts tooling foundation is implemented. Add production matrix checks to
+`checks/default.nix`; `nix/tooling.nix` already contributes formatting and nix-unit checks.
+Run `just nix-test` and `just fmt-check` before the matrix. Preserve both derivation paths
+on a failed identity assertion and use `just drv-diff '<before.drv>' '<after.drv>'` to
+identify the actual changed input. Source selection remains ordinary Nix code in `lib/`.
+
+Follow [docs/adr/1-compose-first-party-snapshots-in-one-haskell-scope.md](../adr/1-compose-first-party-snapshots-in-one-haskell-scope.md).
+It limits cache reuse to equal transitive inputs and retains immutable snapshot policy and
+profile names. Version-2 family/group topology migration is deliberately outside this rollout.
+
 This plan has hard dependencies on
 `docs/plans/5-compose-cache-stable-package-sets-in-nix.md` and
 `docs/plans/6-make-the-updater-manage-snapshots-and-package-set-selections.md`. Do not begin
@@ -164,6 +200,10 @@ as `mori://shinzui/keiro`, `mori://shinzui/okf`, `mori://shinzui/baikai`, and
 
 ### Milestone 1: Make one coherent production migration
 
+Capture the pre-migration selected versions and representative derivation paths on the same
+Nixpkgs/system/GHC/settings before editing. Compare the post-migration aliases to this saved
+baseline; comparing new aliases only with each other cannot prove no behavior changed.
+
 Before editing production policy, build the completed EP-6 updater from the still-valid
 version-1 tree and retain its output path for the migration command. Update
 `config/first-party-families.json` to schema version 2 and add one sorted `updateGroups`
@@ -188,6 +228,11 @@ only the generated lock through the updater's rollback, fix code or policy, and 
 version-1 baseline. The milestone is complete when the working tree contains one coherent
 version-2 catalog/lock and all legacy default package names and versions are unchanged.
 
+Review and commit the coherent migration before running `package-set clone`. Every later
+successful lock mutation must likewise be committed before the next command that writes the
+lock. Use only task-owned files and include the MasterPlan, ExecPlan, and Intention trailers
+shown below. Do not disable the dirty guard to make the sequence work.
+
 ### Milestone 2: Construct and compile the real skewed set
 
 Use `package-set clone` to create historical candidate `keiro-0-14-okf-0-9` from
@@ -196,6 +241,11 @@ OKF group. Verify by normalized JSON/Nix projection that every other group gener
 especially Keiro, is identical between baseline and mixed sets, while OKF matches default.
 Do not hand-edit a generated snapshot or selection.
 
+Commit the clone before `select`, and commit the selected candidate before further lock
+operations. Name `keiro-0-14-okf-0-9` is valid only if the captured default still selects
+OKF 0.9; otherwise choose a name reflecting the actual version and propagate it through
+commands and checks. Do not refresh unrelated families to fit this document's old baseline.
+
 Build all first-party packages selected by `keiro-0-14-okf-0-9` under GitHub and Hackage
 for `ghc9124` and `ghc9141`. If old Keiro needs a transitive pin, add the smallest registry
 fragment to `overlays/compatibility-profiles.nix`, use `package-set profile` to associate it
@@ -203,11 +253,19 @@ with the Keiro group in both `keiro-0-14-okf-0-8` and `keiro-0-14-okf-0-9`, and 
 full builds. Record the failure evidence and rationale in this plan's living Decision Log.
 Do not add a global common-registry override or weaken another set to make the build pass.
 
+Commit a newly defined profile before assigning it; commit each `package-set profile`
+mutation before assigning the other set. Do not enable the final pairwise identity assertion
+until both sets select that profile: the intermediate state is intentionally unequal.
+Once enabled, the assertion is a release gate and must remain active.
+
 Add an end-to-end fixture package under `checks/fixtures/package-sets/consumer/` whose Cabal
 dependencies include `keiro-core` and `okf-core`. It need not exercise their APIs; the
 acceptance goal is dependency resolution and closure composition. Add a focused candidate
 check that builds it and the complete mixed inventory across both channels and supported
-GHCs. Once that check passes, use `package-set support` to promote the mixed set to `curated`.
+GHCs. Obtain builds on every supported system using native or configured remote builders and
+record the system/channel/compiler results. One host's `nix flake check` does not prove the
+other systems build. If a required builder is unavailable, record incomplete validation and
+leave the candidate historical. Once that matrix passes, use `package-set support` to promote the mixed set to `curated`.
 The milestone is complete when the mixed set is a real buildable combination and its support
 level is `curated` only after validation.
 
@@ -241,6 +299,12 @@ records whose pin is null. The historical baseline participates in focused Keiro
 consumer checks but not the continuing full matrix. The milestone is complete when
 `nix flake check` realises the matrix and the discovery APIs evaluate as JSON.
 
+Keep every `checks.<system>.<name>` value a derivation. Put the identity result record in
+`checks.<system>.production-package-set-cache-identity.passthru.results`, accessible as
+`.results`. Its assertions must force every compared path, while metadata-only discovery
+must not fetch trees. Include an append-only-catalog test: adding an unselected generation
+changes neither the selected versions nor unaffected derivations.
+
 ### Milestone 4: Document the operating and consumer model
 
 Create `docs/user/package-sets.md` and link it from `docs/user/README.md`. Explain family,
@@ -251,6 +315,11 @@ default deliberately tracks future default generations for every other group, wh
 the complete mapping as literals pins every group until the consumer edits it. State that
 group selections are complete, Baikai and Shikumi move atomically, all packages in the Keiro
 repository move as one family, and OKF can advance independently.
+
+Explain that schema version 2 fixes the family inventory and group membership; topology
+changes need a future explicit migration. Package discovery-policy changes within a family
+are allowed and old snapshots retain their own options and exclusions. Profile definitions
+are retained under immutable names; a revised workaround receives a new profile name.
 
 Update `docs/user/consumer-integration.md` with the new constructor while retaining the
 legacy default examples. Update `docs/user/updating-first-party-packages.md` for grouped
@@ -296,18 +365,44 @@ After editing the catalog and production Nix wiring, migrate current and histori
   --import-set keiro-0-14-okf-0-8=1f3efedb04d71d066043f42cfb8017c122d9a351
 ```
 
+Review and commit the migration before continuing (also stage any newly introduced task-owned
+Nix files before evaluating a Git-backed flake):
+
+```bash
+git add config/first-party-families.json packages/first-party-lock.json flake.nix
+git commit -m 'feat(package-sets): migrate production snapshot catalog' \
+  -m 'MasterPlan: docs/masterplans/2-decouple-first-party-upgrades-with-composable-package-sets.md
+ExecPlan: docs/plans/7-migrate-the-default-set-and-prove-independent-upgrades.md
+Intention: intention_01m2f17g4ye8qtz89rnbvndk5s'
+```
+
 Create the skewed supported set without looking up a numeric generation:
 
 ```bash
 nix run .#haskell-nix-update -- package-set clone \
   --from keiro-0-14-okf-0-8 \
   --to keiro-0-14-okf-0-9
+git add packages/first-party-lock.json
+git commit -m 'chore(package-sets): retain mixed-set candidate' \
+  -m 'MasterPlan: docs/masterplans/2-decouple-first-party-upgrades-with-composable-package-sets.md
+ExecPlan: docs/plans/7-migrate-the-default-set-and-prove-independent-upgrades.md
+Intention: intention_01m2f17g4ye8qtz89rnbvndk5s'
 nix run .#haskell-nix-update -- package-set select \
   --package-set keiro-0-14-okf-0-9 \
   --group okf \
   --from-package-set default
+git add packages/first-party-lock.json
+git commit -m 'chore(package-sets): advance candidate OKF selection' \
+  -m 'MasterPlan: docs/masterplans/2-decouple-first-party-upgrades-with-composable-package-sets.md
+ExecPlan: docs/plans/7-migrate-the-default-set-and-prove-independent-upgrades.md
+Intention: intention_01m2f17g4ye8qtz89rnbvndk5s'
 nix build --no-link --keep-going --print-build-logs \
   .#checks.aarch64-darwin.keiro-0-14-okf-0-9-candidate
+```
+
+After recording equivalent passing builds for every other supported system, promote:
+
+```bash
 nix run .#haskell-nix-update -- package-set support \
   --package-set keiro-0-14-okf-0-9 \
   --support-level curated
@@ -318,7 +413,7 @@ Inspect public selections and the focused identity result:
 ```bash
 nix eval --json .#lib.firstPartyPackageSets
 nix eval --json .#lib.firstPartyGroupSnapshots
-nix eval --json .#checks.aarch64-darwin.production-package-set-cache-identity-result
+nix eval --json .#checks.aarch64-darwin.production-package-set-cache-identity.results
 ```
 
 Use the current system key instead of `aarch64-darwin` in both check attribute paths on
@@ -450,3 +545,11 @@ returns `selections`, `selectedFamilies`, `registry`, `haskellExtension`, and `o
 `lib.mkChannelExtension` delegates to the default selection and retains its existing
 signature. Package-set names and support labels are inspection metadata only; neither may
 enter a derivation.
+
+Revision 2026-09-21: update the live Keiro baseline, add real before/after alias evidence,
+repair clean-lock rollout sequencing, correct flake check result paths, and require explicit
+system build coverage. No production migration or compilation was performed during review.
+
+Tooling update 2026-09-21: use the implemented flake-parts, treefmt-nix, nix-unit, and
+nix-diff foundation for this plan's checks and diagnostics. Package-set milestones remain
+unstarted; tooling adoption does not count as completing the schema or migration work.

@@ -117,7 +117,8 @@ let
           config = readJson fixture.config;
           lock = readJson fixture.lock;
         });
-      in {
+      in
+      {
         inherit (fixture) name;
         rejected = !attempted.success;
       })

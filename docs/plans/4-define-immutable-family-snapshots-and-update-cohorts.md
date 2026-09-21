@@ -6,6 +6,24 @@ kind: exec-plan
 created_at: 2026-09-14T04:03:53Z
 intention: "intention_01m2f17g4ye8qtz89rnbvndk5s"
 master_plan: "docs/masterplans/2-decouple-first-party-upgrades-with-composable-package-sets.md"
+provenance:
+  revisions:
+    - model: "gpt-6-astra"
+      harness: "codex-cli"
+      at: 2026-09-21T14:06:31Z
+      mode: "update"
+      note: "Review-driven corrections to snapshot retention, Nix composition, validation, and migration contracts."
+    - model: "gpt-6-astra"
+      harness: "codex-cli"
+      at: 2026-09-21T14:26:45Z
+      mode: "update"
+      note: "Adopt flake-parts, treefmt-nix, nix-unit, and nix-diff; native checks pass with unchanged existing derivations."
+  reviews:
+    - model: "gpt-6-astra"
+      harness: "codex-cli"
+      at: 2026-09-21T14:06:32Z
+      verdict: "approved"
+      note: "Reviewed revised plan against repository and Nix semantics; implementation build and cache acceptance gates remain pending."
 ---
 
 # Define immutable family snapshots and update cohorts
@@ -42,6 +60,7 @@ This section must always reflect the actual current state of the work.
 - [ ] Add matching eager Nix validation and valid/invalid fixtures.
 - [ ] Implement and test the pure version-1-to-version-2 migration and selected-set projection.
 - [ ] Keep the version-1 production reader, updater workflows, and flake outputs passing.
+- [ ] Prove retained snapshots survive current package-policy changes and reject unsupported catalog topology changes explicitly.
 
 
 ## Surprises & Discoveries
@@ -49,12 +68,20 @@ This section must always reflect the actual current state of the work.
 Document unexpected behaviors, bugs, optimizations, or insights discovered during
 implementation. Provide concise evidence.
 
-(None yet.)
+The version-1 registry checks locked package options and exclusions against current policy.
+Reusing that check unchanged for historical generations would invalidate old snapshots when
+policy changes. Version 2 must capture and validate the policy of each observation.
 
 
 ## Decision Log
 
 Record every decision made while working on the plan.
+
+- Decision: Capture discovery policy in each family snapshot and freeze family/group topology
+  within the initial version-2 contract.
+  Rationale: New package policy must not reinterpret old data; changing the group partition
+  needs a separate explicit migration of complete consumer mappings.
+  Date: 2026-09-21
 
 - Decision: Keep version-1 production data active while adding the complete version-2 model
   and fixtures alongside it.
@@ -92,6 +119,17 @@ Compare the result against the original purpose.
 
 
 ## Context and Orientation
+
+The tooling foundation exposes named pure tests in `checks/unit.nix`, run with
+`just nix-test` or `nix develop -c nix-unit --flake .#lib.tests`. Extend that suite with
+version-2 contract fixtures and individual failure names. `nix/tooling.nix` wires the runner
+and treefmt check; `checks/default.nix` owns build checks. Structural tests must remain free
+of source fetching and Cabal2nix builds. Run `just fmt-check` with final validation.
+
+The durable contract is recorded in
+[docs/adr/1-compose-first-party-snapshots-in-one-haskell-scope.md](../adr/1-compose-first-party-snapshots-in-one-haskell-scope.md).
+No pre-existing local ADR covered this design. Snapshot contents determine first-party inputs;
+the consumer's Nixpkgs and transitive build inputs still determine the resulting derivations.
 
 The completed initiative in
 `docs/masterplans/1-automate-dual-channel-first-party-haskell-package-updates.md` introduced
@@ -163,6 +201,10 @@ shape is:
     {
       "family": "okf",
       "generation": 1,
+      "discoveryPolicy": {
+        "packageOverrides": {},
+        "excludedPackages": []
+      },
       "source": {
         "type": "github",
         "owner": "shinzui",
@@ -217,7 +259,18 @@ Projection follows package-set groups to group snapshots and then to family snap
 returns a sorted flat list with one snapshot per configured family. Validate package-name
 uniqueness across that projected list. Reuse existing package-path, version, hash,
 `cabal2nixOptions`, override, and exclusion checks for every family snapshot; historical
-generations are not exempt from schema integrity.
+generations are not exempt from schema integrity. Validate options and exclusions against
+the snapshot's required `discoveryPolicy`, never against today's family policy. This record
+contains the normalized `packageOverrides` map and sorted `excludedPackages` list applied
+when discovering the snapshot. Include it in content deduplication. The current catalog
+policy is used only for new observations. A policy-only change may allocate a new snapshot
+but must not change a derivation if its projected build inputs are identical.
+
+Version 2 fixes family identities, source owner/repository identity, and resolved group
+membership after migration. Reject additions, removals, or regrouping against retained
+coverage with a contextual "catalog topology migration required" error. Do not silently
+extend consumer selections from the default set. A future schema migration can relax this
+boundary; ordinary package inventory and discovery-policy changes remain supported now.
 
 Add invalid Haskell fixtures for an unknown group, missing group selection, wrong group
 membership, missing family generation, duplicate composite key, non-positive generation,
@@ -239,7 +292,8 @@ package sets.
 
 Add a pure `migrateLegacyPackageLock` function. It takes a version-2 family catalog, a map
 of family names to `LockedSource` values read from a matching version-1 `flake.lock`, a
-legacy flat lock, and a target set name. It creates generation 1 for each family, generation
+legacy flat lock, its matching version-1 family catalog, and a target set name. Validate the
+legacy pair against that catalog and capture its discovery policy. It creates generation 1 for each family, generation
 1 for every resolved group with compatibility profile `default`, a complete target package
 set labelled `curated`, and that target as `defaultPackageSet`. It preserves every package
 record exactly and fails if a source descriptor's revision disagrees with the legacy family
@@ -319,6 +373,13 @@ and reject each malformed fixture with a contextual error. The Nix fixture check
 the equivalent malformed records eagerly with `builtins.tryEval`. Both implementations must
 project identical family/generation pairs from a set where OKF moves and Keiro stays fixed.
 
+Add fixtures where current policy changes Cabal2nix flags or excludes a formerly included
+package: the old snapshot must still project its original packages and options. A malformed
+snapshot-policy pairing must fail in both languages. Adding a family or changing group
+membership must fail with the explicit migration-required diagnostic. For eager validation,
+use `builtins.tryEval (builtins.deepSeq structuralResult true)` on data only, never on fetched
+sources or derivations; a shallow successful `tryEval` of a lazy record is insufficient.
+
 Given a catalog with explicit group `shikumi-baikai = [baikai, shikumi]`, resolved groups
 must contain that group plus one singleton per remaining family. A package set omitting the
 explicit group, selecting only Baikai, or referring to different group membership must fail.
@@ -377,6 +438,7 @@ data LockedSource = LockedSource
 data FamilySnapshot = FamilySnapshot
   { family :: FamilyName
   , generation :: SnapshotGeneration
+  , discoveryPolicy :: DiscoveryPolicy
   , source :: LockedSource
   , packages :: [LockedPackage]
   }
@@ -410,3 +472,15 @@ expose `validatePackageSetLock`, `selectPackageSet`, `migrateLegacyPackageLock`,
 historical import function with typed errors. The new Nix validator accepts `{ lib, config,
 lock }` and returns normalized resolved groups plus a `select` function; EP-5 consumes that
 interface without duplicating validation.
+
+`DiscoveryPolicy` contains the existing package-override map and excluded-package list;
+its JSON keys are exactly `packageOverrides` and `excludedPackages`. The selected projection
+must supply snapshot-specific policy to the legacy registry boundary.
+
+Revision 2026-09-21: snapshot discovery policy, make topology migration an explicit boundary,
+and require historical-policy and eager-validation regression fixtures. Implementation has
+not started; these revisions correct the retention contract before dependent plans begin.
+
+Tooling update 2026-09-21: use the implemented flake-parts, treefmt-nix, nix-unit, and
+nix-diff foundation for this plan's checks and diagnostics. Package-set milestones remain
+unstarted; tooling adoption does not count as completing the schema or migration work.

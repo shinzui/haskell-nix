@@ -6,6 +6,24 @@ kind: exec-plan
 created_at: 2026-09-14T04:03:54Z
 intention: "intention_01m2f17g4ye8qtz89rnbvndk5s"
 master_plan: "docs/masterplans/2-decouple-first-party-upgrades-with-composable-package-sets.md"
+provenance:
+  revisions:
+    - model: "gpt-6-astra"
+      harness: "codex-cli"
+      at: 2026-09-21T14:06:32Z
+      mode: "update"
+      note: "Review-driven corrections to snapshot retention, Nix composition, validation, and migration contracts."
+    - model: "gpt-6-astra"
+      harness: "codex-cli"
+      at: 2026-09-21T14:26:46Z
+      mode: "update"
+      note: "Adopt flake-parts, treefmt-nix, nix-unit, and nix-diff; native checks pass with unchanged existing derivations."
+  reviews:
+    - model: "gpt-6-astra"
+      harness: "codex-cli"
+      at: 2026-09-21T14:06:32Z
+      verdict: "approved"
+      note: "Reviewed revised plan against repository and Nix semantics; implementation build and cache acceptance gates remain pending."
 ---
 
 # Make the updater manage snapshots and package-set selections
@@ -41,6 +59,7 @@ This section must always reflect the actual current state of the work.
 - [ ] Make grouped refresh, validation, writes, and rollback atomic across both managed files.
 - [ ] Add deterministic migration, historical import, clone, and group-selection commands.
 - [ ] Cover no-op, Hackage-only, grouped failure, dry-run, rollback, and import workflows offline.
+- [ ] Preserve schema-1 command dispatch until rollout and validate non-default historical targets independently of tracking inputs.
 
 
 ## Surprises & Discoveries
@@ -57,10 +76,20 @@ implementation. Provide concise evidence.
   GitHub evaluation also needs `type`, `owner`, `repo`, and `narHash`, all of which are already
   present in the direct `flake.lock` nodes.
 
+- The current `checkFamily` requires equality with moving tracking inputs and applies current
+  exclusions. Version-2 historical checks must instead use selected source and policy. The
+  current flake validator passes `--no-build`; successful evaluation is not build evidence.
+
 
 ## Decision Log
 
 Record every decision made while working on the plan.
+
+- Decision: Keep version-1 refresh/check dispatch operational through EP-6 and validate the
+  actual version-2 target on every mutation, including historical sets.
+  Rationale: EP-7 must be able to build the updater before migration; checking only the
+  default would allow invalid retained selections to be written.
+  Date: 2026-09-21
 
 - Decision: Make `--package-set` select the one curated set a refresh is allowed to move; if
   omitted it resolves to `defaultPackageSet`.
@@ -109,6 +138,16 @@ Compare the result against the original purpose.
 
 ## Context and Orientation
 
+The shared tooling foundation is implemented. `flake.nix` uses flake-parts, imports the
+existing build checks from `checks/default.nix`, and imports tool checks from
+`nix/tooling.nix`. `nix fmt` uses pinned treefmt; `just fmt-check` checks without writing.
+Run `just nix-test` alongside the updater tests when changing the shared JSON boundary.
+Do not mistake successful pure Nix tests for the selected-set evaluation or build gates.
+
+Follow [docs/adr/1-compose-first-party-snapshots-in-one-haskell-scope.md](../adr/1-compose-first-party-snapshots-in-one-haskell-scope.md).
+Snapshot discovery policy and compatibility-profile names are immutable inputs; current
+tracking inputs are observation aids, not an equality constraint on retained selections.
+
 This plan has a hard dependency on
 `docs/plans/4-define-immutable-family-snapshots-and-update-cohorts.md`. Do not implement it
 until EP-4 is marked Complete in
@@ -136,6 +175,10 @@ stored locked descriptors and do not become new flake inputs.
 ## Plan of Work
 
 ### Milestone 1: Parse package-set and group refresh intent
+
+Dispatch by lock schema. Keep the existing version-1 refresh/check paths and tests until
+EP-7 changes production; version-2-only commands report "migrate-lock required" on version 1.
+Develop the new path against fixtures without replacing the only working production updater.
 
 Extend `HaskellNix.Update.Cli` so `refresh` and `check` accept `--package-set SET`, repeated
 `--family FAMILY`, and repeated `--group GROUP`. Omitting all family/group flags selects all
@@ -173,6 +216,11 @@ again reuse identical content or append the next generation. Change only the tar
 set's corresponding group selection. Non-target package sets and all older snapshots remain
 byte-for-byte equal, and all output lists use EP-4's canonical ordering.
 
+Capture the normalized current discovery policy in each observation, include it in snapshot
+deduplication, and validate retained records against their captured policy. Family identity
+and group-partition changes require an explicit future catalog migration; reject them before
+observation instead of rewriting retained generations or silently extending selections.
+
 Model the operation as one `RefreshPlan` and validate the complete candidate lock before
 returning it. Add planner tests for source-only changes, Hackage-only changes at an unchanged
 revision, no-op reuse, two independent targets, multi-family groups, and an unchanged second
@@ -194,6 +242,20 @@ fact that retained sets were untouched. Extend `check` to project and verify one
 offline mode checks locked Git objects and package discovery, while `--online` also compares
 the selected groups with current upstream state.
 
+For version 2, offline `check` reads source revisions from selected snapshots, never requires
+them to equal `flake.lock` tracking nodes, and applies captured discovery policy. Require the
+selected Git object in the Mori checkout; report a missing object with instructions to fetch
+that exact revision, without checking out or modifying the worktree. A stale tracking input
+is not a historical-set error. Online checks report upstream drift without mutating selection.
+
+Add an injectable `validateSelectedPackageSet` process boundary. In production, evaluate both
+channels of the target with EP-5's constructor, forcing normalized selections, profile checks,
+and available selected package `drvPath`s for supported GHCs on the current system. Then run
+the existing flake validation. This must include historical targets even though they are
+excluded from the curated build matrix. Offline workflow tests inject this boundary until
+EP-5 integration is available; EP-7 verifies the real combined path. Evaluation validates
+construction, not compilation: do not report `--no-build` validation as a successful build.
+
 Extend `WorkflowTest.hs` with fake multi-family observations and injected failures at each
 mutation boundary. This milestone ends when rollback tests compare exact original bytes and
 the full offline suite passes.
@@ -204,10 +266,17 @@ Add a `migrate-lock` command with `--package-set NAME` (default `default`), repe
 `--import-set NAME=GIT_COMMIT`, and `--dry-run`. It requires schema version 2 of the family
 catalog and a schema version 1 production lock. For the current state, read source descriptors
 from the working `flake.lock`. For each import, use the injected Git process boundary to read
-`packages/first-party-lock.json` and `flake.lock` from the same commit, decode them strictly,
+`config/first-party-families.json`, `packages/first-party-lock.json`, and `flake.lock` from the same commit, decode them strictly,
 and merge them through EP-4's pure idempotent import. Never execute a file from history.
 Reject duplicate names, malformed commits, a version-2 historical lock in this first
-implementation, family-catalog drift, and source revision mismatches.
+implementation, family identity/coverage drift, and source revision mismatches. Validate
+historical package policy against the historical catalog and capture it, rather than requiring
+all current policy fields to match. Expand groups using the current version-2 partition.
+
+For the current migration, derive the legacy policy catalog by projecting the version-2
+catalog's unchanged family records to schema version 1 (omit `updateGroups`). This supplies
+EP-4's pure migration with matching policy without needing to recover a pre-edit config file.
+Validate every imported named set explicitly before accepting the migration transaction.
 
 Add `package-set clone --from SOURCE --to TARGET --support-level
 curated|historical [--dry-run]` and `package-set select --package-set SET --group GROUP`
@@ -226,13 +295,18 @@ associate an old runtime cohort with a narrow dependency pin without editing imm
 or changing the default set.
 
 Add `package-set support --package-set SET --support-level curated|historical [--dry-run]`.
-This changes only the set's support label and refuses to demote `default`. It lets rollout
+This changes only the set's support label and refuses to demote the set named by
+`defaultPackageSet` (which need not be spelled `default`). It lets rollout
 create a candidate as historical, prove it across the full matrix, and promote it only after
 the support claim is true.
 
 Test migration and import using checked-in fixture repositories or a temporary Git repository
-created by the test suite. Import order must not affect canonical output, and importing the
-same state twice must be a no-op. The milestone is complete when EP-7 can perform production
+created by the test suite. Resolve import commit expressions to commit IDs before use; use
+argument-vector Git calls and reject option-like revisions. Within one migration batch,
+sort imports by target name then resolved commit before allocation, so reordering flags
+does not change output. Separate sequential imports may allocate different numeric generations:
+append-only `max + 1` IDs cannot be order-independent across separate histories. Never
+renumber published generations. Importing the same state twice must be a no-op. The milestone is complete when EP-7 can perform production
 migration and create its compatibility set without editing generated JSON.
 
 
@@ -275,7 +349,7 @@ Dry run; flake.lock and packages/first-party-lock.json were not changed.
 Validate formatting, the CLI build, and repository evaluation:
 
 ```bash
-nix fmt -- --check .
+just fmt-check
 nix develop -c cabal build haskell-nix-update
 nix flake check --print-build-logs
 git diff --check
@@ -317,11 +391,18 @@ must preserve its family references and isolate the change to one set. Every suc
 mutating command must finish with flake validation. Refreshing a historical set and demoting
 the default must fail. The full `nix flake check` must pass.
 
+Test a historical set whose selected revision differs from its tracking input: offline check
+must succeed using its recorded source and policy. A missing profile on a non-default
+historical target must roll back even when the default evaluates. Test a default named
+`stable` to ensure support demotion uses `defaultPackageSet`, and permute import flags within
+one migration to prove deterministic allocation without claiming order-independent histories.
+
 
 ## Idempotence and Recovery
 
 Snapshot content is immutable and deduplicated, so a repeated observation/import reuses its
-existing generation. Canonical sorting makes import order irrelevant. Dry runs do not invoke
+existing generation. Canonical batch ordering makes flag order irrelevant within one migration;
+separate mutation histories can allocate different generation numbers. Dry runs do not invoke
 mutating Nix commands and do not write. Clone never overwrites an existing set; selection
 replacement is safe to repeat.
 
@@ -401,3 +482,15 @@ Field ordering and exact currying may follow repository style, but target-set is
 content deduplication, group atomicity, and immutable retained snapshots are required. EP-5's
 Nix selector is the final validation boundary after writes; this plan must not introduce a
 second package-set interpretation.
+
+`ObservedFamily` includes `DiscoveryPolicy`, and the historical import primitive takes the
+historical catalog alongside its lock and source descriptors. The selected-set validation
+process boundary must be represented in the existing injected workflow environment.
+
+Revision 2026-09-21: preserve legacy dispatch, validate historical targets explicitly, check
+selected sources independently of tracking inputs, capture historical policy, and bound import
+ordering guarantees. Implementation remains unstarted; full builds remain a separate support gate.
+
+Tooling update 2026-09-21: use the implemented flake-parts, treefmt-nix, nix-unit, and
+nix-diff foundation for this plan's checks and diagnostics. Package-set milestones remain
+unstarted; tooling adoption does not count as completing the schema or migration work.

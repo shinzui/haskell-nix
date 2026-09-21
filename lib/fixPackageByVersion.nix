@@ -29,12 +29,13 @@ hself: hsuper:
 
       versionMatch =
         if alwaysEntry != null then null
-        else lib.findFirst
-          (e: !(e.always or false)
-            && lib.versionAtLeast pkg.version e.min
-            && lib.versionOlder pkg.version e.max)
-          null
-          table;
+        else
+          lib.findFirst
+            (e: !(e.always or false)
+              && lib.versionAtLeast pkg.version e.min
+              && lib.versionOlder pkg.version e.max)
+            null
+            table;
 
       match = if alwaysEntry != null then alwaysEntry else versionMatch;
     in

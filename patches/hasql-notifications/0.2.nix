@@ -8,8 +8,10 @@
 # dontCheck skips the postgres-backed test suite.
 { hself, haskellLib, ... }:
 
-haskellLib.dontCheck (haskellLib.doJailbreak (hself.callHackageDirect {
+haskellLib.dontCheck (haskellLib.doJailbreak (hself.callHackageDirect
+{
   pkg = "hasql-notifications";
   ver = "0.2.5.0";
   sha256 = "sha256-iLw/CEQclpzJI9ep47Mgrzkin3oXdQwL4+UEH5/NU4Y=";
-} { }))
+}
+{ }))

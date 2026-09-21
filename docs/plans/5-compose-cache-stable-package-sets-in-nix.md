@@ -6,6 +6,24 @@ kind: exec-plan
 created_at: 2026-09-14T04:03:54Z
 intention: "intention_01m2f17g4ye8qtz89rnbvndk5s"
 master_plan: "docs/masterplans/2-decouple-first-party-upgrades-with-composable-package-sets.md"
+provenance:
+  revisions:
+    - model: "gpt-6-astra"
+      harness: "codex-cli"
+      at: 2026-09-21T14:06:32Z
+      mode: "update"
+      note: "Review-driven corrections to snapshot retention, Nix composition, validation, and migration contracts."
+    - model: "gpt-6-astra"
+      harness: "codex-cli"
+      at: 2026-09-21T14:26:46Z
+      mode: "update"
+      note: "Adopt flake-parts, treefmt-nix, nix-unit, and nix-diff; native checks pass with unchanged existing derivations."
+  reviews:
+    - model: "gpt-6-astra"
+      harness: "codex-cli"
+      at: 2026-09-21T14:06:32Z
+      verdict: "approved"
+      note: "Reviewed revised plan against repository and Nix semantics; implementation build and cache acceptance gates remain pending."
 ---
 
 # Compose cache-stable package sets in Nix
@@ -23,7 +41,8 @@ extension, and a Nixpkgs overlay. Two selections may differ in OKF while resolvi
 Keiro generation.
 
 The central acceptance criterion is binary-cache identity. Under the same Nixpkgs, GHC,
-channel, build settings, and compatibility inputs, an unchanged family snapshot must have
+system, channel, build settings, compatibility inputs, and transitive dependency derivations,
+an unchanged family snapshot must have
 the same derivation path in both package sets. Package-set names, group generations, and
 unrelated selected families are evaluation metadata only; they must not be embedded in
 package derivation names, sources, or environment variables. The plan proves this first
@@ -41,6 +60,7 @@ This section must always reflect the actual current state of the work.
 - [ ] Expose a generic consumer-owned package-set constructor without moving the public default.
 - [ ] Prove set and channel isolation with valid and invalid Nix fixtures.
 - [ ] Prove equal derivation paths for unchanged family snapshots across two package sets.
+- [ ] Prove changed dependencies rebuild dependents, source fetching stays lazy, and downstream overrides survive composition.
 
 
 ## Surprises & Discoveries
@@ -48,12 +68,24 @@ This section must always reflect the actual current state of the work.
 Document unexpected behaviors, bugs, optimizations, or insights discovered during
 implementation. Provide concise evidence.
 
-(None yet.)
+The existing registry checks current discovery policy, so historical projections must carry
+snapshot-specific policy. Also, `checks.<system>.<name>` must be a derivation: JSON assertion
+results belong in a check derivation's `passthru.results`, not a sibling check attribute.
+
+A minimal Nix 2.33.3 derivation probe during review returned `dependentChanges = true` when
+only the dependency derivation changed, and confirmed `deepSeq` is needed to catch an error
+inside a lazy record with `tryEval`. The Haskell-specific proof remains to be implemented.
 
 
 ## Decision Log
 
 Record every decision made while working on the plan.
+
+- Decision: Build one final Haskell scope using standard extensions and resolve dependencies
+  through `hself`; promise cache identity only for unchanged transitive build inputs.
+  Rationale: Independently constructing family derivations can mix incompatible dependency
+  instances. Shared dependency changes legitimately rebuild every affected family.
+  Date: 2026-09-21
 
 - Decision: Make `lib.mkFirstPartyPackageSet` return a record containing `registry`,
   `haskellExtension`, and `overlay`.
@@ -62,7 +94,7 @@ Record every decision made while working on the plan.
   selection logic.
   Date: 2026-09-13
 
-- Decision: Accept either one curated set name or one complete consumer selection, never
+- Decision: Accept either one retained set name or one complete consumer selection, never
   both.
   Rationale: Curated sets need a concise stable interface, while downstream projects need
   combinations not centrally enumerated. Rejecting ambiguous calls keeps the selected graph
@@ -92,6 +124,17 @@ Compare the result against the original purpose.
 
 
 ## Context and Orientation
+
+Tooling is already adopted: `flake.nix` uses flake-parts, `checks/unit.nix` holds named
+pure nix-unit tests, and `checks/default.nix` holds build checks. Extend those files rather
+than adding another runner or inlining the matrix into `flake.nix`. Run `just nix-test`
+and `just fmt-check`. On a cache-identity failure, retain both evaluated derivation paths
+and run `just drv-diff '<before.drv>' '<after.drv>'`; diagnose the differing inputs before
+changing assertions. Keep the constructor in `lib/` independent of flake-parts.
+
+Follow [docs/adr/1-compose-first-party-snapshots-in-one-haskell-scope.md](../adr/1-compose-first-party-snapshots-in-one-haskell-scope.md).
+It records the single-scope composition boundary, immutable snapshot policy and profile
+definitions, and the conditional cache guarantee; no older local ADR covered this work.
 
 This plan has a hard dependency on
 `docs/plans/4-define-immutable-family-snapshots-and-update-cohorts.md`. Do not implement it
@@ -124,11 +167,13 @@ source is required by the resulting package.
 A compatibility profile is a retained Nix registry fragment needed by an older update-group
 generation when the global common registry has moved. Profiles live in
 `overlays/compatibility-profiles.nix` and are referred to by name from group snapshots. The
-empty profile is `default`. Selected profiles are merged after `overlays/registry.nix` and
-before selected first-party packages, so a profile may override a shared dependency pin but
-never the selected family itself. Overlapping non-empty profiles must be rejected unless a
-single consolidated profile is defined explicitly; Nix functions cannot be safely compared
-for equality.
+empty profile is `default`. Profile names are append-only identifiers: changes to a retained
+fragment require a new name. Selected profiles are merged after `overlays/registry.nix` and
+before selected first-party packages. Deduplicate names first, so several groups may refer
+to one consolidated profile. Reject package-key overlap between distinct selected profiles
+and reject profile keys naming any selected first-party package, including GitHub-only
+packages on the Hackage channel. Do not silently resolve these conflicts with merge order;
+Nix functions cannot be safely compared for equality.
 
 
 ## Plan of Work
@@ -143,12 +188,22 @@ overlay constructors. Its exported `mkFirstPartyPackageSet` accepts exactly one 
 generations. It also accepts `channel`, `disableProfiling`, and `disableHaddock` with the same
 defaults as the current channel constructor.
 
-Project the selected graph to a version-1-shaped family list only at the existing registry
-boundary. Build the source attribute set lazily from each selected family snapshot's locked
+Project the selected graph to a version-1-shaped family list and a matching version-1-shaped
+catalog using each snapshot's discovery policy only at the existing registry boundary.
+Keep stable family identity/tracking-input names from config but never apply current options
+or exclusions to retained package records. Build the source attribute set lazily from each selected family snapshot's locked
 descriptor. The descriptor passed to `builtins.fetchTree` contains only `type`, `owner`,
 `repo`, `rev`, and `narHash`. Assert that the resulting revision equals the stored revision.
 Do not put the package-set name, family generation, or group generation into a package name,
 source name, derivation attribute, or Cabal2nix option.
+
+Keep fetching separate from structural validation. Inject `fetchSource ? builtins.fetchTree`
+only into the internal factory so local fixture descriptors can resolve to checked-in source
+trees. The public bound constructor must use the real fetcher. Add throwing fetcher cases:
+evaluating selection metadata, using Hackage, or selecting a different GitHub snapshot must
+not force an unneeded fetch. Test one real locked GitHub descriptor in pure evaluation as a
+separate integration check. Document the required `nix-command`/`flakes` features and verify
+on the installed Nix; do not weaken the strict production descriptor schema for fixtures.
 
 Refactor `lib/mkFirstPartyRegistries.nix` only where necessary to accept the selected flat
 projection or to construct one requested channel lazily. Preserve its symlink staging,
@@ -165,14 +220,15 @@ inputs to `flake.nix`.
 
 Create `overlays/compatibility-profiles.nix` with an empty `default` profile and a documented
 record shape. For every selected group snapshot, collect its profile name. Validate that the
-profile exists and that package keys do not overlap across non-default selected profiles.
+profile exists, deduplicate names, and enforce the collision rules described above.
 Compose registries in this order:
 
 ```text
 common registry -> selected compatibility profiles -> selected first-party registry
 ```
 
-The selected first-party entry wins on a duplicate name. Reproduce the current Hackage null
+The selected first-party entry wins over a common-registry entry; a profile collision is an
+error. Reproduce the current Hackage null
 placeholder behavior only for GitHub-only packages in the selected set, not for every
 historical snapshot in the catalog.
 
@@ -191,6 +247,13 @@ Return this exact conceptual record from `mkFirstPartyPackageSet`:
 Move reusable extension construction currently local to `flake.nix` into a library function
 or parameterize it so current and package-set paths share one implementation. Preserve
 `disableProfiling` and `disableHaddock` semantics, including per-package opt-back-in.
+
+Use a single final scope (the recursive set containing all resulting packages), with
+`hself.callCabal2nix`/`hself.callHackageDirect` resolving dependencies from that scope.
+Preserve existing `old.overrides` using `lib.composeExtensions`; compose consumer extensions
+after this extension in the documented example. Add a test with a pre-existing override and
+a later consumer override, proving both survive and a selected package sees the overridden
+dependency. Never assemble a scope by merging independently instantiated family packages.
 
 Expose the generic constructor under `lib.mkFirstPartyPackageSet`. During this plan it takes
 explicit `config` and `lock` inputs or is demonstrated only through fixtures; it must not
@@ -212,11 +275,23 @@ that changing the GHC, channel, runtime generation, build settings, or a compati
 profile is allowed to change the path; the cache guarantee applies only when actual package
 inputs are equal.
 
+Add a third fixture package that depends on the changing OKF-like package: its source stays
+fixed but its `drvPath` must change. A shared-dependency override must similarly change the
+runtime path. Renaming a set, appending an unselected snapshot, or changing irrelevant policy
+metadata must preserve unaffected paths. For Hackage use two real, pinned published fixture
+versions and hashes (verified during implementation through Mori and Hackage), not invented
+local package names. Keep the pure graph/laziness fixtures independent of those downloads.
+
 Add negative evaluation cases for incomplete selections, simultaneous curated and explicit
 selection, unknown channels, missing compatibility profiles, profile key conflicts, and a
 locked source whose returned revision disagrees with metadata. Integrate the focused checks
 into `flake.nix` and run the entire flake check. The milestone is complete only when cache
 identity is an executable assertion rather than a documentation claim.
+
+Each check is a derivation with assertions and optional `passthru.results`. Keep structural
+checks free of import-from-derivation (IFD, evaluation that first builds Cabal2nix output).
+The derivation-identity tests may need IFD; retain the updater's warm-check path and document
+that evaluation can build generators even when final Haskell packages are not built.
 
 
 ## Concrete Steps
@@ -242,7 +317,7 @@ nix-instantiate --parse overlays/compatibility-profiles.nix >/dev/null
 Expose a focused result attribute from the package-set check and inspect it:
 
 ```bash
-nix eval --json .#checks.aarch64-darwin.package-set-selection-result
+nix eval --json .#checks.aarch64-darwin.package-set-cache-identity.results
 nix build --no-link .#checks.aarch64-darwin.package-set-cache-identity
 ```
 
@@ -294,6 +369,11 @@ path.
 
 Current `lib.registries`, `lib.haskellExtensions`, and `overlays` values must retain their
 pre-plan package names and versions. `nix flake check` must pass on every supported system.
+
+Repeated use of one profile name succeeds; two distinct overlapping profiles fail; a profile
+overriding a selected family fails. Historical snapshot-policy fixtures must still evaluate
+after current policy changes. Realise checks on each supported native system or configured
+remote builder and record coverage: one host's `nix flake check` is not an all-system build.
 
 
 ## Idempotence and Recovery
@@ -348,3 +428,11 @@ The exact currying may follow repository style, but input exclusivity and return
 part of the acceptance contract. `overlays/compatibility-profiles.nix` is an attribute set
 from profile name to registry fragment and must always define `default = { };`. EP-7 will
 bind the constructor to production config/lock and make the curated default public.
+
+Revision 2026-09-21: tighten fixed-point and transitive cache semantics, preserve historical
+policy, define immutable conflict-checked profiles, and correct check output/fixture design.
+Implementation remains unstarted; acceptance now includes dependency propagation and laziness.
+
+Tooling update 2026-09-21: use the implemented flake-parts, treefmt-nix, nix-unit, and
+nix-diff foundation for this plan's checks and diagnostics. Package-set milestones remain
+unstarted; tooling adoption does not count as completing the schema or migration work.

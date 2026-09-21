@@ -90,3 +90,19 @@ validate:
 # Run the full flake check (schemas, versions, updater tests, overlay evaluation).
 flake-check:
     nix flake check --print-build-logs
+
+# Format repository Nix code using the pinned treefmt wrapper.
+fmt:
+    nix fmt
+
+# Check formatting without changing files.
+fmt-check:
+    nix fmt -- --ci
+
+# Run pure Nix contract tests without building the Haskell package matrix.
+nix-test:
+    nix build --no-link --print-build-logs ".#checks.$(nix eval --impure --raw --expr builtins.currentSystem).nix-unit"
+
+# Explain a failed cache-identity comparison; arguments are .drv paths.
+drv-diff before after:
+    nix develop -c nix-diff '{{before}}' '{{after}}'

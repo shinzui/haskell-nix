@@ -9,4 +9,4 @@ haskellLib.dontCheck (haskellLib.doJailbreak (hself.callCabal2nix "hasql-migrati
     rev = "4aaff6c0919d1fe8e1c248c3ce4ce05775c59c8c";
     hash = "sha256-yMAFb9WEMTaqbKD17fz/Oi9Unw4sRlrUHBnv+iXK2o4=";
   })
-  {}))
+{ }))

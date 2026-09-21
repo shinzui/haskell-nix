@@ -6,8 +6,9 @@
 { hself, haskellLib, ... }:
 
 haskellLib.dontCheck (haskellLib.doJailbreak (hself.callHackageDirect
-  {
-    pkg = "validation";
-    ver = "1.2.2";
-    sha256 = "sha256-KC1S6oQKHxcSoD/SealsGSzu9KX1/M14tfRsVse6zn4=";
-  } { }))
+{
+  pkg = "validation";
+  ver = "1.2.2";
+  sha256 = "sha256-KC1S6oQKHxcSoD/SealsGSzu9KX1/M14tfRsVse6zn4=";
+}
+{ }))
