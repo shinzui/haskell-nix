@@ -123,7 +123,7 @@
         },
         {
             "githubInput": "keiro-src",
-            "githubRev": "b284379c937092a8dc2cc66e5474f3e17ef3454d",
+            "githubRev": "b12bbdd7abc8c1a59e7a09891471ef182a4d801a",
             "name": "keiro",
             "packages": [
                 {
@@ -136,72 +136,72 @@
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-cDTQcuP9ihkQpPzzfFe2HMhiMCpZe4+LHrTld+tNmvA=",
-                        "version": "0.17.0.0"
+                        "hash": "sha256-Y7D/pVfzB5ZKl7cfkn0jwSWXIWzzEUzQu1d9ww3N8OE=",
+                        "version": "0.18.0.0"
                     },
                     "name": "keiro",
                     "path": "keiro",
-                    "version": "0.17.0.0"
+                    "version": "0.18.0.0"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-srl0l2lLxVEwkXDjXU0vNt9WliamVh4i8VnUykWv+rs=",
-                        "version": "0.17.0.0"
+                        "hash": "sha256-dsQ7uQvl/Mpr+unvwyK97pLCwbzJ5/k94HheN6+9oy8=",
+                        "version": "0.18.0.0"
                     },
                     "name": "keiro-core",
                     "path": "keiro-core",
-                    "version": "0.17.0.0"
+                    "version": "0.18.0.0"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-zmwZLhmrhpcD5sLwE2ojpOC7zAtzAFS9QtQLzjaYmxw=",
-                        "version": "0.17.0.0"
+                        "hash": "sha256-82eR9WsGIDcyBQSpwxTKk+CzAo9+4eIJP84iHJvk2UM=",
+                        "version": "0.18.0.0"
                     },
                     "name": "keiro-dsl",
                     "path": "keiro-dsl",
-                    "version": "0.17.0.0"
+                    "version": "0.18.0.0"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-GIVefwcc1424grmE/3CVWgDpsPS8bYj+bBqlnbCBpZs=",
-                        "version": "0.17.0.0"
+                        "hash": "sha256-Oe1zZmrMqz20B+JnHYtxjb6J/eGXerfTF5Jhd//nMXM=",
+                        "version": "0.18.0.0"
                     },
                     "name": "keiro-migrations",
                     "path": "keiro-migrations",
-                    "version": "0.17.0.0"
+                    "version": "0.18.0.0"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-L43mVGOwPpU0Ixsrvd1FnP9U8q/7RYnuaIshzG0M/Us=",
-                        "version": "0.17.0.0"
+                        "hash": "sha256-yVhVB+eYBi8qeLZTmovfPg1Sw8mCc/ol28Osh1QY/70=",
+                        "version": "0.18.0.0"
                     },
                     "name": "keiro-ops",
                     "path": "keiro-ops",
-                    "version": "0.17.0.0"
+                    "version": "0.18.0.0"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-8X5yXrnPT3K7SzmGe/dydU83Q0KKKolzhBqrTOwrqhE=",
-                        "version": "0.17.0.0"
+                        "hash": "sha256-PQbIzlGo1+RPcPZBy07p/uAwoxTYbhkdsUnCBrw99dM=",
+                        "version": "0.18.0.0"
                     },
                     "name": "keiro-pgmq",
                     "path": "keiro-pgmq",
-                    "version": "0.17.0.0"
+                    "version": "0.18.0.0"
                 },
                 {
                     "cabal2nixOptions": "",
                     "hackage": {
-                        "hash": "sha256-kqCdyVRKMmwVXegAeKb6T/EgNoEfcrnCYvjFrjXZ7bs=",
-                        "version": "0.17.0.0"
+                        "hash": "sha256-Qw3eCRWaF75jc63s0y4+56O8+Xfs0GWDJPhIxoI2GzU=",
+                        "version": "0.18.0.0"
                     },
                     "name": "keiro-test-support",
                     "path": "keiro-test-support",
-                    "version": "0.17.0.0"
+                    "version": "0.18.0.0"
                 }
             ]
         },

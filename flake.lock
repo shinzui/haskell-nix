@@ -112,11 +112,11 @@
     "keiro-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1789788710,
-        "narHash": "sha256-8GTM7JcOFQ9Jr19cTAKL9mx1cEkVjSzgrMQgCtAywZ8=",
+        "lastModified": 1789961251,
+        "narHash": "sha256-tgFIrzfUQc3zuWc9OSW5o4mrdav1XELFUQGhTwABeD0=",
         "owner": "shinzui",
         "repo": "keiro",
-        "rev": "b284379c937092a8dc2cc66e5474f3e17ef3454d",
+        "rev": "b12bbdd7abc8c1a59e7a09891471ef182a4d801a",
         "type": "github"
       },
       "original": {
