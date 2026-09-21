@@ -1,5 +1,8 @@
 # Bundle Update Log
 
+## 2026-09-21
+* **Addition**: IR-2 requests the tested Aeson/generic-lens and WAI/Warp compatibility cohorts discovered while packaging `mori://shinzui/hurl-workbench`, including every transitive version required to replace its consumer-local fixed-hash graph.
+
 ## 2026-08-21
 * **Status change**: IR-1 `proposed` -> `completed`. Shipped as the opt-in `disableHaddock` flag on `lib.mkChannelExtension` and `lib.mkHaskellOverlay`, backed by `lib/disableHaddockOverride.nix` and the `build-setting-flags` check.
 * **Decision recorded**: the two build-setting flags stay separate rather than collapsing into one `leanBuild`. No consumer had adopted `disableProfiling`, so enabling both together still costs a single rebuild.
