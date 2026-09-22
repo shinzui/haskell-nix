@@ -11,8 +11,10 @@ let
   packageSetFixtures = ./fixtures/package-sets;
   packageSetConfig = builtins.fromJSON (builtins.readFile (packageSetFixtures + "/valid-config.json"));
   packageSetLock = builtins.fromJSON (builtins.readFile (packageSetFixtures + "/valid-lock.json"));
-  validatePackageSet = import ../lib/validateFirstPartyPackageSetLock.nix { inherit lib; };
-  validatedPackageSet = validatePackageSet { config = packageSetConfig; lock = packageSetLock; };
+  validatePackageSet = config: lock: import ../lib/validateFirstPartyPackageSetLock.nix {
+    inherit lib config lock;
+  };
+  validatedPackageSet = validatePackageSet packageSetConfig packageSetLock;
   invalidConfigs = [
     "invalid-config-duplicate-family.json"
     "invalid-config-unknown-override-key.json"
@@ -38,7 +40,7 @@ let
   };
   rejectsPackageSet = candidateConfig: candidateLock: {
     expr = (builtins.tryEval (builtins.deepSeq
-      (validatePackageSet { config = candidateConfig; lock = candidateLock; })
+      (validatePackageSet candidateConfig candidateLock)
       true)).success;
     expected = false;
   };
@@ -157,17 +159,16 @@ in
     ];
   };
   testSnapshotPolicyIgnoresCurrentPolicy = {
-    expr = (validatePackageSet {
-      config = packageSetConfig // {
+    expr = (validatePackageSet
+      (packageSetConfig // {
         families = map
           (family:
             if family.name == "okf"
             then family // { excludedPackages = [ "retired" ]; }
             else family)
           packageSetConfig.families;
-      };
-      lock = packageSetLock;
-    }).select "historical" != [ ];
+      })
+      packageSetLock).select "historical" != [ ];
     expected = true;
   };
   testRejectTopologyChange = rejectsPackageSet

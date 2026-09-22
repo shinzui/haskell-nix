@@ -52,7 +52,7 @@ testInvalidCases =
   mapM_
     (\(label, candidate) -> assertLeft label (validatePackageSetLock validCatalog candidate))
     [ ("unknown group", mapSets (mapSetGroups (map (replaceGroup "okf" "unknown"))) validLock),
-      ("missing group", mapSets (mapSetGroups (filter ((/= UpdateGroupName "okf") . groupName))) validLock),
+      ("missing group", mapSets (mapSetGroups (filter ((/= UpdateGroupName "okf") . selectionGroupName))) validLock),
       ("wrong group membership", mapGroups (mapGroupFamilies "baikai-shikumi" (take 1)) validLock),
       ("missing family generation", mapGroups (mapGroupFamilyGeneration "okf" 99) validLock),
       ("duplicate family snapshot", validLock {familySnapshots = familySnapshots validLock <> take 1 (familySnapshots validLock)}),
@@ -83,7 +83,7 @@ testProjection = do
 testHistoricalPolicy :: Assertion
 testHistoricalPolicy = do
   _ <- assertRight (validatePackageSetLock validCatalog validLock)
-  let changedCurrentPolicy = mapCatalogFamily "okf" (\family -> family {excludedPackages = Set.singleton (PackageName "retired")}) validCatalog
+  let changedCurrentPolicy = mapCatalogFamily "okf" (withExcludedPackages (Set.singleton (PackageName "retired"))) validCatalog
   _ <- assertRight (validatePackageSetLock changedCurrentPolicy validLock)
   assertLeft "malformed snapshot policy" (validatePackageSetLock validCatalog (mapFamilies (mapOptions "okf" 1 "wrong") validLock))
 
@@ -144,11 +144,11 @@ validLock =
   PackageSetLock
     { schemaVersion = 2,
       familySnapshots =
-        [ snapshot "baikai" 1 "" revisionA,
-          snapshot "keiro" 1 "" revisionA,
-          snapshot "okf" 1 "-flegacy" revisionA,
-          snapshot "okf" 2 "" revisionB,
-          snapshot "shikumi" 1 "" revisionA
+        [ mkSnapshot "baikai" 1 "" revisionA,
+          mkSnapshot "keiro" 1 "" revisionA,
+          mkSnapshot "okf" 1 "-flegacy" revisionA,
+          mkSnapshot "okf" 2 "" revisionB,
+          mkSnapshot "shikumi" 1 "" revisionA
         ],
       groupSnapshots =
         [ groupSnapshot "baikai-shikumi" 1 [("baikai", 1), ("shikumi", 1)],
@@ -163,8 +163,8 @@ validLock =
       defaultPackageSet = "default"
     }
 
-snapshot :: Text -> Int -> Text -> Text -> FamilySnapshot
-snapshot familyName generation options revision =
+mkSnapshot :: Text -> Int -> Text -> Text -> FamilySnapshot
+mkSnapshot familyName generation options revision =
   FamilySnapshot
     { family = FamilyName familyName,
       generation = SnapshotGeneration generation,
@@ -191,9 +191,9 @@ lockedSource familyName revision =
     }
 
 groupSnapshot :: Text -> Int -> [(Text, Int)] -> GroupSnapshot
-groupSnapshot groupName generation selectedFamilies =
+groupSnapshot snapshotGroupName generation selectedFamilies =
   GroupSnapshot
-    { group = UpdateGroupName groupName,
+    { group = UpdateGroupName snapshotGroupName,
       generation = SnapshotGeneration generation,
       families = [FamilySnapshotSelection (FamilyName familyName) (SnapshotGeneration selectedGeneration) | (familyName, selectedGeneration) <- selectedFamilies],
       compatibilityProfile = "default"
@@ -204,7 +204,7 @@ packageSet setName supportLevel selectedGroups =
   PackageSet
     { name = setName,
       supportLevel,
-      groups = [GroupSelection (UpdateGroupName groupName) (SnapshotGeneration generation) | (groupName, generation) <- selectedGroups]
+      groups = [GroupSelection (UpdateGroupName selectedGroupName) (SnapshotGeneration generation) | (selectedGroupName, generation) <- selectedGroups]
     }
 
 legacyLock :: PackageLock
@@ -250,42 +250,42 @@ mapSetGroups :: ([GroupSelection] -> [GroupSelection]) -> PackageSet -> PackageS
 mapSetGroups f set@PackageSet {groups} = set {groups = f groups}
 
 replaceGroup :: Text -> Text -> GroupSelection -> GroupSelection
-replaceGroup old new selection@GroupSelection {group = UpdateGroupName groupName}
-  | groupName == old = selection {group = UpdateGroupName new}
-  | otherwise = selection
+replaceGroup old new GroupSelection {group = UpdateGroupName currentGroupName, generation}
+  | currentGroupName == old = GroupSelection {group = UpdateGroupName new, generation}
+  | otherwise = GroupSelection {group = UpdateGroupName currentGroupName, generation}
 
-groupName :: GroupSelection -> UpdateGroupName
-groupName GroupSelection {group} = group
+selectionGroupName :: GroupSelection -> UpdateGroupName
+selectionGroupName GroupSelection {group} = group
 
 mapGroupFamilies :: Text -> ([FamilySnapshotSelection] -> [FamilySnapshotSelection]) -> GroupSnapshot -> GroupSnapshot
-mapGroupFamilies requested f snapshot@GroupSnapshot {group = UpdateGroupName groupName, families}
-  | groupName == requested = snapshot {families = f families}
-  | otherwise = snapshot
+mapGroupFamilies requested f candidate@GroupSnapshot {group = UpdateGroupName currentGroupName, families}
+  | currentGroupName == requested = withGroupFamilies (f families) candidate
+  | otherwise = candidate
 
 mapGroupFamilyGeneration :: Text -> Int -> GroupSnapshot -> GroupSnapshot
-mapGroupFamilyGeneration requested newGeneration snapshot@GroupSnapshot {group = UpdateGroupName groupName, families}
-  | groupName == requested = snapshot {families = map change families}
-  | otherwise = snapshot
+mapGroupFamilyGeneration requested newGeneration candidate@GroupSnapshot {group = UpdateGroupName currentGroupName, families}
+  | currentGroupName == requested = withGroupFamilies (map change families) candidate
+  | otherwise = candidate
   where
     change FamilySnapshotSelection {family} = FamilySnapshotSelection {family, generation = SnapshotGeneration newGeneration}
 
 mapFamilyGeneration :: Text -> Int -> FamilySnapshot -> FamilySnapshot
-mapFamilyGeneration requested newGeneration snapshot@FamilySnapshot {family = FamilyName familyName}
-  | familyName == requested = snapshot {generation = SnapshotGeneration newGeneration}
-  | otherwise = snapshot
+mapFamilyGeneration requested newGeneration candidate@FamilySnapshot {family = FamilyName familyName}
+  | familyName == requested = withFamilyGeneration (SnapshotGeneration newGeneration) candidate
+  | otherwise = candidate
 
 mapPackageName :: Text -> Text -> FamilySnapshot -> FamilySnapshot
-mapPackageName requested newName snapshot@FamilySnapshot {family = FamilyName familyName, packages}
-  | familyName == requested = withSnapshotPackages (map rename packages) snapshot
-  | otherwise = snapshot
+mapPackageName requested newName candidate@FamilySnapshot {family = FamilyName familyName, packages}
+  | familyName == requested = withSnapshotPackages (map rename packages) candidate
+  | otherwise = candidate
   where
     rename LockedPackage {path, version, cabal2nixOptions, hackage} =
       LockedPackage {name = PackageName newName, path, version, cabal2nixOptions, hackage}
 
 mapOptions :: Text -> Int -> Text -> FamilySnapshot -> FamilySnapshot
-mapOptions requested requestedGeneration options snapshot@FamilySnapshot {family = FamilyName familyName, generation = SnapshotGeneration currentGeneration, packages}
-  | familyName == requested && currentGeneration == requestedGeneration = withSnapshotPackages (map changeOptions packages) snapshot
-  | otherwise = snapshot
+mapOptions requested requestedGeneration options candidate@FamilySnapshot {family = FamilyName familyName, generation = SnapshotGeneration currentGeneration, packages}
+  | familyName == requested && currentGeneration == requestedGeneration = withSnapshotPackages (map changeOptions packages) candidate
+  | otherwise = candidate
   where
     changeOptions LockedPackage {name, path, version, hackage} =
       LockedPackage {name, path, version, cabal2nixOptions = options, hackage}
@@ -294,18 +294,37 @@ withSnapshotPackages :: [LockedPackage] -> FamilySnapshot -> FamilySnapshot
 withSnapshotPackages packages FamilySnapshot {family, generation, discoveryPolicy, source} =
   FamilySnapshot {family, generation, discoveryPolicy, source, packages}
 
+withFamilyGeneration :: SnapshotGeneration -> FamilySnapshot -> FamilySnapshot
+withFamilyGeneration generation FamilySnapshot {family, discoveryPolicy, source, packages} =
+  FamilySnapshot {family, generation, discoveryPolicy, source, packages}
+
+withGroupFamilies :: [FamilySnapshotSelection] -> GroupSnapshot -> GroupSnapshot
+withGroupFamilies families GroupSnapshot {group, generation, compatibilityProfile} =
+  GroupSnapshot {group, generation, families, compatibilityProfile}
+
+withExcludedPackages :: Set.Set PackageName -> FamilyConfig -> FamilyConfig
+withExcludedPackages excludedPackages FamilyConfig {name, moriProject, github, githubInput, packageOverrides} =
+  FamilyConfig {name, moriProject, github, githubInput, packageOverrides, excludedPackages}
+
 mapSetSupport :: Text -> PackageSetSupportLevel -> PackageSet -> PackageSet
 mapSetSupport requested level set@PackageSet {name}
   | name == requested = set {supportLevel = level}
   | otherwise = set
 
 mapCatalogFamily :: Text -> (FamilyConfig -> FamilyConfig) -> FamilyCatalog -> FamilyCatalog
-mapCatalogFamily requested f catalog@FamilyCatalog {families} =
-  catalog {families = map (\family@FamilyConfig {name = FamilyName familyName} -> if familyName == requested then f family else family) families}
+mapCatalogFamily requested f FamilyCatalog {schemaVersion, families, updateGroups} =
+  FamilyCatalog
+    { schemaVersion,
+      families = map (\family@FamilyConfig {name = FamilyName familyName} -> if familyName == requested then f family else family) families,
+      updateGroups
+    }
 
 mapLegacyFamily :: Text -> (LockedFamily -> LockedFamily) -> PackageLock -> PackageLock
-mapLegacyFamily requested f lock@PackageLock {families} =
-  lock {families = map (\family@LockedFamily {name = FamilyName familyName} -> if familyName == requested then f family else family) families}
+mapLegacyFamily requested f PackageLock {schemaVersion, families} =
+  PackageLock
+    { schemaVersion,
+      families = map (\family@LockedFamily {name = FamilyName familyName} -> if familyName == requested then f family else family) families
+    }
 
 generationOf :: Text -> [FamilySnapshot] -> SnapshotGeneration
 generationOf requested snapshots =

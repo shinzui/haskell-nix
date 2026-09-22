@@ -1,9 +1,7 @@
 # validateFirstPartyPackageSetLock ::
-#   { config : FamilyCatalogV2, lock : PackageSetLockV2 }
+#   { lib : NixpkgsLib, config : FamilyCatalogV2, lock : PackageSetLockV2 }
 #   -> { resolvedGroups : [ UpdateGroup ], select : String -> [ FamilySnapshot ] }
-{ lib }:
-
-{ config, lock }:
+{ lib, config, lock }:
 
 let
   exactAttrs = required: optional: value:

@@ -118,7 +118,7 @@ solvable combination.
 
 | # | Title | Path | Hard Deps | Soft Deps | Status |
 |---|-------|------|-----------|-----------|--------|
-| 4 | Define immutable family snapshots and update cohorts | docs/plans/4-define-immutable-family-snapshots-and-update-cohorts.md | None | None | In Progress |
+| 4 | Define immutable family snapshots and update cohorts | docs/plans/4-define-immutable-family-snapshots-and-update-cohorts.md | None | None | Complete |
 | 5 | Compose cache-stable package sets in Nix | docs/plans/5-compose-cache-stable-package-sets-in-nix.md | EP-4 | None | Not Started |
 | 6 | Make the updater manage snapshots and package-set selections | docs/plans/6-make-the-updater-manage-snapshots-and-package-set-selections.md | EP-4 | EP-5 | Not Started |
 | 7 | Migrate the default set and prove independent upgrades | docs/plans/7-migrate-the-default-set-and-prove-independent-upgrades.md | EP-5, EP-6 | None | Not Started |
@@ -221,9 +221,9 @@ claiming arbitrary compatibility.
 
 - [x] (2026-09-21) Adopt flake-parts, treefmt-nix, nix-unit, and nix-diff; native flake check and 13 pure tests pass, and all six existing native check derivation paths are unchanged.
 - [x] (2026-09-21) Review and revise the coordination contract and all four child plans against repository behavior and official Nix semantics; implementation remains unstarted.
-- [ ] EP-4: Define update groups, immutable snapshot generations, package sets, and strict version-2 codecs.
-- [ ] EP-4: Prove cross-reference, sorting, coverage, and selected-package uniqueness validation in Haskell and Nix fixtures.
-- [ ] EP-4: Add a deterministic version-1-to-version-2 projection/migration model while leaving production on version 1.
+- [x] (2026-09-22) EP-4: Define update groups, immutable snapshot generations, package sets, and strict version-2 codecs.
+- [x] (2026-09-22) EP-4: Prove cross-reference, sorting, coverage, and selected-package uniqueness validation in Haskell and Nix fixtures.
+- [x] (2026-09-22) EP-4: Add a deterministic version-1-to-version-2 projection/migration model while leaving production on version 1.
 - [ ] EP-5: Build the package-set selector and per-channel registry projection from locked snapshot sources.
 - [ ] EP-5: Expose a consumer-owned package-set constructor while preserving the current default interfaces.
 - [ ] EP-5: Prove two sets with unchanged runtime selections evaluate to identical runtime derivation paths.
@@ -275,6 +275,13 @@ claiming arbitrary compatibility.
   `docs/user/consumer-integration.md` describes those constructor defaults as false. The
   package-set migration must preserve code behavior and correct the guide; changing the
   defaults would invalidate cache comparisons and broaden this initiative.
+
+- EP-4 kept the active flat constructor named `PackageLock` and exposed
+  `LegacyPackageLock` as a transition alias; the immutable graph is `PackageSetLock`.
+  This preserves every version-1 planner/workflow call site while giving EP-6 explicit
+  migration signatures. EP-5's Nix boundary is now concretely
+  `import lib/validateFirstPartyPackageSetLock.nix { lib, config, lock; }`, returning eager
+  `resolvedGroups` plus a `select` projection function.
 
 
 ## Decision Log
@@ -392,3 +399,9 @@ aliases; existing locked nodes and the package lock were unchanged. The all-syst
 check could not complete because Linux Cabal2nix IFD derivations were unavailable locally;
 Linux compilation is not claimed. Initial formatter normalization touched existing Nix files
 as whitespace-only maintenance.
+
+EP-4 completion 2026-09-22: schema-version-2 Haskell codecs, validators, projections, and
+deterministic legacy migration/import now agree with an eager pure Nix validator and mixed-set
+fixtures. Native flake check passes with 50 Haskell tests and 29 nix-unit cases; the dedicated
+contract derivation exposes both projections through `passthru.results`. Production config,
+package lock, flake lock, public registries, and version-1 updater behavior remain unchanged.

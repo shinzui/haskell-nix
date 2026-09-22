@@ -64,7 +64,7 @@ This section must always reflect the actual current state of the work.
 - [x] (2026-09-22 08:03 PDT) Implement strict version-2 JSON codecs, canonical ordering, and reference validation.
 - [x] (2026-09-22 08:03 PDT) Add matching eager Nix validation and valid/invalid fixtures; 29 nix-unit cases pass.
 - [x] (2026-09-22 08:03 PDT) Implement and test the pure version-1-to-version-2 migration and selected-set projection; all 50 Haskell tests pass.
-- [ ] Keep the version-1 production reader, updater workflows, and flake outputs passing.
+- [x] (2026-09-22 08:21 PDT) Keep the version-1 production reader, updater workflows, and flake outputs passing; native `nix flake check`, both registry evaluations, and the 14-family offline drift check pass with production managed files unchanged.
 - [x] (2026-09-22 08:03 PDT) Prove retained snapshots survive current package-policy changes and reject unsupported catalog topology changes explicitly in Haskell and Nix.
 
 
@@ -131,7 +131,25 @@ Record every decision made while working on the plan.
 Summarize outcomes, gaps, and lessons learned at major milestones or at completion.
 Compare the result against the original purpose.
 
-(To be filled during and after implementation.)
+EP-4 is complete. The repository now has a strict schema-version-2 domain model in Haskell,
+an eager source-free Nix validator with the same projection behavior, and pure deterministic
+migration/import functions. The valid fixture demonstrates an explicit Baikai plus Shikumi
+group, singleton Keiro and OKF groups, two OKF generations, and two sets that retain Keiro
+while selecting different OKF generations. Invalid cases cover reference integrity, sorting,
+generation validity, strict fields, support levels, package uniqueness, retained policy, and
+the fixed catalog-topology boundary.
+
+Production remains byte-for-byte on schema version 1. The existing updater still checks all
+14 families without drift, both public registries evaluate, and native `nix flake check`
+passes with 50 Haskell tests and 29 nix-unit cases. The new
+`checks.aarch64-darwin.package-set-contract` derivation exposes both normalized projections in
+`passthru.results`. No new dependency was needed.
+
+The accepted architecture decision already records the durable snapshot, policy, topology,
+and validation boundaries implemented here, so the completion distillation found no ADR
+change to make. EP-5 can consume `lib/validateFirstPartyPackageSetLock.nix` through its exact
+`{ lib, config, lock }` argument contract; EP-6 can consume the Haskell types and pure
+migration functions while leaving legacy CLI dispatch intact.
 
 
 ## Context and Orientation

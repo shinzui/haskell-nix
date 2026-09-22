@@ -94,8 +94,8 @@ in
       fixtureRoot = ./fixtures/package-sets;
       config = builtins.fromJSON (builtins.readFile (fixtureRoot + "/valid-config.json"));
       lock = builtins.fromJSON (builtins.readFile (fixtureRoot + "/valid-lock.json"));
-      validated = (import ../lib/validateFirstPartyPackageSetLock.nix { inherit lib; }) {
-        inherit config lock;
+      validated = import ../lib/validateFirstPartyPackageSetLock.nix {
+        inherit lib config lock;
       };
       project = name: map
         (snapshot: { inherit (snapshot) family generation; })
