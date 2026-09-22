@@ -36,6 +36,14 @@ in  Schema.Project::{
         , description = Some
             "Reader-facing guides and references for haskell-nix consumers and maintainers"
         }
+      , Schema.OkfBundle::{
+        , name = "guides"
+        , path = "docs/guides"
+        , profile = Some "mori/user-documentation-profile.dhall"
+        , okfVersion = "0.2"
+        , description = Some
+            "Task-oriented guides for adopting haskell-nix in consumer repositories"
+        }
       ]
     , skills =
       [ Schema.Skill::{

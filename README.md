@@ -161,8 +161,10 @@ haskellLib.doJailbreak pkg
 
 Patch functions receive `{ pkg, lib, haskellLib, pkgs, hself, hsuper }`.
 
-See the [user guide](docs/user/README.md) for package-set and channel selection, consumer composition,
-maintainer workflows, and troubleshooting.
+Use the [adoption guides](docs/guides/README.md) to add haskell-nix to a consumer,
+move an overlay consumer to composed extensions, and roll out a package set. See the
+[user documentation](docs/user/README.md) for package-set and channel selection,
+consumer composition, maintainer workflows, and troubleshooting.
 
 ## Design notes
 
