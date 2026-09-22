@@ -125,7 +125,7 @@ solvable combination.
 |---|-------|------|-----------|-----------|--------|
 | 4 | Define immutable family snapshots and update cohorts | docs/plans/4-define-immutable-family-snapshots-and-update-cohorts.md | None | None | Complete |
 | 5 | Compose cache-stable package sets in Nix | docs/plans/5-compose-cache-stable-package-sets-in-nix.md | EP-4 | None | In Progress |
-| 6 | Make the updater manage snapshots and package-set selections | docs/plans/6-make-the-updater-manage-snapshots-and-package-set-selections.md | EP-4 | EP-5 | In Progress |
+| 6 | Make the updater manage snapshots and package-set selections | docs/plans/6-make-the-updater-manage-snapshots-and-package-set-selections.md | EP-4 | EP-5 | Complete |
 | 7 | Migrate the default set and prove independent upgrades | docs/plans/7-migrate-the-default-set-and-prove-independent-upgrades.md | EP-5, EP-6 | None | Not Started |
 
 Status values: Not Started, In Progress, Complete, Cancelled.
@@ -232,9 +232,9 @@ claiming arbitrary compatibility.
 - [x] (2026-09-22) EP-5: Build the package-set selector and per-channel registry projection from locked snapshot sources.
 - [x] (2026-09-22) EP-5: Expose a consumer-owned package-set constructor while preserving the current default interfaces.
 - [x] (2026-09-22) EP-5: Prove two sets with unchanged runtime selections evaluate to identical runtime derivation paths on aarch64-darwin; Linux realization remains pending builder availability.
-- [ ] EP-6: Extend refresh planning to append immutable family and group generations and move one named set.
-- [ ] EP-6: Enforce atomic multi-family updates, dry-run behavior, dirty-file refusal, and byte-for-byte rollback.
-- [ ] EP-6: Add repeatable migration and historical-set import commands with offline workflow tests.
+- [x] (2026-09-22) EP-6: Extend refresh planning to append immutable family and group generations and move one named set.
+- [x] (2026-09-22) EP-6: Enforce atomic multi-family updates, dry-run behavior, dirty-file refusal, and byte-for-byte rollback.
+- [x] (2026-09-22) EP-6: Add repeatable migration and historical-set import commands with offline workflow tests.
 - [ ] EP-7: Migrate production configuration and lock data, including the Baikai plus Shikumi update group.
 - [ ] EP-7: Demonstrate an OKF-only upgrade with an older Keiro selection and run all supported set/channel/GHC checks.
 - [ ] EP-7: Finalize consumer, cache, maintenance, and compatibility documentation.
@@ -293,6 +293,11 @@ claiming arbitrary compatibility.
   the target system: the configured x86_64-linux builder closed its SSH connection on
   2026-09-22, and no aarch64-linux builder is configured, so EP-5 remains In Progress until
   those realization gates run.
+
+- EP-6 retained the schema-1 path while adding a schema detector and a separate immutable
+  workflow. This allowed 64 offline updater tests to exercise grouped refresh, rollback,
+  historical checking, migration/import, and package-set commands before EP-7 changes the
+  production lock.
 
 
 ## Decision Log

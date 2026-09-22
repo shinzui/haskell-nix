@@ -33,15 +33,15 @@ testChangeCategories = do
   assertContains familyChanges (HackagePublished family (PackageName "published") (testVersion "1.0"))
   assertContains familyChanges (HackageUnpublished family (PackageName "unpublished") (testVersion "1.0"))
   assertContains familyChanges (HackageVersionChanged family (PackageName "changed") (testVersion "1.0") (testVersion "2.1"))
-  assertContains familyChanges (HackageHashChanged family (PackageName "changed") hashA hashB)
+  assertContains familyChanges (HackageHashChanged family (PackageName "changed") localHashA localHashB)
   assertContains familyChanges (HackageFallbackUsed family (PackageName "fallback") (testVersion "0.9"))
   map (\LockedFamily {name} -> name) families @?= [family]
   where
     family = FamilyName "example"
     oldRevision = GitRevision "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
     newRevision = GitRevision "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
-    hashA = SriHash "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
-    hashB = SriHash "sha256-BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB="
+    localHashA = SriHash "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
+    localHashB = SriHash "sha256-BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB="
     familyConfig =
       FamilyConfig
         { name = family,
@@ -61,10 +61,10 @@ testChangeCategories = do
                   githubInput = "example-src",
                   githubRev = oldRevision,
                   packages =
-                    [ locked "changed" "1.0" (Just (pin "1.0" hashA)),
+                    [ locked "changed" "1.0" (Just (pin "1.0" localHashA)),
                       locked "published" "1.0" Nothing,
                       locked "removed" "1.0" Nothing,
-                      locked "unpublished" "1.0" (Just (pin "1.0" hashA))
+                      locked "unpublished" "1.0" (Just (pin "1.0" localHashA))
                     ]
                 }
             ]
@@ -75,9 +75,9 @@ testChangeCategories = do
           githubRev = newRevision,
           packages =
             [ observed "added" "1.0" Nothing False,
-              observed "changed" "2.0" (Just (pin "2.1" hashB)) False,
-              observed "fallback" "1.0" (Just (pin "0.9" hashA)) True,
-              observed "published" "1.0" (Just (pin "1.0" hashA)) False,
+              observed "changed" "2.0" (Just (pin "2.1" localHashB)) False,
+              observed "fallback" "1.0" (Just (pin "0.9" localHashA)) True,
+              observed "published" "1.0" (Just (pin "1.0" localHashA)) False,
               observed "unpublished" "1.0" Nothing False
             ]
         }

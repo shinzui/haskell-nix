@@ -29,6 +29,7 @@ module HaskellNix.Update.Types
     ObservedFamily (..),
     SnapshotObservation (..),
     RefreshTarget (..),
+    PackageSetCommand (..),
     FamilyChange (..),
     RefreshPlan (..),
     PackageSetRefreshPlan (..),
@@ -224,6 +225,13 @@ data RefreshTarget
   = TargetFamily !FamilyName
   | TargetGroup !UpdateGroupName
   deriving stock (Eq, Ord, Show)
+
+data PackageSetCommand
+  = ClonePackageSet !Text !Text !PackageSetSupportLevel !Bool
+  | SelectPackageSetGroup !Text !UpdateGroupName !(Either SnapshotGeneration Text) !Bool
+  | ProfilePackageSetGroup !Text !UpdateGroupName !Text !Bool
+  | SetPackageSetSupport !Text !PackageSetSupportLevel !Bool
+  deriving stock (Eq, Show)
 
 data FamilyChange
   = GitHubRevisionChanged !FamilyName !GitRevision !GitRevision

@@ -62,8 +62,8 @@ This section must always reflect the actual current state of the work.
 - [x] Decode complete locked source descriptors and include them in family observations.
 - [x] Plan append-only family/group snapshots and move only the requested package set.
 - [x] Make grouped refresh, validation, writes, and rollback atomic across both managed files.
-- [ ] Add deterministic migration, historical import, clone, and group-selection commands.
-- [ ] Cover no-op, Hackage-only, grouped failure, dry-run, rollback, and import workflows offline.
+- [x] Add deterministic migration, historical import, clone, and group-selection commands.
+- [x] Cover no-op, Hackage-only, grouped failure, dry-run, rollback, and import workflows offline.
 - [x] Preserve schema-1 command dispatch until rollout and validate non-default historical targets independently of tracking inputs.
 
 
@@ -153,7 +153,18 @@ Record every decision made while working on the plan.
 Summarize outcomes, gaps, and lessons learned at major milestones or at completion.
 Compare the result against the original purpose.
 
-(To be filled during and after implementation.)
+The updater now dispatches both lock schemas without breaking the production schema-1
+commands. Schema-2 refreshes normalize family/group targets, observe complete locked source
+descriptors, append or reuse immutable family and group generations, and move only one
+curated named set. Offline checks use retained sources and retained discovery policy rather
+than tracking inputs.
+
+Migration and package-set composition are command-driven: migration can import matching
+catalog, lock, and flake state from local Git history; clone, select, profile, and support
+operations preserve complete mappings and validate the full graph. Every real mutation uses
+the managed-file dirty guard, atomic writes, named Nix-selection validation, flake validation,
+and byte-for-byte rollback. The updater suite passes 64 offline tests, including grouped
+failure, Hackage-only changes, no-op/dry-run identity, historical checks, and imports.
 
 
 ## Context and Orientation

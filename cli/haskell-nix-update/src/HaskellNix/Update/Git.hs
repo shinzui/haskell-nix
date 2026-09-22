@@ -3,6 +3,8 @@ module HaskellNix.Update.Git
     requireRevision,
     discoverPackages,
     remoteHead,
+    resolveRepositoryCommit,
+    readRepositoryFileAt,
   )
 where
 
@@ -11,6 +13,7 @@ import Data.List (sortOn)
 import Data.Text (Text)
 import Data.Text qualified as Text
 import Data.Text.Encoding qualified as TextEncoding
+import Data.ByteString (ByteString)
 import Distribution.Package (pkgName, pkgVersion)
 import Distribution.PackageDescription (package, packageDescription)
 import Distribution.PackageDescription.Parsec (parseGenericPackageDescriptionMaybe)
@@ -81,6 +84,26 @@ remoteHead runner github = do
       revision : _
         | validRevision revision -> Right (GitRevision revision)
       _ -> Left (UpdateError ("could not parse remote HEAD from " <> url))
+
+resolveRepositoryCommit :: ProcessRunner -> FilePath -> Text -> IO (Either UpdateError GitRevision)
+resolveRepositoryCommit runner repository expression
+  | Text.null expression || "-" `Text.isPrefixOf` expression =
+      pure (Left (UpdateError "historical Git commit expression must not be empty or option-like"))
+  | otherwise = do
+      result <- runChecked runner (gitSpec repository ["rev-parse", "--verify", Text.unpack expression <> "^{commit}"])
+      pure $ do
+        ProcessResult {standardOutput} <- result
+        let resolved = Text.strip standardOutput
+        if validRevision resolved
+          then Right (GitRevision resolved)
+          else Left (UpdateError "Git did not resolve the historical commit to a full object ID")
+
+readRepositoryFileAt :: ProcessRunner -> FilePath -> GitRevision -> FilePath -> IO (Either UpdateError ByteString)
+readRepositoryFileAt runner repository revision path = do
+  result <- runChecked runner (gitSpec repository ["show", Text.unpack (revisionText revision) <> ":" <> path])
+  pure $ do
+    ProcessResult {standardOutput} <- result
+    Right (TextEncoding.encodeUtf8 standardOutput)
 
 revisionExists :: ProcessRunner -> FilePath -> GitRevision -> IO (Either UpdateError Bool)
 revisionExists ProcessRunner {runProcess} repository revision = do

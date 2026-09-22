@@ -7,7 +7,7 @@ import Data.Text (Text)
 import HaskellNix.Update.Catalog (decodeFamilyCatalog, encodeFamilyCatalog)
 import HaskellNix.Update.Cli
 import HaskellNix.Update.PackageLock (decodePackageLock, decodePackageLockForRefresh, encodePackageLock)
-import HaskellNix.Update.Types (FamilyCatalog, FamilyName (..), PackageLock (..), RefreshTarget (..), UpdateGroupName (..))
+import HaskellNix.Update.Types (FamilyCatalog, FamilyName (..), PackageLock (..), RefreshTarget (..), SnapshotGeneration (..), UpdateGroupName (..))
 import Options.Applicative (ParserResult (..), defaultPrefs, execParserPure)
 import Paths_haskell_nix_update (getDataFileName)
 import PackageSetTest qualified
@@ -100,6 +100,21 @@ cliTests =
             packageSet @?= Nothing
             targets @?= []
             online @?= False
+          other -> assertFailure ("unexpected parser result: " <> show other),
+      testCase "migrate-lock parses named historical imports" $
+        case execParserPure defaultPrefs parserInfo ["migrate-lock", "--package-set", "stable", "--import-set", "old=HEAD~1", "--dry-run"] of
+          Success (MigrateLock MigrateOptions {packageSet, importSets, dryRun}) -> do
+            packageSet @?= "stable"
+            importSets @?= [("old", "HEAD~1")]
+            dryRun @?= True
+          other -> assertFailure ("unexpected parser result: " <> show other),
+      testCase "package-set select requires one selection source" $
+        case execParserPure defaultPrefs parserInfo ["package-set", "select", "--package-set", "candidate", "--group", "runtime", "--generation", "3"] of
+          Success (PackageSetCommand (SelectPackageSetGroup packageSet group selection dryRun)) -> do
+            packageSet @?= "candidate"
+            group @?= UpdateGroupName "runtime"
+            selection @?= Left (SnapshotGeneration 3)
+            dryRun @?= False
           other -> assertFailure ("unexpected parser result: " <> show other)
     ]
 

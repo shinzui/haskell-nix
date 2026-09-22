@@ -5,6 +5,8 @@ module HaskellNix.Update.Workflow
     defaultWorkflowEnvironment,
     runRefreshCommand,
     runCheckCommand,
+    runMigrateLockWorkflow,
+    runPackageSetCommand,
     runRefreshWorkflow,
     runCheckWorkflow,
     atomicWriteFile,
@@ -27,12 +29,12 @@ import Data.Text (Text)
 import Data.Text qualified as Text
 import Distribution.Pretty (prettyShow)
 import HaskellNix.Update.Catalog (decodeFamilyCatalog)
-import HaskellNix.Update.Git (discoverPackages, ensureRevision, remoteHead, requireRevision)
+import HaskellNix.Update.Git (discoverPackages, ensureRevision, readRepositoryFileAt, remoteHead, requireRevision, resolveRepositoryCommit)
 import HaskellNix.Update.Hackage (HttpClient, defaultHttpClient, queryHackage)
 import HaskellNix.Update.Mori (MoriProject (..), locateMoriProject)
 import HaskellNix.Update.Nix
-import HaskellNix.Update.PackageLock (decodePackageLock, decodePackageLockForRefresh, decodePackageSetLock, encodePackageLock, encodePackageSetLock)
-import HaskellNix.Update.Plan (planPackageSetRefresh, planRefresh, renderChanges, resolveRefreshTargets)
+import HaskellNix.Update.PackageLock (decodePackageLock, decodePackageLockForRefresh, decodePackageSetLock, encodePackageLock, encodePackageSetLock, importLegacyPackageLock, migrateLegacyPackageLock, validatePackageSetLock)
+import HaskellNix.Update.Plan (clonePackageSetWithSupport, planPackageSetRefresh, planRefresh, renderChanges, resolveRefreshTargets, selectGroupCompatibilityProfile, selectGroupFromPackageSet, selectGroupGeneration, setPackageSetSupportLevel)
 import Data.Text.IO qualified as TextIO
 import HaskellNix.Update.Process (ProcessRunner, defaultProcessRunner, streamingProcessRunner)
 import HaskellNix.Update.Types
@@ -125,6 +127,130 @@ detectLockSchema paths = runExceptT $ do
   case decodePackageLockForRefresh catalog packageBytes of
     Right _ -> pure LegacySchema
     Left _ -> PackageSetSchema <$ liftEitherText "package-set lock" (decodePackageSetLock catalog packageBytes)
+
+runMigrateLockWorkflow :: WorkflowEnvironment -> WorkflowPaths -> Text -> [(Text, Text)] -> Bool -> IO (Either UpdateError Text)
+runMigrateLockWorkflow environment paths targetSetName requestedImports dryRun = runExceptT $ do
+  unless (uniqueImportNames requestedImports) $
+    throwE (UpdateError "--import-set names must be unique")
+  catalogBytes <- readFileE (resolvePath paths (catalogPath paths))
+  targetCatalog@FamilyCatalog {schemaVersion, families = configuredFamilies} <- liftEitherText "family catalog" (decodeFamilyCatalog catalogBytes)
+  unless (schemaVersion == 2) $
+    throwE (UpdateError "migrate-lock requires family catalog schemaVersion 2")
+  originalLock <- readFileE (resolvePath paths (packageLockPath paths))
+  legacyCatalog <- pure (FamilyCatalog 1 configuredFamilies [])
+  legacyLock <- liftEitherText "legacy package lock" (decodePackageLock legacyCatalog originalLock)
+  originalFlake <- readFileE (resolvePath paths (flakeLockPath paths))
+  sources <- liftEitherE (sourcesFromFlake configuredFamilies originalFlake)
+  migrated <- liftEitherText "migrate package lock" (migrateLegacyPackageLock targetCatalog sources legacyLock legacyCatalog targetSetName)
+  resolvedImports <- traverse (resolveImport environment paths) requestedImports
+  let orderedImports = sortOn (\(name, revision) -> (name, revision)) resolvedImports
+  imported <- foldMExcept (importHistorical environment paths targetCatalog) migrated orderedImports
+  let summary =
+        "Migrated package lock to package set "
+          <> targetSetName
+          <> if null orderedImports
+            then "."
+            else "; imported " <> Text.intercalate ", " [name | (name, _) <- orderedImports] <> "."
+      validateSets = targetSetName : [name | (name, _) <- orderedImports]
+  if dryRun
+    then pure ("Dry run; managed lock files were not changed. " <> summary)
+    else ExceptT (writeValidatedPackageSet environment paths targetCatalog originalFlake originalLock imported validateSets summary)
+
+runPackageSetCommand :: WorkflowEnvironment -> WorkflowPaths -> PackageSetCommand -> IO (Either UpdateError Text)
+runPackageSetCommand environment paths command = do
+  loaded <- loadPackageSetState paths
+  case loaded of
+    Left updateError -> pure (Left updateError)
+    Right state@PackageSetState {packageSetCatalog, packageSetLock} -> do
+      let (targetSetName, dryRun, description, transformed) = case command of
+            ClonePackageSet sourceName targetName targetSupport requestedDryRun ->
+              (targetName, requestedDryRun, "Cloned package set " <> sourceName <> " to " <> targetName <> ".", clonePackageSetWithSupport sourceName targetName targetSupport packageSetLock)
+            SelectPackageSetGroup targetName groupName selection requestedDryRun ->
+              let selected = case selection of
+                    Left generation -> selectGroupGeneration targetName groupName generation packageSetLock
+                    Right sourceName -> selectGroupFromPackageSet targetName groupName sourceName packageSetLock
+               in (targetName, requestedDryRun, "Updated group " <> groupNameText groupName <> " in package set " <> targetName <> ".", selected)
+            ProfilePackageSetGroup targetName groupName profile requestedDryRun ->
+              (targetName, requestedDryRun, "Selected profile " <> profile <> " for group " <> groupNameText groupName <> " in package set " <> targetName <> ".", selectGroupCompatibilityProfile targetName groupName profile packageSetLock)
+            SetPackageSetSupport targetName targetSupport requestedDryRun ->
+              (targetName, requestedDryRun, "Updated support level for package set " <> targetName <> ".", setPackageSetSupportLevel targetName targetSupport packageSetLock)
+      case transformed >>= firstUpdateError . validatePackageSetLock packageSetCatalog of
+        Left updateError -> pure (Left updateError)
+        Right nextLock
+          | dryRun -> pure (Right ("Dry run; managed lock files were not changed. " <> description))
+          | otherwise ->
+              writeValidatedPackageSet
+                environment
+                paths
+                packageSetCatalog
+                (originalPackageSetFlakeLock state)
+                (originalPackageSetLock state)
+                nextLock
+                [targetSetName]
+                description
+
+writeValidatedPackageSet :: WorkflowEnvironment -> WorkflowPaths -> FamilyCatalog -> ByteString -> ByteString -> PackageSetLock -> [Text] -> Text -> IO (Either UpdateError Text)
+writeValidatedPackageSet environment@WorkflowEnvironment {processRunner, progress} paths _catalog originalFlake originalLock nextLock validateSets summary = do
+  dirty <- managedFilesDirty processRunner (repositoryRoot paths) [flakeLockPath paths, packageLockPath paths]
+  case dirty of
+    Left updateError -> pure (Left updateError)
+    Right True -> pure (Left (UpdateError "refusing to mutate package sets because managed lock files have uncommitted changes"))
+    Right False -> do
+      attempted <- try (runExceptT applyAndValidate) :: IO (Either IOException (Either UpdateError Text))
+      case attempted of
+        Right (Right result) -> pure (Right result)
+        Right (Left updateError) -> rollbackRaw updateError
+        Left exception -> rollbackRaw (UpdateError ("package-set mutation failed: " <> Text.pack (show exception)))
+  where
+    applyAndValidate = do
+      let nextBytes = LazyByteString.toStrict (encodePackageSetLock nextLock)
+      when (nextBytes /= originalLock) $ writeFileE (resolvePath paths (packageLockPath paths)) nextBytes
+      traverse_ (liftEitherIO . validateSelectedPackageSet environment (repositoryRoot paths)) (Set.toAscList (Set.fromList validateSets))
+      lift (progress "validating flake outputs")
+      liftEitherIO (validateFlake processRunner (repositoryRoot paths))
+      pure summary
+    rollbackRaw updateError = do
+      _ <- try (atomicWriteFile (resolvePath paths (flakeLockPath paths)) originalFlake) :: IO (Either IOException ())
+      lockRollback <- try (atomicWriteFile (resolvePath paths (packageLockPath paths)) originalLock) :: IO (Either IOException ())
+      pure $ case lockRollback of
+        Right () -> Left updateError
+        Left exception -> Left (UpdateError (message updateError <> "; rollback also failed: " <> Text.pack (show exception)))
+
+resolveImport :: WorkflowEnvironment -> WorkflowPaths -> (Text, Text) -> ExceptT UpdateError IO (Text, GitRevision)
+resolveImport WorkflowEnvironment {processRunner} paths (name, expression) = do
+  revision <- liftEitherIO (resolveRepositoryCommit processRunner (repositoryRoot paths) expression)
+  pure (name, revision)
+
+importHistorical :: WorkflowEnvironment -> WorkflowPaths -> FamilyCatalog -> PackageSetLock -> (Text, GitRevision) -> ExceptT UpdateError IO PackageSetLock
+importHistorical WorkflowEnvironment {processRunner} paths targetCatalog existing (targetName, revision) = do
+  historicalCatalogBytes <- liftEitherIO (readRepositoryFileAt processRunner (repositoryRoot paths) revision (catalogPath paths))
+  historicalLockBytes <- liftEitherIO (readRepositoryFileAt processRunner (repositoryRoot paths) revision (packageLockPath paths))
+  historicalFlakeBytes <- liftEitherIO (readRepositoryFileAt processRunner (repositoryRoot paths) revision (flakeLockPath paths))
+  historicalCatalog <- liftEitherText "historical family catalog" (decodeFamilyCatalog historicalCatalogBytes)
+  historicalLock <- liftEitherText "historical package lock" (decodePackageLock historicalCatalog historicalLockBytes)
+  let FamilyCatalog {families = historicalFamilies} = historicalCatalog
+  historicalSources <- liftEitherE (sourcesFromFlake historicalFamilies historicalFlakeBytes)
+  liftEitherText "import historical package lock" (importLegacyPackageLock targetCatalog historicalSources historicalLock historicalCatalog targetName existing)
+
+sourcesFromFlake :: [FamilyConfig] -> ByteString -> Either UpdateError (Map.Map FamilyName LockedSource)
+sourcesFromFlake configuredFamilies flakeBytes =
+  Map.fromList <$> traverse decodeFamily configuredFamilies
+  where
+    decodeFamily FamilyConfig {name, githubInput} = do
+      source <- decodeLockedSource githubInput flakeBytes
+      pure (name, source)
+
+uniqueImportNames :: [(Text, Text)] -> Bool
+uniqueImportNames imports =
+  let names = map fst imports
+   in length names == Set.size (Set.fromList names)
+
+foldMExcept :: (value -> item -> ExceptT UpdateError IO value) -> value -> [item] -> ExceptT UpdateError IO value
+foldMExcept _ initial [] = pure initial
+foldMExcept step initial (item : rest) = step initial item >>= \next -> foldMExcept step next rest
+
+firstUpdateError :: Either Text value -> Either UpdateError value
+firstUpdateError = either (Left . UpdateError) Right
 
 runRefreshWorkflow :: WorkflowEnvironment -> WorkflowPaths -> [Text] -> Bool -> IO (Either UpdateError Text)
 runRefreshWorkflow environment paths requestedFamilies dryRun = do

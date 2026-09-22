@@ -11,6 +11,7 @@ import Data.Map.Strict qualified as Map
 import Data.Set qualified as Set
 import Data.Text (Text)
 import Data.Text qualified as Text
+import Data.Text.Encoding qualified as TextEncoding
 import Distribution.Parsec (simpleParsec)
 import Distribution.Pretty (prettyShow)
 import Distribution.Types.Version (Version)
@@ -47,8 +48,12 @@ tests =
       testCase "excluded packages are kept out of the generated lock" testExcludedPackage,
       testCase "an exclusion matching nothing fails without managed writes" testStaleExclusion,
       testCase "grouped package-set refresh is atomic and isolated" testPackageSetRefresh,
+      testCase "package-set no-op and dry-run preserve exact bytes" testPackageSetNoOpAndDryRun,
+      testCase "Hackage-only package-set refresh appends a generation" testPackageSetHackageOnly,
       testCase "grouped package-set failure rolls back both managed files" testPackageSetRollback,
-      testCase "historical offline check ignores tracking inputs" testHistoricalPackageSetCheck
+      testCase "historical offline check ignores tracking inputs" testHistoricalPackageSetCheck,
+      testCase "package-set mutation commands preserve a valid graph" testPackageSetCommands,
+      testCase "migration creates the current set and imports history" testMigrateLock
     ]
 
 testBootstrapRefresh :: IO ()
@@ -143,7 +148,7 @@ testValidationRollback = withFixture ["alpha"] $ \fixture -> do
 testValidationWarmsChecks :: IO ()
 testValidationWarmsChecks = withFixture ["alpha"] $ \fixture -> do
   (environment, commandLog) <- fakeEnvironment fixture (changedSettings ["alpha"])
-  runRefreshWorkflow environment (fixturePaths fixture) [] False >>= assertRight
+  _ <- runRefreshWorkflow environment (fixturePaths fixture) [] False >>= assertRight
   commands <- readIORef commandLog
   assertBool
     "validation must warm every check before checking"
@@ -231,6 +236,30 @@ testPackageSetRefresh = withPackageSetFixture $ \fixture -> do
   packageSetGeneration "default" lock @?= SnapshotGeneration 2
   packageSetGeneration "retained" lock @?= SnapshotGeneration 1
 
+testPackageSetNoOpAndDryRun :: IO ()
+testPackageSetNoOpAndDryRun = withPackageSetFixture $ \fixture -> do
+  (noChangeEnvironment, _) <- fakeEnvironment fixture (defaultSettings ["alpha", "beta"])
+  _ <- runRefreshCommand noChangeEnvironment (fixturePaths fixture) Nothing [] Nothing False >>= assertRight
+  assertOriginalBytes fixture
+  (dryRunEnvironment, _) <- fakeEnvironment fixture (changedSettings ["alpha", "beta"])
+  _ <- runRefreshCommand dryRunEnvironment (fixturePaths fixture) Nothing [] Nothing True >>= assertRight
+  assertOriginalBytes fixture
+
+testPackageSetHackageOnly :: IO ()
+testPackageSetHackageOnly = withPackageSetFixture $ \fixture -> do
+  let settings =
+        (defaultSettings ["alpha", "beta"])
+          { hackageVersions = Map.fromList [("alpha-package", Just (testVersion "2.0")), ("beta-package", Just (testVersion "2.0"))],
+            prefetchedHash = hashB
+          }
+  (environment, _) <- fakeEnvironment fixture settings
+  _ <- runRefreshCommand environment (fixturePaths fixture) Nothing [] Nothing False >>= assertRight
+  lockBytes <- ByteString.readFile (fixtureRoot fixture </> "packages/first-party-lock.json")
+  lock <- assertRight (decodePackageSetLock (fixtureCatalog fixture) lockBytes)
+  length (familySnapshots lock) @?= 4
+  packageSetGeneration "default" lock @?= SnapshotGeneration 2
+  assertBool "Hackage-only refresh must retain Git revisions" (all ((== GitRevision revisionA) . rev . source) (familySnapshots lock))
+
 testPackageSetRollback :: IO ()
 testPackageSetRollback = withPackageSetFixture $ \fixture -> do
   let settings = (changedSettings ["alpha", "beta"]) {prefetchFails = True}
@@ -248,8 +277,42 @@ testHistoricalPackageSetCheck = withPackageSetFixture $ \fixture -> do
   _ <- runCheckCommand environment (fixturePaths fixture) (Just "retained") [] False >>= assertRight
   pure ()
 
+testPackageSetCommands :: IO ()
+testPackageSetCommands = withPackageSetFixture $ \fixture -> do
+  (environment, _) <- fakeEnvironment fixture (defaultSettings ["alpha", "beta"])
+  _ <- runPackageSetCommand environment (fixturePaths fixture) (ProfilePackageSetGroup "default" (UpdateGroupName "pair") "legacy" False) >>= assertRight
+  _ <- runPackageSetCommand environment (fixturePaths fixture) (ClonePackageSet "default" "candidate" Historical False) >>= assertRight
+  _ <- runPackageSetCommand environment (fixturePaths fixture) (SelectPackageSetGroup "candidate" (UpdateGroupName "pair") (Right "retained") False) >>= assertRight
+  _ <- runPackageSetCommand environment (fixturePaths fixture) (SetPackageSetSupport "candidate" Curated False) >>= assertRight
+  lockBytes <- ByteString.readFile (fixtureRoot fixture </> "packages/first-party-lock.json")
+  lock <- assertRight (decodePackageSetLock (fixtureCatalog fixture) lockBytes)
+  packageSetGeneration "default" lock @?= SnapshotGeneration 2
+  packageSetGeneration "candidate" lock @?= SnapshotGeneration 1
+  supportFor "candidate" lock @?= Curated
+  runPackageSetCommand environment (fixturePaths fixture) (SetPackageSetSupport "default" Historical False) >>= assertLeft
+
+testMigrateLock :: IO ()
+testMigrateLock = withMigrationFixture $ \fixture -> do
+  (environment, _) <- fakeEnvironment fixture (defaultSettings ["alpha", "beta"])
+  _ <- runMigrateLockWorkflow environment (fixturePaths fixture) "stable" [("old", "history")] True >>= assertRight
+  assertOriginalBytes fixture
+  _ <- runMigrateLockWorkflow environment (fixturePaths fixture) "stable" [("old", "history")] False >>= assertRight
+  lockBytes <- ByteString.readFile (fixtureRoot fixture </> "packages/first-party-lock.json")
+  lock <- assertRight (decodePackageSetLock (fixtureCatalog fixture) lockBytes)
+  defaultPackageSet lock @?= "stable"
+  map (\PackageSet {name} -> name) (packageSets lock) @?= ["old", "stable"]
+  supportFor "old" lock @?= Historical
+
 excluding :: Text -> FamilyConfig -> FamilyConfig
-excluding name config = config {excludedPackages = Set.singleton (PackageName name)}
+excluding excludedName FamilyConfig {name, moriProject, github, githubInput, packageOverrides} =
+  FamilyConfig
+    { name,
+      moriProject,
+      github,
+      githubInput,
+      packageOverrides,
+      excludedPackages = Set.singleton (PackageName excludedName)
+    }
 
 data Fixture = Fixture
   { fixtureRoot :: !FilePath,
@@ -283,6 +346,20 @@ withPackageSetFixture action =
     ByteString.writeFile (fixtureRoot fixture </> "config/first-party-families.json") catalogBytes
     ByteString.writeFile (fixtureRoot fixture </> "packages/first-party-lock.json") lockBytes
     action packageSetFixture
+
+withMigrationFixture :: (Fixture -> IO value) -> IO value
+withMigrationFixture action =
+  withFixture ["alpha", "beta"] $ \fixture -> do
+    let catalog =
+          FamilyCatalog
+            { schemaVersion = 2,
+              families = [familyConfig "alpha", familyConfig "beta"],
+              updateGroups = [UpdateGroup (UpdateGroupName "pair") [FamilyName "alpha", FamilyName "beta"]]
+            }
+        catalogBytes = LazyByteString.toStrict (encodeFamilyCatalog catalog)
+        migrationFixture = fixture {fixtureCatalog = catalog}
+    ByteString.writeFile (fixtureRoot fixture </> "config/first-party-families.json") catalogBytes
+    action migrationFixture
 
 packageSetFixtureLock :: PackageSetLock
 packageSetFixtureLock =
@@ -424,6 +501,17 @@ runFakeProcess fixture settings commandLog spec@ProcessSpec {executable, argumen
             else success ""
         )
     ("git", ["-C", _, "fetch", "origin", _]) -> pure (success "")
+    ("git", ["-C", _, "rev-parse", "--verify", "history^{commit}"]) ->
+      pure (success (revisionA <> "\n"))
+    ("git", ["-C", _, "show", target])
+      | target == Text.unpack revisionA <> ":config/first-party-families.json" ->
+          let FamilyCatalog {families} = fixtureCatalog fixture
+              historicalCatalog = FamilyCatalog 1 families []
+           in pure (success (TextEncoding.decodeUtf8 (LazyByteString.toStrict (encodeFamilyCatalog historicalCatalog))))
+      | target == Text.unpack revisionA <> ":packages/first-party-lock.json" ->
+          pure (success (TextEncoding.decodeUtf8 (originalPackageLock fixture)))
+      | target == Text.unpack revisionA <> ":flake.lock" ->
+          pure (success (TextEncoding.decodeUtf8 (originalFlake fixture)))
     ("git", ["-C", repository, "ls-tree", "-r", "--name-only", _]) ->
       let familyName = familyFromRepository repository
           names = packageName familyName : extraPackages settings
@@ -551,6 +639,12 @@ packageSetGeneration requestedName PackageSetLock {packageSets} =
   case find (\PackageSet {name} -> name == requestedName) packageSets of
     Just PackageSet {groups = [GroupSelection {generation}]} -> generation
     other -> error ("unexpected test package set: " <> show other)
+
+supportFor :: Text -> PackageSetLock -> PackageSetSupportLevel
+supportFor requestedName PackageSetLock {packageSets} =
+  case find (\PackageSet {name} -> name == requestedName) packageSets of
+    Just PackageSet {supportLevel} -> supportLevel
+    Nothing -> error ("missing test package set " <> Text.unpack requestedName)
 
 packageHackage :: PackageLock -> FamilyName -> Maybe HackagePin
 packageHackage PackageLock {families} requestedName =

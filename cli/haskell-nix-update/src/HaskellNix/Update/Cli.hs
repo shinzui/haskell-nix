@@ -2,6 +2,8 @@ module HaskellNix.Update.Cli
   ( Command (..),
     RefreshOptions (..),
     CheckOptions (..),
+    MigrateOptions (..),
+    PackageSetCommand (..),
     parserInfo,
     runCli,
   )
@@ -10,7 +12,7 @@ where
 import Data.Text (Text)
 import Data.Text qualified as Text
 import Data.Text.IO qualified as TextIO
-import HaskellNix.Update.Types (FamilyName (..), RefreshTarget (..), UpdateError (..), UpdateGroupName (..))
+import HaskellNix.Update.Types (FamilyName (..), PackageSetCommand (..), PackageSetSupportLevel (..), RefreshTarget (..), SnapshotGeneration (..), UpdateError (..), UpdateGroupName (..))
 import HaskellNix.Update.Workflow
 import Options.Applicative
 import System.Exit (exitFailure)
@@ -19,6 +21,8 @@ import System.IO qualified
 data Command
   = Refresh !RefreshOptions
   | Check !CheckOptions
+  | MigrateLock !MigrateOptions
+  | PackageSetCommand !PackageSetCommand
   deriving stock (Eq, Show)
 
 data RefreshOptions = RefreshOptions
@@ -36,6 +40,13 @@ data CheckOptions = CheckOptions
   }
   deriving stock (Eq, Show)
 
+data MigrateOptions = MigrateOptions
+  { packageSet :: !Text,
+    importSets :: ![(Text, Text)],
+    dryRun :: !Bool
+  }
+  deriving stock (Eq, Show)
+
 runCli :: IO ()
 runCli = do
   parsedCommand <- execParser parserInfo
@@ -45,6 +56,10 @@ runCli = do
       runRefreshCommand environment (defaultWorkflowPaths ".") packageSet targets compatibilityProfile dryRun
     Check CheckOptions {packageSet, targets, online} ->
       runCheckCommand environment (defaultWorkflowPaths ".") packageSet targets online
+    MigrateLock MigrateOptions {packageSet, importSets, dryRun} ->
+      runMigrateLockWorkflow environment (defaultWorkflowPaths ".") packageSet importSets dryRun
+    PackageSetCommand packageSetCommand ->
+      runPackageSetCommand environment (defaultWorkflowPaths ".") packageSetCommand
   case result of
     Right summary -> TextIO.putStrLn summary
     Left UpdateError {message} -> TextIO.hPutStrLn System.IO.stderr message >> exitFailure
@@ -72,6 +87,18 @@ commandParser =
           ( info
               (Check <$> checkOptionsParser <**> helper)
               (fullDesc <> progDesc "Check package-lock drift without changing files")
+          )
+        <> command
+          "migrate-lock"
+          ( info
+              (MigrateLock <$> migrateOptionsParser <**> helper)
+              (fullDesc <> progDesc "Migrate the flat lock and optionally import historical sets")
+          )
+        <> command
+          "package-set"
+          ( info
+              (PackageSetCommand <$> packageSetCommandParser <**> helper)
+              (fullDesc <> progDesc "Compose and label named package sets")
           )
     )
 
@@ -139,3 +166,91 @@ targetOptionsParser =
                 )
         )
     )
+
+migrateOptionsParser :: Parser MigrateOptions
+migrateOptionsParser =
+  MigrateOptions
+    <$> ( Text.pack
+            <$> strOption
+              ( long "package-set"
+                  <> metavar "NAME"
+                  <> value "default"
+                  <> showDefault
+                  <> help "Name of the migrated current package set"
+              )
+        )
+    <*> many
+      ( option
+          (eitherReader parseImportSet)
+          ( long "import-set"
+              <> metavar "NAME=GIT_COMMIT"
+              <> help "Import a historical flat lock from a repository commit"
+          )
+      )
+    <*> dryRunParser
+
+packageSetCommandParser :: Parser PackageSetCommand
+packageSetCommandParser =
+  subparser
+    ( command "clone" (info (cloneParser <**> helper) (fullDesc <> progDesc "Clone a complete package set"))
+        <> command "select" (info (selectParser <**> helper) (fullDesc <> progDesc "Replace one group selection"))
+        <> command "profile" (info (profileParser <**> helper) (fullDesc <> progDesc "Select a compatibility profile for one group"))
+        <> command "support" (info (supportParser <**> helper) (fullDesc <> progDesc "Change a package-set support label"))
+    )
+
+cloneParser :: Parser PackageSetCommand
+cloneParser =
+  ClonePackageSet
+    <$> textOption "from" "SOURCE" "Source package set"
+    <*> textOption "to" "TARGET" "New package-set name"
+    <*> option supportLevelReader (long "support-level" <> metavar "curated|historical" <> value Historical <> showDefaultWith renderSupportLevel)
+    <*> dryRunParser
+
+selectParser :: Parser PackageSetCommand
+selectParser =
+  SelectPackageSetGroup
+    <$> textOption "package-set" "SET" "Package set to change"
+    <*> (UpdateGroupName <$> textOption "group" "GROUP" "Update group to replace")
+    <*> ( (Left . SnapshotGeneration <$> option auto (long "generation" <> metavar "N" <> help "Existing group generation"))
+            <|> (Right <$> textOption "from-package-set" "SOURCE" "Copy this group's selection from another set")
+        )
+    <*> dryRunParser
+
+profileParser :: Parser PackageSetCommand
+profileParser =
+  ProfilePackageSetGroup
+    <$> textOption "package-set" "SET" "Package set to change"
+    <*> (UpdateGroupName <$> textOption "group" "GROUP" "Update group to reprofile")
+    <*> textOption "profile" "PROFILE" "Compatibility profile"
+    <*> dryRunParser
+
+supportParser :: Parser PackageSetCommand
+supportParser =
+  SetPackageSetSupport
+    <$> textOption "package-set" "SET" "Package set to relabel"
+    <*> option supportLevelReader (long "support-level" <> metavar "curated|historical")
+    <*> dryRunParser
+
+textOption :: String -> String -> String -> Parser Text
+textOption optionName placeholder description =
+  Text.pack <$> strOption (long optionName <> metavar placeholder <> help description)
+
+dryRunParser :: Parser Bool
+dryRunParser = switch (long "dry-run" <> help "Validate and report without changing managed files")
+
+supportLevelReader :: ReadM PackageSetSupportLevel
+supportLevelReader = eitherReader $ \case
+  "curated" -> Right Curated
+  "historical" -> Right Historical
+  unknownLevel -> Left ("unknown support level: " <> unknownLevel)
+
+renderSupportLevel :: PackageSetSupportLevel -> String
+renderSupportLevel Curated = "curated"
+renderSupportLevel Historical = "historical"
+
+parseImportSet :: String -> Either String (Text, Text)
+parseImportSet importSpec =
+  case Text.breakOn "=" (Text.pack importSpec) of
+    (name, commit)
+      | not (Text.null name), Just expression <- Text.stripPrefix "=" commit, not (Text.null expression) -> Right (name, expression)
+    _ -> Left "expected NAME=GIT_COMMIT"
