@@ -228,7 +228,7 @@
           checks = import ./checks/default.nix {
             inherit lib pkgsPlain pkgsGithub pkgsHackage updater firstPartyRegistries
               supportedGhcs defaultGhc defaultSelectedFamilies registries mkChannelExtension
-              mkFirstPartyPackageSet mkFirstPartyPackageSetFactory;
+              mkFirstPartyPackageSet mkFirstPartyPackageSetFactory firstPartyPackageSets;
           };
         };
     };

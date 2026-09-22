@@ -41,15 +41,15 @@ Decision Log, and Outcomes & Retrospective must be kept up to date as work proce
 
 This plan activates composable package sets for the real first-party catalog. Existing
 consumers continue to receive the current GitHub or Hackage default with no source changes.
-New consumers can choose a named set or supply a complete selection that keeps Keiro 0.14
-while taking the current OKF generation.
+New consumers can choose a named set or supply a complete selection without coupling every
+family upgrade to the moving default.
 
 The rollout imports the repository state immediately before the Keiro 0.15 update as a
-historical baseline, then creates a curated set that differs from that baseline only in OKF.
-Executable checks prove the older Keiro derivation path is identical before and after the OKF
-selection moves, while the OKF path changes. The curated sets build under both provenance
-channels and every supported GHC, turning cache reuse and compatibility into measured
-properties rather than expectations.
+historical baseline, then creates a second historical selection that differs from that
+baseline only in OKF. Executable evaluation checks prove the older Keiro derivation path is
+identical before and after the OKF selection moves, while the OKF path changes. At the user's
+direction, the soon-obsolete mixed selection is not promoted or maintained as a curated
+compatibility promise; full matrix builds apply only to sets explicitly marked `curated`.
 
 
 ## Progress
@@ -60,11 +60,11 @@ This section must always reflect the actual current state of the work.
 
 - [x] (2026-09-22) Convert production family policy to schema version 2 with the Baikai/Shikumi update group.
 - [x] (2026-09-22) Migrate the current lock and import the pre-Keiro-0.15 historical baseline reproducibly.
-- [ ] Create and validate the curated Keiro-0.14/OKF-0.9 set using updater commands only.
+- [x] (2026-09-22) Create the Keiro-0.14/OKF-0.9 selection using updater commands only and retain it as historical without a support promise.
 - [x] (2026-09-22) Bind package-set selection into public flake outputs while preserving every legacy alias.
-- [ ] Add cache-identity, selected-version, and full curated matrix build checks.
-- [ ] Document consumer selection, update-group maintenance, support levels, and cache behavior.
-- [ ] Preserve clean-lock transaction boundaries and record per-system build coverage separately from evaluation.
+- [x] (2026-09-22) Add production cache-identity, selected-version, and support-level-driven curated matrix checks; remove the temporary historical-candidate build check.
+- [x] (2026-09-22) Document consumer selection, update-group maintenance, support levels, and cache behavior.
+- [x] (2026-09-22) Preserve clean-lock transaction boundaries and record per-system build coverage separately from evaluation.
 
 
 ## Surprises & Discoveries
@@ -113,6 +113,25 @@ implementation. Provide concise evidence.
   Keiro/OKF remain `4s8vapr...`/`vdnaj22...`, and Hackage Keiro/OKF remain
   `hr2n5mb...`/`gdfc3r3...`. The current versions remain Keiro 0.18.0.0 and OKF 0.9.0.0.
 
+- The first native full-matrix attempt inherited the host's ten-job Nix default and exhausted
+  memory while building `patchutils`; this was resource contention, not a Haskell
+  compatibility failure. The validation was restarted with `--max-jobs 2 --cores 4`, which
+  has remained healthy. The on-demand x86_64-linux builder also needed a retry after its SSH
+  proxy briefly refused connections and later became unschedulable for one generated
+  `cabal2nix` derivation; the same derivations resumed successfully once the builder was
+  available. A later x86 request stalled while the builder still accepted an independent
+  check and resumed at the next cached derivation after restart. On Darwin, concurrently
+  running the two compilers made one transitive `network-3.2.8.0` socket test collide on its
+  address; the other compiler passed, so the failed side is retried after the cache-fill run
+  rather than encoding a compatibility workaround for an environmental test race.
+
+- The x86_64-linux/GHC 9.14.1 matrix found a real transitive bound failure in
+  `repline-0.4.3.0`: its latest Hackage Cabal file requires `containers < 0.8`, while the
+  compiler package set supplies `containers-0.8`. Mori does not register Repline itself, so
+  its Hackage metadata and upstream tags were checked directly; Mori does show that Dhall is
+  consumed by current OKF and Settei. This is therefore a shared dependency fix, not evidence
+  that historical Keiro needs a compatibility profile.
+
 
 ## Decision Log
 
@@ -149,6 +168,24 @@ Record every decision made while working on the plan.
   comparison sets keeps the Keiro derivation identity assertion meaningful.
   Date: 2026-09-13
 
+- Decision: Relax `repline-0.4.3.0` with the shared registry's `doJailbreak` helper rather
+  than adding a Keiro compatibility profile.
+  Rationale: The x86_64-linux/GHC 9.14.1 build proved that the latest Hackage release still
+  caps `containers < 0.8`, while GHC 9.14.1 ships `containers-0.8`. Mori traces `repline`
+  through `mori://dhall-lang/dhall-haskell/packages/dhall`, which is consumed by current OKF
+  and `mori://shinzui/settei/packages/settei-dhall`; it is shared curated-set compatibility,
+  not a historical Keiro constraint. The source uses only the stable containers API, so a
+  bound relaxation is narrower than a version pin or source replacement.
+  Date: 2026-09-22
+
+- Decision: Keep `keiro-0-14-okf-0-9` historical, remove its focused full-matrix build, and
+  do not promote it to curated.
+  Rationale: The user explicitly does not want to spend validation and maintenance time on
+  package combinations for projects that will be upgraded soon. The retained selection still
+  provides a real production derivation-identity proof and an escape hatch, while the generic
+  matrix remains driven only by explicit `curated` support levels.
+  Date: 2026-09-22
+
 - Decision: Keep all legacy registries, Haskell extensions, overlays, and singular aliases as
   exact views of `default`.
   Rationale: Package-set adoption must be opt-in. Existing consumers should see neither an API
@@ -166,6 +203,12 @@ Baikai/Shikumi release boundary is explicit, the current default remains curated
 pre-Keiro-0.15 state is retained as historical `keiro-0-14-okf-0-8`. Public legacy aliases
 now delegate to the bound package-set constructor without changing representative versions
 or derivation paths. Offline default checking and no-build flake evaluation pass.
+
+Milestone 2's scope was narrowed during implementation. The mixed Keiro 0.14/OKF 0.9
+selection was created transactionally and its derivation identity was proved across both
+channels and supported compilers, but it remains historical. Expensive full builds were
+stopped and the temporary candidate check was removed rather than turning a soon-obsolete
+combination into a continuing support obligation.
 
 
 ## Context and Orientation
@@ -252,7 +295,7 @@ successful lock mutation must likewise be committed before the next command that
 lock. Use only task-owned files and include the MasterPlan, ExecPlan, and Intention trailers
 shown below. Do not disable the dirty guard to make the sequence work.
 
-### Milestone 2: Construct and compile the real skewed set
+### Milestone 2: Construct and retain the real skewed set
 
 Use `package-set clone` to create historical candidate `keiro-0-14-okf-0-9` from
 `keiro-0-14-okf-0-8`. Use `package-set select --from-package-set default` to replace only its
@@ -265,28 +308,18 @@ operations. Name `keiro-0-14-okf-0-9` is valid only if the captured default stil
 OKF 0.9; otherwise choose a name reflecting the actual version and propagate it through
 commands and checks. Do not refresh unrelated families to fit this document's old baseline.
 
-Build all first-party packages selected by `keiro-0-14-okf-0-9` under GitHub and Hackage
-for `ghc9124` and `ghc9141`. If old Keiro needs a transitive pin, add the smallest registry
-fragment to `overlays/compatibility-profiles.nix`, use `package-set profile` to associate it
-with the Keiro group in both `keiro-0-14-okf-0-8` and `keiro-0-14-okf-0-9`, and rerun the
-full builds. Record the failure evidence and rationale in this plan's living Decision Log.
-Do not add a global common-registry override or weaken another set to make the build pass.
-
-Commit a newly defined profile before assigning it; commit each `package-set profile`
-mutation before assigning the other set. Do not enable the final pairwise identity assertion
-until both sets select that profile: the intermediate state is intentionally unequal.
-Once enabled, the assertion is a release gate and must remain active.
+The original rollout called for full builds and promotion of this set. That work was stopped
+at the user's direction because Keiro is scheduled to upgrade soon. Retain the selection as
+`historical`, do not assign a support-only compatibility profile, and do not promote it to
+`curated`. Its continuing acceptance boundary is strict lock validation and the pairwise
+derivation-identity assertion, not a maintained build promise.
 
 Add an end-to-end fixture package under `checks/fixtures/package-sets/consumer/` whose Cabal
 dependencies include `keiro-core` and `okf-core`. It need not exercise their APIs; the
-acceptance goal is dependency resolution and closure composition. Add a focused candidate
-check that builds it and the complete mixed inventory across both channels and supported
-GHCs. Obtain builds on every supported system using native or configured remote builders and
-record the system/channel/compiler results. One host's `nix flake check` does not prove the
-other systems build. If a required builder is unavailable, record incomplete validation and
-leave the candidate historical. Once that matrix passes, use `package-set support` to promote the mixed set to `curated`.
-The milestone is complete when the mixed set is a real buildable combination and its support
-level is `curated` only after validation.
+acceptance goal is dependency resolution and closure composition for future curated sets.
+Wire it into the generic support-level-driven matrix, not a focused historical-candidate
+check. The milestone is complete when the historical mixed selection validates and the
+production identity assertion proves the intended independent change.
 
 ### Milestone 3: Publish stable selection and cache assertions
 
@@ -313,10 +346,11 @@ into derivations.
 
 Generate version and build checks only for named sets whose support level is `curated`.
 For every curated set, both channels, and every `lib.supportedGhcs` compiler, verify the
-projected versions and realise every available selected first-party package; Hackage omits
-records whose pin is null. The historical baseline participates in focused Keiro cache and
-consumer checks but not the continuing full matrix. The milestone is complete when
-`nix flake check` realises the matrix and the discovery APIs evaluate as JSON.
+projected versions and define a check that realises every available selected first-party
+package; Hackage omits records whose pin is null. Historical selections participate in the
+focused Keiro identity check but not the continuing full matrix. The milestone is complete
+when the matrix is generated strictly from support levels and the discovery APIs evaluate as
+JSON. Realising that matrix remains the release gate when a set is intentionally promoted.
 
 Keep every `checks.<system>.<name>` value a derivation. Put the identity result record in
 `checks.<system>.production-package-set-cache-identity.passthru.results`, accessible as
@@ -395,7 +429,7 @@ ExecPlan: docs/plans/7-migrate-the-default-set-and-prove-independent-upgrades.md
 Intention: intention_01m2f17g4ye8qtz89rnbvndk5s'
 ```
 
-Create the skewed supported set without looking up a numeric generation:
+Create the skewed historical set without looking up a numeric generation:
 
 ```bash
 nix run .#haskell-nix-update -- package-set clone \
@@ -415,17 +449,10 @@ git commit -m 'chore(package-sets): advance candidate OKF selection' \
   -m 'MasterPlan: docs/masterplans/2-decouple-first-party-upgrades-with-composable-package-sets.md
 ExecPlan: docs/plans/7-migrate-the-default-set-and-prove-independent-upgrades.md
 Intention: intention_01m2f17g4ye8qtz89rnbvndk5s'
-nix build --no-link --keep-going --print-build-logs \
-  .#checks.aarch64-darwin.keiro-0-14-okf-0-9-candidate
 ```
 
-After recording equivalent passing builds for every other supported system, promote:
-
-```bash
-nix run .#haskell-nix-update -- package-set support \
-  --package-set keiro-0-14-okf-0-9 \
-  --support-level curated
-```
+Leave this set historical. Do not run `package-set support` unless maintainers later decide
+that the combination deserves a continuing full-matrix support promise.
 
 Inspect public selections and the focused identity result:
 
@@ -448,14 +475,19 @@ for both channels:
 }
 ```
 
-Run the updater and complete build checks:
+Run the updater and low-cost repository checks:
 
 ```bash
 nix run .#haskell-nix-update -- check --package-set default
 nix run .#haskell-nix-update -- check --package-set keiro-0-14-okf-0-9
-nix flake check --print-build-logs --keep-going
+just nix-test
+just fmt-check
+nix flake check --no-build --no-eval-cache
 git diff --check
 ```
+
+When a named set is intentionally promoted to curated, additionally realise its generated
+`package-set-NAME` check on every supported system before changing the support level.
 
 Review the migration rather than its volume alone:
 
@@ -484,16 +516,15 @@ aliases must expose the same default packages and settings as before migration.
 
 The catalog resolver must expose one `shikumi-baikai` group containing exactly Baikai and
 Shikumi, plus singleton groups for all remaining families. The historical baseline must
-project Keiro 0.14.0.0 and OKF 0.8.0.0. The mixed curated set must project Keiro 0.14.0.0 and
+project Keiro 0.14.0.0 and OKF 0.8.0.0. The mixed historical set must project Keiro 0.14.0.0 and
 the default's current OKF generation, with every non-OKF selection identical to the baseline.
 
 For both GitHub and Hackage under the same supported GHC, every Keiro derivation path in the
-baseline and mixed set must be equal, and the available OKF derivation paths must differ. The
-consumer fixture must build in the mixed set. All packages available in every curated
-set/channel/GHC cell must build; null Hackage packages are deliberately absent rather than
-failed.
+baseline and mixed set must be equal, and the available OKF derivation paths must differ.
+The consumer fixture and full inventory are part of the generated check for curated sets;
+the historical mixed set carries no buildability claim.
 
-`lib.mkFirstPartyPackageSet` must accept the curated mixed name and an equivalent explicit
+`lib.mkFirstPartyPackageSet` must accept the historical mixed name and an equivalent explicit
 selection and return the same normalized graph. `lib.firstPartyPackageSets` and
 `lib.firstPartyGroupSnapshots` must evaluate without forcing package derivations. A consumer
 using only existing default outputs must require no source change.

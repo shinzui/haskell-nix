@@ -11,9 +11,9 @@ A shared flake that provides GHC compatibility patches (jailbreaks, version pins
 This flake is used together with
 [haskell-nix-dev](https://github.com/shinzui/haskell-nix-dev), which provides the GHC
 toolchains and the single nixpkgs pin the fleet follows. Take nixpkgs from haskell-nix-dev,
-make haskell-nix follow the same haskell-nix-dev, choose the GitHub or Hackage channel, and
-compose its extension with your local overrides. The GitHub channel includes unpublished
-first-party packages and is the compatibility default:
+make haskell-nix follow the same haskell-nix-dev, choose a package set and GitHub or Hackage
+channel, and compose its extension with your local overrides. The GitHub channel includes
+unpublished first-party packages and is the compatibility default:
 
 ```nix
 {
@@ -30,7 +30,11 @@ first-party packages and is the compatibility default:
     let
       pkgs = import nixpkgs { inherit system; };
 
-      firstPartyExtension = inputs.haskell-nix.lib.haskellExtensions.github;
+      selected = inputs.haskell-nix.lib.mkFirstPartyPackageSet {
+        packageSet = "default";
+        channel = "github";
+      };
+      firstPartyExtension = selected.haskellExtension;
 
       haskellPackages = pkgs.haskell.packages.ghc9124.override {
         overrides = pkgs.lib.composeExtensions
@@ -46,12 +50,12 @@ The patched GHCs are exactly haskell-nix-dev's supported toolchains, exposed as
 The `haskell-nix-dev.follows` line keeps one haskell-nix-dev, and therefore one nixpkgs, in
 your lock; without it your lock carries a second copy at this flake's pinned revision.
 
-Change `.github` to `.hackage` to select published Hackage releases. Each constructor has
+Change `channel` to `"hackage"` to select published Hackage releases. Each extension has
 the signature `haskellLib -> pkgs -> hself -> hsuper -> { ... }`; after applying
 `haskellLib` and the top-level Nixpkgs set, it is a standard Haskell package-set extension.
 The legacy `lib.haskellExtension` output is an exact alias for
-`lib.haskellExtensions.github`. In the current lock, GitHub exposes all 51 catalogued
-packages while Hackage exposes the 41 published packages; the other 10 names are
+`lib.haskellExtensions.github`. In the current default set, GitHub exposes all 78 catalogued
+packages while Hackage exposes the 68 published packages; the other 10 names are
 deliberately unavailable from the Hackage registry.
 
 ### Alternative: nixpkgs overlay
@@ -104,6 +108,9 @@ patches/
 | `lib.haskellExtensions.github` | Compatibility patches plus first-party GitHub sources |
 | `lib.haskellExtensions.hackage` | Compatibility patches plus published first-party releases |
 | `lib.haskellExtension` | Exact alias for `lib.haskellExtensions.github` |
+| `lib.mkFirstPartyPackageSet` | Construct a named or consumer-owned selection for either channel |
+| `lib.firstPartyPackageSets` | JSON-evaluable named-set support levels and complete selections |
+| `lib.firstPartyGroupSnapshots` | JSON-evaluable retained group generations and family references |
 | `lib.fixPackageByVersion` | Core version-dispatch primitive |
 | `lib.mkHaskellOverlay` | Registry to multi-GHC overlay combinator |
 | `lib.registries.github` / `.hackage` | Selected patch registry attrsets |
@@ -154,7 +161,7 @@ haskellLib.doJailbreak pkg
 
 Patch functions receive `{ pkg, lib, haskellLib, pkgs, hself, hsuper }`.
 
-See the [user guide](docs/user/README.md) for channel selection, consumer composition,
+See the [user guide](docs/user/README.md) for package-set and channel selection, consumer composition,
 maintainer workflows, and troubleshooting.
 
 ## Design notes
@@ -163,8 +170,9 @@ maintainer workflows, and troubleshooting.
 
 **Multi-GHC support**: The overlay applies patches to all configured compiler sets (haskell-nix-dev's supported GHCs: `ghc9124`, `ghc9141`). `haskellPackages` is a self-referencing alias in nixpkgs that automatically picks up changes — no separate override needed.
 
-**Offline channel evaluation**: Nix reads the checked-in family config, package lock, and
-`flake.lock`. Hackage and GitHub are never queried during evaluation.
+**Locked evaluation**: Nix reads checked-in family and package-set metadata. Hackage release
+discovery and Mori are never queried during evaluation. A selected content-addressed GitHub
+tree may be downloaded when absent locally; unselected retained snapshots stay lazy.
 
 ## Refreshing first-party packages
 
@@ -177,10 +185,10 @@ nix run .#haskell-nix-update -- refresh
 nix run .#haskell-nix-update -- check --online
 ```
 
-A refresh advances the configured non-flake source inputs, discovers each family's Cabal
-packages, and records current Hackage releases and hashes. Review both `flake.lock` and the
-generated package lock, confirm GitHub-only packages still have `"hackage": null`, and run
-a second dry-run plus `nix flake check` before committing. See
+A refresh appends immutable family/group generations, moves only the targeted curated set,
+and records current Hackage releases and hashes. Review both `flake.lock` and the generated
+package lock, confirm GitHub-only packages still have `"hackage": null`, and run a second
+dry-run plus `nix flake check` before committing. See
 [Updating first-party packages](docs/user/updating-first-party-packages.md) for the full
 operator checklist and downstream `--override-input` validation.
 
@@ -197,3 +205,5 @@ The suite includes these channel checks:
 - **first-party-versions**: resolves every applicable locked package to its exact channel version under `ghc9124` and `ghc9141`
 - **overlay-eval**: forces both overlays under `ghc9124` and `ghc9141`
 - **haskell-nix-update**: builds the packaged refresh/check CLI
+- **production-package-set-cache-identity**: proves unchanged Keiro paths across the OKF-only selection change
+- **curated package-set matrices**: realize every selected package and the consumer fixture for both channels and supported compilers

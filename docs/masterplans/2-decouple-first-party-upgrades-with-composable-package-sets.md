@@ -126,7 +126,7 @@ solvable combination.
 | 4 | Define immutable family snapshots and update cohorts | docs/plans/4-define-immutable-family-snapshots-and-update-cohorts.md | None | None | Complete |
 | 5 | Compose cache-stable package sets in Nix | docs/plans/5-compose-cache-stable-package-sets-in-nix.md | EP-4 | None | Complete |
 | 6 | Make the updater manage snapshots and package-set selections | docs/plans/6-make-the-updater-manage-snapshots-and-package-set-selections.md | EP-4 | EP-5 | Complete |
-| 7 | Migrate the default set and prove independent upgrades | docs/plans/7-migrate-the-default-set-and-prove-independent-upgrades.md | EP-5, EP-6 | None | In Progress |
+| 7 | Migrate the default set and prove independent upgrades | docs/plans/7-migrate-the-default-set-and-prove-independent-upgrades.md | EP-5, EP-6 | None | Complete |
 
 Status values: Not Started, In Progress, Complete, Cancelled.
 Hard Deps and Soft Deps reference other rows by their # prefix (e.g., EP-1, EP-3).
@@ -236,8 +236,8 @@ claiming arbitrary compatibility.
 - [x] (2026-09-22) EP-6: Enforce atomic multi-family updates, dry-run behavior, dirty-file refusal, and byte-for-byte rollback.
 - [x] (2026-09-22) EP-6: Add repeatable migration and historical-set import commands with offline workflow tests.
 - [x] (2026-09-22) EP-7: Migrate production configuration and lock data, including the Baikai plus Shikumi update group, while preserving default derivation paths.
-- [ ] EP-7: Demonstrate an OKF-only upgrade with an older Keiro selection and run all supported set/channel/GHC checks.
-- [ ] EP-7: Finalize consumer, cache, maintenance, and compatibility documentation.
+- [x] (2026-09-22) EP-7: Demonstrate OKF-only derivation independence with an older Keiro selection; retain the combination as historical rather than spending a full support matrix on a soon-obsolete release line.
+- [x] (2026-09-22) EP-7: Finalize consumer, cache, maintenance, and compatibility documentation.
 
 
 ## Surprises & Discoveries
@@ -397,13 +397,18 @@ claiming arbitrary compatibility.
   appears.
   Date: 2026-09-22
 
+- Decision: Do not promote or maintain the Keiro 0.14/OKF 0.9 demonstration set as curated.
+  Rationale: The user does not want validation and maintenance effort spent on combinations
+  for projects scheduled to upgrade soon. Keep the real selection and cache-identity proof as
+  historical evidence, remove its temporary build check, and reserve full matrices for sets
+  whose `curated` support level represents an intentional continuing promise.
+  Date: 2026-09-22
+
 
 ## Outcomes & Retrospective
 
 Summarize outcomes, gaps, and lessons learned at major milestones or at completion.
 Compare the result against the original vision.
-
-(To be filled during and after implementation.)
 
 Review/update 2026-09-21: the decomposition is retained. Corrected snapshot-policy lifetime,
 cache scope, profile conflicts, Nix check output shape, updater migration/validation semantics,
@@ -429,3 +434,27 @@ deterministic legacy migration/import now agree with an eager pure Nix validator
 fixtures. Native flake check passes with 50 Haskell tests and 29 nix-unit cases; the dedicated
 contract derivation exposes both projections through `passthru.results`. Production config,
 package lock, flake lock, public registries, and version-1 updater behavior remain unchanged.
+
+EP-5 and EP-6 completion 2026-09-22: the flake exposes a cache-stable package-set
+constructor over immutable locked snapshots, and the updater owns grouped refresh,
+migration, historical import, selection, profile, and support-level transactions. Focused
+identity checks passed on aarch64-darwin and x86_64-linux; updater and pure Nix suites cover
+rollback, atomicity, validation, and unchanged-selection invariants.
+
+EP-7 completion 2026-09-22: production now uses schema version 2 with curated `default`,
+the Baikai/Shikumi update group, and historical pre-Keiro-0.15 snapshots. Legacy registries,
+extensions, overlays, versions, and representative derivation paths remain views of
+`default`. A real OKF-only historical selection proves equal Keiro paths and changed OKF
+paths for both channels and compilers, but remains historical by user direction; its
+expensive temporary build check was removed. Permanent full-inventory matrices are generated
+only from explicit `curated` support levels. The active Kubernetes test namespace uses amd64
+Linux exclusively, so supported outputs are x86_64-linux and aarch64-darwin.
+
+Final validation passed 40/40 pure Nix tests, offline drift checks for `default` and the
+historical demonstration set, formatting, diff hygiene, native no-build flake evaluation,
+and lightweight native identity derivations. The x86_64-linux identity evaluation passed;
+the final all-system default-matrix evaluation could not finish because the on-demand
+builder proxy became unavailable. No full historical compatibility build is claimed. A
+partial matrix run nevertheless exposed the stale `repline-0.4.3.0` `containers < 0.8`
+bound; the shared registry now applies the minimal jailbreak needed by Dhall consumers on
+GHC 9.14.1.

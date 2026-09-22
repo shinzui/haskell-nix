@@ -146,6 +146,10 @@ in
   # bound rather than disabling the flag: without the flag every remote Dhall
   # import throws `TlsNotSupported` at runtime, on cache miss only.
   dhall = always (import ../patches/dhall/keep-http-client-tls.nix);
+  # dhall-1.42.3 depends on the latest Hackage repline release, 0.4.3.0.
+  # That release caps containers below 0.8 even though its API usage remains
+  # compatible; GHC 9.14.1 ships containers-0.8.
+  repline = always doJailbreakOnly;
 
   # ── ephemeral-pg (test PostgreSQL; keiro/kiroku test-support dependency) ──
   # nixpkgs ships 0.2.1.0 but marks it broken; unbreak it with bounds relaxed

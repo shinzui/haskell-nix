@@ -7,6 +7,7 @@
 , supportedGhcs
 , defaultGhc
 , defaultSelectedFamilies
+, firstPartyPackageSets
 , registries
 , mkChannelExtension
 , mkFirstPartyPackageSet
@@ -72,6 +73,16 @@ let
   allFirstPartyVersionsMatch = builtins.all
     (names: names == [ ])
     (builtins.attrValues firstPartyVersionMismatches);
+
+  curatedPackageSetChecks = lib.mapAttrs'
+    (name: _: lib.nameValuePair "package-set-${name}"
+      (import ./package-set-matrix.nix {
+        inherit lib supportedGhcs mkFirstPartyPackageSet;
+        packageSet = name;
+        pkgs = pkgsPlain;
+      }))
+    (lib.filterAttrs (_: packageSet: packageSet.supportLevel == "curated")
+      firstPartyPackageSets);
 in
 {
   # Validate that the registry has the expected structure:
@@ -79,7 +90,7 @@ in
   registry-valid =
     let
       allValid = validateRegistry registries.github
-        && validateRegistry registries.hackage;
+      && validateRegistry registries.hackage;
     in
     pkgsGithub.runCommand "registry-valid" { } (
       if allValid then ''
@@ -132,6 +143,12 @@ in
     mkFirstPartyPackageSet = mkFirstPartyPackageSetFactory;
     pkgs = pkgsPlain;
   };
+
+  production-package-set-cache-identity =
+    import ./production-package-set-cache-identity.nix {
+      inherit lib supportedGhcs mkFirstPartyPackageSet;
+      pkgs = pkgsPlain;
+    };
 
   package-set-real-source =
     let
@@ -221,4 +238,4 @@ in
       echo 'Overlay evaluation succeeded: ${builtins.toJSON results}'
       touch "$out"
     '';
-}
+} // curatedPackageSetChecks

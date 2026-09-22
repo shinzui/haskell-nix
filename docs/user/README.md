@@ -9,6 +9,7 @@ maintainer pages describe repository changes and validation.
 | Goal | Guide |
 |------|-------|
 | Add `haskell-nix` to a project | [Getting started](getting-started.md) |
+| Select independent first-party release lines | [Package sets](package-sets.md) |
 | Compare GitHub and Hackage package sources | [Channel reference](channels.md) |
 | Compose the selected channel with local Haskell overrides | [Consumer integration](consumer-integration.md) |
 | Add or change a shared compatibility patch | [Adding patches](adding-patches.md) |
@@ -18,7 +19,8 @@ maintainer pages describe repository changes and validation.
 
 ## Public surface
 
-New consumers should choose an explicit channel:
+New consumers should choose an explicit package set and channel with
+`lib.mkFirstPartyPackageSet`. The legacy default shortcuts remain available:
 
 ```text
 lib.haskellExtensions.github
@@ -34,21 +36,22 @@ Haskell package set again. The flake exports outputs for `x86_64-linux` and
 haskell-nix-dev's nixpkgs dropped `x86_64-darwin`; its channel overlays and checks target the
 `ghc9124` and `ghc9141` package sets.
 
-The current package lock contains 51 packages in the GitHub channel and 41 published
+The current default package set contains 78 packages in the GitHub channel and 68 published
 packages in the Hackage channel. Ten unpublished packages are intentionally GitHub-only.
 See the [channel reference](channels.md) for the family breakdown and commands that read the
 current lock instead of relying on these snapshot counts.
 
 ## Consumer and maintainer boundaries
 
-Consumers update only their `haskell-nix` flake input and select a channel. They do not edit
-the generated package lock or copy entries from this repository.
+Consumers update only their `haskell-nix` flake input and select a package set and channel.
+They do not edit the generated package lock or copy entries from this repository.
 
 Maintainers use two separate sources of truth:
 
 - `overlays/registry.nix` contains shared compatibility patches used by both channels.
 - `config/first-party-families.json` declares first-party families, while the updater owns
-  `packages/first-party-lock.json` and the matching source revisions in `flake.lock`.
+  immutable records in `packages/first-party-lock.json` and current tracking inputs in
+  `flake.lock`.
 
 Keeping those paths separate prevents a first-party source update from becoming a
 handwritten compatibility pin.

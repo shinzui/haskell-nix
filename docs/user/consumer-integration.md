@@ -4,7 +4,7 @@
 
 How to integrate haskell-nix patches into a downstream project.
 
-## Recommended: a channel extension with `composeExtensions`
+## Recommended: a package-set extension with `composeExtensions`
 
 ```nix
 {
@@ -24,7 +24,11 @@ How to integrate haskell-nix patches into a downstream project.
       system = "aarch64-darwin";
       pkgs = import nixpkgs { inherit system; };
 
-      firstPartyExtension = inputs.haskell-nix.lib.haskellExtensions.github;
+      selected = inputs.haskell-nix.lib.mkFirstPartyPackageSet {
+        packageSet = "default";
+        channel = "github";
+      };
+      firstPartyExtension = selected.haskellExtension;
 
       haskellPackages = pkgs.haskell.packages.ghc9124.override {
         overrides = pkgs.lib.composeExtensions
@@ -49,10 +53,14 @@ Applying a constructor with `pkgs.haskell.lib.compose` and `pkgs` yields a stand
 package-set extension (`hself -> hsuper -> { ... }`). `composeExtensions` chains it with
 your local overlay so both sets of overrides are applied.
 
-Choose `.github` for every package at its locked source revision, including unpublished
-packages. Choose `.hackage` for the latest recorded official release; unpublished packages
-are omitted. Channel selection changes first-party package provenance but retains the
-common GHC compatibility registry in both cases.
+`lib.haskellExtensions.github` and `.hackage` remain exact shortcuts for the designated
+default package set. Use `lib.mkFirstPartyPackageSet` for a curated named set or a complete
+consumer-owned mapping. See [Package sets](package-sets.md).
+
+Choose `github` for every selected package at its locked source revision, including
+unpublished packages. Choose `hackage` for the recorded official release; unpublished
+packages are omitted. The channel changes provenance but not the package-set selection, and
+both retain the common GHC compatibility registry.
 
 See the [channel reference](channels.md) for the current package inventory and commands that
 show which names each registry exports.
@@ -69,26 +77,25 @@ If your local overlay needs to further modify a package that haskell-nix already
 
 ## Build settings the extension changes
 
-By default a channel extension changes only which package versions resolve. Build settings
-are **opt-in**, requested through `lib.mkChannelExtension` instead of reading
-`lib.haskellExtensions.*` directly:
+The public constructors disable profiling and Haddock by default. A consumer can opt either
+setting back in through `lib.mkFirstPartyPackageSet` or the default-set compatibility wrapper
+`lib.mkChannelExtension`:
 
 ```nix
 firstPartyExtension = inputs.haskell-nix.lib.mkChannelExtension {
   channel = "github";        # or "hackage"; defaults to "github"
-  disableProfiling = true;   # defaults to false
-  disableHaddock = true;     # defaults to false
+  disableProfiling = false;  # defaults to true
+  disableHaddock = false;    # defaults to true
 };
 ```
 
-`lib.haskellExtensions.github` is exactly `mkChannelExtension { }` — same signature, every
-option at its default — so nothing changes for a consumer that keeps using it.
-`lib.mkHaskellOverlay` takes the same two arguments.
+`lib.haskellExtensions.github` is exactly the default package set with `channel = "github"`
+and both build-setting defaults retained, so nothing changes for a legacy consumer.
 
-Both work the same way: an override of `mkDerivation` in the package scope, which is the
-only hook that moves every package in the set at once. Both therefore change every store
-path in the set, so **turn them on together**. Adopting one and then the other costs two
-full rebuilds instead of one.
+The two settings work the same way: an override of `mkDerivation` in the package scope,
+which is the only hook that moves every package in the set at once. Both therefore change
+every store path in the set, so answer them together when enabling profiling and
+documentation. Changing one and then the other costs two rebuild waves.
 
 ### `disableProfiling`
 
@@ -147,7 +154,7 @@ myPackage = pkgs.haskell.lib.compose.doHaddock hself.myPackage;
 
 Leave it off if anything reads a package's `.doc` or its `haddockDir` passthru — a
 `shellFor` dev shell that wants dependency documentation, or a Hoogle index over this set.
-Those lose their inputs, which is why this is opt-in rather than the default.
+Those lose their inputs, so pass `disableHaddock = false` when a consumer needs them.
 
 ## Why not the overlay
 

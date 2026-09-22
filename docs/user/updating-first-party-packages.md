@@ -2,170 +2,97 @@
 
 # Updating first-party packages
 
-First-party package channels are driven by two versioned JSON files and the source
-revisions in `flake.lock`. The split keeps stable maintainer intent separate from generated
-package metadata. Nix reads only checked-in files, so evaluating a channel never contacts
-GitHub, Hackage, or Mori.
+First-party state is split between hand-authored family/update-group policy in
+`config/first-party-families.json`, generated immutable snapshots and package-set selections
+in `packages/first-party-lock.json`, and the current tracking inputs in `flake.lock`.
+`haskell-nix-update` is the only production writer for the generated lock.
+
+Nix reads only checked-in metadata. Hackage archives need no discovery request during
+evaluation. A selected GitHub snapshot uses a locked, content-addressed `fetchTree` and may
+be downloaded when its store path is absent; unselected historical snapshots remain lazy.
+Mori checkout discovery, remote-head observation, and Hackage release discovery happen only
+in updater commands.
 
 ## Prerequisites
 
-Run the updater from the repository root. Every configured `moriProject` must be registered
-and point to a usable local Git checkout. Verify the repository identity and each family
-before changing config:
+Run the updater from the repository root. Every `moriProject` must be registered and point
+to a usable local Git checkout:
 
 ```bash
-mori show --full
 mori registry show OWNER/PROJECT --full
 ```
 
-The online paths also require access to GitHub, Hackage metadata and archives, and the Nix
-substituters used by the flake. A normal refresh requires committed versions of
-`flake.lock` and `packages/first-party-lock.json`; unrelated working-tree changes are
-allowed.
+Online refresh/check paths also need GitHub, Hackage, and configured Nix substituters. A
+mutating command requires committed `flake.lock` and `packages/first-party-lock.json`;
+unrelated working-tree changes are allowed.
 
-## Family config
+## Catalog and generated snapshots
 
-`config/first-party-families.json` is hand-authored. Each family identifies one registered
-source repository and its non-flake Nix input:
+The schema-version-2 catalog declares sorted families and any cross-family atomic groups:
 
 ```json
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "families": [
     {
       "name": "example",
-      "moriProject": "example/example",
-      "github": "example/example",
+      "moriProject": "owner/example",
+      "github": "owner/example",
       "githubInput": "example-src",
-      "packageOverrides": {
-        "example-special": {
-          "cabal2nixOptions": "-f-example"
-        }
-      },
-      "excludedPackages": [
-        "example-demo"
-      ]
+      "packageOverrides": {},
+      "excludedPackages": []
+    }
+  ],
+  "updateGroups": [
+    {
+      "name": "shikumi-baikai",
+      "families": ["baikai", "shikumi"]
     }
   ]
 }
 ```
 
-`name`, `moriProject`, `github`, and `githubInput` are required non-empty strings.
-`github` uses the exact `owner/repository` form. The input name is `<family-name>-src` and
-must be unique. `packageOverrides` is optional; its keys name discovered Cabal packages,
-and `cabal2nixOptions` is the only supported override field.
+Families omitted from `updateGroups` become implicit singleton groups. Selecting either
+Baikai or Shikumi resolves to `shikumi-baikai` and refreshes both. All packages discovered
+in one family repository share its source revision.
 
-`excludedPackages` is optional and lists discovered Cabal packages that never become family
-packages. Package names must be globally unique across the lock, so a repository that carries
-an example or fixture package whose name is already taken by another family excludes it here
-rather than renaming it upstream. The list must be sorted and free of duplicates, and a name
-cannot be both excluded and overridden.
+`packageOverrides` maps package names to `cabal2nixOptions`. `excludedPackages` removes
+discovered examples or fixtures; exclusions must still match discovery, cannot overlap an
+override, and never appear in either channel. These discovery rules are copied into each
+family snapshot, so future policy changes do not reinterpret retained generations.
 
-Exclusions are checked against discovery: an entry that matches no discovered package fails
-the refresh instead of silently doing nothing, so a rename upstream surfaces immediately. An
-excluded package is never written to the lock, never queried on Hackage, and never appears in
-either channel registry — consumers that need it must depend on it some other way.
+The generated lock contains:
 
-`keiki` uses this for its `jitsurei` examples package, whose name collides with the unrelated
-`jitsurei` in `keiro`.
+- immutable `familySnapshots` with locked GitHub descriptors, discovery policy, package
+  paths/versions, and Hackage pins;
+- immutable `groupSnapshots` that atomically select family generations plus one immutable
+  compatibility-profile name;
+- complete named `packageSets` with `curated` or `historical` support; and
+- `defaultPackageSet`, the curated selection behind the legacy aliases.
 
-## Generated package lock
+Snapshots are append-only. Do not edit generations or mappings by hand. Schema version 2
+fixes the family inventory and update-group topology; adding/removing a family or regrouping
+families requires a separately designed migration.
 
-`packages/first-party-lock.json` records the selected revision and every Cabal package
-found at a family repository root or one directory below it:
-
-```json
-{
-  "schemaVersion": 1,
-  "families": [
-    {
-      "name": "example",
-      "githubInput": "example-src",
-      "githubRev": "0123456789abcdef0123456789abcdef01234567",
-      "packages": [
-        {
-          "name": "example-core",
-          "path": "example-core",
-          "version": "1.2.0.0",
-          "cabal2nixOptions": "",
-          "hackage": {
-            "version": "1.2.0.0",
-            "hash": "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
-          }
-        }
-      ]
-    }
-  ]
-}
-```
-
-`githubRev` is the 40-character commit selected by `flake.lock`. Package paths are clean,
-relative paths without `.` or `..` segments, except for a single-package repository whose
-Cabal file sits at the repository root: that package records the exact path `"."` and is
-built from the whole family source. Versions contain dot-separated non-negative integers. A package that has no official release uses `"hackage": null`; it appears only
-in the GitHub channel. A published package records the latest Hackage version and its SRI
-SHA-256 hash. Families and packages are sorted by name, and package names are globally
-unique.
-
-The lock mirrors each package's configured `cabal2nixOptions` value. Do not add fields to
-either JSON file without increasing the schema version and updating the Nix validator and
-refresh tool together. Unknown fields are rejected deliberately.
-
-## Add a first-party family
-
-A family is exactly one GitHub repository behind one `<family>-src` input, so repositories
-that release together but live apart are onboarded as separate families. The repository
-either holds a single package at its root or one package per top-level directory.
-
-Adding a family requires a source input before the updater can generate its package records:
-
-1. Register the repository with Mori and verify its qualified name with
-   `mori registry show OWNER/PROJECT --full`.
-2. Add a `flake = false` input named `<family>-src` to `flake.nix`.
-3. Add the matching sorted family record to `config/first-party-families.json`.
-4. Run `nix flake lock` to add the input node, then create a temporary local commit containing
-   `flake.nix`, `flake.lock`, and the family config. The updater needs that clean managed-file
-   baseline even though strict Nix evaluation will reject the temporary config/lock mismatch.
-5. Preview and apply the refresh. Refresh accepts a package lock that is temporarily missing
-   the new configured family, but the written lock and all normal checks require exact
-   catalog/lock equality.
-6. Stage the generated package lock and amend the temporary baseline commit before sharing
-   it. The retained commit must contain the input, config, and generated family together so
-   every published commit evaluates successfully.
+## Inspect current selections
 
 ```bash
-nix run .#haskell-nix-update -- refresh --family FAMILY --dry-run
-nix run .#haskell-nix-update -- refresh --family FAMILY
-nix run .#haskell-nix-update -- check --family FAMILY --online
+jq '{
+  defaultPackageSet,
+  sets: [.packageSets[] | {name, supportLevel, groups}],
+  familySnapshotCount: (.familySnapshots | length),
+  groupSnapshotCount: (.groupSnapshots | length)
+}' packages/first-party-lock.json
+
+nix eval --json .#lib.firstPartyPackageSets
+nix eval --json .#lib.firstPartyGroupSnapshots
 ```
 
-Review the new package paths, versions, publication state, and hashes before activating the
-family in a consumer. Do not hand-create its generated lock records or add parallel entries
-to `overlays/registry.nix`.
+The Nix discovery outputs contain metadata only and do not fetch selected trees.
 
-## Refresh and verification
+## Refresh one curated set
 
-To see which families are behind before changing anything, survey them:
-
-```bash
-just status                 # every configured family
-just status FAMILY [...]    # narrow to named families
-```
-
-The survey writes nothing. It runs one `refresh --dry-run` per family and tags each result by
-the kind of drift found: `git-commit` when the family's GitHub head moved, `hackage-release`
-when a package has a new or changed published release, and `source-version`, `membership`,
-`hackage-withdrawn`, or `hackage-rehash` for the remaining cases. A family tagged only
-`git-commit` has unreleased commits; a family tagged only `hackage-release` published without
-a source change reaching the locked head.
-
-Per-family dry runs keep a transient GitHub or Hackage failure to a single `query-failed` row
-rather than aborting the survey the way one all-family dry run would. Each family is retried
-once before it is reported as failed, and those rows are safe to rerun.
-
-`haskell-nix-update` is the only production writer for
-`packages/first-party-lock.json`. Preview all configured families, apply the refresh, and
-then perform an online drift check with:
+Preview all groups selected by the default set, apply the refresh, then check drift:
 
 ```bash
 nix run .#haskell-nix-update -- refresh --dry-run
@@ -173,117 +100,152 @@ nix run .#haskell-nix-update -- refresh
 nix run .#haskell-nix-update -- check --online
 ```
 
-Pass `--family FAMILY` once per distinct family to limit either subcommand. Without that
-option, every configured family is processed. Unknown family names and duplicate values are
-rejected before work begins.
+Use `--package-set SET` to target another curated set. A successful refresh appends new
+family/group generations for observed changes and moves only that set's selections. Other
+named sets keep their existing generations.
 
-Before validating, `refresh` evaluates `.#checks.<system>.first-party-versions.drvPath` to realise
-the cabal2nix import-from-derivation builds the first-party checks perform. That step is
-best-effort and needs no flag; `nix flake check` remains the verdict. See
-[Troubleshooting](troubleshooting.md) for why warming those derivations by hand is unreliable.
-
-`refresh --dry-run` reads remote Git heads, Cabal package metadata, and Hackage releases and
-prefetches proposed archives, but it does not change either managed lock file. A normal
-refresh refuses to begin when `flake.lock` or `packages/first-party-lock.json` already has
-uncommitted changes. It updates only inputs whose remote head moved, writes the generated
-lock atomically, and runs the flake validation. Any failure after input updates restores
-both managed files byte-for-byte. The command never commits or pushes.
-
-The normal `refresh` invocation is the single production update command. The dry-run is a
-review aid, not an alternate writer, and a successful refresh preserves non-selected
-families when `--family` limits the operation.
-
-`check` is network-free. It validates both JSON contracts, verifies each package-lock
-revision against `flake.lock`, locates the registered checkout through Mori, requires the
-Git object to exist locally, and reparses the root Cabal packages. `check --online` also
-compares remote heads and current Hackage publication/version state, while still making no
-writes.
-
-Schema and channel behavior can also be checked directly:
+Limit work by group or by a family that resolves to its group:
 
 ```bash
-jq empty config/first-party-families.json packages/first-party-lock.json
-nix eval --json .#lib.registries.hackage --apply builtins.attrNames
-nix eval --json .#lib.registries.github --apply builtins.attrNames
-nix flake check --print-build-logs
+nix run .#haskell-nix-update -- refresh \
+  --package-set default --group okf --dry-run
+nix run .#haskell-nix-update -- refresh \
+  --package-set default --family baikai
 ```
 
-The flake check rejects malformed fixtures, runs the updater's offline unit and workflow
-tests, proves that unpublished packages are omitted only from the Hackage registry, applies
-a local GitHub package under `ghc9124` and `ghc9141`, and evaluates both channel overlays.
+The second command refreshes the complete `shikumi-baikai` group. Repeat `--group` or
+`--family` for distinct groups. Unknown and duplicate targets are rejected. A historical
+set cannot be refreshed; clone or relabel a deliberately validated selection instead.
 
-It does not compile the complete first-party inventory. For package membership or shared
-compatibility changes, build both GHC 9.12.2 matrices from the repository root.
+Use `--compatibility-profile PROFILE` only for a refresh that targets one resolved group.
+Without it, the new group snapshot inherits that group's selected profile. Define changed
+profile contents under a new immutable name in `overlays/compatibility-profiles.nix` first.
 
-GitHub builds every locked package:
+`refresh --dry-run` observes remote heads and Hackage state without writing. A normal
+refresh updates only changed tracking inputs, atomically writes the generated lock, validates
+the selected set under both channels, and runs flake validation. Any failure restores both
+managed lock files byte-for-byte. The command never commits or pushes.
+
+`check` is network-free: it validates the graph, locates each selected source through Mori,
+requires the Git object locally, and verifies package discovery against the selected
+snapshot's own policy. `check --online` additionally compares remote heads and Hackage state.
+
+## Compose and promote named sets
+
+Package-set commands mutate only the generated lock. Preview any command with `--dry-run`.
+Commit each successful mutation before starting the next one so the dirty-file guard keeps
+every transaction recoverable.
+
+Clone a complete selection as historical by default:
 
 ```bash
-nix build --no-link --keep-going --print-build-logs --impure --expr '
-  let
-    flake = builtins.getFlake (toString ./.);
-    pkgs = import flake.inputs.nixpkgs {
-      system = builtins.currentSystem;
-      overlays = [ flake.overlays.github ];
-    };
-    lock = builtins.fromJSON (builtins.readFile ./packages/first-party-lock.json);
-    names = builtins.concatMap
-      (family: map (package: package.name) family.packages)
-      lock.families;
-  in
-  map (name: pkgs.haskell.packages.ghc9124.${name}) names
-'
+nix run .#haskell-nix-update -- package-set clone \
+  --from SOURCE --to CANDIDATE
 ```
 
-Hackage builds only published records:
+Move exactly one group either to a retained generation or to another set's selection:
 
 ```bash
-nix build --no-link --keep-going --print-build-logs --impure --expr '
-  let
-    flake = builtins.getFlake (toString ./.);
-    pkgs = import flake.inputs.nixpkgs {
-      system = builtins.currentSystem;
-      overlays = [ flake.overlays.hackage ];
-    };
-    lock = builtins.fromJSON (builtins.readFile ./packages/first-party-lock.json);
-    packages = builtins.concatMap (family: family.packages) lock.families;
-    names = map (package: package.name)
-      (builtins.filter (package: package.hackage != null) packages);
-  in
-  map (name: pkgs.haskell.packages.ghc9124.${name}) names
-'
+nix run .#haskell-nix-update -- package-set select \
+  --package-set CANDIDATE --group okf --from-package-set default
+
+nix run .#haskell-nix-update -- package-set select \
+  --package-set CANDIDATE --group okf --generation 1
 ```
+
+Assign a retained compatibility profile by creating a new group snapshot for that set:
+
+```bash
+nix run .#haskell-nix-update -- package-set profile \
+  --package-set CANDIDATE --group keiro --profile PROFILE
+```
+
+After the complete supported system/channel/GHC build matrix passes, promote the candidate:
+
+```bash
+nix run .#haskell-nix-update -- package-set support \
+  --package-set CANDIDATE --support-level curated
+```
+
+Never mark a set curated before its matrix passes. Historical means retained and selectable,
+not continuously supported on future Nixpkgs or compiler versions.
+
+## Migration and historical import
+
+`migrate-lock` is the one-time schema-1-to-schema-2 workflow. Build the migration-capable
+updater before creating any temporary catalog/lock schema mismatch, then run:
+
+```bash
+haskell-nix-update migrate-lock \
+  --package-set default \
+  --import-set NAME=GIT_COMMIT
+```
+
+The current flat lock becomes curated `default`; every `--import-set` reads that repository
+commit's flat package lock and matching `flake.lock`, imports immutable snapshots, and adds a
+historical named set. Import is verified and deduplicated; do not reconstruct old NAR hashes
+or snapshot records manually.
+
+## Verification and build matrix
+
+Run the fast contracts before expensive builds:
+
+```bash
+nix run .#haskell-nix-update -- check --package-set default
+just nix-test
+just fmt-check
+nix flake check --no-build
+```
+
+The flake generates full inventory builds only for sets labelled `curated`. For each curated
+set it realizes every available selected package and the consumer fixture under GitHub and
+Hackage with every `lib.supportedGhcs` compiler. Hackage deliberately omits null pins.
+
+Run the complete check on each supported system, using its native or configured remote
+builder; one host's check does not prove another system:
+
+```bash
+nix flake check --print-build-logs --keep-going
+```
+
+The focused production identity result is inspectable separately:
+
+```bash
+nix eval --json \
+  .#checks.aarch64-darwin.production-package-set-cache-identity.results
+```
+
+Use the applicable system key. It must show every Keiro comparison equal and each OKF
+comparison different for both channels and supported compilers.
 
 ## Review checklist
 
-Before committing a refresh:
+Before committing a refresh or package-set mutation:
 
-1. Confirm `flake.lock` changed only the intended `<family>-src` input nodes.
-2. Review every generated family revision, package path, GitHub version, Hackage version,
-   and archive hash. A package with no official release must retain `"hackage": null`.
-3. Confirm the generated file still has sorted families, sorted globally unique package
-   names, and only documented per-package Cabal2nix options.
-4. Run a second `refresh --dry-run`; it must report `No changes.`
-5. Run `check --online` and `nix flake check --print-build-logs`.
-6. Update the snapshot counts and GitHub-only names in `docs/user/channels.md` when package
-   membership or publication state changes.
-
-For changes that alter package membership or compatibility, build both complete GHC 9.12.2
-channel matrices before merging. GitHub must build every locked package; Hackage must build
-only records whose `hackage` field is non-null.
+1. Confirm `flake.lock` changed only intended tracking inputs; package-set composition
+   commands normally leave it unchanged.
+2. Review appended family sources, discovery policies, package versions/paths, Hackage
+   hashes/nulls, group profiles, and the one intended set-selection move.
+3. Confirm existing generations and non-target package sets are byte-for-byte equivalent in
+   meaning; the updater keeps generated lists sorted and references complete.
+4. Run the same command with `--dry-run` again; a refresh should report no new drift.
+5. Run offline/online checks as appropriate, format/unit checks, and the curated matrix on
+   every supported system.
+6. Update [Channel reference](channels.md) if the default set's package membership or
+   publication status changed.
 
 ## Validate from a downstream consumer
 
-An unpushed checkout can be tested without changing a consumer lock:
+Test an unpushed checkout without changing the consumer lock:
 
 ```bash
 nix build --override-input haskell-nix path:/path/to/local/haskell-nix
 nix develop --override-input haskell-nix path:/path/to/local/haskell-nix
 ```
 
-Run the consumer's normal target with its GitHub selection and, when supported by that
-consumer, its Hackage selection. The override changes only where the `haskell-nix` flake is
-loaded from; channel selection remains explicit in the consumer's `flake.nix`.
+Exercise the consumer's chosen package set under each channel it supports. The override
+changes only where this flake is loaded; package-set and channel choices remain explicit in
+the consumer's `flake.nix`.
 
-See [Troubleshooting](troubleshooting.md) for dirty managed files, missing Mori revisions,
-transient online failures, unbuilt cabal2nix derivations, and the difference between flake
-evaluation checks and complete package builds.
+See [Troubleshooting](troubleshooting.md) for dirty managed files, missing generations,
+incomplete mappings, support expectations, profile conflicts, and cache diagnostics.

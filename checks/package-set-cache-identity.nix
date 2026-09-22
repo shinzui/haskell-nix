@@ -239,6 +239,6 @@ pkgs.runCommand "package-set-cache-identity"
 {
   passthru = { inherit results; };
 } ''
-  echo '${builtins.toJSON results}'
+  echo '${builtins.unsafeDiscardStringContext (builtins.toJSON results)}'
   touch "$out"
 ''

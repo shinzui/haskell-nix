@@ -20,11 +20,72 @@ Check the generated registries and the package's lock record:
 ```bash
 nix eval --json .#lib.registries.github --apply builtins.attrNames
 nix eval --json .#lib.registries.hackage --apply builtins.attrNames
-jq '.families[].packages[] | select(.name == "PACKAGE")' packages/first-party-lock.json
+jq '.familySnapshots[].packages[] | select(.name == "PACKAGE")' packages/first-party-lock.json
 ```
 
 Use the GitHub channel if the lock record has `"hackage": null`. Otherwise, an unexpected
 absence is a registry validation bug and should fail `nix flake check`.
+
+## A package-set generation is unknown
+
+Symptom: `mkFirstPartyPackageSet` reports that a selected group snapshot does not exist.
+
+Generation numbers are opaque retained identities, not package versions. Inspect the
+published metadata and choose a generation that exists for that exact group:
+
+```bash
+nix eval --json .#lib.firstPartyGroupSnapshots
+nix eval --json .#lib.firstPartyPackageSets
+```
+
+Do not guess a generation or add a lock record by hand. Maintainers create generations only
+through refresh, migration/import, or the package-set CLI.
+
+## An explicit selection is incomplete
+
+`selections` must name every resolved update group exactly once. Start from a complete named
+mapping and override the intended group:
+
+```nix
+selections = inputs.haskell-nix.lib.firstPartyPackageSets.default.selections // {
+  okf = 1;
+};
+```
+
+This form tracks future default generations for every group not overridden. Copy the whole
+mapping as literals when the consumer intends to pin every group.
+
+## A historical package set stopped building
+
+`historical` promises retention and selectability, not continuing compatibility with future
+Nixpkgs, GHC, or shared dependency changes. Check the set's label in
+`lib.firstPartyPackageSets`. Use a `curated` set for the repository's supported matrix, or
+validate and own the historical selection in the consumer.
+
+## Compatibility profiles conflict
+
+Profile fragments are combined with the common registry and selected first-party packages.
+Two profiles cannot define the same package key, and a profile cannot replace a selected
+first-party package. Give a revised workaround a new immutable profile name, keep each key in
+one profile, and assign it with `package-set profile`; do not mask the conflict by changing
+merge order.
+
+## An expected cache hit rebuilt
+
+Equal package-set labels do not guarantee equal derivations, and different labels do not
+prevent reuse. Compare the complete effective inputs: system, compiler/Nixpkgs, channel,
+source/version, dependency graph, compatibility profiles, patches, profiling, and Haddock.
+Use the focused result first:
+
+```bash
+nix eval --json \
+  .#checks.aarch64-darwin.production-package-set-cache-identity.results
+```
+
+If an asserted path differs, compare the two derivations with `just drv-diff BEFORE AFTER`.
+A consumer package that directly depends on changed OKF is expected to rebuild even when its
+Keiro derivation remains identical. This repository proves identity; it does not guarantee
+that an external binary cache contains the path.
 
 ## Refresh refuses dirty managed files
 
@@ -210,9 +271,9 @@ jq -r '.families[].name' config/first-party-families.json
 Pass `--family` once for each distinct name. Unknown names and duplicate values are rejected
 before any update begins.
 
-## Flake checks pass but a package build fails
+## A focused check passes but a package build fails
 
-The flake suite validates schemas, exact versions, the updater, and overlay evaluation. It
-does not compile every first-party package. Build the changed package directly, and run the
-complete channel matrices for membership or shared compatibility changes. The exact matrix
-commands are in [Updating first-party packages](updating-first-party-packages.md).
+Fast schema, exact-version, updater, and overlay checks do not compile every first-party
+package. The full flake check does realize every curated set/channel/compiler cell. Build
+the changed package directly while diagnosing, then run that complete matrix on every
+supported system. See [Updating first-party packages](updating-first-party-packages.md).

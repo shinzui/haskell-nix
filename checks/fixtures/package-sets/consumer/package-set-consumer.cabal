@@ -1,0 +1,13 @@
+cabal-version: 2.4
+name: package-set-consumer
+version: 1.0
+build-type: Simple
+
+library
+  exposed-modules: PackageSet.Consumer
+  hs-source-dirs: src
+  build-depends:
+      base
+    , keiro-core
+    , okf-core
+  default-language: Haskell2010
