@@ -41,14 +41,10 @@ runCli = do
   parsedCommand <- execParser parserInfo
   environment <- defaultWorkflowEnvironment
   result <- case parsedCommand of
-    Refresh RefreshOptions {packageSet = Nothing, targets, compatibilityProfile = Nothing, dryRun}
-      | Just families <- legacyFamilyTargets targets ->
-          runRefreshWorkflow environment (defaultWorkflowPaths ".") families dryRun
-    Refresh {} -> pure (Left (UpdateError "migrate-lock required before using package-set refresh options"))
-    Check CheckOptions {packageSet = Nothing, targets, online}
-      | Just families <- legacyFamilyTargets targets ->
-          runCheckWorkflow environment (defaultWorkflowPaths ".") families online
-    Check {} -> pure (Left (UpdateError "migrate-lock required before using package-set check options"))
+    Refresh RefreshOptions {packageSet, targets, compatibilityProfile, dryRun} ->
+      runRefreshCommand environment (defaultWorkflowPaths ".") packageSet targets compatibilityProfile dryRun
+    Check CheckOptions {packageSet, targets, online} ->
+      runCheckCommand environment (defaultWorkflowPaths ".") packageSet targets online
   case result of
     Right summary -> TextIO.putStrLn summary
     Left UpdateError {message} -> TextIO.hPutStrLn System.IO.stderr message >> exitFailure
@@ -143,9 +139,3 @@ targetOptionsParser =
                 )
         )
     )
-
-legacyFamilyTargets :: [RefreshTarget] -> Maybe [Text]
-legacyFamilyTargets = traverse legacyFamily
-  where
-    legacyFamily (TargetFamily (FamilyName familyName)) = Just familyName
-    legacyFamily TargetGroup {} = Nothing

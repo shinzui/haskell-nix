@@ -5,6 +5,7 @@ module HaskellNix.Update.Nix
     readLockedRevision,
     updateInput,
     prefetchHackage,
+    validatePackageSetSelection,
     validateFlake,
     managedFilesDirty,
   )
@@ -78,6 +79,32 @@ prefetchHackage runner packageName version = do
     value <- firstError ("invalid prefetch JSON for " <> url) (eitherDecodeStrict' (TextEncoding.encodeUtf8 standardOutput))
     hash <- firstError ("invalid prefetch result for " <> url) (parseEither parsePrefetch value)
     Right (SriHash hash)
+
+validatePackageSetSelection :: ProcessRunner -> FilePath -> Text -> IO (Either UpdateError ())
+validatePackageSetSelection runner repositoryRoot packageSetName = do
+  result <-
+    runChecked
+      runner
+      ProcessSpec
+        { executable = "nix",
+          arguments =
+            [ "eval",
+              "--no-eval-cache",
+              "--json",
+              "--expr",
+              Text.unpack validatePackageSetExpression,
+              "--argstr",
+              "packageSet",
+              Text.unpack packageSetName
+            ],
+          workingDirectory = Just repositoryRoot,
+          environmentAdditions = []
+        }
+  pure (() <$ result)
+
+validatePackageSetExpression :: Text
+validatePackageSetExpression =
+  "packageSet: let flake = builtins.getFlake (toString ./.); constructor = flake.lib.mkFirstPartyPackageSet; validate = channel: let selected = constructor { inherit packageSet channel; }; in builtins.deepSeq selected.selections (builtins.deepSeq selected.selectedFamilies (builtins.attrNames selected.registry)); in map validate [\"github\" \"hackage\"]"
 
 validateFlake :: ProcessRunner -> FilePath -> IO (Either UpdateError ())
 validateFlake runner repositoryRoot = do

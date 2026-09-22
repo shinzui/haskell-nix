@@ -61,10 +61,10 @@ This section must always reflect the actual current state of the work.
 - [x] Add target-set and update-group-aware CLI parsing while retaining the current default behavior.
 - [x] Decode complete locked source descriptors and include them in family observations.
 - [x] Plan append-only family/group snapshots and move only the requested package set.
-- [ ] Make grouped refresh, validation, writes, and rollback atomic across both managed files.
+- [x] Make grouped refresh, validation, writes, and rollback atomic across both managed files.
 - [ ] Add deterministic migration, historical import, clone, and group-selection commands.
 - [ ] Cover no-op, Hackage-only, grouped failure, dry-run, rollback, and import workflows offline.
-- [ ] Preserve schema-1 command dispatch until rollout and validate non-default historical targets independently of tracking inputs.
+- [x] Preserve schema-1 command dispatch until rollout and validate non-default historical targets independently of tracking inputs.
 
 
 ## Surprises & Discoveries
@@ -88,6 +88,11 @@ implementation. Provide concise evidence.
 - The current `checkFamily` requires equality with moving tracking inputs and applies current
   exclusions. Version-2 historical checks must instead use selected source and policy. The
   current flake validator passes `--no-build`; successful evaluation is not build evidence.
+
+- The selected-set validation boundary cannot be expressed as another Haskell projection:
+  it must call the exported Nix constructor for both channels. Keeping that call injected in
+  `WorkflowEnvironment` makes rollback tests deterministic while production still exercises
+  the authoritative Nix graph.
 
 
 ## Decision Log
