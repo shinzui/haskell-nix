@@ -96,6 +96,8 @@ Implementation evidence from 2026-09-22 adds two durable details. Nixpkgs
 `callHackageDirect` passes its hash to `fetchzip`, so retained Hackage hashes are unpacked
 tree NAR hashes rather than raw archive hashes. Also, cache-identity checks force Cabal2nix
 through import-from-derivation; evaluating or realizing them for another system requires a
-working builder for that target. Native aarch64-darwin checks pass. The configured
-x86_64-linux builder was unreachable and no aarch64-linux builder was configured, so those
-platform gates remain rollout requirements rather than inferred successes.
+working builder for that target. Native aarch64-darwin checks and the configured
+x86_64-linux builder pass the cache-identity gate. The active deployment test namespace was
+verified to use only amd64 Linux nodes and workloads, so the supported matrix is currently
+x86_64-linux plus aarch64-darwin; aarch64-linux support is deferred until a deployment
+consumer requires it.

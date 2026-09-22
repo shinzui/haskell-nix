@@ -132,7 +132,9 @@
       };
 
       # haskell-nix-dev's systems: its nixpkgs (26.11) dropped x86_64-darwin.
-      systems = [ "x86_64-linux" "aarch64-linux" "aarch64-darwin" ];
+      # Production test workloads currently run only on amd64 Linux; keep
+      # Apple Silicon for native development and x86_64 Linux for deployment.
+      systems = [ "x86_64-linux" "aarch64-darwin" ];
 
       # The updater's closure is built from source for the same reason every
       # consumer's is (`haskell.packages.ghc9124.*` is absent from

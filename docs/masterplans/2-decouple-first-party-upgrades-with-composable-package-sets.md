@@ -124,7 +124,7 @@ solvable combination.
 | # | Title | Path | Hard Deps | Soft Deps | Status |
 |---|-------|------|-----------|-----------|--------|
 | 4 | Define immutable family snapshots and update cohorts | docs/plans/4-define-immutable-family-snapshots-and-update-cohorts.md | None | None | Complete |
-| 5 | Compose cache-stable package sets in Nix | docs/plans/5-compose-cache-stable-package-sets-in-nix.md | EP-4 | None | In Progress |
+| 5 | Compose cache-stable package sets in Nix | docs/plans/5-compose-cache-stable-package-sets-in-nix.md | EP-4 | None | Complete |
 | 6 | Make the updater manage snapshots and package-set selections | docs/plans/6-make-the-updater-manage-snapshots-and-package-set-selections.md | EP-4 | EP-5 | Complete |
 | 7 | Migrate the default set and prove independent upgrades | docs/plans/7-migrate-the-default-set-and-prove-independent-upgrades.md | EP-5, EP-6 | None | Not Started |
 
@@ -231,7 +231,7 @@ claiming arbitrary compatibility.
 - [x] (2026-09-22) EP-4: Add a deterministic version-1-to-version-2 projection/migration model while leaving production on version 1.
 - [x] (2026-09-22) EP-5: Build the package-set selector and per-channel registry projection from locked snapshot sources.
 - [x] (2026-09-22) EP-5: Expose a consumer-owned package-set constructor while preserving the current default interfaces.
-- [x] (2026-09-22) EP-5: Prove two sets with unchanged runtime selections evaluate to identical runtime derivation paths on aarch64-darwin; Linux realization remains pending builder availability.
+- [x] (2026-09-22) EP-5: Prove cache identity on aarch64-darwin and x86_64-linux; verify the deployment test namespace uses amd64 Linux exclusively and remove unused aarch64-linux outputs.
 - [x] (2026-09-22) EP-6: Extend refresh planning to append immutable family and group generations and move one named set.
 - [x] (2026-09-22) EP-6: Enforce atomic multi-family updates, dry-run behavior, dirty-file refusal, and byte-for-byte rollback.
 - [x] (2026-09-22) EP-6: Add repeatable migration and historical-set import commands with offline workflow tests.
@@ -289,10 +289,11 @@ claiming arbitrary compatibility.
   `resolvedGroups` plus a `select` projection function.
 
 - EP-5's native aarch64-darwin check proves cache identity, dependency propagation, and
-  consumer override composition for GitHub and Hackage. Cross-system IFD needs a machine of
-  the target system: the configured x86_64-linux builder closed its SSH connection on
-  2026-09-22, and no aarch64-linux builder is configured, so EP-5 remains In Progress until
-  those realization gates run.
+  consumer override composition for GitHub and Hackage. Restored GCP authentication let the
+  configured builder realize the same focused check on x86_64-linux. The active test
+  namespace schedules exclusively onto 18 amd64 Linux nodes and declares no ARM selector,
+  so aarch64-linux was removed from the supported-system contract rather than adding unused
+  infrastructure.
 
 - EP-6 retained the schema-1 path while adding a schema detector and a separate immutable
   workflow. This allowed 64 offline updater tests to exercise grouped refresh, rollback,
@@ -388,6 +389,13 @@ claiming arbitrary compatibility.
   solver would add dependency-range extraction and search complexity without proving source
   or runtime compatibility.
   Date: 2026-09-13
+
+- Decision: Limit current platform outputs to x86_64-linux and aarch64-darwin.
+  Rationale: The active Kubernetes test namespace has only amd64 Linux nodes and workloads,
+  while native development uses Apple Silicon. There is no current aarch64-linux deployment
+  consumer to justify a third builder and build matrix; support can be restored when one
+  appears.
+  Date: 2026-09-22
 
 
 ## Outcomes & Retrospective

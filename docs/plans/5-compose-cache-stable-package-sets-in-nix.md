@@ -66,7 +66,7 @@ This section must always reflect the actual current state of the work.
 - [x] (2026-09-22) Prove set and channel isolation with 40 passing pure Nix tests covering named and explicit selections, both channels, source laziness, and invalid inputs.
 - [x] (2026-09-22) Prove equal derivation paths for unchanged family snapshots across two package sets on aarch64-darwin for both GitHub and Hackage.
 - [x] (2026-09-22) Prove changed dependencies rebuild dependents, source fetching stays lazy, and pre-existing plus downstream overrides survive composition.
-- [ ] Realise the cache-identity check on Linux: the configured x86_64-linux builder closed its SSH connection, and no aarch64-linux builder is configured.
+- [x] (2026-09-22) Realise the cache-identity check on the supported x86_64-linux builder; remove unneeded aarch64-linux outputs after verifying the deployment test namespace runs exclusively on amd64 Linux nodes.
 
 
 ## Surprises & Discoveries
@@ -97,9 +97,11 @@ for `tasty-bench` 0.5 and 0.5.1 and `tasty` 1.5.4 produced
 hash mismatch.
 
 The native aarch64-darwin flake check passes, including the cache proof and a real locked OKF
-`builtins.fetchTree`. `nix flake check --all-systems --no-build` cannot finish Linux IFD on
-the Darwin host, and the configured `ssh://builder@nix-gcp-builder` x86_64-linux builder
-closed the SSH connection. No aarch64-linux builder appears in `/etc/nix/machines`.
+`builtins.fetchTree`. After GCP authentication was restored, the configured
+`ssh://builder@nix-gcp-builder` realized the x86_64-linux cache-identity check. The active
+`gke_tan-cluster_us-west1-a_sennari` cluster's `test` namespace runs entirely on 18 amd64
+Linux nodes, with no ARM node selector or scheduled ARM workload, so aarch64-linux is no
+longer part of this flake's supported-system contract.
 
 
 ## Decision Log
@@ -153,6 +155,13 @@ Record every decision made while working on the plan.
   and upstream tags confirm 0.5; Hackage publishes 0.5.1 without a matching upstream tag.
   Date: 2026-09-22
 
+- Decision: Support x86_64-linux and aarch64-darwin, and defer aarch64-linux until a real
+  deployment consumer requires it.
+  Rationale: Kubernetes evidence from the active test cluster shows every node and scheduled
+  workload is amd64 Linux. Maintaining an otherwise unused platform would require a separate
+  builder and acceptance matrix without validating a current deployment path.
+  Date: 2026-09-22
+
 
 ## Outcomes & Retrospective
 
@@ -166,9 +175,10 @@ check proves unchanged GitHub and Hackage runtime derivations are identical acro
 changed packages and dependents behave correctly, labels and unselected metadata are absent
 from derivation identity, and override composition preserves the fixed point.
 
-The remaining acceptance gap is infrastructure rather than code: Linux IFD and realization
-need an operational Linux builder. Re-run the focused check on x86_64-linux and
-aarch64-linux before changing this plan and its MasterPlan registry to Complete.
+Acceptance now covers both supported systems: the full flake check passes natively on
+aarch64-darwin, and the focused cache-identity derivation realizes on the configured
+x86_64-linux builder. The deployment test namespace audit found no aarch64-linux use, so
+that unused output was removed rather than creating a new builder solely for this plan.
 
 
 ## Context and Orientation
