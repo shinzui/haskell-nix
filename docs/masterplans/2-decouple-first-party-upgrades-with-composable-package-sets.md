@@ -126,7 +126,7 @@ solvable combination.
 | 4 | Define immutable family snapshots and update cohorts | docs/plans/4-define-immutable-family-snapshots-and-update-cohorts.md | None | None | Complete |
 | 5 | Compose cache-stable package sets in Nix | docs/plans/5-compose-cache-stable-package-sets-in-nix.md | EP-4 | None | Complete |
 | 6 | Make the updater manage snapshots and package-set selections | docs/plans/6-make-the-updater-manage-snapshots-and-package-set-selections.md | EP-4 | EP-5 | Complete |
-| 7 | Migrate the default set and prove independent upgrades | docs/plans/7-migrate-the-default-set-and-prove-independent-upgrades.md | EP-5, EP-6 | None | Not Started |
+| 7 | Migrate the default set and prove independent upgrades | docs/plans/7-migrate-the-default-set-and-prove-independent-upgrades.md | EP-5, EP-6 | None | In Progress |
 
 Status values: Not Started, In Progress, Complete, Cancelled.
 Hard Deps and Soft Deps reference other rows by their # prefix (e.g., EP-1, EP-3).
@@ -235,7 +235,7 @@ claiming arbitrary compatibility.
 - [x] (2026-09-22) EP-6: Extend refresh planning to append immutable family and group generations and move one named set.
 - [x] (2026-09-22) EP-6: Enforce atomic multi-family updates, dry-run behavior, dirty-file refusal, and byte-for-byte rollback.
 - [x] (2026-09-22) EP-6: Add repeatable migration and historical-set import commands with offline workflow tests.
-- [ ] EP-7: Migrate production configuration and lock data, including the Baikai plus Shikumi update group.
+- [x] (2026-09-22) EP-7: Migrate production configuration and lock data, including the Baikai plus Shikumi update group, while preserving default derivation paths.
 - [ ] EP-7: Demonstrate an OKF-only upgrade with an older Keiro selection and run all supported set/channel/GHC checks.
 - [ ] EP-7: Finalize consumer, cache, maintenance, and compatibility documentation.
 

@@ -18,6 +18,11 @@ provenance:
       at: 2026-09-21T14:26:46Z
       mode: "update"
       note: "Adopt flake-parts, treefmt-nix, nix-unit, and nix-diff; native checks pass with unchanged existing derivations."
+    - model: "gpt-5.6-sol"
+      harness: "codex-cli"
+      at: 2026-09-22T17:17:05Z
+      mode: "implement"
+      note: "Begin production package-set migration and compatibility rollout."
   reviews:
     - model: "gpt-6-astra"
       harness: "codex-cli"
@@ -53,10 +58,10 @@ Use a checklist to summarize granular steps. Every stopping point must be docume
 even if it requires splitting a partially completed task into two ("done" vs. "remaining").
 This section must always reflect the actual current state of the work.
 
-- [ ] Convert production family policy to schema version 2 with the Baikai/Shikumi update group.
-- [ ] Migrate the current lock and import the pre-Keiro-0.15 historical baseline reproducibly.
+- [x] (2026-09-22) Convert production family policy to schema version 2 with the Baikai/Shikumi update group.
+- [x] (2026-09-22) Migrate the current lock and import the pre-Keiro-0.15 historical baseline reproducibly.
 - [ ] Create and validate the curated Keiro-0.14/OKF-0.9 set using updater commands only.
-- [ ] Bind package-set selection into public flake outputs while preserving every legacy alias.
+- [x] (2026-09-22) Bind package-set selection into public flake outputs while preserving every legacy alias.
 - [ ] Add cache-identity, selected-version, and full curated matrix build checks.
 - [ ] Document consumer selection, update-group maintenance, support levels, and cache behavior.
 - [ ] Preserve clean-lock transaction boundaries and record per-system build coverage separately from evaluation.
@@ -97,6 +102,16 @@ implementation. Provide concise evidence.
   consumer guide says the same arguments default to false. Preserve the implemented true
   defaults and correct the documentation during this migration; do not mix a build-setting
   policy change into the package-set rollout.
+
+- The migration command's selected-set validation had only been exercised through a mocked
+  workflow boundary. A real run showed that `nix eval --argstr` did not apply its function
+  expression, and that `builtins.getFlake (toString ./.)` requires `--impure` to inspect the
+  just-written working tree. The adapter now uses `--apply`, enables that local-path access,
+  and has a command-shape regression test; all 65 updater tests pass.
+
+- The migrated default preserves the captured GHC 9.12.4 derivation paths exactly: GitHub
+  Keiro/OKF remain `4s8vapr...`/`vdnaj22...`, and Hackage Keiro/OKF remain
+  `hr2n5mb...`/`gdfc3r3...`. The current versions remain Keiro 0.18.0.0 and OKF 0.9.0.0.
 
 
 ## Decision Log
@@ -146,7 +161,11 @@ Record every decision made while working on the plan.
 Summarize outcomes, gaps, and lessons learned at major milestones or at completion.
 Compare the result against the original purpose.
 
-(To be filled during and after implementation.)
+Milestone 1 is complete. The production catalog and lock now use schema version 2, the
+Baikai/Shikumi release boundary is explicit, the current default remains curated, and the
+pre-Keiro-0.15 state is retained as historical `keiro-0-14-okf-0-8`. Public legacy aliases
+now delegate to the bound package-set constructor without changing representative versions
+or derivation paths. Offline default checking and no-build flake evaluation pass.
 
 
 ## Context and Orientation

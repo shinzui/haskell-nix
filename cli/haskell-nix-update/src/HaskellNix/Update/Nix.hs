@@ -12,7 +12,8 @@ module HaskellNix.Update.Nix
 where
 
 import Control.Exception (IOException, try)
-import Data.Aeson (Object, Value (..), eitherDecodeStrict', withObject, (.:))
+import Data.Aeson (Object, Value (..), eitherDecodeStrict', encode, withObject, (.:))
+import Data.ByteString.Lazy qualified as LazyByteString
 import Data.Aeson.Key qualified as Key
 import Data.Aeson.KeyMap qualified as KeyMap
 import Data.Aeson.Types (Parser, parseEither)
@@ -89,13 +90,13 @@ validatePackageSetSelection runner repositoryRoot packageSetName = do
         { executable = "nix",
           arguments =
             [ "eval",
+              "--impure",
               "--no-eval-cache",
               "--json",
               "--expr",
               Text.unpack validatePackageSetExpression,
-              "--argstr",
-              "packageSet",
-              Text.unpack packageSetName
+              "--apply",
+              "validate: validate " <> Text.unpack (nixString packageSetName)
             ],
           workingDirectory = Just repositoryRoot,
           environmentAdditions = []
@@ -104,7 +105,12 @@ validatePackageSetSelection runner repositoryRoot packageSetName = do
 
 validatePackageSetExpression :: Text
 validatePackageSetExpression =
+  -- getFlake receives the working-tree path so validation covers the just-written
+  -- lock rather than the last commit; Nix requires --impure for that local path.
   "packageSet: let flake = builtins.getFlake (toString ./.); constructor = flake.lib.mkFirstPartyPackageSet; validate = channel: let selected = constructor { inherit packageSet channel; }; in builtins.deepSeq selected.selections (builtins.deepSeq selected.selectedFamilies (builtins.attrNames selected.registry)); in map validate [\"github\" \"hackage\"]"
+
+nixString :: Text -> Text
+nixString = TextEncoding.decodeUtf8 . LazyByteString.toStrict . encode
 
 validateFlake :: ProcessRunner -> FilePath -> IO (Either UpdateError ())
 validateFlake runner repositoryRoot = do

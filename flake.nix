@@ -42,12 +42,6 @@
         (builtins.readFile ./config/first-party-families.json);
       firstPartyLock = builtins.fromJSON
         (builtins.readFile ./packages/first-party-lock.json);
-      firstPartySources = lib.listToAttrs (map
-        (family: {
-          name = family.githubInput;
-          value = inputs.${family.githubInput};
-        })
-        firstPartyConfig.families);
 
       fixPackageByVersion = import ./lib/fixPackageByVersion.nix { inherit lib; };
       disableProfilingOverride = import ./lib/disableProfilingOverride.nix;
@@ -59,42 +53,40 @@
       mkFirstPartyPackageSetFactory = import ./lib/mkFirstPartyPackageSet.nix {
         inherit lib mkFirstPartyRegistries mkHaskellExtension mkHaskellOverlay;
       };
-      mkFirstPartyPackageSet = args: mkFirstPartyPackageSetFactory ({
-        inherit commonRegistry compatibilityProfiles supportedGhcs;
-      } // args);
-      firstPartyRegistries = mkFirstPartyRegistries {
-        sources = firstPartySources;
+      mkFirstPartyPackageSet = mkFirstPartyPackageSetFactory {
         config = firstPartyConfig;
         lock = firstPartyLock;
+        inherit commonRegistry compatibilityProfiles supportedGhcs;
       };
+      defaultPackageSet = firstPartyLock.defaultPackageSet;
+      channelPackageSets = lib.genAttrs [ "github" "hackage" ]
+        (channel: mkFirstPartyPackageSet {
+          packageSet = defaultPackageSet;
+          inherit channel;
+        });
+      registries = lib.mapAttrs (_: packageSet: packageSet.registry)
+        channelPackageSets;
+      firstPartyRegistries = registries;
+      defaultSelectedFamilies = channelPackageSets.github.selectedFamilies;
 
-      githubOnlyPackageNames = lib.concatMap
-        (family: map (package: package.name)
-          (builtins.filter (package: package.hackage == null) family.packages))
-        firstPartyLock.families;
-
-      # Published family Cabal files can mention an unpublished sibling only in
-      # tests or benchmarks. Null placeholders let callPackage resolve those
-      # disabled components without adding the names to the Hackage registry.
-      hackageDependencyOverrides = _: _:
-        lib.genAttrs githubOnlyPackageNames (_: null);
-
-      registries = {
-        hackage = commonRegistry // firstPartyRegistries.hackage;
-        github = commonRegistry // firstPartyRegistries.github;
-      };
+      firstPartyPackageSets = lib.listToAttrs (map
+        (packageSet: {
+          name = packageSet.name;
+          value = {
+            inherit (packageSet) supportLevel;
+            selections = lib.listToAttrs (map
+              (selection: {
+                name = selection.group;
+                value = selection.generation;
+              })
+              packageSet.groups);
+          };
+        })
+        firstPartyLock.packageSets);
+      firstPartyGroupSnapshots = firstPartyLock.groupSnapshots;
 
       composeManyExtensions = lib.composeManyExtensions or
         (extensions: lib.foldr lib.composeExtensions (_: _: { }) extensions);
-
-      # What distinguishes the two channels, independent of build settings.
-      channelSpecs = {
-        github = { registry = registries.github; };
-        hackage = {
-          registry = registries.hackage;
-          extraOverrides = hackageDependencyOverrides;
-        };
-      };
 
       # Public constructor for consumers that want a build setting other than the
       # one this flake imposes. `lib.haskellExtensions.*` is this with every option
@@ -111,25 +103,15 @@
         , disableProfiling ? true
         , disableHaddock ? true
         }:
-        mkHaskellExtension (channelSpecs.${channel} // {
-          inherit disableProfiling disableHaddock;
-        });
+        (mkFirstPartyPackageSet {
+          packageSet = defaultPackageSet;
+          inherit channel disableProfiling disableHaddock;
+        }).haskellExtension;
 
-      haskellExtensions = lib.mapAttrs (_: mkHaskellExtension) channelSpecs;
-
-      channelOverlays = {
-        github = import ./overlays/haskell-overlay.nix {
-          inherit lib;
-          registry = registries.github;
-          compilers = supportedGhcs;
-        };
-        hackage = import ./overlays/haskell-overlay.nix {
-          inherit lib;
-          registry = registries.hackage;
-          compilers = supportedGhcs;
-          extraOverrides = hackageDependencyOverrides;
-        };
-      };
+      haskellExtensions = lib.mapAttrs (_: packageSet: packageSet.haskellExtension)
+        channelPackageSets;
+      channelOverlays = lib.mapAttrs (_: packageSet: packageSet.overlay)
+        channelPackageSets;
 
       # haskell-nix-dev's systems: its nixpkgs (26.11) dropped x86_64-darwin.
       # Production test workloads currently run only on amd64 Linux; keep
@@ -190,7 +172,9 @@
             mkHaskellExtension
             mkHaskellOverlay
             registries
-            haskellExtensions;
+            haskellExtensions
+            firstPartyPackageSets
+            firstPartyGroupSnapshots;
 
           inherit supportedGhcs defaultGhc;
 
@@ -243,8 +227,8 @@
           };
           checks = import ./checks/default.nix {
             inherit lib pkgsPlain pkgsGithub pkgsHackage updater firstPartyRegistries
-              supportedGhcs defaultGhc firstPartyLock registries mkChannelExtension
-              mkFirstPartyPackageSet;
+              supportedGhcs defaultGhc defaultSelectedFamilies registries mkChannelExtension
+              mkFirstPartyPackageSet mkFirstPartyPackageSetFactory;
           };
         };
     };

@@ -6,10 +6,11 @@
 , firstPartyRegistries
 , supportedGhcs
 , defaultGhc
-, firstPartyLock
+, defaultSelectedFamilies
 , registries
 , mkChannelExtension
 , mkFirstPartyPackageSet
+, mkFirstPartyPackageSetFactory
 }:
 let
   fixture = import ./first-party-registry.nix {
@@ -37,7 +38,7 @@ let
 
   lockedPackages = lib.concatMap
     (family: family.packages)
-    firstPartyLock.families;
+    defaultSelectedFamilies;
 
   githubExpectedVersions = lib.listToAttrs (map
     (package: {
@@ -127,7 +128,8 @@ in
     '';
 
   package-set-cache-identity = import ./package-set-cache-identity.nix {
-    inherit lib defaultGhc supportedGhcs mkFirstPartyPackageSet;
+    inherit lib defaultGhc supportedGhcs;
+    mkFirstPartyPackageSet = mkFirstPartyPackageSetFactory;
     pkgs = pkgsPlain;
   };
 

@@ -1,6 +1,7 @@
 module AdapterTest (tests) where
 
 import Data.ByteString.Char8 qualified as ByteString
+import Data.IORef (newIORef, readIORef, writeIORef)
 import Data.Map.Strict qualified as Map
 import Data.Set qualified as Set
 import Data.Text (Text)
@@ -10,7 +11,7 @@ import Distribution.Types.Version (Version)
 import HaskellNix.Update.Git (discoverPackages)
 import HaskellNix.Update.Hackage
 import HaskellNix.Update.Mori (MoriProject (..), decodeMoriProject, locateMoriProject)
-import HaskellNix.Update.Nix (decodeLockedRevision, decodeLockedSource)
+import HaskellNix.Update.Nix (decodeLockedRevision, decodeLockedSource, validatePackageSetSelection)
 import HaskellNix.Update.Process
 import HaskellNix.Update.Types
 import System.Exit (ExitCode (..))
@@ -30,6 +31,7 @@ tests =
       testCase "Hackage 404 means unpublished" testHackage404,
       testCase "flake.lock resolves a named root input revision" testFlakeLock,
       testCase "flake.lock decodes a complete immutable source descriptor" testFlakeLockedSource,
+      testCase "package-set validation applies its Nix expression" testPackageSetValidationCommand,
       testCase "Git discovery keeps root and one-directory-deep Cabal files" testGitDiscovery
     ]
 
@@ -137,6 +139,25 @@ testFlakeLockedSource = do
 completeFlakeLock :: Text
 completeFlakeLock =
   "{\"root\":\"root\",\"nodes\":{\"root\":{\"inputs\":{\"example-src\":\"example-src\"}},\"example-src\":{\"locked\":{\"type\":\"github\",\"owner\":\"owner\",\"repo\":\"example\",\"rev\":\"0123456789abcdef0123456789abcdef01234567\",\"narHash\":\"sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\"}}}}"
+
+testPackageSetValidationCommand :: IO ()
+testPackageSetValidationCommand = do
+  captured <- newIORef Nothing
+  let runner = ProcessRunner $ \spec -> do
+        writeIORef captured (Just spec)
+        pure (success "[]")
+  validatePackageSetSelection runner "/repo" "candidate-set" >>= (@?= Right ())
+  observed <- readIORef captured
+  case observed of
+    Just ProcessSpec {executable, arguments, workingDirectory} -> do
+      executable @?= "nix"
+      workingDirectory @?= Just "/repo"
+      take 7 arguments @?= ["eval", "--impure", "--no-eval-cache", "--json", "--expr", validateExpression, "--apply"]
+      last arguments @?= "validate: validate \"candidate-set\""
+    Nothing -> assertFailure "package-set validation did not invoke Nix"
+  where
+    validateExpression =
+      "packageSet: let flake = builtins.getFlake (toString ./.); constructor = flake.lib.mkFirstPartyPackageSet; validate = channel: let selected = constructor { inherit packageSet channel; }; in builtins.deepSeq selected.selections (builtins.deepSeq selected.selectedFamilies (builtins.attrNames selected.registry)); in map validate [\"github\" \"hackage\"]"
 
 testGitDiscovery :: IO ()
 testGitDiscovery = do
