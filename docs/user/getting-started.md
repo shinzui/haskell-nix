@@ -1,3 +1,14 @@
+---
+type: Tutorial
+title: Getting started
+description: Add the flake to a project, select a channel, and verify the setup.
+docId: DOC-5
+tags: [getting-started, flake, channels]
+generated:
+  by: human:nadeem
+  at: 2026-09-11T00:15:36Z
+---
+
 [User guide](README.md)
 
 # Getting started

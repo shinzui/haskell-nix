@@ -1,3 +1,14 @@
+---
+type: Guide
+title: Consumer integration
+description: Compose haskell-nix package sets and channels with downstream Haskell overrides.
+docId: DOC-4
+tags: [consumers, overrides, package-sets]
+generated:
+  by: human:nadeem
+  at: 2026-09-22T21:30:17Z
+---
+
 [User guide](README.md)
 
 # Consumer integration

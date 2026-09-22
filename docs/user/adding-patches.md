@@ -1,3 +1,14 @@
+---
+type: Guide
+title: Adding compatibility patches
+description: Add and verify shared compatibility patches for the GitHub and Hackage channels.
+docId: DOC-2
+tags: [patches, compatibility, maintainers]
+generated:
+  by: human:nadeem
+  at: 2026-09-11T00:15:36Z
+---
+
 [User guide](README.md)
 
 # Adding compatibility patches

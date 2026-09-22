@@ -1,3 +1,14 @@
+---
+type: Navigation
+title: User guide
+description: Route consumers and maintainers to the appropriate haskell-nix guide.
+docId: DOC-1
+tags: [navigation, consumers, maintainers]
+generated:
+  by: human:nadeem
+  at: 2026-09-22T21:30:17Z
+---
+
 # User guide
 
 Use this guide to consume the flake, choose a first-party source channel, or maintain the

@@ -1,3 +1,14 @@
+---
+type: Runbook
+title: Updating first-party packages
+description: Refresh, promote, and verify first-party family snapshots and package sets.
+docId: DOC-9
+tags: [maintainers, refresh, package-sets]
+generated:
+  by: human:nadeem
+  at: 2026-09-22T21:30:17Z
+---
+
 [User guide](README.md)
 
 # Updating first-party packages

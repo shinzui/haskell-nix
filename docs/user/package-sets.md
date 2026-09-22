@@ -1,3 +1,14 @@
+---
+type: Explanation
+title: Package sets
+description: Understand first-party package-set selection, retention, and cache behavior.
+docId: DOC-7
+tags: [package-sets, snapshots, cache]
+generated:
+  by: human:nadeem
+  at: 2026-09-22T21:30:17Z
+---
+
 [User guide](README.md)
 
 # Package sets

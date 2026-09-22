@@ -1,3 +1,14 @@
+---
+type: Reference
+title: Channel reference
+description: Compare first-party source channels, package availability, and compatibility aliases.
+docId: DOC-3
+tags: [channels, github, hackage]
+generated:
+  by: human:nadeem
+  at: 2026-09-22T21:30:17Z
+---
+
 [User guide](README.md)
 
 # Channel reference

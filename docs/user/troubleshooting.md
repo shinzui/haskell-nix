@@ -1,3 +1,14 @@
+---
+type: Guide
+title: Troubleshooting
+description: Diagnose package-set integration, refresh, and validation failures.
+docId: DOC-8
+tags: [troubleshooting, package-sets, validation]
+generated:
+  by: human:nadeem
+  at: 2026-09-22T21:30:17Z
+---
+
 [User guide](README.md)
 
 # Troubleshooting

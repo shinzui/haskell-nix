@@ -1,3 +1,14 @@
+---
+type: Reference
+title: Maintainer tools
+description: Find repository formatting, test, derivation-diff, and validation commands.
+docId: DOC-6
+tags: [maintainers, testing, nix]
+generated:
+  by: human:nadeem
+  at: 2026-09-21T14:33:46Z
+---
+
 # Maintainer tools
 
 The flake uses flake-parts for system-specific output wiring. Shared package-selection and

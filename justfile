@@ -88,8 +88,15 @@ validate:
     nix eval --json .#lib.registries.github --apply builtins.attrNames
 
 # Run the full flake check (schemas, versions, updater tests, overlay evaluation).
-flake-check:
+flake-check: check-docs
     nix flake check --print-build-logs
+
+# Validate and graph the reader-facing documentation bundle.
+check-docs:
+    dhall type --file mori/user-documentation-profile.dhall >/dev/null
+    dhall type --file mori.dhall >/dev/null
+    okf validate docs/user --strict --profile mori/user-documentation-profile.dhall --profile-enforce --log-enforce
+    okf graph docs/user --json >/dev/null
 
 # Format repository Nix code using the pinned treefmt wrapper.
 fmt:

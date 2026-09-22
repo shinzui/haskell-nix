@@ -28,6 +28,14 @@ in  Schema.Project::{
         , description = Some
             "Cross-repository improvement requests owned by haskell-nix"
         }
+      , Schema.OkfBundle::{
+        , name = "user-documentation"
+        , path = "docs/user"
+        , profile = Some "mori/user-documentation-profile.dhall"
+        , okfVersion = "0.2"
+        , description = Some
+            "Reader-facing guides and references for haskell-nix consumers and maintainers"
+        }
       ]
     , skills =
       [ Schema.Skill::{
