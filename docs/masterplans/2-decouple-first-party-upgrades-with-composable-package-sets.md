@@ -17,6 +17,11 @@ provenance:
       at: 2026-09-21T14:26:45Z
       mode: "update"
       note: "Adopt flake-parts, treefmt-nix, nix-unit, and nix-diff; native checks pass with unchanged existing derivations."
+    - model: "gpt-5.6-sol"
+      harness: "codex-cli"
+      at: 2026-09-22T14:50:28Z
+      mode: "implement"
+      note: "Begin EP-4 immutable snapshot contract implementation."
   reviews:
     - model: "gpt-6-astra"
       harness: "codex-cli"
@@ -113,7 +118,7 @@ solvable combination.
 
 | # | Title | Path | Hard Deps | Soft Deps | Status |
 |---|-------|------|-----------|-----------|--------|
-| 4 | Define immutable family snapshots and update cohorts | docs/plans/4-define-immutable-family-snapshots-and-update-cohorts.md | None | None | Not Started |
+| 4 | Define immutable family snapshots and update cohorts | docs/plans/4-define-immutable-family-snapshots-and-update-cohorts.md | None | None | In Progress |
 | 5 | Compose cache-stable package sets in Nix | docs/plans/5-compose-cache-stable-package-sets-in-nix.md | EP-4 | None | Not Started |
 | 6 | Make the updater manage snapshots and package-set selections | docs/plans/6-make-the-updater-manage-snapshots-and-package-set-selections.md | EP-4 | EP-5 | Not Started |
 | 7 | Migrate the default set and prove independent upgrades | docs/plans/7-migrate-the-default-set-and-prove-independent-upgrades.md | EP-5, EP-6 | None | Not Started |

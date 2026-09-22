@@ -10,6 +10,7 @@ import HaskellNix.Update.PackageLock (decodePackageLock, decodePackageLockForRef
 import HaskellNix.Update.Types (FamilyCatalog, PackageLock (..))
 import Options.Applicative (ParserResult (..), defaultPrefs, execParserPure)
 import Paths_haskell_nix_update (getDataFileName)
+import PackageSetTest qualified
 import PlannerTest qualified
 import Test.Tasty (TestTree, defaultMain, testGroup)
 import Test.Tasty.HUnit (assertBool, assertFailure, testCase, (@?=))
@@ -24,6 +25,7 @@ tests =
     "haskell-nix-update"
     [ catalogTests,
       packageLockTests,
+      PackageSetTest.tests,
       cliTests,
       AdapterTest.tests,
       PlannerTest.tests,

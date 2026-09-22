@@ -89,6 +89,42 @@ in
 
   first-party-registry = fixture.check;
 
+  package-set-contract =
+    let
+      fixtureRoot = ./fixtures/package-sets;
+      config = builtins.fromJSON (builtins.readFile (fixtureRoot + "/valid-config.json"));
+      lock = builtins.fromJSON (builtins.readFile (fixtureRoot + "/valid-lock.json"));
+      validated = (import ../lib/validateFirstPartyPackageSetLock.nix { inherit lib; }) {
+        inherit config lock;
+      };
+      project = name: map
+        (snapshot: { inherit (snapshot) family generation; })
+        (validated.select name);
+      results = {
+        default = project "default";
+        historical = project "historical";
+      };
+    in
+    assert results.default == [
+      { family = "baikai"; generation = 1; }
+      { family = "keiro"; generation = 1; }
+      { family = "okf"; generation = 2; }
+      { family = "shikumi"; generation = 1; }
+    ];
+    assert results.historical == [
+      { family = "baikai"; generation = 1; }
+      { family = "keiro"; generation = 1; }
+      { family = "okf"; generation = 1; }
+      { family = "shikumi"; generation = 1; }
+    ];
+    pkgsPlain.runCommand "package-set-contract"
+      {
+        passthru = { inherit results; };
+      } ''
+      echo '${builtins.toJSON results}'
+      touch "$out"
+    '';
+
   first-party-versions =
     assert allFirstPartyVersionsMatch;
     pkgsGithub.runCommand "first-party-versions" { } ''

@@ -39,7 +39,7 @@ planRefresh catalog previousLock observations = do
   _ <- firstUpdateError (validatePackageLock catalog nextPackageLock)
   pure RefreshPlan {familyChanges, nextPackageLock}
   where
-    FamilyCatalog _ configuredFamilies = catalog
+    FamilyCatalog _ configuredFamilies _ = catalog
     PackageLock _ previousFamilies = previousLock
     configuredByName = Map.fromList [(name, family) | family@FamilyConfig {name} <- configuredFamilies]
     previousByName = Map.fromList [(name, family) | family@LockedFamily {name} <- previousFamilies]

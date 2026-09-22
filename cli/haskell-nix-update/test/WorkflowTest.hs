@@ -230,7 +230,7 @@ withConfiguredFixture familyNames configure action =
     createDirectoryIfMissing True (root </> "config")
     createDirectoryIfMissing True (root </> "packages")
     let familyConfigs = map (configure . familyConfig) familyNames
-        catalog = FamilyCatalog {schemaVersion = 1, families = familyConfigs}
+        catalog = FamilyCatalog {schemaVersion = 1, families = familyConfigs, updateGroups = []}
         initialRevisions = Map.fromList [(familyName, GitRevision revisionA) | familyName <- familyNames]
         packageLock = PackageLock 1 (map lockedFamily familyNames)
         catalogBytes = LazyByteString.toStrict (encodeFamilyCatalog catalog)

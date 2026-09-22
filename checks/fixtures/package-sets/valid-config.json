@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 2,
+  "families": [
+    { "name": "baikai", "moriProject": "shinzui/baikai", "github": "shinzui/baikai", "githubInput": "baikai-src", "packageOverrides": {}, "excludedPackages": [] },
+    { "name": "keiro", "moriProject": "shinzui/keiro", "github": "shinzui/keiro", "githubInput": "keiro-src", "packageOverrides": {}, "excludedPackages": [] },
+    { "name": "okf", "moriProject": "shinzui/okf", "github": "shinzui/okf", "githubInput": "okf-src", "packageOverrides": {}, "excludedPackages": [] },
+    { "name": "shikumi", "moriProject": "shinzui/shikumi", "github": "shinzui/shikumi", "githubInput": "shikumi-src", "packageOverrides": {}, "excludedPackages": [] }
+  ],
+  "updateGroups": [
+    { "name": "baikai-shikumi", "families": ["baikai", "shikumi"] }
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 2,
+  "familySnapshots": [
+    {
+      "family": "baikai", "generation": 1,
+      "discoveryPolicy": { "packageOverrides": {}, "excludedPackages": [] },
+      "source": { "type": "github", "owner": "shinzui", "repo": "baikai", "rev": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "narHash": "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" },
+      "packages": [{ "name": "baikai", "path": ".", "version": "1.0", "cabal2nixOptions": "", "hackage": { "version": "1.0", "hash": "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" } }]
+    },
+    {
+      "family": "keiro", "generation": 1,
+      "discoveryPolicy": { "packageOverrides": {}, "excludedPackages": [] },
+      "source": { "type": "github", "owner": "shinzui", "repo": "keiro", "rev": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "narHash": "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" },
+      "packages": [{ "name": "keiro", "path": ".", "version": "1.0", "cabal2nixOptions": "", "hackage": { "version": "1.0", "hash": "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" } }]
+    },
+    {
+      "family": "okf", "generation": 1,
+      "discoveryPolicy": { "packageOverrides": { "okf": { "cabal2nixOptions": "-flegacy" } }, "excludedPackages": [] },
+      "source": { "type": "github", "owner": "shinzui", "repo": "okf", "rev": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "narHash": "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" },
+      "packages": [{ "name": "okf", "path": ".", "version": "1.0", "cabal2nixOptions": "-flegacy", "hackage": { "version": "1.0", "hash": "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" } }]
+    },
+    {
+      "family": "okf", "generation": 2,
+      "discoveryPolicy": { "packageOverrides": {}, "excludedPackages": [] },
+      "source": { "type": "github", "owner": "shinzui", "repo": "okf", "rev": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "narHash": "sha256-BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB=" },
+      "packages": [{ "name": "okf", "path": ".", "version": "2.0", "cabal2nixOptions": "", "hackage": { "version": "2.0", "hash": "sha256-BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB=" } }]
+    },
+    {
+      "family": "shikumi", "generation": 1,
+      "discoveryPolicy": { "packageOverrides": {}, "excludedPackages": [] },
+      "source": { "type": "github", "owner": "shinzui", "repo": "shikumi", "rev": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "narHash": "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" },
+      "packages": [{ "name": "shikumi", "path": ".", "version": "1.0", "cabal2nixOptions": "", "hackage": { "version": "1.0", "hash": "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" } }]
+    }
+  ],
+  "groupSnapshots": [
+    { "group": "baikai-shikumi", "generation": 1, "families": [{ "family": "baikai", "generation": 1 }, { "family": "shikumi", "generation": 1 }], "compatibilityProfile": "default" },
+    { "group": "keiro", "generation": 1, "families": [{ "family": "keiro", "generation": 1 }], "compatibilityProfile": "default" },
+    { "group": "okf", "generation": 1, "families": [{ "family": "okf", "generation": 1 }], "compatibilityProfile": "default" },
+    { "group": "okf", "generation": 2, "families": [{ "family": "okf", "generation": 2 }], "compatibilityProfile": "default" }
+  ],
+  "packageSets": [
+    { "name": "default", "supportLevel": "curated", "groups": [{ "group": "baikai-shikumi", "generation": 1 }, { "group": "keiro", "generation": 1 }, { "group": "okf", "generation": 2 }] },
+    { "name": "historical", "supportLevel": "historical", "groups": [{ "group": "baikai-shikumi", "generation": 1 }, { "group": "keiro", "generation": 1 }, { "group": "okf", "generation": 1 }] }
+  ],
+  "defaultPackageSet": "default"
+}

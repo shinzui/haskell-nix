@@ -18,6 +18,11 @@ provenance:
       at: 2026-09-21T14:26:45Z
       mode: "update"
       note: "Adopt flake-parts, treefmt-nix, nix-unit, and nix-diff; native checks pass with unchanged existing derivations."
+    - model: "gpt-5.6-sol"
+      harness: "codex-cli"
+      at: 2026-09-22T14:50:28Z
+      mode: "implement"
+      note: "Implement immutable snapshot contracts, validation, projection, and migration."
   reviews:
     - model: "gpt-6-astra"
       harness: "codex-cli"
@@ -55,12 +60,12 @@ Use a checklist to summarize granular steps. Every stopping point must be docume
 even if it requires splitting a partially completed task into two ("done" vs. "remaining").
 This section must always reflect the actual current state of the work.
 
-- [ ] Add update-group and snapshot-domain types with plain-language invariants.
-- [ ] Implement strict version-2 JSON codecs, canonical ordering, and reference validation.
-- [ ] Add matching eager Nix validation and valid/invalid fixtures.
-- [ ] Implement and test the pure version-1-to-version-2 migration and selected-set projection.
+- [x] (2026-09-22 08:03 PDT) Add update-group and snapshot-domain types with plain-language invariants.
+- [x] (2026-09-22 08:03 PDT) Implement strict version-2 JSON codecs, canonical ordering, and reference validation.
+- [x] (2026-09-22 08:03 PDT) Add matching eager Nix validation and valid/invalid fixtures; 29 nix-unit cases pass.
+- [x] (2026-09-22 08:03 PDT) Implement and test the pure version-1-to-version-2 migration and selected-set projection; all 50 Haskell tests pass.
 - [ ] Keep the version-1 production reader, updater workflows, and flake outputs passing.
-- [ ] Prove retained snapshots survive current package-policy changes and reject unsupported catalog topology changes explicitly.
+- [x] (2026-09-22 08:03 PDT) Prove retained snapshots survive current package-policy changes and reject unsupported catalog topology changes explicitly in Haskell and Nix.
 
 
 ## Surprises & Discoveries
@@ -71,6 +76,10 @@ implementation. Provide concise evidence.
 The version-1 registry checks locked package options and exclusions against current policy.
 Reusing that check unchanged for historical generations would invalidate old snapshots when
 policy changes. Version 2 must capture and validate the policy of each observation.
+
+- Nix flake source snapshots omit untracked files. The first nix-unit run could not import
+  the new validator until its path was staged; after staging the new source and fixture paths,
+  all 29 cases passed. This affects local validation only and does not change the contract.
 
 
 ## Decision Log
@@ -108,6 +117,13 @@ Record every decision made while working on the plan.
   Rationale: Historical generations necessarily repeat package names. A single selected
   Haskell scope must still contain only one provider for each package name.
   Date: 2026-09-13
+
+- Decision: Keep the production version-1 data constructor named `PackageLock` and expose
+  `LegacyPackageLock` as its transition alias while the new graph uses `PackageSetLock`.
+  Rationale: Existing CLI, planner, and workflow call sites remain source-compatible, while
+  migration APIs state explicitly that their flat input is legacy data. Renaming the active
+  constructor would create broad mechanical churn without strengthening the version-2 boundary.
+  Date: 2026-09-22
 
 
 ## Outcomes & Retrospective

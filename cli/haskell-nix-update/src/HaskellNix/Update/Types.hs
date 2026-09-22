@@ -1,15 +1,28 @@
 module HaskellNix.Update.Types
   ( FamilyName (..),
+    UpdateGroupName (..),
+    SnapshotGeneration (..),
     PackageName (..),
     GitRevision (..),
     SriHash (..),
     PackageOverride (..),
     FamilyConfig (..),
+    UpdateGroup (..),
     FamilyCatalog (..),
+    DiscoveryPolicy (..),
     HackagePin (..),
     LockedPackage (..),
     LockedFamily (..),
     PackageLock (..),
+    LegacyPackageLock,
+    LockedSource (..),
+    FamilySnapshot (..),
+    FamilySnapshotSelection (..),
+    GroupSnapshot (..),
+    GroupSelection (..),
+    PackageSetSupportLevel (..),
+    PackageSet (..),
+    PackageSetLock (..),
     DiscoveredPackage (..),
     HackageRelease (..),
     ObservedPackage (..),
@@ -26,6 +39,12 @@ import Data.Text (Text)
 import Distribution.Types.Version (Version)
 
 newtype FamilyName = FamilyName Text
+  deriving stock (Eq, Ord, Show)
+
+newtype UpdateGroupName = UpdateGroupName Text
+  deriving stock (Eq, Ord, Show)
+
+newtype SnapshotGeneration = SnapshotGeneration Int
   deriving stock (Eq, Ord, Show)
 
 newtype PackageName = PackageName Text
@@ -55,9 +74,22 @@ data FamilyConfig = FamilyConfig
   }
   deriving stock (Eq, Show)
 
+data UpdateGroup = UpdateGroup
+  { name :: !UpdateGroupName,
+    families :: ![FamilyName]
+  }
+  deriving stock (Eq, Show)
+
 data FamilyCatalog = FamilyCatalog
   { schemaVersion :: !Int,
-    families :: ![FamilyConfig]
+    families :: ![FamilyConfig],
+    updateGroups :: ![UpdateGroup]
+  }
+  deriving stock (Eq, Show)
+
+data DiscoveryPolicy = DiscoveryPolicy
+  { packageOverrides :: !(Map PackageName PackageOverride),
+    excludedPackages :: !(Set PackageName)
   }
   deriving stock (Eq, Show)
 
@@ -87,6 +119,67 @@ data LockedFamily = LockedFamily
 data PackageLock = PackageLock
   { schemaVersion :: !Int,
     families :: ![LockedFamily]
+  }
+  deriving stock (Eq, Show)
+
+-- The production updater continues to use the version-1 flat lock while the
+-- version-2 snapshot graph is introduced alongside it.
+type LegacyPackageLock = PackageLock
+
+data LockedSource = LockedSource
+  { sourceType :: !Text,
+    owner :: !Text,
+    repo :: !Text,
+    rev :: !GitRevision,
+    narHash :: !SriHash
+  }
+  deriving stock (Eq, Show)
+
+data FamilySnapshot = FamilySnapshot
+  { family :: !FamilyName,
+    generation :: !SnapshotGeneration,
+    discoveryPolicy :: !DiscoveryPolicy,
+    source :: !LockedSource,
+    packages :: ![LockedPackage]
+  }
+  deriving stock (Eq, Show)
+
+data FamilySnapshotSelection = FamilySnapshotSelection
+  { family :: !FamilyName,
+    generation :: !SnapshotGeneration
+  }
+  deriving stock (Eq, Ord, Show)
+
+data GroupSnapshot = GroupSnapshot
+  { group :: !UpdateGroupName,
+    generation :: !SnapshotGeneration,
+    families :: ![FamilySnapshotSelection],
+    compatibilityProfile :: !Text
+  }
+  deriving stock (Eq, Show)
+
+data GroupSelection = GroupSelection
+  { group :: !UpdateGroupName,
+    generation :: !SnapshotGeneration
+  }
+  deriving stock (Eq, Ord, Show)
+
+data PackageSetSupportLevel = Curated | Historical
+  deriving stock (Eq, Ord, Show)
+
+data PackageSet = PackageSet
+  { name :: !Text,
+    supportLevel :: !PackageSetSupportLevel,
+    groups :: ![GroupSelection]
+  }
+  deriving stock (Eq, Show)
+
+data PackageSetLock = PackageSetLock
+  { schemaVersion :: !Int,
+    familySnapshots :: ![FamilySnapshot],
+    groupSnapshots :: ![GroupSnapshot],
+    packageSets :: ![PackageSet],
+    defaultPackageSet :: !Text
   }
   deriving stock (Eq, Show)
 

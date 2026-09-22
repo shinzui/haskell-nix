@@ -2,6 +2,7 @@ module HaskellNix.Update.Catalog
   ( decodeFamilyCatalog,
     encodeFamilyCatalog,
     validateFamilyCatalog,
+    resolveUpdateGroups,
   )
 where
 
@@ -14,7 +15,7 @@ import Data.Aeson.Types (Parser, parseEither)
 import Data.ByteString (ByteString)
 import Data.ByteString.Lazy qualified as LazyByteString
 import Data.Foldable (traverse_)
-import Data.List (sort)
+import Data.List (sort, sortOn)
 import Data.Map.Strict (Map)
 import Data.Map.Strict qualified as Map
 import Data.Set qualified as Set
@@ -32,15 +33,51 @@ encodeFamilyCatalog :: FamilyCatalog -> LazyByteString.ByteString
 encodeFamilyCatalog = (<> "\n") . encodePretty' prettyConfig . familyCatalogValue
 
 validateFamilyCatalog :: FamilyCatalog -> Either Text FamilyCatalog
-validateFamilyCatalog catalog@(FamilyCatalog schemaVersion families)
-  | schemaVersion /= 1 = Left "family config schemaVersion must be 1"
+validateFamilyCatalog catalog@(FamilyCatalog schemaVersion families updateGroups)
+  | schemaVersion /= 1 && schemaVersion /= 2 = Left "family config schemaVersion must be 1 or 2"
+  | schemaVersion == 1 && not (null updateGroups) = Left "family config schemaVersion 1 cannot define updateGroups"
   | familyNames /= sort familyNames = Left "family config families must be sorted by name"
   | Set.size (Set.fromList familyNames) /= length familyNames = Left "family names must be unique"
   | Set.size (Set.fromList inputNames) /= length inputNames = Left "GitHub input names must be unique"
-  | otherwise = traverse_ validateFamily families >> Right catalog
+  | otherwise = do
+      traverse_ validateFamily families
+      validateExplicitGroups familyNames updateGroups
+      Right catalog
   where
     familyNames = [name | FamilyConfig {name} <- families]
     inputNames = [githubInput | FamilyConfig {githubInput} <- families]
+
+resolveUpdateGroups :: FamilyCatalog -> Either Text [UpdateGroup]
+resolveUpdateGroups catalog@FamilyCatalog {families, updateGroups} = do
+  _ <- validateFamilyCatalog catalog
+  let groupedFamilies = Set.fromList [family | UpdateGroup {families = members} <- updateGroups, family <- members]
+      singletonGroups =
+        [ UpdateGroup {name = UpdateGroupName familyName, families = [family]}
+        | FamilyConfig {name = family@(FamilyName familyName)} <- families,
+          family `Set.notMember` groupedFamilies
+        ]
+  pure (sortOn groupNameText (updateGroups <> singletonGroups))
+  where
+    groupNameText UpdateGroup {name = UpdateGroupName groupName} = groupName
+
+validateExplicitGroups :: [FamilyName] -> [UpdateGroup] -> Either Text ()
+validateExplicitGroups familyNames updateGroups
+  | groupNames /= sort groupNames = Left "family config updateGroups must be sorted by name"
+  | Set.size (Set.fromList groupNames) /= length groupNames = Left "update group names must be unique"
+  | any (`Set.member` familyNameSet) groupNamesAsFamilies = Left "update group names must not shadow family names"
+  | Set.size (Set.fromList allMembers) /= length allMembers = Left "a family may belong to only one explicit update group"
+  | not (Set.fromList allMembers `Set.isSubsetOf` familyNameSet) = Left "update group contains an unknown family"
+  | otherwise = traverse_ validateGroup updateGroups
+  where
+    familyNameSet = Set.fromList familyNames
+    groupNames = [name | UpdateGroup {name} <- updateGroups]
+    groupNamesAsFamilies = [FamilyName name | UpdateGroupName name <- groupNames]
+    allMembers = [family | UpdateGroup {families = members} <- updateGroups, family <- members]
+    validateGroup UpdateGroup {name = UpdateGroupName groupName, families = members}
+      | Text.null groupName = Left "update group name must not be empty"
+      | length members < 2 = Left ("explicit update group " <> groupName <> " must contain at least two families")
+      | members /= sort members = Left ("update group " <> groupName <> " families must be sorted")
+      | otherwise = Right ()
 
 validateFamily :: FamilyConfig -> Either Text ()
 validateFamily FamilyConfig {name = FamilyName name, moriProject, github, githubInput, packageOverrides, excludedPackages}
@@ -66,11 +103,25 @@ validateFamily FamilyConfig {name = FamilyName name, moriProject, github, github
 
 parseFamilyCatalog :: Value -> Parser FamilyCatalog
 parseFamilyCatalog = withObject "FamilyCatalog" $ \fields -> do
-  rejectUnknown "family config" ["schemaVersion", "families"] fields
   schemaVersion <- fields .: "schemaVersion"
+  case (schemaVersion :: Int) of
+    1 -> rejectUnknown "family config" ["schemaVersion", "families"] fields
+    2 -> rejectUnknown "family config" ["schemaVersion", "families", "updateGroups"] fields
+    _ -> fail "family config schemaVersion must be 1 or 2"
   familyValues <- fields .: "families"
   families <- traverse parseFamilyConfig familyValues
-  pure FamilyCatalog {schemaVersion, families}
+  updateGroups <-
+    if schemaVersion == 1
+      then pure []
+      else fields .: "updateGroups" >>= traverse parseUpdateGroup
+  pure FamilyCatalog {schemaVersion, families, updateGroups}
+
+parseUpdateGroup :: Value -> Parser UpdateGroup
+parseUpdateGroup = withObject "UpdateGroup" $ \fields -> do
+  rejectUnknown "update group" ["name", "families"] fields
+  name <- UpdateGroupName <$> fields .: "name"
+  families <- map FamilyName <$> fields .: "families"
+  pure UpdateGroup {name, families}
 
 parseFamilyConfig :: Value -> Parser FamilyConfig
 parseFamilyConfig = withObject "FamilyConfig" $ \fields -> do
@@ -103,10 +154,19 @@ parsePackageOverride = withObject "PackageOverride" $ \fields -> do
   pure PackageOverride {cabal2nixOptions}
 
 familyCatalogValue :: FamilyCatalog -> Value
-familyCatalogValue FamilyCatalog {schemaVersion, families} =
+familyCatalogValue FamilyCatalog {schemaVersion, families, updateGroups} =
   object
-    [ "schemaVersion" .= schemaVersion,
-      "families" .= map familyConfigValue families
+    ( [ "schemaVersion" .= schemaVersion,
+        "families" .= map familyConfigValue families
+      ]
+        <> ["updateGroups" .= map updateGroupValue updateGroups | schemaVersion == 2]
+    )
+
+updateGroupValue :: UpdateGroup -> Value
+updateGroupValue UpdateGroup {name = UpdateGroupName name, families} =
+  object
+    [ "name" .= name,
+      "families" .= [familyName | FamilyName familyName <- families]
     ]
 
 familyConfigValue :: FamilyConfig -> Value

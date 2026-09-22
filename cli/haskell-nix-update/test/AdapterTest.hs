@@ -62,7 +62,7 @@ exampleFamily =
       github = "owner/example",
       githubInput = "example-src",
       packageOverrides = Map.empty,
-          excludedPackages = Set.empty
+      excludedPackages = Set.empty
     }
 
 moriRunner :: Text -> ProcessRunner

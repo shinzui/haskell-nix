@@ -89,6 +89,7 @@ test-suite haskell-nix-update-test
   autogen-modules: Paths_haskell_nix_update
   other-modules:
     AdapterTest
+    PackageSetTest
     Paths_haskell_nix_update
     PlannerTest
     WorkflowTest

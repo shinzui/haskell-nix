@@ -47,7 +47,7 @@ testChangeCategories = do
           packageOverrides = Map.empty,
           excludedPackages = Set.empty
         }
-    catalog = FamilyCatalog {schemaVersion = 1, families = [familyConfig]}
+    catalog = FamilyCatalog {schemaVersion = 1, families = [familyConfig], updateGroups = []}
     previousLock =
       PackageLock
         { schemaVersion = 1,
@@ -93,7 +93,7 @@ testLegitimateVersionDifference = do
     hash = SriHash "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
     config =
       FamilyConfig family "example/example" "example/example" "example-src" Map.empty Set.empty
-    catalog = FamilyCatalog 1 [config]
+    catalog = FamilyCatalog 1 [config] []
     previousLock = PackageLock 1 [LockedFamily family "example-src" revision [locked "example-package" "2.0" (Just (pin "2.0" hash))]]
     observation = ObservedFamily config revision [observedPackage packageName "3.0" (Just (pin "2.5" hash)) False]
 
