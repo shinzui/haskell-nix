@@ -229,9 +229,9 @@ claiming arbitrary compatibility.
 - [x] (2026-09-22) EP-4: Define update groups, immutable snapshot generations, package sets, and strict version-2 codecs.
 - [x] (2026-09-22) EP-4: Prove cross-reference, sorting, coverage, and selected-package uniqueness validation in Haskell and Nix fixtures.
 - [x] (2026-09-22) EP-4: Add a deterministic version-1-to-version-2 projection/migration model while leaving production on version 1.
-- [ ] EP-5: Build the package-set selector and per-channel registry projection from locked snapshot sources.
-- [ ] EP-5: Expose a consumer-owned package-set constructor while preserving the current default interfaces.
-- [ ] EP-5: Prove two sets with unchanged runtime selections evaluate to identical runtime derivation paths.
+- [x] (2026-09-22) EP-5: Build the package-set selector and per-channel registry projection from locked snapshot sources.
+- [x] (2026-09-22) EP-5: Expose a consumer-owned package-set constructor while preserving the current default interfaces.
+- [x] (2026-09-22) EP-5: Prove two sets with unchanged runtime selections evaluate to identical runtime derivation paths on aarch64-darwin; Linux realization remains pending builder availability.
 - [ ] EP-6: Extend refresh planning to append immutable family and group generations and move one named set.
 - [ ] EP-6: Enforce atomic multi-family updates, dry-run behavior, dirty-file refusal, and byte-for-byte rollback.
 - [ ] EP-6: Add repeatable migration and historical-set import commands with offline workflow tests.
@@ -287,6 +287,12 @@ claiming arbitrary compatibility.
   migration signatures. EP-5's Nix boundary is now concretely
   `import lib/validateFirstPartyPackageSetLock.nix { lib, config, lock; }`, returning eager
   `resolvedGroups` plus a `select` projection function.
+
+- EP-5's native aarch64-darwin check proves cache identity, dependency propagation, and
+  consumer override composition for GitHub and Hackage. Cross-system IFD needs a machine of
+  the target system: the configured x86_64-linux builder closed its SSH connection on
+  2026-09-22, and no aarch64-linux builder is configured, so EP-5 remains In Progress until
+  those realization gates run.
 
 
 ## Decision Log

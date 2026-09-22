@@ -64,8 +64,9 @@ This section must always reflect the actual current state of the work.
 - [x] (2026-09-22) Compose selected first-party registries with common and compatibility-profile entries.
 - [x] (2026-09-22) Expose a generic consumer-owned package-set constructor without moving the public default.
 - [x] (2026-09-22) Prove set and channel isolation with 40 passing pure Nix tests covering named and explicit selections, both channels, source laziness, and invalid inputs.
-- [ ] Prove equal derivation paths for unchanged family snapshots across two package sets.
-- [ ] Prove changed dependencies rebuild dependents, source fetching stays lazy, and downstream overrides survive composition.
+- [x] (2026-09-22) Prove equal derivation paths for unchanged family snapshots across two package sets on aarch64-darwin for both GitHub and Hackage.
+- [x] (2026-09-22) Prove changed dependencies rebuild dependents, source fetching stays lazy, and pre-existing plus downstream overrides survive composition.
+- [ ] Realise the cache-identity check on Linux: the configured x86_64-linux builder closed its SSH connection, and no aarch64-linux builder is configured.
 
 
 ## Surprises & Discoveries
@@ -85,6 +86,20 @@ EP-4's Nix validator exposes projection by retained set name but not by a consum
 selection map. EP-5 forces the complete EP-4 validation result, verifies an explicit map has
 exactly the resolved group keys and positive generations, and then projects the already
 validated graph. This keeps one schema validator while supporting the public constructor.
+
+Nixpkgs `callHackageDirect` fetches and unpacks a Hackage archive through `fetchzip`, so its
+`sha256` is the unpacked tree NAR hash, not the raw tarball hash. The live Hackage tarballs
+for `tasty-bench` 0.5 and 0.5.1 and `tasty` 1.5.4 produced
+`sha256-zNjsLXBxeMgd/SPxqQVfs5tRNQqSCTQ9SXMp2/AQCwU=`,
+`sha256-suk8m9AXQx1PAvJyqxHSeyg+U9g7p7wXz+PpPBAoFAM=`, and
+`sha256-C6VyZuM+rcqllVlhk52snAKpw3sqrrzncz8Da1yE03Q=` with
+`nix store prefetch-file --unpack`. Using raw-file hashes failed with an observed fixed-output
+hash mismatch.
+
+The native aarch64-darwin flake check passes, including the cache proof and a real locked OKF
+`builtins.fetchTree`. `nix flake check --all-systems --no-build` cannot finish Linux IFD on
+the Darwin host, and the configured `ssh://builder@nix-gcp-builder` x86_64-linux builder
+closed the SSH connection. No aarch64-linux builder appears in `/etc/nix/machines`.
 
 
 ## Decision Log
@@ -131,13 +146,29 @@ Record every decision made while working on the plan.
   existing public outputs.
   Date: 2026-09-22
 
+- Decision: Use real Hackage releases `tasty-bench` 0.5 and 0.5.1 as the changing family,
+  `tasty` 1.5.4 as the unchanged runtime family, and a local GitHub-only dependent fixture.
+  Rationale: Mori-located manifests establish the real dependency direction: `tasty-bench`
+  depends on `tasty`, so advancing `tasty-bench` leaves `tasty`'s closure unchanged. Hackage
+  and upstream tags confirm 0.5; Hackage publishes 0.5.1 without a matching upstream tag.
+  Date: 2026-09-22
+
 
 ## Outcomes & Retrospective
 
 Summarize outcomes, gaps, and lessons learned at major milestones or at completion.
 Compare the result against the original purpose.
 
-(To be filled during and after implementation.)
+The Nix composition implementation is complete and native acceptance passes. Consumers can
+select named or complete explicit mappings, choose either source channel, and receive one
+registry, Haskell extension, and overlay without moving the production default. The focused
+check proves unchanged GitHub and Hackage runtime derivations are identical across sets,
+changed packages and dependents behave correctly, labels and unselected metadata are absent
+from derivation identity, and override composition preserves the fixed point.
+
+The remaining acceptance gap is infrastructure rather than code: Linux IFD and realization
+need an operational Linux builder. Re-run the focused check on x86_64-linux and
+aarch64-linux before changing this plan and its MasterPlan registry to Complete.
 
 
 ## Context and Orientation

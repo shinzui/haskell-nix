@@ -91,3 +91,11 @@ Relevant primary references are the
 and [Nix flake check contract](https://nix.dev/manual/nix/2.34/command-ref/new-cli/nix3-flake-check.html).
 These explain the composition and output rules; the implementation must use the repository's
 pinned Nixpkgs and verify behavior on its supported Nix runtime.
+
+Implementation evidence from 2026-09-22 adds two durable details. Nixpkgs
+`callHackageDirect` passes its hash to `fetchzip`, so retained Hackage hashes are unpacked
+tree NAR hashes rather than raw archive hashes. Also, cache-identity checks force Cabal2nix
+through import-from-derivation; evaluating or realizing them for another system requires a
+working builder for that target. Native aarch64-darwin checks pass. The configured
+x86_64-linux builder was unreachable and no aarch64-linux builder was configured, so those
+platform gates remain rollout requirements rather than inferred successes.
