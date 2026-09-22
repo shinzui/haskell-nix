@@ -10,7 +10,7 @@ import Distribution.Types.Version (Version)
 import HaskellNix.Update.Git (discoverPackages)
 import HaskellNix.Update.Hackage
 import HaskellNix.Update.Mori (MoriProject (..), decodeMoriProject, locateMoriProject)
-import HaskellNix.Update.Nix (decodeLockedRevision)
+import HaskellNix.Update.Nix (decodeLockedRevision, decodeLockedSource)
 import HaskellNix.Update.Process
 import HaskellNix.Update.Types
 import System.Exit (ExitCode (..))
@@ -29,6 +29,7 @@ tests =
       testCase "Hackage falls back when no release is normal" testHackageFallback,
       testCase "Hackage 404 means unpublished" testHackage404,
       testCase "flake.lock resolves a named root input revision" testFlakeLock,
+      testCase "flake.lock decodes a complete immutable source descriptor" testFlakeLockedSource,
       testCase "Git discovery keeps root and one-directory-deep Cabal files" testGitDiscovery
     ]
 
@@ -112,9 +113,30 @@ testFlakeLock =
   decodeLockedRevision
     "example-src"
     ( ByteString.pack
-        "{\"root\":\"root\",\"nodes\":{\"root\":{\"inputs\":{\"example-src\":\"example-src\"}},\"example-src\":{\"locked\":{\"rev\":\"0123456789abcdef0123456789abcdef01234567\"}}}}"
+        (Text.unpack completeFlakeLock)
     )
     @?= Right (GitRevision "0123456789abcdef0123456789abcdef01234567")
+
+testFlakeLockedSource :: IO ()
+testFlakeLockedSource = do
+  decodeLockedSource "example-src" (ByteString.pack (Text.unpack completeFlakeLock))
+    @?= Right
+      LockedSource
+        { sourceType = "github",
+          owner = "owner",
+          repo = "example",
+          rev = GitRevision "0123456789abcdef0123456789abcdef01234567",
+          narHash = SriHash "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
+        }
+  assertLeft
+    ( decodeLockedSource
+        "example-src"
+        (ByteString.pack (Text.unpack (Text.replace "\"github\"" "\"gitlab\"" completeFlakeLock)))
+    )
+
+completeFlakeLock :: Text
+completeFlakeLock =
+  "{\"root\":\"root\",\"nodes\":{\"root\":{\"inputs\":{\"example-src\":\"example-src\"}},\"example-src\":{\"locked\":{\"type\":\"github\",\"owner\":\"owner\",\"repo\":\"example\",\"rev\":\"0123456789abcdef0123456789abcdef01234567\",\"narHash\":\"sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\"}}}}"
 
 testGitDiscovery :: IO ()
 testGitDiscovery = do
@@ -162,3 +184,9 @@ testVersion value = maybe (error ("invalid test version: " <> value)) id (simple
 
 assertRight :: Show error => Either error value -> IO value
 assertRight = either (assertFailure . show) pure
+
+assertLeft :: Show value => Either error value -> IO ()
+assertLeft result =
+  case result of
+    Left _ -> pure ()
+    Right value -> assertFailure ("expected failure, got " <> show value)

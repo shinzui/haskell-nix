@@ -1,5 +1,7 @@
 module HaskellNix.Update.Nix
-  ( decodeLockedRevision,
+  ( decodeLockedSource,
+    readLockedSource,
+    decodeLockedRevision,
     readLockedRevision,
     updateInput,
     prefetchHackage,
@@ -14,7 +16,7 @@ import Data.Aeson.Key qualified as Key
 import Data.Aeson.KeyMap qualified as KeyMap
 import Data.Aeson.Types (Parser, parseEither)
 import Data.ByteString qualified as ByteString
-import Data.Char (isHexDigit)
+import Data.Char (isAlphaNum, isHexDigit)
 import Data.Text (Text)
 import Data.Text qualified as Text
 import Data.Text.Encoding qualified as TextEncoding
@@ -23,13 +25,21 @@ import HaskellNix.Update.Hackage (packageArchiveUrl)
 import HaskellNix.Update.Process
 import HaskellNix.Update.Types
 
-decodeLockedRevision :: Text -> ByteString.ByteString -> Either UpdateError GitRevision
-decodeLockedRevision inputName bytes = do
+decodeLockedSource :: Text -> ByteString.ByteString -> Either UpdateError LockedSource
+decodeLockedSource inputName bytes = do
   value <- firstError "invalid flake.lock JSON" (eitherDecodeStrict' bytes)
-  revision <- firstError "invalid flake.lock input" (parseEither (parseInputRevision inputName) value)
-  if validRevision revision
-    then Right (GitRevision revision)
-    else Left (UpdateError ("flake input " <> inputName <> " does not contain a 40-character Git revision"))
+  lockedSource <- firstError "invalid flake.lock input" (parseEither (parseInputSource inputName) value)
+  validateLockedSource inputName lockedSource
+
+readLockedSource :: FilePath -> Text -> IO (Either UpdateError LockedSource)
+readLockedSource flakeLockPath inputName = do
+  attempted <- try (ByteString.readFile flakeLockPath) :: IO (Either IOException ByteString.ByteString)
+  pure $ case attempted of
+    Left exception -> Left (UpdateError ("could not read " <> Text.pack flakeLockPath <> ": " <> Text.pack (show exception)))
+    Right bytes -> decodeLockedSource inputName bytes
+
+decodeLockedRevision :: Text -> ByteString.ByteString -> Either UpdateError GitRevision
+decodeLockedRevision inputName bytes = rev <$> decodeLockedSource inputName bytes
 
 readLockedRevision :: FilePath -> Text -> IO (Either UpdateError GitRevision)
 readLockedRevision flakeLockPath inputName = do
@@ -171,8 +181,8 @@ managedFilesDirty runner repositoryRoot managedPaths = do
     ProcessResult {standardOutput} <- result
     Right (not (Text.null (Text.strip standardOutput)))
 
-parseInputRevision :: Text -> Value -> Parser Text
-parseInputRevision inputName = withObject "flake lock" $ \fields -> do
+parseInputSource :: Text -> Value -> Parser LockedSource
+parseInputSource inputName = withObject "flake lock" $ \fields -> do
   rootName <- fields .: "root"
   nodesValue <- fields .: "nodes"
   withObject "flake nodes" (parseRootNode rootName) nodesValue
@@ -192,7 +202,21 @@ parseInputRevision inputName = withObject "flake lock" $ \fields -> do
       withObject "flake input node" parseLocked nodeValue
     parseLocked nodeFields = do
       lockedValue <- nodeFields .: "locked"
-      withObject "flake locked input" (.: "rev") lockedValue
+      withObject "flake locked input" parseDescriptor lockedValue
+    parseDescriptor lockedFields = do
+      sourceType <- lockedFields .: "type"
+      owner <- lockedFields .: "owner"
+      repo <- lockedFields .: "repo"
+      revision <- lockedFields .: "rev"
+      narHash <- lockedFields .: "narHash"
+      pure
+        LockedSource
+          { sourceType,
+            owner,
+            repo,
+            rev = GitRevision revision,
+            narHash = SriHash narHash
+          }
 
 lookupValue :: String -> Text -> Object -> Parser Value
 lookupValue context key fields =
@@ -206,6 +230,22 @@ parsePrefetch = withObject "prefetch result" (.: "hash")
 
 validRevision :: Text -> Bool
 validRevision value = Text.length value == 40 && Text.all isHexDigit value
+
+validSriHash :: Text -> Bool
+validSriHash value =
+  Text.length value == 51
+    && "sha256-" `Text.isPrefixOf` value
+    && Text.all validBase64Character (Text.drop 7 value)
+  where
+    validBase64Character character = isAlphaNum character || character `elem` ['+', '/', '=']
+
+validateLockedSource :: Text -> LockedSource -> Either UpdateError LockedSource
+validateLockedSource inputName lockedSource@LockedSource {sourceType, owner, repo, rev = GitRevision revision, narHash = SriHash hash}
+  | sourceType /= "github" = Left (UpdateError ("flake input " <> inputName <> " is not a GitHub source"))
+  | Text.null owner || Text.null repo = Left (UpdateError ("flake input " <> inputName <> " has an empty owner or repository"))
+  | not (validRevision revision) = Left (UpdateError ("flake input " <> inputName <> " does not contain a 40-character Git revision"))
+  | not (validSriHash hash) = Left (UpdateError ("flake input " <> inputName <> " does not contain a valid sha256 NAR hash"))
+  | otherwise = Right lockedSource
 
 firstError :: Text -> Either String value -> Either UpdateError value
 firstError context = either (Left . UpdateError . ((context <> ": ") <>) . Text.pack) Right

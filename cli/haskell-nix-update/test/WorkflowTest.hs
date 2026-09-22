@@ -427,8 +427,12 @@ flakeLockBytes revisions =
         <> "}},"
         <> commaSeparated
           [ quoted (Text.unpack familyName <> "-src")
-              <> ":{\"locked\":{\"rev\":"
+              <> ":{\"locked\":{\"type\":\"github\",\"owner\":\"owner\",\"repo\":"
+              <> quoted (Text.unpack familyName)
+              <> ",\"rev\":"
               <> quoted (Text.unpack (revisionText revision))
+              <> ",\"narHash\":"
+              <> quoted (Text.unpack (hashText hashA))
               <> "}}"
             | (familyName, revision) <- Map.toAscList revisions
           ]

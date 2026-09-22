@@ -18,6 +18,11 @@ provenance:
       at: 2026-09-21T14:26:46Z
       mode: "update"
       note: "Adopt flake-parts, treefmt-nix, nix-unit, and nix-diff; native checks pass with unchanged existing derivations."
+    - model: "gpt-5.6-sol"
+      harness: "codex-cli"
+      at: 2026-09-22T16:15:55Z
+      mode: "implement"
+      note: "Implement strict locked-source decoding and append-only package-set refresh planning."
   reviews:
     - model: "gpt-6-astra"
       harness: "codex-cli"
@@ -54,8 +59,8 @@ even if it requires splitting a partially completed task into two ("done" vs. "r
 This section must always reflect the actual current state of the work.
 
 - [ ] Add target-set and update-group-aware CLI parsing while retaining the current default behavior.
-- [ ] Decode complete locked source descriptors and include them in family observations.
-- [ ] Plan append-only family/group snapshots and move only the requested package set.
+- [x] Decode complete locked source descriptors and include them in family observations.
+- [x] Plan append-only family/group snapshots and move only the requested package set.
 - [ ] Make grouped refresh, validation, writes, and rollback atomic across both managed files.
 - [ ] Add deterministic migration, historical import, clone, and group-selection commands.
 - [ ] Cover no-op, Hackage-only, grouped failure, dry-run, rollback, and import workflows offline.
@@ -75,6 +80,10 @@ implementation. Provide concise evidence.
 - `HaskellNix.Update.Nix` currently extracts only `locked.rev` from a flake input. Historical
   GitHub evaluation also needs `type`, `owner`, `repo`, and `narHash`, all of which are already
   present in the direct `flake.lock` nodes.
+
+- The existing workflow tests used deliberately minimal `flake.lock` nodes containing only
+  `rev`. Making the revision compatibility wrapper delegate to strict descriptor decoding
+  required the fixtures to model the real `type`, `owner`, `repo`, and `narHash` contract.
 
 - The current `checkFamily` requires equality with moving tracking inputs and applies current
   exclusions. Version-2 historical checks must instead use selected source and policy. The
@@ -126,6 +135,12 @@ Record every decision made while working on the plan.
   Rationale: That pairing contains the provenance needed to verify every legacy Git revision
   and avoids accepting an untraceable source descriptor supplied on the command line.
   Date: 2026-09-13
+
+- Decision: Keep the schema-1 planner and revision-reading wrappers while adding the
+  version-2 planner and locked-source decoder beside them.
+  Rationale: Production remains on schema 1 until EP-7, so EP-6 can be developed and tested
+  without making intermediate commits unable to refresh the current lock.
+  Date: 2026-09-22
 
 
 ## Outcomes & Retrospective

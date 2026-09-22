@@ -27,8 +27,10 @@ module HaskellNix.Update.Types
     HackageRelease (..),
     ObservedPackage (..),
     ObservedFamily (..),
+    SnapshotObservation (..),
     FamilyChange (..),
     RefreshPlan (..),
+    PackageSetRefreshPlan (..),
     UpdateError (..),
   )
 where
@@ -210,6 +212,13 @@ data ObservedFamily = ObservedFamily
   }
   deriving stock (Eq, Show)
 
+data SnapshotObservation = SnapshotObservation
+  { config :: !FamilyConfig,
+    sourceDescriptor :: !LockedSource,
+    packages :: ![ObservedPackage]
+  }
+  deriving stock (Eq, Show)
+
 data FamilyChange
   = GitHubRevisionChanged !FamilyName !GitRevision !GitRevision
   | PackageAdded !FamilyName !PackageName
@@ -225,6 +234,13 @@ data FamilyChange
 data RefreshPlan = RefreshPlan
   { familyChanges :: ![FamilyChange],
     nextPackageLock :: !PackageLock
+  }
+  deriving stock (Eq, Show)
+
+data PackageSetRefreshPlan = PackageSetRefreshPlan
+  { nextPackageSetLock :: !PackageSetLock,
+    selectedFamilySnapshots :: ![FamilySnapshotSelection],
+    selectedGroupSnapshots :: ![GroupSelection]
   }
   deriving stock (Eq, Show)
 
