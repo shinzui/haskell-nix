@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 2,
+  "familySnapshots": [
+    {
+      "family": "dependent", "generation": 1,
+      "discoveryPolicy": { "packageOverrides": {}, "excludedPackages": [] },
+      "source": { "type": "github", "owner": "fixture", "repo": "dependent", "rev": "1111111111111111111111111111111111111111", "narHash": "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" },
+      "packages": [{ "name": "package-set-dependent", "path": ".", "version": "1.0", "cabal2nixOptions": "", "hackage": null }]
+    },
+    {
+      "family": "okf-like", "generation": 1,
+      "discoveryPolicy": { "packageOverrides": {}, "excludedPackages": [] },
+      "source": { "type": "github", "owner": "fixture", "repo": "okf-like", "rev": "2222222222222222222222222222222222222222", "narHash": "sha256-BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB=" },
+      "packages": [{ "name": "tasty-bench", "path": ".", "version": "0.5", "cabal2nixOptions": "", "hackage": { "version": "0.5", "hash": "sha256-zNjsLXBxeMgd/SPxqQVfs5tRNQqSCTQ9SXMp2/AQCwU=" } }]
+    },
+    {
+      "family": "okf-like", "generation": 2,
+      "discoveryPolicy": { "packageOverrides": {}, "excludedPackages": [] },
+      "source": { "type": "github", "owner": "fixture", "repo": "okf-like", "rev": "3333333333333333333333333333333333333333", "narHash": "sha256-CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC=" },
+      "packages": [{ "name": "tasty-bench", "path": ".", "version": "0.5.1", "cabal2nixOptions": "", "hackage": { "version": "0.5.1", "hash": "sha256-suk8m9AXQx1PAvJyqxHSeyg+U9g7p7wXz+PpPBAoFAM=" } }]
+    },
+    {
+      "family": "runtime", "generation": 1,
+      "discoveryPolicy": { "packageOverrides": {}, "excludedPackages": [] },
+      "source": { "type": "github", "owner": "fixture", "repo": "runtime", "rev": "4444444444444444444444444444444444444444", "narHash": "sha256-DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD=" },
+      "packages": [{ "name": "tasty", "path": ".", "version": "1.5.4", "cabal2nixOptions": "", "hackage": { "version": "1.5.4", "hash": "sha256-C6VyZuM+rcqllVlhk52snAKpw3sqrrzncz8Da1yE03Q=" } }]
+    }
+  ],
+  "groupSnapshots": [
+    { "group": "dependent", "generation": 1, "families": [{ "family": "dependent", "generation": 1 }], "compatibilityProfile": "default" },
+    { "group": "okf-like", "generation": 1, "families": [{ "family": "okf-like", "generation": 1 }], "compatibilityProfile": "default" },
+    { "group": "okf-like", "generation": 2, "families": [{ "family": "okf-like", "generation": 2 }], "compatibilityProfile": "default" },
+    { "group": "runtime", "generation": 1, "families": [{ "family": "runtime", "generation": 1 }], "compatibilityProfile": "default" }
+  ],
+  "packageSets": [
+    { "name": "set-a", "supportLevel": "curated", "groups": [{ "group": "dependent", "generation": 1 }, { "group": "okf-like", "generation": 1 }, { "group": "runtime", "generation": 1 }] },
+    { "name": "set-b", "supportLevel": "curated", "groups": [{ "group": "dependent", "generation": 1 }, { "group": "okf-like", "generation": 2 }, { "group": "runtime", "generation": 1 }] }
+  ],
+  "defaultPackageSet": "set-b"
+}

@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 2,
+  "families": [
+    { "name": "dependent", "moriProject": "shinzui/haskell-nix", "github": "fixture/dependent", "githubInput": "dependent-src", "packageOverrides": {}, "excludedPackages": [] },
+    { "name": "okf-like", "moriProject": "Bodigrim/tasty-bench", "github": "fixture/okf-like", "githubInput": "okf-like-src", "packageOverrides": {}, "excludedPackages": [] },
+    { "name": "runtime", "moriProject": "UnkindPartition/tasty", "github": "fixture/runtime", "githubInput": "runtime-src", "packageOverrides": {}, "excludedPackages": [] }
+  ],
+  "updateGroups": []
+}

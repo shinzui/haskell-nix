@@ -241,7 +241,8 @@
           };
           checks = import ./checks/default.nix {
             inherit lib pkgsPlain pkgsGithub pkgsHackage updater firstPartyRegistries
-              supportedGhcs defaultGhc firstPartyLock registries mkChannelExtension;
+              supportedGhcs defaultGhc firstPartyLock registries mkChannelExtension
+              mkFirstPartyPackageSet;
           };
         };
     };

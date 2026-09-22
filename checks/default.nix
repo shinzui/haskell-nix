@@ -9,6 +9,7 @@
 , firstPartyLock
 , registries
 , mkChannelExtension
+, mkFirstPartyPackageSet
 }:
 let
   fixture = import ./first-party-registry.nix {
@@ -118,6 +119,30 @@ in
       { family = "shikumi"; generation = 1; }
     ];
     pkgsPlain.runCommand "package-set-contract"
+      {
+        passthru = { inherit results; };
+      } ''
+      echo '${builtins.toJSON results}'
+      touch "$out"
+    '';
+
+  package-set-cache-identity = import ./package-set-cache-identity.nix {
+    inherit lib defaultGhc supportedGhcs mkFirstPartyPackageSet;
+    pkgs = pkgsPlain;
+  };
+
+  package-set-real-source =
+    let
+      flakeLock = builtins.fromJSON (builtins.readFile ../flake.lock);
+      locked = flakeLock.nodes."okf-src".locked;
+      descriptor = {
+        inherit (locked) type owner repo rev narHash;
+      };
+      fetched = builtins.fetchTree descriptor;
+      results.revisionMatches = fetched.rev == descriptor.rev;
+    in
+    assert results.revisionMatches;
+    pkgsPlain.runCommand "package-set-real-source"
       {
         passthru = { inherit results; };
       } ''
