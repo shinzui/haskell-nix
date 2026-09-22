@@ -58,7 +58,7 @@ Use a checklist to summarize granular steps. Every stopping point must be docume
 even if it requires splitting a partially completed task into two ("done" vs. "remaining").
 This section must always reflect the actual current state of the work.
 
-- [ ] Add target-set and update-group-aware CLI parsing while retaining the current default behavior.
+- [x] Add target-set and update-group-aware CLI parsing while retaining the current default behavior.
 - [x] Decode complete locked source descriptors and include them in family observations.
 - [x] Plan append-only family/group snapshots and move only the requested package set.
 - [ ] Make grouped refresh, validation, writes, and rollback atomic across both managed files.

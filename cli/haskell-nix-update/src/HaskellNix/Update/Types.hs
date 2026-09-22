@@ -28,6 +28,7 @@ module HaskellNix.Update.Types
     ObservedPackage (..),
     ObservedFamily (..),
     SnapshotObservation (..),
+    RefreshTarget (..),
     FamilyChange (..),
     RefreshPlan (..),
     PackageSetRefreshPlan (..),
@@ -218,6 +219,11 @@ data SnapshotObservation = SnapshotObservation
     packages :: ![ObservedPackage]
   }
   deriving stock (Eq, Show)
+
+data RefreshTarget
+  = TargetFamily !FamilyName
+  | TargetGroup !UpdateGroupName
+  deriving stock (Eq, Ord, Show)
 
 data FamilyChange
   = GitHubRevisionChanged !FamilyName !GitRevision !GitRevision

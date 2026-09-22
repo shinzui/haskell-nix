@@ -7,7 +7,7 @@ import Data.Text (Text)
 import HaskellNix.Update.Catalog (decodeFamilyCatalog, encodeFamilyCatalog)
 import HaskellNix.Update.Cli
 import HaskellNix.Update.PackageLock (decodePackageLock, decodePackageLockForRefresh, encodePackageLock)
-import HaskellNix.Update.Types (FamilyCatalog, PackageLock (..))
+import HaskellNix.Update.Types (FamilyCatalog, FamilyName (..), PackageLock (..), RefreshTarget (..), UpdateGroupName (..))
 import Options.Applicative (ParserResult (..), defaultPrefs, execParserPure)
 import Paths_haskell_nix_update (getDataFileName)
 import PackageSetTest qualified
@@ -86,16 +86,19 @@ cliTests :: TestTree
 cliTests =
   testGroup
     "CLI parser"
-    [ testCase "refresh accepts repeatable family scope and dry-run" $
-        case execParserPure defaultPrefs parserInfo ["refresh", "--family", "alpha", "--family", "beta", "--dry-run"] of
-          Success (Refresh RefreshOptions {families, dryRun}) -> do
-            families @?= ["alpha", "beta"]
+    [ testCase "refresh accepts package-set, mixed scope, profile, and dry-run" $
+        case execParserPure defaultPrefs parserInfo ["refresh", "--package-set", "candidate", "--family", "alpha", "--group", "runtime", "--compatibility-profile", "legacy", "--dry-run"] of
+          Success (Refresh RefreshOptions {packageSet, targets, compatibilityProfile, dryRun}) -> do
+            packageSet @?= Just "candidate"
+            targets @?= [TargetFamily (FamilyName "alpha"), TargetGroup (UpdateGroupName "runtime")]
+            compatibilityProfile @?= Just "legacy"
             dryRun @?= True
           other -> assertFailure ("unexpected parser result: " <> show other),
       testCase "check defaults to all families and offline" $
         case execParserPure defaultPrefs parserInfo ["check"] of
-          Success (Check CheckOptions {families, online}) -> do
-            families @?= []
+          Success (Check CheckOptions {packageSet, targets, online}) -> do
+            packageSet @?= Nothing
+            targets @?= []
             online @?= False
           other -> assertFailure ("unexpected parser result: " <> show other)
     ]

@@ -18,7 +18,8 @@ tests =
       testCase "allows GitHub and Hackage versions to differ" testLegitimateVersionDifference,
       testCase "package-set refresh appends one atomic group and isolates other sets" testPackageSetRefresh,
       testCase "package-set refresh reuses identical snapshots" testPackageSetNoOp,
-      testCase "package-set operations preserve complete mappings" testPackageSetOperations
+      testCase "package-set operations preserve complete mappings" testPackageSetOperations,
+      testCase "refresh targets expand and normalize deterministically" testResolveRefreshTargets
     ]
 
 testChangeCategories :: IO ()
@@ -185,6 +186,30 @@ testPackageSetOperations = do
   promoted <- assertRight (setPackageSetSupportLevel "candidate" Curated reprofiled)
   supportLevel (lookupSet "candidate" promoted) @?= Curated
   assertLeft (setPackageSetSupportLevel "default" Historical promoted)
+
+testResolveRefreshTargets :: IO ()
+testResolveRefreshTargets = do
+  resolveRefreshTargets targetCatalog [] Nothing @?= Right [gammaGroup, pairGroup]
+  resolveRefreshTargets
+    targetCatalog
+    [TargetFamily (FamilyName "alpha"), TargetGroup (UpdateGroupName "pair")]
+    Nothing
+    @?= Right [pairGroup]
+  resolveRefreshTargets targetCatalog [TargetFamily (FamilyName "gamma")] (Just "legacy")
+    @?= Right [gammaGroup]
+  assertLeft (resolveRefreshTargets targetCatalog [] (Just "legacy"))
+  assertLeft (resolveRefreshTargets targetCatalog [TargetFamily (FamilyName "missing")] Nothing)
+
+targetCatalog :: FamilyCatalog
+targetCatalog =
+  FamilyCatalog
+    { schemaVersion = 2,
+      families = [snapshotConfig "alpha", snapshotConfig "beta", snapshotConfig "gamma"],
+      updateGroups = [pairGroup]
+    }
+
+gammaGroup :: UpdateGroup
+gammaGroup = UpdateGroup (UpdateGroupName "gamma") [FamilyName "gamma"]
 
 snapshotCatalog :: FamilyCatalog
 snapshotCatalog =

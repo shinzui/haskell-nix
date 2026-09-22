@@ -7,6 +7,7 @@ module HaskellNix.Update.Plan
     selectGroupFromPackageSet,
     selectGroupCompatibilityProfile,
     setPackageSetSupportLevel,
+    resolveRefreshTargets,
     renderChanges,
   )
 where
@@ -192,6 +193,39 @@ renderFamilyNames = Text.intercalate ", " . map familyNameText
 
 firstUpdateError :: Either Text value -> Either UpdateError value
 firstUpdateError = either (Left . UpdateError) Right
+
+resolveRefreshTargets :: FamilyCatalog -> [RefreshTarget] -> Maybe Text -> Either UpdateError [UpdateGroup]
+resolveRefreshTargets catalog targets requestedProfile = do
+  resolvedGroups <- firstUpdateError (resolveUpdateGroups catalog)
+  let groupsByName = Map.fromList [(name, updateGroup) | updateGroup@UpdateGroup {name} <- resolvedGroups]
+      groupByFamily =
+        Map.fromList
+          [ (familyName, updateGroup)
+          | updateGroup@UpdateGroup {families = memberNames} <- resolvedGroups,
+            familyName <- memberNames
+          ]
+  selected <-
+    if null targets
+      then Right resolvedGroups
+      else traverse (resolveTarget groupsByName groupByFamily) targets
+  let normalized = Map.elems (Map.fromList [(name, updateGroup) | updateGroup@UpdateGroup {name} <- selected])
+  case requestedProfile of
+    Nothing -> Right normalized
+    Just profile
+      | Text.null profile -> Left (UpdateError "--compatibility-profile must not be empty")
+      | length normalized /= 1 -> Left (UpdateError "--compatibility-profile requires exactly one resolved update group")
+      | otherwise -> Right normalized
+  where
+    resolveTarget groupsByName _ (TargetGroup groupName) =
+      maybe
+        (Left (UpdateError ("unknown update group " <> groupNameText groupName)))
+        Right
+        (Map.lookup groupName groupsByName)
+    resolveTarget _ groupByFamily (TargetFamily familyName) =
+      maybe
+        (Left (UpdateError ("unknown family " <> familyNameText familyName)))
+        Right
+        (Map.lookup familyName groupByFamily)
 
 planPackageSetRefresh :: FamilyCatalog -> PackageSetLock -> Text -> [(UpdateGroup, Text, [SnapshotObservation])] -> Either UpdateError PackageSetRefreshPlan
 planPackageSetRefresh catalog previousLock targetSetName targets = do
