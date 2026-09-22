@@ -1993,6 +1993,64 @@
             ],
             "name": "keiro-0-14-okf-0-8",
             "supportLevel": "historical"
+        },
+        {
+            "groups": [
+                {
+                    "generation": 2,
+                    "group": "keiki"
+                },
+                {
+                    "generation": 2,
+                    "group": "keiro"
+                },
+                {
+                    "generation": 2,
+                    "group": "kioku"
+                },
+                {
+                    "generation": 1,
+                    "group": "kiroku"
+                },
+                {
+                    "generation": 2,
+                    "group": "okf"
+                },
+                {
+                    "generation": 1,
+                    "group": "openapi-hs"
+                },
+                {
+                    "generation": 1,
+                    "group": "pg-migrate"
+                },
+                {
+                    "generation": 2,
+                    "group": "pgmq-hs"
+                },
+                {
+                    "generation": 2,
+                    "group": "relay-pagination"
+                },
+                {
+                    "generation": 2,
+                    "group": "servant-openapi-hs"
+                },
+                {
+                    "generation": 1,
+                    "group": "settei"
+                },
+                {
+                    "generation": 1,
+                    "group": "shibuya"
+                },
+                {
+                    "generation": 2,
+                    "group": "shikumi-baikai"
+                }
+            ],
+            "name": "keiro-0-14-okf-0-9",
+            "supportLevel": "historical"
         }
     ],
     "schemaVersion": 2
