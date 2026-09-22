@@ -18,6 +18,11 @@ provenance:
       at: 2026-09-21T14:26:46Z
       mode: "update"
       note: "Adopt flake-parts, treefmt-nix, nix-unit, and nix-diff; native checks pass with unchanged existing derivations."
+    - model: "gpt-5.6-sol"
+      harness: "codex-cli"
+      at: 2026-09-22T15:44:53Z
+      mode: "implement"
+      note: "Implement package-set projection, profile composition, and generic constructors."
   reviews:
     - model: "gpt-6-astra"
       harness: "codex-cli"
@@ -55,10 +60,10 @@ Use a checklist to summarize granular steps. Every stopping point must be docume
 even if it requires splitting a partially completed task into two ("done" vs. "remaining").
 This section must always reflect the actual current state of the work.
 
-- [ ] Implement selected-set projection to lazy GitHub sources and exact Hackage pins.
-- [ ] Compose selected first-party registries with common and compatibility-profile entries.
-- [ ] Expose a generic consumer-owned package-set constructor without moving the public default.
-- [ ] Prove set and channel isolation with valid and invalid Nix fixtures.
+- [x] (2026-09-22) Implement selected-set projection to lazy GitHub sources and exact Hackage pins.
+- [x] (2026-09-22) Compose selected first-party registries with common and compatibility-profile entries.
+- [x] (2026-09-22) Expose a generic consumer-owned package-set constructor without moving the public default.
+- [x] (2026-09-22) Prove set and channel isolation with 40 passing pure Nix tests covering named and explicit selections, both channels, source laziness, and invalid inputs.
 - [ ] Prove equal derivation paths for unchanged family snapshots across two package sets.
 - [ ] Prove changed dependencies rebuild dependents, source fetching stays lazy, and downstream overrides survive composition.
 
@@ -75,6 +80,11 @@ results belong in a check derivation's `passthru.results`, not a sibling check a
 A minimal Nix 2.33.3 derivation probe during review returned `dependentChanges = true` when
 only the dependency derivation changed, and confirmed `deepSeq` is needed to catch an error
 inside a lazy record with `tryEval`. The Haskell-specific proof remains to be implemented.
+
+EP-4's Nix validator exposes projection by retained set name but not by a consumer-owned
+selection map. EP-5 forces the complete EP-4 validation result, verifies an explicit map has
+exactly the resolved group keys and positive generations, and then projects the already
+validated graph. This keeps one schema validator while supporting the public constructor.
 
 
 ## Decision Log
@@ -113,6 +123,13 @@ Record every decision made while working on the plan.
   Rationale: Flake overlay outputs are conventionally a flat attribute set of functions.
   Direct extensions also compose more safely with downstream overrides.
   Date: 2026-09-13
+
+- Decision: Extract `lib/mkHaskellExtension.nix` and have both the production channel path
+  and `lib/mkFirstPartyPackageSet.nix` call it.
+  Rationale: One implementation now owns fixed-point extension order, build-setting flags,
+  and per-package registry overrides, preventing the composable path from drifting from the
+  existing public outputs.
+  Date: 2026-09-22
 
 
 ## Outcomes & Retrospective

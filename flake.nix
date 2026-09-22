@@ -52,8 +52,16 @@
       fixPackageByVersion = import ./lib/fixPackageByVersion.nix { inherit lib; };
       disableProfilingOverride = import ./lib/disableProfilingOverride.nix;
       disableHaddockOverride = import ./lib/disableHaddockOverride.nix;
+      mkHaskellExtension = import ./lib/mkHaskellExtension.nix { inherit lib; };
       mkHaskellOverlay = import ./lib/mkHaskellOverlay.nix { inherit lib; };
       mkFirstPartyRegistries = import ./lib/mkFirstPartyRegistries.nix { inherit lib; };
+      compatibilityProfiles = import ./overlays/compatibility-profiles.nix;
+      mkFirstPartyPackageSetFactory = import ./lib/mkFirstPartyPackageSet.nix {
+        inherit lib mkFirstPartyRegistries mkHaskellExtension mkHaskellOverlay;
+      };
+      mkFirstPartyPackageSet = args: mkFirstPartyPackageSetFactory ({
+        inherit commonRegistry compatibilityProfiles supportedGhcs;
+      } // args);
       firstPartyRegistries = mkFirstPartyRegistries {
         sources = firstPartySources;
         config = firstPartyConfig;
@@ -78,24 +86,6 @@
 
       composeManyExtensions = lib.composeManyExtensions or
         (extensions: lib.foldr lib.composeExtensions (_: _: { }) extensions);
-
-      mkHaskellExtension =
-        { registry
-        , extraOverrides ? (_: _: { })
-        , disableProfiling ? true
-        , disableHaddock ? true
-        }:
-        let
-          perPackageOverrides = lib.mapAttrsToList
-            (name: table: fixPackageByVersion name table)
-            registry;
-        in
-        haskellLib: pkgs:
-        composeManyExtensions
-          (lib.optional disableProfiling disableProfilingOverride
-            ++ lib.optional disableHaddock disableHaddockOverride
-            ++ [ extraOverrides ]
-            ++ map (override: override haskellLib pkgs) perPackageOverrides);
 
       # What distinguishes the two channels, independent of build settings.
       channelSpecs = {
@@ -193,7 +183,9 @@
             disableProfilingOverride
             fixPackageByVersion
             mkChannelExtension
+            mkFirstPartyPackageSet
             mkFirstPartyRegistries
+            mkHaskellExtension
             mkHaskellOverlay
             registries
             haskellExtensions;

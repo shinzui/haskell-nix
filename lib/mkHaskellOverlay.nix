@@ -25,29 +25,10 @@
 }:
 
 let
-  fixPackageByVersion = import ./fixPackageByVersion.nix { inherit lib; };
-  disableProfilingOverride = import ./disableProfilingOverride.nix;
-  disableHaddockOverride = import ./disableHaddockOverride.nix;
-
-  # Build one Haskell-level override per registry entry
-  perPackageOverrides = lib.mapAttrsToList
-    (name: table: fixPackageByVersion name table)
-    registry;
-
-  # Compose all per-package overrides into a single Haskell extension.
-  # Provide a local fallback for composeManyExtensions in case an older
-  # nixpkgs lacks it.
-  composeManyExtensions = lib.composeManyExtensions or
-    (extensions: lib.foldr lib.composeExtensions (_: _: { }) extensions);
-
-  # haskellLib and pkgs are passed at overlay-application time so patches
-  # get access to the full haskell.lib.compose API and top-level nixpkgs.
-  mkCombinedOverride = haskellLib: pkgs:
-    composeManyExtensions
-      (lib.optional disableProfiling disableProfilingOverride
-        ++ lib.optional disableHaddock disableHaddockOverride
-        ++ [ extraOverrides ]
-        ++ map (f: f haskellLib pkgs) perPackageOverrides);
+  mkHaskellExtension = import ./mkHaskellExtension.nix { inherit lib; };
+  combinedOverride = mkHaskellExtension {
+    inherit registry extraOverrides disableProfiling disableHaddock;
+  };
 
 in
 # nixpkgs-level overlay
@@ -61,7 +42,7 @@ let
     hpkgs.override (old: {
       overrides = lib.composeExtensions
         (old.overrides or (_: _: { }))
-        (mkCombinedOverride haskellLib prev);
+        (combinedOverride haskellLib prev);
     });
 
 in

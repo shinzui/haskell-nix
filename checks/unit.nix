@@ -15,6 +15,36 @@ let
     inherit lib config lock;
   };
   validatedPackageSet = validatePackageSet packageSetConfig packageSetLock;
+  mkHaskellExtension = import ../lib/mkHaskellExtension.nix { inherit lib; };
+  mkHaskellOverlay = import ../lib/mkHaskellOverlay.nix { inherit lib; };
+  mkPackageSetFactory = import ../lib/mkFirstPartyPackageSet.nix {
+    inherit lib mkHaskellExtension mkHaskellOverlay;
+    mkFirstPartyRegistries = mkRegistries;
+  };
+  throwingFetcher = _: throw "package-set metadata must not fetch a source";
+  mkPackageSetWith =
+    { candidateLock ? packageSetLock
+    , profiles ? { default = { }; }
+    , fetchSource ? throwingFetcher
+    }:
+    mkPackageSetFactory {
+      config = packageSetConfig;
+      lock = candidateLock;
+      commonRegistry = { common-example = [ ]; };
+      compatibilityProfiles = profiles;
+      supportedGhcs = [ ];
+      inherit fetchSource;
+    };
+  mkPackageSet = mkPackageSetWith { };
+  defaultSelections = {
+    baikai-shikumi = 1;
+    keiro = 1;
+    okf = 2;
+  };
+  rejectsPackageSetConstruction = expression: {
+    expr = (builtins.tryEval (builtins.deepSeq expression true)).success;
+    expected = false;
+  };
   invalidConfigs = [
     "invalid-config-duplicate-family.json"
     "invalid-config-unknown-override-key.json"
@@ -158,6 +188,114 @@ in
       { family = "shikumi"; generation = 1; }
     ];
   };
+  testNamedAndExplicitSelectionsAgreeWithoutFetching = {
+    expr = {
+      named = (mkPackageSet { packageSet = "default"; }).selections;
+      explicit = (mkPackageSet { selections = defaultSelections; }).selections;
+    };
+    expected = {
+      named = defaultSelections;
+      explicit = defaultSelections;
+    };
+  };
+  testSelectedFamilyVersionsWithoutFetching = {
+    expr = map
+      (snapshot: {
+        inherit (snapshot) family generation;
+        versions = map (package: package.version) snapshot.packages;
+      })
+      (mkPackageSet { packageSet = "historical"; }).selectedFamilies;
+    expected = [
+      { family = "baikai"; generation = 1; versions = [ "1.0" ]; }
+      { family = "keiro"; generation = 1; versions = [ "1.0" ]; }
+      { family = "okf"; generation = 1; versions = [ "1.0" ]; }
+      { family = "shikumi"; generation = 1; versions = [ "1.0" ]; }
+    ];
+  };
+  testBothChannelsExposeSelectedInventoryWithoutFetching = {
+    expr = {
+      github = builtins.attrNames (mkPackageSet {
+        packageSet = "historical";
+        channel = "github";
+      }).registry;
+      hackage = builtins.attrNames (mkPackageSet {
+        packageSet = "historical";
+        channel = "hackage";
+      }).registry;
+    };
+    expected = {
+      github = [ "baikai" "common-example" "keiro" "okf" "shikumi" ];
+      hackage = [ "baikai" "common-example" "keiro" "okf" "shikumi" ];
+    };
+  };
+  testRepeatedCompatibilityProfileIsDeduplicated = {
+    expr = builtins.attrNames (mkPackageSet {
+      packageSet = "default";
+    }).registry;
+    expected = [ "baikai" "common-example" "keiro" "okf" "shikumi" ];
+  };
+  testRejectPackageSetBothSelectionForms = rejectsPackageSetConstruction
+    (mkPackageSet {
+      packageSet = "default";
+      selections = defaultSelections;
+    });
+  testRejectPackageSetIncompleteSelection = rejectsPackageSetConstruction
+    (mkPackageSet {
+      selections = builtins.removeAttrs defaultSelections [ "okf" ];
+    });
+  testRejectPackageSetUnknownChannel = rejectsPackageSetConstruction
+    (mkPackageSet {
+      packageSet = "default";
+      channel = "archive";
+    });
+  testRejectPackageSetMissingProfile = rejectsPackageSetConstruction
+    ((mkPackageSetWith { profiles = { }; }) { packageSet = "default"; });
+  testRejectProfileSelectedPackageConflict = rejectsPackageSetConstruction
+    ((mkPackageSetWith {
+      profiles.default.okf = [ ];
+    }) { packageSet = "default"; });
+  testRejectDistinctProfileOverlap =
+    let
+      candidateLock = packageSetLock // {
+        groupSnapshots = map
+          (snapshot:
+            if snapshot.group == "baikai-shikumi" then
+              snapshot // { compatibilityProfile = "first"; }
+            else if snapshot.group == "keiro" then
+              snapshot // { compatibilityProfile = "second"; }
+            else snapshot)
+          packageSetLock.groupSnapshots;
+      };
+      candidate = (mkPackageSetWith {
+        inherit candidateLock;
+        profiles = {
+          default = { };
+          first.shared = [ ];
+          second.shared = [ ];
+        };
+      }) { packageSet = "default"; };
+    in
+    rejectsPackageSetConstruction candidate;
+  testRejectFetchedRevisionMismatch =
+    let
+      candidate = (mkPackageSetWith {
+        fetchSource = _: {
+          rev = "cccccccccccccccccccccccccccccccccccccccc";
+          outPath = packageSetFixtures;
+        };
+      }) {
+        packageSet = "default";
+        channel = "github";
+      };
+      patch = (builtins.head candidate.registry.okf).patch;
+    in
+    rejectsPackageSetConstruction (patch {
+      hself.callCabal2nix = _: source: _: builtins.seq source { };
+      haskellLib = {
+        doJailbreak = value: value;
+        dontCheck = value: value;
+      };
+    });
   testSnapshotPolicyIgnoresCurrentPolicy = {
     expr = (validatePackageSet
       (packageSetConfig // {
