@@ -191,6 +191,100 @@
         },
         {
             "discoveryPolicy": {
+                "excludedPackages": [],
+                "packageOverrides": {}
+            },
+            "family": "baikai",
+            "generation": 3,
+            "packages": [
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-h2BWpYua+/RT/cDBqVNeAK9XFFrD5j8FXJQh9PHMa4Y=",
+                        "version": "0.7.1.0"
+                    },
+                    "name": "baikai",
+                    "path": "baikai",
+                    "version": "0.7.1.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-mbD++i7QgCX3/ByZQx5jLLSoUbZ9lh1/e4Fd/jSqYXU=",
+                        "version": "0.2.0.1"
+                    },
+                    "name": "baikai-agent",
+                    "path": "baikai-agent",
+                    "version": "0.2.0.1"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-GSOzULFgbJae4Wf6vwdr2xR+83CwhrCuWMxuZJG6NZA=",
+                        "version": "0.7.0.0"
+                    },
+                    "name": "baikai-claude",
+                    "path": "baikai-claude",
+                    "version": "0.7.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-SgcvuYmfJt8bF4WU5MCKQzTCBkAPdsy5G5X3nwPVPd0=",
+                        "version": "0.4.0.2"
+                    },
+                    "name": "baikai-effectful",
+                    "path": "baikai-effectful",
+                    "version": "0.4.0.2"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-yxqyi/HkVWamUgNTx8AQKZl8qUR9Kk+U4wjKS1Y2z3M=",
+                        "version": "0.3.0.0"
+                    },
+                    "name": "baikai-kit",
+                    "path": "baikai-kit",
+                    "version": "0.3.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-FVYkPkL8hzzaNY0YprnmRFVswJKHyqEk15hcPauyYkI=",
+                        "version": "0.7.0.0"
+                    },
+                    "name": "baikai-openai",
+                    "path": "baikai-openai",
+                    "version": "0.7.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": null,
+                    "name": "baikai-smoke",
+                    "path": "baikai-smoke",
+                    "version": "0.1.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-sPDgrw7EabbotyAi5iT2AE4r1dV2s1HvUfMLjGqMkfc=",
+                        "version": "0.4.0.1"
+                    },
+                    "name": "baikai-trace-otel",
+                    "path": "baikai-trace-otel",
+                    "version": "0.4.0.1"
+                }
+            ],
+            "source": {
+                "narHash": "sha256-o60cqb3LOTE/qy2AEcxHEOuyw9uB7ko4V71P3bPaizY=",
+                "owner": "shinzui",
+                "repo": "baikai",
+                "rev": "9f269c917c15d5449067f3c96e7ce3452fc6d7eb",
+                "type": "github"
+            }
+        },
+        {
+            "discoveryPolicy": {
                 "excludedPackages": [
                     "jitsurei"
                 ],
@@ -1875,6 +1969,21 @@
             ],
             "generation": 2,
             "group": "shikumi-baikai"
+        },
+        {
+            "compatibilityProfile": "default",
+            "families": [
+                {
+                    "family": "baikai",
+                    "generation": 3
+                },
+                {
+                    "family": "shikumi",
+                    "generation": 1
+                }
+            ],
+            "generation": 3,
+            "group": "shikumi-baikai"
         }
     ],
     "packageSets": [
@@ -1929,7 +2038,7 @@
                     "group": "shibuya"
                 },
                 {
-                    "generation": 1,
+                    "generation": 3,
                     "group": "shikumi-baikai"
                 }
             ],
