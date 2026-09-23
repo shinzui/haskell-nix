@@ -574,6 +574,100 @@
                 "excludedPackages": [],
                 "packageOverrides": {}
             },
+            "family": "keiro",
+            "generation": 3,
+            "packages": [
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": null,
+                    "name": "jitsurei",
+                    "path": "jitsurei",
+                    "version": "0.1.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-Y7D/pVfzB5ZKl7cfkn0jwSWXIWzzEUzQu1d9ww3N8OE=",
+                        "version": "0.18.0.0"
+                    },
+                    "name": "keiro",
+                    "path": "keiro",
+                    "version": "0.18.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-dsQ7uQvl/Mpr+unvwyK97pLCwbzJ5/k94HheN6+9oy8=",
+                        "version": "0.18.0.0"
+                    },
+                    "name": "keiro-core",
+                    "path": "keiro-core",
+                    "version": "0.18.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-82eR9WsGIDcyBQSpwxTKk+CzAo9+4eIJP84iHJvk2UM=",
+                        "version": "0.18.0.0"
+                    },
+                    "name": "keiro-dsl",
+                    "path": "keiro-dsl",
+                    "version": "0.18.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-Oe1zZmrMqz20B+JnHYtxjb6J/eGXerfTF5Jhd//nMXM=",
+                        "version": "0.18.0.0"
+                    },
+                    "name": "keiro-migrations",
+                    "path": "keiro-migrations",
+                    "version": "0.18.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-yVhVB+eYBi8qeLZTmovfPg1Sw8mCc/ol28Osh1QY/70=",
+                        "version": "0.18.0.0"
+                    },
+                    "name": "keiro-ops",
+                    "path": "keiro-ops",
+                    "version": "0.18.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-PQbIzlGo1+RPcPZBy07p/uAwoxTYbhkdsUnCBrw99dM=",
+                        "version": "0.18.0.0"
+                    },
+                    "name": "keiro-pgmq",
+                    "path": "keiro-pgmq",
+                    "version": "0.18.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-Qw3eCRWaF75jc63s0y4+56O8+Xfs0GWDJPhIxoI2GzU=",
+                        "version": "0.18.0.0"
+                    },
+                    "name": "keiro-test-support",
+                    "path": "keiro-test-support",
+                    "version": "0.18.0.0"
+                }
+            ],
+            "source": {
+                "narHash": "sha256-lMVozu+8bUJt7owktzjBB1wTDVUGXWIvXai4Re6EgJ8=",
+                "owner": "shinzui",
+                "repo": "keiro",
+                "rev": "e3d90afb8da07df34d25ee143a603e40fb36c783",
+                "type": "github"
+            }
+        },
+        {
+            "discoveryPolicy": {
+                "excludedPackages": [],
+                "packageOverrides": {}
+            },
             "family": "kioku",
             "generation": 1,
             "packages": [
@@ -1779,6 +1873,17 @@
             "compatibilityProfile": "default",
             "families": [
                 {
+                    "family": "keiro",
+                    "generation": 3
+                }
+            ],
+            "generation": 3,
+            "group": "keiro"
+        },
+        {
+            "compatibilityProfile": "default",
+            "families": [
+                {
                     "family": "kioku",
                     "generation": 1
                 }
@@ -1994,7 +2099,7 @@
                     "group": "keiki"
                 },
                 {
-                    "generation": 1,
+                    "generation": 3,
                     "group": "keiro"
                 },
                 {
