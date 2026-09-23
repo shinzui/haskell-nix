@@ -25,6 +25,7 @@ maintainer pages describe repository changes and validation.
 | Compose the selected channel with local Haskell overrides | [Consumer integration](consumer-integration.md) |
 | Add or change a shared compatibility patch | [Adding patches](adding-patches.md) |
 | Refresh or onboard first-party package families | [Updating first-party packages](updating-first-party-packages.md) |
+| Create a named first-party package set | [Create a first-party package set](../guides/create-a-package-set.md) |
 | Format Nix, run fast contract tests, and diagnose derivation changes | [Maintainer tools](maintainer-tools.md) |
 | Diagnose integration, refresh, or validation failures | [Troubleshooting](troubleshooting.md) |
 

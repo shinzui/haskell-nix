@@ -9,7 +9,7 @@ generated:
   at: 2026-09-22T22:46:10Z
 ---
 
-[Adoption guides](README.md)
+[Guides](README.md)
 
 # Roll out a first-party package set
 
