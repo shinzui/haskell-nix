@@ -33,15 +33,24 @@ Five Haskell applications (`mori://shinzui/rei`, `mori://shinzui/mori`,
 their Nix packages by layering this repository's channel under a local file,
 `nix/haskell-overlay.nix`. The local file runs last, so every package it names silently
 replaces the channel's copy. Today those five files carry 58 entries that are not the
-application's own code, 47 of them overrides of shared packages. Most of those duplicate
-what the channel already supplies; a few supply something the channel lacks. Either way, two applications that
+application's own code, 53 of them overrides of shared packages (the count includes the
+`typeid-hs-sql` and `typeid-hs-pg-migrate` source builds that rei, mori and mori-rei-app
+each carry). Most of those duplicate what the channel already supplies; a few supply
+something the channel lacks. Either way, two applications that
 pin the same channel revision still build different derivations of the same library. On
 2026-09-26 that is how mori-rei-app's `wai-app-static` 3.2.1 and `servant-server`
 jailbreak changed the hash of everything above them up to `rei-core`.
 
 After this plan:
 
-- Every shared override has exactly one home, this repository's channel.
+- Every shared override has exactly one home, this repository's channel. That includes
+  `typeid-hs-sql` and `typeid-hs-pg-migrate`, built from the now-public
+  `topagentnetwork/typeid-hs` at `7164a74c`, so no consumer needs a `typeid-hs-src`
+  flake input any more.
+- The only declared exception left in any consumer overlay is mina's `mori-schema-pin`
+  at mori `7af02c55`. Mori's `hasql-effectful`, the one other private source, is not a
+  channel concern: plan 12 vendors it into `mori-core`, and the overlay entry goes with
+  it.
 - A check proves each moved package builds through the default package set.
 - A second check, which consumers run, fails when a consumer overlay redefines a package
   the channel provides. It also fails when an overlay defines a package the consumer has
@@ -68,19 +77,21 @@ You can see it working in three ways:
 - [ ] M1: Re-evaluate the channel's current versions of the contested packages. If plan 9's generated version layer has landed, record which moved packages it already supplies.
 - [ ] M2: Add policy-only registry entries for `link-canonical`, `hw-kafka-client` and `servant-server`.
 - [ ] M2: Add version-pinned patches for `wai-app-static` 3.2.1, `servant-health` 0.1.0.0, `generic-lens-core` 2.3.0.0 and `generic-lens` 2.3.0.0. If plan 9's generated layer already supplies a version, add only the build policy.
+- [ ] M2: Confirm anonymous access to `topagentnetwork/typeid-hs` at `7164a74c` and its fetch hash, then add the source-pinned registry entries `typeid-hs-sql` and `typeid-hs-pg-migrate` (`patches/typeid-hs/source.nix` plus one patch file per package).
 - [ ] M2: Add `checks/shared-overrides.nix` and wire it into `checks/default.nix`.
 - [ ] M2: `nix build .#checks.aarch64-darwin.shared-overrides` passes, and x86_64-linux passes where a builder is available.
 - [ ] M2: Commit the channel entries.
 - [ ] M3: Add `lib/consumerOverlayReport.nix` and expose `lib.consumerOverlayReport` and `lib.auditConsumerOverlay` from `flake.nix`.
 - [ ] M3: Add nix-unit tests to `checks/unit.nix` and a fixture-backed `consumer-overlay-audit` flake check.
-- [ ] M3: Run the audit against all five consumers' current overlays and record the reports. Each consumer's shadowing set must equal its deletion list.
+- [ ] M3: Run the audit against all five consumers' current overlays and record the reports. Each consumer's `shadowing` plus `undeclared` must equal its deletion list (mori's `hasql-effectful` and mina's `kdl-hs` are the two `undeclared` names).
 - [ ] M3: Commit the audit.
-- [ ] M4: Rehearse the deletions. Build `rei-cli` and `rei-api` (rei), `mori-cli` (mori) and `mori-rei-app` against the local channel with the deletion lists filtered out, then read the versions from the derivation closures.
+- [ ] M4: Rehearse the deletions. Build `rei-cli` and `rei-api` (rei), `mori-cli` (mori) and `mori-rei-app` against the local channel with the deletion lists filtered out and `typeid-hs-src` replaced by a dummy, then read the versions from the derivation closures.
 - [ ] M4: Evaluate mina's filtered overlay (evaluation only; plan 13 owns its build).
 - [ ] M5: Write the new ADR as `docs/adr/4-consumer-overlays-define-only-their-own-packages.md`.
 - [ ] M5: Update `docs/user/consumer-integration.md`, `docs/user/adding-patches.md` and `docs/user/channels.md`, append to `docs/user/log.md`, and pass `just check-docs`.
 - [ ] M5: `nix flake check` passes, and the final commit is made.
 - [ ] M5: Fill in Outcomes & Retrospective and hand the deletion lists to plans 11, 12 and 13.
+- [x] 2026-09-26: Plan revised for the user's decisions: `typeid-hs` moves into the channel, `hasql-effectful` leaves the overlay through plan 12's vendoring, and mina's `mori-schema-pin` is the only declared exception. No implementation work has started.
 
 
 ## Surprises & Discoveries
@@ -152,12 +163,37 @@ this repository at `4cabd105` and of the consumer overlays at the HEADs named in
   uses it.
   - nixpkgs ships 1.1.0. Mina pins 1.0.1 because `mina-core.cabal` requires
     `kdl-hs ^>=1.0` (so `<1.1`), and its Cabal plan also selects 1.0.1.
-- **Observation:** Two private repositories are involved, and the channel is public.
+- **Observation (superseded later the same day, see the next entry):** At first
+  drafting, two private repositories were involved, and the channel is public.
   - `shinzui/haskell-nix` is public.
   - `topagentnetwork/typeid-hs` (source of `typeid-hs-sql` and `typeid-hs-pg-migrate`)
-    and `topagentnetwork/tan-effectful` (source of `hasql-effectful`) are private.
+    and `topagentnetwork/tan-effectful` (source of `hasql-effectful`) were private.
   - Evidence from `gh repo view --json visibility`: `PUBLIC` for the channel and
     `PRIVATE` for both sources.
+- **Observation:** `topagentnetwork/typeid-hs` is now public, so the public channel can
+  fetch it without credentials.
+  - Evidence: an anonymous `git ls-remote https://github.com/topagentnetwork/typeid-hs`
+    returns `HEAD` at `7164a74c490cc92ffe73a315d827c9515de125d3`, and the GitHub API
+    answers the repository request with HTTP 200 without credentials.
+  - That revision is the one rei, mori and mori-rei-app all lock as `typeid-hs-src`.
+    All three `flake.lock` files record the same
+    `narHash = "sha256-XCq5GXlOK8ZxbR4ZKIEi99rQdJ6vxX1c6/C3nRGvcrA="`, which is the NAR
+    hash of the unpacked tree, the same quantity `pkgs.fetchFromGitHub`'s `hash` checks.
+  - At that revision both packages are version 0.1.0.0. `typeid-hs-pg-migrate` depends
+    on `pg-migrate` (a first-party family in this channel) and `hasql >=1.10 && <1.11`.
+    Neither package depends on `effectful`, so the family's move to `effectful` 2.7
+    (plan 15) does not touch them.
+  - Date: 2026-09-26
+- **Observation:** `hasql-effectful` is used by mori alone.
+  - 59 `mori-core` modules (library and tests) import `Effectful.Hasql`. Rei,
+    mori-rei-app and mori-app mention the package only in comments. Rei stopped
+    depending on it by vendoring the module as `rei-core/src/Rei/Infrastructure/Hasql/Effect.hs`
+    in `mori://shinzui/rei`.
+  - Its `hasql-effectful.cabal` caps `effectful` below 2.6 (mori's `cabal.project`
+    carries `allow-newer: hasql-effectful:effectful, hasql-effectful:effectful-core`),
+    and the whole family moves to `effectful` 2.7 under plan 15, so a channel entry
+    would be a jailbreak of a private source for one consumer.
+  - Date: 2026-09-26
 - **Observation:** Some Cabal and Nix differences in the same packages are outside this
   plan's reach. They are recorded for plans 8, 9, 11 and 13.
   - Rei's and mori-rei-app's `cabal.project` set `dhall -use-http-client-tls`, while the
@@ -222,16 +258,62 @@ this repository at `4cabd105` and of the consumer overlays at the HEADs named in
   - A consumer that passes `disableProfiling = false` would meet the GHC 9.12.4
     profiling panic again. The ADR and the docs say so.
   - Date: 2026-09-26
-- **Decision:** `typeid-hs-sql`, `typeid-hs-pg-migrate` and `hasql-effectful` stay in
-  consumer overlays as declared exceptions, each with a reason. They do not move into
-  the channel.
-  - Rationale: they build only from private `topagentnetwork` repositories. The channel
-  is public. A flake input would force every consumer's lock to fetch them with
-  credentials, and a lazy fetch inside a registry patch would make the public registry
-  expose names that fail for anyone without access.
-  - The MasterPlan's Integration Points list the `typeid-hs` sources among plan 10's
-    additions. This is a deliberate divergence, recorded as an open question for the
-    MasterPlan owner.
+- **Decision (superseded by the three user decisions dated 2026-09-26 below):**
+  `typeid-hs-sql`, `typeid-hs-pg-migrate` and `hasql-effectful` stay in consumer
+  overlays as declared exceptions, each with a reason. They do not move into the
+  channel.
+  - Rationale at the time: they built only from private `topagentnetwork`
+    repositories, and the channel is public. A flake input would force every
+    consumer's lock to fetch them with credentials, and a lazy fetch inside a registry
+    patch would make the public registry expose names that fail for anyone without
+    access.
+  - Date: 2026-09-26
+- **Decision (user decision):** `typeid-hs-sql` and `typeid-hs-pg-migrate` move into the
+  channel as source-pinned entries in `overlays/registry.nix`, built from
+  `topagentnetwork/typeid-hs` at `7164a74c490cc92ffe73a315d827c9515de125d3`. Rei, mori
+  and mori-rei-app delete both overlay entries and their `typeid-hs-src` flake input.
+  - Rationale: the repository is now public (see Surprises & Discoveries), which removes
+    the only reason they stayed local. Three consumers carry identical copies, the
+    definition of a shared override.
+  - Shape: a registry entry, not a first-party family. A new family needs the explicit
+    catalog migration that
+    `docs/adr/1-compose-first-party-snapshots-in-one-haskell-scope.md` requires, and the
+    first decision above defers all such migrations. The entry follows the existing
+    `patches/codd/0.1.nix` precedent, a `pkgs.fetchFromGitHub` source with a fixed
+    revision and hash built by `callCabal2nix`. One shared `patches/typeid-hs/source.nix`
+    holds the fetch so both packages always build from the same revision.
+  - It is a source pin, not a version pin. `typeid-hs` is not on Hackage, so plan 8's
+    `cabal/cohort.freeze` does not list it and plan 9's generated layer does not own it.
+    The applications' `cabal.project` files keep their `source-repository-package`
+    stanza at the same tag; the two must name the same revision.
+  - Build policy stays what the consumers used: tests off, jailbroken.
+  - Date: 2026-09-26
+- **Decision (user decision):** `hasql-effectful` is neither a channel entry nor a
+  declared exception. Plan 12
+  (`docs/plans/12-adopt-the-shared-package-set-in-mori.md`) vendors the module into
+  `mori-core`, as rei did, and deletes mori's `hasql-effectful` overlay entry, its
+  `tan-effectful-src` flake input and its Cabal pin. This plan lists the overlay entry
+  and the input on mori's deletion list, conditioned on that vendoring: the vendoring
+  lands before, or in the same commit as, the overlay deletion.
+  - Rationale: only mori uses it (see Surprises & Discoveries). Its `effectful <2.6` cap
+    would need a jailbreak against the family's `effectful` 2.7 (plan 15), and a
+    private source cannot live in a public channel. Vendoring removes the dependency
+    rather than relocating it.
+  - Consequence for the audit: until plan 12 vendors it, mori's report shows
+    `hasql-effectful` as `undeclared`, which is the expected signal of a pending
+    deletion, not a failure of this plan.
+  - Date: 2026-09-26
+- **Decision (user decision):** The only declared exception in any consumer overlay is
+  mina's `mori-schema-pin` at mori `7af02c55`.
+  - Rationale: moving it changes the Dhall mina writes into other repositories, so it
+    stays pinned until mina deliberately adopts a newer schema. It is therefore declared
+    as an exception with that reason, not as a sibling (a sibling is a library that will
+    be consumed from its application's flake, which this pin deliberately is not).
+  - Mina's `kdl-hs` is not an exception either. It is a conditional deletion (after
+    plan 13 lifts mina's bound) and appears as `undeclared` in mina's report until then.
+  - This matches the MasterPlan's Integration Points for `mori-schema-pin`. The
+    MasterPlan still lists the `typeid-hs` and `hasql-effectful` sources as declared
+    exceptions; its owner must update that text to these decisions.
   - Date: 2026-09-26
 - **Decision:** Do not touch `patches/shibuya-pgmq-adapter/0.16.nix`. Mori's local
   0.16.1.0 override is on mori's deletion list with a precondition: the channel must
@@ -241,7 +323,8 @@ this repository at `4cabd105` and of the consumer overlays at the HEADs named in
   - Date: 2026-09-26
 - **Decision:** Add no channel entry for `kdl-hs`. Mina's override is deleted only after
   plan 13 lets mina accept the channel's 1.1.0 (by lifting `kdl-hs ^>=1.0`). Until then
-  it is a declared exception in mina's audit.
+  it is a conditional deletion that mina's report shows as `undeclared`; it is not a
+  declared exception (see the user decision above).
   - Rationale: pinning 1.0.1 in the channel would move the channel down from the 1.1.0
     it already offers. Only mina uses `kdl-hs`, and only mina's bound holds it back.
   - Date: 2026-09-26
@@ -253,9 +336,10 @@ this repository at `4cabd105` and of the consumer overlays at the HEADs named in
     provides, several written after ADR-24.
   - The new ADR records this reversal explicitly.
   - Date: 2026-09-26
-- **Decision:** Sibling-application libraries (`rei-core`, `mori-types`, `mori-app` and
-  `mori-schema-pin` in the overlays that consume them) are permitted as declared
-  siblings, not as own packages.
+- **Decision:** Sibling-application libraries (`rei-core`, `mori-types` and `mori-app` in
+  mori-rei-app's overlay) are permitted as declared siblings, not as own packages.
+  Mina's `mori-schema-pin` is declared as an exception instead (see the user decision
+  above).
   - Rationale: plans 11 and 12 change how one application consumes another's library
     (through that application's flake output). The audit must keep them legible until
     then without letting them pass as the consumer's own code.
@@ -308,6 +392,11 @@ terms recur below.
     `hself.callHackageDirect { pkg; ver; sha256; } { }`. Its `sha256` must be the hash
     of the *unpacked* source (what `nix-prefetch-url --unpack` prints), because
     `callHackageDirect` fetches with `fetchzip`.
+  - A source pin is a patch file that builds a package not published on Hackage from a
+    fixed Git revision: `hself.callCabal2nix "<name>" (pkgs.fetchFromGitHub { owner; repo; rev; hash; }) { }`.
+    `patches/codd/0.1.nix` is the existing example. Its `hash` is the NAR hash of the
+    unpacked tree, the same value a `flake.lock` records as `narHash` for the same
+    GitHub revision.
   - `lib/fixPackageByVersion.nix` turns each entry into a per-package override.
 - **First-party family.** A shinzui-owned repository whose packages the updater
   (`nix run .#haskell-nix-update --`) snapshots into `packages/first-party-lock.json`.
@@ -382,22 +471,28 @@ plus path.
 
 ### The inventory
 
-Every attribute defined in the five overlays falls into one of four classes:
+Every attribute defined in the five overlays falls into one of five classes:
 
 - **(a) Own:** the application's own packages.
 - **(b) Sibling:** another application's library, which stays until plans 11 and 12
   change how it is consumed.
 - **(c) Shared:** a third-party or first-party override the channel must own.
-- **(d) Exception:** a package that stays local for a stated reason.
+- **(d) Exception:** a package that stays local for a stated reason. There is exactly
+  one: mina's `mori-schema-pin`.
+- **(e) Retired by the consumer:** a dependency the consumer stops using, so the entry
+  goes away without the channel gaining anything. There is exactly one: mori's
+  `hasql-effectful`, which plan 12 vendors into `mori-core`.
 
 The destination of each class-(c) entry is given with it.
 
 **Rei** defines 17 attributes.
 
 - Own (a): `rei-core`, `rei-api`, `rei-cli`.
-- Exception (d): `typeid-hs-sql` and `typeid-hs-pg-migrate`, built from private
-  `topagentnetwork/typeid-hs` at `7164a74c`.
-- Shared (c), 12 entries:
+- Shared (c), 14 entries:
+  - `typeid-hs-sql` and `typeid-hs-pg-migrate`, both 0.1.0.0, built with `callCabal2nix`
+    from the `typeid-hs-src` flake input (`topagentnetwork/typeid-hs` at `7164a74c`,
+    now public), tests off, jailbroken. Destination: new source-pinned registry entries
+    backed by `patches/typeid-hs/source.nix`.
   - `link-canonical`: Hackage 0.1.0.0, tests off, jailbroken. Destination: a
     policy-only registry entry on nixpkgs' 0.1.0.0.
   - `kioku-core`: `disableLibraryProfiling`. Destination: none; already a no-op.
@@ -413,10 +508,13 @@ The destination of each class-(c) entry is given with it.
 **Mori** defines 37 attributes.
 
 - Own (a): `mori-types`, `mori-schema-pin`, `mori-core`, `mori-api`, `mori-cli`.
-- Exception (d):
-  - `hasql-effectful`, from private `topagentnetwork/tan-effectful` at `5e081ad8`;
-  - `typeid-hs-sql` and `typeid-hs-pg-migrate`, as in rei.
-- Shared (c), 29 entries:
+- Retired by the consumer (e): `hasql-effectful`, built from the `tan-effectful-src` flake
+  input (private `topagentnetwork/tan-effectful` at `5e081ad8`). Destination: none in
+  the channel. Plan 12 vendors the module into `mori-core` and then deletes the entry
+  and the input.
+- Shared (c), 31 entries:
+  - `typeid-hs-sql` and `typeid-hs-pg-migrate`, identical to rei's entries (same input
+    revision, same policy). Destination: the new source-pinned entries.
   - Already channel families, needing no change: `openapi-hs` (source `06fc1171`),
     `servant-openapi-hs` (source `181ca609`), and the four `relay-pagination` packages
     at 0.1.1.0.
@@ -444,8 +542,9 @@ The destination of each class-(c) entry is given with it.
 - Own (a): `mori-rei-app`.
 - Sibling (b): `mori-types` (from mori `32882f2d`), `mori-app` (from `mori-app`
   `30aca6e3`) and `rei-core` (from rei `880093cc`).
-- Exception (d): `typeid-hs-sql` and `typeid-hs-pg-migrate`.
-- Shared (c), 3 entries:
+- Shared (c), 5 entries:
+  - `typeid-hs-sql` and `typeid-hs-pg-migrate`, identical to rei's entries.
+    Destination: the new source-pinned entries.
   - `link-canonical`. Destination: the policy entry.
   - `wai-app-static`: Hackage 3.2.1, tests off, jailbroken. Destination: a new pin in
     `patches/wai-app-static/3.2.nix`, replacing the registry's
@@ -459,13 +558,16 @@ to move.
 **Mina** defines 6 attributes.
 
 - Own (a): `mina-core`, `mina-cli`.
-- Sibling (b): `mori-schema-pin`, from mori `7af02c55`.
-- Shared (c):
+- Exception (d): `mori-schema-pin`, from mori `7af02c55`. It stays pinned because moving
+  it changes the Dhall mina writes into other repositories. This is the only declared
+  exception across the five overlays.
+- Shared (c), 3 entries:
   - `generic-lens-core` and `generic-lens`, both 2.3.0.0, fetched with
     `builtins.fetchTarball` and built with tests off. Destination: new pins in
     `patches/generic-lens-core/2.3.nix` and `patches/generic-lens/2.3.nix`.
-  - `kdl-hs` 1.0.1. Destination: none. It is a temporary exception until plan 13
-    accepts nixpkgs' 1.1.0.
+  - `kdl-hs` 1.0.1. Destination: none; the channel already offers nixpkgs' 1.1.0. It is
+    a conditional deletion, not an exception: mina deletes it once plan 13 lifts
+    `kdl-hs ^>=1.0`, and until then the audit reports it as `undeclared`.
 
 Mori's `dhall-haskell` source pin and mina's `streamly` source pins live only in
 `cabal.project`, not in any overlay, so they are not overlay overrides. Plans 8, 12 and
@@ -474,29 +576,41 @@ Mori's `dhall-haskell` source pin and mina's `streamly` source pins live only in
 
 The resulting per-repository deletion lists, which plans 11 to 13 apply, are:
 
-- **Rei (12):**
+- **Rei (14):**
+  - `typeid-hs-sql`, `typeid-hs-pg-migrate`;
   - `link-canonical`, `kioku-core`, `openapi-hs`, `servant-openapi-hs`,
     `servant-health`;
   - `hs-opentelemetry-instrumentation-wai`, `hs-opentelemetry-sdk`,
     `hs-opentelemetry-exporter-otlp`;
   - `relay-pagination`, `relay-pagination-servant`, `relay-pagination-hasql`,
     `relay-pagination-conformance`.
-- **Mori (29):**
+
+  With the two `typeid-hs` entries gone, the `typeid-hs-src` flake input and the
+  overlay's `typeid-hs-src` argument become unused. Plan 11 deletes them too (the
+  `source-repository-package` stanza in `cabal.project` stays, at the same tag).
+- **Mori (32):**
+  - `typeid-hs-sql`, `typeid-hs-pg-migrate`;
   - `openapi-hs`, `servant-openapi-hs`, `servant-health`, `blake3`, `link-canonical`,
     `hasql-notifications`;
   - the 14 `hs-opentelemetry-*` names listed above;
   - `thread-utils-finalizers`, `thread-utils-context`, `hw-kafka-client`, `kioku-core`;
   - `shibuya-pgmq-adapter`, only once the channel supplies at least 0.16.1.0;
   - `relay-pagination`, `relay-pagination-conformance`, `relay-pagination-hasql`,
-    `relay-pagination-servant`.
+    `relay-pagination-servant`;
+  - `hasql-effectful`, only together with or after plan 12's vendoring of
+    `Effectful.Hasql` into `mori-core`. Deleting the entry first breaks the build of
+    every one of the 59 importing modules.
 
-  With these gone, the flake inputs `openapi-hs-src`, `servant-openapi-hs-src` and
-  `servant-health-src`, their overlay arguments, and the `callHackageNoCheck` helper
-  become unused. Plan 12 deletes them too.
-- **Mori-rei-app (3):** `link-canonical`, `wai-app-static`, `servant-server`.
+  With these gone, the flake inputs `typeid-hs-src`, `tan-effectful-src`,
+  `openapi-hs-src`, `servant-openapi-hs-src` and `servant-health-src`, their overlay
+  arguments, and the `callHackageNoCheck` helper become unused. Plan 12 deletes them
+  too (`tan-effectful-src` in the vendoring change).
+- **Mori-rei-app (5):** `typeid-hs-sql`, `typeid-hs-pg-migrate`, `link-canonical`,
+  `wai-app-static`, `servant-server`. The `typeid-hs-src` flake input and overlay
+  argument become unused; plan 11 deletes them.
 - **Reiko:** none.
 - **Mina (2, then a third):** `generic-lens-core` and `generic-lens`. `kdl-hs` follows
-  once mina's bound accepts 1.1.
+  once mina's bound accepts 1.1. `mori-schema-pin` stays as the one declared exception.
 
 
 ## Plan of Work
@@ -550,8 +664,38 @@ Edit `overlays/registry.nix`:
    - `generic-lens = always (import ../patches/generic-lens/2.3.nix);`, commented that
      nixpkgs ships 2.2.x, Cabal selects 2.3.0.0 for every application, Baikai needs
      `>=2.3`, and IR-2 asks for it.
+4. Add a section headed `# ── typeid-hs (public topagentnetwork source; not on Hackage) ──`
+   that contains:
+   - `typeid-hs-sql = always (import ../patches/typeid-hs/sql.nix);`
+   - `typeid-hs-pg-migrate = always (import ../patches/typeid-hs/pg-migrate.nix);`
 
-Create four patch files. Each opens with a comment that says what it pins and why, and
+   commented that both packages build from `topagentnetwork/typeid-hs` at `7164a74c`,
+   the revision the applications' `cabal.project` files pin with
+   `source-repository-package`, and that the two must move together.
+
+Create three files for the `typeid-hs` source pins, after confirming anonymous access
+and the hash with the M2 command under Concrete Steps:
+
+- `patches/typeid-hs/source.nix`, a function `{ pkgs, ... }:` returning
+  `pkgs.fetchFromGitHub { owner = "topagentnetwork"; repo = "typeid-hs"; rev = "7164a74c490cc92ffe73a315d827c9515de125d3"; hash = "sha256-XCq5GXlOK8ZxbR4ZKIEi99rQdJ6vxX1c6/C3nRGvcrA="; }`.
+  Its opening comment says the repository is public (anonymous access verified
+  2026-09-26), is not on Hackage, and that this revision must equal the applications'
+  Cabal tag.
+- `patches/typeid-hs/sql.nix`:
+
+  ```nix
+  # typeid-hs-sql 0.1.0.0: source pin (not on Hackage). Plan 9's generated layer does not own it.
+  { hself, haskellLib, pkgs, ... }@args:
+  haskellLib.dontCheck (haskellLib.doJailbreak
+    (hself.callCabal2nix "typeid-hs-sql" "${import ./source.nix args}/typeid-hs-sql" { }))
+  ```
+
+- `patches/typeid-hs/pg-migrate.nix`: the same shape for `typeid-hs-pg-migrate` and its
+  subdirectory. Its `pg-migrate` dependency resolves to the channel's `pg-migrate`
+  first-party family, and neither package depends on `effectful`, so the family's move
+  to `effectful` 2.7 (plan 15) does not affect them.
+
+Create four version-pin patch files. Each opens with a comment that says what it pins and why, and
 includes this line, which plan 9 acts on:
 
 ```text
@@ -593,6 +737,7 @@ today):
   `relay-pagination-conformance`, all 0.1.1.0;
 - `hasql-notifications` 0.2.5.0;
 - `thread-utils-finalizers` 0.1.1.0, `thread-utils-context` 0.4.1.0;
+- `typeid-hs-sql` 0.1.0.0, `typeid-hs-pg-migrate` 0.1.0.0;
 - every `hs-opentelemetry-*` name from mori's list at 1.0.0.0, except
   `hs-opentelemetry-semantic-conventions` at 1.40.0.0.
 
@@ -626,7 +771,7 @@ Commit (see Concrete Steps for the message).
 - a flake-library wrapper that consumers add to their own `checks`.
 
 Running the report against the five current overlays reproduces the deletion lists
-exactly.
+exactly: each list is that consumer's `shadowing` plus its `undeclared` names.
 
 Create `lib/consumerOverlayReport.nix`:
 
@@ -698,21 +843,26 @@ Thread `auditConsumerOverlay` into `checks/default.nix`'s arguments from `flake.
 
 Then run the report against the five real overlays with the scratch expression under
 Concrete Steps, and record the five reports in Surprises & Discoveries. Each
-consumer's `shadowing` must equal its deletion list from Context and Orientation,
-except these parts of the lists:
+consumer's `shadowing` plus `undeclared` must equal its deletion list from Context and
+Orientation. Read the lists with these points in mind:
 
 - mori's `shibuya-pgmq-adapter` does shadow; its deletion list keeps the plan 9
   precondition;
-- mina's `kdl-hs` is reported as `undeclared` unless you pass it as an exception;
-- mori's `hw-kafka-client` and the `link-canonical` entries appear only once M2's
-  entries exist;
-- the class-(d) exceptions must not appear anywhere once declared.
+- mori's `hasql-effectful` and mina's `kdl-hs` are reported as `undeclared`, because
+  the channel defines neither and neither is declared. That is correct: both are
+  conditional deletions (plan 12's vendoring, plan 13's bound lift), not exceptions.
+  Do not declare them to make the report green;
+- mori's `hw-kafka-client`, the `link-canonical` entries and all `typeid-hs-*` entries
+  appear in `shadowing` only once M2's entries exist;
+- mina's `mori-schema-pin`, the one class-(d) exception, must not appear anywhere once
+  declared.
 
 Acceptance:
 
 - `just nix-test` passes.
 - `nix build .#checks.aarch64-darwin.consumer-overlay-audit` succeeds.
-- The five reports match the deletion lists as described above.
+- The five reports match the deletion lists as described above, and only mina declares
+  an exception.
 
 Commit.
 
@@ -726,8 +876,13 @@ For rei, mori and mori-rei-app, build the application's package from a scratch
 expression (Concrete Steps). The expression:
 
 1. imports the consumer's flake with `builtins.getFlake "git+file://<checkout>?rev=<HEAD>"`
-   to obtain its source inputs;
-2. imports the consumer's `nix/haskell-overlay.nix` with those inputs;
+   to obtain its remaining source inputs (rei needs none, because its only source
+   argument is `typeid-hs-src`; its own packages are read from the checkout, which must
+   be clean at the named HEAD);
+2. imports the consumer's `nix/haskell-overlay.nix` with those inputs, except
+   `typeid-hs-src`, which it replaces with the dummy string `"/dev/null"`. The filtered
+   overlay never reads it, so a successful build proves the `typeid-hs` packages come
+   from the channel's source pin and that the input really is unnecessary;
 3. wraps it as `final: prev: builtins.removeAttrs (overlay final prev) deletions`;
 4. composes it after this repository's `lib.haskellExtensions.github`, obtained with
    `builtins.getFlake "path:/Users/shinzui/Keikaku/bokuno/haskell-nix"` so uncommitted
@@ -735,7 +890,12 @@ expression (Concrete Steps). The expression:
 5. builds the application's package.
 
 For mori, keep `shibuya-pgmq-adapter` out of `deletions` unless plan 9 has already moved
-the channel. After each build, list versions from the derivation closure. The runtime
+the channel. Likewise keep `hasql-effectful` out of `deletions` unless the mori revision
+you rehearse already contains plan 12's vendored `Effectful.Hasql` module; the channel
+has no `hasql-effectful` of the right generation (nixpkgs' Hackage 0.1.0.0 is a
+different, hasql-1.9-era source), so deleting the entry early fails `mori-core`'s build.
+While it is kept, pass the real `tan-effectful-src`, which is still private and needs
+your GitHub credentials. After each build, list versions from the derivation closure. The runtime
 closure of a Haskell executable does not reference static Haskell libraries, so do not
 use it.
 
@@ -750,6 +910,8 @@ Acceptance:
 - the rei and mori-rei-app closures contain `wai-app-static-3.2.1` and
   `generic-lens-2.3.0.0` derivations and no `wai-app-static-3.1.9.1`;
 - `openapi-hs-5.0.0` in the rei closure is built from the channel's GitHub source;
+- the rei, mori and mori-rei-app closures contain `typeid-hs-sql-0.1.0.0` and
+  `typeid-hs-pg-migrate-0.1.0.0` derivations even though `typeid-hs-src` was a dummy;
 - mina's evaluation prints 2.3.0.0 for both packages.
 
 If a build fails, the deletion list or a channel entry is wrong. Fix the channel entry
@@ -772,8 +934,10 @@ shape exactly: a title line, then `Status:` and `Date:` lines, then `## Context`
 
 - **Context:**
   - the composition order that lets a consumer overlay win silently;
-  - the 2026-09-26 inventory: 58 entries that are not the consumer's own code, 47 of them
+  - the 2026-09-26 inventory: 58 entries that are not the consumer's own code, 53 of them
     shared overrides, most of those duplicates;
+  - how the two private sources were resolved: `typeid-hs` was made public and moved
+    into the channel, and `hasql-effectful` is vendored by its only user;
   - the mori-rei-app hash divergence;
   - the thread-utils evidence that same-version duplicates still change derivations.
 - **Decision:**
@@ -782,17 +946,25 @@ shape exactly: a title line, then `Status:` and `Date:` lines, then `## Context`
     reasons.
   - It never defines a name the channel's registry defines.
   - A package a consumer needs at a version or with a policy the channel lacks is
-    added to this repository, not to the consumer.
-  - Private sources the public channel cannot fetch are the standing exception class.
+    added to this repository, not to the consumer. A package not on Hackage is added
+    as a source pin (a fixed `fetchFromGitHub` revision), as `typeid-hs` is.
+  - A source the public channel cannot fetch is not a standing exception. It is
+    resolved by publishing the source (as `typeid-hs` was) or by vendoring it into the
+    one consumer that uses it (as mori does with `hasql-effectful`).
+  - Declared exceptions are rare and each carries a reason. The only one today is
+    mina's `mori-schema-pin` at mori `7af02c55`, held because moving it changes the
+    Dhall mina writes into other repositories.
   - Enforcement: each consumer's `checks` include `lib.auditConsumerOverlay`.
   - Nested `*-src` input overrides remain allowed, per
     `mori://shinzui/mori/okf/adrs/concepts/ADR-24`'s 2026-09-13 amendment.
 - **Alternatives and consequences:**
   - The rejected alternatives: keeping ADR-24's local-pin escape hatch; making the
     channel win the composition, which ADR-24 already rejected; review-only
-    enforcement, which ADR-24 chose and which the inventory shows did not hold; and
-    new families for `servant-health` and `link-canonical`, deferred because of ADR 1's
-    catalog-migration rule.
+    enforcement, which ADR-24 chose and which the inventory shows did not hold;
+    new families for `servant-health`, `link-canonical` and `typeid-hs`, deferred
+    because of ADR 1's catalog-migration rule; and keeping private sources as declared
+    exceptions, which this plan first chose and then reversed once `typeid-hs` became
+    public.
   - Consequences: any consumer that needs a new override must first change this
     repository and relock. A consumer that opts back into profiling must handle
     `kioku-core` itself.
@@ -808,24 +980,39 @@ Update the user documentation. `docs/user` is an OKF bundle validated by
   - In "Ordering", replace the sentence "If your local overlay needs to further modify
     a package that haskell-nix already patches, your version wins because it runs
     second." with the rule and a pointer to the ADR.
-  - Add a section "Audit your local overlay" that shows the `checks` wiring:
+  - Add a section "Audit your local overlay" that shows the `checks` wiring. The usual
+    case, rei after plan 11, declares only its own packages:
+
+    ```nix
+    checks.consumer-overlay-audit = inputs.haskell-nix.lib.auditConsumerOverlay {
+      inherit pkgs;
+      overlay = import ./nix/haskell-overlay.nix { inherit pkgs gitRev; };
+      ownPackages = [ "rei-core" "rei-api" "rei-cli" ];
+    };
+    ```
+
+    Then show the exception form with the one real exception, mina's:
 
     ```nix
     checks.consumer-overlay-audit = inputs.haskell-nix.lib.auditConsumerOverlay {
       inherit pkgs;
       overlay = import ./nix/haskell-overlay.nix { inherit pkgs gitRev; /* sources */ };
-      ownPackages = [ "rei-core" "rei-api" "rei-cli" ];
+      ownPackages = [ "mina-core" "mina-cli" ];
       exceptions = {
-        typeid-hs-sql = "private topagentnetwork source; the public channel cannot fetch it";
-        typeid-hs-pg-migrate = "private topagentnetwork source; the public channel cannot fetch it";
+        mori-schema-pin = "held at mori 7af02c55; moving it changes the Dhall mina writes into other repositories";
       };
     };
     ```
 
+  - Say in the same section that a package missing from Hackage is not a reason for a
+    local entry: ask for a source pin in the channel, as `typeid-hs` has.
+
   - Note in the same section that `disableProfiling = false` reintroduces the
     `kioku-core` profiling panic on GHC 9.12.4.
 - `docs/user/adding-patches.md`: add a short paragraph saying that a consumer's need
-  for a third-party override is satisfied here, with the new patch files as examples.
+  for a third-party override is satisfied here, with the new patch files as examples:
+  a version pin (`patches/wai-app-static/3.2.nix`) and a source pin
+  (`patches/typeid-hs/`).
 - `docs/user/channels.md`: after the "Current inventory" family table, add a sentence
   naming the new common-registry entries.
 - `docs/user/log.md`: add an entry under a new dated heading, in the file's existing
@@ -833,9 +1020,11 @@ Update the user documentation. `docs/user` is an OKF bundle validated by
 
 Run `just check-docs` and `nix flake check`, then commit.
 
-Finally, fill in Outcomes & Retrospective. It must restate the three deletion lists, and
-the two conditional deletions with their conditions, so that plans 11, 12 and 13 can
-copy them.
+Finally, fill in Outcomes & Retrospective. It must restate the four deletion lists
+(rei, mori, mori-rei-app, mina), the three conditional deletions with their conditions
+(mori's `shibuya-pgmq-adapter` after plan 9, mori's `hasql-effectful` with plan 12's
+vendoring, mina's `kdl-hs` after plan 13's bound lift), the flake inputs each deletion
+frees, and mina's one declared exception, so that plans 11, 12 and 13 can copy them.
 
 
 ## Concrete Steps
@@ -856,6 +1045,10 @@ let
     overrides = hn.lib.haskellExtensions.github pkgs.haskell.lib.compose pkgs;
   };
   dummy = "/dev/null"; # attribute names never force source arguments
+  # These are the overlays' argument sets at the HEADs named in Progress. After plans 11
+  # and 12 delete the typeid-hs and hasql-effectful entries, the `typeid-hs-src` and
+  # `tan-effectful-src` arguments disappear; drop them here when that happens, or the
+  # import fails with "called with unexpected argument".
   overlays = {
     rei = import /Users/shinzui/Keikaku/bokuno/rei-project/rei/nix/haskell-overlay.nix {
       inherit pkgs; gitRev = "0000000"; typeid-hs-src = dummy; };
@@ -875,7 +1068,8 @@ in {
   names = builtins.mapAttrs (_: o: builtins.attrNames (o scope scope)) overlays;
   channelVersions = pkgs.lib.genAttrs [ "link-canonical" "servant-health" "wai-app-static"
     "servant-server" "generic-lens" "generic-lens-core" "hw-kafka-client" "kdl-hs"
-    "shibuya-pgmq-adapter" "thread-utils-context" ] version;
+    "shibuya-pgmq-adapter" "thread-utils-context" "typeid-hs-sql" "typeid-hs-pg-migrate"
+    ] version;
 }
 ```
 
@@ -891,11 +1085,32 @@ for mina, and channel versions like:
 ```text
 "link-canonical": "0.1.0.0", "servant-health": "absent", "wai-app-static": "3.1.9.1",
 "generic-lens": "2.2.2.0", "hw-kafka-client": "5.3.0", "kdl-hs": "1.1.0",
-"shibuya-pgmq-adapter": "0.16.0.0"
+"shibuya-pgmq-adapter": "0.16.0.0", "typeid-hs-sql": "absent", "typeid-hs-pg-migrate": "absent"
 ```
 
-After M2, the same run must print `servant-health` 0.1.0.0, `wai-app-static` 3.2.1
-and `generic-lens` 2.3.0.0.
+After M2, the same run must print `servant-health` 0.1.0.0, `wai-app-static` 3.2.1,
+`generic-lens` 2.3.0.0, and 0.1.0.0 for both `typeid-hs` packages.
+
+M2, confirming that `typeid-hs` is fetchable without credentials and that its hash is
+the one the consumers lock. Run it with GitHub tokens suppressed, so a success cannot
+come from your own access:
+
+```bash
+env -u GITHUB_TOKEN -u GH_TOKEN nix --option access-tokens "" flake prefetch --json \
+  github:topagentnetwork/typeid-hs/7164a74c490cc92ffe73a315d827c9515de125d3 | jq -r .hash
+```
+
+Expected output:
+
+```text
+sha256-XCq5GXlOK8ZxbR4ZKIEi99rQdJ6vxX1c6/C3nRGvcrA=
+```
+
+This is the `narHash` recorded for `typeid-hs-src` in the rei, mori and mori-rei-app
+`flake.lock` files, and the value `patches/typeid-hs/source.nix` uses. If the command
+fails with HTTP 404 or an authentication error, the repository is no longer public:
+stop, record it in Surprises & Discoveries, and ask the user, because the decision to
+move `typeid-hs` into the public channel depends on it.
 
 M2, confirming the `generic-lens` hashes. The output of `nix-prefetch-url --unpack` is
 base32; convert it to SRI form and compare it with the hash written in the patch:
@@ -944,9 +1159,11 @@ M2 commit:
 feat(registry): own the shared application overrides in the channel
 
 Add wai-app-static 3.2.1, servant-health 0.1.0.0 and generic-lens(-core)
-2.3.0.0 pins and policy entries for link-canonical, hw-kafka-client and
-servant-server, which five consumer overlays each carried locally. The
-shared-overrides check builds them through the default set.
+2.3.0.0 pins, policy entries for link-canonical, hw-kafka-client and
+servant-server, and source pins for typeid-hs-sql and typeid-hs-pg-migrate
+from the now-public topagentnetwork/typeid-hs at 7164a74c, which the
+consumer overlays each carried locally. The shared-overrides check builds
+them through the default set.
 
 MasterPlan: docs/masterplans/3-align-one-cabal-and-nix-package-set-across-the-rei-family-of-applications.md
 ExecPlan: docs/plans/10-own-the-shared-third-party-overrides-in-the-channel-instead-of-consumer-overlays.md
@@ -957,15 +1174,15 @@ M3, running the report against the real overlays. Extend `inventory.nix` with a
 `reports` attribute that calls `hn.lib.consumerOverlayReport` once per consumer, passing
 `overlay`, `pkgs` and these declarations:
 
-- **rei:** own `rei-core rei-api rei-cli`; exceptions for `typeid-hs-sql` and
-  `typeid-hs-pg-migrate`.
-- **mori:** own `mori-types mori-schema-pin mori-core mori-api mori-cli`; exceptions for
-  `hasql-effectful`, `typeid-hs-sql` and `typeid-hs-pg-migrate`.
-- **mori-rei-app:** own `mori-rei-app`; siblings `mori-types mori-app rei-core`;
-  exceptions for the two typeid packages.
+- **rei:** own `rei-core rei-api rei-cli`; no siblings, no exceptions.
+- **mori:** own `mori-types mori-schema-pin mori-core mori-api mori-cli`; no
+  exceptions (`hasql-effectful` is deliberately left undeclared).
+- **mori-rei-app:** own `mori-rei-app`; siblings `mori-types mori-app rei-core`; no
+  exceptions.
 - **reiko:** own `reiko-core reiko-cli`.
-- **mina:** own `mina-core mina-cli`; sibling `mori-schema-pin`; exception
-  `kdl-hs = "held at 1.0.1 until mina accepts kdl-hs 1.1 (plan 13)"`.
+- **mina:** own `mina-core mina-cli`; exception
+  `mori-schema-pin = "held at mori 7af02c55; moving it changes the Dhall mina writes into other repositories"`
+  (`kdl-hs` is deliberately left undeclared).
 
 Then run:
 
@@ -976,12 +1193,15 @@ nix eval --json --impure -f "$TMPDIR/plan10/inventory.nix" --apply 'x: builtins.
 Expected output, abbreviated:
 
 ```text
-"mina":  { "ok": false, "shadowing": ["generic-lens","generic-lens-core"], "undeclared": [] }
-"mori-rei-app": { "ok": false, "shadowing": ["link-canonical","servant-server","wai-app-static"], "undeclared": [] }
+"mina":  { "ok": false, "shadowing": ["generic-lens","generic-lens-core"], "undeclared": ["kdl-hs"] }
+"mori-rei-app": { "ok": false, "shadowing": ["link-canonical","servant-server","typeid-hs-pg-migrate","typeid-hs-sql","wai-app-static"], "undeclared": [] }
 "reiko": { "ok": true, "shadowing": [], "undeclared": [] }
-"rei":   { "ok": false, "shadowing": [ 12 names = rei's deletion list ], "undeclared": [] }
-"mori":  { "ok": false, "shadowing": [ 29 names = mori's deletion list ], "undeclared": [] }
+"rei":   { "ok": false, "shadowing": [ 14 names = rei's deletion list ], "undeclared": [] }
+"mori":  { "ok": false, "shadowing": [ 31 names = mori's deletion list less hasql-effectful ], "undeclared": ["hasql-effectful"] }
 ```
+
+No report may show `mori-schema-pin` anywhere, and `unusedDeclarations` and
+`invalidDeclarations` must be empty for all five.
 
 M3 checks and commit:
 
@@ -995,7 +1215,8 @@ feat(lib): audit consumer overlays against the channel
 
 lib.auditConsumerOverlay fails when a consumer overlay redefines a package
 the channel provides or defines one it has not declared as its own, a
-sibling application's library, or a reasoned exception.
+sibling application's library, or a reasoned exception. The only exception
+any consumer declares is mina's mori-schema-pin.
 
 MasterPlan: docs/masterplans/3-align-one-cabal-and-nix-package-set-across-the-rei-family-of-applications.md
 ExecPlan: docs/plans/10-own-the-shared-third-party-overrides-in-the-channel-instead-of-consumer-overlays.md
@@ -1007,13 +1228,16 @@ M4, the rei rehearsal. `$TMPDIR/plan10/rehearse-rei.nix`:
 ```nix
 let
   hn = builtins.getFlake "path:/Users/shinzui/Keikaku/bokuno/haskell-nix";
-  rei = builtins.getFlake "git+file:///Users/shinzui/Keikaku/bokuno/rei-project/rei?rev=880093ccd90aefc90e7b5ee288f9dc6a5e5d1921";
   pkgs = import hn.inputs.nixpkgs { system = "aarch64-darwin"; };
-  deletions = [ "link-canonical" "kioku-core" "openapi-hs" "servant-openapi-hs" "servant-health"
+  deletions = [ "typeid-hs-sql" "typeid-hs-pg-migrate"
+    "link-canonical" "kioku-core" "openapi-hs" "servant-openapi-hs" "servant-health"
     "hs-opentelemetry-instrumentation-wai" "hs-opentelemetry-sdk" "hs-opentelemetry-exporter-otlp"
     "relay-pagination" "relay-pagination-servant" "relay-pagination-hasql" "relay-pagination-conformance" ];
+  # typeid-hs-src is a dummy: the filtered overlay never reads it, so the typeid-hs
+  # packages can only come from the channel's source pin. Rei's overlay at 880093cc has
+  # no other source argument, so rei's own flake inputs are not needed.
   overlay = import /Users/shinzui/Keikaku/bokuno/rei-project/rei/nix/haskell-overlay.nix {
-    inherit pkgs; gitRev = "880093c"; inherit (rei.inputs) typeid-hs-src; };
+    inherit pkgs; gitRev = "880093c"; typeid-hs-src = "/dev/null"; };
   filtered = final: prev: builtins.removeAttrs (overlay final prev) deletions;
   hp = pkgs.haskell.packages.ghc9124.override {
     overrides = pkgs.lib.composeExtensions
@@ -1027,24 +1251,29 @@ Build it and read the versions:
 ```bash
 nix build --impure --no-link --print-out-paths -f "$TMPDIR/plan10/rehearse-rei.nix" rei-cli rei-api
 drv=$(nix eval --impure --raw -f "$TMPDIR/plan10/rehearse-rei.nix" rei-cli.drvPath)
-nix-store --query --requisites "$drv" | grep -E -- '-(wai-app-static|generic-lens|openapi-hs|servant-health|link-canonical)-[0-9.]+\.drv$'
+nix-store --query --requisites "$drv" | grep -E -- '-(wai-app-static|generic-lens|openapi-hs|servant-health|link-canonical|typeid-hs-sql|typeid-hs-pg-migrate)-[0-9.]+\.drv$'
 ```
 
 Expect `wai-app-static-3.2.1.drv`, `generic-lens-2.3.0.0.drv`, `openapi-hs-5.0.0.drv`,
-`servant-health-0.1.0.0.drv` and `link-canonical-0.1.0.0.drv` across the two
-derivations. `rei-cli` does not depend on `rei-api`, so the HTTP packages
+`servant-health-0.1.0.0.drv`, `link-canonical-0.1.0.0.drv`,
+`typeid-hs-sql-0.1.0.0.drv` and `typeid-hs-pg-migrate-0.1.0.0.drv` across the two
+derivations (`rei-core` depends on both `typeid-hs` packages). `rei-cli` does not depend on `rei-api`, so the HTTP packages
 (`servant-health`, `wai-app-static`) appear only in `rei-api`'s closure; run the same
 query on `rei-api.drvPath`.
 
 The mori and mori-rei-app rehearsals have the same shape:
 
 - **mori:** `getFlake` of `git+file:///Users/shinzui/Keikaku/bokuno/mori-project/mori?rev=f3c5fa4b...`
-  (full hash from `git -C … rev-parse HEAD`). Pass all six source inputs. Use mori's
-  deletion list, keeping out `shibuya-pgmq-adapter` unless plan 9 has landed, and build
-  `mori-cli`. Mori's `tan-effectful-src` and `typeid-hs-src` are private, so the fetch
-  needs your GitHub credentials (netrc or `gh auth`), as mori's own build does.
-- **mori-rei-app:** its four source inputs and its 3-entry deletion list; build
-  `mori-rei-app`.
+  (full hash from `git -C … rev-parse HEAD`). Pass the five source inputs other than
+  `typeid-hs-src` from the flake, and `typeid-hs-src = "/dev/null"`. Use mori's
+  deletion list, keeping out `shibuya-pgmq-adapter` unless plan 9 has landed and
+  `hasql-effectful` unless plan 12's vendoring is in the rehearsed revision (in which
+  case the overlay no longer takes `tan-effectful-src` either). Build `mori-cli`. While
+  `hasql-effectful` is kept, `tan-effectful-src` is the one private fetch, so it needs
+  your GitHub credentials (netrc or `gh auth`), as mori's own build does.
+- **mori-rei-app:** its three sibling source inputs (`mori-src`, `mori-app-src`,
+  `rei-src`) from the flake, `typeid-hs-src = "/dev/null"`, and its 5-entry deletion
+  list; build `mori-rei-app`.
 
 Run these builds one at a time; each compiles a large closure from source.
 
@@ -1080,17 +1309,23 @@ The plan is complete when all of the following hold.
      the entry afterwards.
 2. `just nix-test` passes, including the six new `testConsumerOverlay*` cases.
    `nix build .#checks.aarch64-darwin.consumer-overlay-audit` succeeds.
-3. The M3 report over the five real overlays gives each consumer a `shadowing` list
-   equal to its deletion list in Context and Orientation. Reiko is `ok`.
+3. The M3 report over the five real overlays gives each consumer `shadowing` plus
+   `undeclared` equal to its deletion list in Context and Orientation. Reiko is `ok`.
    - This is the plan's central proof: the audit sees exactly what plans 11 to 13 must
      delete, and nothing more.
    - Calling `lib.auditConsumerOverlay` on mori-rei-app's current overlay fails with
-     the `shadows channel packages … link-canonical, servant-server, wai-app-static`
-     message.
+     the `shadows channel packages … link-canonical, servant-server,
+     typeid-hs-pg-migrate, typeid-hs-sql, wai-app-static` message.
+   - Mori's `undeclared` is exactly `hasql-effectful` and mina's is exactly `kdl-hs`;
+     mina's `mori-schema-pin` is the only declared exception in any report.
 4. The M4 rehearsal builds of `rei-cli`, `rei-api`, `mori-cli` and `mori-rei-app`
    succeed with the deletion lists removed.
    - Their derivation closures show `wai-app-static-3.2.1` and
-     `generic-lens-2.3.0.0` where those packages are used.
+     `generic-lens-2.3.0.0` where those packages are used, and `typeid-hs-sql` and
+     `typeid-hs-pg-migrate` 0.1.0.0 although `typeid-hs-src` was a dummy.
+   - The anonymous `nix flake prefetch` of `topagentnetwork/typeid-hs` at `7164a74c`
+     (Concrete Steps, M2) prints the locked hash, proving the public channel can fetch
+     it.
    - Mina's filtered evaluation prints 2.3.0.0 for `generic-lens` and
      `generic-lens-core`.
 5. `nix flake check` passes, including `registry-valid`, `overlay-eval` and the
@@ -1124,7 +1359,13 @@ Every step is additive or a scratch evaluation, and all can be rerun.
 - If this plan lands first, plan 9 owns converting those four patch files. The
   `# Version pin: plan 9's generated layer owns this version…` comment marks them.
 - A rehearsal build failure in M4 means a channel entry is wrong. Fix the channel. Do
-  not restore the consumer entry, because that is the shadowing this plan removes.
+  not restore the consumer entry, because that is the shadowing this plan removes. The
+  one exception is mori's `hasql-effectful`: a failure there means plan 12's vendoring
+  has not landed, so keep that entry out of `deletions` and rerun.
+- A `hash mismatch in fixed-output derivation` for `patches/typeid-hs/source.nix` means
+  the revision or hash was mistyped; the message names the correct hash. The
+  `typeid-hs` source pins are not Hackage versions, so plan 9 must leave them in place
+  when it converts version pins to policy.
 
 
 ## Interfaces and Dependencies
@@ -1139,9 +1380,17 @@ Registry entries in `overlays/registry.nix`:
   (`patches/generic-lens/2.3.nix`).
 - Policy only: `link-canonical`, `hw-kafka-client` and `servant-server`, each
   `always dontCheckDoJailbreak`.
+- Source pins: `typeid-hs-sql` (to `patches/typeid-hs/sql.nix`) and
+  `typeid-hs-pg-migrate` (to `patches/typeid-hs/pg-migrate.nix`), both built with tests
+  off and jailbroken from `patches/typeid-hs/source.nix`, a `pkgs.fetchFromGitHub` of
+  public `topagentnetwork/typeid-hs` at `7164a74c490cc92ffe73a315d827c9515de125d3`
+  with `hash = "sha256-XCq5GXlOK8ZxbR4ZKIEi99rQdJ6vxX1c6/C3nRGvcrA="`.
 
 Each patch file is a function of `{ hself, haskellLib, ... }` returning a derivation,
-like `patches/claude/1.5.nix`.
+like `patches/claude/1.5.nix` (version pins) and `patches/codd/0.1.nix` (source pins).
+`patches/typeid-hs/source.nix` is not a registry patch; it is a helper both
+`typeid-hs` patch files import. None of these entries carries an `effectful` bound, so
+the family's move to `effectful` 2.7 (plan 15) needs nothing from them.
 
 `lib/consumerOverlayReport.nix`:
 
@@ -1180,7 +1429,10 @@ Dependencies and hand-offs:
   is a soft dependency.
   - Its generated layer supplies versions. After it lands, `overlays/registry.nix` and
     `patches/*` carry only build policy.
-  - It must convert this plan's four version pins if this plan lands first.
+  - It must convert this plan's four version pins if this plan lands first. It must
+    leave the two `typeid-hs` source pins alone: they are not Hackage versions and are
+    not in `cabal/cohort.freeze`. Its parity guard should compare their revision with
+    the applications' `source-repository-package` tag instead.
   - It must move `shibuya-pgmq-adapter` to at least 0.16.1.0 before mori's deletion of
     that entry.
   - Its parity script should consider reusing `lib/consumerOverlayReport.nix`'s idea of
@@ -1189,21 +1441,38 @@ Dependencies and hand-offs:
   - mina's `kdl-hs ^>=1.0` cap against nixpkgs' 1.1.0;
   - the Cabal `dhall -use-http-client-tls` flag in rei and mori-rei-app, which
     contradicts the channel's policy of keeping that flag on.
+- **Plan 15**
+  (`docs/plans/15-release-the-first-party-libraries-on-effectful-2-7.md`) releases
+  `keiro`, `kioku-core`, `shikumi`, `shikumi-trace` and `shikumi-cache` admitting
+  `effectful >=2.7.1.1`, and plan 8 hard-depends on it. This plan moves no package with
+  an `effectful` bound. The move is one more reason `hasql-effectful`, which caps
+  `effectful` below 2.6, is vendored by mori rather than carried by the channel.
 - **Plan 11** applies:
-  - rei's 12 deletions and mori-rei-app's 3;
+  - rei's 14 deletions and mori-rei-app's 5;
+  - removal of the `typeid-hs-src` flake input and overlay argument in both
+    repositories, once their lock's channel revision contains this plan's `typeid-hs`
+    entries at `7164a74c` (the same tag as `cabal.project`);
   - `checks.consumer-overlay-audit` in both repositories, with rei and mori-rei-app's
-    declarations from Concrete Steps;
+    declarations from Concrete Steps (no exceptions);
   - rei-core's move from a sibling entry to Rei's flake output, which then leaves
     mori-rei-app's sibling list.
 - **Plan 12** applies:
-  - mori's 29 deletions (with the `shibuya-pgmq-adapter` precondition);
-  - removal of the `openapi-hs-src`, `servant-openapi-hs-src` and `servant-health-src`
-    flake inputs and overlay arguments, and of the `callHackageNoCheck` helper;
-  - mori's audit check.
+  - mori's 32 deletions (with the `shibuya-pgmq-adapter` precondition, and
+    `hasql-effectful` only in or after the change that vendors `Effectful.Hasql` into
+    `mori-core`);
+  - removal of the `typeid-hs-src`, `tan-effectful-src`, `openapi-hs-src`,
+    `servant-openapi-hs-src` and `servant-health-src` flake inputs and overlay
+    arguments, and of the `callHackageNoCheck` helper;
+  - mori's audit check, with no exceptions.
 - **Plan 13** applies:
   - mina's `generic-lens(-core)` deletions;
   - the `kdl-hs` bound lift followed by its deletion;
-  - mina's and reiko's audit checks.
+  - mina's and reiko's audit checks, mina's declaring `mori-schema-pin` as its one
+    exception.
+- **MasterPlan owner:** the MasterPlan's Integration Points and Decision Log still name
+  the private `typeid-hs` and `hasql-effectful` sources as declared exceptions. They
+  should be updated to the three user decisions of 2026-09-26 in this plan's Decision
+  Log.
 - **Tools:** Nix with flakes; `nix-unit` (already in the dev shell and in the
   `nix-unit` check); `jq`; `nix-prefetch-url`; `just`; `okf` for `just check-docs`.
   Nothing new is introduced.
@@ -1212,3 +1481,4 @@ Dependencies and hand-offs:
 ## Revision Notes
 
 - 2026-09-26 (MasterPlan reconciliation after parallel drafting): The ADR is fixed as `docs/adr/4-consumer-overlays-define-only-their-own-packages.md` under the MasterPlan's allocation (plan 8 takes 2, plan 9 takes 3). The MasterPlan's Integration Points now match this plan's scope: most overrides are duplicates for consumers to delete, and the private `typeid-hs`/`hasql-effectful` sources and mina's `mori-schema-pin` are declared exceptions.
+- 2026-09-26 (user decisions on the private sources): `topagentnetwork/typeid-hs` was made public (anonymous `git ls-remote` returns `HEAD` `7164a74c`; the GitHub API answers 200 without credentials), so `typeid-hs-sql` and `typeid-hs-pg-migrate` move into the channel as source-pinned registry entries (`patches/typeid-hs/`, a `fetchFromGitHub` at `7164a74c`, not a new first-party family because ADR 1 requires a catalog migration for that), and rei, mori and mori-rei-app delete both entries and their `typeid-hs-src` input. `hasql-effectful` is used only by mori, so plan 12 vendors it into `mori-core`; mori's deletion list now includes it and `tan-effectful-src`, conditioned on that vendoring landing first or in the same change. Mina's `mori-schema-pin` at mori `7af02c55` is now the only declared exception (reclassified from sibling), and mina's `kdl-hs` is a conditional deletion reported as `undeclared`, not an exception. Updated throughout: Purpose (53 shared overrides), Progress, Surprises (typeid-hs public, hasql-effectful mori-only), Decision Log (old exception decision marked superseded; three user decisions added), the inventory's classes and counts (rei 14, mori 32, mori-rei-app 5), the deletion lists and freed flake inputs, M2's registry and patch steps and the anonymous-prefetch step, the audit's declarations and expected report (deletion list = `shadowing` + `undeclared`), the M4 rehearsals (dummy `typeid-hs-src`), the ADR's decision text, the consumer-integration example, Validation, Idempotence, and the hand-offs to plans 9, 11, 12, 13 and 15 and to the MasterPlan owner. The family's move to `effectful` 2.7 (plan 15) is noted where it matters: no moved package has an `effectful` bound, and `hasql-effectful`'s `<2.6` cap is one more reason to vendor it.

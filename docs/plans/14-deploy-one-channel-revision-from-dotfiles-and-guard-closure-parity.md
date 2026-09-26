@@ -34,43 +34,54 @@ repository `mori://shinzui/dotfiles.nix` (checked out at `/Users/shinzui/.config
 `mori://shinzui/reiko` and `mori://shinzui/mina`. Earlier plans of this initiative moved each
 of them onto one shared package set: one Cabal freeze file in this repository
 (`cabal/cohort.freeze`) and a Nix channel generated from it. What those plans cannot
-guarantee is that the deployed machine actually runs that set. Today dotfiles lets every
-application bring its own revision of this repository (the "channel"), so on 2026-09-26 the
-deployed system mixed four channel revisions, and the same library was built two or three
-different ways inside one system: `rei` and `mori-rei-app` each carried their own `rei-core`,
-`kioku-core` and `baikai` store paths. Nothing noticed, because nothing looks.
+guarantee is that the deployed machine actually runs the versions each application was
+tested with. Today dotfiles lets every application bring its own revision of this repository
+(the "channel"), so on 2026-09-26 the deployed system mixed four channel revisions, and the
+same library was built two or three different ways inside one system: `rei` and
+`mori-rei-app` each carried their own `rei-core`, `kioku-core` and `baikai` store paths.
+Nothing noticed, because nothing looks.
 
 After this plan:
 
-- dotfiles pins exactly one channel revision, and all five application inputs are forced
-  to use it;
-- the update recipes in `justfile` move one application at a time, and moving the channel
-  is a separate, deliberate recipe with its own build gate;
-- `./bin/build.sh` refuses to hand the user a system to activate unless a guard passes. The
-  guard checks that every application's own repository was tested against the same channel
-  revision dotfiles deploys, that every Haskell package in every deployed application has the
-  version the freeze names, and that shared libraries (`rei-core`, `kioku-core`, `baikai`,
-  `keiro`, `hasql`, `aeson`) are one identical store path across the applications that link
-  them.
+- dotfiles has one root channel input that the five applications follow by default, so a
+  plain update converges them on one channel revision, while a hotfix to one application can
+  still be deployed on a newer channel without moving the other four (by removing that one
+  application's `follows` line, as documented in `flake.nix`);
+- the update recipes in `justfile` move exactly the inputs they name (one application, the
+  five together, or the channel) and never silently move the base `haskell-nix-dev`;
+- `./bin/build.sh` runs a guard before it hands the user a system to activate. The guard is
+  strict only about what makes a deployed binary wrong: it fails when a deployed
+  application contains a Haskell package at a version different from the freeze published
+  by the channel revision that application's own `flake.lock` pins (the package set its own
+  tests ran on). Everything about fleet-wide uniformity is advisory: applications pinning
+  different channel revisions, an application's pin differing from dotfiles' root channel,
+  and a shared library (`rei-core`, `kioku-core`, `baikai`, `keiro`, `hasql`, `aeson`) having
+  more than one store path across the applications are printed as warnings and never block.
+  `HASKELL_PARITY=skip` bypasses the failures for emergencies.
 
 To see it working, run `just verify-haskell-parity` in dotfiles after a build: it prints one
-`ok` line per check and exits 0. Break it on purpose (Milestone 3 shows how, by overriding
-`mori-rei-app` to an old revision) and it prints `PARITY FAIL: rei-core has 2 store paths …`
-and exits 1, and `./bin/build.sh` leaves `./result` pointing at the previous good system.
+`ok:` line per passing check, any `PARITY WARN:` lines, and a closing
+`parity: 0 failure(s), N warning(s)` line, and exits 0. Break it on purpose (Milestone 3
+shows how, by giving the guard a doctored freeze with a wrong `aeson` version) and it prints
+`PARITY FAIL: reiko closure differs from its freeze …` and exits 1, and `./bin/build.sh`
+leaves `./result` pointing at the previous good system. Build one application on a different
+channel revision whose freeze is identical (Milestone 3's second negative test) and the guard
+only warns, exits 0, and the other four applications' store paths do not change.
 
 
 ## Progress
 
-- [ ] M1: Confirm plans 11, 12 and 13 are complete and every application's GitHub head pins one channel revision (record it as `R` in Decision Log).
-- [ ] M1: Confirm the channel at `R` exposes plan 9's comparison app and contains `cabal/cohort.freeze`.
+- [ ] M1: Confirm plans 11, 12 and 13 are complete; record each application's pushed head, its own locked channel revision and its freeze import; confirm each pinned revision publishes `cabal/cohort.freeze`; record the shared revision as `R` in the Decision Log (or record the spread if they differ).
+- [ ] M1: Confirm the channel at `R` exposes plan 9's `cohort-compare` app, and record the base revision its own lock names (`B`) next to dotfiles' current `haskell-nix-dev`.
 - [ ] M1: Confirm the dotfiles tree is safe to edit (no foreign `flake.lock` changes) and record the baseline shared-library table.
-- [ ] M2: Add `bin/verify-haskell-parity.sh` and the `verify-channel-pins` / `verify-haskell-parity` recipes; show `--pins-only` fails before M3.
+- [ ] M2: Add `bin/verify-haskell-parity.sh` (FAIL on version mismatch against each application's own freeze; WARN on revision spread, off-channel applications, base drift and store-path spread) and the `verify-channel-pins` / `verify-haskell-parity` recipes; show the pre-M3 verdict (warnings only, exit 0).
 - [ ] M2: Commit the guard in dotfiles.
-- [ ] M3: Add the root `haskell-nix` input pinned to `R`, pin `haskell-nix-dev` by revision, make the five inputs follow both (and `mori-rei-app` follow `rei` if it has a Rei flake input).
-- [ ] M3: Relock without moving any application; prove all five resolve to the root node; `--pins-only` passes.
-- [ ] M3: Negative test: override `mori-rei-app` to `2acd4ed4…`, build to a scratch link, and see the guard fail on `rei-core`.
+- [ ] M3: Add the root `haskell-nix` input (unpinned by URL, locked at `R` in `flake.lock`, following the unpinned root `haskell-nix-dev`); make the five inputs follow it (and `mori-rei-app` follow `rei` if it has a Rei flake input); leave `haskell-nix-dev` exactly as it is.
+- [ ] M3: Lock the root channel at `R` without moving any application; prove a second `nix flake lock` is a no-op, that all five resolve to the root node, and that the guard passes on a scratch build.
+- [ ] M3: Negative test N1: a doctored freeze (one wrong `aeson` version) makes the guard fail.
+- [ ] M3: Negative test N2: one application built on a different channel revision with an identical freeze only warns, exits 0, and leaves the other four store paths unchanged.
 - [ ] M3: Commit `flake.nix` and `flake.lock`.
-- [ ] M4: Replace `_update-with-base` with `_gated-update`, per-application recipes, `update-rei-family` and `update-channel`; make `./bin/build.sh` build a candidate, run the guard and only then promote `./result`; make `darwin-rebuild-sungkyung.sh` refuse an unguarded `./result`; ignore `result-candidate`.
+- [ ] M4: Replace `_update-with-base` with `_gated-update`, per-application recipes that move one input, `update-rei-family` and `update-channel`; make `./bin/build.sh` build a candidate, run the guard (failures block, warnings print) and only then promote `./result`; make `darwin-rebuild-sungkyung.sh` refuse an unguarded `./result`; ignore `result-candidate`.
 - [ ] M4: Commit the recipes and scripts.
 - [ ] M5: `just update-rei-family` (build and guard pass); user activates with `sudo ./bin/darwin-rebuild-sungkyung.sh`.
 - [ ] M5: Post-activation verification (real binaries, `:9091`, today's logs, `rei intention list` on the global database).
@@ -86,11 +97,14 @@ Observations made while drafting this plan on 2026-09-26 (re-verify at M1):
   working-tree `flake.lock` (rei `880093cc`, mori-rei-app `2acd4ed4`), while the committed
   `HEAD:flake.lock` still has rei `03cc7b67` and mori-rei-app `a912fb4c`. The dirty lock is
   therefore a deploy someone made and has not committed, not scratch work. M1 handles this.
-  Evidence: `git diff --stat flake.lock` → `295 insertions(+), 138 deletions(-)`.
+  Evidence: `git diff --stat flake.lock` → `295 insertions(+), 138 deletions(-)`. (The
+  MasterPlan records that it was later committed as dotfiles `14e829b`, local and not pushed.)
 - Observation: Thirteen dotfiles inputs consume this repository, on four channel revisions
   (working tree): rei and mori-rei-app `4cabd105`; mori and notion-hub `018d1e32`;
   reiko, mina, kizamu, kazuha, nihongo `b88d3173`; seihou, shiki, okf, notion-cli
-  `7b696dc8`. There is no root `haskell-nix` input.
+  `7b696dc8`. There is no root `haskell-nix` input. None of these four revisions contains
+  `cabal/cohort.freeze` (plan 8 creates it), so a pre-initiative application revision fails
+  the guard's version check by construction: there is no freeze to compare it with.
 - Observation: On aarch64-darwin a Haskell executable's runtime closure contains its Haskell
   libraries (`nix-store -qR` of `rei-cli-6.0.0.0` lists 561 paths, including
   `hasql-1.10.2.4`, `aeson-2.2.4.1`, `rei-core-6.0.0.0`). So the runtime closure, which is what
@@ -108,7 +122,9 @@ mina          -                  -                              baikai g5gl40b3 
 
   Same version, different store path (rei-core, kioku-core and baikai between rei and
   mori-rei-app) is the overlay effect the MasterPlan describes; different versions (mori,
-  mina) are the cohort lag plans 12 and 13 fix.
+  mina) are the cohort lag plans 12 and 13 fix. Under the revised guard the first kind is a
+  warning; the second kind fails only if it disagrees with the freeze the application itself
+  pins.
 - Observation: Every `nix eval` in dotfiles prints
   `warning: input 'mina/haskell-nix' has an override for a non-existent input 'haskell-nix-dev'`,
   because mina's channel `b88d3173` predates the `haskell-nix-dev` input. Following one root
@@ -118,10 +134,13 @@ mina          -                  -                              baikai g5gl40b3 
   `bin/darwin-rebuild-sungkyung.sh` is `./result/sw/bin/darwin-rebuild switch --flake .#SungkyungM1X $@`.
   darwin-rebuild re-evaluates and builds the flake itself and only borrows the
   `darwin-rebuild` binary from `./result`, so a guard in `build.sh` alone does not stop an
-  unguarded activation. M4 adds a check to the activation script for that reason.
+  unguarded activation. M4 adds a check to the activation script for that reason. The same
+  fact rules out `--override-input` as a way to deploy one application off-channel: the
+  override is not in `flake.nix` or `flake.lock`, so activation would evaluate without it.
 - Observation: `sed` on this machine's PATH is GNU sed 4.10 (from the Nix profile), not BSD
-  sed, so the macOS idiom `sed -i '' …` fails (GNU reads `''` as the script). Recipes use
-  `sed -E -i.bak …`, which both accept.
+  sed, so the macOS idiom `sed -i '' …` fails (GNU reads `''` as the script). The one `sed`
+  in this plan (negative test N1) writes to a new file and needs no `-i`; the revised
+  `update-channel` no longer edits `flake.nix` at all.
 
 
 ## Decision Log
@@ -134,47 +153,134 @@ mina          -                  -                              baikai g5gl40b3 
   would change what they build without their Cabal side moving, which is the exact divergence
   this initiative removes. Bringing them in is a follow-up (see Outcomes).
   Date: 2026-09-26
-- Decision: Pin the root `haskell-nix` input by revision in its URL, and also pin the root
-  `haskell-nix-dev` input by revision, to the `haskell-nix-dev` revision the channel's own
-  `flake.lock` records.
-  Rationale: With a revision in the URL, a bare `nix flake update` cannot move the channel;
-  only `just update-channel` (which edits the URL) can. The channel's generated versions are
-  only proven against the nixpkgs its own lock selects, so the base dotfiles deploys must be
-  that same base; pinning it makes the equality explicit and lets the guard check it.
+- Decision (superseded later on 2026-09-26 by the user decision below): Pin the root
+  `haskell-nix` input by revision in its URL, and also pin the root `haskell-nix-dev` input by
+  revision, to the `haskell-nix-dev` revision the channel's own `flake.lock` records.
+  Rationale at the time: with a revision in the URL, only `just update-channel` could move the
+  channel, and the base deployed would provably equal the channel's own base.
   Date: 2026-09-26
-- Decision: An application's own `flake.lock` (and the freeze import in its `cabal.project`)
-  must pin the same channel revision as dotfiles, and the guard fails otherwise.
-  Rationale: `follows` makes dotfiles win at deploy time regardless, so a mismatch never breaks
-  the build; it silently means the application's tests ran on a different package set than
-  the one deployed, which is the failure this initiative exists to remove.
+- Decision (superseded later on 2026-09-26 by the user decision below): An application's own
+  `flake.lock` and freeze import must pin the same channel revision as dotfiles, and the guard
+  fails otherwise.
+  Rationale at the time: a mismatch silently means the application's tests ran on a different
+  package set than the one deployed.
   Date: 2026-09-26
 - Decision: Version comparison against the freeze uses plan 9's shared script, run as a flake
-  app from the pinned channel revision; the cross-application identity check (same store path
-  for a shared library) lives in the dotfiles guard.
+  app from the channel; the cross-application store-path comparison lives in the dotfiles
+  guard as a few lines of shell. If plan 9 has by then added a shared-path mode to
+  `cohort-compare` (the MasterPlan's reconciliation note suggests one), call that instead;
+  either way its result is only a warning.
   Rationale: The MasterPlan requires the version comparison logic to exist once, in this
-  repository. The identity check is deploy-specific (it needs all five closures at once), is
-  a dozen lines, and has no Cabal counterpart.
+  repository. The identity check is deploy-specific (it needs all five closures at once) and
+  has no Cabal counterpart.
   Date: 2026-09-26
 - Decision: Compare output store paths, not `.drv` paths, and print the `.drv` (via
   `nix-store -qd`) only as a diagnostic.
   Rationale: For ordinary (input-addressed) Nix derivations the output path is computed from
-  the derivation, so equal output paths mean equal derivations; output paths are available
-  straight from `nix-store -qR` of the deployed system, whereas `.drv` files may be absent for
-  substituted paths.
+  the derivation, so equal output paths mean equal derivations (equal `drvPath`s); output
+  paths are available straight from `nix-store -qR` of the deployed system, whereas `.drv`
+  files may be absent for substituted paths.
   Date: 2026-09-26
 - Decision: `./bin/build.sh` builds to `./result-candidate`, runs the guard, and only then
   points `./result` at the new system; `bin/darwin-rebuild-sungkyung.sh` refuses to activate
   when `./result` is not the system the flake currently evaluates to. `HASKELL_PARITY=skip`
-  bypasses both with a loud warning.
+  bypasses both with a loud warning. Only guard failures block; guard warnings are printed and
+  the build is promoted.
   Rationale: The user activates whatever the flake evaluates to, not `./result`; tying the two
   together is the only way the guard actually guards. The bypass exists for emergency
-  rollbacks to a lock recorded before the guard existed.
+  rollbacks to a lock recorded before the guard existed (such locks fail the version check,
+  because their channels publish no freeze).
   Date: 2026-09-26
-- Decision: This plan runs no database migration.
-  Rationale: The Kiroku `0012` cutovers belong to plan 11 (applied to the global `rei` database
-  on 2026-09-26) and plan 12 (the `mori` database). By the time this plan runs, every
+- Decision: This plan runs no database migration, and the guard does not check Kiroku
+  migration state. The Kiroku safety condition (no Kiroku 0.8 writer deployed against a
+  database whose migration ledger has Kiroku `0012`) is owned by plans 11 and 12, which check
+  the ledger before and after each deploy (plan 12's Cases A, B and C).
+  Rationale: The `0012` cutovers belong to plan 11 (applied to the global `rei` database on
+  2026-09-26) and plan 12 (the `mori` database). By the time this plan runs, every
   application already runs a Kiroku 0.9 build, and this plan only changes how dotfiles pins
-  them.
+  them. The one way this plan could reintroduce a 0.8 writer is a rollback, which Idempotence
+  and Recovery forbids across a cutover.
+  Date: 2026-09-26
+- Decision (user decision, 2026-09-26: "the strict guard is too restrictive"): The guard is
+  strict only about what makes a deployed binary wrong and advisory about fleet-wide
+  uniformity. It fails (blocking `./bin/build.sh` and activation, bypassable with
+  `HASKELL_PARITY=skip`) when an application's deployed closure contains a Haskell package at a
+  version different from the freeze published by the channel revision that application's own
+  `flake.lock` pins, compared with `cohort-compare --freeze <that revision's freeze> --closure
+  <path>`. It also fails when it cannot perform that comparison (the application's own lock
+  has no locked `haskell-nix` input, its pinned revision publishes no freeze, the application
+  is not in the system being checked, or `cohort-compare` exits with a usage error), because
+  an unverifiable deploy is not a passing one. It only warns when the five applications pin
+  different channel revisions, when an application's pin differs from dotfiles' root
+  `haskell-nix`, when an application builds off-channel, when the channel's own base differs
+  from dotfiles' `haskell-nix-dev`, when an application's `cabal.project` imports the freeze
+  from a revision other than its lock's, when mori-rei-app's own lock pins a different Rei
+  than dotfiles deploys, and when a shared library has more than one store path across the
+  applications.
+  Rationale: A revision difference or a second build of the same library costs cache and
+  disk but does not change behavior; a version difference from what the application's own
+  tests ran on does. Blocking on uniformity made a single-application hotfix on a newer
+  channel impossible without moving the other four, which is exactly the coupling the user
+  wants to avoid. Comparing each application with its own pinned freeze (rather than dotfiles'
+  root) is what makes a converged fleet and a hotfixed application both pass while still
+  catching a follows edge that silently builds an application on a channel whose versions
+  differ from the ones it was tested with.
+  Date: 2026-09-26
+- Decision: Keep a root `haskell-nix` input that the five family inputs follow by default,
+  declared without a revision in its URL (`github:shinzui/haskell-nix`) and locked in
+  `flake.lock`, exactly like today's root `haskell-nix-dev`. `nix flake update haskell-nix`
+  (or `just update-channel`) moves it; `nix flake lock --override-input haskell-nix
+  github:shinzui/haskell-nix/<rev>` locks it at a chosen revision.
+  Rationale: The default must converge: with `follows`, any update deploys the five on one
+  channel revision without anyone remembering to. Pinning the revision in the URL was needed
+  only while a revision mismatch was a failure; now that the guard checks versions per
+  application, an unintended channel move by a broad `nix flake update` is caught where it
+  matters (a version that differs from an application's own freeze fails) and merely warned
+  about otherwise. Declaring it like `haskell-nix-dev` keeps one mental model and lets
+  `update-channel` avoid editing `flake.nix` with `sed`.
+  Date: 2026-09-26
+- Decision: To deploy one application off-channel (for example a hotfix whose pushed head
+  pins a newer channel than the other four), delete that application's
+  `inputs.haskell-nix.follows = "haskell-nix";` line in `flake.nix`, leave a one-line
+  `# OFF-CHANNEL since <date>: <reason>` comment in its place, and run `just update-<app>`.
+  The application then builds on the channel its own `flake.lock` pins (the nested node Nix
+  copies from the application's lock), still on dotfiles' base, and the guard warns
+  `… is off-channel …` until the follows line is restored after `just update-channel`
+  converges the family.
+  Rejected alternatives: a per-application root input such as `haskell-nix-rei` followed by
+  that one application (a second pin to maintain and to forget, with no benefit over the
+  application's own lock, which is by definition what it was tested on); and
+  `--override-input` at build time (not recorded in `flake.lock`, so `darwin-rebuild`, which
+  re-evaluates the flake, would activate something else, and the activation check would
+  rightly refuse it).
+  Rationale: One deleted line is the smallest reversible change, it is visible in
+  `git diff flake.nix`, and it makes the application build exactly what its own repository
+  locks.
+  Date: 2026-09-26
+- Decision: Do not pin `haskell-nix-dev` by revision. Keep today's behavior: the root
+  `haskell-nix-dev` input is unpinned in its URL, locked in `flake.lock`, and every Haskell
+  input (the five family inputs and the root `haskell-nix`) follows it. Keep the per-application
+  update recipes moving exactly one input instead of `_update-with-base`; the base moves only
+  when the user asks (`just update-channel base=yes`, or a plain `nix flake update
+  haskell-nix-dev`).
+  Rationale: The user did not ask for a base pin, and it would couple every Haskell tool in
+  dotfiles (all thirteen consumers follow the same base) to the channel's release cadence. A
+  channel locked on a different base than dotfiles' is reported as a warning; if the
+  different base changes a frozen version, the version check fails anyway.
+  Date: 2026-09-26
+- Decision: The guard reads dotfiles' lock through `nix flake metadata --json` with the same
+  `PARITY_NIX_FLAGS` the closure evaluation uses, instead of reading `flake.lock` directly, and
+  accepts a test-only `PARITY_FREEZE_OVERRIDE="<app>=<file>"`.
+  Rationale: With the lock read through Nix, a build-time `--override-input` (used by the
+  negative tests and by `./bin/build.sh <flags>`) is reflected in every check, so a negative
+  test no longer has to skip the revision checks. The freeze override gives a deterministic
+  version-mismatch test that needs no second channel release.
+  Date: 2026-09-26
+- Decision: The family's move to `effectful` 2.7, delivered by
+  `docs/plans/15-release-the-first-party-libraries-on-effectful-2-7.md`, needs no change here.
+  Rationale: The guard compares each deployed closure with whatever the freeze at the
+  application's pinned revision says; once plan 15's releases land in the freeze, `effectful`
+  2.7 and the new first-party versions are simply the frozen versions.
   Date: 2026-09-26
 
 
@@ -184,7 +290,8 @@ mina          -                  -                              baikai g5gl40b3 
 
 Known follow-up at drafting time: the eight non-family Haskell inputs listed in the Decision
 Log still bring their own channel revisions. Onboarding them means each imports the freeze and
-is added to the `family` list in `bin/verify-haskell-parity.sh` and to the follows block.
+is added to the `family` list in `bin/verify-haskell-parity.sh`, to the wrapper list in its
+`nix eval`, and to the follows block.
 
 
 ## Context and Orientation
@@ -196,27 +303,42 @@ Words used in this plan:
   frozen versions. A channel revision is one git commit of it.
 - **Base**: the flake `github:shinzui/haskell-nix-dev`, input name `haskell-nix-dev`. It pins
   nixpkgs (today `d5dfd8e6`) and the GHC toolchain. The channel follows the base's nixpkgs.
-- **Freeze**: `cabal/cohort.freeze` in the channel, written by plan 8. One
-  `any.<package> ==<version>` line per Haskell package. All five applications' `cabal.project`
-  files import it by URL at a fixed channel revision, for example
+  Dotfiles declares it without a revision and locks it in `flake.lock`; this plan keeps that.
+- **Freeze**: `cabal/cohort.freeze` in the channel, written by plan 8. An `index-state:` line
+  and one `any.<package> ==<version>` constraint per Haskell package. All five applications'
+  `cabal.project` files import it by URL at a fixed channel revision, for example
   `import: https://raw.githubusercontent.com/shinzui/haskell-nix/<rev>/cabal/cohort.freeze`.
+  Channel revisions from before plan 8 do not contain the file.
+- **An application's pinned channel revision**: the `haskell-nix` revision recorded in the
+  application's own `flake.lock` in its own repository. It is the package set the
+  application's developers and its test suite build against, and the guard compares the
+  deployed closure with the freeze at exactly that revision.
 - **Flake lock**: `flake.lock` records, for every input and every input of an input, the
-  exact revision used. Dotfiles' `flake.lock` contains a node per application and, nested
-  under each, the channel revision that application chose.
+  exact revision used. Dotfiles' `flake.lock` contains a node per application and, unless the
+  application follows a root input, nested under it the channel revision that application's
+  own lock chose.
 - **`follows`**: in a flake input declaration, `inputs.haskell-nix.follows = "haskell-nix";`
   means "when you evaluate this application, ignore the channel revision the application's
   own lock names and hand it dotfiles' root `haskell-nix` input instead". The application's
   source code is unchanged; only which revision of the channel it sees changes. Dotfiles
   already does this for the base (`inputs.haskell-nix-dev.follows = "haskell-nix-dev";`).
-  Consequence: at deploy time dotfiles always wins. The application's own `flake.lock` still
-  matters, because that is what its developers and its test suite build against. If it names
-  a different channel revision, the application was tested on one package set and ships on
-  another. That is why this plan adds a check that the two agree.
+  Consequence: for a following application, dotfiles decides the channel at deploy time. If
+  that channel's versions differ from the application's pinned freeze, the application ships
+  on a package set its tests never saw; that is the failure the guard exists to catch. If
+  only the revision differs and the versions agree, nothing about the binary's behavior
+  changes, and the guard only warns.
+- **On-channel / off-channel**: an application is on-channel when it follows the root
+  `haskell-nix`, and off-channel when its follows line has been removed so it builds on the
+  channel its own lock pins (the hotfix path in the Decision Log).
+- **FAIL / WARN**: the guard prints `PARITY FAIL: …` for conditions that make a deployed
+  binary wrong or unverifiable, and exits 1 if there is at least one; it prints
+  `PARITY WARN: …` for uniformity conditions, which never change the exit status.
 - **Closure**: the set of store paths a store path needs at runtime, printed by
   `nix-store -qR <path>`. Each entry looks like `/nix/store/<32-char hash>-<name>-<version>`.
 - **Store path identity**: two applications "share" a library only if both closures contain
   the very same `/nix/store/<hash>-<name>-<version>` path. Same name and version with a
-  different hash means the library was built twice with different inputs.
+  different hash means the library was built twice with different inputs (different
+  `drvPath`s). That costs build time and disk; it is reported, not blocked.
 - **Activation**: `sudo ./bin/darwin-rebuild-sungkyung.sh` in dotfiles, which switches the Mac
   to the new system and restarts every launchd agent whose definition changed. Only the user
   runs it. Agents never activate, never push, and never migrate a production database.
@@ -224,7 +346,7 @@ Words used in this plan:
 Files in dotfiles (`/Users/shinzui/.config/dotfiles.nix`) this plan touches:
 
 - `flake.nix`: the `inputs` block. Today it has `haskell-nix-dev.url = "github:shinzui/haskell-nix-dev";`
-  (no revision) and, for each application, a block like
+  (no revision, and this plan leaves that line alone) and, for each application, a block like
 
 ```nix
 rei = {
@@ -280,36 +402,43 @@ What earlier plans of this initiative deliver, and this plan assumes (all descri
   generates Nix from the freeze and owns the one comparison script under `scripts/`. This
   plan relies on the following contract, and M1 verifies it: the channel flake exposes an app
   named `cohort-compare` such that
-  `nix run github:shinzui/haskell-nix/<rev>#cohort-compare -- --freeze "https://raw.githubusercontent.com/shinzui/haskell-nix/$R/cabal/cohort.freeze" --closure <store-path>` reads the
-  freeze at that same revision, lists the runtime closure of `<store-path>`, considers only
-  Haskell package paths (it must not confuse the C `zlib-1.3.2` with the Haskell `zlib`
-  package, both of which appear in closures), ignores packages absent from the freeze (the
-  applications' own packages), prints one line per mismatch as
-  `<package> nix=<version> freeze=<version>`, and exits 1 on any mismatch and 0 otherwise. If
-  plan 9 shipped a different app name or arguments, change only the `parity_cmd` line in the
-  guard script and record it in the Decision Log.
+  `nix run github:shinzui/haskell-nix/<rev>#cohort-compare -- --freeze <file-or-url> --closure <store-path>`
+  reads the freeze (a local file or an HTTPS URL such as
+  `https://raw.githubusercontent.com/shinzui/haskell-nix/<rev>/cabal/cohort.freeze`), lists
+  the runtime closure of `<store-path>`, considers only Haskell package paths (it must not
+  confuse the C `zlib-1.3.2` with the Haskell `zlib` package, both of which appear in
+  closures), ignores packages absent from the freeze (the applications' own packages), prints
+  one `mismatch` line per package whose version differs, and exits 1 on any mismatch, 2 on a
+  usage error and 0 otherwise. If plan 9 shipped a different app name or arguments, change
+  only the `cohort-compare` call in the guard script and record it in the Decision Log.
 - Plan 10 moves shared overrides into the channel.
-- Plans 11, 12, 13 make each application import the freeze at channel revision `R`, pin `R`
-  in its own `flake.lock`, drop shared overrides, and deploy. Plan 11 also makes mori-rei-app
-  take `rei-core` from Rei's flake instead of rebuilding it; M1 finds out the input name it
-  chose. Plans 11 and 12 ran the Kiroku `0012` migration on the global `rei` (2026-09-26) and
-  `mori` databases. After `0012`, a Kiroku 0.8 binary fails every append, so there is no going
-  back to a pre-cutover build (see Idempotence and Recovery).
+- Plans 11, 12, 13 make each application import the freeze at a channel revision, pin that
+  same revision in its own `flake.lock`, drop shared overrides, and deploy. Plan 11 also makes
+  mori-rei-app take `rei-core` from Rei's flake instead of rebuilding it; M1 finds out the
+  input name it chose. Plans 11 and 12 ran the Kiroku `0012` migration on the global `rei`
+  (2026-09-26) and `mori` databases and own the check that no Kiroku 0.8 writer runs against
+  a database whose ledger has `0012`. After `0012`, a Kiroku 0.8 binary fails every append, so
+  there is no going back to a pre-cutover build (see Idempotence and Recovery).
+- Plan 15 (`docs/plans/15-release-the-first-party-libraries-on-effectful-2-7.md`) moves the
+  whole family to `effectful` 2.7 by releasing the first-party libraries on it. It changes the
+  freeze's contents, not this plan: the guard compares against whatever the freeze at each
+  application's pinned revision says.
 
 Relevant ADRs:
 
 - `docs/adr/1-compose-first-party-snapshots-in-one-haskell-scope.md` (this repository): one
   Nixpkgs fixed point with one version per package name, and cache reuse only when inputs are
-  equal. Two store paths for `rei-core` in one deployed system is a direct violation of the
-  "one version per package name" intent at the scale of the deployment, which this plan's
-  identity check enforces. This repository's ADRs are plain Markdown files with a `Status:`
-  and `Date:` line, not an OKF bundle; follow that convention.
+  equal. The per-application version check enforces "one version per package name" against
+  what each application was tested with; two store paths for `rei-core` in one deployed system
+  is reported as lost cache reuse. This repository's ADRs are plain Markdown files with a
+  `Status:` and `Date:` line, not an OKF bundle; follow that convention.
 - `mori://shinzui/rei/okf/adrs/concepts/ADR-18` ("An index-state bump is half a cohort
   adoption"): Cabal and Nix pick the cohort by different mechanisms and the divergence fails
-  silently, so both must be changed and proven. The channel-pin check is the deploy-side proof.
+  silently, so both must be changed and proven. The version check is the deploy-side proof.
 - `mori://shinzui/mori/okf/adrs/concepts/ADR-24` ("Source first-party Haskell packages from
-  the shared overlay"): a local override silently shadows the shared one. The identity check
-  catches any shadowing that survived plan 10.
+  the shared overlay"): a local override silently shadows the shared one. A shadowing override
+  that changes a version fails the version check; one that only changes build policy shows up
+  as a store-path warning.
 - `mori://shinzui/rei/okf/adrs/concepts/ADR-31` ("Gate runtime releases on restored history and
   observed delivery"): a runtime release is proven by observing it deliver, which is what the
   post-activation checks in M5 do.
@@ -319,28 +448,32 @@ No dotfiles ADR exists.
 
 ## Plan of Work
 
-The work is five milestones. M1 changes nothing. M2 adds the guard alone, so its failure
-messages can be seen against today's state before anything is fixed. M3 makes dotfiles pin
-one channel and proves the guard both passes and fails correctly. M4 wires the guard into the
-build and update paths. M5 runs the whole fleet through it and hands the result to the user
-to activate.
+The work is five milestones. M1 changes nothing. M2 adds the guard alone, so its verdict can
+be seen against today's state before anything is changed. M3 adds the root channel input,
+proves the guard passes, fails on a version mismatch and only warns on a revision mismatch.
+M4 wires the guard into the build and update paths. M5 runs the whole fleet through it and
+hands the result to the user to activate.
 
 
 ### Milestone 1: Preconditions and baseline (read-only)
 
-Scope: prove the three hard dependencies are really done, find the channel revision `R`, and
-record the starting state. Nothing is edited.
+Scope: prove the three hard dependencies are really done, find the channel revision each
+application pins, and record the starting state. Nothing is edited.
 
 First, read the Progress sections of plans 11, 12 and 13 and the MasterPlan registry; all
 three must be Complete, including their deploy steps. Then, for each application, ask GitHub
 (through Nix, not a local checkout, because dotfiles deploys what is pushed) which channel
-revision its pushed head locks and which revision its `cabal.project` imports the freeze
-from. All five must print the same 40-character revision; that is `R`. Record `R` in the
-Decision Log. If they differ, stop: the lagging application's plan is not finished.
+revision its pushed head locks, which revision its `cabal.project` imports the freeze from,
+and whether that revision publishes `cabal/cohort.freeze`. Every pinned revision must publish
+a freeze; if one does not, stop: that application's plan is not finished. The five are
+expected to pin the same revision, which this plan calls `R` and records in the Decision Log.
+If they differ, that is no longer a blocker: record the spread, take `R` to be the newest
+pinned revision, and expect the guard to warn about the others until they catch up.
 
-Next, check the channel at `R`: its `flake.lock` names a base revision (record it as `B`),
-it contains `cabal/cohort.freeze`, and it exposes `cohort-compare`. Run the app once against
-the deployed `rei` wrapper to see its output format.
+Next, check the channel at `R`: record the base revision its own `flake.lock` names (call it
+`B`) next to dotfiles' current locked `haskell-nix-dev`. If they differ, the guard will warn;
+nothing here pins the base. Confirm `R` exposes `cohort-compare` and run it once against the
+deployed `rei` wrapper to see its output format.
 
 Then check the dotfiles tree. If `git status --short flake.lock` shows a modification, compare
 the working-tree lock with the running system: if `./result` equals `/run/current-system` and
@@ -353,8 +486,9 @@ this plan's commits would carry them.
 Finally, record a baseline shared-library table with the loop in Concrete Steps, and paste it
 into Surprises & Discoveries next to the 2026-09-26 table.
 
-Acceptance: `R` and `B` are recorded; five matching revisions are shown; `cohort-compare` runs;
-the dotfiles `flake.lock` is clean or its owner has committed it.
+Acceptance: each application's head, pinned revision and freeze import are recorded, every
+pinned revision publishes a freeze, `R` and `B` are recorded, `cohort-compare` runs, and the
+dotfiles `flake.lock` is clean or its owner has committed it.
 
 
 ### Milestone 2: The guard script and its recipes
@@ -363,77 +497,94 @@ Scope: add `bin/verify-haskell-parity.sh` and two `justfile` recipes in dotfiles
 `just verify-channel-pins` and `just verify-haskell-parity` exist and give a readable verdict
 on the current system. No input changes yet.
 
-The script has two phases, selectable with `--pins-only` and `--closure-only` (default: both).
+The script reads dotfiles' lock through `nix flake metadata --json` (with any
+`--override-input` flags from `PARITY_NIX_FLAGS` applied), then, for each of the five
+applications, records three revisions: the application's own revision in dotfiles' lock;
+the channel revision dotfiles actually builds it on (the node its `haskell-nix` input resolves
+to, which is the root `haskell-nix` node when it follows and a nested node when it does not);
+and its pinned channel revision (the `haskell-nix` revision in the application's own
+`flake.lock` at that revision). It fetches the freeze at the pinned revision into a
+temporary file. That is all lock data; no build is needed.
 
-The pins phase reads only lock data. It takes `R` from dotfiles' `flake.lock` root input
-`haskell-nix` and `B` from root input `haskell-nix-dev`, and fails immediately with
-`no root haskell-nix input in flake.lock` if the first is missing. It asks the channel at `R`
-which base its own lock records and fails unless that is `B`. For each of the five
-applications it takes the application's revision from dotfiles' `flake.lock`, then asks that
-revision's own `flake.lock` for its `haskell-nix` revision (must be `R`) and reads its
-`cabal.project` (must contain `haskell-nix/<R>/cabal/cohort.freeze`). If M1 found that
-mori-rei-app has a flake input for Rei, it also checks that mori-rei-app's own lock pins the
-same Rei revision that dotfiles deploys, because otherwise mori-rei-app was tested against a
-different `rei-core`.
+The script then has two phases, selectable with `--pins-only` and `--closure-only` (default:
+both). The pins phase only reports. It fails (`PARITY FAIL`) only if an application's own lock
+has no locked `haskell-nix` input, or its pinned revision publishes no freeze, because either
+makes the version check impossible. It warns (`PARITY WARN`) when there is no root
+`haskell-nix` input, when the root channel's own base differs from dotfiles' `haskell-nix-dev`,
+when an application is off-channel (dotfiles builds it on a channel other than the root),
+when an application's pinned revision differs from the channel dotfiles builds it on, when its
+`cabal.project` imports the freeze from a revision other than its pin, when the five pin more
+than one revision, and (if M1 found that mori-rei-app has a flake input for Rei) when
+mori-rei-app's own lock pins a different Rei than dotfiles deploys.
 
 The closure phase takes a built system path (default `./result`). It evaluates the five
-wrapper store paths from the flake in one `nix eval`, checks that each is inside the system's
-closure (so the guard is looking at what will be activated), runs `cohort-compare closure` on
-each, and then, for each shared library, collects the distinct store paths across the five
-closures. More than one distinct path for a library is a failure, printed with each path,
-its `.drv`, and which applications use it. A library that an application does not link is
-simply absent from that application's closure and is not a failure (reiko links only `aeson`
-of the six).
+wrapper store paths from the flake in one `nix eval`, fails if one is not inside the system's
+closure (so the guard is looking at what will be activated), and runs
+`cohort-compare --freeze <that application's pinned freeze> --closure <wrapper>` for each,
+using the `cohort-compare` app from that same pinned revision. A mismatch (exit 1) or usage
+error (exit 2) is a failure naming the application and its pinned revision. Then, for each
+shared library, it collects the distinct store paths across the five closures and warns when
+there is more than one, printing each path, its `.drv`, and which applications use it. A
+library an application does not link is simply absent from its closure (reiko links only
+`aeson` of the six).
 
-Two environment variables make the script testable without editing it: `PARITY_FLAKE`
-(default `.`) and `PARITY_NIX_FLAGS` (default empty, appended to the `nix eval` call, for
-example `--override-input mori-rei-app github:shinzui/mori-rei-app/<rev>`). The script prints
-`ok:` lines for passing checks and `PARITY FAIL:` lines to standard error for failing ones,
-runs every check before exiting, and exits 1 if any failed.
+Three environment variables make the script testable without editing it: `PARITY_FLAKE`
+(default `.`), `PARITY_NIX_FLAGS` (default empty, appended to the `nix flake metadata` and
+`nix eval` calls, for example `--override-input mori-rei-app/haskell-nix github:shinzui/haskell-nix/<rev>`)
+and `PARITY_FREEZE_OVERRIDE` (default empty; `<app>=<file>` makes that one application compare
+against `<file>` instead of its pinned freeze, used only by negative test N1). The script
+prints `ok:` lines for passing checks and `PARITY WARN:` / `PARITY FAIL:` lines to standard
+error, runs every check before exiting, ends with `parity: <n> failure(s), <m> warning(s)`,
+and exits 1 if and only if there was a failure.
 
 The full script is in Interfaces and Dependencies. The recipes are:
 
 ```just
-# Check, without building, that dotfiles and every Rei-family application pin one channel revision
+# Report, without building, which haskell-nix revision each Rei-family application pins
+# and builds on (warnings only, unless a pinned revision publishes no cohort freeze)
 [group: 'tools']
 verify-channel-pins:
     ./bin/verify-haskell-parity.sh --pins-only
 
-# Check a built system (default ./result): channel pins, versions against the cohort freeze,
-# and one store path per shared library across the Rei-family applications
+# Check a built system (default ./result): each Rei-family closure must match the freeze
+# its own pinned channel publishes (FAIL); revision and store-path spread only warn
 [group: 'tools']
 verify-haskell-parity system="./result":
     ./bin/verify-haskell-parity.sh {{system}}
 ```
 
-Acceptance: `just verify-channel-pins` exits 1 with
-`PARITY FAIL: no root haskell-nix input in flake.lock` (that is the state before M3), and
-`./bin/verify-haskell-parity.sh --closure-only ./result` produces a verdict consistent with
-the M1 baseline table. Commit `bin/verify-haskell-parity.sh` and `justfile`.
+Acceptance: `just verify-channel-pins` exits 0 and prints
+`PARITY WARN: no root haskell-nix input in flake.lock; each family application builds on its own channel`
+(the state before M3), plus a revision-spread warning if M1 found one, and no failures;
+`./bin/verify-haskell-parity.sh --closure-only ./result` exits 0 and its store-path warnings
+match the M1 baseline table (a library that shows two hashes there is warned about here). If
+it fails instead, the deployed lock carries an application revision that plans 11 to 13 did
+not deploy; stop and find out why. Commit `bin/verify-haskell-parity.sh` and `justfile`.
 
 
-### Milestone 3: One channel input that every family application follows
+### Milestone 3: One root channel that the family follows by default
 
-Scope: edit `flake.nix` in dotfiles, relock, and prove the result. At the end the five
+Scope: edit `flake.nix` in dotfiles, lock, and prove the result. At the end the five
 applications' nested channel nodes are gone from `flake.lock`, replaced by the one root
-`haskell-nix` node at `R`, and the guard passes on a freshly built system and fails on a
-deliberately broken one.
+`haskell-nix` node at `R`, and the guard passes on a freshly built system, fails on a
+version mismatch, and only warns on a revision mismatch.
 
-In `flake.nix`, change the base line to a pinned revision and add the channel right after it,
-with a comment explaining the rule:
+In `flake.nix`, leave `haskell-nix-dev.url = "github:shinzui/haskell-nix-dev";` exactly as it
+is, and add the channel right after it, with a comment explaining the rule:
 
 ```nix
-haskell-nix-dev.url = "github:shinzui/haskell-nix-dev/<B>";
-
-# The one revision of mori://shinzui/haskell-nix (the shared package set generated
-# from cabal/cohort.freeze) that every Rei-family application builds on. The five
-# inputs below follow it, so dotfiles deploys this revision whatever each
-# application's own flake.lock says; bin/verify-haskell-parity.sh fails the build
-# when an application's own lock or its cabal.project freeze import disagrees.
-# Move it only with `just update-channel <rev>`; `<B>` above must equal the
-# haskell-nix-dev revision this channel revision's own flake.lock records.
+# The shared Haskell package set, mori://shinzui/haskell-nix, generated from its
+# cabal/cohort.freeze. The five Rei-family inputs below follow it by default, so any
+# update deploys them on one revision. Move it with `just update-channel [REV]`.
+# To deploy ONE application off-channel (for example a hotfix on a newer channel),
+# delete that application's `inputs.haskell-nix.follows` line, put
+# `# OFF-CHANNEL since <date>: <reason>` in its place and run `just update-<app>`; it then
+# builds on the channel its own flake.lock pins. Restore the line once
+# `just update-channel` has moved the family. bin/verify-haskell-parity.sh fails the
+# build only when a deployed closure disagrees with the freeze its application pins, and
+# warns about revision and store-path differences.
 haskell-nix = {
-  url = "github:shinzui/haskell-nix/<R>";
+  url = "github:shinzui/haskell-nix";
   inputs.haskell-nix-dev.follows = "haskell-nix-dev";
 };
 ```
@@ -444,40 +595,67 @@ The channel's own `nixpkgs`, `flake-parts` and `treefmt-nix` already follow its
 unchanged. Then add `inputs.haskell-nix.follows = "haskell-nix";` to each of the five blocks
 `rei`, `mori`, `mori-rei-app`, `reiko` and `mina`, keeping their existing two `follows` lines.
 If M1 found a Rei flake input in mori-rei-app (for example named `rei`), also add
-`inputs.<that name>.follows = "rei";` to the `mori-rei-app` block, so its `rei-core` is Rei's
-by construction; record the name in the Decision Log. Do not touch the other eight Haskell
-inputs (see Decision Log).
+`inputs.<that name>.follows = "rei";` to the `mori-rei-app` block, so its `rei-core` is
+Rei's by default; record the name in the Decision Log and set `mra_rei_input` in the guard.
+Do not touch the other eight Haskell inputs (see Decision Log).
 
-Relock with `nix flake lock` (not `nix flake update`, which would move everything). Check
-with the lock-inspection snippet in Concrete Steps that the five application revisions are
-unchanged, that each application's `haskell-nix` now resolves to the root `haskell-nix` node,
-and that that node is at `R`. Then build a system to a scratch link and run the guard.
+Lock the new input at `R` with
+`nix flake lock --override-input haskell-nix github:shinzui/haskell-nix/<R>`, which writes the
+chosen revision into `flake.lock` without moving anything else (a bare `nix flake lock` would
+lock a new input at the channel's current head, which may be newer than `R`). Then run a plain
+`nix flake lock` again: it must leave `flake.lock` byte-identical. If Nix instead moves the
+channel to the head on that second run, it does not keep an overridden lock entry for an
+unpinned URL; record that in Surprises, and fall back to writing the revision into the URL
+(`url = "github:shinzui/haskell-nix/<R>";`) for the root channel only, in which case
+`update-channel` must rewrite that URL (the previous revision of this plan, recorded in the
+Revision Notes, had such a recipe). Check with the lock-inspection snippet in Concrete Steps
+that the five application revisions are unchanged, that each application's `haskell-nix`
+now resolves to the root `haskell-nix` node, and that that node is at `R`. Then build a system
+to a scratch link and run the guard: it must exit 0.
 
-Negative test: build a second system with `--override-input mori-rei-app
-github:shinzui/mori-rei-app/2acd4ed4…` (the pre-plan-11 revision that rebuilds `rei-core`
-from source with its own overlay) to a scratch link, and run the guard with the same override
-in `PARITY_NIX_FLAGS`. It must fail on `rei-core` and, because that old overlay replaces
-`wai-app-static` and jailbreaks `servant-server`, on versions too. This proves the guard
-detects exactly the drift it exists for. The scratch system is never activated.
+Negative test N1, a version mismatch must fail: fetch the freeze at `R`, change the `aeson`
+constraint to `0.0.0.1`, and run the closure phase on the scratch system with
+`PARITY_FREEZE_OVERRIDE="reiko=<that file>"`. `cohort-compare` must report the `aeson`
+mismatch, and the guard must print `PARITY FAIL: reiko closure differs from its freeze …` and
+exit 1. This proves that the one blocking check actually blocks; it needs no build.
 
-Acceptance: `just verify-channel-pins` passes; the full guard passes on the scratch build;
-the negative test fails as described. Commit `flake.nix` and `flake.lock`.
+Negative test N2, a revision mismatch must only warn, and one application can move without the
+others: pick `R2`, a pushed channel commit after `R` whose `cabal/cohort.freeze` is
+byte-identical to `R`'s (Concrete Steps shows how). Build a second scratch system with
+`--override-input mori-rei-app/haskell-nix github:shinzui/haskell-nix/<R2>`, which builds only
+mori-rei-app on `R2` while the other four stay on the root channel at `R`, and run the guard
+with the same flag in `PARITY_NIX_FLAGS`. It must print `PARITY WARN` lines saying
+mori-rei-app is off-channel and was pinned on `R` but built on `R2` (and possibly a store-path
+warning for a shared library), no `PARITY FAIL`, and exit 0. The wrapper store paths of rei,
+mori, reiko and mina must be identical in the two scratch systems. If no such `R2` exists yet,
+record that N2 is deferred and rerun it at M5. If Nix refuses to override an input that
+follows another, run N2 the documented way instead on a scratch branch of dotfiles: delete
+mori-rei-app's follows line and override the root with `--override-input haskell-nix
+github:shinzui/haskell-nix/<R2>` (then four applications warn that they were pinned on `R`
+but built on `R2`, mori-rei-app warns that it is off-channel, and the guard still exits 0).
+Neither scratch system is ever activated.
+
+Acceptance: the second `nix flake lock` is a no-op; `just verify-channel-pins` exits 0 with no
+warnings when all five pin `R`; the full guard passes on the scratch build; N1 fails as
+described; N2 warns and exits 0 with the other four store paths unchanged. Commit `flake.nix`
+and `flake.lock`.
 
 
 ### Milestone 4: Gate the build and the update recipes
 
-Scope: make the guard impossible to forget. At the end, `./bin/build.sh` only promotes a
-passing system to `./result`, the activation script refuses a `./result` that is not the
-current flake's system, and the update recipes move exactly what they name and roll back on
-failure.
+Scope: make the guard impossible to forget without making it an obstacle. At the end,
+`./bin/build.sh` promotes a system to `./result` only when the guard reports no failure
+(warnings are printed and do not block), the activation script refuses a `./result` that is
+not the current flake's system, and the update recipes move exactly what they name and roll
+back on failure.
 
-Rewrite `bin/build.sh` (adding a `#!/usr/bin/env bash` shebang) to build `.#darwinConfigurations.SungkyungM1X.system` with
-`--out-link result-candidate`, run the guard on `./result-candidate`, and on success run
-`nix build <that store path> --out-link result` (which only registers a garbage-collector root
-for the already-built path; a plain `ln -s` would not protect it from garbage collection) and
-remove `result-candidate`. On failure it leaves `./result` alone, prints where the candidate
-is, and exits 1. `HASKELL_PARITY=skip` skips the guard with a warning. Add `result-candidate`
-to `.gitignore`.
+Rewrite `bin/build.sh` (adding a `#!/usr/bin/env bash` shebang) to build
+`.#darwinConfigurations.SungkyungM1X.system` with `--out-link result-candidate`, run the guard
+on `./result-candidate`, and on success run `nix build <that store path> --out-link result`
+(which only registers a garbage-collector root for the already-built path; a plain `ln -s`
+would not protect it from garbage collection) and remove `result-candidate`. On failure it
+leaves `./result` alone, prints where the candidate is and how to bypass, and exits 1.
+`HASKELL_PARITY=skip` skips the guard with a warning. Add `result-candidate` to `.gitignore`.
 
 Prepend a check to `bin/darwin-rebuild-sungkyung.sh`: evaluate
 `.#darwinConfigurations.SungkyungM1X.system.outPath` and compare it with `readlink ./result`;
@@ -493,54 +671,64 @@ In `justfile`, delete `_update-with-base` and its comment, and add:
   uncommitted lock state that existed before the recipe ran.
 - Each existing `update-<app>` recipe becomes `(_gated-update "<app>")`, with its comment
   changed to "Update <app> flake input to latest (moves nothing else)". This applies to all
-  nine per-application recipes, not only the five family ones: moving the base is now only
-  done by `update-channel`.
+  nine per-application recipes, not only the five family ones: the base now moves only when
+  asked for.
 - `update-rei-family`: `(_gated-update "rei" "mori" "mori-rei-app" "reiko" "mina")`.
 - `update-tools` and `update-haskell-fleet` keep their input lists and use `_gated-update`
   (no base).
-- `update-channel REV base="no"`: the deliberate channel move. It checks `REV` is 40 hex
-  characters, reads the channel's own base revision at `REV`, and refuses with a message if
-  that differs from the current base unless `base="yes"` was passed (moving the base rebuilds
-  all thirteen Haskell inputs, so it must be intended). It backs up `flake.nix` and
-  `flake.lock`, rewrites the `haskell-nix` URL (and, with `base="yes"`, the `haskell-nix-dev`
-  URL) in `flake.nix` with `sed`, verifies the rewrite took, and runs
-  `nix flake update haskell-nix haskell-nix-dev rei mori mori-rei-app reiko mina` followed by
-  `./bin/build.sh`. The five applications move in the same step because the pins check
-  requires their own locks to pin the new channel, so their latest pushed heads must already
-  be on it. On failure both files are restored.
+- `update-channel REV="" base="no"`: the deliberate channel move. `REV` is empty (move to the
+  channel's current head) or a full 40-character commit; anything else exits 2. It backs up
+  `flake.lock`, updates the five family inputs to their latest pushed heads, then moves the
+  root channel (`nix flake update haskell-nix` without `REV`, or
+  `nix flake lock --override-input haskell-nix github:shinzui/haskell-nix/<REV>` with it), also
+  moves `haskell-nix-dev` when `base=yes`, and runs `./bin/build.sh`. On failure the lock is
+  restored. `flake.nix` is never edited.
 
-Why `update-channel` must edit `flake.nix`: when the URL contains a revision,
-`nix flake update haskell-nix` has nothing to update; the revision in the URL is the pin.
+Why the five applications move with the channel: the guard compares each application with
+its own pinned freeze, so moving the channel under applications whose pushed heads still pin
+the old revision fails exactly where the versions differ. Moving them together is what
+converges the fleet; if an application has not yet adopted the new channel, the guard names
+it and the lock is restored, and the choice is to wait for it or to leave it off-channel
+(delete its follows line) for the time being.
 
-Why per-application updates can now fail where they used to need the base: if an
-application's new head was built on a newer channel or base, the pins check fails and names
-both revisions. The fix is to move the channel deliberately (`just update-channel <rev>`),
-not to let an application drag it. The old `follows a non-existent input` error from the
-justfile comment is the same situation surfacing earlier, and has the same fix.
+Why a per-application update no longer needs the base, and what happens when an application
+gets ahead: `just update-rei` moves only `rei`. If Rei's new head pins a newer channel whose
+versions differ from the root's, rei (which follows the root) would ship on versions its tests
+never saw, and the guard fails and restores the lock. The two ways forward are
+`just update-channel` (converge everyone on the newer channel) or the off-channel hotfix path
+(delete rei's follows line, rerun `just update-rei`; the guard then only warns). If the newer
+channel changed nothing rei links, the update passes with a warning. The old
+`follows a non-existent input` error from the justfile comment is the same situation surfacing
+earlier, when a new application head needs inputs the locked base does not have, and has the
+same two remedies, plus `just update-channel base=yes` when the base really must move.
 
 `./bin/build.sh` forwards any arguments to `nix build` and, through `PARITY_NIX_FLAGS`, to the
 guard's evaluation, so `./bin/build.sh --override-input mori-rei-app <old>` exercises the real
-gate with the M3 negative-test override.
+gate: the pre-plan-11 mori-rei-app `2acd4ed4…` pins channel `4cabd105`, which publishes no
+freeze, so the guard fails on it.
 
 Acceptance: `./bin/build.sh` on the M3 state passes and updates `./result`; running it with
-the negative-test override fails and leaves `./result` unchanged;
-`just --list` shows the new recipes and no `_update-with-base`;
-`just update-channel abc` exits 2 with the revision message. Commit `bin/build.sh`,
-`bin/darwin-rebuild-sungkyung.sh`, `justfile` and `.gitignore`.
+the old mori-rei-app override fails and leaves `./result` unchanged; running it with the N2
+override passes with warnings (and is then undone by rerunning plain `./bin/build.sh`);
+`just --list` shows the new recipes and no `_update-with-base`; `just update-channel abc`
+exits 2 with the revision message. Commit `bin/build.sh`, `bin/darwin-rebuild-sungkyung.sh`,
+`justfile` and `.gitignore`.
 
 
 ### Milestone 5: Full-fleet proof and activation
 
 Scope: run the real workflow end to end. At the end the Mac runs all five applications built
-on channel `R`, the guard has passed on exactly the activated system, and every application is
-observed working.
+on the root channel, the guard has passed on exactly the activated system, and every
+application is observed working.
 
 Run `just update-rei-family`. It moves only the five application inputs to their latest pushed
 heads, builds, and runs the guard. If an application's head has moved to a newer channel
-since M1, the pins check fails, the lock is restored, and the correct move is
-`just update-channel <new R>` once all five are on it. When it passes, tell the user it is
-ready and ask them to run `sudo ./bin/darwin-rebuild-sungkyung.sh`. Record the local time
-just before they activate; call it `T` (format `2026-09-26T16:05`).
+since M1 and the versions it links differ, the guard fails, the lock is restored, and the
+right move is `just update-channel` once the others are on that channel too (or the
+off-channel path for a single urgent application). Revision warnings alone do not stop it;
+note them in Surprises. When it passes, tell the user it is ready and ask them to run
+`sudo ./bin/darwin-rebuild-sungkyung.sh`. Record the local time just before they activate;
+call it `T` (format `2026-09-26T16:05`).
 
 After activation, verify each application is running the new binary and doing its job, with
 the commands in Validation and Acceptance. Activation bootstraps every changed launchd agent
@@ -562,8 +750,8 @@ All dotfiles commands run in `/Users/shinzui/.config/dotfiles.nix`. All scratch 
 under the session scratchpad; the examples below write it as `$SCRATCH`. Use quoted heredoc
 delimiters (`<<'EOF'`) whenever a heredoc contains backticks or `$`.
 
-M1, find `R` and check the five pushed heads. `nix flake metadata --json <ref>` returns a
-flake's own lock as `.locks`, so no checkout is needed:
+M1, check the five pushed heads. `nix flake metadata --json <ref>` returns a flake's own lock
+as `.locks`, so no checkout is needed:
 
 ```bash
 for app in rei mori mori-rei-app reiko mina; do
@@ -573,12 +761,15 @@ for app in rei mori mori-rei-app reiko mina; do
   imp=$(nix eval --impure --raw --expr \
         "builtins.readFile ((builtins.fetchTree { type = \"github\"; owner = \"shinzui\"; repo = \"$app\"; rev = \"$head\"; }).outPath + \"/cabal.project\")" \
         | grep -o 'haskell-nix/[0-9a-f]\{40\}/cabal/cohort.freeze')
-  printf '%-13s head=%.8s lock=%s import=%s\n' "$app" "$head" "$pin" "$imp"
+  has=$(nix eval --impure --expr \
+        "builtins.pathExists ((builtins.fetchTree { type = \"github\"; owner = \"shinzui\"; repo = \"haskell-nix\"; rev = \"$pin\"; }).outPath + \"/cabal/cohort.freeze\")")
+  printf '%-13s head=%.8s lock=%s import=%s freeze=%s\n' "$app" "$head" "$pin" "$imp" "$has"
 done
 ```
 
-Expected: five lines whose `lock=` values are the same 40 characters and whose `import=`
-values all contain that revision. That revision is `R`.
+Expected: five lines ending in `freeze=true` (any `false` means that application's plan is
+not finished; stop). Normally all `lock=` values are the same 40 characters and every
+`import=` contains that revision; that revision is `R`. A spread is recorded, not fatal.
 
 M1, check the channel at `R`:
 
@@ -587,8 +778,7 @@ R='paste the 40-character revision found above'
 MRA='paste the mori-rei-app revision from flake.lock'
 nix flake metadata --json "github:shinzui/haskell-nix/$R" \
   | jq -r '.locks as $l | $l.nodes[$l.nodes[$l.root].inputs["haskell-nix-dev"]].locked.rev'   # this is B
-nix eval --impure --raw --expr \
-  'builtins.substring 0 200 (builtins.readFile ((builtins.fetchTree { type = "github"; owner = "shinzui"; repo = "haskell-nix"; rev = "'"$R"'"; }).outPath + "/cabal/cohort.freeze"))'
+jq -r '.nodes as $n | $n[$n.root.inputs["haskell-nix-dev"]].locked.rev' flake.lock              # dotfiles' base
 nix run "github:shinzui/haskell-nix/$R#cohort-compare" -- --freeze "https://raw.githubusercontent.com/shinzui/haskell-nix/$R/cabal/cohort.freeze" --closure \
   "$(nix eval --raw .#darwinConfigurations.SungkyungM1X.pkgs.rei.outPath)"; echo "exit=$?"
 nix flake metadata --json "github:shinzui/mori-rei-app/$MRA" \
@@ -616,13 +806,13 @@ M2, after writing the script (Interfaces and Dependencies) and recipes:
 chmod +x bin/verify-haskell-parity.sh
 just verify-channel-pins; echo "exit=$?"
 ./bin/verify-haskell-parity.sh --closure-only ./result; echo "exit=$?"
-git commit -m "feat(haskell): add the Rei-family channel and closure parity guard" \
+git commit -m "feat(haskell): add the Rei-family freeze parity guard" \
   -m "$(cat <<'EOF'
 Add bin/verify-haskell-parity.sh and the verify-channel-pins and
-verify-haskell-parity recipes. The guard checks that dotfiles and each
-Rei-family application pin one haskell-nix revision, that deployed
-closures match the cohort freeze, and that shared libraries are one
-store path across applications.
+verify-haskell-parity recipes. The guard fails when a deployed Rei-family
+closure differs from the cohort freeze its own pinned haskell-nix revision
+publishes, and only warns about revision spread, off-channel applications
+and shared libraries built more than once.
 
 MasterPlan: mori://shinzui/haskell-nix/masterplans/3-align-one-cabal-and-nix-package-set-across-the-rei-family-of-applications
 ExecPlan: mori://shinzui/haskell-nix/plans/14-deploy-one-channel-revision-from-dotfiles-and-guard-closure-parity
@@ -631,19 +821,23 @@ EOF
 )" -- bin/verify-haskell-parity.sh justfile
 ```
 
-Expected before M3:
+Expected before M3 (the `ok:` lines are elided; warnings go to standard error):
 
 ```text
-PARITY FAIL: no root haskell-nix input in flake.lock
-exit=1
+PARITY WARN: no root haskell-nix input in flake.lock; each family application builds on its own channel
+parity: 0 failure(s), 1 warning(s)
+exit=0
 ```
 
 M3, after editing `flake.nix`:
 
 ```bash
 cp flake.lock "$SCRATCH/flake.lock.before-m3"
+nix flake lock --override-input haskell-nix "github:shinzui/haskell-nix/$R"
+cp flake.lock "$SCRATCH/flake.lock.m3"
 nix flake lock
-python3 - "$SCRATCH/flake.lock.before-m3" flake.lock <<'EOF'
+cmp flake.lock "$SCRATCH/flake.lock.m3" && echo "second lock is a no-op"
+python3 - "$SCRATCH/flake.lock.before-m3" flake.lock "$R" <<'EOF'
 import json, sys
 def load(p):
     n = json.load(open(p))["nodes"]
@@ -655,7 +849,8 @@ def load(p):
     return n, res
 (bn, _), (an, ares) = load(sys.argv[1]), load(sys.argv[2])
 root = an["root"]["inputs"]
-print("root haskell-nix", root.get("haskell-nix"), an[root["haskell-nix"]]["locked"]["rev"])
+rev = an[root["haskell-nix"]]["locked"]["rev"]
+print("root haskell-nix", root["haskell-nix"], rev, "== R" if rev == sys.argv[3] else "!= R")
 for app in ["rei", "mori", "mori-rei-app", "reiko", "mina"]:
     before = bn[bn["root"]["inputs"][app]]["locked"]["rev"]
     after = an[root[app]]["locked"]["rev"]
@@ -667,39 +862,74 @@ nix build .#darwinConfigurations.SungkyungM1X.system --out-link "$SCRATCH/m3-sys
 ./bin/verify-haskell-parity.sh "$SCRATCH/m3-system"; echo "exit=$?"
 ```
 
-Expected: `root haskell-nix haskell-nix <R>`; five lines `rev unchanged … haskell-nix -> haskell-nix`
-(the root node name, not `haskell-nix_10` and the like); the guard ends with `exit=0`.
+Expected: `second lock is a no-op`; `root haskell-nix haskell-nix <R> == R`; five lines
+`rev unchanged … haskell-nix -> haskell-nix` (the root node name, not `haskell-nix_10` and the
+like); the guard ends with `parity: 0 failure(s), 0 warning(s)` and `exit=0` when all five pin
+`R` (store-path warnings are possible and acceptable; record any in Surprises).
 
-M3, negative test (the full revision is `2acd4ed4…`; get it with
-`git -C /Users/shinzui/Keikaku/bokuno/mori-project/mori-rei-app rev-parse 2acd4ed`):
+M3, negative test N1 (a version mismatch fails). The freeze is fetched through Nix, so no
+extra tool is needed:
 
 ```bash
-old="github:shinzui/mori-rei-app/$(git -C /Users/shinzui/Keikaku/bokuno/mori-project/mori-rei-app rev-parse 2acd4ed)"
-nix build .#darwinConfigurations.SungkyungM1X.system --override-input mori-rei-app "$old" \
-  --out-link "$SCRATCH/m3-negative"
-PARITY_NIX_FLAGS="--override-input mori-rei-app $old" \
-  ./bin/verify-haskell-parity.sh --closure-only "$SCRATCH/m3-negative"; echo "exit=$?"
+nix eval --impure --raw --expr \
+  'builtins.readFile ((builtins.fetchTree { type = "github"; owner = "shinzui"; repo = "haskell-nix"; rev = "'"$R"'"; }).outPath + "/cabal/cohort.freeze")' \
+  | sed -E 's/any\.aeson ==[0-9.]+/any.aeson ==0.0.0.1/' >"$SCRATCH/bad.freeze"
+grep -c 'any.aeson ==0.0.0.1' "$SCRATCH/bad.freeze"      # expect 1
+PARITY_FREEZE_OVERRIDE="reiko=$SCRATCH/bad.freeze" \
+  ./bin/verify-haskell-parity.sh --closure-only "$SCRATCH/m3-system"; echo "exit=$?"
 ```
 
-Expected (hashes will differ):
+Expected (the exact `mismatch` wording is plan 9's):
 
 ```text
-PARITY FAIL: mori-rei-app closure differs from the cohort freeze (see above)
-PARITY FAIL: rei-core has 2 store paths across the Rei family:
-  /nix/store/…-rei-core-6.0.0.0  drv=/nix/store/…-rei-core-6.0.0.0.drv  used by: rei
-  /nix/store/…-rei-core-6.0.0.0  drv=/nix/store/…-rei-core-6.0.0.0.drv  used by: mori-rei-app
+mismatch aeson nix=2.2.5.1 freeze=0.0.0.1
+PARITY FAIL: reiko closure differs from its freeze (override …/bad.freeze) (see above)
+parity: 1 failure(s), 0 warning(s)
 exit=1
 ```
 
-Only the closure phase is run here, because the override is not in `flake.lock` and the
-pins phase reads the lock. Commit:
+M3, negative test N2 (a revision mismatch only warns; the other four do not move). Find `R2`
+in this repository's pushed history:
 
 ```bash
-git commit -m "feat(haskell): deploy one haskell-nix revision to the Rei family" \
+git -C /Users/shinzui/Keikaku/bokuno/haskell-nix fetch origin
+R2=$(for c in $(git -C /Users/shinzui/Keikaku/bokuno/haskell-nix rev-list origin/master "^$R"); do
+       git -C /Users/shinzui/Keikaku/bokuno/haskell-nix diff --quiet "$R" "$c" -- cabal/cohort.freeze && { echo "$c"; break; }
+     done); echo "R2=${R2:-none}"
+n2="--override-input mori-rei-app/haskell-nix github:shinzui/haskell-nix/$R2"
+nix build .#darwinConfigurations.SungkyungM1X.system $n2 --out-link "$SCRATCH/m3-n2"
+PARITY_NIX_FLAGS="$n2" ./bin/verify-haskell-parity.sh "$SCRATCH/m3-n2"; echo "exit=$?"
+for a in rei mori reiko mina; do
+  x=$(nix eval --raw ".#darwinConfigurations.SungkyungM1X.pkgs.$a.outPath")
+  y=$(nix eval --raw $n2 ".#darwinConfigurations.SungkyungM1X.pkgs.$a.outPath")
+  [ "$x" = "$y" ] && echo "$a unchanged" || echo "$a MOVED"
+done
+```
+
+Expected (hashes and revisions will differ; a `rei-core` or other store-path warning may or
+may not appear, depending on whether `R2` changes any derivation):
+
+```text
+PARITY WARN: mori-rei-app is off-channel: dotfiles builds it on haskell-nix <R2>, the root is <R>
+PARITY WARN: mori-rei-app@<rev> was locked on haskell-nix <R> but is built on <R2>; its closure is checked against <R>'s freeze
+parity: 0 failure(s), 2 warning(s)
+exit=0
+rei unchanged
+mori unchanged
+reiko unchanged
+mina unchanged
+```
+
+M3 commit:
+
+```bash
+git commit -m "feat(haskell): add a root haskell-nix channel the Rei family follows" \
   -m "$(cat <<'EOF'
-Add a root haskell-nix input pinned by revision, pin haskell-nix-dev to the
-base that channel revision was locked on, and make rei, mori, mori-rei-app,
-reiko and mina follow it, so the deployed system carries one channel.
+Add a root haskell-nix input, locked like haskell-nix-dev, and make rei,
+mori, mori-rei-app, reiko and mina follow it by default so an update
+deploys them on one channel revision. One application can still be
+deployed off-channel by removing its follows line, as the flake.nix
+comment describes.
 
 MasterPlan: mori://shinzui/haskell-nix/masterplans/3-align-one-cabal-and-nix-package-set-across-the-rei-family-of-applications
 ExecPlan: mori://shinzui/haskell-nix/plans/14-deploy-one-channel-revision-from-dotfiles-and-guard-closure-parity
@@ -708,23 +938,29 @@ EOF
 )" -- flake.nix flake.lock
 ```
 
-M4, after the edits:
+M4, after the edits (`old` is the pre-plan-11 mori-rei-app, whose own lock pins `4cabd105`;
+`n2` is the N2 flag from M3, redefined here in case this is a new shell):
 
 ```bash
+n2="--override-input mori-rei-app/haskell-nix github:shinzui/haskell-nix/$R2"
+old="github:shinzui/mori-rei-app/$(git -C /Users/shinzui/Keikaku/bokuno/mori-project/mori-rei-app rev-parse 2acd4ed)"
 just --list | grep -E 'update-|verify-'
 just update-channel abc; echo "exit=$?"          # expect exit=2
 ./bin/build.sh; echo "exit=$?"; readlink result   # expect exit=0 and the M3 system path
 good=$(readlink result)
-./bin/build.sh --override-input mori-rei-app "$old"; echo "exit=$?"   # expect PARITY FAIL lines, exit=1
+./bin/build.sh --override-input mori-rei-app "$old"; echo "exit=$?"   # expect PARITY FAIL, exit=1
 [ "$(readlink result)" = "$good" ] && echo "result unchanged"
 rm -f result-candidate
-git commit -m "feat(haskell): gate builds and updates on Rei-family parity" \
+./bin/build.sh $n2; echo "exit=$?"                # expect PARITY WARN lines, exit=0 (skip if R2=none)
+./bin/build.sh; [ "$(readlink result)" = "$good" ] && echo "result back on the M3 system"
+git commit -m "feat(haskell): gate builds and updates on Rei-family freeze parity" \
   -m "$(cat <<'EOF'
 Replace _update-with-base, which moved haskell-nix-dev on every application
-update, with _gated-update (one input, build, guard, restore on failure),
-update-rei-family and a deliberate update-channel. build.sh now promotes
-./result only after the parity guard passes, and the activation script
-refuses a ./result that is not the current flake's system.
+update, with _gated-update (named inputs only, build, guard, restore on
+failure), update-rei-family and update-channel. build.sh promotes ./result
+only when the parity guard reports no failure (warnings do not block), and
+the activation script refuses a ./result that is not the current flake's
+system.
 
 MasterPlan: mori://shinzui/haskell-nix/masterplans/3-align-one-cabal-and-nix-package-set-across-the-rei-family-of-applications
 ExecPlan: mori://shinzui/haskell-nix/plans/14-deploy-one-channel-revision-from-dotfiles-and-guard-closure-parity
@@ -732,6 +968,25 @@ Intention: intention_01m3fw8cpte9xtje3e5j7f2ng2
 EOF
 )" -- bin/build.sh bin/darwin-rebuild-sungkyung.sh justfile .gitignore
 ```
+
+Expected for the old mori-rei-app (hashes will differ):
+
+```text
+PARITY FAIL: mori-rei-app@2acd4ed4 pins haskell-nix 4cabd105, which publishes no cabal/cohort.freeze
+PARITY WARN: rei-core has 2 store paths across the Rei family:
+  /nix/store/…-rei-core-6.0.0.0  drv=/nix/store/…-rei-core-6.0.0.0.drv  used by: rei
+  /nix/store/…-rei-core-6.0.0.0  drv=/nix/store/…-rei-core-6.0.0.0.drv  used by: mori-rei-app
+parity: 1 failure(s), 1 warning(s)
+Parity guard failed; ./result still points at the previous system. …
+exit=1
+result unchanged
+```
+
+The overridden mori-rei-app still follows dotfiles' root channel (the follows edges are
+declared in dotfiles' `flake.nix`, not in the input), so it is not reported as off-channel;
+it fails because the channel its own lock pins predates the freeze. Its old overlay also
+rebuilds `rei-core`, which shows up as the store-path warning. Other store-path warnings for
+`kioku-core` or `baikai` may appear too.
 
 M5:
 
@@ -764,11 +1019,18 @@ and ADR updates with explicit paths, for example
 
 Before activation, all of these hold on the M5 build:
 
-- `just verify-haskell-parity` exits 0 and prints, in order, `ok: channel <R> on base <B>`,
-  five `ok: <app>@<rev> pins channel <R> and imports its freeze` lines, five
-  `ok: <app> closure matches the cohort freeze` lines, and six
-  `ok: <lib> is one store path` (or `ok: <lib> is linked by no family application`) lines.
+- `just verify-haskell-parity` exits 0. Its standard output lists `ok: channel <R> locked on
+  base <B>` (or a `PARITY WARN` naming both bases when they differ), five
+  `ok: <app>@<rev> pins haskell-nix <R>, publishes a freeze, and is built on it` lines, five
+  `ok: <app> closure matches the freeze at <R>` lines, and six
+  `ok: <lib> is one store path` (or `ok: <lib> is linked by no family application`) lines;
+  it ends with `parity: 0 failure(s), <m> warning(s)`. On a converged fleet `<m>` is expected
+  to be 0; any warning is recorded in Surprises with its reason, and does not block.
 - `readlink result` equals `nix eval --raw .#darwinConfigurations.SungkyungM1X.system.outPath`.
+- The two gate tests still behave: N1 (`PARITY_FREEZE_OVERRIDE` with the doctored freeze)
+  exits 1, and `./bin/build.sh --override-input mori-rei-app "$old"` fails and leaves
+  `./result` unchanged. That proves the one blocking check is not a no-op. N2, if `R2` exists,
+  exits 0 with only warnings, which proves the uniformity checks do not block.
 
 After the user activates (`T` is the time recorded just before):
 
@@ -808,38 +1070,48 @@ variable points at the repository's development database instead); `rei-doctor` 
 `pipeline healthy` or only warnings already present before activation. Do not write test
 data to prove appends; each daemon's own activity after `T` (for example an `[INGEST]` or
 `[WEBHOOK] delivered` line in `~/.mori/logs/automate.stderr.log`, or new subscription
-positions in the Kiroku status output) is the evidence that Kiroku appends work.
-
-The negative test through the gate (`./bin/build.sh --override-input mori-rei-app <old>`, from
-M4's Concrete Steps) must still fail and leave `./result` unchanged after M5. That is what
-proves the gate is not a no-op.
+positions in the Kiroku status output) is the evidence that Kiroku appends work. A failing
+append (a `category` CHECK violation in a log) would mean a Kiroku 0.8 writer is running
+against a `0012` database; that is plans 11 and 12's condition, and it is an incident to
+report to the user immediately, not something this guard would have caught.
 
 
 ## Idempotence and Recovery
 
 Every guard and verification command is read-only and can be run any number of times. The
-guard builds nothing except, the first time, plan 9's small `cohort-compare` app.
+guard builds nothing except, the first time for each distinct pinned revision, plan 9's small
+`cohort-compare` app.
 
-`nix flake lock` after the M3 edit is idempotent; if the lock-inspection snippet reports
-`CHANGED` for an application, restore `$SCRATCH/flake.lock.before-m3` and rerun
-`nix flake lock` (never `nix flake update` here).
+`nix flake lock --override-input haskell-nix …/$R` after the M3 edit is idempotent; if the
+lock-inspection snippet reports `CHANGED` for an application, restore
+`$SCRATCH/flake.lock.before-m3` and rerun the two `nix flake lock` commands (never
+`nix flake update` here).
 
-`_gated-update` and `update-channel` restore their own backups on failure, so a failed update
-leaves `flake.nix` and `flake.lock` exactly as they were, including any uncommitted state that
-was there before. `./bin/build.sh` never replaces `./result` with a failing system.
+`_gated-update` and `update-channel` restore their own `flake.lock` backup on failure, so a
+failed update leaves `flake.lock` exactly as it was, including any uncommitted state that was
+there before; neither edits `flake.nix`. `./bin/build.sh` never replaces `./result` with a
+system that has a guard failure.
+
+Taking one application off-channel is undone by putting its
+`inputs.haskell-nix.follows = "haskell-nix";` line back (replacing the `OFF-CHANNEL` comment)
+and running `nix flake lock`, which drops the application's nested channel node; do this only
+after `just update-channel` has moved the root to a revision whose freeze the application's
+pin agrees with, or the guard will fail on the versions that differ.
 
 Rollback of a bad deploy: in dotfiles, `git checkout -- flake.lock` (or check out the previous
 commit's `flake.lock` with `git checkout HEAD~1 -- flake.lock` when the bad lock was already
 committed), `./bin/build.sh`, and the user re-activates. If the lock being restored predates
-the guard's requirements, use `HASKELL_PARITY=skip ./bin/build.sh` and
+the freeze (its applications pin channels that publish no `cabal/cohort.freeze`), the guard
+fails it; use `HASKELL_PARITY=skip ./bin/build.sh` and
 `sudo HASKELL_PARITY=skip ./bin/darwin-rebuild-sungkyung.sh`, and write down why.
 
-A rollback can never cross a Kiroku `0012` cutover. Once a database has run migration `0012`
-(the global `rei` database on 2026-09-26, and the `mori` database in plan 12), a Kiroku 0.8
-binary fails every append against it. Rolling dotfiles back to a lock that deploys a Kiroku
-0.8 build of rei, mori-rei-app or mori would leave those daemons running but unable to write.
-Past a cutover, recovery is fix-forward: repair the application or channel and deploy a newer
-0.9 build. This plan itself runs no migration.
+A rollback can never cross a Kiroku `0012` cutover, and the guard does not check this (plans
+11 and 12 own that check). Once a database has run migration `0012` (the global `rei`
+database on 2026-09-26, and the `mori` database in plan 12), a Kiroku 0.8 binary fails every
+append against it. Rolling dotfiles back to a lock that deploys a Kiroku 0.8 build of rei,
+mori-rei-app or mori would leave those daemons running but unable to write. Past a cutover,
+recovery is fix-forward: repair the application or channel and deploy a newer 0.9 build. This
+plan itself runs no migration.
 
 Never stop or restart an agent with `pkill` by pattern (a pattern match once killed the
 deployed Rei worker); use `launchctl kickstart -k gui/$(id -u)/<label>` or
@@ -852,7 +1124,8 @@ Tools used: `nix` (Determinate Nix 3.17 / Nix 2.33 on 2026-09-26) for `flake loc
 `flake update`, `flake metadata --json`, `eval`, `build` and `run`; `nix-store -qR` and
 `nix-store -qd`; `jq`; `just`; `python3` for the one-off lock inspection; `launchctl`, `lsof`.
 Nothing here ever lists or reads `/nix/store` directly; store paths are only queried through
-`nix-store`, `nix eval` and `nix path-info`.
+`nix-store`, `nix eval` and `nix path-info`. The script avoids bash associative arrays so it
+also runs under macOS's bash 3.2 if that is the `bash` on `PATH`.
 
 From the channel: the `cohort-compare` flake app with the contract stated in Context and
 Orientation (owned by plan 9), and `cabal/cohort.freeze` (owned by plan 8).
@@ -863,6 +1136,11 @@ Orientation (owned by plan 9), and `cabal/cohort.freeze` (owned by plan 8).
 #!/usr/bin/env bash
 # Rei-family parity guard (mori://shinzui/haskell-nix/plans/14-deploy-one-channel-revision-from-dotfiles-and-guard-closure-parity).
 # Usage: bin/verify-haskell-parity.sh [--pins-only | --closure-only] [SYSTEM]   (SYSTEM defaults to ./result)
+# FAIL (exit 1): a deployed Rei-family closure has a Haskell package whose version differs from
+#   the cabal/cohort.freeze published by the haskell-nix revision the application's OWN flake.lock
+#   pins, or that comparison cannot be made.
+# WARN (never changes the exit status): revision spread, off-channel applications, base drift,
+#   and shared libraries with more than one store path across the family.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
@@ -871,6 +1149,7 @@ shared_libs=(rei-core kioku-core baikai keiro hasql aeson)
 host=SungkyungM1X
 flake=${PARITY_FLAKE:-.}
 read -r -a nix_flags <<<"${PARITY_NIX_FLAGS:-}"
+freeze_override=${PARITY_FREEZE_OVERRIDE:-}   # test only: "<app>=<file>"
 # Set in M3 if mori-rei-app has a flake input for Rei (for example "rei"); empty otherwise.
 mra_rei_input=""
 
@@ -878,69 +1157,120 @@ mode=both
 case "${1:-}" in --pins-only) mode=pins; shift ;; --closure-only) mode=closure; shift ;; esac
 system=${1:-./result}
 
-fail=0
-ok() { printf 'ok: %s\n' "$*"; }
-bad() { printf 'PARITY FAIL: %s\n' "$*" >&2; fail=1; }
+fails=0; warns=0
+ok()   { printf 'ok: %s\n' "$*"; }
+warn() { printf 'PARITY WARN: %s\n' "$*" >&2; warns=$((warns + 1)); }
+bad()  { printf 'PARITY FAIL: %s\n' "$*" >&2; fails=$((fails + 1)); }
+finish() { printf 'parity: %d failure(s), %d warning(s)\n' "$fails" "$warns"; if [ "$fails" -gt 0 ]; then exit 1; fi; exit 0; }
 
-lock_rev() { jq -r --arg i "$1" '.nodes as $n | ($n.root.inputs[$i] // empty) as $k | $n[$k].locked.rev' flake.lock; }
+tmp=$(mktemp -d); trap 'rm -rf "$tmp"' EXIT
+
+# Dotfiles' lock, with any --override-input from PARITY_NIX_FLAGS applied.
+nix flake metadata --json ${nix_flags[@]+"${nix_flags[@]}"} "$flake" | jq '.locks' >"$tmp/locks.json"
+node_of() {  # input path such as "rei/haskell-nix" -> lock node name, or "absent"
+  jq -r --arg p "$1" '
+    def res($n; $r): if ($r | type) == "string" then $r
+      else reduce $r[] as $s ("root"; . as $c | res($n; $n[$c].inputs[$s])) end;
+    .nodes as $n
+    | reduce ($p | split("/"))[] as $s ("root";
+        if . == "absent" then . else
+          (. as $c | ($n[$c].inputs[$s] // null) as $r
+           | if $r == null then "absent" else res($n; $r) end) end)' "$tmp/locks.json"
+}
+rev_of() { local k; k=$(node_of "$1"); [ "$k" = absent ] && echo absent || jq -r --arg k "$k" '.nodes[$k].locked.rev' "$tmp/locks.json"; }
 own_rev() {  # flake ref, input name -> the revision that flake's own lock records
   nix flake metadata --json "$1" | jq -r --arg i "$2" '
     .locks as $l | ($l.nodes[$l.root].inputs[$i]) as $k
     | if $k == null then "absent" elif ($k | type) == "array" then "follows:" + ($k | join("/"))
       else $l.nodes[$k].locked.rev end'
 }
-read_file_at() {  # repo, rev, path -> file contents
-  nix eval --impure --raw --expr "builtins.readFile ((builtins.fetchTree { type = \"github\"; owner = \"shinzui\"; repo = \"$1\"; rev = \"$2\"; }).outPath + \"/$3\")"
+read_file_at() {  # repo, rev, path -> file contents (fails if absent)
+  nix eval --impure --raw --expr "builtins.readFile ((builtins.fetchTree { type = \"github\"; owner = \"shinzui\"; repo = \"$1\"; rev = \"$2\"; }).outPath + \"/$3\")" 2>/dev/null
 }
+short() { printf '%.8s' "$1"; }
 
-channel=$(lock_rev haskell-nix)
-base=$(lock_rev haskell-nix-dev)
-if [ -z "$channel" ] || [ "$channel" = null ]; then
-  bad "no root haskell-nix input in flake.lock"; exit 1
-fi
+# Revisions per application, kept in files (no associative arrays).
+root=$(rev_of haskell-nix)
+for app in "${family[@]}"; do
+  rev=$(rev_of "$app"); echo "$rev" >"$tmp/rev-$app"
+  rev_of "$app/haskell-nix" >"$tmp/built-$app"
+  pin=$(own_rev "github:shinzui/$app/$rev" haskell-nix); echo "$pin" >"$tmp/pin-$app"
+  case "$freeze_override" in
+    "$app="*) cp "${freeze_override#*=}" "$tmp/freeze-$app"; echo "override ${freeze_override#*=}" >"$tmp/freeze-src-$app" ;;
+    *) if [[ "$pin" =~ ^[0-9a-f]{40}$ ]] && read_file_at haskell-nix "$pin" cabal/cohort.freeze >"$tmp/freeze-$app"; then
+         echo "$(short "$pin")" >"$tmp/freeze-src-$app"
+       else rm -f "$tmp/freeze-$app"; fi ;;
+  esac
+done
 
 if [ "$mode" != closure ]; then
-  channel_base=$(own_rev "github:shinzui/haskell-nix/$channel" haskell-nix-dev)
-  if [ "$channel_base" = "$base" ]; then ok "channel ${channel:0:8} on base ${base:0:8}"
-  else bad "channel ${channel:0:8} was locked on haskell-nix-dev ${channel_base:0:8}; dotfiles deploys ${base:0:8}"; fi
+  if [ "$root" = absent ]; then
+    warn "no root haskell-nix input in flake.lock; each family application builds on its own channel"
+  else
+    base=$(rev_of haskell-nix-dev)
+    root_base=$(own_rev "github:shinzui/haskell-nix/$root" haskell-nix-dev)
+    if [ "$root_base" = "$base" ]; then ok "channel $(short "$root") locked on base $(short "$base")"
+    else warn "channel $(short "$root") was locked on haskell-nix-dev $(short "$root_base"); dotfiles deploys $(short "$base")"; fi
+  fi
   for app in "${family[@]}"; do
-    rev=$(lock_rev "$app")
-    pin=$(own_rev "github:shinzui/$app/$rev" haskell-nix)
-    if [ "$pin" != "$channel" ]; then
-      bad "$app@${rev:0:8} pins haskell-nix ${pin:0:8} in its own flake.lock; dotfiles deploys ${channel:0:8}"
-    elif ! read_file_at "$app" "$rev" cabal.project | grep -q "haskell-nix/$channel/cabal/cohort.freeze"; then
-      bad "$app@${rev:0:8} cabal.project does not import cabal/cohort.freeze at ${channel:0:8}"
-    else ok "$app@${rev:0:8} pins channel ${channel:0:8} and imports its freeze"; fi
+    rev=$(cat "$tmp/rev-$app"); pin=$(cat "$tmp/pin-$app"); built=$(cat "$tmp/built-$app")
+    if ! [[ "$pin" =~ ^[0-9a-f]{40}$ ]]; then
+      bad "$app@$(short "$rev") has no locked haskell-nix input of its own ($pin); cannot tell which freeze it was tested against"; continue
+    fi
+    if [ ! -s "$tmp/freeze-$app" ]; then
+      bad "$app@$(short "$rev") pins haskell-nix $(short "$pin"), which publishes no cabal/cohort.freeze"; continue
+    fi
+    [ "$root" != absent ] && [ "$built" != "$root" ] && \
+      warn "$app is off-channel: dotfiles builds it on haskell-nix $(short "$built"), the root is $(short "$root")"
+    if [ "$built" != "$pin" ]; then
+      warn "$app@$(short "$rev") was locked on haskell-nix $(short "$pin") but is built on $(short "$built"); its closure is checked against $(short "$pin")'s freeze"
+    else ok "$app@$(short "$rev") pins haskell-nix $(short "$pin"), publishes a freeze, and is built on it"; fi
+    if ! read_file_at "$app" "$rev" cabal.project | grep -q "haskell-nix/$pin/cabal/cohort.freeze"; then
+      warn "$app@$(short "$rev") cabal.project does not import cabal/cohort.freeze at its own pin $(short "$pin")"
+    fi
   done
+  distinct=$(cat "$tmp"/pin-* | sort -u | grep -c . || true)
+  [ "$distinct" -gt 1 ] && warn "the Rei family pins $distinct haskell-nix revisions: $(for a in "${family[@]}"; do printf '%s=%s ' "$a" "$(short "$(cat "$tmp/pin-$a")")"; done)"
   if [ -n "$mra_rei_input" ]; then
-    want=$(lock_rev rei)
-    have=$(own_rev "github:shinzui/mori-rei-app/$(lock_rev mori-rei-app)" "$mra_rei_input")
-    if [ "$have" = "$want" ]; then ok "mori-rei-app was built against the deployed rei ${want:0:8}"
-    else bad "mori-rei-app's own lock pins rei ${have:0:8}; dotfiles deploys ${want:0:8}"; fi
+    want=$(cat "$tmp/rev-rei")
+    have=$(own_rev "github:shinzui/mori-rei-app/$(cat "$tmp/rev-mori-rei-app")" "$mra_rei_input")
+    if [ "$have" = "$want" ]; then ok "mori-rei-app was built against the deployed rei $(short "$want")"
+    else warn "mori-rei-app's own lock pins rei $(short "$have"); dotfiles deploys $(short "$want")"; fi
   fi
 fi
 
 if [ "$mode" != pins ]; then
-  tmp=$(mktemp -d); trap 'rm -rf "$tmp"' EXIT
   nix-store -qR "$system" >"$tmp/system"
   nix eval --json ${nix_flags[@]+"${nix_flags[@]}"} "$flake#darwinConfigurations.$host.pkgs" --apply \
     'pkgs: builtins.listToAttrs (map (a: { name = a; value = pkgs.${a}.outPath; }) [ "rei" "mori" "mori-rei-app" "reiko" "mina" ])' \
     >"$tmp/paths.json"
-  parity_cmd=(nix run "github:shinzui/haskell-nix/$channel#cohort-compare" -- --freeze "https://raw.githubusercontent.com/shinzui/haskell-nix/$R/cabal/cohort.freeze" --closure)
   for app in "${family[@]}"; do
     out=$(jq -r --arg a "$app" '.[$a]' "$tmp/paths.json")
-    grep -qxF "$out" "$tmp/system" || bad "$app package $out is not in the closure of $system"
+    if ! grep -qxF "$out" "$tmp/system"; then bad "$app package $out is not in the closure of $system"; continue; fi
     nix-store -qR "$out" >"$tmp/app-$app"
-    if "${parity_cmd[@]}" "$out"; then ok "$app closure matches the cohort freeze"
-    else bad "$app closure differs from the cohort freeze (see above)"; fi
+    pin=$(cat "$tmp/pin-$app")
+    if [ ! -s "$tmp/freeze-$app" ]; then   # already reported by the pins phase unless it was skipped
+      [ "$mode" = closure ] && bad "$app has no freeze to compare with (pinned haskell-nix $(short "$pin"))"
+      continue
+    fi
+    tool=$pin; [[ "$tool" =~ ^[0-9a-f]{40}$ ]] || tool=$root
+    set +e
+    nix run "github:shinzui/haskell-nix/$tool#cohort-compare" -- --freeze "$tmp/freeze-$app" --closure "$out"
+    rc=$?
+    set -e
+    case $rc in
+      0) ok "$app closure matches the freeze at $(cat "$tmp/freeze-src-$app")" ;;
+      1) bad "$app closure differs from its freeze ($(cat "$tmp/freeze-src-$app")) (see above)" ;;
+      *) bad "cohort-compare could not check $app (exit $rc)" ;;
+    esac
   done
   for lib in "${shared_libs[@]}"; do
-    paths=$(cat "$tmp"/app-* | grep -E "^/nix/store/[a-z0-9]{32}-$lib-[0-9][0-9.]*\$" | sort -u || true)
+    paths=$(cat "$tmp"/app-* 2>/dev/null | grep -E "^/nix/store/[a-z0-9]{32}-$lib-[0-9][0-9.]*\$" | sort -u || true)
     count=$(printf '%s' "$paths" | grep -c . || true)
     if [ "$count" -le 1 ]; then
-      [ "$count" -eq 1 ] && ok "$lib is one store path" || ok "$lib is linked by no family application"
+      if [ "$count" -eq 1 ]; then ok "$lib is one store path"; else ok "$lib is linked by no family application"; fi
     else
-      bad "$lib has $count store paths across the Rei family:"
+      warn "$lib has $count store paths across the Rei family:"
       while read -r p; do
         users=$(grep -lxF "$p" "$tmp"/app-* | sed 's|.*/app-||' | paste -sd, -)
         printf '  %s  drv=%s  used by: %s\n' "$p" "$(nix-store -qd "$p" 2>/dev/null || echo unknown)" "$users" >&2
@@ -949,7 +1279,7 @@ if [ "$mode" != pins ]; then
   done
 fi
 
-exit "$fail"
+finish
 ```
 
 `bin/build.sh` at the end of M4:
@@ -964,6 +1294,7 @@ if [ "${HASKELL_PARITY:-}" = skip ]; then
   echo "WARNING: HASKELL_PARITY=skip, the Rei-family parity guard was NOT run" >&2
 elif ! PARITY_NIX_FLAGS="$*" ./bin/verify-haskell-parity.sh ./result-candidate; then
   echo "Parity guard failed; ./result still points at the previous system. Candidate: $(readlink result-candidate)" >&2
+  echo "Only PARITY FAIL lines block. To deploy anyway: HASKELL_PARITY=skip ./bin/build.sh" >&2
   exit 1
 fi
 nix build "$(readlink result-candidate)" --out-link result
@@ -1014,34 +1345,30 @@ update-rei: (_gated-update "rei")
 [group: 'tools']
 update-rei-family: (_gated-update "rei" "mori" "mori-rei-app" "reiko" "mina")
 
-# Move the shared Haskell channel (mori://shinzui/haskell-nix) to REV, a full commit,
-# together with the five Rei-family inputs, whose pushed heads must already pin REV.
-# Pass base="yes" only when REV was locked on a different haskell-nix-dev: moving the
-# base rebuilds every Haskell input in this flake.
+# Move the shared Haskell channel (mori://shinzui/haskell-nix) to REV (a full commit;
+# empty means the channel's head) together with the five Rei-family inputs, which must
+# already pin a channel whose freeze agrees with it. base=yes also moves haskell-nix-dev,
+# which rebuilds every Haskell input in this flake. flake.nix is never edited.
 [group: 'tools']
-update-channel REV base="no":
+update-channel REV="" base="no":
     #!/usr/bin/env bash
     set -euo pipefail
     rev="{{REV}}"
-    [[ "$rev" =~ ^[0-9a-f]{40}$ ]] || { echo "REV must be a full 40-character commit of shinzui/haskell-nix" >&2; exit 2; }
-    new_base=$(nix flake metadata --json "github:shinzui/haskell-nix/$rev" \
-      | jq -r '.locks as $l | $l.nodes[$l.nodes[$l.root].inputs["haskell-nix-dev"]].locked.rev')
-    cur_base=$(jq -r '.nodes as $n | $n[$n.root.inputs["haskell-nix-dev"]].locked.rev' flake.lock)
-    if [ "$new_base" != "$cur_base" ] && [ "{{base}}" != yes ]; then
-      echo "channel $rev is on haskell-nix-dev $new_base, dotfiles is on $cur_base; rerun with base=yes to move it" >&2
-      exit 1
+    if [ -n "$rev" ] && ! [[ "$rev" =~ ^[0-9a-f]{40}$ ]]; then
+      echo "REV must be empty (channel head) or a full 40-character commit of shinzui/haskell-nix" >&2; exit 2
     fi
-    nix_bak=$(mktemp); lock_bak=$(mktemp)
-    cp flake.nix "$nix_bak"; cp flake.lock "$lock_bak"
-    restore() { cp "$nix_bak" flake.nix; cp "$lock_bak" flake.lock; echo "update-channel failed; flake.nix and flake.lock restored" >&2; exit 1; }
-    # -i.bak (suffix attached) works with both GNU sed, which is first on PATH here, and BSD sed.
-    sed -E -i.bak "s|(url = \"github:shinzui/haskell-nix/)[0-9a-f]{40}\"|\1$rev\"|" flake.nix
-    sed -E -i.bak "s|(haskell-nix-dev.url = \"github:shinzui/haskell-nix-dev/)[0-9a-f]{40}\"|\1$new_base\"|" flake.nix
-    rm -f flake.nix.bak
-    grep -q "github:shinzui/haskell-nix/$rev\"" flake.nix || restore
-    grep -q "github:shinzui/haskell-nix-dev/$new_base\"" flake.nix || restore
-    nix flake update haskell-nix haskell-nix-dev rei mori mori-rei-app reiko mina || restore
+    backup=$(mktemp -t flake.lock); cp flake.lock "$backup"
+    restore() { cp "$backup" flake.lock; echo "update-channel failed; flake.lock restored" >&2; exit 1; }
+    inputs=(rei mori mori-rei-app reiko mina)
+    [ "{{base}}" = yes ] && inputs+=(haskell-nix-dev)
+    nix flake update "${inputs[@]}" || restore
+    if [ -n "$rev" ]; then
+      nix flake lock --override-input haskell-nix "github:shinzui/haskell-nix/$rev" || restore
+    else
+      nix flake update haskell-nix || restore
+    fi
     ./bin/build.sh || restore
+    rm -f "$backup"
 ```
 
 `update-kizamu`, `update-mina`, `update-mori`, `update-mori-rei-app`, `update-seihou`,
@@ -1052,11 +1379,14 @@ existing inputs, no base.
 The ADR written in M5, in this repository as
 `docs/adr/<next number>-deploy-the-rei-family-on-one-channel-revision.md` following the format
 of `docs/adr/1-compose-first-party-snapshots-in-one-haskell-scope.md` (title, `Status:`,
-`Date:`, Context, Decision, Consequences): the deploying flake pins one channel revision that
-every freeze-importing application follows; each application's own lock and freeze import
-must name that same revision; the base is the one the channel revision was locked on; a
-deployed closure must match the freeze and share one store path per shared library; the
-guard runs before activation. Cite it from the dotfiles `flake.nix` comment by its
+`Date:`, Context, Decision, Consequences). Numbers 2 to 4 are allocated to plans 8 to 10 by
+the MasterPlan; take the next free one. Its decision: the deploying flake has one root channel
+input that every freeze-importing application follows by default, so updates converge them;
+one application may be deployed off-channel by removing its follows edge; the deploy is
+blocked only when a deployed closure's versions differ from the freeze published by the
+channel revision that application's own lock pins, and revision spread, base drift and
+duplicated shared-library builds are warnings; the base is not pinned by revision; the guard
+runs before activation. Cite it from the dotfiles `flake.nix` comment by its
 `mori://shinzui/haskell-nix/…` URI once Mori resolves ADRs of this repository (until then,
 the canonical project URI plus the repository-relative path).
 
@@ -1066,3 +1396,24 @@ the canonical project URI plus the repository-relative path).
 - 2026-09-26: Initial draft (claude-opus-5-5). Replaced the skeleton with the full plan,
   based on a read-only survey of dotfiles at `e652c2d` plus its uncommitted deployed lock.
 - 2026-09-26 (MasterPlan reconciliation after parallel drafting): The parity app is renamed from `cohort-parity` to plan 9's `cohort-compare`, and its calls use `--freeze <url> --closure <path>`. Plan 14's shared-`drvPath` comparison becomes a new mode of that same tool.
+- 2026-09-26 (user decision: "the strict guard is too restrictive"): Redesigned the guard to be
+  strict only about what makes a deployed binary wrong. It now fails only when an
+  application's deployed closure differs in version from the freeze published by the channel
+  revision that application's own `flake.lock` pins (or when that comparison cannot be made),
+  and only warns about revision spread across the five applications, an application's pin
+  differing from dotfiles' root channel, off-channel applications, base drift, freeze-import
+  drift, and shared libraries with more than one store path. The root `haskell-nix` input is
+  kept and followed by default so updates converge, but is now declared without a revision
+  and locked in `flake.lock` like `haskell-nix-dev`; one application is deployed off-channel
+  by removing its follows line. `haskell-nix-dev` is no longer pinned by revision (the earlier
+  draft's pin is withdrawn), and `update-channel` no longer edits `flake.nix` with `sed`; it
+  moves the lock only and moves the base only with `base=yes`. The guard reads the lock
+  through `nix flake metadata` so overrides reach every check, and gained a test-only
+  `PARITY_FREEZE_OVERRIDE`. Negative tests are now N1 (a doctored freeze must fail) and N2
+  (one application on a different channel revision with an identical freeze must only warn,
+  with the other four store paths unchanged); the old mori-rei-app `2acd4ed4` override
+  remains the gate test through `./bin/build.sh` and now fails because its channel publishes
+  no freeze. The Kiroku `0012` safety condition is stated as owned by plans 11 and 12 (the
+  guard never checked it), and plan 15's move to `effectful` 2.7 is noted as needing no guard
+  change. The earlier Decision Log entries on the URL pins and on failing revision mismatches
+  are kept and marked superseded. Every section was updated to match.

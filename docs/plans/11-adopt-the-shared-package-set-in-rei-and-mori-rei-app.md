@@ -47,7 +47,9 @@ After this plan:
 
 - rei, mori-app (a library mori-rei-app links) and mori-rei-app all `import:` the one Cabal freeze
   file this repository publishes at `cabal/cohort.freeze`, pinned to the same haskell-nix commit
-  their flakes lock. Their Cabal plans equal the freeze.
+  their flakes lock. Their Cabal plans equal the freeze, which moves the whole family to
+  `effectful` 2.7.1.0 / `effectful-core` 2.7.1.1 or later (a user decision of 2026-09-26), so all three
+  compile against effectful 2.7 with no `allow-newer` on it.
 - rei and mori-rei-app build under Nix from that same haskell-nix commit, with no shared-package
   overrides left in their overlays, so their Nix closures contain exactly the frozen versions.
 - Rei's flake exports a Haskell extension that adds `rei-core`, and mori-rei-app composes it
@@ -66,19 +68,20 @@ trailer is recorded as a Rei action by the new mori-rei-app.
 
 ## Progress
 
-- [ ] Prerequisites: plans 9 and 10 are Complete and pushed; record the haskell-nix revision `R` and plan 8's upgrade report entries for rei, mori-app and mori-rei-app in Surprises & Discoveries.
+- [ ] Prerequisites: plans 9 and 10 are Complete and pushed (and therefore plans 8 and 15, which plan 9 depends on); record the haskell-nix revision `R`, plan 15's released versions of keiro, keiro-ops, keiro-pgmq, keiro-test-support and kioku-core, and plan 8's upgrade report entries for rei, mori-app and mori-rei-app in Surprises & Discoveries.
 - [ ] Milestone 1 (rei, Cabal): baseline `plan.json` captured before any edit.
 - [ ] Milestone 1: `import:` of the freeze at `R` added; `index-state`, `constraints:` and `allow-newer:` reconciled.
-- [ ] Milestone 1: capping bounds lifted (expected `brick`, `vty` in `rei-cli/rei-cli.cabal`); source fixed until `cabal build all` passes.
+- [ ] Milestone 1: capping bounds lifted (expected `brick`, `vty` in `rei-cli/rei-cli.cabal`, and the keiro/kioku bounds if plan 15 released a new major); source fixed until `cabal build all` passes.
+- [ ] Milestone 1: rei's effectful 2.7 breaks fixed, including the vendored `rei-core/src/Rei/Infrastructure/Hasql/` modules and `rei-core/src/Rei/Infrastructure/Trace.hs`; `plan.json` shows `effectful` >= 2.7.1.0 / `effectful-core` >= 2.7.1.1.
 - [ ] Milestone 1: `cabal test all`, `just openapi-check`, `just keiro-check`, `just dependency-closure-audit` pass; plan-json parity reports zero differences; committed.
-- [ ] Milestone 2 (rei, Nix): `flake.nix` haskell-nix pin moved to `R`; `nix/haskell-overlay.nix` reduced per plan 10's deletion list.
+- [ ] Milestone 2 (rei, Nix): `flake.nix` haskell-nix pin moved to `R`; `typeid-hs-src` input deleted (the channel carries `typeid-hs-*`); `nix/haskell-overlay.nix` reduced per plan 10's deletion list.
 - [ ] Milestone 2: `flake.lib.haskellExtension` and `packages.rei-core` exported from `flake.module.nix`; rei's own build uses the exported extension.
 - [ ] Milestone 2: `nix build .#rei`, `.#rei-api`, `.#rei-core` succeed; closure parity reports zero differences; `nix flake check` passes; committed.
 - [ ] Milestone 3 (rei, ADR): new ADR (allocated with `okf id next`, expected ADR-49) written; ADR-18 amended; `just adr-validate` and strict validation pass; committed. Record rei commit `C`.
 - [ ] Milestone 3: user approves; rei pushed so `github:shinzui/rei/C` resolves.
-- [ ] Milestone 4 (mori-app): freeze imported at `R`; bounds lifted (expected `ephemeral-pg`); `cabal test all` passes; parity zero; committed; user approves push. Record mori-app commit `A`.
-- [ ] Milestone 5 (mori-rei-app, Cabal): freeze imported at `R`; `rei-core` pin moved to `C`, `mori-app` pin moved to `A`; redundant entries removed; `cabal test all` passes against Rei's repo-local dev database; parity zero.
-- [ ] Milestone 5 (mori-rei-app, Nix): `rei` flake input added; `haskell-nix`, `haskell-nix-dev` and toolchain inputs follow rei; `rei-src` removed; overlay reduced; `nix build` passes; closure parity zero; `rei-core` store path equals rei's.
+- [ ] Milestone 4 (mori-app): freeze imported at `R`; bounds lifted (expected `ephemeral-pg`, and `effectful`/`effectful-core ^>=2.6` to `^>=2.7`); compiles against effectful 2.7; `cabal test all` passes; parity zero; committed; user approves push. Record mori-app commit `A`.
+- [ ] Milestone 5 (mori-rei-app, Cabal): freeze imported at `R`; `rei-core` pin moved to `C`, `mori-app` pin moved to `A`; `effectful`/`effectful-core ^>=2.6` lifted to `^>=2.7` (and keiro bounds if plan 15 released a new major); redundant entries removed; `cabal test all` passes against Rei's repo-local dev database; parity zero.
+- [ ] Milestone 5 (mori-rei-app, Nix): `rei` flake input added; `haskell-nix`, `haskell-nix-dev` and toolchain inputs follow rei; `rei-src` and `typeid-hs-src` removed; overlay reduced; `nix build` passes; closure parity zero; `rei-core` store path equals rei's.
 - [ ] Milestone 5: dependency-closure audit updated and passing; ADR-1 amended; committed; user approves push. Record mori-rei-app commit `M`.
 - [ ] Milestone 6 (deploy): read-only production baseline captured.
 - [ ] Milestone 6: dotfiles lock moved for `rei` and `mori-rei-app` only; `./bin/build.sh` passes; built store paths equal the proven ones.
@@ -99,12 +102,30 @@ Nothing has been implemented yet. The observations below were made while writing
   where the freeze must move rei's Cabal plan *upward* are the ones where Nix was ahead —
   `brick` 2.6 to 2.9 and `vty` 6.2 to 6.4, capped by `brick ^>=2.6` and `vty ^>=6.2` in
   `rei-cli/rei-cli.cabal`, and `baikai-effectful` 0.4.0.1 to 0.4.0.2 — plus anything another
-  application selects higher. Evidence: the version lists in the MasterPlan and
-  `grep -nE 'brick|vty' rei-cli/rei-cli.cabal` in rei (lines 345 and 379).
-  Consequence: a source break in rei is expected only in the 20 modules importing `Brick` and the
-  4 importing `Graphics.Vty`. A Nix build failure in a package whose Cabal version was already the
-  frozen one is not a source break; it is build policy (jailbreak, tests, a system library) and
-  belongs in the channel (plans 9 and 10), not in rei.
+  application selects higher, plus the user's effectful 2.7 target (next observation). Evidence:
+  the version lists in the MasterPlan and `grep -nE 'brick|vty' rei-cli/rei-cli.cabal` in rei
+  (lines 345 and 379).
+  Consequence: a source break in rei is expected in the 20 modules importing `Brick`, the 4
+  importing `Graphics.Vty`, and the modules that touch effectful's internals (next observation). A
+  Nix build failure in a package whose Cabal version was already the frozen one is not a source
+  break; it is build policy (jailbreak, tests, a system library) and belongs in the channel (plans
+  9 and 10), not in rei.
+- Observation: the freeze moves `effectful` and `effectful-core` from 2.6.x to 2.7.1.1 or later
+  (user decision 2026-09-26, delivered through plan 8's policy floor and plan 15's releases of
+  keiro, keiro-ops, keiro-pgmq, keiro-test-support and kioku-core). effectful 2.7 changed
+  `LocalEnv` (it gained a second type parameter), `SharedSuffix`, `KnownEffects` and the strict
+  modules. A grep for those names and for `localSeqUnlift`, `localUnlift`,
+  `Effectful.Dispatch.Static` and `Effectful.Internal` on rei `880093cc` finds three modules:
+  `rei-core/src/Rei/Infrastructure/Trace.hs`,
+  `rei-core/src/Rei/Infrastructure/Hasql/Static/Connection.hs` and
+  `rei-core/src/Rei/Infrastructure/Hasql/Static/Pool.hs`. The last two, with
+  `rei-core/src/Rei/Infrastructure/Hasql/Effect.hs`, are Rei's vendored copy of `hasql-effectful`
+  (from `topagentnetwork/tan-effectful` `5e081ad8`), so Rei owns their port. rei's `.cabal` files
+  list `effectful`/`effectful-core` without a bound, so no bound moves in rei itself. mori-app
+  (`mori-app/mori-app.cabal` lines 63-64 and 101-102) and mori-rei-app (`mori-rei-app.cabal`
+  lines 65-66 and 148-149) both declare `effectful ^>=2.6` and `effectful-core ^>=2.6`, which the
+  freeze no longer admits; the same grep finds no effectful-internal use in either, so they are
+  expected to need only the bound change.
 - Observation: mori-app's test suite declares `ephemeral-pg ^>=0.2`, while rei's Cabal plan already
   uses `ephemeral-pg` 0.3.1.0. Under an upgrade-only freeze that bound must move, and mori-app's
   test harness may need porting to the 0.3 API. Evidence: `mori-app/mori-app.cabal` line 103.
@@ -117,10 +138,15 @@ Nothing has been implemented yet. The observations below were made while writing
   changes `rei-core`'s derivation. The two deployed programs contain the same `rei-core` only if
   both are built from the same rei commit.
 - Observation: mori-rei-app's `scripts/dependency-closure-audit.sh` asserts that every `tag:` in
-  its `cabal.project` also appears in `flake.nix` (script lines 240-244). Once `rei-core` (and
-  possibly `typeid-hs`) reach Nix through the `rei` flake input or the channel, the literal
-  `typeid-hs` revision may no longer appear in `flake.nix`, although it still appears in
-  `flake.lock`. That leg must be retargeted, not silenced.
+  its `cabal.project` also appears in `flake.nix` (script lines 240-244). Once `rei-core` reaches
+  Nix through the `rei` flake input and `typeid-hs` through the channel (plan 10 carries it now
+  that the repository is public), the literal `typeid-hs` revision no longer appears in
+  mori-rei-app's `flake.nix`, although it still appears in `flake.lock` (through `haskell-nix`) and
+  in `cabal.project`. That leg must be retargeted, not silenced.
+- Observation: `https://github.com/topagentnetwork/typeid-hs` became public on 2026-09-26
+  (anonymous `git ls-remote` works; HEAD `7164a74c`), so plan 10 moves `typeid-hs-sql` and
+  `typeid-hs-pg-migrate` into the channel. typeid-hs is still not on Hackage, so every
+  `cabal.project` keeps its `source-repository-package` at `7164a74c`.
 - Observation: rei's `flake.nix` is seihou-managed and says editing a revision there "is a conflict
   at the next run". Rei commit `880093cc` nevertheless moved the haskell-nix revision by a direct
   one-line edit, and that is the precedent this plan follows.
@@ -130,9 +156,9 @@ Nothing has been implemented yet. The observations below were made while writing
 
 - Decision: Rei exports `lib.haskellExtension` from its flake with the same calling convention as
   haskell-nix's own `lib.haskellExtension` — a function `haskellLib: pkgs: final: prev: { … }` —
-  containing only Rei's own packages (`rei-core`, `rei-api`, `rei-cli`), plus `typeid-hs-sql`
-  and `typeid-hs-pg-migrate` only if plan 10 did not move those into the channel. Consumers
-  compose it after the channel extension. Rei's own `flake.module.nix` builds from exactly the
+  containing only Rei's own packages (`rei-core`, `rei-api`, `rei-cli`). `typeid-hs-sql` and
+  `typeid-hs-pg-migrate` come from the channel (plan 10; revised 2026-09-26, see the
+  user-decisions entry below). Consumers compose it after the channel extension. Rei's own `flake.module.nix` builds from exactly the
   same extension.
   Rationale: one definition means Rei and every consumer evaluate the same `rei-core` expression,
   so equal inputs give an equal derivation. Matching haskell-nix's shape lets consumers write one
@@ -146,8 +172,9 @@ Nothing has been implemented yet. The observations below were made while writing
   mori-rei-app's unpinned `haskell-nix-dev` (locked at `af29a486`, a revision with no
   `flake-parts` input) with Rei's rev-pinned `206ecd25`.
   Date: 2026-09-26
-- Decision: Lift the `brick`, `vty` and `ephemeral-pg` caps by moving the bound in the `.cabal`
-  file, never by `allow-newer`.
+- Decision: Lift the `brick`, `vty`, `ephemeral-pg` and `effectful`/`effectful-core` caps (and any
+  `keiro`/`kioku-core` cap plan 15's release numbers fall outside) by moving the bound in the
+  `.cabal` file, never by `allow-newer`.
   Rationale: these are the application's own bounds, so remedy 1 of
   `mori://shinzui/rei/okf/adrs/concepts/ADR-16` (take the current release) applies. An
   `allow-newer` for one's own package would assert the bound is wrong while leaving it wrong.
@@ -190,6 +217,36 @@ Nothing has been implemented yet. The observations below were made while writing
   plan is revised to match before Milestone 1 starts.
   Rationale: plans 9 and 10 were being drafted in parallel with this one.
   Date: 2026-09-26
+- Decision (user decisions, 2026-09-26): four of the user's five decisions reach this plan.
+  1. **effectful 2.7 everywhere, no `allow-newer` bridge.** The freeze carries `effectful` and
+     `effectful-core` at 2.7.1.1 or later. rei (including its vendored
+     `rei-core/src/Rei/Infrastructure/Hasql/` modules), mori-app and mori-rei-app are ported to
+     compile against it; no `allow-newer` naming `effectful` or `effectful-core` may be added in
+     any of the three. Plan 15 (`docs/plans/15-release-the-first-party-libraries-on-effectful-2-7.md`)
+     releases the keiro and kioku-core versions that admit it, and plan 8's freeze depends on
+     those releases, so plan 15 is an indirect dependency of this plan through the freeze.
+  2. **`typeid-hs` is public.** Plan 10 moves `typeid-hs-sql` and `typeid-hs-pg-migrate` into the
+     channel. rei and mori-rei-app delete their `typeid-hs` overlay entries and their
+     `typeid-hs-src` flake inputs unconditionally. The earlier branch ("if the channel's revision
+     is not `7164a74c`, rei keeps its input") is resolved: the channel provides typeid-hs at
+     `7164a74c`, and if it ever does not, that is a plan 10 defect fixed in this repository by
+     moving `R`, not by keeping a local input. The Cabal `source-repository-package` at
+     `7164a74c` stays in every `cabal.project`, because typeid-hs is not on Hackage.
+  3. **`hasql-effectful` is mori's concern only.** Plan 12 vendors it into `mori-core` as Rei
+     did. rei already vendors it as `Rei.Infrastructure.Hasql.Effect`; mori-rei-app uses it only
+     through that rei-core module, and mori-app not at all (only comments in their
+     `cabal.project` files mention it). So nothing here changes except that rei's vendored copy
+     is part of the effectful 2.7 port.
+  4. **Plan 14's dotfiles guard is relaxed.** Different channel revisions across applications
+     only warn; a deploy fails only when an application's closure differs from the freeze its own
+     pinned channel revision publishes. This plan's deploy (rei and mori-rei-app on `R` while
+     mori, mina and reiko may still be on older revisions) is therefore acceptable to plan 14's
+     guard, and this plan's own closure-parity checks against the freeze at `R` are exactly the
+     condition that guard enforces.
+  (The fifth decision, mina's streamly, does not touch this plan.)
+  Rationale: the user settled these on 2026-09-26 after the plan was drafted; each removes a
+  conditional branch or adds a known source break the implementer must plan for.
+  Date: 2026-09-26
 
 
 ## Outcomes & Retrospective
@@ -225,9 +282,20 @@ Conventional Commits and end with the trailers shown in Concrete Steps.
   produced by plan 8
   (`docs/plans/8-resolve-one-upgrade-only-cohort-freeze-for-the-rei-family-of-applications.md`). It
   is a Cabal `constraints:` file with one `any.<package> ==<version>` line per package (the syntax
-  `cabal freeze` writes), resolved so no package is older than any of the five applications
-  selects today. Plan 8 also writes an upgrade report naming the application bounds that cap an
-  upgrade.
+  `cabal freeze` writes), plus an `index-state:` line, resolved so no package is older than any of
+  the five applications selects today. It also enforces one user-set target: `effectful` and
+  `effectful-core` at 2.7.1.1 or later (the floor `kiroku-store` 0.9.0.1 and `shibuya` use, since
+  they exclude 2.7.0.0 to 2.7.1.0 for a performance regression). Plan 8 also writes an upgrade
+  report naming the application bounds that cap an upgrade.
+- **Plan 15**: `docs/plans/15-release-the-first-party-libraries-on-effectful-2-7.md` releases
+  new versions of keiro, keiro-ops, keiro-pgmq, keiro-test-support, kioku-core, shikumi,
+  shikumi-trace and shikumi-cache that admit `effectful >=2.7.1.0` and `effectful-core >=2.7.1.1`, and refreshes the channel.
+  Plan 8 resolves the freeze only after those releases exist, so this plan depends on plan 15
+  through the freeze. Read the released version numbers from plan 15's Outcomes & Retrospective.
+- **effectful 2.7**: the effect-system library rei, mori-app and mori-rei-app are written in
+  (`effectful-core` is its core; `effectful` adds standard effects). Version 2.7 changed
+  `LocalEnv` (a second type parameter), `SharedSuffix`, `KnownEffects` and the strict modules, so
+  code that writes its own static-dispatch effects or unlifting helpers may need edits.
 - **Channel**: this repository's Nix library. A consumer calls
   `inputs.haskell-nix.lib.haskellExtension pkgs.haskell.lib.compose pkgs` and gets a Haskell
   package-set extension (a function `final: prev: { … }` passed as `overrides` to
@@ -251,7 +319,8 @@ Conventional Commits and end with the trailers shown in Concrete Steps.
 
 `cabal.project` sets `index-state: 2026-09-26T18:09:31Z`, packages `rei-core`, `rei-cli`,
 `rei-api`, an optional generated conformance package, one `source-repository-package` for
-`typeid-hs` (`typeid-hs-sql`, `typeid-hs-pg-migrate`, tag `7164a74c…`, not on Hackage), a
+`typeid-hs` (`typeid-hs-sql`, `typeid-hs-pg-migrate`, tag `7164a74c…`, not on Hackage; the
+repository `https://github.com/topagentnetwork/typeid-hs` is public since 2026-09-26), a
 `constraints:` block (`crypton >= 1.1`, `http-client-tls >= 0.4`, `dhall -use-http-client-tls`,
 `blake3 -avx512 -avx2 -sse41 -sse2`), and six package-qualified `allow-newer` entries
 (`fuzzyfind:containers`, `link-canonical:http-client-tls`, `link-canonical:generic-lens`,
@@ -279,8 +348,17 @@ entries are `rei-core` and `rei-api` (`callCabal2nix … ../rei-core` / `../rei-
 
 Bounds that matter: `rei-cli/rei-cli.cabal` has `brick ^>=2.6` and `vty ^>=6.2`; `rei-core` has
 `hasql >=1.10`, `hasql-pool >=1.4`, `^>=0.19` for keiro, `^>=0.9.0.1` for `kiroku-store`,
-`shibuya-pgmq-adapter ^>=0.16.1` (in rei-cli), and `link-canonical` and `typeid-hs-*` without
-bounds.
+`shibuya-pgmq-adapter ^>=0.16.1` (in rei-cli), and `link-canonical`, `typeid-hs-*`,
+`effectful` and `effectful-core` without bounds. The keiro packages (`keiro`, `keiro-core`,
+`keiro-ops`, `keiro-pgmq`, `keiro-migrations`, `keiro-test-support`, `keiro-dsl`) are bounded
+`^>=0.19` and `kioku-*` `^>=0.8` across `rei-core`, `rei-cli` and `rei-api`; if plan 15 released
+keiro or kioku-core under a new major version, those bounds move too.
+
+rei vendors `hasql-effectful` (from `topagentnetwork/tan-effectful` `5e081ad8`) as
+`rei-core/src/Rei/Infrastructure/Hasql/Effect.hs`, `Hasql/Static/Connection.hs` and
+`Hasql/Static/Pool.hs`, because Hackage's `hasql-effectful` 0.2.0.0 has an older, incompatible
+API. The two `Static` modules and `rei-core/src/Rei/Infrastructure/Trace.hs` use effectful's
+static-dispatch and unlifting internals, the parts effectful 2.7 changed.
 
 Test and check commands (run inside `nix develop`, which the directory's `.envrc` enters):
 `cabal build all`, `cabal test all` (uses ephemeral PostgreSQL servers, not the dev database),
@@ -299,8 +377,9 @@ migrations, including Kiroku `0012`, applied 2026-09-26.
 `cabal.project`: `index-state: 2026-09-26T18:09:31Z`, package `mori-app`, one pin for
 `mori-types` (mori `32882f2d`), no `constraints` or `allow-newer`. `mori-app/mori-app.cabal`
 bounds: library `hasql ^>=1.10`, `servant-server ^>=0.20`, `wai ^>=3.2`, `warp ^>=3.4`,
-`generic-lens >=2.2 && <2.4`, `pg-migrate ^>=1.2`, `pgmq-* ^>=0.6.1`; test suite
-`ephemeral-pg ^>=0.2`, `tasty ^>=1.5`. It has its own `scripts/dependency-closure-audit.sh`
+`generic-lens >=2.2 && <2.4`, `pg-migrate ^>=1.2`, `pgmq-* ^>=0.6.1`, `effectful ^>=2.6`,
+`effectful-core ^>=2.6`; test suite `ephemeral-pg ^>=0.2`, `tasty ^>=1.5`, and the same two
+effectful bounds. It has its own `scripts/dependency-closure-audit.sh`
 with `EXPECT_COMMENT_SUPPRESSED=16`. It is consumed by mori-rei-app through a Cabal
 `source-repository-package` and a Nix `mori-app-src` input.
 
@@ -319,10 +398,12 @@ unpinned inputs, `haskell-nix` is `4cabd105…` following only `nixpkgs` (it can
 `haskell-nix-dev`, because that old `haskell-nix-dev` has no `flake-parts` input and Nix fails
 with "follows a non-existent input"), and four non-flake sources: `mori-src`, `mori-app-src`,
 `rei-src`, `typeid-hs-src`. `flake.module.nix` composes `inputs.haskell-nix.lib.haskellExtension`
-with `nix/haskell-overlay.nix`, which defines `typeid-hs-*`, `link-canonical`,
+with `nix/haskell-overlay.nix`, which defines `typeid-hs-*` (from `typeid-hs-src`), `link-canonical`,
 `wai-app-static` 3.2.1, `servant-server = dontCheck (doJailbreak prev.servant-server)`,
 `mori-types`, `mori-app` (with a `sourceRoot` fix for `../LICENSE`), `rei-core` (from
-`${rei-src}/rei-core`) and `mori-rei-app`.
+`${rei-src}/rei-core`) and `mori-rei-app`. `mori-rei-app.cabal` bounds `effectful ^>=2.6` and
+`effectful-core ^>=2.6` in both the library and the test suite, and `keiro ^>=0.19` and
+`keiro-migrations ^>=0.19` in the test suite.
 
 Its `cabal test all` needs Rei's **repository-local development** PostgreSQL running (in rei:
 `just process-up`, socket `rei/db/.s.PGSQL.5432`, with a `mori_rei_app` database migrated there);
@@ -343,7 +424,10 @@ github:shinzui/mori-rei-app`, each with `inputs.nixpkgs.follows = "haskell-nix-d
 moving `haskell-nix-dev` with an application has broken the closure before. `./bin/build.sh` runs
 `nix build .#darwinConfigurations.SungkyungM1X.system`; the packages are
 `.#darwinConfigurations.SungkyungM1X.pkgs.rei` and `.pkgs.mori-rei-app`. Only the user runs
-`sudo ./bin/darwin-rebuild-sungkyung.sh`. Activation re-bootstraps every agent at once; the
+`sudo ./bin/darwin-rebuild-sungkyung.sh`. Plan 14 later adds a deploy-time guard to dotfiles;
+as the user relaxed it on 2026-09-26, applications on different channel revisions only produce
+a warning, and the guard fails only when an application's closure differs from the freeze its
+own pinned channel revision publishes. Activation re-bootstraps every agent at once; the
 watchdog heals `rei-worker-kiroku` within about 30 seconds if activation kills it. `ps` shows
 wrapper argv, so check a real binary with `lsof -p <pid>`. Old errors linger in logs, so filter
 by today's timestamp.
@@ -394,7 +478,8 @@ lists each record and `log.md` records each change. mori-rei-app's `docs/adr/` h
 Work proceeds in six milestones. Milestones 1 to 3 happen in rei, 4 in mori-app, 5 in
 mori-rei-app, and 6 in dotfiles with the user. Nothing is pushed or deployed without the user's
 go-ahead. Before Milestone 1, confirm plans 9 and 10 are marked Complete in the MasterPlan
-registry, record `R`, read plan 9's Interfaces section for the parity script's real name and
+registry (plan 9 depends on plan 8, which depends on plan 15, so those are complete too; check
+that plan 15's row says Complete and read its released versions), record `R`, read plan 9's Interfaces section for the parity script's real name and
 arguments and the consumer extension attribute, read plan 10's deletion lists for rei and
 mori-rei-app, and read plan 8's upgrade report for the three repositories. Write all of these into
 Surprises & Discoveries and replace the placeholders in this plan.
@@ -448,6 +533,29 @@ unpack the tarball Cabal has already downloaded with `cabal get brick-<version>`
 `rei-cli/src` that import `Brick` or `Graphics.Vty`). Do not add a `constraints:` line to hold a
 package back; that would violate upgrade-only.
 
+The freeze also moves `effectful` to 2.7.1.0 and `effectful-core` to 2.7.1.1 or later and the keiro and
+kioku-core packages to plan 15's releases. If plan 15 released a new major (for example keiro
+0.20), move rei's `^>=0.19` keiro and `^>=0.8` kioku bounds to it in `rei-core/rei-core.cabal`,
+`rei-cli/rei-cli.cabal` and `rei-api/rei-api.cabal` (and the `keiro-dsl` version in the
+`Justfile`'s `cabal install` line if keiro-dsl moved); otherwise they already admit it. rei
+declares `effectful`/`effectful-core` without bounds, so no bound moves for them. Then port rei
+to effectful 2.7. Read effectful's changelog for 2.7 first (`mori registry search effectful`, or
+`cabal get effectful-core-<frozen version>` into `.dev/cohort/`). Find the affected code with:
+
+```bash
+grep -rnE 'LocalEnv|SharedSuffix|KnownEffects|localSeqUnlift|localUnlift|localLend|localBorrow|Effectful\.Dispatch\.Static|Effectful\.Internal|Effectful\.[A-Za-z.]*\.Strict' rei-core/src rei-core/test rei-cli/src rei-api/src
+```
+
+On `880093cc` this names `rei-core/src/Rei/Infrastructure/Trace.hs` and the vendored
+`rei-core/src/Rei/Infrastructure/Hasql/Static/Connection.hs` and `.../Hasql/Static/Pool.hs`;
+also rebuild `rei-core/src/Rei/Infrastructure/Hasql/Effect.hs`, the third vendored module, which
+uses dynamic dispatch. The vendored modules are Rei's own code now (their header names the
+upstream revision): port them in place, keep the header, and add one line saying they were
+adapted to effectful 2.7. Do not replace them with Hackage's `hasql-effectful`, and never add an
+`allow-newer` for `effectful` or `effectful-core`, which the user ruled out. If a dependency
+outside rei still caps effectful below 2.7.1.1, that is a plan 8 or plan 15 defect: stop and
+record it rather than working around it here.
+
 Prove it: `cabal test all`, `just openapi-check` (the OpenAPI document must not change; if an
 upgraded `aeson` or `openapi-hs` changes it, record why in Surprises and regenerate deliberately),
 `just keiro-check`, and `just dependency-closure-audit` (re-derive a census only if the change is
@@ -463,19 +571,23 @@ is a function other flakes can compose.
 
 In `flake.nix`, change the `haskell-nix.url` revision from `4cabd105…` to `R` (the only edit to
 that input), then run `nix flake lock` and confirm with `git diff flake.lock` that only
-`haskell-nix` and its own new sub-inputs moved. If plan 10 moved the `typeid-hs` sources into the
-channel and the channel's `typeid-hs` revision equals `7164a74c490cc92ffe73a315d827c9515de125d3`
-(the `tag:` in `cabal.project`), also delete the `typeid-hs-src` input and its comment block.
-If the revisions differ, keep rei's input and record the mismatch for plan 10.
+`haskell-nix` and its own new sub-inputs moved. Also delete the `typeid-hs-src` input and its
+comment block: `typeid-hs` is public, and plan 10 put `typeid-hs-sql` and `typeid-hs-pg-migrate`
+into the channel at `7164a74c490cc92ffe73a315d827c9515de125d3`, the same revision as the `tag:`
+in `cabal.project` (which stays, because typeid-hs is not on Hackage). After relocking, the only
+`typeid-hs` node left in `flake.lock` is the one reached through `haskell-nix`; its `rev` must be
+`7164a74c…` (Concrete Steps shows the `jq` query; if plan 10 records the source in its own lock
+file instead of a flake input, read the revision there as plan 10's Interfaces describe). If the
+channel's revision differs from `7164a74c`, that is a plan 10 defect: fix the channel, push, and
+move `R`; do not keep a local input.
 
 In `nix/haskell-overlay.nix`, delete every entry plan 10's deletion list names for rei. Expected
 deletions: `link-canonical`, `openapi-hs`, `servant-openapi-hs`, `servant-health`, the three
 `hs-opentelemetry-*` entries, the four `relay-pagination*` entries, `kioku-core`'s
-`disableLibraryProfiling`, and `typeid-hs-sql`/`typeid-hs-pg-migrate` if the channel now carries
-them. Delete their comments too, replacing them with one short paragraph saying shared packages
-come from the channel per `mori://shinzui/mori/okf/adrs/concepts/ADR-24` as extended by plan 10.
-What remains is Rei's own `rei-core`, `rei-api` and `rei-cli` (and `typeid-hs-*` if kept). Change
-the file's argument set to what remains (`{ pkgs, gitRev }`, plus `typeid-hs-src` if kept).
+`disableLibraryProfiling`, and `typeid-hs-sql`/`typeid-hs-pg-migrate`. Delete their comments too,
+replacing them with one short paragraph saying shared packages come from the channel per
+`mori://shinzui/mori/okf/adrs/concepts/ADR-24` as extended by plan 10. What remains is Rei's own
+`rei-core`, `rei-api` and `rei-cli`. Change the file's argument set to `{ pkgs, gitRev }`.
 
 In `flake.module.nix`, define the extension once at the top level and export it, and build Rei
 from it:
@@ -522,17 +634,19 @@ in
 
 Use `inputs.haskell-nix.lib.haskellExtension` (which equals `.haskellExtensions.github`) unless plan
 9 or 10 names a different consumer entry point, in which case use that one in both rei and
-mori-rei-app. If `typeid-hs-src` was kept, pass it through the `import` as today. The
-`gitRev` argument only affects `rei-cli`, so `rei-core`'s derivation does not depend on it.
+mori-rei-app. The `gitRev` argument only affects `rei-cli`, so `rei-core`'s derivation does not
+depend on it.
 
 Prove it: `nix build .#rei --print-out-paths`, `nix build .#rei-api`, `nix build .#rei-core`, each
 checked by exit code. Any failure in a *dependency* whose Cabal version is already the frozen one
 is a channel build-policy gap: record it, fix it in this repository (plan 9 or 10's registry),
 push, and move `R` — do not re-add a local override. Run the parity script on the `rei-cli`
 closure and on the `rei-core` derivation's version (`nix eval --raw .#rei-core.version` should
-equal rei-core's `.cabal` version). Run `nix flake check`. Re-run `just
-dependency-closure-audit`; if deleting `typeid-hs-src` moved `EXPECT_TAN_FLAKE` or
-`EXPECT_LOCK_TYPEID`, run it with `--census`, update the constants with a comment saying the
+equal rei-core's `.cabal` version). The closure parity also proves the Nix side of the effectful
+2.7 move: the `rei-cli` derivation closure must contain `effectful-core` only at the frozen 2.7
+version, never 2.6 (Concrete Steps shows the query). Run `nix flake check`. Re-run `just
+dependency-closure-audit`; deleting `typeid-hs-src` will likely move `EXPECT_TAN_FLAKE` or
+`EXPECT_LOCK_TYPEID`; if so, run it with `--census`, update the constants with a comment saying the
 typeid-hs source now reaches Nix through the channel, and explain it in the commit. Commit.
 
 ### Milestone 3: record the decision in rei and publish `C`
@@ -578,8 +692,12 @@ Scope: `cabal.project`, `mori-app/mori-app.cabal`, test sources if `ephemeral-pg
 API, possibly `scripts/dependency-closure-audit.sh`'s comment census. Add the same comment and
 `import:` at `R` (mori-app has no haskell-nix flake input, so `R` is taken from rei). Apply the
 same `index-state` rule. Lift the bounds plan 8's report names; expected: `ephemeral-pg ^>=0.2`
-to `ephemeral-pg ^>=0.3` in the test suite, and any other cap the solver reports (read the
-`cabal build all --dry-run` rejection, which names the package and bound). Port the tests if the
+to `ephemeral-pg ^>=0.3` in the test suite, `effectful ^>=2.6` and `effectful-core ^>=2.6` to
+`^>=2.7` in both the library and the test suite (plan 8's freeze has them at 2.7.1.1 or later),
+and any other cap the solver reports (read the `cabal build all --dry-run` rejection, which names
+the package and bound). Run the same effectful grep as Milestone 1 over `mori-app/src` and
+`mori-app/test`; on `30aca6e3` it finds nothing, so the bound change should be enough, but fix any
+site the compiler names. Never `allow-newer` effectful. Port the tests if the
 `EphemeralPg` API changed (compare with rei's `rei-core` test harness, which already runs on
 0.3.1.0, and with mori-rei-app's `test/MoriReiApp/KirokuTestDb.hs`). Prove with `cabal build all`,
 `cabal test all`, `scripts/dependency-closure-audit.sh`, and the parity script on `plan.json`.
@@ -587,19 +705,24 @@ Commit, ask the user to push, record `A`.
 
 ### Milestone 5: mori-rei-app imports the freeze and consumes Rei's `rei-core`
 
-Scope: `cabal.project`, `mori-rei-app.cabal` (only if the report names a bound), `flake.nix`,
+Scope: `cabal.project`, `mori-rei-app.cabal` (at least its `effectful` bounds), `flake.nix`,
 `flake.lock`, `flake.module.nix`, `nix/haskell-overlay.nix`, `scripts/dependency-closure-audit.sh`,
 `docs/adr/001-…md`, `docs/adr/log.md`. At the end, the Cabal plan equals the freeze, the Nix
 build contains no shared overrides and no copy of Rei's source, and the built `rei-core` store path
 equals rei's.
 
 Cabal side: add the comment and `import:` at `R`. Move the `rei-core` pin's `tag:` to `C` and the
-`mori-app` pin's `tag:` to `A`; keep `mori-types` (plan 12 owns it) and `typeid-hs` (still not on
-Hackage). Then make the `index-state`, `constraints:` and `allow-newer:` blocks equal to what rei
+`mori-app` pin's `tag:` to `A`; keep `mori-types` (plan 12 owns it) and `typeid-hs` (public now,
+but still not on Hackage, so Cabal needs the pin at `7164a74c`). Then make the `index-state`, `constraints:` and `allow-newer:` blocks equal to what rei
 kept in Milestone 1 (ADR-1 still applies to constraints and allow-newer: this tree must repeat what
 rei-core's closure needs), and rewrite the header comment: versions and `index-state` now come
 from the freeze, and only rei-core's surviving constraints and allow-newer entries are mirrored.
-Run `cabal build all`; lift any bound the report names in `mori-rei-app.cabal`. Start Rei's
+Run `cabal build all`; lift any bound the report names in `mori-rei-app.cabal`. Expected:
+`effectful ^>=2.6` and `effectful-core ^>=2.6` to `^>=2.7` in the library and the test suite,
+and the test suite's `keiro`/`keiro-migrations ^>=0.19` if plan 15 released a new keiro major.
+Run the Milestone 1 effectful grep over `src`, `app` and `test`; on `2acd4ed4` it finds nothing,
+and the ten modules that import `Rei.Infrastructure.Hasql.Effect` get rei's ported copy through
+the `rei-core` pin at `C`. Never `allow-newer` effectful. Start Rei's
 development database (`cd /Users/shinzui/Keikaku/bokuno/rei-project/rei && just process-up`) and
 run `cabal test all`; expect the 178 tests (or more) to pass. Run the parity script on `plan.json`.
 
@@ -622,12 +745,11 @@ inputs = {
 
   mori-src = { url = "github:shinzui/mori/32882f2d48bde6735d73cbd81c012c8d30ba11f3"; flake = false; };
   mori-app-src = { url = "github:shinzui/mori-app/<A>"; flake = false; };
-  # typeid-hs-src only if neither the channel nor rei's extension supplies typeid-hs.
+  # typeid-hs-sql and typeid-hs-pg-migrate come from the haskell-nix channel (plan 10).
 };
 ```
 
-Delete `rei-src`. Delete `typeid-hs-src` when the channel (plan 10) or rei's extension supplies
-`typeid-hs-*`. Run `nix flake lock` and confirm in `flake.lock` that there is exactly one
+Delete `rei-src` and `typeid-hs-src`; the channel supplies `typeid-hs-*` at `7164a74c`. Run `nix flake lock` and confirm in `flake.lock` that there is exactly one
 `haskell-nix` node and one `haskell-nix-dev` node and that the latter is `206ecd25…`.
 
 `flake.module.nix`:
@@ -646,7 +768,8 @@ haskellPackages = pkgs.haskell.packages.ghc9124.override {
 ```
 
 `nix/haskell-overlay.nix`: delete `rei-core`, `link-canonical`, `wai-app-static`,
-`servant-server` and `typeid-hs-*` (per plan 10's list for mori-rei-app), and the `rei-src` /
+`servant-server` and `typeid-hs-sql`/`typeid-hs-pg-migrate` (per plan 10's list for
+mori-rei-app), and the `rei-src` /
 `typeid-hs-src` arguments. Keep `mori-types`, `mori-app` (with its `sourceRoot` fix) and
 `mori-rei-app`. Add a short comment that `rei-core` comes from Rei's flake per rei's new ADR.
 
@@ -673,7 +796,9 @@ recorded as untested.
 
 First take a read-only baseline of production (Concrete Steps). Then, in dotfiles, confirm that
 `github:shinzui/rei` and `github:shinzui/mori-rei-app` `master` are exactly `C` and `M`
-(`git ls-remote`). If so run `nix flake update rei mori-rei-app` — never `just update-rei` or
+(`git ls-remote`). If so run `nix flake update rei mori-rei-app` (the other applications stay on their own channel revisions;
+under plan 14's relaxed guard that is a warning, not a failure, as long as each closure matches
+the freeze of its own pinned revision) — never `just update-rei` or
 `just update-mori-rei-app`, which also move `haskell-nix-dev`. If either `master` has moved on,
 use `nix flake lock --override-input rei github:shinzui/rei/<C> --override-input mori-rei-app
 github:shinzui/mori-rei-app/<M>` instead. `git diff flake.lock` must touch only those two
@@ -698,9 +823,10 @@ Set these once per shell. `R`, `C`, `A`, `M` are filled in as they become known.
 ```bash
 export R=<40-hex haskell-nix revision after plans 9 and 10>
 export HN=/Users/shinzui/Keikaku/bokuno/haskell-nix
-export FREEZE="$HN/cabal/cohort.freeze"
-export PARITY="$HN/scripts/<parity script named by plan 9>"
-git -C "$HN" fetch && git -C "$HN" checkout --detach "$R"   # or use a worktree; the freeze and script must be at R
+export FREEZE="https://raw.githubusercontent.com/shinzui/haskell-nix/$R/cabal/cohort.freeze"
+PARITY=(nix run "github:shinzui/haskell-nix/$R#cohort-compare" --)   # plan 9's flake app; a bash array, so not exported
+grep -n '^| 15 \|^| 9 \|^| 10 ' "$HN/docs/masterplans/3-align-one-cabal-and-nix-package-set-across-the-rei-family-of-applications.md"   # all Complete
+curl -sf "$FREEZE" | grep -E 'any\.(effectful|effectful-core|keiro|kioku-core) '   # effectful 2.7.1.1 or later; plan 15's keiro/kioku-core
 ```
 
 ### Milestone 1 (working directory: /Users/shinzui/Keikaku/bokuno/rei-project/rei)
@@ -713,6 +839,11 @@ jq -r '."install-plan"[] | select((.["pkg-src"].type? // "") != "local") | "\(.[
   dist-newstyle/cache/plan.json | sort -u > .dev/cohort/before.txt
 # edit cabal.project, rei-cli/rei-cli.cabal, Justfile as described
 cabal build all --dry-run -v1 2>&1 | grep -i 'historical state'   # shows the index-state in force
+jq -r '."install-plan"[] | select(.["pkg-name"] | test("^effectful(-core)?$")) | "\(.["pkg-name"]) \(.["pkg-version"])"' \
+  dist-newstyle/cache/plan.json | sort -u                          # 2.7.1.1 or later, never 2.6
+grep -rnE 'LocalEnv|SharedSuffix|KnownEffects|localSeqUnlift|localUnlift|localLend|localBorrow|Effectful\.Dispatch\.Static|Effectful\.Internal|Effectful\.[A-Za-z.]*\.Strict' \
+  rei-core/src rei-core/test rei-cli/src rei-api/src              # the effectful 2.7 sites to port
+grep -n 'allow-newer' -A12 cabal.project | grep -i effectful     # must print nothing
 cabal build all
 cabal test all
 jq -r '."install-plan"[] | select((.["pkg-src"].type? // "") != "local") | "\(.["pkg-name"]) \(.["pkg-version"])"' \
@@ -739,7 +870,8 @@ build(deps): import the shared cohort freeze from haskell-nix <R:0:8>
 
 Import cabal/cohort.freeze at the haskell-nix revision the flake pins, drop
 the constraints it makes redundant, lift the brick and vty bounds the freeze
-moves, and adapt the TUI to brick <v>. Passengers: <list from the diff>.
+moves, adapt the TUI to brick <v>, and port the vendored Hasql effect and
+the trace module to effectful 2.7. Passengers: <list from the diff>.
 
 Module: infrastructure
 MasterPlan: mori://shinzui/haskell-nix/masterplans/3-align-one-cabal-and-nix-package-set-across-the-rei-family-of-applications
@@ -755,12 +887,17 @@ nix flake lock
 git diff --stat flake.lock
 jq -r '.nodes["haskell-nix"].locked.rev' flake.lock                     # must print R
 grep -o 'haskell-nix/[0-9a-f]\{40\}/cabal' cabal.project               # must name R
+jq -r '.nodes | to_entries[] | select(.value.locked.repo? == "typeid-hs") | "\(.key) \(.value.locked.rev)"' flake.lock
+                                                                        # only the channel's node, rev 7164a74c...
+grep -n 'typeid-hs-src' flake.nix nix/haskell-overlay.nix flake.module.nix   # must print nothing
 # edit nix/haskell-overlay.nix and flake.module.nix as described
 nix build .#rei --print-out-paths; echo "exit=$?"
 nix build .#rei-api --no-link; echo "exit=$?"
 nix build .#rei-core --print-out-paths; echo "exit=$?"
 REI_OUT=$(nix build .#rei --print-out-paths)
 "${PARITY[@]}" --freeze "$FREEZE" --closure "$REI_OUT"
+nix-store -qR "$(nix path-info --derivation .#rei)" | grep -oE -- '-effectful(-core)?-[0-9][0-9.]*\.drv$' | sort -u
+                                                                        # only the frozen 2.7 versions, no 2.6
 nix eval --raw .#rei-core.version
 nix eval .#lib.haskellExtension --apply builtins.isFunction          # true
 nix flake check; echo "exit=$?"
@@ -926,15 +1063,19 @@ never on `rei`).
 The plan is accepted when all of the following are observed and recorded in Outcomes:
 
 1. In rei, mori-app and mori-rei-app, `cabal build all` and `cabal test all` pass with the freeze
-   imported at `R`, and the parity script reports zero differences for each `plan.json`.
+   imported at `R`, and the parity script reports zero differences for each `plan.json`. Each
+   `plan.json` selects `effectful` and `effectful-core` at the frozen 2.7.1.1-or-later version,
+   and no `cabal.project` among the three has an `allow-newer` entry naming `effectful` or
+   `effectful-core`.
 2. In rei, `jq -r '.nodes["haskell-nix"].locked.rev' flake.lock` and the `import:` line name the
    same `R`; in mori-rei-app, the single `haskell-nix` node's rev is `R` and it is reached only
    through `rei`.
-3. `nix/haskell-overlay.nix` in rei defines only rei's own packages (plus `typeid-hs-*` only if
-   the Decision Log records why), and mori-rei-app's defines only `mori-types`, `mori-app`,
-   `mori-rei-app`; neither contains any package on plan 10's list. `grep -nE
-   'link-canonical|wai-app-static|servant-server|relay-pagination|hs-opentelemetry|openapi|servant-health|rei-src'`
-   over both overlays and flakes returns only comments.
+3. `nix/haskell-overlay.nix` in rei defines only rei's own packages, and mori-rei-app's defines
+   only `mori-types`, `mori-app`, `mori-rei-app`; neither contains any package on plan 10's list,
+   including `typeid-hs-sql` and `typeid-hs-pg-migrate`. `grep -nE
+   'link-canonical|wai-app-static|servant-server|relay-pagination|hs-opentelemetry|openapi|servant-health|rei-src|typeid-hs-src'`
+   over both overlays and flakes returns only comments. Both `cabal.project` files still carry the
+   `typeid-hs` `source-repository-package` at `7164a74c`.
 4. The parity script reports zero differences for the `rei` and `mori-rei-app` closures built by
    dotfiles, and both closures (or derivation closures) contain the same `rei-core` store path,
    which also equals `nix build github:shinzui/rei/<C>#rei-core`.
@@ -989,15 +1130,22 @@ Hard dependencies: plan 9
 supplies `cabal/cohort.freeze` generation into Nix, the channel parity check, and the parity
 script; plan 10
 (`docs/plans/10-own-the-shared-third-party-overrides-in-the-channel-instead-of-consumer-overlays.md`)
-supplies the shared overrides in the channel and the per-repository deletion lists. Plan 8
+supplies the shared overrides in the channel (including `typeid-hs-sql` and
+`typeid-hs-pg-migrate` at `7164a74c`) and the per-repository deletion lists. Plan 8
 (`docs/plans/8-resolve-one-upgrade-only-cohort-freeze-for-the-rei-family-of-applications.md`)
-supplies the freeze and the upgrade report. Plan 12 reuses the extension shape defined here.
+supplies the freeze and the upgrade report. Indirect dependency, through the freeze: plan 15
+(`docs/plans/15-release-the-first-party-libraries-on-effectful-2-7.md`) supplies the keiro,
+keiro-ops, keiro-pgmq, keiro-test-support and kioku-core releases on `effectful >=2.7.1.0` / `effectful-core >=2.7.1.1` that
+the freeze selects. Plan 12 reuses the extension shape defined here and vendors
+`hasql-effectful` into mori-core; it does not affect this plan. Plan 14 adds the dotfiles guard,
+which warns on differing channel revisions and fails only when a closure differs from the freeze
+of its own pinned revision.
 
 Interfaces that must exist at the end:
 
 - rei `flake.nix` output `lib.haskellExtension :: haskellLib -> pkgs -> (final -> prev -> attrset)`,
-  defining `rei-core`, `rei-api`, `rei-cli` (and `typeid-hs-sql`, `typeid-hs-pg-migrate` only
-  if the channel lacks them); intended to be composed after
+  defining exactly `rei-core`, `rei-api`, `rei-cli` (`typeid-hs-*` come from the channel);
+  intended to be composed after
   `inputs.haskell-nix.lib.haskellExtension pkgs.haskell.lib.compose pkgs` in a
   `pkgs.haskell.packages.ghc9124.override`.
 - rei `packages.<system>.rei-core`, `.rei`, `.rei-api`, `.default`.
@@ -1017,3 +1165,6 @@ subscriptions status`; mori-rei-app's `scripts/dependency-closure-audit.sh`.
 ## Revision Notes
 
 - 2026-09-26 (MasterPlan reconciliation after parallel drafting): The `$PARITY` placeholder is replaced by plan 9's `cohort-compare` flake app and its exact interface. The freeze carries the `index-state:` line, so rei and mori-app delete their own.
+- 2026-09-26 (user decisions): The freeze now moves the family to `effectful` 2.7.1.0 / `effectful-core` 2.7.1.1 or later with no `allow-newer` bridge, so rei (including the vendored `rei-core/src/Rei/Infrastructure/Hasql/` modules and `Rei/Infrastructure/Trace.hs`, found by grep), mori-app and mori-rei-app must compile against effectful 2.7: added the expected source breaks and bound lifts (`effectful ^>=2.6` in mori-app and mori-rei-app, keiro/kioku bounds if plan 15 released a new major), the grep the implementer runs, and plan 15 as an indirect dependency through the freeze. `typeid-hs` is public and plan 10 carries it in the channel, so the conditional "keep `typeid-hs-src` if the channel's revision differs" branch is resolved: both repositories delete their overlay entries and `typeid-hs-src` inputs, and keep the Cabal pin at `7164a74c`. Recorded that `hasql-effectful` (vendored into mori-core by plan 12) does not affect these repositories, and that plan 14's relaxed guard only warns on differing channel revisions. Also replaced the stale `export PARITY=` placeholder in Concrete Steps with the `cohort-compare` array and made `FREEZE` the pinned URL.
+
+- 2026-09-26 (MasterPlan coordination): Corrected the effectful floor. `effectful` has no 2.7.1.1 release (its newest is 2.7.1.0), so the floors are `effectful` 2.7.1.0 and `effectful-core` 2.7.1.1. Only `effectful-core` 2.7.0.0 to 2.7.1.0 are excluded by kiroku and shibuya for the performance regression. Plan 15's research found this.

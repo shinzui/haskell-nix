@@ -40,10 +40,15 @@ floats on an old toolchain pin and an unpinned channel revision.
 After this plan, both applications build under Cabal from exactly the versions in this
 repository's cohort freeze (`cabal/cohort.freeze`), and their Nix builds come from the same
 channel revision that freeze was published at, so the versions their tests exercise are the
-versions that ship. You can see it working in four ways. First, `just cohort-check` in each
-application reports no package whose Cabal version differs from the freeze. Second, the Nix
-closure of each application's executable contains the frozen versions (for example
-`baikai-0.7.1.0`, `shikumi-0.4.0.0`, `streamly-0.11.1` in mina, and the frozen `warp` and `tls`
+versions that ship. For mina that means three moves the user decided on 2026-09-26: the baikai
+0.7 family, the shikumi family at the new releases plan 15
+(`docs/plans/15-release-the-first-party-libraries-on-effectful-2-7.md`) publishes on effectful
+2.7, and `streamly` from Hackage instead of a Git pin. Both applications also compile against
+`effectful` 2.7.1.0 / `effectful-core` 2.7.1.1 or later, which the freeze selects for the whole family. You
+can see it working in four ways. First, `just cohort-check` in each application reports no
+package whose Cabal version differs from the freeze. Second, the Nix closure of each
+application's executable contains the frozen versions (for example `baikai-0.7.1.0`, plan 15's
+`shikumi`, `streamly-0.11.1` and `effectful-core-2.7.x` in mina, and the frozen `warp` and `tls`
 in both). Third, after the user activates the dotfiles, `curl http://127.0.0.1:8765/api/health`
 answers `{"status":"ok","source":"mina-web"}` and `curl http://127.0.0.1:8770/api/health`
 answers `{"status":"ok","source":"reiko-web"}`. Fourth, `mina ci --json "<title>"` still creates a
@@ -58,15 +63,15 @@ of Work).
 
 ## Progress
 
-- [ ] M0: Confirm plans 8, 9 and 10 are complete and the channel revision carrying `cabal/cohort.freeze` is pushed; record `<CHANNEL_REV>` in the Decision Log.
+- [ ] M0: Confirm plans 15, 8, 9 and 10 are complete and the channel revision carrying `cabal/cohort.freeze` is pushed; record `<CHANNEL_REV>` and plan 15's released `shikumi`, `shikumi-trace` and `shikumi-cache` versions in the Decision Log.
 - [ ] M0: Record baselines for mina and reiko (current test results, current `plan.json`, current deployed closures) under the scratch directory.
 - [ ] M1: reiko `flake.nix` pins `haskell-nix-dev` to 206ecd25 and `haskell-nix` to `<CHANNEL_REV>`; `flake.lock` relocked.
 - [ ] M1: reiko `cabal.project` imports the freeze at `<CHANNEL_REV>` and no longer carries its own `index-state`.
-- [ ] M1: reiko compiles, its tests match the baseline, and `just cohort-check` reports no difference.
+- [ ] M1: reiko compiles (including against `effectful` 2.7 if its plan reaches effectful), its tests match the baseline, and `just cohort-check` reports no difference.
 - [ ] M1: reiko `nix build .#reiko` succeeds and its closure matches the freeze; commit.
-- [ ] M2: mina `cabal.project` gains `with-compiler` and the freeze import; streamly source pins and the `baikai-trace-otel:streamly-core` allow-newer removed.
-- [ ] M2: mina bounds moved to baikai 0.7, baikai-trace-otel 0.4.0.1, shikumi 0.4, shikumi-trace 0.3, shikumi-trace-otel 0.1.2.
-- [ ] M2: mina source breaks fixed (`LLMConfig` literal, provider-error text heuristic, any compiler-named sites); `cabal build all` succeeds.
+- [ ] M2: mina `cabal.project` gains `with-compiler` and the freeze import; streamly source pins and the `baikai-trace-otel:streamly-core` allow-newer removed (user decision: streamly from Hackage).
+- [ ] M2: mina bounds moved to baikai 0.7, baikai-trace-otel 0.4.0.1, and plan 15's shikumi and shikumi-trace releases (shikumi-trace-otel to whatever the freeze selects).
+- [ ] M2: mina source breaks fixed (`LLMConfig` literal, provider-error text heuristic, effectful 2.7 sites such as the `interpose` in `withThinking`, any compiler-named sites); `cabal build all` succeeds with `effectful` >= 2.7.1.0 / `effectful-core` >= 2.7.1.1 in `plan.json`.
 - [ ] M2: mina `cabal test all` matches the baseline and `just cohort-check` reports no difference; commit.
 - [ ] M3: mina `flake.nix` moves `haskell-nix` from b88d3173 to `<CHANNEL_REV>` and drops the `okf-src` input; overlay drops `generic-lens`, `generic-lens-core` and `kdl-hs`.
 - [ ] M3: mina `nix build .#mina-cli` and `nix flake check` succeed, closure matches the freeze; commit.
@@ -87,7 +92,9 @@ These were found while drafting the plan (2026-09-26) and shaped it.
   the deployed mina closure ships the channel's versions. The pin was added on 2026-05-27 (mina
   `de7363f`) when baikai needed unreleased streamly; baikai's own `cabal.project` now says "all
   dependencies resolve from Hackage … streamly / streamly-core pair (latest released 0.11 / 0.3)",
-  and `baikai 0.7.1.0` bounds `streamly >=0.11 && <0.13`, `streamly-core >=0.3 && <0.5`.
+  and `baikai 0.7.1.0` bounds `streamly >=0.11 && <0.13`, `streamly-core >=0.3 && <0.5`. The user
+  confirmed on 2026-09-26 that mina drops the pin and takes `streamly` from Hackage (see the
+  Decision Log).
   Evidence:
 
   ```text
@@ -120,7 +127,10 @@ These were found while drafting the plan (2026-09-26) and shaped it.
 
   With both additions the solve selected `baikai 0.7.1.0`, `shikumi 0.4.0.0`, `streamly 0.11.1`,
   `streamly-core 0.3.1`, `tls 2.4.6`, `crypton 1.1.5`, `warp 3.4.16`, `kdl-hs 1.0.1`,
-  `generic-lens 2.3.0.0` with no streamly source pin.
+  `generic-lens 2.3.0.0` with no streamly source pin. That stand-in predates the user's
+  effectful 2.7 decision: the real freeze also carries `effectful` 2.7.1.0 / `effectful-core` 2.7.1.1 or
+  later and therefore plan 15's shikumi releases instead of `shikumi 0.4.0.0`, whose
+  `effectful` bound stops below 2.7.
 
 - Observation: shikumi 0.4 changes how provider failures look, and mina classifies them by text.
   `Shikumi.Error.ShikumiError` gained `ProviderError !BaikaiError`, and `fromBaikaiError` now maps
@@ -159,8 +169,9 @@ These were found while drafting the plan (2026-09-26) and shaped it.
   ships: 0.12.0 and 0.4.0 are unreleased git snapshots that no freeze line can express without every
   application carrying the same git stanza; mina's deployed Nix binary already ships streamly
   0.11.0, so 0.11.1 is an upgrade for the shipped artifact; mina has no direct streamly import; and
-  baikai 0.7.1.0 is released and tested against the Hackage pair. Plan 8's upgrade report must list
-  this exception (see Interfaces and Dependencies); if it does not, raise it with plan 8 before M2.
+  baikai 0.7.1.0 is released and tested against the Hackage pair. Plan 8's upgrade report lists
+  the Git pin under "source pins" as retired by this plan. The user confirmed this on 2026-09-26
+  (see the user-decisions entry below), so it is a user decision, not an open question.
   Date: 2026-09-26
 
 - Decision: mina keeps sourcing `mori-schema-pin` from its own `mori-src` flake input and its own
@@ -239,6 +250,32 @@ These were found while drafting the plan (2026-09-26) and shaped it.
   labelled footprint, and the alias itself exercises mina's KDL configuration parsing on `kdl-hs`.
   Date: 2026-09-26
 
+- Decision (user decisions, 2026-09-26): three of the user's five decisions change this plan.
+  1. **effectful 2.7 everywhere, with no `allow-newer` bridge.** The freeze carries `effectful`
+     and `effectful-core` at 2.7.1.1 or later (the floor `kiroku-store` and `shibuya` use, since
+     they exclude 2.7.0.0 to 2.7.1.0 for a performance regression). Plan 15
+     (`docs/plans/15-release-the-first-party-libraries-on-effectful-2-7.md`) releases new versions
+     of shikumi, shikumi-trace and shikumi-cache (and keiro and kioku-core, which mina and reiko
+     do not use) that admit it. mina's shikumi family therefore moves to plan 15's releases, not
+     to shikumi 0.4.0.0 / shikumi-trace 0.3.0.0 as first drafted; read the exact versions from
+     plan 15's Outcomes & Retrospective and record them in this Decision Log in M0. mina, and
+     reiko if its plan reaches effectful, must compile against effectful 2.7; neither may add an
+     `allow-newer` naming `effectful` or `effectful-core`.
+  2. **mina takes `streamly` from Hackage.** mina's Git pin (`streamly-project` `f8e33b56`,
+     `streamly` 0.12.0 / `streamly-core` 0.4.0) is dropped in favour of the Hackage line the
+     freeze selects (expected 0.11.1 / 0.3.1), and `allow-newer: baikai-trace-otel:streamly-core`
+     is dropped because `baikai-trace-otel` 0.4.0.1 already admits `streamly-core` 0.3.
+  3. **Plan 14's dotfiles guard is relaxed.** Different channel revisions across applications
+     only warn; the guard fails only when an application's closure differs from the freeze its own
+     pinned channel revision publishes. So `<CHANNEL_REV>` should still equal the revision plans 11
+     and 12 adopted when possible (less to reconcile), but a different revision is not a deploy
+     blocker; each application's closure must match the freeze of its own pinned revision.
+  The other two decisions (`typeid-hs` public; `hasql-effectful` vendored into mori-core by plan
+  12) do not touch mina or reiko, neither of which depends on those packages.
+  Rationale: the user settled these after the plan was drafted; they change mina's target
+  versions, add effectful 2.7 source breaks, and remove an open question.
+  Date: 2026-09-26
+
 
 ## Outcomes & Retrospective
 
@@ -280,7 +317,18 @@ Terms used in this plan:
 - **`<CHANNEL_REV>`.** The full commit hash of this repository's `master` after plans 8, 9 and 10
   have landed and been pushed. It is the revision both the freeze import URL and the
   application's `flake.nix` `haskell-nix` input name. If plans 11 or 12 have already adopted a
-  revision, use the same one so plan 14 has nothing to reconcile.
+  revision, prefer the same one. It is not required: plan 14's deploy guard, as the user relaxed
+  it on 2026-09-26, only warns when applications pin different channel revisions, and fails only
+  when an application's closure differs from the freeze its own pinned revision publishes.
+- **Plan 15.** `docs/plans/15-release-the-first-party-libraries-on-effectful-2-7.md` in this
+  repository releases new versions of keiro, keiro-ops, keiro-pgmq, keiro-test-support,
+  kioku-core, shikumi, shikumi-trace and shikumi-cache that admit `effectful`/`effectful-core`
+  2.7.1.1 or later, and refreshes the channel. Plan 8's freeze is solved after it, so the freeze
+  selects those releases. Of them, mina uses shikumi and shikumi-trace directly (and may reach
+  shikumi-cache through them); reiko uses none.
+- **effectful.** The effect-system library mina is written in (`effectful-core` is the core;
+  `effectful` adds standard effects). The user decided on 2026-09-26 that the whole family moves
+  to `effectful` 2.7.1.0 / `effectful-core` 2.7.1.1 or later, with no `allow-newer` to get there.
 - **Toolchain flake.** `github:shinzui/haskell-nix-dev`, which supplies GHC 9.12.4, cabal-install
   3.16.1.0 and the family's single nixpkgs pin. The family's revision is
   `206ecd25bcb4a07581210bdae3e6f43c8fd179d8`, whose nixpkgs is `d5dfd8e6`.
@@ -352,10 +400,18 @@ What changed upstream between the versions mina has and the frozen ones (from th
   the grep for `Predict` found), and preserves structured failures. shikumi-trace 0.3.0.0 adds
   `runProgramObserved` and record fields, shikumi-trace-otel 0.1.2.0 exports extra attributes,
   shikumi-cache 0.2.0.0 makes memoizers require `Error ShikumiError`.
-- If the freeze moves `effectful` to 2.7 (because `baikai-effectful` 0.4.0.2 requires
-  `effectful-core ^>=2.7`), mina's `interpose` call in `withThinking` still type-checks as long as
-  its first lambda argument stays ignored; the 2.7 breaks are `LocalEnv`'s second type parameter,
-  `SharedSuffix`, `KnownEffects` and the ticked strict modules.
+- The freeze does not stop at those 0.4-family versions: plan 15 releases new shikumi,
+  shikumi-trace and shikumi-cache versions whose only intended change is admitting effectful 2.7,
+  and the freeze selects them. Read their changelogs (same location) for anything beyond the
+  bound change before M2; if plan 15 made an API change, add it to the source-break list.
+- The freeze moves `effectful` to 2.7.1.0 and `effectful-core` to 2.7.1.1 or later (a user decision; it is
+  also what `baikai-effectful` 0.4.0.2 requires). The 2.7 breaks are `LocalEnv`'s second type
+  parameter, `SharedSuffix`, `KnownEffects` and the ticked strict modules. mina's only direct use
+  of effectful's dispatch layer found on `6a4b3f9` is the `interpose` call in `withThinking`
+  (`mina-core/src/Mina/Agent/JudgeRuntime.hs`, imported from `Effectful.Dispatch.Dynamic`), which
+  still type-checks as long as its first lambda argument (the `LocalEnv`) stays ignored. Find any
+  other site with the grep in Milestone 2. mina's `.cabal` files list `effectful` without a bound,
+  so no bound moves for it.
 
 State of reiko today. `cabal.project` lists `reiko-core` and `reiko-cli`, has
 `with-compiler: ghc-9.12.4` and `index-state: 2026-06-01T00:17:45Z` (with a comment explaining it
@@ -416,14 +472,19 @@ push, run a production migration, or activate without the user's explicit go-ahe
 
 ### Milestone 0: preconditions and baselines
 
-Nothing in this plan can start until plans 8, 9 and 10 are complete, because the applications
-import a freeze that plan 8 writes, rely on a channel whose versions plan 9 generates from it, and
-delete overrides that plan 10 moves into the channel. Confirm all three are marked Complete in
+Nothing in this plan can start until plans 15, 8, 9 and 10 are complete, because the applications
+import a freeze that plan 8 writes after plan 15's effectful 2.7 releases exist, rely on a channel
+whose versions plan 9 generates from it, and delete overrides that plan 10 moves into the channel.
+Confirm all four are marked Complete in
 `docs/masterplans/3-align-one-cabal-and-nix-package-set-across-the-rei-family-of-applications.md`,
 that `cabal/cohort.freeze` exists on this repository's pushed `master`, and pick `<CHANNEL_REV>`.
-Read plan 8's upgrade report and note three things for later milestones: whether it lists the mina
-streamly exception, whether the freeze depends on any `source-repository-package` (for example
-mori's `dhall` pin), and which `allow-newer` lines it says consumers need. Read plan 9's Interfaces
+Read plan 15's Outcomes & Retrospective and record the released `shikumi`, `shikumi-trace` and
+`shikumi-cache` versions (and whether `shikumi-trace-otel` was re-released) in the Decision Log;
+confirm the freeze carries exactly those and `effectful`/`effectful-core` at 2.7.1.1 or later.
+Read plan 8's upgrade report and note three things for later milestones: that it lists mina's
+streamly Git pin under "source pins" as retired (the user's decision), whether the freeze depends
+on any `source-repository-package` (for example mori's `dhall` pin), and which `allow-newer` lines
+it says consumers need (never one on `effectful` or `effectful-core`). Read plan 9's Interfaces
 section for the exact command line of the parity script. Then record baselines so later regressions
 are distinguishable from pre-existing failures: run each application's test suite on its current
 HEAD and keep the summary lines, copy each current `plan.json`, and record each deployed store path.
@@ -449,7 +510,8 @@ Add any `allow-newer` or `source-repository-package` stanza plan 8's report says
 reiko's dependencies needs (probably none). Solve and build: `cabal build all`. reiko has few
 dependencies and all are mainstream, so compile breaks are unlikely; the largest moves are `aeson`,
 `warp` 3.4.16, `tls`, `crypton`, `http2`, and, on the Nix side, `generic-lens` 2.2.2.0 to 2.3.0.0.
-Fix any break at the site the compiler names. Run `cabal test all` and compare with the baseline.
+reiko's `.cabal` files do not name `effectful`, so the effectful 2.7 move reaches it only if a
+dependency pulls it in. Fix any break at the site the compiler names. Run `cabal test all` and compare with the baseline.
 
 Add a `cohort-check` recipe to `reiko/Justfile` (the exact body is in Concrete Steps and Interfaces)
 that reads the locked `haskell-nix` revision from `flake.lock`, refreshes `plan.json` with
@@ -459,12 +521,13 @@ once both comparisons report no difference. The result: reiko's tests exercise e
 and the Nix binary contains the same versions.
 
 
-### Milestone 2: mina's Cabal side on baikai 0.7 and shikumi 0.4
+### Milestone 2: mina's Cabal side on baikai 0.7, plan 15's shikumi and effectful 2.7
 
 In `mina/cabal.project`: add `with-compiler: ghc-9.12.4` and the freeze import (same URL form as
 reiko) after the `packages:` block; delete the streamly comment, both streamly
 `source-repository-package` stanzas, the `package streamly` and `package streamly-core` blocks, and
-the `allow-newer: baikai-trace-otel:streamly-core` block with its comment; keep the
+the `allow-newer: baikai-trace-otel:streamly-core` block with its comment (the user decided mina
+takes `streamly` from Hackage; `baikai-trace-otel` 0.4.0.1 admits the Hackage `streamly-core`); keep the
 `mori-schema-pin` stanza, the `blake3` block and `write-ghc-environment-files: never`. Add
 `allow-newer: claude:http-client-tls` with a comment (as rei's `cabal.project` has) if the freeze
 pins `http-client-tls` 0.4 and `claude` 1.5.0, and add any `source-repository-package` stanza plan
@@ -474,8 +537,11 @@ freeze carries `microlens` 0.5.0.0).
 In `mina-core/mina-core.cabal` (library, `mina-core-test`, `plandigest-spike`) and
 `mina-cli/mina-cli.cabal` (`mina-cli-internal`, `mina-cli-test`), change `baikai`,
 `baikai-claude` and `baikai-openai` to `^>=0.7.0.0`, `baikai-trace-otel` to `^>=0.4.0.1`,
-`shikumi` to `^>=0.4.0.0`, `shikumi-trace` to `^>=0.3.0.0` and `shikumi-trace-otel` to
-`^>=0.1.2.0`. If the freeze's `kdl-hs` is outside `^>=1.0` (it is 1.0.1 unless plan 8 moved it),
+`shikumi` and `shikumi-trace` to `^>=` the versions plan 15 released (recorded in the Decision Log
+in M0; for example `shikumi ^>=0.4.1.0` if plan 15 published 0.4.1.0), and `shikumi-trace-otel`
+to `^>=` the version the freeze carries (0.1.2.0 unless plan 15 re-released it). If mina lists
+`shikumi-cache` anywhere, set it the same way; today it does not. `effectful` stays unbounded,
+as it is today. If the freeze's `kdl-hs` is outside `^>=1.0` (it is 1.0.1 unless plan 8 moved it),
 move that bound to the frozen major version too. Do not add bounds to packages mina leaves
 unbounded unless the solver needs them.
 
@@ -493,7 +559,14 @@ Then fix source breaks. Expected, from the changelogs and a grep of mina:
    `/Users/shinzui/Keikaku/bokuno/baikai/baikai-openai/src/Baikai/Provider/OpenAI/Cli.hs` for how its
    message is formed, and if the Codex stdin notice is not in `message`, match on the field that
    carries it). The case is pure, so it cannot reach a provider (ADR-17 holds).
-3. Anything else the compiler names: exhaustive `case` over `Baikai.Api` (add the
+3. effectful 2.7. Find the sites with
+   `grep -rnE 'LocalEnv|SharedSuffix|KnownEffects|localSeqUnlift|localUnlift|localLend|localBorrow|interpose|reinterpret|Effectful\.Dispatch|Effectful\.Internal|Effectful\.[A-Za-z.]*\.Strict' mina-core/src mina-core/test mina-cli/src mina-cli/test`.
+   On `6a4b3f9` the only dispatch-layer use is `interpose` in `withThinking`
+   (`mina-core/src/Mina/Agent/JudgeRuntime.hs`); keep its `LocalEnv` argument ignored (`_`), and
+   if its type changed, follow the 2.7 changelog. Fix any other site the compiler names. Never add
+   an `allow-newer` for `effectful` or `effectful-core`; if a dependency still caps them below
+   2.7.1.1, that is a plan 8 or plan 15 defect, and this plan waits.
+4. Anything else the compiler names: exhaustive `case` over `Baikai.Api` (add the
    `OpenAIResponses` arm or a wildcard with the same behaviour as `OpenAIChatCompletions`), fake
    providers in `mina-core/test/Mina/Agent/JudgeCacheSpec.hs` and
    `mina-core/test/Mina/Trace/RuntimeSpec.hs` that build records in full, and trace-tree readers in
@@ -516,8 +589,9 @@ In `mina/nix/haskell-overlay.nix`, delete the `generic-lens-core`, `generic-lens
 entries and their comments, because plan 10 moved them into the channel. Keep `mori-schema-pin`,
 `mina-core` and `mina-cli`. Build with `nix build .#mina-cli`, run `nix flake check`, and run the
 parity script against the built closure. The closure must contain `generic-lens-2.3.0.0`, the
-frozen `kdl-hs`, `baikai-0.7.1.0`, `shikumi-0.4.0.0`, `streamly-0.11.1` (or whatever the freeze
-says), and no second version of any frozen package. Commit.
+frozen `kdl-hs`, `baikai-0.7.1.0`, plan 15's `shikumi` and `shikumi-trace`, `streamly-0.11.1` (or
+whatever the freeze says), `effectful-core` at the frozen 2.7 version, and no second version of
+any frozen package. Commit.
 
 
 ### Milestone 4: deploy through the dotfiles
@@ -527,7 +601,12 @@ Ask the user for the go-ahead to push mina and reiko, because dotfiles consumes
 `nix flake update mina reiko` and nothing else, check that the lock diff touches only the `mina`
 and `reiko` nodes and nodes newly reachable from them (their nested `haskell-nix`, `mori-src`,
 `bun2nix`, `keiro-syntax` and so on), and that the root `haskell-nix-dev`, `mori` and `rei` nodes are
-unchanged. Build with `./bin/build.sh`. Commit the lock change alone. Hand activation to the user.
+unchanged. Build with `./bin/build.sh`. If plan 14's deploy guard is already installed in the
+dotfiles by then, it may warn that mina and reiko pin a different channel revision from other
+applications; that is expected and not a failure under the user's relaxed rule. It fails only if
+the mina or reiko closure differs from the freeze at its own pinned `<CHANNEL_REV>`, which M1 and
+M3 already proved it does not; if it fails, stop and find out why. Commit the lock change alone.
+Hand activation to the user.
 After activation, verify the two web agents, the rei and mori paths through mina-web, `mina ci`,
 and the Kiroku consistency of mina-web's `mori` (below).
 
@@ -577,11 +656,14 @@ M0, preconditions (working directory `/Users/shinzui/Keikaku/bokuno/haskell-nix`
 git fetch origin
 git log -1 --format='%H %s' origin/master
 git show origin/master:cabal/cohort.freeze | head -5
-grep -n '^| 8 \|^| 9 \|^| 10 ' docs/masterplans/3-align-one-cabal-and-nix-package-set-across-the-rei-family-of-applications.md
+git show origin/master:cabal/cohort.freeze | grep -E 'any\.(effectful|effectful-core|shikumi|shikumi-trace|shikumi-cache|shikumi-trace-otel|streamly|streamly-core) '
+grep -n '^| 8 \|^| 9 \|^| 10 \|^| 15 ' docs/masterplans/3-align-one-cabal-and-nix-package-set-across-the-rei-family-of-applications.md
 ```
 
-Expect the freeze to start with an `index-state:` line and a `constraints:` line, and rows 8, 9 and
-10 to say `Complete`. If any is not complete, stop: this plan's hard dependencies are unmet.
+Expect the freeze to start with an `index-state:` line and a `constraints:` line, to carry
+`effectful`/`effectful-core` at 2.7.1.1 or later, plan 15's shikumi versions and Hackage
+`streamly`/`streamly-core` (0.11.x / 0.3.x), and rows 8, 9, 10 and 15 to say `Complete`. If any is
+not complete, stop: this plan's hard dependencies are unmet.
 
 M0, baselines (repeat for reiko at `/Users/shinzui/Keikaku/bokuno/rei-project/reiko`):
 
@@ -642,28 +724,30 @@ M2, mina Cabal side (working directory `/Users/shinzui/Keikaku/bokuno/mina`). Af
 ```bash
 grep -n 'streamly\|allow-newer\|index-state\|with-compiler\|^import:' cabal.project
 nix develop -c cabal build all --dry-run 2>&1 | tail -5
-jq -r '."install-plan"[] | select(."pkg-name" | test("^(baikai|shikumi|streamly)")) | "\(."pkg-name") \(."pkg-version") \(."pkg-src".type // "")"' dist-newstyle/cache/plan.json | sort -u
+jq -r '."install-plan"[] | select(."pkg-name" | test("^(baikai|shikumi|streamly|effectful)")) | "\(."pkg-name") \(."pkg-version") \(."pkg-src".type // "")"' dist-newstyle/cache/plan.json | sort -u
 nix develop -c cabal build all 2>&1 | grep -E 'error' -A6 | head -80
 ```
 
-Expected after the edits (versions follow the freeze; these are the values the prototype solve
-selected):
+Expected after the edits (versions follow the freeze; the baikai and streamly values are the
+ones the prototype solve selected, and `<plan 15>` stands for the versions recorded in M0):
 
 ```text
 baikai 0.7.1.0 repo-tar
 baikai-claude 0.7.0.0 repo-tar
 baikai-openai 0.7.0.0 repo-tar
 baikai-trace-otel 0.4.0.1 repo-tar
-shikumi 0.4.0.0 repo-tar
-shikumi-trace 0.3.0.0 repo-tar
-shikumi-trace-otel 0.1.2.0 repo-tar
+effectful 2.7.x repo-tar          (2.7.1.1 or later)
+effectful-core 2.7.x repo-tar     (same)
+shikumi <plan 15> repo-tar
+shikumi-trace <plan 15> repo-tar
+shikumi-trace-otel 0.1.2.0 repo-tar   (or plan 15's release, if any)
 streamly 0.11.1 repo-tar
 streamly-core 0.3.1 repo-tar
 ```
 
-No streamly line may say `source-repo`. The first full build reports the `LLMConfig` error in
-`Mina/Agent/JudgeRuntime.hs` (a missing `observer` field) and any other sites; fix them as in Plan
-of Work and rebuild until `cabal build all` succeeds. Then:
+No streamly line may say `source-repo`, and no effectful line may say 2.6. The first full build reports the `LLMConfig` error in
+`Mina/Agent/JudgeRuntime.hs` (a missing `observer` field) and any other sites, including
+effectful 2.7 ones; fix them as in Plan of Work and rebuild until `cabal build all` succeeds. Then:
 
 ```bash
 nix develop -c env -u OPENAI_API_KEY -u ANTHROPIC_API_KEY cabal test all 2>&1 | tee "$SCRATCH/mina-after-tests.log" | tail -20
@@ -672,7 +756,8 @@ nix develop -c just cohort-check
 
 Compare the test summaries with the baseline log; every suite that passed before must pass. Commit
 the Cabal-side change with a subject such as
-`build(deps): move mina to the baikai 0.7 and shikumi 0.4 cohort` and the same three trailers, and
+`build(deps): move mina to baikai 0.7, shikumi on effectful 2.7 and Hackage streamly` and the
+same three trailers, and
 the source fixes either in it or as a preceding `fix(agent): …` commit.
 
 M3, mina Nix side (same directory), after editing `flake.nix` and `nix/haskell-overlay.nix`:
@@ -682,11 +767,13 @@ nix flake lock
 jq -r '.nodes | to_entries[] | select(.value.locked.rev != null) | "\(.key) \(.value.locked.rev[0:8])"' flake.lock | grep -E '^(haskell-nix|haskell-nix-dev|nixpkgs|okf-src|mori-src) '
 nix build .#mina-cli
 nix-store -qR ./result | grep -oE -- '-(baikai|shikumi|streamly|generic-lens|kdl-hs|okf-core|mori-schema-pin)(-[a-z-]+)?-[0-9][0-9.]*[0-9]$' | sort -u
+nix-store -qR "$(nix path-info --derivation .#mina-cli)" | grep -oE -- '-effectful(-core)?-[0-9][0-9.]*\.drv$' | sort -u
 nix flake check
 ```
 
-Expected: `okf-src` absent, `mori-src 7af02c55`, `haskell-nix` at `<CHANNEL_REV>`, and the closure
-lists `-baikai-0.7.1.0`, `-shikumi-0.4.0.0`, `-streamly-0.11.1`, `-streamly-core-0.3.1`,
+Expected: `okf-src` absent, `mori-src 7af02c55`, `haskell-nix` at `<CHANNEL_REV>`, the derivation
+closure lists only the frozen 2.7 `effectful`/`effectful-core` (no 2.6), and the closure
+lists `-baikai-0.7.1.0`, plan 15's `-shikumi-…` and `-shikumi-trace-…`, `-streamly-0.11.1`, `-streamly-core-0.3.1`,
 `-generic-lens-2.3.0.0`, `-generic-lens-core-2.3.0.0`, the frozen `-kdl-hs-…`, `-okf-core-0.9.0.0`
 and `-mori-schema-pin-0.2.0.0`. Run the parity script in closure mode against `./result`. Commit as
 `build(nix): move mina to the shared channel revision` with the three trailers.
@@ -785,7 +872,10 @@ The plan is accepted when all of the following hold, each observed rather than i
 For each application, `just cohort-check` exits 0 and prints no differing package: every package
 in the application's `plan.json` that is named in the freeze has exactly the frozen version, and
 the application's own `cabal.project` carries no `index-state`. For mina, `plan.json` contains no
-`streamly` or `streamly-core` unit whose source is `source-repo`.
+`streamly` or `streamly-core` unit whose source is `source-repo`, selects `effectful` and
+`effectful-core` at the frozen 2.7.1.1-or-later version and `shikumi`/`shikumi-trace` at plan 15's
+versions, and mina's `cabal.project` has no `allow-newer` naming `effectful`, `effectful-core` or
+`streamly-core`.
 
 For each application, the Nix build succeeds from a clean checkout at the committed revision
 (`nix build .#reiko`, `nix build .#mina-cli`), and the parity script in closure mode reports no
@@ -839,15 +929,17 @@ transaction read-only.
 
 ## Interfaces and Dependencies
 
-Libraries and versions this plan moves mina onto (the freeze is authoritative; these are the values
-known on 2026-09-26): `baikai 0.7.1.0`, `baikai-claude 0.7.0.0`, `baikai-openai 0.7.0.0`,
-`baikai-trace-otel 0.4.0.1`, `shikumi 0.4.0.0`, `shikumi-trace 0.3.0.0`, `shikumi-trace-otel
-0.1.2.0`, `shikumi-cache 0.2.0.0`, `streamly 0.11.1`, `streamly-core 0.3.1`, `generic-lens 2.3.0.0`,
-`kdl-hs 1.0.1` (Hackage also has 1.1 and 1.2; the freeze decides), `okf-core 0.9.0.0`. These match
-the channel's `default` package set, whose `shikumi-baikai` group generation 4 selects baikai family
-generation 3 (baikai 0.7.1.0, baikai-effectful 0.4.0.2, baikai-trace-otel 0.4.0.1) and shikumi family
-generation 3 (shikumi 0.4.0.0, shikumi-trace 0.3.0.0, shikumi-trace-otel 0.1.2.0), and `okf` group
-generation 1 (okf-core 0.9.0.0).
+Libraries and versions this plan moves mina onto (the freeze is authoritative): `baikai 0.7.1.0`,
+`baikai-claude 0.7.0.0`, `baikai-openai 0.7.0.0`, `baikai-trace-otel 0.4.0.1`; `shikumi`,
+`shikumi-trace` and `shikumi-cache` at the versions plan 15 releases on effectful 2.7 (the
+successors of shikumi 0.4.0.0, shikumi-trace 0.3.0.0 and shikumi-cache 0.2.0.0, which the channel's
+`default` set selected before plan 15); `shikumi-trace-otel` 0.1.2.0 unless plan 15 re-releases
+it; `effectful` 2.7.1.0 / `effectful-core` 2.7.1.1 or later; `streamly 0.11.1`, `streamly-core 0.3.1` from
+Hackage; `generic-lens 2.3.0.0`; `kdl-hs 1.0.1` (Hackage also has 1.1 and 1.2; the freeze decides);
+`okf-core 0.9.0.0`. The baikai values match the channel's `default` package set, whose
+`shikumi-baikai` group generation 4 selects baikai family generation 3 (baikai 0.7.1.0,
+baikai-effectful 0.4.0.2, baikai-trace-otel 0.4.0.1); plan 15 adds a newer shikumi family
+generation to that group, and `okf` group generation 1 selects okf-core 0.9.0.0.
 
 At the end of M2 these signatures and behaviours exist in mina:
 
@@ -906,24 +998,29 @@ It exits 0 and prints nothing when the closure matches; otherwise it prints one
 
 Upstream plans this plan depends on and what it needs from each:
 
+- Plan 15 (`docs/plans/15-release-the-first-party-libraries-on-effectful-2-7.md`) provides the
+  shikumi, shikumi-trace and shikumi-cache releases on `effectful >=2.7.1.0` / `effectful-core >=2.7.1.1`, on Hackage and in the
+  channel. This plan consumes them only through the freeze, but reads their version numbers from
+  plan 15's Outcomes to set mina's bounds.
 - Plan 8 provides `cabal/cohort.freeze` at `<CHANNEL_REV>` including mina's and reiko's dependency
   closures (mina-only packages include `baikai-trace-otel`, `shikumi-trace-otel`, `kdl-hs`,
-  `sqlite-simple`, `blaze-textual`), its upgrade report listing the mina streamly exception, and a
-  statement of any `source-repository-package` or `allow-newer` a consumer must carry.
+  `sqlite-simple`, `blaze-textual`), with `effectful`/`effectful-core` at 2.7.1.1 or later, its
+  upgrade report listing mina's streamly Git pin as retired, and a statement of any
+  `source-repository-package` or `allow-newer` a consumer must carry.
 - Plan 9 provides the channel whose frozen packages have the frozen versions, and the parity script.
 - Plan 10 provides `generic-lens` and `generic-lens-core` 2.3.0.0 and `kdl-hs` in the channel, so
   mina's overlay entries can go.
 - Plan 12 applies Kiroku `0012` to the mori database and moves the dotfiles `mori` input; this plan
   only needs its state, to apply the ordering rules.
 - Plan 14 later adds a root `haskell-nix` input to the dotfiles that mina and reiko will follow and
-  replaces `_update-with-base`; nothing here pre-empts it.
+  replaces `_update-with-base`; nothing here pre-empts it. Its deploy guard only warns when
+  applications pin different channel revisions and fails when an application's closure differs
+  from the freeze of its own pinned revision.
 
-Open questions to settle with the owners of other plans before or during M0:
+Open questions to settle with the owners of other plans before or during M0 (the earlier question
+about mina's streamly Git pin is closed: the user decided on 2026-09-26 that mina takes streamly
+from Hackage):
 
-- Plan 8: does the upgrade report record mina's streamly 0.12.0 / 0.4.0 git selection as a declared
-  exception rather than as the upgrade target? If plan 8 instead made 0.12.0 the target, every
-  application would need the streamly-project git stanza, and this plan's streamly decision must be
-  revisited.
 - Plan 8: does the freeze depend on mori's dhall-haskell git pin (it will if it carries `microlens`
   0.5.0.0)? If so, the freeze's companion instructions must say so, and mina and every other `dhall`
   consumer carries the stanza.
@@ -941,3 +1038,6 @@ Open questions to settle with the owners of other plans before or during M0:
   shikumi and the dotfiles, a scratch-copy prototype solve for each application, and read-only
   inspection of the deployed agents and the mori database ledger.
 - 2026-09-26 (MasterPlan reconciliation after parallel drafting): The `<parity-app>` placeholder is replaced by plan 9's `cohort-compare` flake app and its exact interface. Removing each application's own `index-state` in favour of the freeze's is confirmed as the MasterPlan's contract.
+- 2026-09-26 (user decisions): Applied the user's decisions. (1) effectful 2.7 everywhere with no `allow-newer` bridge: mina's shikumi family now moves to plan 15's new shikumi, shikumi-trace and shikumi-cache releases (versions read from plan 15's Outcomes in M0) instead of shikumi 0.4.0.0 / shikumi-trace 0.3.0.0, mina must compile against `effectful` 2.7.1.0 / `effectful-core` 2.7.1.1 or later (added the grep, the `interpose` site and the no-`allow-newer` rule), plan 15 became a precondition in M0, and the expected transcripts, closure checks, validation and interfaces were updated. (2) Dropping mina's Git streamly pin for the Hackage line, and the `baikai-trace-otel:streamly-core` entry, is recorded as a user decision; the open question to plan 8 about it was removed. (3) Plan 14's guard only warns on differing channel revisions, so `<CHANNEL_REV>` no longer has to equal plans 11 and 12's revision, and M4 says what a warning means. `typeid-hs` becoming public and `hasql-effectful` moving into mori-core do not affect mina or reiko.
+
+- 2026-09-26 (MasterPlan coordination): Corrected the effectful floor. `effectful` has no 2.7.1.1 release (its newest is 2.7.1.0), so the floors are `effectful` 2.7.1.0 and `effectful-core` 2.7.1.1. Only `effectful-core` 2.7.0.0 to 2.7.1.0 are excluded by kiroku and shibuya for the performance regression. Plan 15's research found this.

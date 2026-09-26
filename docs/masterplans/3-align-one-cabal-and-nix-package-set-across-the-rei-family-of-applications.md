@@ -99,6 +99,7 @@ Two terms used throughout:
 
 The work falls into three waves.
 
+- **Phase 0 (upstream releases):** plan 15 releases the first-party libraries that still cap `effectful` below 2.7, so the cohort can take effectful 2.7 everywhere.
 - **Phase 1 (this repository only):** build the shared set and prove it here.
 - **Phase 2 (one plan per consumer):** adopt the set in each consumer.
 - **Phase 3 (dotfiles):** deploy it and keep it true.
@@ -137,7 +138,8 @@ Phase 3 (plan 14) comes last because it is the only place all five meet: the dot
 
 | # | Title | Path | Hard Deps | Soft Deps | Status |
 |---|-------|------|-----------|-----------|--------|
-| 8 | Resolve one upgrade-only cohort freeze for the Rei family of applications | docs/plans/8-resolve-one-upgrade-only-cohort-freeze-for-the-rei-family-of-applications.md | None | None | Not Started |
+| 15 | Release the first-party libraries on effectful 2.7 | docs/plans/15-release-the-first-party-libraries-on-effectful-2-7.md | None | None | Not Started |
+| 8 | Resolve one upgrade-only cohort freeze for the Rei family of applications | docs/plans/8-resolve-one-upgrade-only-cohort-freeze-for-the-rei-family-of-applications.md | EP-15 | None | Not Started |
 | 9 | Generate the Nix package set from the cohort freeze and guard version parity | docs/plans/9-generate-the-nix-package-set-from-the-cohort-freeze-and-guard-version-parity.md | EP-8 | None | Not Started |
 | 10 | Own the shared third-party overrides in the channel instead of consumer overlays | docs/plans/10-own-the-shared-third-party-overrides-in-the-channel-instead-of-consumer-overlays.md | None | EP-9 | Not Started |
 | 11 | Adopt the shared package set in rei and mori-rei-app | docs/plans/11-adopt-the-shared-package-set-in-rei-and-mori-rei-app.md | EP-9, EP-10 | None | Not Started |
@@ -146,12 +148,19 @@ Phase 3 (plan 14) comes last because it is the only place all five meet: the dot
 | 14 | Deploy one channel revision from dotfiles and guard closure parity | docs/plans/14-deploy-one-channel-revision-from-dotfiles-and-guard-closure-parity.md | EP-11, EP-12, EP-13 | None | Not Started |
 
 Status values: Not Started, In Progress, Complete, Cancelled.
-Hard Deps and Soft Deps reference other rows by their # prefix (e.g., EP-8). This repository numbers ExecPlans globally, so this MasterPlan's children are 8 through 14.
+Hard Deps and Soft Deps reference other rows by their # prefix (e.g., EP-8). This repository numbers ExecPlans globally, so this MasterPlan's children are 8 through 15. Plan 15 was added after the others, on the user's decision to move the whole family to effectful 2.7; it runs first.
 
 
 ## Dependency Graph
 
-**Plan 8 comes first.** Every other plan consumes its freeze file. It needs nothing from the others, because it resolves the cohort in its own Cabal project inside this repository rather than inside any application. The applications' own caps are reported by plan 8 and lifted by the consumer plans.
+**Plan 15 comes first.** On 2026-09-26 the user chose effectful 2.7 across the whole family, with no `allow-newer` bridge. These releases cap `effectful` below 2.7:
+- `keiro`, `keiro-ops`, `keiro-pgmq` and `keiro-test-support` 0.19
+- `kioku-core` 0.8
+- `shikumi` 0.4, `shikumi-trace` 0.3 and `shikumi-cache` 0.2
+
+Plan 15 releases versions that admit effectful 2.7 (floors: `effectful` 2.7.1.0, `effectful-core` 2.7.1.1), and refreshes the channel. The `effectful-core` floor matches `kiroku-store` 0.9 and `shibuya`, which exclude `effectful-core` 2.7.0.0 to 2.7.1.0 for a performance regression. `effectful` itself has no 2.7.1.1 release; its newest is 2.7.1.0. Already compatible: `kiroku-store` 0.9.0.1, `shibuya-core` 0.10, the shibuya adapters, `pgmq-effectful` 0.6.1.1, and `baikai-effectful` 0.4.0.2, which requires 2.7.
+
+**Plan 8 hard-depends on plan 15**, because the freeze cannot select effectful 2.7 until those releases exist. Every other plan consumes plan 8's freeze file. Plan 8 resolves the cohort in its own Cabal project inside this repository, not inside any application. The applications' own caps are reported by plan 8 and lifted by the consumer plans.
 
 **Plan 9 hard-depends on plan 8.** It generates Nix entries from the freeze, and its parity check compares the channel against that file. It cannot start without it.
 
@@ -185,7 +194,9 @@ Hard Deps and Soft Deps reference other rows by their # prefix (e.g., EP-8). Thi
   - The `kioku-core` profiling override is a no-op: identical `drvPath` with or without it. Consumers delete it.
   - Plan 10 adds `wai-app-static` 3.2.1, `servant-health` 0.1.0.0 and `generic-lens`/`generic-lens-core` 2.3.0.0 as version pins that plan 9 converts to policy, plus policy-only entries for `link-canonical`, `hw-kafka-client` and `servant-server`.
   - `kdl-hs` needs no entry: nixpkgs has 1.1.0, and mina's `^>=1.0` bound is lifted in plan 13.
-  - Declared exceptions that stay in consumer overlays: the private `topagentnetwork` sources (`typeid-hs-sql`, `typeid-hs-pg-migrate`, `hasql-effectful`), because this repository is public; and mina's `mori-schema-pin` at mori `7af02c55`, because moving it changes the Dhall mina writes into other repositories.
+  - `typeid-hs` is public (user decision, 2026-09-26; anonymous `git ls-remote` returns `7164a74c`). Plan 10 moves `typeid-hs-sql` and `typeid-hs-pg-migrate` into the channel at `7164a74c`, and consumers delete their overlay entries and `typeid-hs-src` flake inputs. The Cabal `source-repository-package` pin stays, because `typeid-hs` is not on Hackage.
+  - `hasql-effectful` (from the still-private `tan-effectful`) is not a channel concern. Only mori uses it: 59 `mori-core` modules import `Effectful.Hasql`. Plan 12 vendors it into `mori-core` as rei already did (`rei-core/src/Rei/Infrastructure/Hasql/Effect.hs`), which removes the pin, the two `allow-newer` entries and the flake input.
+  - The one remaining declared exception is mina's `mori-schema-pin` at mori `7af02c55`, because moving it changes the Dhall mina writes into other repositories.
   - Plan 10's `lib.auditConsumerOverlay` reports exactly each repository's deletion list.
 - Whichever lands second rebases onto the other.
 
@@ -197,7 +208,12 @@ Hard Deps and Soft Deps reference other rows by their # prefix (e.g., EP-8). Thi
 
 **Rei's exported Haskell extension.** Plan 11 defines how Rei's flake exports an extension that adds `rei-core`, so mori-rei-app composes it instead of calling `callCabal2nix` on `rei-src`. Plan 12 reuses the same shape if mori exports `mori-types`.
 
-**The dotfiles channel input.** Plan 14 adds a root `haskell-nix` input to `mori://shinzui/dotfiles.nix` that all five application inputs follow, the way they already follow `haskell-nix-dev`. It also replaces `_update-with-base`, which moves `haskell-nix-dev` on every application update, with recipes that move one application at a time.
+**The dotfiles channel input.** Plan 14 adds a root `haskell-nix` input to `mori://shinzui/dotfiles.nix` that the family applications follow by default, the way they already follow `haskell-nix-dev`. A single application can still be deployed off-channel for a hotfix.
+- The guard is advisory about fleet-wide uniformity (user decision, 2026-09-26: the strict guard was too restrictive). Differing channel revisions across applications, and differing shared-library `drvPath`s, only warn.
+- It fails only when an application's deployed closure differs from the freeze that application's own pinned channel revision publishes.
+- `haskell-nix-dev` stays as today (not pinned by revision in dotfiles).
+
+- Plan 14 also replaces `_update-with-base`, which moves `haskell-nix-dev` on every application update, with recipes that move one application at a time.
 
 **Cross-plan decisions that deserve ADRs**, to be written by the plan that makes each final:
 - The upgrade-only rule and its report: plan 8, as `docs/adr/2-resolve-the-rei-family-cohort-upgrade-only.md`.
@@ -209,6 +225,7 @@ Hard Deps and Soft Deps reference other rows by their # prefix (e.g., EP-8). Thi
 
 ## Progress
 
+- [ ] EP-15: Release keiro, kioku-core and the shikumi family admitting effectful 2.7 (`effectful` 2.7.1.0+, `effectful-core` 2.7.1.1+), and refresh the channel
 - [ ] EP-8: Inventory every package version each of the five applications selects under Cabal and Nix today
 - [ ] EP-8: Resolve the upgrade-only cohort in this repository and commit `cabal/cohort.freeze` with its upgrade report
 - [ ] EP-8: Report the application bounds that cap an upgrade
@@ -274,6 +291,18 @@ Hard Deps and Soft Deps reference other rows by their # prefix (e.g., EP-8). Thi
   Date: 2026-09-26
 
 
+- Decision (user, 2026-09-26): Move the whole family to effectful 2.7, with no `allow-newer` bridge. Add plan 15 to release the capping libraries, and make plan 8 hard-depend on it.
+  Rationale: The user wants to migrate to effectful 2.7 everywhere. `baikai-effectful` 0.4.0.2 already requires it, and an `allow-newer` bridge would leave four first-party packages declaring bounds they do not honour.
+  Date: 2026-09-26
+- Decision (user, 2026-09-26): mina uses streamly from Hackage, and drops its `streamly-project` git pin (streamly 0.12.0 / streamly-core 0.4.0).
+  Rationale: A git-only version cannot be frozen against Hackage, and mina's shipped Nix build already uses the Hackage line.
+  Date: 2026-09-26
+- Decision (user, 2026-09-26): `typeid-hs` is public, so it moves into the channel (plan 10). `hasql-effectful` is vendored into mori (plan 12), because only mori still uses it and its source repository is private.
+  Rationale: This removes both private-source exceptions. The user believed `hasql-effectful` had been removed everywhere; that is true of rei, mori-rei-app and mori-app, but not mori.
+  Date: 2026-09-26
+- Decision (user, 2026-09-26): The dotfiles deploy guard only warns on fleet-wide revision and derivation differences. It fails only when an application's closure differs from its own pinned freeze. `haskell-nix-dev` is not pinned by revision in dotfiles.
+  Rationale: The user judged the strict guard too restrictive: a hotfix to one application must not require moving all five.
+  Date: 2026-09-26
 - Decision: Reconcile the child plans' shared contracts after parallel drafting (2026-09-26).
   - The freeze carries an `index-state:` line and version constraints only, no flags. Consumers drop their own `index-state`. This revises plan 8's first draft, which dropped the line.
   - The parity tool is plan 9's `cohort-compare` flake app with the interface given in Integration Points. It replaces the `cohort-parity`, `$PARITY` and `<parity-app>` names the drafts used.
@@ -296,3 +325,10 @@ Hard Deps and Soft Deps reference other rows by their # prefix (e.g., EP-8). Thi
   - Allocated ADR numbers 2 to 4.
   - Rewrote plan 10's scope to match its inventory (most overrides are duplicates to delete; private sources and mina's `mori-schema-pin` are declared exceptions).
   - Recorded the drafting discoveries: duplicated shared libraries in the deployed system, the `baikai-effectful` effectful cap, and the uncommitted dotfiles lock.
+- 2026-09-26: Corrected the effectful floor: `effectful` 2.7.1.0 (it has no 2.7.1.1) and `effectful-core` 2.7.1.1. Plan 15's research found this.
+- 2026-09-26: Applied the user's four decisions.
+  - Added plan 15 (effectful 2.7 releases) as the first plan, with plan 8 hard-depending on it.
+  - mina moves to Hackage streamly.
+  - `typeid-hs` moves into the channel; mori vendors `hasql-effectful`.
+  - The dotfiles guard now fails only on an application's own freeze mismatch and warns on fleet-wide differences.
+  - Plans 8, 10, 11, 12, 13 and 14 were revised to match.
