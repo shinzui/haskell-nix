@@ -87,7 +87,7 @@ Two terms used throughout:
 **Persistent-database rule, inherited from the Keiro 0.19 adoption:**
 - Kiroku 0.9 requires Kiroku migration `0012` before any 0.9 process appends, and a Kiroku 0.8 process fails every append after it. There is no rolling deploy.
 - Rei's global database (`host=/Users/shinzui/.local/state/postgresql dbname=rei`) received `0012` on 2026-09-26.
-- Mori's global database (`dbname=mori`) has not; its Keiro 0.19 adoption is committed in mori at `f3c5fa4b` but not deployed.
+- Mori's global database (`dbname=mori`) received `0012` later the same day (11.9 s for 526,818 `$all` rows, 0 mismatches, verify clean). Mori `f3c5fa4b` + `bf28e026` is deployed, and `mori-automate` and mina-web's `mori` both run `mori-cli` `35dr5zq5…` on kiroku-store 0.9.0.1. So no plan in this initiative needs a Kiroku schema cutover. Every deploy is an ordinary binary swap, though the stop-writers rule still governs any future Kiroku migration.
 - Any child plan that deploys a Kiroku writer must follow the stop-writers cutover:
   1. stop the writers;
   2. back up the database;
@@ -236,7 +236,7 @@ Plan 15 releases versions that admit effectful 2.7 (floors: `effectful` 2.7.1.0,
 - [ ] EP-11: rei and mori-rei-app import the freeze, drop shared overrides, and mori-rei-app consumes Rei's `rei-core`
 - [ ] EP-11: Deploy rei and mori-rei-app on the shared set
 - [ ] EP-12: mori imports the freeze and drops shared overrides
-- [ ] EP-12: Deploy mori on the shared set, including the pending Kiroku `0012` cutover of the mori database if it has not run
+- [ ] EP-12: Deploy mori on the shared set (an ordinary binary swap: the mori database received Kiroku `0012` on 2026-09-26)
 - [ ] EP-13: mina moves to the current baikai and shikumi cohort and imports the freeze
 - [ ] EP-13: reiko imports the freeze
 - [ ] EP-14: dotfiles follows one channel revision, and the update recipes move one application at a time
@@ -332,3 +332,4 @@ Plan 15 releases versions that admit effectful 2.7 (floors: `effectful` 2.7.1.0,
   - `typeid-hs` moves into the channel; mori vendors `hasql-effectful`.
   - The dotfiles guard now fails only on an application's own freeze mismatch and warns on fleet-wide differences.
   - Plans 8, 10, 11, 12, 13 and 14 were revised to match.
+- 2026-09-26: The mori session completed mori's Kiroku `0012` cutover. Verified read-only: ledger at `0012`, the index present, and `mori-automate` and mina-web's PATH `mori` both on `mori-cli` `35dr5zq5…` (kiroku-store 0.9.0.1). Plan 12's deploy is therefore Case A, a binary swap, and plan 13 no longer has to worry about a Kiroku 0.8 `mori` on mina-web's PATH.
