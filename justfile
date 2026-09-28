@@ -91,14 +91,17 @@ validate:
 flake-check: check-docs
     nix flake check --print-build-logs
 
-# Validate and graph both reader-facing documentation bundles.
+# Validate and graph reader-facing documentation and research bundles.
 check-docs:
     dhall type --file mori/user-documentation-profile.dhall >/dev/null
+    dhall type --file mori/research-profile.dhall >/dev/null
     dhall type --file mori.dhall >/dev/null
     okf validate docs/user --strict --profile mori/user-documentation-profile.dhall --profile-enforce --log-enforce
     okf graph docs/user --json >/dev/null
     okf validate docs/guides --strict --profile mori/user-documentation-profile.dhall --profile-enforce --log-enforce
     okf graph docs/guides --json >/dev/null
+    okf validate docs/research --strict --profile mori/research-profile.dhall --profile-enforce --log-enforce
+    okf graph docs/research --json >/dev/null
 
 # Format repository Nix code using the pinned treefmt wrapper.
 fmt:

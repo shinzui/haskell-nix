@@ -29,6 +29,14 @@ in  Schema.Project::{
             "Cross-repository improvement requests owned by haskell-nix"
         }
       , Schema.OkfBundle::{
+        , name = "research"
+        , path = "docs/research"
+        , profile = Some "mori/research-profile.dhall"
+        , okfVersion = "0.2"
+        , description = Some
+            "Research findings and follow-up criteria for shared Haskell builds and CI"
+        }
+      , Schema.OkfBundle::{
         , name = "user-documentation"
         , path = "docs/user"
         , profile = Some "mori/user-documentation-profile.dhall"

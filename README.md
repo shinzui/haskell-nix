@@ -194,6 +194,13 @@ dry-run plus `nix flake check` before committing. See
 [Updating first-party packages](docs/user/updating-first-party-packages.md) for the full
 operator checklist and downstream `--override-input` validation.
 
+## Research
+
+[CI cache reuse and Buck2 after MP-3](docs/research/ci-cache-reuse-and-buck2-after-mp3.md)
+records why package-set alignment is worth implementing, what it leaves unresolved, and
+the CI measurements to collect before considering a different build system. Research is
+governed by the shared OKF research profile and checked by `just check-docs`.
+
 ## Verification
 
 ```bash
