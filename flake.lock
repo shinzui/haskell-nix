@@ -3,11 +3,11 @@
     "baikai-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1790191036,
-        "narHash": "sha256-o60cqb3LOTE/qy2AEcxHEOuyw9uB7ko4V71P3bPaizY=",
+        "lastModified": 1790780600,
+        "narHash": "sha256-F42aSroylvF/NijynLxoMy44jUqppjjg2ohLM9hz0mA=",
         "owner": "shinzui",
         "repo": "baikai",
-        "rev": "9f269c917c15d5449067f3c96e7ce3452fc6d7eb",
+        "rev": "7e000f7403246ca383e886b38172ce3b77507d01",
         "type": "github"
       },
       "original": {
@@ -373,11 +373,11 @@
     "shikumi-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1790194733,
-        "narHash": "sha256-z8Nre98mjxo57+gpkCcLmobAXuSpWWU00IudjCQOVnw=",
+        "lastModified": 1790792277,
+        "narHash": "sha256-B9eojOkRE8z/d2niGPnJGn8UHSAhEnL09nW/M36+/IU=",
         "owner": "shinzui",
         "repo": "shikumi",
-        "rev": "e843745778910174445dbd6185fcadf02ee872fa",
+        "rev": "7cd5f9e121166874fdb9a6a99f0a8a3051761149",
         "type": "github"
       },
       "original": {
