@@ -17,6 +17,17 @@ provenance:
       at: 2026-09-26T22:41:44Z
       mode: "update"
       note: "Reconcile cross-plan contracts after parallel drafting: freeze index-state, cohort-compare interface, ADR numbering, cabal-version correction"
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-04T13:51:42Z
+      mode: "update"
+      note: "Apply dependency-alignment review: routine update isolation, shared build evidence and applicable cache/ownership corrections; implementation pending."
+  reviews:
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-04T13:51:42Z
+      verdict: "changes-requested"
+      note: "Original review found duplicate parity logic, assumed lock node and half-adoption risk; applied findings in update."
 ---
 
 # Bring mina and reiko up to the shared package set
@@ -61,7 +72,23 @@ migration of the mori database (see "Deployment ordering against the mori Kiroku
 of Work).
 
 
+## Review requirements (2026-10-04)
+
+Follow [ADR 5](../adr/5-keep-routine-application-changes-independent-of-cohort-and-toolchain-updates.md): ordinary application edits retain the cohort and toolchain pins. Matching versions alone is insufficient evidence of reused builds. Historical input revisions, package counts and deletion lists below are starting observations; refresh them from recorded contributor revisions.
+
+Plan 9 owns the shared `cohort-compare` app. Use `--freeze FILE_OR_URL --plan-json FILE` for a freshly generated Cabal plan and `--freeze FILE_OR_URL --nix-manifest FILE` for the executable's build evidence. Use `--compare-manifests FILE FILE` to compare build identities and `--resolve-channel-lock FILE --input-path PATH` to obtain a channel's full locked revision. The resolver starts at the lock's declared root and handles recursive array `follows`, string nodes, missing nodes and cycles. Check the Cabal import revision against the application's own resolved lock, rather than assuming a node named `haskell-nix` exists. Return 0 on success, 1 on drift or missing/unverifiable evidence, and 2 on usage error.
+
+Export `packages.<system>.cohort-manifest` through plan 9's construction helper. Its JSON schema records the system, compiler/toolchain/channel, actual executable root drv/output and Haskell packages with names, versions, component roles, source/metadata identities, flags/policy and drv/output paths. Generate records from the actual composed scope used to build the executable, then verify dependency edges against that root's derivation graph through Nix metadata APIs. Runtime closures may omit static Haskell libraries; basename parsing and unrelated channel evaluation cannot prove parity. All instances of a Haskell package must pass, including when one correct and one incorrect version coexist. Missing expected dependencies fail. Native build tools and compiler packages are distinguished by role.
+
+Refresh `plan.json` with tests and benchmarks enabled for supported configurations; check all non-local packages. Record own packages and non-Hackage source pins in the channel's declared policy and `cabal/cohort-sources.json` (exact source revision/subdirectory plus reasons and owners for intentional Cabal/Nix source or flag differences). Do not use arbitrary `--ignore` lists. Keep exact-binary release rehearsals: version parity alone does not establish flag/source or behavioral equivalence. Consumer checks are thin calls to shared tooling, with no fallback comparator.
+
+Use one atomic selector adoption per application: Cabal imports, bounds, Nix pins/lock, policy changes and checks land together after both build paths pass. M2 and M3 may be prepared separately, but do not commit an intermediate Mina adoption selecting different cohorts. Preserve required shared files when filtering local package sources; documentation and CLI-only edits must not invalidate unchanged shared libraries.
+
+The mori global database is already on `0012` and Kiroku 0.9; do not add its completed cutover as a hard prerequisite or run it again. Keep read-only deployed-state checks and preserve existing schema compatibility during binary swaps. The mina `mori-schema-pin` exception stays as agreed; moving it is a separate follow-up. Remove bespoke Python/runtime-closure comparisons. A pre-existing test failure needs baseline evidence and no regression; new failures are fixed before acceptance.
+
 ## Progress
+
+- [ ] Shared comparator/recursive resolver and atomic adoption pass for both applications
 
 - [ ] M0: Confirm plans 15, 8, 9 and 10 are complete and the channel revision carrying `cabal/cohort.freeze` is pushed; record `<CHANNEL_REV>` and plan 15's released `shikumi`, `shikumi-trace` and `shikumi-cache` versions in the Decision Log.
 - [ ] M0: Record baselines for mina and reiko (current test results, current `plan.json`, current deployed closures) under the scratch directory.
@@ -161,6 +188,8 @@ These were found while drafting the plan (2026-09-26) and shaped it.
 
 
 ## Decision Log
+
+- Decision (2026-10-04 review update): adopt the Review requirements above and ADR 5's update-isolation/build-evidence contract. Historical closure-only acceptance, fixed package counts and duplicated comparison implementations are superseded where noted. Preserve the agreed advisory fleet guard and effectful migration policy. Implementation evidence remains pending.
 
 - Decision: Retire mina's streamly source pin and take the frozen released streamly (expected
   0.11.1 / streamly-core 0.3.1), even though mina's Cabal plan selects 0.12.0 / 0.4.0 today.
@@ -480,7 +509,7 @@ Confirm all four are marked Complete in
 that `cabal/cohort.freeze` exists on this repository's pushed `master`, and pick `<CHANNEL_REV>`.
 Read plan 15's Outcomes & Retrospective and record the released `shikumi`, `shikumi-trace` and
 `shikumi-cache` versions (and whether `shikumi-trace-otel` was re-released) in the Decision Log;
-confirm the freeze carries exactly those and `effectful`/`effectful-core` at 2.7.1.1 or later.
+confirm the freeze carries exactly those and `effectful` at 2.7.1.0 or later / `effectful-core` at 2.7.1.1 or later.
 Read plan 8's upgrade report and note three things for later milestones: that it lists mina's
 streamly Git pin under "source pins" as retired (the user's decision), whether the freeze depends
 on any `source-repository-package` (for example mori's `dhall` pin), and which `allow-newer` lines
@@ -646,6 +675,8 @@ this plan does not move it either.
 
 ## Concrete Steps
 
+Use the Review requirements for final manifest-based acceptance. Historical runtime-closure commands below describe baseline diagnostics; they cannot establish Haskell dependency parity. Consumers export an app alias `apps.<system>.cohort-compare` from their pinned channel to bootstrap lock resolution without guessing node names.
+
 All commands are for zsh on the user's Mac. `<CHANNEL_REV>` is the 40-character revision recorded in
 the Decision Log in M0. `$SCRATCH` is any scratch directory outside the repositories, for example a
 session scratchpad.
@@ -661,7 +692,7 @@ grep -n '^| 8 \|^| 9 \|^| 10 \|^| 15 ' docs/masterplans/3-align-one-cabal-and-ni
 ```
 
 Expect the freeze to start with an `index-state:` line and a `constraints:` line, to carry
-`effectful`/`effectful-core` at 2.7.1.1 or later, plan 15's shikumi versions and Hackage
+`effectful` at 2.7.1.0 or later / `effectful-core` at 2.7.1.1 or later, plan 15's shikumi versions and Hackage
 `streamly`/`streamly-core` (0.11.x / 0.3.x), and rows 8, 9, 10 and 15 to say `Complete`. If any is
 not complete, stop: this plan's hard dependencies are unmet.
 
@@ -867,6 +898,8 @@ repository's shell it points at the development database.
 
 ## Validation and Acceptance
 
+The review requirements above are additional completion gates, including the assigned update-isolation, manifest and cache evidence. Historical runtime-closure/version tables are diagnostic evidence only; they cannot replace those gates.
+
 The plan is accepted when all of the following hold, each observed rather than inferred.
 
 For each application, `just cohort-check` exits 0 and prints no differing package: every package
@@ -954,47 +987,27 @@ explainDigestFailure :: Text -> Text
 -- "ProviderError", together with "process exited 1" and "Reading additional input from stdin"
 ```
 
-The `cohort-check` recipe, identical in both `Justfile`s, is the per-application
-check the MasterPlan asks plans 11 to 13 to add. It depends on plan 9's parity script. Its expected
-shape, to be adjusted to plan 9's actual command line:
-
-```make
-# Compare this project's Cabal plan with the haskell-nix cohort freeze at the
-# channel revision flake.lock pins. Exits non-zero on any difference.
-cohort-check:
-  #!/usr/bin/env bash
-  set -euo pipefail
-  rev=$(jq -r '.nodes["haskell-nix"].locked.rev' flake.lock)
-  cabal build all --dry-run >/dev/null
-  nix run "github:shinzui/haskell-nix/$rev#cohort-compare" -- \
-    --freeze "https://raw.githubusercontent.com/shinzui/haskell-nix/$rev/cabal/cohort.freeze" \
-    --plan-json dist-newstyle/cache/plan.json
-```
-
-The comparison tool is the flake app `cohort-compare` that plan 9 (`docs/plans/9-generate-the-nix-package-set-from-the-cohort-freeze-and-guard-version-parity.md`, Milestone 5) adds as `scripts/cohort-compare.sh`. Invoke it as `nix run "github:shinzui/haskell-nix/$R#cohort-compare" -- --freeze <file-or-https-url> (--plan-json <file> | --closure <store-path> | --closure-list <file>) [--ignore NAME]... [--all]`, where `$R` is the haskell-nix revision the application pins. It prints tab-separated `STATUS name freeze found` lines for `mismatch` (a frozen package at another version) and `unfrozen` (a package the freeze does not cover), then a summary, and exits 0 when there are none, 1 otherwise, 2 on a usage error. In `--closure` mode a frozen name passes if any store path of that name has the frozen version, so a C library sharing a Haskell package's name (C `zlib-1.3.1` beside Haskell `zlib-0.7.1.1`) is harmless.
+The `cohort-check` recipe in both consumers uses the following contract. Export an app
+alias `apps.<system>.cohort-compare` from the pinned `haskell-nix` input, then call that
+alias to resolve the channel lock. Verify the sole Cabal freeze import uses that revision;
+reject another import, local index-state or overriding freeze constraint. Run fresh Cabal
+resolution for the supported configurations, build the executable and its exported manifest,
+and compare both against the pinned freeze. Own package/source declarations are checked by
+the shared tool, without local Python/jq version comparison.
 
 ```bash
-export FREEZE_URL="https://raw.githubusercontent.com/shinzui/haskell-nix/$rev/cabal/cohort.freeze"
-nix-store -qR ./result | sed -E 's|^/nix/store/[a-z0-9]{32}-||' > "$SCRATCH/closure-names.txt"
-python3 - "$SCRATCH/closure-names.txt" <<'EOF'
-import os, re, sys, urllib.request
-names = {}
-for line in open(sys.argv[1]):
-    m = re.match(r'^(.+?)-([0-9][0-9.]*)$', line.strip())
-    if m:
-        names.setdefault(m.group(1), set()).add(m.group(2))
-text = urllib.request.urlopen(os.environ["FREEZE_URL"]).read().decode()
-frozen = dict(re.findall(r'any\.([A-Za-z0-9-]+) ==([0-9.]+)', text))
-bad = sorted((n, v, sorted(names[n])) for n, v in frozen.items()
-             if n in names and v not in names[n])
-for n, v, got in bad:
-    print(n, v, ",".join(got))
-sys.exit(1 if bad else 0)
-EOF
+R=$(nix run .#cohort-compare -- --resolve-channel-lock flake.lock --input-path haskell-nix)
+# The recipe first verifies cabal.project imports exactly the freeze at R.
+FREEZE_URL="https://raw.githubusercontent.com/shinzui/haskell-nix/$R/cabal/cohort.freeze"
+cabal build all --dry-run --enable-tests --enable-benchmarks
+nix run .#cohort-compare -- --freeze "$FREEZE_URL" --plan-json dist-newstyle/cache/plan.json
+nix build .#cohort-manifest --out-link result-cohort-manifest
+nix run .#cohort-compare -- --freeze "$FREEZE_URL" --nix-manifest ./result-cohort-manifest
 ```
 
-It exits 0 and prints nothing when the closure matches; otherwise it prints one
-`name frozen found-versions` line per mismatch and exits 1.
+The construction helper verifies the manifest is tied to the actual executable. Treat
+runtime closure queries elsewhere in Concrete Steps as diagnostics only. The recipe must
+propagate failures rather than mask them with shell pipelines.
 
 Upstream plans this plan depends on and what it needs from each:
 
@@ -1004,14 +1017,14 @@ Upstream plans this plan depends on and what it needs from each:
   plan 15's Outcomes to set mina's bounds.
 - Plan 8 provides `cabal/cohort.freeze` at `<CHANNEL_REV>` including mina's and reiko's dependency
   closures (mina-only packages include `baikai-trace-otel`, `shikumi-trace-otel`, `kdl-hs`,
-  `sqlite-simple`, `blaze-textual`), with `effectful`/`effectful-core` at 2.7.1.1 or later, its
+  `sqlite-simple`, `blaze-textual`), with `effectful` at 2.7.1.0 or later / `effectful-core` at 2.7.1.1 or later, its
   upgrade report listing mina's streamly Git pin as retired, and a statement of any
   `source-repository-package` or `allow-newer` a consumer must carry.
 - Plan 9 provides the channel whose frozen packages have the frozen versions, and the parity script.
 - Plan 10 provides `generic-lens` and `generic-lens-core` 2.3.0.0 and `kdl-hs` in the channel, so
   mina's overlay entries can go.
-- Plan 12 applies Kiroku `0012` to the mori database and moves the dotfiles `mori` input; this plan
-  only needs its state, to apply the ordering rules.
+- Plan 12 verifies the already completed Kiroku `0012` state and adopts the new Mori
+  binary. This plan needs the verified schema-compatible deployed state, not a repeated cutover.
 - Plan 14 later adds a root `haskell-nix` input to the dotfiles that mina and reiko will follow and
   replaces `_update-with-base`; nothing here pre-empts it. Its deploy guard only warns when
   applications pin different channel revisions and fails when an application's closure differs
@@ -1024,9 +1037,8 @@ from Hackage):
 - Plan 8: does the freeze depend on mori's dhall-haskell git pin (it will if it carries `microlens`
   0.5.0.0)? If so, the freeze's companion instructions must say so, and mina and every other `dhall`
   consumer carries the stanza.
-- Plan 10: will its "consumer overlays define only their own packages" rule and its ADR record the
-  `mori-schema-pin` exception for mina, or should mina consume a mori flake export from plan 12 now
-  and take the schema-pin change as part of this plan?
+- Resolved: plan 10 records mina's `mori-schema-pin` exception. Preserve it in this plan;
+  a future schema-pin change receives separate adoption evidence.
 - Plan 12: will mori's flake export `mori-schema-pin`, and at which revision will mori's
   `mori-schema-pin` sit when it deploys? A follow-up mina plan that moves the schema pin should use
   that revision.
@@ -1042,3 +1054,5 @@ from Hackage):
 
 - 2026-09-26 (MasterPlan coordination): Corrected the effectful floor. `effectful` has no 2.7.1.1 release (its newest is 2.7.1.0), so the floors are `effectful` 2.7.1.0 and `effectful-core` 2.7.1.1. Only `effectful-core` 2.7.0.0 to 2.7.1.0 are excluded by kiroku and shibuya for the performance regression. Plan 15's research found this.
 - 2026-09-26 (MasterPlan coordination): Mori's database received Kiroku `0012` on 2026-09-26, and mina-web was restarted at 16:00 with a PATH whose `mori` is `mori-cli` `35dr5zq5…` on kiroku-store 0.9.0.1 (checked with `nix-store -qR` on its PATH entry). The ordering hazard this plan guarded against, a Kiroku 0.8 `mori` on mina-web's PATH after `0012`, is gone. The post-activation ledger-vs-`kiroku-store` check stays as a cheap confirmation.
+
+- 2026-10-04: MasterPlan review for reducing change time: clarified shared ownership and acceptance, added the applicable targeted-update/build-identity/cache contracts, and corrected historical assumptions. No implementation completion is claimed.

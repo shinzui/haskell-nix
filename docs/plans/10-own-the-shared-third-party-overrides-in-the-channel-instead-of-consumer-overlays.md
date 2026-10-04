@@ -17,6 +17,17 @@ provenance:
       at: 2026-09-26T22:41:44Z
       mode: "update"
       note: "Reconcile cross-plan contracts after parallel drafting: freeze index-state, cohort-compare interface, ADR numbering, cabal-version correction"
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-04T13:51:42Z
+      mode: "update"
+      note: "Apply dependency-alignment review: routine update isolation, shared build evidence and applicable cache/ownership corrections; implementation pending."
+  reviews:
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-04T13:51:42Z
+      verdict: "changes-requested"
+      note: "Original review found incomplete shared-name audit and pre-adoption build dependency cycle; applied findings in update."
 ---
 
 # Own the shared third-party overrides in the channel instead of consumer overlays
@@ -71,7 +82,17 @@ You can see it working in three ways:
    with those entries filtered out of their overlays. Each build succeeds.
 
 
+## Review requirements (2026-10-04)
+
+Follow [ADR 5](../adr/5-keep-routine-application-changes-independent-of-cohort-and-toolchain-updates.md): ordinary application edits retain the cohort and toolchain pins. Matching versions alone is insufficient evidence of reused builds. Historical input revisions, package counts and deletion lists below are starting observations; refresh them from recorded contributor revisions.
+
+Audit consumer-owned names against the union of selected first-party packages, generated cohort entries, frozen shared names and declared source pins, not just `overlays/registry.nix`. Declaring a shared package as owned cannot hide shadowing. Re-inventory current overlays, including Rei's added API packages and shared instrumentation overrides. Keep only the already agreed mina `mori-schema-pin` exception; do not reopen that decision as part of this review.
+
+Milestone 4's old-consumer builds are diagnostic rehearsals. A failure caused by the application source changes or bounds that plans 11–13 own does not block phase 1 or require those plans to run early. Record the failing component and hand it to its consumer plan. A registry/policy failure is still fixed here. Completion requires channel shared-override builds and ownership audits; all final consumer builds remain required before plan 14 deployment. Coordinate removal of temporary version pins with plan 9. ADR 4 is reserved; do not allocate by landing order.
+
 ## Progress
+
+- [ ] Audit covers generated/shared names; pre-adoption source failures are assigned to consumer plans
 
 - [ ] M1: Re-verify the inventory against each consumer's current HEAD (rei `880093cc`, mori `f3c5fa4b`, mori-rei-app `2acd4ed`, reiko `4f98ba9`, mina `6a4b3f9`) and record any drift in Surprises & Discoveries.
 - [ ] M1: Re-evaluate the channel's current versions of the contested packages. If plan 9's generated version layer has landed, record which moved packages it already supplies.
@@ -206,6 +227,8 @@ this repository at `4cabd105` and of the consumer overlays at the HEADs named in
 
 
 ## Decision Log
+
+- Decision (2026-10-04 review update): adopt the Review requirements above and ADR 5's update-isolation/build-evidence contract. Historical closure-only acceptance, fixed package counts and duplicated comparison implementations are superseded where noted. Preserve the agreed advisory fleet guard and effectful migration policy. Implementation evidence remains pending.
 
 - **Decision:** Add no new first-party families. Each shared override that needs a
   channel entry goes into `overlays/registry.nix` (with a `patches/<package>/` file for
@@ -350,11 +373,11 @@ this repository at `4cabd105` and of the consumer overlays at the HEADs named in
     `ghc9141`.
   - Date: 2026-09-26
 - **Decision:** Write the ADR in this repository's filesystem convention
-  (`docs/adr/<N>-<slug>.md`, no OKF frontmatter). Allocate `<N>` when you write it by
-  listing `docs/adr/`.
+  (`docs/adr/4-consumer-overlays-define-only-their-own-packages.md`, no OKF
+  frontmatter). The MasterPlan reserves ADR 4 independently of landing order.
   - Rationale: `docs/adr` is not a profile-governed OKF bundle here; `mori.dhall`
     declares only `docs/improvement-requests`, `docs/user` and `docs/guides`. Plans 8
-    and 9 each also add one ADR, so the number depends on landing order.
+    and 9 have reserved ADRs 2 and 3; this plan uses reserved ADR 4.
   - Date: 2026-09-26
 
 
@@ -867,8 +890,9 @@ Acceptance:
 Commit.
 
 **Milestone 4: rehearse the consumer deletions without editing any consumer.** At the
-end you know each deletion list is safe, because each application's Nix build succeeds
-against this repository's working tree with those entries filtered out. You also know
+end you have diagnosed the deletion lists against the existing consumer sources. Shared
+registry builds prove channel policy; consumer source incompatibilities are recorded for
+plans 11–13, whose final builds prove safe adoption. You also know
 its derivation closure contains the expected versions. This is evidence for plans 11
 and 12. Nothing is committed in any consumer.
 
@@ -906,7 +930,8 @@ nothing to delete.
 
 Acceptance:
 
-- the three builds succeed;
+- the channel shared-override builds succeed; pre-adoption application rehearsal outcomes
+  are recorded, and any source/bounds failures are assigned to plans 11–13;
 - the rei and mori-rei-app closures contain `wai-app-static-3.2.1` and
   `generic-lens-2.3.0.0` derivations and no `wai-app-static-3.1.9.1`;
 - `openapi-hs-5.0.0` in the rei closure is built from the channel's GitHub source;
@@ -914,9 +939,9 @@ Acceptance:
   `typeid-hs-pg-migrate-0.1.0.0` derivations even though `typeid-hs-src` was a dummy;
 - mina's evaluation prints 2.3.0.0 for both packages.
 
-If a build fails, the deletion list or a channel entry is wrong. Fix the channel entry
-(never by adding back a consumer entry), record the failure in Surprises & Discoveries,
-and rerun.
+If a failure is in shared policy, fix it here and rerun. If the consumer source or bounds
+require its planned port, record the failing component for plans 11–13 without making their
+work a prerequisite for this plan. Do not add back shared overrides to mask the failure.
 
 **Milestone 5: record the rule and finish.**
 
@@ -928,7 +953,7 @@ ls docs/adr/
 
 Take the next integer after the highest existing prefix. Today only `1-…` exists, but
 plans 8 and 9 each add one ADR, so expect 2, 3 or 4. Name it
-`docs/adr/<N>-consumer-overlays-define-only-their-own-packages.md` and follow ADR 1's
+`docs/adr/4-consumer-overlays-define-only-their-own-packages.md` and follow ADR 1's
 shape exactly: a title line, then `Status:` and `Date:` lines, then `## Context`,
 `## Decision`, `## Alternatives and consequences` and `## Validation`. Its content:
 
@@ -1297,6 +1322,8 @@ the push when M5 is committed.
 
 ## Validation and Acceptance
 
+The review requirements above are additional completion gates, including the assigned update-isolation, manifest and cache evidence. Historical runtime-closure/version tables are diagnostic evidence only; they cannot replace those gates.
+
 The plan is complete when all of the following hold.
 
 1. `nix build .#checks.aarch64-darwin.shared-overrides` succeeds. Its
@@ -1330,7 +1357,7 @@ The plan is complete when all of the following hold.
      `generic-lens-core`.
 5. `nix flake check` passes, including `registry-valid`, `overlay-eval` and the
    existing matrices.
-6. `just check-docs` passes. The new ADR exists at `docs/adr/<N>-consumer-overlays-define-only-their-own-packages.md`.
+6. `just check-docs` passes. The new ADR exists at `docs/adr/4-consumer-overlays-define-only-their-own-packages.md`.
 
 Record each result, with the short transcript that proves it, in Progress and in
 Outcomes & Retrospective.
@@ -1420,7 +1447,7 @@ Flake checks, added to `checks/default.nix`:
 
 Nix-unit tests are added in `checks/unit.nix`.
 
-A new ADR, `docs/adr/<N>-consumer-overlays-define-only-their-own-packages.md`.
+A new ADR, `docs/adr/4-consumer-overlays-define-only-their-own-packages.md`.
 
 Dependencies and hand-offs:
 
@@ -1482,3 +1509,5 @@ Dependencies and hand-offs:
 
 - 2026-09-26 (MasterPlan reconciliation after parallel drafting): The ADR is fixed as `docs/adr/4-consumer-overlays-define-only-their-own-packages.md` under the MasterPlan's allocation (plan 8 takes 2, plan 9 takes 3). The MasterPlan's Integration Points now match this plan's scope: most overrides are duplicates for consumers to delete, and the private `typeid-hs`/`hasql-effectful` sources and mina's `mori-schema-pin` are declared exceptions.
 - 2026-09-26 (user decisions on the private sources): `topagentnetwork/typeid-hs` was made public (anonymous `git ls-remote` returns `HEAD` `7164a74c`; the GitHub API answers 200 without credentials), so `typeid-hs-sql` and `typeid-hs-pg-migrate` move into the channel as source-pinned registry entries (`patches/typeid-hs/`, a `fetchFromGitHub` at `7164a74c`, not a new first-party family because ADR 1 requires a catalog migration for that), and rei, mori and mori-rei-app delete both entries and their `typeid-hs-src` input. `hasql-effectful` is used only by mori, so plan 12 vendors it into `mori-core`; mori's deletion list now includes it and `tan-effectful-src`, conditioned on that vendoring landing first or in the same change. Mina's `mori-schema-pin` at mori `7af02c55` is now the only declared exception (reclassified from sibling), and mina's `kdl-hs` is a conditional deletion reported as `undeclared`, not an exception. Updated throughout: Purpose (53 shared overrides), Progress, Surprises (typeid-hs public, hasql-effectful mori-only), Decision Log (old exception decision marked superseded; three user decisions added), the inventory's classes and counts (rei 14, mori 32, mori-rei-app 5), the deletion lists and freed flake inputs, M2's registry and patch steps and the anonymous-prefetch step, the audit's declarations and expected report (deletion list = `shadowing` + `undeclared`), the M4 rehearsals (dummy `typeid-hs-src`), the ADR's decision text, the consumer-integration example, Validation, Idempotence, and the hand-offs to plans 9, 11, 12, 13 and 15 and to the MasterPlan owner. The family's move to `effectful` 2.7 (plan 15) is noted where it matters: no moved package has an `effectful` bound, and `hasql-effectful`'s `<2.6` cap is one more reason to vendor it.
+
+- 2026-10-04: MasterPlan review for reducing change time: clarified shared ownership and acceptance, added the applicable targeted-update/build-identity/cache contracts, and corrected historical assumptions. No implementation completion is claimed.

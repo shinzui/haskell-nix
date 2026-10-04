@@ -17,6 +17,17 @@ provenance:
       at: 2026-09-26T22:41:44Z
       mode: "update"
       note: "Reconcile cross-plan contracts after parallel drafting: freeze index-state, cohort-compare interface, ADR numbering, cabal-version correction"
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-04T13:51:42Z
+      mode: "update"
+      note: "Apply dependency-alignment review: routine update isolation, shared build evidence and applicable cache/ownership corrections; implementation pending."
+  reviews:
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-04T13:51:42Z
+      verdict: "changes-requested"
+      note: "Original review found whole-repository invalidation assumption, stale package inventory and split adoption; applied findings in update."
 ---
 
 # Adopt the shared package set in rei and mori-rei-app
@@ -66,7 +77,23 @@ metrics endpoint on port 9091 lists live subscriptions; and a push carrying an `
 trailer is recorded as a Rei action by the new mori-rei-app.
 
 
+## Review requirements (2026-10-04)
+
+Follow [ADR 5](../adr/5-keep-routine-application-changes-independent-of-cohort-and-toolchain-updates.md): ordinary application edits retain the cohort and toolchain pins. Matching versions alone is insufficient evidence of reused builds. Historical input revisions, package counts and deletion lists below are starting observations; refresh them from recorded contributor revisions.
+
+Plan 9 owns the shared `cohort-compare` app. Use `--freeze FILE_OR_URL --plan-json FILE` for a freshly generated Cabal plan and `--freeze FILE_OR_URL --nix-manifest FILE` for the executable's build evidence. Use `--compare-manifests FILE FILE` to compare build identities and `--resolve-channel-lock FILE --input-path PATH` to obtain a channel's full locked revision. The resolver starts at the lock's declared root and handles recursive array `follows`, string nodes, missing nodes and cycles. Check the Cabal import revision against the application's own resolved lock, rather than assuming a node named `haskell-nix` exists. Return 0 on success, 1 on drift or missing/unverifiable evidence, and 2 on usage error.
+
+Export `packages.<system>.cohort-manifest` through plan 9's construction helper. Its JSON schema records the system, compiler/toolchain/channel, actual executable root drv/output and Haskell packages with names, versions, component roles, source/metadata identities, flags/policy and drv/output paths. Generate records from the actual composed scope used to build the executable, then verify dependency edges against that root's derivation graph through Nix metadata APIs. Runtime closures may omit static Haskell libraries; basename parsing and unrelated channel evaluation cannot prove parity. All instances of a Haskell package must pass, including when one correct and one incorrect version coexist. Missing expected dependencies fail. Native build tools and compiler packages are distinguished by role.
+
+Refresh `plan.json` with tests and benchmarks enabled for supported configurations; check all non-local packages. Record own packages and non-Hackage source pins in the channel's declared policy and `cabal/cohort-sources.json` (exact source revision/subdirectory plus reasons and owners for intentional Cabal/Nix source or flag differences). Do not use arbitrary `--ignore` lists. Keep exact-binary release rehearsals: version parity alone does not establish flag/source or behavioral equivalence. Consumer checks are thin calls to shared tooling, with no fallback comparator.
+
+Re-inventory Rei's five owned packages (`rei-core`, `rei-api-contract`, `rei-api-client`, `rei-api`, `rei-cli`) and include their components. Stage Cabal import/bounds changes and Nix input/lock changes in one adoption commit after both paths pass, even if preparation spans milestones. Do not commit a half-adopted selector pair. Source-only preparatory ports may land independently while retaining the old selectors.
+
+Export the Rei library extension into the consumer's single Haskell scope. Prove `rei-core` identity from relevant source and build inputs; do not require all later Rei commits to move mori-rei-app. Add source filtering if the current constructor includes unrelated files, retaining required licenses, schemas, vendor assets and data. Compare before/after manifests for a documentation-only edit and a Rei CLI-only edit: `rei-core` and unchanged third-party dependencies retain drv/output identities. A real `rei-core` source/interface change must invalidate it and its dependents. Inspect and measure current constructor behavior rather than assuming a whole-repository commit always invalidates the library. Retarget dependency audits to the channel's source manifest for pins supplied by registry constants; such pins need not exist as flake-lock input nodes.
+
 ## Progress
+
+- [ ] Documentation/CLI-only edits preserve unchanged library and shared dependency identities
 
 - [ ] Prerequisites: plans 9 and 10 are Complete and pushed (and therefore plans 8 and 15, which plan 9 depends on); record the haskell-nix revision `R`, plan 15's released versions of keiro, keiro-ops, keiro-pgmq, keiro-test-support and kioku-core, and plan 8's upgrade report entries for rei, mori-app and mori-rei-app in Surprises & Discoveries.
 - [ ] Milestone 1 (rei, Cabal): baseline `plan.json` captured before any edit.
@@ -133,16 +160,16 @@ Nothing has been implemented yet. The observations below were made while writing
   against plain `pkgs.haskell.packages.ghc9124`. So "pin the freeze import to the revision the
   flake locks" has nothing to match in mori-app; it pins to `R`, the revision rei and mori-rei-app
   lock.
-- Observation: `callCabal2nix` on `../rei-core` inside a flake takes its source as a subdirectory of
-  the whole-repository source store path, so any commit to rei, even a documentation-only one,
-  changes `rei-core`'s derivation. The two deployed programs contain the same `rei-core` only if
-  both are built from the same rei commit.
+- Observation (corrected 2026-10-04): a subdirectory source can inherit unrelated
+  repository inputs depending on the constructor. Inspect the actual source derivation and
+  test documentation/CLI-only edits. Equal relevant source and transitive inputs, rather
+  than equal whole-repository commits, are the requirement for `rei-core` build identity.
 - Observation: mori-rei-app's `scripts/dependency-closure-audit.sh` asserts that every `tag:` in
   its `cabal.project` also appears in `flake.nix` (script lines 240-244). Once `rei-core` reaches
   Nix through the `rei` flake input and `typeid-hs` through the channel (plan 10 carries it now
   that the repository is public), the literal `typeid-hs` revision no longer appears in
-  mori-rei-app's `flake.nix`, although it still appears in `flake.lock` (through `haskell-nix`) and
-  in `cabal.project`. That leg must be retargeted, not silenced.
+  mori-rei-app's `flake.nix`, the channel may fetch it from a registry constant rather than a flake input. Compare
+  the source manifest with `cabal.project`; a literal flake-lock node is not required.
 - Observation: `https://github.com/topagentnetwork/typeid-hs` became public on 2026-09-26
   (anonymous `git ls-remote` works; HEAD `7164a74c`), so plan 10 moves `typeid-hs-sql` and
   `typeid-hs-pg-migrate` into the channel. typeid-hs is still not on Hackage, so every
@@ -153,6 +180,8 @@ Nothing has been implemented yet. The observations below were made while writing
 
 
 ## Decision Log
+
+- Decision (2026-10-04 review update): adopt the Review requirements above and ADR 5's update-isolation/build-evidence contract. Historical closure-only acceptance, fixed package counts and duplicated comparison implementations are superseded where noted. Preserve the agreed advisory fleet guard and effectful migration policy. Implementation evidence remains pending.
 
 - Decision: Rei exports `lib.haskellExtension` from its flake with the same calling convention as
   haskell-nix's own `lib.haskellExtension` — a function `haskellLib: pkgs: final: prev: { … }` —
@@ -185,11 +214,13 @@ Nothing has been implemented yet. The observations below were made while writing
   and splitting the move across commits creates a commit where Cabal and Nix select different
   cohorts, which is the failure this initiative exists to remove.
   Date: 2026-09-26
-- Decision: Deploy rei at exactly commit `C`, the commit mori-rei-app's `rei` input and
-  `rei-core` Cabal pin name. Any later rei commit waits for the next deploy, or moves both pins.
-  Rationale: see the `callCabal2nix` observation above; a documentation commit after `C` would give
-  the two programs different `rei-core` derivations.
-  Date: 2026-09-26
+- Decision (revised 2026-10-04): use commit `C` as the initial aligned baseline, then
+  permit later Rei commits without moving mori-rei-app when manifests prove unchanged
+  `rei-core` source and build inputs. Library/interface changes advance its consumer pin
+  and receive the normal dependent tests.
+  Rationale: requiring coordinated redeployment for documentation or CLI-only changes
+  would preserve unnecessary work. Source-boundary and identity checks establish reuse.
+  Date: 2026-10-04
 - Decision: Do not edit dotfiles' `flake.nix` in this plan. Update only the `rei` and
   `mori-rei-app` lock entries, and prove the two `rei-core` store paths are equal.
   Rationale: plan 14 owns the dotfiles inputs (a root `haskell-nix` input and
@@ -307,7 +338,7 @@ Conventional Commits and end with the trailers shown in Concrete Steps.
 - **`R`**: the full 40-character haskell-nix revision on `master` after plans 9 and 10 are both
   merged and pushed. **`C`**, **`A`**, **`M`**: the rei, mori-app and mori-rei-app commits this plan
   produces and pushes.
-- **Parity script**: the flake app `cohort-compare` that plan 9 (`docs/plans/9-generate-the-nix-package-set-from-the-cohort-freeze-and-guard-version-parity.md`, Milestone 5) adds as `scripts/cohort-compare.sh`. Invoke it as `nix run "github:shinzui/haskell-nix/$R#cohort-compare" -- --freeze <file-or-https-url> (--plan-json <file> | --closure <store-path> | --closure-list <file>) [--ignore NAME]... [--all]`, where `$R` is the haskell-nix revision the application pins. It prints tab-separated `STATUS name freeze found` lines for `mismatch` (a frozen package at another version) and `unfrozen` (a package the freeze does not cover), then a summary, and exits 0 when there are none, 1 otherwise, 2 on a usage error. In `--closure` mode a frozen name passes if any store path of that name has the frozen version, so a C library sharing a Haskell package's name (C `zlib-1.3.1` beside Haskell `zlib-0.7.1.1`) is harmless. This plan abbreviates it as `$PARITY`, set once with `PARITY=(nix run "github:shinzui/haskell-nix/$R#cohort-compare" --)` and called as `"${PARITY[@]}" --freeze …`.
+- **Parity script**: the flake app `cohort-compare` that plan 9 (`docs/plans/9-generate-the-nix-package-set-from-the-cohort-freeze-and-guard-version-parity.md`, Milestone 5) adds as `scripts/cohort-compare.sh`. Invoke it as `nix run "github:shinzui/haskell-nix/$R#cohort-compare" -- --freeze <file-or-https-url> (--plan-json <file> | --nix-manifest <file>) [--all]`, where `$R` is the haskell-nix revision the application pins. It prints tab-separated `STATUS name freeze found` lines for `mismatch` (a frozen package at another version) and `unfrozen` (a package the freeze does not cover), then a summary, and exits 0 when there are none, 1 otherwise, 2 on a usage error. In `--closure` mode a frozen name passes if any store path of that name has the frozen version, so a C library sharing a Haskell package's name (C `zlib-1.3.1` beside Haskell `zlib-0.7.1.1`) is harmless. This plan abbreviates it as `$PARITY`, set once with `PARITY=(nix run "github:shinzui/haskell-nix/$R#cohort-compare" --)` and called as `"${PARITY[@]}" --freeze …`.
 - **Replay audit**: `scripts/replay-audit-gate.sh` in rei re-folds every stored event stream
   through the event decoders and state machines the shipping binary contains, and fails on any
   failure outside a declared, closed exclusion of 13 `journal_entry` streams holding 89 events.
@@ -337,7 +368,7 @@ typeid-hs-src; }`, and exposes `packages.rei` (= `rei-cli`), `packages.default`,
 (`scripts/dependency-closure-audit.sh`, which pins counts such as `EXPECT_TAN_FLAKE=1` and
 `EXPECT_LOCK_TYPEID=2`; re-derive them with `--census` after a reviewed change).
 
-`nix/haskell-overlay.nix` defines, besides Rei's own three packages: `typeid-hs-sql` and
+`nix/haskell-overlay.nix` defines, besides Rei's own packages (refresh the five-package inventory): `typeid-hs-sql` and
 `typeid-hs-pg-migrate` from `typeid-hs-src`; Hackage pins for `link-canonical` 0.1.0.0,
 `openapi-hs` 5.0.0, `servant-openapi-hs` 5.1.0, `servant-health` 0.1.0.0,
 `hs-opentelemetry-instrumentation-wai`/`-sdk`/`-exporter-otlp` 1.0.0.0 and the four
@@ -818,6 +849,8 @@ Commit the dotfiles lock (with the trailers) only after the user confirms, and o
 
 ## Concrete Steps
 
+Use the Review requirements for final manifest-based acceptance. Historical runtime-closure commands below describe baseline diagnostics; they cannot establish Haskell dependency parity. Consumers export an app alias `apps.<system>.cohort-compare` from their pinned channel to bootstrap lock resolution without guessing node names.
+
 Set these once per shell. `R`, `C`, `A`, `M` are filled in as they become known.
 
 ```bash
@@ -1060,6 +1093,8 @@ never on `rei`).
 
 ## Validation and Acceptance
 
+The review requirements above are additional completion gates, including the assigned update-isolation, manifest and cache evidence. Historical runtime-closure/version tables are diagnostic evidence only; they cannot replace those gates.
+
 The plan is accepted when all of the following are observed and recorded in Outcomes:
 
 1. In rei, mori-app and mori-rei-app, `cabal build all` and `cabal test all` pass with the freeze
@@ -1168,3 +1203,5 @@ subscriptions status`; mori-rei-app's `scripts/dependency-closure-audit.sh`.
 - 2026-09-26 (user decisions): The freeze now moves the family to `effectful` 2.7.1.0 / `effectful-core` 2.7.1.1 or later with no `allow-newer` bridge, so rei (including the vendored `rei-core/src/Rei/Infrastructure/Hasql/` modules and `Rei/Infrastructure/Trace.hs`, found by grep), mori-app and mori-rei-app must compile against effectful 2.7: added the expected source breaks and bound lifts (`effectful ^>=2.6` in mori-app and mori-rei-app, keiro/kioku bounds if plan 15 released a new major), the grep the implementer runs, and plan 15 as an indirect dependency through the freeze. `typeid-hs` is public and plan 10 carries it in the channel, so the conditional "keep `typeid-hs-src` if the channel's revision differs" branch is resolved: both repositories delete their overlay entries and `typeid-hs-src` inputs, and keep the Cabal pin at `7164a74c`. Recorded that `hasql-effectful` (vendored into mori-core by plan 12) does not affect these repositories, and that plan 14's relaxed guard only warns on differing channel revisions. Also replaced the stale `export PARITY=` placeholder in Concrete Steps with the `cohort-compare` array and made `FREEZE` the pinned URL.
 
 - 2026-09-26 (MasterPlan coordination): Corrected the effectful floor. `effectful` has no 2.7.1.1 release (its newest is 2.7.1.0), so the floors are `effectful` 2.7.1.0 and `effectful-core` 2.7.1.1. Only `effectful-core` 2.7.0.0 to 2.7.1.0 are excluded by kiroku and shibuya for the performance regression. Plan 15's research found this.
+
+- 2026-10-04: MasterPlan review for reducing change time: clarified shared ownership and acceptance, added the applicable targeted-update/build-identity/cache contracts, and corrected historical assumptions. No implementation completion is claimed.

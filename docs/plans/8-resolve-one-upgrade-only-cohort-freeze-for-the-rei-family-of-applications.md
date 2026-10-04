@@ -17,6 +17,22 @@ provenance:
       at: 2026-09-26T22:41:44Z
       mode: "update"
       note: "Reconcile cross-plan contracts after parallel drafting: freeze index-state, cohort-compare interface, ADR numbering, cabal-version correction"
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-04T13:51:42Z
+      mode: "update"
+      note: "Apply dependency-alignment review: routine update isolation, shared build evidence and applicable cache/ownership corrections; implementation pending."
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-04T14:06:33Z
+      mode: "discuss"
+      note: "Record the user-confirmed essential Keiki membership in the proposed Keiro runtime baseline and cohort inventory/acceptance."
+  reviews:
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-04T13:51:42Z
+      verdict: "changes-requested"
+      note: "Original review found no targeted-update impact contract and contradictory effectful/index-state prose; applied findings in update."
 ---
 
 # Resolve one upgrade-only cohort freeze for the Rei family of applications
@@ -46,7 +62,21 @@ The cohort also carries one target the user set on 2026-09-26 on top of upgrade-
 Nothing in this plan changes any application, any deployed binary or any database. It writes only inside this repository. Plan 9 turns the freeze into the Nix package set; plans 11 to 13 make the applications import it.
 
 
+## Review requirements (2026-10-04)
+
+The user confirmed on 2026-10-04 that `mori://shinzui/keiki` is essential to the proposed Keiro runtime baseline. Explicitly inventory the Keiro-to-Keiki dependency edges, including the JSON codec, and retain the required Keiki package versions and selected family snapshot in the resolved cohort. The initially proposed runtime-family list omitted Keiki; do not use that list as an exhaustive inventory. Defining a new named runtime set or changing catalog membership is still separate proposed work.
+
+Follow [ADR 5](../adr/5-keep-routine-application-changes-independent-of-cohort-and-toolchain-updates.md): ordinary application edits retain the cohort and toolchain pins. Matching versions alone is insufficient evidence of reused builds. Historical input revisions, package counts and deletion lists below are starting observations; refresh them from recorded contributor revisions.
+
+Add `just cohort-update +PACKAGES` to the existing updater. It reads the previous freeze and a recorded index-state, holds unrelated versions fixed, and reports the dependency constraints requiring transitive unlocks before widening the request. Preserve upgrade-only. Do not advance index-state, toolchain or every contributor HEAD implicitly. Emit a deterministic impact report covering versions, sources, Cabal revisions and policy, with reverse dependency paths to affected applications and library/test/benchmark components. Stage the inventory, source manifest and freeze together; plan 9 generates the Nix layer from that staged result. Regeneration with the same recorded inputs must be byte-identical, including comments.
+
+Inventory every current local package, not a hard-coded three-package Rei list: Rei now includes `rei-api-contract` and `rei-api-client`. Include test, benchmark and build-tool dependencies and supported flag configurations. A union stub solves candidate versions; real consumer plans must still resolve with their own flags. Record non-Hackage source identities in `cabal/cohort-sources.json`, separately from version-only constraints, including intentional differences such as the Dhall fork. Use distinct historical policy floors: `effectful >=2.7.1.0`, `effectful-core >=2.7.1.1`; re-verify released versions when executing.
+
+This plan owns the shared model/freeze parser, CLI inventory/update/report dispatch and aggregate `just cohort-check`. Plan 9 extends them rather than introducing a second parser or redefining the recipe. Acceptance adds a targeted-update fixture that preserves unrelated pins, reports a necessary transitive unlock, and lists affected components; an unchanged-input rerun produces no diff. Freeze normalization retains exactly one selected index-state and drops flags. Full broad regeneration remains available as an explicitly requested cohort refresh.
+
 ## Progress
+
+- [ ] Targeted dependency update preserves unrelated pins and reports affected application components
 
 - [ ] Prerequisite: plan 15 is Complete; its releases (keiro, keiro-ops, keiro-pgmq, keiro-test-support, kioku-core, shikumi, shikumi-trace, shikumi-cache) are on Hackage and in the channel's `default` package set; record their versions and the channel revision in Surprises & Discoveries.
 - [ ] Milestone 1: add `cabal/contributors.json` naming the five applications and the `mori-app` library at recorded revisions (with `hasql-effectful` in mori's `excludedDependencies`).
@@ -110,6 +140,10 @@ These were found while writing the plan (2026-09-26) and shape it. Re-verify the
 
 
 ## Decision Log
+
+- Decision (discussion, 2026-10-04): explicitly include required Keiki packages and their dependency edges in the runtime inventory and cohort acceptance. This records the user's essential-runtime membership clarification without introducing a new package-set API.
+
+- Decision (2026-10-04 review update): adopt the Review requirements above and ADR 5's update-isolation/build-evidence contract. Historical closure-only acceptance, fixed package counts and duplicated comparison implementations are superseded where noted. Preserve the agreed advisory fleet guard and effectful migration policy. Implementation evidence remains pending.
 
 - Decision: The cohort is a separate Cabal project in a new top-level `cabal/` directory, with its own project files `cabal/cohort.project` and `cabal/check.project`, never the repository's root `cabal.project`.
   Rationale: The root `cabal.project` builds the updater (`cli/haskell-nix-update`) and must not be disturbed. A custom project file name also makes `cabal freeze` write `cohort.project.freeze`, which the recipe renames, so no stray freeze constrains the next solve.
@@ -218,7 +252,7 @@ All five are deployed by `mori://shinzui/dotfiles.nix` (`/Users/shinzui/.config/
 
 **The gap this plan measures.** On 2026-09-26 Rei's Nix build and its Cabal plan differed in 73 packages. Most had Nix older (`hasql` 1.10.2.4 against 1.10.3.7, `tls` 2.3.1 against 2.4.6, `aeson` 2.2.4.1 against 2.2.5.1, `sbv` 11.7 against 14.8). A few had Nix newer: `brick` 2.9 against 2.6, `vty` 6.4 against 6.2, `baikai-effectful` 0.4.0.2 against 0.4.0.1. `vty-crossplatform` was 0.4.0.0 in Nix and 0.5.0.0 in Cabal. First-party: `shibuya-pgmq-adapter` 0.16.0.0 in Nix against 0.16.1.0 in Cabal.
 
-**The effectful 2.7 target and plan 15.** `effectful` is the effect-system library every application uses (split into `effectful-core`, the core, and `effectful`, which adds the standard effects). Every application selects 2.6.x today. The user decided on 2026-09-26 that the whole family moves to `effectful` and `effectful-core` 2.7.1.1 or later, with no `allow-newer` anywhere to get there. Some Hackage libraries already admit it: `kiroku-store` 0.9.0.1, `shibuya-core` 0.10 and the shibuya adapters, `pgmq-effectful` 0.6.1.1, and `baikai-effectful` 0.4.0.2 (which requires `effectful-core` 2.7). The first-party libraries that capped it below 2.7 (keiro, keiro-ops, keiro-pgmq, keiro-test-support 0.19.0.0; kioku-core 0.8.0.0; the shikumi 0.4 family's shikumi, shikumi-trace and shikumi-cache) are re-released by plan 15, `docs/plans/15-release-the-first-party-libraries-on-effectful-2-7.md`, which also refreshes `packages/first-party-lock.json` so the channel's `default` set selects the new versions. The floor is 2.7.1.1 because `kiroku-store` and `shibuya` exclude 2.7.0.0 to 2.7.1.0 for a performance regression. This plan cannot start until plan 15's Progress shows its releases published and the channel refreshed; read the released version numbers from plan 15's Outcomes & Retrospective.
+**The effectful 2.7 target and plan 15.** `effectful` is the effect-system library every application uses (split into `effectful-core`, the core, and `effectful`, which adds the standard effects). Every application selects 2.6.x today. The user decided on 2026-09-26 that the whole family moves to `effectful` 2.7.1.0 or later and `effectful-core` 2.7.1.1 or later, with no `allow-newer` anywhere to get there. Some Hackage libraries already admit it: `kiroku-store` 0.9.0.1, `shibuya-core` 0.10 and the shibuya adapters, `pgmq-effectful` 0.6.1.1, and `baikai-effectful` 0.4.0.2 (which requires `effectful-core` 2.7). The first-party libraries that capped it below 2.7 (keiro, keiro-ops, keiro-pgmq, keiro-test-support 0.19.0.0; kioku-core 0.8.0.0; the shikumi 0.4 family's shikumi, shikumi-trace and shikumi-cache) are re-released by plan 15, `docs/plans/15-release-the-first-party-libraries-on-effectful-2-7.md`, which also refreshes `packages/first-party-lock.json` so the channel's `default` set selects the new versions. The `effectful-core` floor is 2.7.1.1 because `kiroku-store` and `shibuya` exclude 2.7.0.0 to 2.7.1.0 for a performance regression. This plan cannot start until plan 15's Progress shows its releases published and the channel refreshed; read the released version numbers from plan 15's Outcomes & Retrospective.
 
 **Sources that changed status on 2026-09-26.** `https://github.com/topagentnetwork/typeid-hs` is now public, so plan 10 carries `typeid-hs-sql` and `typeid-hs-pg-migrate` in the channel; Cabal still needs the `source-repository-package` at `7164a74c` because the packages are not on Hackage. mori's `hasql-effectful` (from the private `tan-effectful` repository) is being vendored into `mori-core` by plan 12, so it leaves the cohort.
 
@@ -273,7 +307,7 @@ Acceptance: `just cohort-inventory` writes `cabal/inventory/{rei,mori,mori-rei-a
 
 At the end of this milestone `cabal/cohort.freeze` exists and was produced by Cabal from a project that enforces every floor.
 
-First write `cabal/policy-floors.json` by hand. It is a JSON array of `{ "package", "floor", "reason" }` objects holding floors the user set as policy rather than floors observed in an inventory. Today it has two entries, `effectful` and `effectful-core`, both `2.7.1.1`, each with the reason "user decision 2026-09-26: effectful 2.7 everywhere; 2.7.0.0 to 2.7.1.0 excluded by kiroku-store and shibuya for a performance regression". Only the user may add or lower an entry.
+First write `cabal/policy-floors.json` by hand. It is a JSON array of `{ "package", "floor", "reason" }` objects holding floors the user set as policy rather than floors observed in an inventory. Today it has two entries, `effectful` with floor `2.7.1.0` and `effectful-core` with floor `2.7.1.1`, each with the reason "user decision 2026-09-26: effectful 2.7 everywhere; 2.7.0.0 to 2.7.1.0 excluded by kiroku-store and shibuya for a performance regression". Only the user may add or lower an entry.
 
 Add `src/HaskellNix/Update/Cohort/Stub.hs` and the subcommand `cohort stub --inventory cabal/inventory --lock packages/first-party-lock.json --policy-floors cabal/policy-floors.json --out-dir cabal`. It:
 
@@ -297,7 +331,7 @@ Resolve floor conflicts. Run `cabal build all --dry-run --project-file=cohort.pr
 
 - If the capping bound belongs to a contributor, `stubBounds` has already dropped it, so this cannot fail the solve. It appears in the report as a cap for plans 11 to 13.
 - If a Hackage library caps the floor, walk ADR-16's order. First check Hackage for a newer release of the capping library whose bound admits the floor, and if one exists, stop there: its floor moves up with it. Otherwise add a package-qualified `allow-newer` to `cabal/common.config` with ADR-16's four statements, and produce the evidence by compiling the capped library inside the cohort project: `cabal build <capped-package> --project-file=cohort.project` from `cabal/`. This builds only that package and its dependencies into `cabal/dist-newstyle`, which is git-ignored. If it does not compile, remove the entry, stop, and ask the user, recording the question in Outcomes & Retrospective.
-- The exception is `effectful` and `effectful-core`: the user ruled out any `allow-newer` for them. If a conflict names a library that caps either below 2.7.1.1 (for example `rejecting: effectful-core-2.7.1.1 (conflict: keiro => effectful-core>=2.6 && <2.7)`), the solve is seeing a pre-plan-15 release. First confirm the index-state is after plan 15's uploads and the stub's first-party floors name plan 15's versions. If the capping library is first-party and plan 15 did not release it, stop and hand it to plan 15 (record it in plan 15's Surprises and in this plan's Outcomes). If it is third-party with no admitting release, stop and ask the user. The formerly known case, `baikai-effectful` 0.4.0.2 requiring `effectful-core` 2.7, disappears once plan 15's releases are selected, and no entry is needed for it.
+- The exception is `effectful` and `effectful-core`: the user ruled out any `allow-newer` for them. If a conflict names a library that caps `effectful` below 2.7.1.0 or `effectful-core` below 2.7.1.1 (for example `rejecting: effectful-core-2.7.1.1 (conflict: keiro => effectful-core>=2.6 && <2.7)`), the solve is seeing a pre-plan-15 release. First confirm the index-state is after plan 15's uploads and the stub's first-party floors name plan 15's versions. If the capping library is first-party and plan 15 did not release it, stop and hand it to plan 15 (record it in plan 15's Surprises and in this plan's Outcomes). If it is third-party with no admitting release, stop and ask the user. The formerly known case, `baikai-effectful` 0.4.0.2 requiring `effectful-core` 2.7, disappears once plan 15's releases are selected, and no entry is needed for it.
 
 Add the recipe `cohort-resolve`. It runs `{{cli}} cohort stub ...`. Then, from `cabal/`, it deletes any leftover `cohort.project.freeze` and runs `cabal freeze --project-file=cohort.project`. It then runs `{{cli}} cohort normalise-freeze --in cohort.project.freeze --out cohort.freeze --index-state <T> --haskell-nix-rev "$(git rev-parse HEAD)"` and deletes `cohort.project.freeze`. `normalise-freeze` writes the `index-state: hackage.haskell.org <T>` line, keeps only `any.<pkg> ==<ver>` constraints and drops the source-pinned packages that `common.config` declares. It sorts them and writes the header comment described in the Decision Log.
 
@@ -309,7 +343,7 @@ At the end of this milestone the report exists, is committed, and shows zero dow
 
 Add `src/HaskellNix/Update/Cohort/Report.hs` and the subcommand `cohort report --freeze cabal/cohort.freeze --inventory cabal/inventory --lock packages/first-party-lock.json --contributors cabal/contributors.json --policy-floors cabal/policy-floors.json [--out cabal/cohort-report.txt]`. It reads the freeze and the inventories, recomputes floors with the same `floorVersions`, and produces a `Report`:
 
-- **Downgrades** (failures): every frozen package whose version is below its floor, naming each source that is higher (for example `hasql 1.10.2.4 < floor 1.10.3.7 from rei (cabal), mori (cabal)`). Policy floors count here, so a frozen `effectful` or `effectful-core` below 2.7.1.1 is reported as, for example, `effectful-core 2.6.1.0 < floor 2.7.1.1 from policy (effectful 2.7 everywhere)`. A floored package that is missing from the freeze is also a failure, unless no contributor's plan still contains it and it has no policy floor.
+- **Downgrades** (failures): every frozen package whose version is below its floor, naming each source that is higher (for example `hasql 1.10.2.4 < floor 1.10.3.7 from rei (cabal), mori (cabal)`). Policy floors count here, so a frozen `effectful` below 2.7.1.0 or `effectful-core` below 2.7.1.1 is reported as, for example, `effectful-core 2.6.1.0 < floor 2.7.1.1 from policy (effectful 2.7 everywhere)`. A floored package that is missing from the freeze is also a failure, unless no contributor's plan still contains it and it has no policy floor.
 - **Targets**: one line per policy floor with the frozen version, for example `effectful 2.7.1.0 (target >=2.7.1.0: user decision 2026-09-26)`, so the effectful 2.7 target is visible even when it passes.
 - **First-party agreement**: for each package in the `default` set's snapshots, compare the snapshot's `hackage.version` and GitHub `version` with the freeze. If the snapshot is higher than the freeze, that is a downgrade. If the freeze is higher, report it as "first-party lag", which plan 9 must refresh. If the package is not frozen, report it as "not used by the Rei family".
 - **Caps**: every `DeclaredBound` whose range excludes the frozen version, as `<package> <frozen>: <mori uri> <file> [<component>] <range>`. For example: Rei's `brick ^>=2.6` and `vty ^>=6.2`; the `effectful ^>=2.6` and `effectful-core ^>=2.6` bounds in `mori://shinzui/mori-app` `mori-app/mori-app.cabal` and `mori://shinzui/mori-rei-app` `mori-rei-app.cabal`; any `keiro ^>=0.19` or `kioku-core ^>=0.8` bound that plan 15's release numbers fall outside; mina's `baikai ^>=0.6.0.0`, `shikumi ^>=0.3.0.2` and the rest of its baikai/shikumi family; mori's `random < 1.3`, if `random` moves; any `hasql ^>=1.9 || ^>=1.10` or `servant ^>=0.20` that no longer admits the frozen version. Bounds on an `excludedDependencies` package are not caps; they are listed once under "Excluded".
@@ -319,7 +353,7 @@ Add `src/HaskellNix/Update/Cohort/Report.hs` and the subcommand `cohort report -
 - **Excluded**: each contributor's `excludedDependencies` with its reason (mori's `hasql-effectful`, "vendored into mori-core by plan 12").
 - **Boot packages**: listed once, with the versions GHC 9.12.4 provides.
 
-`renderReport` writes deterministic, sorted plain text ending in a summary line such as `packages: 489  downgrades: 0  caps: 14  first-party lag: 2  source pins: 9`. The command exits with status 1 when downgrades are non-zero, and 0 otherwise. Unit tests in `test/CohortTest.hs` (added to `other-modules` of the test suite in `haskell-nix-update.cabal`) cover: a floor taken from each of the three sources; a policy floor (`effectful-core` 2.7.1.1) raising a floor and failing the report when the freeze has 2.6.1.0; an excluded dependency (`hasql-effectful`) kept out of the stub and the caps; a Git-only source pin not raising a floor; a cap detected and a range that admits the floor kept; a downgrade failing; a first-party snapshot above the freeze failing; freeze normalisation dropping flags, `active-repositories` and `index-state` lines; and `plan.json` parsing of all four source types. Small JSON and freeze fixtures go under `test/fixtures/cohort/` and are added to `data-files`.
+`renderReport` writes deterministic, sorted plain text ending in a summary line such as `packages: 489  downgrades: 0  caps: 14  first-party lag: 2  source pins: 9`. The command exits with status 1 when downgrades are non-zero, and 0 otherwise. Unit tests in `test/CohortTest.hs` (added to `other-modules` of the test suite in `haskell-nix-update.cabal`) cover: a floor taken from each of the three sources; a policy floor (`effectful-core` 2.7.1.1) raising a floor and failing the report when the freeze has 2.6.1.0; an excluded dependency (`hasql-effectful`) kept out of the stub and the caps; a Git-only source pin not raising a floor; a cap detected and a range that admits the floor kept; a downgrade failing; a first-party snapshot above the freeze failing; freeze normalisation dropping flags and `active-repositories`, while retaining one selected `index-state` line; and `plan.json` parsing of all four source types. Small JSON and freeze fixtures go under `test/fixtures/cohort/` and are added to `data-files`.
 
 Add the recipe `cohort-report`, which runs the subcommand with `--out cabal/cohort-report.txt` and then prints the file. Commit the report with the freeze.
 
@@ -335,7 +369,7 @@ Write `docs/adr/2-resolve-the-rei-family-cohort-upgrade-only.md` in ADR 1's form
 
 - the decision (one freeze solved by Cabal for the whole family, floors from both build systems and the deployed closures, the floor beats any cap, caps are lifted by the owning application);
 - the rejected alternatives (freezing from Nix, which moves Cabal down; an unbounded stub, which jumps majors; a solver inside this repository, already rejected by ADR 1);
-- policy floors (`cabal/policy-floors.json`, set only by the user; today `effectful`/`effectful-core` >=2.7.1.1 with no `allow-newer` bridge, met by plan 15's releases);
+- policy floors (`cabal/policy-floors.json`, set only by the user; today `effectful` >=2.7.1.0 / `effectful-core` >=2.7.1.1 with no `allow-newer` bridge, met by plan 15's releases);
 - the exception procedure (ADR-16 order, no `allow-newer` on a policy-floored package, and user consent to lower any floor);
 - the validation (`just cohort-report` and `just cohort-check`).
 
@@ -472,6 +506,10 @@ EOF
 
 ## Validation and Acceptance
 
+The inventory and resolved cohort must include the required Keiki packages, including the JSON codec used by Keiro, with their reverse dependency paths. Their Nix first-party snapshot versions must agree with the freeze under the same existing parity contract as the other runtime libraries.
+
+The review requirements above are additional completion gates, including the assigned update-isolation, manifest and cache evidence. Historical runtime-closure/version tables are diagnostic evidence only; they cannot replace those gates.
+
 The plan is complete when all of the following hold on a clean checkout.
 
 1. `just cohort-report` exits 0. Its output has a `DOWNGRADES` section reading `(none)` and ends with a summary line containing `downgrades: 0`. The committed `cabal/cohort-report.txt` is identical to the output (`git diff --exit-code cabal/cohort-report.txt`).
@@ -509,7 +547,7 @@ The plan is complete when all of the following hold on a clean checkout.
    grep -vE '^[[:space:]]*--' cabal/common.config | grep -nE 'effectful|streamly'; echo "matches=$?"
    ```
 
-   The first command shows `effectful ==2.7.x` and `effectful-core ==2.7.x` at 2.7.1.1 or later, `baikai-effectful ==0.4.0.2` and the plan 15 versions. The second ignores comment lines (which may explain the retirements), prints nothing and ends with `matches=1`. The report's "Targets" section lists `effectful` and `effectful-core` as met.
+   The first command shows `effectful ==2.7.x` at 2.7.1.0 or later and `effectful-core ==2.7.x` at 2.7.1.1 or later, `baikai-effectful ==0.4.0.2` and the plan 15 versions. The second ignores comment lines (which may explain the retirements), prints nothing and ends with `matches=1`. The report's "Targets" section lists `effectful` and `effectful-core` as met.
 
 7. `cabal test haskell-nix-update-test` passes, including the new cohort tests. `just flake-check` passes, which also builds `checks.<system>.haskell-nix-update` and runs the same tests through Nix. `just fmt-check` passes.
 
@@ -656,7 +694,11 @@ Plan 15 (`docs/plans/15-release-the-first-party-libraries-on-effectful-2-7.md`) 
 
 ## Revision Notes
 
+- 2026-10-04 (discussion): Made the user's confirmed Keiki requirement explicit in inventory, dependency reporting and cohort acceptance; creation of a named runtime set remains proposed.
+
 - 2026-09-26 (MasterPlan reconciliation after parallel drafting): The freeze now keeps an `index-state: hackage.haskell.org <T>` line (with version constraints only and no flags), and every consumer takes its index-state from it. Plan 13 proved that an imported index-state is honoured, and plans 9, 11 and 12 read it from there.
 - 2026-09-26 (user decisions): Applied five user decisions. (1) effectful 2.7 everywhere with no `allow-newer` bridge: removed the `baikai-effectful` `allow-newer` default, its build proof and its open question; added `cabal/policy-floors.json` with `effectful`/`effectful-core` >=2.7.1.1 (the floor `kiroku-store` 0.9.0.1 and `shibuya` use), a "Targets" report section and a `PolicyFloor` floor source; made plan 15 (first-party releases on effectful 2.7) a hard dependency with a precondition check. (2) mina's Git `streamly` pin is dropped in favour of Hackage (a user decision, no longer an open question), so `baikai-trace-otel:streamly-core` is not carried. (3) `typeid-hs` is public: the Cabal `source-repository-package` stays, while plan 10 moves the Nix side into the channel. (4) `hasql-effectful` leaves the cohort because plan 12 vendors it into mori-core: its two `allow-newer` entries and the `tan-effectful` pin are no longer carried, and a new `excludedDependencies` contributor field keeps it out of the stub. (5) Plan 14's guard only warns on channel-revision mismatches, which this plan did not depend on. Also corrected the stale Interfaces sentence that said the freeze carries no `index-state:` line. Reason: the user resolved this plan's open questions and removed exceptions the draft assumed.
 
 - 2026-09-26 (MasterPlan coordination): Corrected the effectful floor. `effectful` has no 2.7.1.1 release (its newest is 2.7.1.0), so the floors are `effectful` 2.7.1.0 and `effectful-core` 2.7.1.1. Only `effectful-core` 2.7.0.0 to 2.7.1.0 are excluded by kiroku and shibuya for the performance regression. Plan 15's research found this.
+
+- 2026-10-04: MasterPlan review for reducing change time: clarified shared ownership and acceptance, added the applicable targeted-update/build-identity/cache contracts, and corrected historical assumptions. No implementation completion is claimed.

@@ -16,6 +16,22 @@ provenance:
       at: 2026-09-26T22:41:44Z
       mode: "update"
       note: "Reconcile cross-plan contracts after parallel drafting: freeze index-state, cohort-compare interface, ADR numbering, cabal-version correction"
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-04T13:51:42Z
+      mode: "update"
+      note: "Apply dependency-alignment review: routine update isolation, shared build evidence and applicable cache/ownership corrections; implementation pending."
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-04T14:06:33Z
+      mode: "discuss"
+      note: "Record the user-confirmed essential Keiki membership in the proposed Keiro runtime baseline and cohort inventory/acceptance."
+  reviews:
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-04T13:51:42Z
+      verdict: "changes-requested"
+      note: "Original review found version-only completion lacked update-isolation/cache proof and shared guard ownership; applied findings in update."
 ---
 
 # Align one Cabal-and-Nix package set across the Rei family of applications
@@ -29,7 +45,7 @@ If durable project context changes, update or create ADRs in docs/adr/ in the sa
 
 Five Haskell applications make up the Rei family, each identified here by its Mori project:
 
-- `mori://shinzui/rei` (the time-management system, with `rei-core`, `rei-cli` and `rei-api`)
+- `mori://shinzui/rei` (the time-management system, with `rei-core`, `rei-api-contract`, `rei-api-client`, `rei-cli` and `rei-api`; re-inventory owned packages at implementation time)
 - `mori://shinzui/mori` (the project registry)
 - `mori://shinzui/mori-rei-app` (the webhook daemon linking the two)
 - `mori://shinzui/reiko` (a web companion that talks to Rei only through its CLI)
@@ -40,7 +56,7 @@ They are deployed together from `mori://shinzui/dotfiles.nix`, and each builds i
 - **Cabal:** a `cabal.project` `index-state` plus the bounds in each `*.cabal` file, solved against Hackage.
 - **Nix:** this repository's channel, which layers first-party family snapshots and a patch registry over nixpkgs' `haskell.packages.ghc9124`.
 
-Today the two builds disagree, and nothing notices. On 2026-09-26 Rei's deployed Nix closure (`rei-cli` store path `p1c3d7z5…`, built from Rei `880093cc` on this repository's `4cabd105`) differed from Rei's own Cabal plan in 73 of the 353 packages the two share.
+The original baseline showed unguarded disagreement. On 2026-09-26 Rei's deployed Nix closure (`rei-cli` store path `p1c3d7z5…`, built from Rei `880093cc` on this repository's `4cabd105`) differed from Rei's own Cabal plan in 73 of the 353 packages the two share.
 
 - **First-party:**
   - `shibuya-pgmq-adapter`: Nix 0.16.0.0, jailbroken onto `shibuya-core` 0.10, against Cabal 0.16.1.0.
@@ -54,9 +70,9 @@ Today the two builds disagree, and nothing notices. On 2026-09-26 Rei's deployed
   - the crypton family: crypton 1.1.2 vs 1.1.5
 - **A few Nix newer:** `brick` 2.9 vs 2.6, `vty` 6.4 vs 6.2.
 
-So Rei's test suite, which runs under Cabal, has never exercised the binary that ships.
+Version alignment removes this particular difference between the tested and shipped dependency graphs. It does not by itself prove identical flags, sources, or runtime behavior; the consumer plans retain tests and exact-binary release rehearsals.
 
-The five applications also disagree with each other:
+The original 2026-09-26 inventory also found these differences; refresh it from recorded contributor revisions before solving:
 - **Channel revision:** rei, mori and mori-rei-app are on channel `4cabd105`; reiko and mina on `b88d3173`. The deployed mori in dotfiles is locked at `018d1e32`.
 - **Local overlays:** each repository's `nix/haskell-overlay.nix` overrides shared packages differently, so identical channel pins still yield different derivations. mori-rei-app replaces `wai-app-static` with 3.2.1 and jailbreaks `servant-server`, which changed the hash of everything above them up to `rei-core`.
 - **Versions:** mina is a whole cohort behind (baikai 0.6, shikumi 0.3, no `index-state`), and reiko's `index-state` is 2026-06-01.
@@ -64,7 +80,7 @@ The five applications also disagree with each other:
 After this initiative:
 
 - One shared package set, owned by this repository, holds a single version of every Haskell package the five applications use. It is recorded as one Cabal freeze file whose versions are resolved upward and never downward. All five `cabal.project` files import that freeze.
-- This repository's Nix set is generated from the same freeze. Evaluating any frozen package's `.version` in the channel returns the frozen version. A pure-evaluation `nix flake check` fails when it would not, and a per-application check fails when a Cabal plan leaves the freeze.
+- This repository's Nix set is generated from the same freeze. Evaluating any frozen package's `.version` in the channel returns the frozen version. A `nix flake check` version guard fails when it would not, and a per-application check fails when a Cabal plan leaves the freeze.
 - Shared overrides live in the channel, not in consumer overlays. Consumer overlays define only their own packages. mori-rei-app consumes `rei-core` from Rei's flake instead of rebuilding it, and dotfiles makes every application follow one channel revision.
 - The channel keeps parsing current Cabal files without per-package `cabal-version` patches. On the pinned nixpkgs, the path the channel actually uses (`callCabal2nix`/`callHackageDirect`) already accepts `cabal-version` up to 3.16. A check fails the day that stops being true.
 
@@ -95,16 +111,20 @@ Two terms used throughout:
   4. start only 0.9 builds.
 
 
+The cohort covers direct and transitive third-party dependencies as well as selected first-party libraries, including the library contributor `mori://shinzui/mori-app`. Package names used by several applications receive one version; an application need not add dependencies it does not use. Re-inventory every owned package and every supported component/flag configuration: Rei now has five local packages, and historical deletion counts are not an exhaustive current inventory.
+
+The proposed reusable Keiro runtime baseline must include `mori://shinzui/keiki`, which the user confirmed is essential on 2026-10-04. Its proposed membership also includes `mori://shinzui/keiro`, `mori://shinzui/kiroku`, `mori://shinzui/shibuya`, `mori://shinzui/pgmq-hs`, `mori://shinzui/settei`, `mori://shinzui/pg-migrate` and the maintained fork `mori://shinzui/hw-kafka-client`. Plan 8 must explicitly inventory Keiki's dependency edges and include its required packages in the solved cohort. This clarification establishes required membership; a named runtime set, catalog expansion and partial-selection interface remain proposals, not implemented outputs of this revision.
+
 ## Decomposition Strategy
 
-The work falls into three waves.
+The work falls into four phases.
 
 - **Phase 0 (upstream releases):** plan 15 releases the first-party libraries that still cap `effectful` below 2.7, so the cohort can take effectful 2.7 everywhere.
 - **Phase 1 (this repository only):** build the shared set and prove it here.
 - **Phase 2 (one plan per consumer):** adopt the set in each consumer.
 - **Phase 3 (dotfiles):** deploy it and keep it true.
 
-Each child plan leaves an independently observable result: a freeze file and its upgrade-only report; a channel whose `.version` values equal the freeze; a consumer overlay with no shared overrides; an application whose Cabal plan equals the freeze and whose Nix closure contains the frozen versions; a dotfiles lock with one channel revision.
+Each child plan leaves an independently observable result: a freeze file and its upgrade-only report; a channel whose `.version` values equal the freeze; a consumer overlay with no shared overrides; an application whose fresh Cabal plan equals the freeze and whose structured Nix build manifest proves the versions used by its actual executable; a dotfiles lock with one channel revision.
 
 Phase 1 is split in three because the concerns are separable.
 - **Resolving the cohort** (plan 8) is a Cabal solving problem.
@@ -113,7 +133,7 @@ Phase 1 is split in three because the concerns are separable.
 
 Phase 2 is split by consumer, because each has a different risk.
 - **Plan 11, rei and mori-rei-app:** they share a Kiroku database and a `rei-core` dependency. mori-rei-app must stop rebuilding `rei-core`, so the two move together.
-- **Plan 12, mori:** it owns a second Kiroku database whose `0012` cutover is still pending.
+- **Plan 12, mori:** it owns a second Kiroku database. Its `0012` cutover is complete; adoption is a binary swap with an exact-binary rehearsal.
 - **Plan 13, mina and reiko:** neither links Kiroku, but mina is a full cohort behind and must be upgraded in source.
 
 Phase 3 (plan 14) comes last because it is the only place all five meet: the dotfiles lock, the update recipes, and the deploy-time closure check.
@@ -168,7 +188,7 @@ Plan 15 releases versions that admit effectful 2.7 (floors: `effectful` 2.7.1.0,
 
 **Plans 11, 12 and 13 each hard-depend on plans 9 and 10.** A consumer can import the freeze and delete its shared overrides only once the channel both matches the freeze and carries those overrides. The three are independent of each other and can proceed in parallel.
 - Plan 12 soft-depends on plan 11: the mori-rei-app work in plan 11 decides how an application exports its Haskell extension for others to consume, and mori's `mori-types` consumers should reuse that shape.
-- Plan 12 also depends on the pending mori Keiro 0.19 database cutover (mori `f3c5fa4b`), which is either completed first or folded into plan 12's deploy.
+- The mori database cutover is already complete, and is not an additional prerequisite. Plan 12 verifies the current migration state read-only before its ordinary deploy.
 
 **Plan 14 hard-depends on plans 11, 12 and 13.** It moves the deployed dotfiles lock to one channel revision and turns on the deploy-time closure check. Doing that before every application is on the freeze would either fail the check or force a mixed deploy.
 
@@ -176,7 +196,7 @@ Plan 15 releases versions that admit effectful 2.7 (floors: `effectful` 2.7.1.0,
 ## Integration Points
 
 **The cohort freeze file.**
-- Defined by plan 8 at `cabal/cohort.freeze` in this repository. It holds one `index-state: hackage.haskell.org <T>` line, then one `any.<pkg> ==<version>` constraint per package, under a comment header naming the compiler, this repository's revision and the regeneration command. It carries no flag assignments: flags such as `dhall -use-http-client-tls` and the `blake3` SIMD flags stay each application's own policy. Packages that exist only as source pins (the private `typeid-hs` packages) are not in it.
+- Defined by plan 8 at `cabal/cohort.freeze` in this repository. It holds one `index-state: hackage.haskell.org <T>` line, then one `any.<pkg> ==<version>` constraint per package, under a deterministic comment header naming the compiler and regeneration command; contributor revisions and update intent belong in the inventory/report, rather than a moving HEAD or timestamp in build inputs. It carries no flag assignments: flags such as `dhall -use-http-client-tls` and the `blake3` SIMD flags stay each application's own policy. Packages that exist only as source pins (the public, non-Hackage `typeid-hs` packages) are not in it.
 - Every consumer deletes its own `index-state` and takes it from the freeze. Plan 13 proved in a scratch copy that cabal-install 3.16.1.0 honours an imported `index-state`.
 - Plan 9 reads it to generate Nix.
 - Plans 11, 12 and 13 import it from each application's `cabal.project`, pinned to the exact revision of this repository that the application's `flake.lock` pins. For example `import: https://raw.githubusercontent.com/shinzui/haskell-nix/<rev>/cabal/cohort.freeze`; cabal-install 3.16.1.0, which all five use, fetches remote imports. Never import `master`: a remote import has no content hash, so an unpinned one can change under a build.
@@ -203,27 +223,49 @@ Plan 15 releases versions that admit effectful 2.7 (floors: `effectful` 2.7.1.0,
 **The parity guards.**
 - Plan 9 defines the channel-side check: a `nix flake check` that asserts every frozen package's `.version`.
 - Plans 11 to 13 add a per-application check that compares `dist-newstyle/cache/plan.json` against the freeze.
-- Plan 14 adds the deploy-time check: compare each deployed closure's `nix-store -qR` versions to the freeze, and compare shared `drvPath`s across applications.
-- All three use one tool, owned by plan 9: `scripts/cohort-compare.sh`, exposed as the flake app `cohort-compare`. Invoke it as `nix run github:shinzui/haskell-nix/<R>#cohort-compare -- --freeze <file-or-url> (--plan-json <file> | --closure <store-path> | --closure-list <file>) [--ignore NAME]... [--all]`. It prints `mismatch` and `unfrozen` lines and exits 0, 1 or 2 (usage error). Plan 14's shared-`drvPath` comparison is added to the same tool as a new mode, not as a second script.
+- Plan 14 checks the structured manifest for each actual built executable against its own pinned freeze, and compares shared dependency identities. Runtime output closures can omit statically linked Haskell libraries and cannot establish Haskell version parity.
+- Consumer apps alias their pinned channel's comparison app for lock resolution. Plan 9 owns `scripts/cohort-compare.sh`, exposed as the flake app `cohort-compare`. Its acceptance interface is `--freeze <file-or-url> (--plan-json <file> | --nix-manifest <file>) [--all]`, with `--compare-manifests <file> <file>` for identity comparison and `--resolve-channel-lock <file> --input-path <slash-separated-path>` for lock resolution. Comparison exits 0 on success, 1 on a mismatch/unfrozen/missing expected package or unverifiable evidence, and 2 on invalid usage. Legacy `--closure` and `--closure-list` modes may remain diagnostic only.
+- The lock resolver starts at the lock's declared root, resolves string node references and recursive array `follows` paths, detects cycles/missing nodes, and returns the full locked channel revision. Consumers use it to verify that the Cabal import names exactly their own pinned channel; dotfiles additionally resolves the effective channel. No consumer duplicates this algorithm.
+- Each consumer exports `packages.<system>.cohort-manifest`: a JSON artifact with schema version, system, compiler/toolchain/channel identities, actual executable root drv/output, and Haskell package records (name, version, package/component role, drv/output paths, source identity, Cabal metadata revision, flags and relevant build policy). Plan 9 owns the schema, construction helper and comparison fixtures. Construct it from the executable's actual composed Haskell scope and verify dependency edges against the root derivation graph using Nix metadata APIs; an unrelated channel lookup is insufficient. Do not infer packages by store basenames or traverse store files. Reject wrong versions even when another instance of the same name is correct; distinguish compiler packages and native build tools by role.
+- Record non-Hackage source pins in `cabal/cohort-sources.json`, including exact revision, package subdirectory and any intentional Cabal/Nix source or flag difference with its reason and owner. Own local packages are declared separately. These declarations replace ad hoc `--ignore` acceptance shortcuts; exceptions do not silently exempt source identity from checking.
+- Refresh Cabal plans with tests and benchmarks enabled for the supported configurations before comparison; report applicable flag differences. The freeze aligns versions, while manifests and exact-binary rehearsals establish the stronger build and release claims.
 
 **Rei's exported Haskell extension.** Plan 11 defines how Rei's flake exports an extension that adds `rei-core`, so mori-rei-app composes it instead of calling `callCabal2nix` on `rei-src`. Plan 12 reuses the same shape if mori exports `mori-types`.
 
 **The dotfiles channel input.** Plan 14 adds a root `haskell-nix` input to `mori://shinzui/dotfiles.nix` that the family applications follow by default, the way they already follow `haskell-nix-dev`. A single application can still be deployed off-channel for a hotfix.
 - The guard is advisory about fleet-wide uniformity (user decision, 2026-09-26: the strict guard was too restrictive). Differing channel revisions across applications, and differing shared-library `drvPath`s, only warn.
-- It fails only when an application's deployed closure differs from the freeze that application's own pinned channel revision publishes.
+- It fails when an application's proven build manifest differs from its own pinned freeze, or the evidence is missing/unverifiable. Fleet-wide revision and identity differences remain warnings; the alignment acceptance experiment requires equality where shared build inputs are intended to match.
 - `haskell-nix-dev` stays as today (not pinned by revision in dotfiles).
 
 - Plan 14 also replaces `_update-with-base`, which moves `haskell-nix-dev` on every application update, with recipes that move one application at a time.
+
+**Routine changes and measured time savings.**
+
+The goal is less repeated coordination and dependency compilation. Equal versions are a necessary baseline, not the completion test. Follow [ADR 5](../adr/5-keep-routine-application-changes-independent-of-cohort-and-toolchain-updates.md) and the existing [cache research](../research/ci-cache-reuse-and-buck2-after-mp3.md).
+
+- An application-only update changes that application's source pin. It retains the cohort, nixpkgs, compiler and toolchain locks. Shared dependencies with unchanged transitive inputs must retain their drv/output identities; unaffected application wrappers must also remain unchanged. Source filters include required licenses, generated inputs, vendor files and data, while excluding unrelated documentation and sibling source trees. Application revision stamps belong only in outputs that need them.
+- A dependency update starts from the previous freeze and explicitly requested packages. Plan 8 adds `just cohort-update +PACKAGES`: solve with unrelated versions held fixed, report any necessary transitive unlocks before widening, and emit a deterministic impact report listing version/source/policy changes, reverse dependency paths and affected application components, including tests/benchmarks. The selected first-party snapshots, source manifest, freeze, generated layer and consumer selectors are updated coherently. A solver failure reports the conflict rather than silently refreshing everything. Deliberate broad cohort refresh remains a separate operation.
+- A compiler/nixpkgs/toolchain update is explicit and carries a wider rebuild estimate. Neither application nor dependency update recipes advance it implicitly. Existing off-channel hotfixes remain available.
+- Plan 9 builds and publishes the shared dependency outputs to the existing trusted binary cache, and checks its configured CI access before consumer rollout. Local successful builds are insufficient cache evidence.
+- Plan 8 preserves the recorded pre-adoption inputs for the baseline experiments; plan 14 records before/after measurements on aarch64-darwin and x86_64-linux with a declared default package set, channel and compiler. Measure a repeated build, a documentation-only edit, an application leaf edit, a shared-library interface edit, a targeted dependency update and a deliberate base update. Separate evaluation, downloads, dependency compilation, application compilation/linking, and tests. Run a fresh CI worker without local dependency outputs and prove it substitutes the published shared outputs; record paths compiled unexpectedly. Use disposable checkouts and native/remote builders, without production activation.
+- Acceptance requires unchanged shared dependency identities and zero avoidable shared dependency compilations for application-only edits, reuse across applications with equal inputs, and a targeted update report that explains all changed identities. Record elapsed times and residual bottlenecks; do not invent an unmeasured speedup or mark this initiative complete on version checks alone. Nix still recompiles a changed Haskell package; Cabal module-level incremental builds remain a separate development workflow.
+
+**Shared implementation ownership.** Plan 8 owns the cohort model, freeze parser, inventory, update/report commands and aggregate `just cohort-check`. Plan 9 extends those modules for generation and owns `just cohort-generated-check`, manifests, lock resolution, parity and identity comparison. Plan 10 owns registry policy and overlay auditing. Plans 11–13 call those tools and export manifests; plan 14 orchestrates them without another parser. Plan 10's pre-adoption application builds are diagnostic: source incompatibilities belong to plans 11–13 and must not create a dependency cycle back into phase 1. All supported consumer builds pass before deployment.
 
 **Cross-plan decisions that deserve ADRs**, to be written by the plan that makes each final:
 - The upgrade-only rule and its report: plan 8, as `docs/adr/2-resolve-the-rei-family-cohort-upgrade-only.md`.
 - The freeze file is the single source of truth for versions, and the channel is generated from it: plan 9, as `docs/adr/3-generate-the-channels-package-versions-from-the-cohort-freeze.md`.
 - Consumer overlays may define only their own packages: plan 10, as `docs/adr/4-consumer-overlays-define-only-their-own-packages.md`. This extends `mori://shinzui/mori/okf/adrs/concepts/ADR-24`.
-- These numbers are allocated here so the three plans cannot collide whatever order they land in.
+- Numbers 2–4 remain reserved for those child decisions. This review adds ADR 5 for routine update isolation and cache evidence; plan 14 reserves ADR 6 for its deploy guard.
 - An application that depends on another application's library consumes that application's flake output (plan 11).
 
 
 ## Progress
+
+- [ ] EP-8: Targeted dependency updates preserve unrelated pins and report affected applications/components
+- [ ] EP-9: Structured manifests and recursive lock resolution reject false parity, including static-link and duplicate-version fixtures
+- [ ] EP-9: Shared dependency outputs are published and available to configured CI workers
+- [ ] EP-14: Recorded update-isolation and cache-reuse measurements meet the time-saving acceptance contract
 
 - [ ] EP-15: Release keiro, kioku-core and the shikumi family admitting effectful 2.7 (`effectful` 2.7.1.0+, `effectful-core` 2.7.1.1+), and refresh the channel
 - [ ] EP-8: Inventory every package version each of the five applications selects under Cabal and Nix today
@@ -231,7 +273,7 @@ Plan 15 releases versions that admit effectful 2.7 (floors: `effectful` 2.7.1.0,
 - [ ] EP-8: Report the application bounds that cap an upgrade
 - [ ] EP-9: Prove, and guard with a check, that the channel's `callCabal2nix` path parses `cabal-version` 3.14 and 3.16
 - [ ] EP-9: Generate the Nix version layer from the freeze and retire hand-written version pins (including `shibuya-pgmq-adapter` 0.16.0.0)
-- [ ] EP-9: Add the pure-evaluation parity check and pass it in `nix flake check`
+- [ ] EP-9: Add the channel version-parity check and pass it in `nix flake check`
 - [ ] EP-10: Inventory and move shared overrides from the five consumer overlays into the channel
 - [ ] EP-11: rei and mori-rei-app import the freeze, drop shared overrides, and mori-rei-app consumes Rei's `rei-core`
 - [ ] EP-11: Deploy rei and mori-rei-app on the shared set
@@ -244,6 +286,9 @@ Plan 15 releases versions that admit effectful 2.7 (floors: `effectful` 2.7.1.0,
 
 
 ## Surprises & Discoveries
+
+- Observation (review, 2026-10-04): matching versions does not establish build identity or binary-cache availability. Runtime closures can omit static Haskell dependencies; the original guard could pass incomplete evidence. The local cache research records these limits. This revision assigns manifest/cache proof to plans 9 and 14.
+- Observation (review, 2026-10-04): source inventories have moved since September. Rei has two additional local API packages, and consumers still have differing toolchain locks. Refresh recorded inputs before solving, rather than treating historical package counts as current.
 
 - Observation (corrected 2026-09-26): The pinned nixpkgs' path the channel actually uses accepts `cabal-version` up to 3.16.
   - Evidence: `haskell.packages.ghc9124.callCabal2nix` on a dependency-free package evaluates for 3.12, 3.14 and 3.16. Only 3.18 fails, with "Unsupported cabal format version".
@@ -273,6 +318,14 @@ Plan 15 releases versions that admit effectful 2.7 (floors: `effectful` 2.7.1.0,
 
 
 ## Decision Log
+
+- Decision (discussion, 2026-10-04): Keiki is a required member of the proposed Keiro runtime baseline and must be visible in the dependency inventory and resolved cohort.
+  Rationale: the user confirmed Keiki is essential, and Keiro's source declares dependencies on Keiki and its JSON codec. Runtime membership must cover these dependencies as well as the initially listed families.
+  Date: 2026-10-04
+
+- Decision (review update, 2026-10-04): establish routine update isolation, structured build evidence, and measured cache reuse as completion criteria, while keeping the advisory fleet guard and per-application hotfix policy. ADR 5 records the durable decision. Plans 8 and 9 own shared update and comparison interfaces; consumer plans reuse them. Historical runtime-closure parity and documentation-only rebuild assumptions below are superseded.
+  Rationale: alignment must remove unnecessary work during subsequent changes, not just make one initial version table agree.
+  Date: 2026-10-04
 
 - Decision: Host the initiative in `mori://shinzui/haskell-nix` rather than in any application.
   Rationale: The shared package set is this repository's product, and MasterPlans 1 and 2 already govern it here. Each consumer's work is described in a child plan here and carried out in that consumer's repository.
@@ -314,10 +367,12 @@ Plan 15 releases versions that admit effectful 2.7 (floors: `effectful` 2.7.1.0,
 
 ## Outcomes & Retrospective
 
-(To be filled during and after implementation.)
+Review outcome (2026-10-04): the decomposition remains eight children in four phases. The update adds observable contracts for direct/transitive dependency alignment, routine update isolation and remote cache reuse, and removes a potential phase-1/consumer build cycle. No software or deployment work was performed in this review; all implementation milestones and timing claims remain pending.
 
 
 ## Revision Notes
+
+- 2026-10-04 (discussion): Recorded the user's confirmation that Keiki is essential to the proposed Keiro runtime set; made its inclusion explicit in scope and plan 8's inventory/acceptance. Runtime-set implementation remains a proposal.
 
 - 2026-09-26: Reconciled after the seven child plans were drafted in parallel.
   - Corrected the `cabal-version` finding. The channel path parses up to 3.16; the "rejects 3.14" result came from the standalone binary. The `cabal2nix` rebuild was dropped.
@@ -333,3 +388,5 @@ Plan 15 releases versions that admit effectful 2.7 (floors: `effectful` 2.7.1.0,
   - The dotfiles guard now fails only on an application's own freeze mismatch and warns on fleet-wide differences.
   - Plans 8, 10, 11, 12, 13 and 14 were revised to match.
 - 2026-09-26: The mori session completed mori's Kiroku `0012` cutover. Verified read-only: ledger at `0012`, the index present, and `mori-automate` and mina-web's PATH `mori` both on `mori-cli` `35dr5zq5…` (kiroku-store 0.9.0.1). Plan 12's deploy is therefore Case A, a binary swap, and plan 13 no longer has to worry about a Kiroku 0.8 `mori` on mina-web's PATH.
+
+- 2026-10-04: Reviewed against reducing coordination and rebuild time. Added targeted updates, impact reporting, structured static-link-safe manifests, recursive lock resolution, cache publication and fresh-runner measurements; clarified direct/transitive and first-party alignment. Cascaded contracts to plans 8–15, corrected stale package/floor/database assumptions, and recorded ADR 5. Implementation remains Not Started.

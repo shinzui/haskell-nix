@@ -17,6 +17,17 @@ provenance:
       at: 2026-09-26T22:41:44Z
       mode: "update"
       note: "Reconcile cross-plan contracts after parallel drafting: freeze index-state, cohort-compare interface, ADR numbering, cabal-version correction"
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-04T13:51:42Z
+      mode: "update"
+      note: "Apply dependency-alignment review: routine update isolation, shared build evidence and applicable cache/ownership corrections; implementation pending."
+  reviews:
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-04T13:51:42Z
+      verdict: "changes-requested"
+      note: "Original review found closure fallback, assumed lock node and stale database cutover; applied findings in update."
 ---
 
 # Adopt the shared package set in mori
@@ -47,15 +58,35 @@ The deployed daemon, the `mori` CLI on `PATH`, and the `mori` that `mina web` an
 - After the user activates dotfiles, the `mori automate daemon` process's executable (seen with `lsof`) is that path.
 - The first scheduled ingest appends events whose `$all` rows carry a non-null `category`.
 
-**The database risk.** The deploy is the part that can hurt real data. Mori's global database (`host=/Users/shinzui/.local/state/postgresql dbname=mori`, about 526,800 events) was still at Kiroku migration `0011` when this plan was written.
+**The database risk.** The deploy is the part that can hurt real data. Mori's global database (`host=/Users/shinzui/.local/state/postgresql dbname=mori`)
+received Kiroku migration `0012` on 2026-09-26. The earlier `0011` observation is superseded.
 - Kiroku 0.9, which mori adopted at mori commit `f3c5fa4b`, needs migration `0012` before any 0.9 process appends.
 - After `0012`, any Kiroku 0.8 process fails every append.
-- So unless another session has already done it, this plan's deploy *is* the stop-writers cutover of that database.
+- This plan verifies that completed state and performs an ordinary binary swap. A different
+  older target would require Case B; do not repeat the global cutover.
 
 Milestone 6 establishes which case holds before anything is touched.
 
 
+## Review requirements (2026-10-04)
+
+Follow [ADR 5](../adr/5-keep-routine-application-changes-independent-of-cohort-and-toolchain-updates.md): ordinary application edits retain the cohort and toolchain pins. Matching versions alone is insufficient evidence of reused builds. Historical input revisions, package counts and deletion lists below are starting observations; refresh them from recorded contributor revisions.
+
+Plan 9 owns the shared `cohort-compare` app. Use `--freeze FILE_OR_URL --plan-json FILE` for a freshly generated Cabal plan and `--freeze FILE_OR_URL --nix-manifest FILE` for the executable's build evidence. Use `--compare-manifests FILE FILE` to compare build identities and `--resolve-channel-lock FILE --input-path PATH` to obtain a channel's full locked revision. The resolver starts at the lock's declared root and handles recursive array `follows`, string nodes, missing nodes and cycles. Check the Cabal import revision against the application's own resolved lock, rather than assuming a node named `haskell-nix` exists. Return 0 on success, 1 on drift or missing/unverifiable evidence, and 2 on usage error.
+
+Export `packages.<system>.cohort-manifest` through plan 9's construction helper. Its JSON schema records the system, compiler/toolchain/channel, actual executable root drv/output and Haskell packages with names, versions, component roles, source/metadata identities, flags/policy and drv/output paths. Generate records from the actual composed scope used to build the executable, then verify dependency edges against that root's derivation graph through Nix metadata APIs. Runtime closures may omit static Haskell libraries; basename parsing and unrelated channel evaluation cannot prove parity. All instances of a Haskell package must pass, including when one correct and one incorrect version coexist. Missing expected dependencies fail. Native build tools and compiler packages are distinguished by role.
+
+Refresh `plan.json` with tests and benchmarks enabled for supported configurations; check all non-local packages. Record own packages and non-Hackage source pins in the channel's declared policy and `cabal/cohort-sources.json` (exact source revision/subdirectory plus reasons and owners for intentional Cabal/Nix source or flag differences). Do not use arbitrary `--ignore` lists. Keep exact-binary release rehearsals: version parity alone does not establish flag/source or behavioral equivalence. Consumer checks are thin calls to shared tooling, with no fallback comparator.
+
+Stage the Cabal and Nix selector adoption together after both paths pass; intermediate source-only vendoring commits retain old selectors. Milestone 1 preparation may run independently, but full adoption still requires plans 9 and 10. Remove the bespoke jq/join fallback: the pinned channel must already provide plan 9's tool.
+
+Mori's global database already received Kiroku `0012` on 2026-09-26. Read-only state checks should establish Case A and the deploy is an ordinary binary swap. Case B describes a different older target only; it is not pending work for the known global database. Rollback to a previously proven schema-compatible 0.9 binary remains possible; never roll back to a 0.8 writer against `0012`. Continue restored-clone exact-binary rehearsal.
+
+Constrain package sources to their relevant directories plus required shared files. A documentation or Mori CLI-only edit must leave unrelated shared dependency/library identities unchanged. Record the intentional Dhall source/flag difference rather than treating equal version numbers as equal sources.
+
 ## Progress
+
+- [ ] Atomic adoption and source-boundary proof pass; completed database cutover is verified read-only
 
 - [ ] M0: Confirm preconditions: plans 9, 10 and 15 complete and plan 8's freeze selecting `effectful`/`effectful-core` 2.7.x at a haskell-nix revision `R`, mori working tree clean, and plan 11's extension convention read (or its absence recorded). Milestone 1 needs none of these and may run first.
 - [ ] M0: Capture the baseline: mori's current Cabal plan versions, the current overlay entry list, and the current deployed mori store path.
@@ -123,6 +154,8 @@ These were found while drafting on 2026-09-26. Re-verify each at execution time.
 
 ## Decision Log
 
+- Decision (2026-10-04 review update): adopt the Review requirements above and ADR 5's update-isolation/build-evidence contract. Historical closure-only acceptance, fixed package counts and duplicated comparison implementations are superseded where noted. Preserve the agreed advisory fleet guard and effectful migration policy. Implementation evidence remains pending.
+
 - Decision: Import the freeze by an HTTPS `import:` pinned to the exact revision `R` locked in mori's `flake.lock`, and add a check that the two revisions are equal.
   Rationale: The MasterPlan's integration contract. A remote import has no content hash, so only a commit-pinned URL is reproducible. Tying it to the flake lock keeps Cabal and Nix on one cohort (`mori://shinzui/rei/okf/adrs/concepts/ADR-18`).
   Date: 2026-09-26
@@ -183,7 +216,7 @@ These were found while drafting on 2026-09-26. Re-verify each at execution time.
 **Terms.**
 - **The shared package set** or **the channel**: the Haskell package overrides this repository publishes as `lib.haskellExtension`. A consumer composes it over `pkgs.haskell.packages.ghc9124` (GHC 9.12.4) in its `flake.module.nix`.
 - **The cohort freeze**: `cabal/cohort.freeze` in this repository, written by plan 8 (`docs/plans/8-resolve-one-upgrade-only-cohort-freeze-for-the-rei-family-of-applications.md`). It is a Cabal `constraints:` file with one `any.<pkg> ==<version>` line per package: the single, upgrade-only version of every package any of the five applications uses.
-- **The generated Nix version layer**: written by plan 9 (`docs/plans/9-generate-the-nix-package-set-from-the-cohort-freeze-and-guard-version-parity.md`). It makes the channel's `.version` of every frozen package equal the freeze. Plan 9 also owns the shared comparison tool: the flake app `cohort-compare` that plan 9 (`docs/plans/9-generate-the-nix-package-set-from-the-cohort-freeze-and-guard-version-parity.md`, Milestone 5) adds as `scripts/cohort-compare.sh`. Invoke it as `nix run "github:shinzui/haskell-nix/$R#cohort-compare" -- --freeze <file-or-https-url> (--plan-json <file> | --closure <store-path> | --closure-list <file>) [--ignore NAME]... [--all]`, where `$R` is the haskell-nix revision the application pins. It prints tab-separated `STATUS name freeze found` lines for `mismatch` (a frozen package at another version) and `unfrozen` (a package the freeze does not cover), then a summary, and exits 0 when there are none, 1 otherwise, 2 on a usage error. In `--closure` mode a frozen name passes if any store path of that name has the frozen version, so a C library sharing a Haskell package's name (C `zlib-1.3.1` beside Haskell `zlib-0.7.1.1`) is harmless.
+- **The generated Nix version layer**: written by plan 9 (`docs/plans/9-generate-the-nix-package-set-from-the-cohort-freeze-and-guard-version-parity.md`). It makes the channel's `.version` of every frozen package equal the freeze. Plan 9 also owns the shared comparison tool: the flake app `cohort-compare` that plan 9 (`docs/plans/9-generate-the-nix-package-set-from-the-cohort-freeze-and-guard-version-parity.md`, Milestone 5) adds as `scripts/cohort-compare.sh`. Invoke it as `nix run "github:shinzui/haskell-nix/$R#cohort-compare" -- --freeze <file-or-https-url> (--plan-json <file> | --nix-manifest <file>) [--all]`, where `$R` is the haskell-nix revision the application pins. It prints tab-separated `STATUS name freeze found` lines for `mismatch` (a frozen package at another version) and `unfrozen` (a package the freeze does not cover), then a summary, and exits 0 when there are none, 1 otherwise, 2 on a usage error. In `--closure` mode a frozen name passes if any store path of that name has the frozen version, so a C library sharing a Haskell package's name (C `zlib-1.3.1` beside Haskell `zlib-0.7.1.1`) is harmless.
 - **Plan 10** (`docs/plans/10-own-the-shared-third-party-overrides-in-the-channel-instead-of-consumer-overlays.md`) moves shared overrides that consumers kept locally into this repository's `overlays/registry.nix` and `patches/*`. Among them: `link-canonical`, `openapi-hs`, `servant-openapi-hs`, `servant-health`, the `relay-pagination` family, the `hs-opentelemetry` family, `kioku-core` library profiling, and, since `topagentnetwork/typeid-hs` became public, `typeid-hs-sql` and `typeid-hs-pg-migrate` built from `typeid-hs` `7164a74c`. It publishes a per-consumer deletion list. It does not carry `hasql-effectful`: mori vendors that code instead (Milestone 1).
 - **Plan 11** (`docs/plans/11-adopt-the-shared-package-set-in-rei-and-mori-rei-app.md`) defines how an application's flake exports a Haskell extension that other flakes compose.
 - **Plan 14** (`docs/plans/14-deploy-one-channel-revision-from-dotfiles-and-guard-closure-parity.md`) adds a deploy-time guard to dotfiles. By the user's decision of 2026-09-26 it reports channel-revision mismatches across applications as warnings, not failures. This plan therefore cannot count on dotfiles to stop a mori built on another channel revision; mori's own `just cohort-check` and the one-`mori-cli` closure check are the hard gates.
@@ -367,7 +400,9 @@ Acceptance:
 
 **Milestone 4: export mori's shared libraries.** If plan 11 defined an export shape, use it verbatim. Otherwise use this default, which mirrors how this repository exports its own extension (`lib.haskellExtension haskellLib pkgs`).
 
-- Create `nix/mori-haskell-extension.nix`. It returns `haskellLib: pkgs: final: prev: { mori-types = …; mori-schema-pin = …; }`, each built as `haskellLib.dontHaddock (haskellLib.dontCheck (final.callCabal2nix "<name>" ../<name> { }))`. The relative path literal copies only that package directory into the store, so the derivation changes only when that package changes.
+- Create `nix/mori-haskell-extension.nix`. It returns `haskellLib: pkgs: final: prev: { mori-types = …; mori-schema-pin = …; }`, each built as `haskellLib.dontHaddock (haskellLib.dontCheck (final.callCabal2nix "<name>" ../<name> { }))`. Verify the actual source boundary and retain required shared files. The derivation may
+  also change when compiler, flags, policy or transitive dependencies change; a path literal
+  alone does not prove isolation from unrelated repository edits.
 - In `flake.module.nix`, add a top-level `flake.lib.haskellExtension = import ./nix/mori-haskell-extension.nix;`.
 - Make `nix/haskell-overlay.nix` take these two packages from the same file (for example `inherit (import ./mori-haskell-extension.nix haskellLib pkgs final prev) mori-types mori-schema-pin;`), so they are defined once.
 
@@ -378,11 +413,15 @@ Acceptance: the evaluation prints `6.0.0.0` and `0.2.0.0`.
 **Milestone 5: the per-application parity check and the ADR.**
 
 1. Add a `cohort-check` recipe to mori's `justfile` (group `nix`) that does three things:
-   - Extracts the revision from the `import:` line of `cabal.project` and from `jq -r '.nodes["haskell-nix"].locked.rev' flake.lock`, and fails if they differ.
-   - Runs plan 9's comparison script (fetched with `nix run github:shinzui/haskell-nix/<R>#<script>` if plan 9 exposed it as a flake app, otherwise from the path plan 9 documents) against `dist-newstyle/cache/plan.json`.
-   - Runs it against `nix-store -qR "$(readlink -f result)"`.
+   - Extracts the revision from the `import:` line of `cabal.project` and from plan 9's recursive `--resolve-channel-lock` mode, and fails if they differ.
+   - Refreshes `plan.json` with supported tests/benchmarks enabled, then invokes the pinned
+     channel's `cohort-compare` app in `--plan-json` mode.
+   - Builds the actual executable and its `cohort-manifest`, then invokes `--nix-manifest`
+     comparison and source-policy verification.
 
-   Plan 9 owns the comparison logic, so do not re-implement it. Call it as the `cohort-compare` flake app described in Context and Orientation; keep the `jq` fallback in Concrete Steps only for a channel revision that predates plan 9's Milestone 5. Pass `--ignore typeid-hs-sql --ignore typeid-hs-pg-migrate` in both modes: they are source-pinned packages the freeze deliberately omits, so the tool reports them as `unfrozen`. No other `--ignore` is allowed; in particular `hasql-effectful` must not appear at all, and if it does, Milestone 1 has been undone.
+   Plan 9 owns the comparison logic, so do not re-implement it. Call it as the `cohort-compare` flake app described in Context and Orientation; require the pinned channel to provide plan 9's Milestone 5 tools; a pre-tool channel
+   does not meet the hard dependency. Verify `typeid-hs-sql` and `typeid-hs-pg-migrate` through the declared source manifest,
+   rather than ignoring them. No ad hoc `--ignore` is allowed; in particular `hasql-effectful` must not appear at all, and if it does, Milestone 1 has been undone.
 
    This recipe is mori's hard gate. Plan 14's dotfiles guard only warns when applications sit on different channel revisions (the user's 2026-09-26 decision), so it will not stop a mori whose `cabal.project` and `flake.lock` disagree; `just cohort-check` must.
 
@@ -437,6 +476,8 @@ Acceptance: see Validation and Acceptance.
 
 
 ## Concrete Steps
+
+Use the Review requirements for final manifest-based acceptance. Historical runtime-closure commands below describe baseline diagnostics; they cannot establish Haskell dependency parity. Consumers export an app alias `apps.<system>.cohort-compare` from their pinned channel to bootstrap lock resolution without guessing node names.
 
 Set these once per shell. `R` is the haskell-nix revision chosen in M0.
 
@@ -604,13 +645,9 @@ nix eval --impure --expr '
 
 Commit as `feat(nix): export mori-types and mori-schema-pin as a Haskell extension` with the same trailers.
 
-**M5.** The fallback comparison, used only if plan 9's script cannot be called. Run from `$MORI` after `nix build .#mori`:
-
-```bash
-nix-store -qR "$(readlink -f result)" \
-  | sed -nE 's#^/nix/store/[a-z0-9]{32}-(.+)-([0-9][0-9.]*)$#\1 \2#p' | sort -u > "$SCRATCH/mori-closure.txt"
-join "$SCRATCH/mori-closure.txt" "$SCRATCH/freeze.txt" | awk '$2 != $3'     # must print nothing
-```
+**M5.** Use the shared comparator and actual executable manifest. No local jq/join
+fallback is an acceptance path. After fresh Cabal resolution with tests/benchmarks, run the
+thin `just cohort-check` recipe and its Nix manifest comparison.
 
 Then:
 
@@ -629,7 +666,8 @@ jq -r '.nodes.mori.locked.rev' "$DOT/flake.lock"     # 35f5943d... means Kiroku 
 git -C "$MORI" log --oneline -15                     # look for a recorded 0012 rollout
 ```
 
-On 2026-09-26 the query returned the `0011` row, which is Case B.
+The early 2026-09-26 observation returned `0011`. Later that day the global database
+received `0012`; expect Case A and confirm it read-only before the binary swap.
 
 Rehearse. Run from `$MORI` with the dev cluster running (`just process-up`):
 
@@ -756,6 +794,8 @@ Commit the two ground-truth captures and a short rollout note under mori's `docs
 
 ## Validation and Acceptance
 
+The review requirements above are additional completion gates, including the assigned update-isolation, manifest and cache evidence. Historical runtime-closure/version tables are diagnostic evidence only; they cannot replace those gates.
+
 The plan is complete when all of the following are observed.
 
 **In the mori checkout:**
@@ -774,7 +814,8 @@ The plan is complete when all of the following are observed.
 **In the new dotfiles system closure:**
 - `nix-store -qR result | grep -- '-mori-cli-'` prints exactly one path, and it equals mori's own `nix build` output.
 - After activation, the executable of `com.shinzui.mori-automate`'s process (from `lsof`) and `~/.nix-profile/bin/mori` resolve into that path.
-- `com.shinzui.mina-web` and `com.shinzui.rei-watchdog` are loaded, and their wrappers' `PATH` contains that path's `bin`. Check with `grep -o '/nix/store/[^:]*-mori/bin'` on the wrapper scripts named in their plists.
+- `com.shinzui.mina-web` and `com.shinzui.rei-watchdog` are loaded, and their wrappers' `PATH` contains that path's `bin`. Verify process executables with `lsof`, launchd metadata and evaluated package outputs;
+  do not read wrapper files under the store.
 
 **On the mori database:**
 - `just migrate-prod verify` reports `pending=0 unknown=0 issues=0` and compatible catalog slices.
@@ -849,3 +890,5 @@ The activation boots out and re-bootstraps every agent whose plist changed. It h
 - 2026-09-26 (MasterPlan reconciliation after parallel drafting): The shared comparison tool is now plan 9's `cohort-compare` flake app with its exact interface. The freeze carries an `index-state:` line and no flags, so mori deletes its own `index-state`, and the `dhall -use-http-client-tls` flag concern does not arise.
 - 2026-09-26 (user decisions): Applied four decisions the user made on 2026-09-26. (1) mori vendors `hasql-effectful` into `mori-core` as `Mori.Infrastructure.Hasql.{Effect,Static.Pool,Static.Connection}`, following Rei's precedent (`mori://shinzui/rei/okf/adrs/concepts/ADR-33`, `mori://shinzui/rei/plans/225-vendor-the-hasql-effect-into-rei-core-and-retire-hasql-effectful`); this is a new Milestone 1, so the former Milestones 1 to 6 are now 2 to 7 throughout, and every statement that `hasql-effectful` stays as mori's one overlay exception, along with the ADR-16 remedy of moving the tan-effectful tag, is withdrawn. (2) `typeid-hs` is public and plan 10 builds it in the channel, so Milestone 3 deletes the overlay entries and the `typeid-hs-src` input unconditionally, while the Cabal pin stays at `7164a74c` because the freeze is version-only. (3) mori must compile against `effectful`/`effectful-core` 2.7: plan 15 is now a dependency through plan 8's freeze, Milestone 2 moves mori's nine effectful bounds to `^>=2.7` and greps for the 2.7 breaking changes (`LocalEnv`, `SharedSuffix`, `KnownEffects`, the deprecated static `State` operations), and Validation checks 2.7 in both builds. (4) Plan 14's dotfiles guard now only warns on channel-revision mismatches, so this plan names `just cohort-check` and the one-`mori-cli` closure check as mori's hard gates. Context, Progress, Surprises (mori `origin/HEAD` is `bf28e026`, which committed the formerly uncommitted overlay edit; tan-effectful's privacy evidence), Decision Log, Concrete Steps, Validation, Idempotence and Interfaces were updated to match.
 - 2026-09-26 (MasterPlan coordination): The mori session completed mori's Kiroku `0012` cutover on 2026-09-26 (pushed `f3c5fa4b` + `bf28e026`; 11.9 s for 526,818 `$all` rows, 0 mismatches, verify clean; `mori-automate` runs `mori-cli` `35dr5zq5…`). The M0 state check will find Case A (`0012` applied, Kiroku 0.9 deployed), so this plan's deploy is a binary swap and the Case B stop-writers procedure stays only as the documented path for a future Kiroku migration. The dotfiles lock change for that deploy was left uncommitted for the user.
+
+- 2026-10-04: MasterPlan review for reducing change time: clarified shared ownership and acceptance, added the applicable targeted-update/build-identity/cache contracts, and corrected historical assumptions. No implementation completion is claimed.

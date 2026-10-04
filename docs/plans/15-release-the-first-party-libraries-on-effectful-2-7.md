@@ -11,6 +11,18 @@ provenance:
     model: "claude-opus-5-5"
     harness: "claude-code"
     at: 2026-09-26T22:52:35Z
+  reviews:
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-04T13:51:42Z
+      verdict: "changes-requested"
+      note: "Original review found redundant release/full-consumer-build risk; added current-release preflight and focused acceptance in update."
+  revisions:
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-04T13:51:42Z
+      mode: "update"
+      note: "Apply dependency-alignment review: routine update isolation, shared build evidence and applicable cache/ownership corrections; implementation pending."
 ---
 
 # Release the first-party libraries on effectful 2.7
@@ -31,7 +43,17 @@ This plan is new EP-15 of MasterPlan 3 (`docs/masterplans/3-align-one-cabal-and-
 A correction to the MasterPlan's wording: the floors are **`effectful` ≥ 2.7.1.0 and `effectful-core` ≥ 2.7.1.1**, not 2.7.1.1 for both. Hackage has no `effectful` 2.7.1.1. Its newest release is 2.7.1.0, which requires `effectful-core >= 2.7.1.0 && < 2.7.2.0`, and the newest `effectful-core` is 2.7.1.2.
 
 
+## Review requirements (2026-10-04)
+
+Follow [ADR 5](../adr/5-keep-routine-application-changes-independent-of-cohort-and-toolchain-updates.md): ordinary application edits retain the cohort and toolchain pins. Matching versions alone is insufficient evidence of reused builds. Historical input revisions, package counts and deletion lists below are starting observations; refresh them from recorded contributor revisions.
+
+Before preparing releases, use Mori to locate current source and verify authoritative Hackage metadata and upstream release tags. If a current release already admits the policy floors and compiles in the required configurations, adopt it and record evidence instead of publishing a redundant patch. Treat the exact patch versions below as historical candidates, not requirements to republish occupied versions. Preserve the user's effectful 2.7/no-allow-newer decision and release workflow gates.
+
+Build/test the changed libraries in the required supported configurations. Scratch application compiles identify likely ports but are optional diagnostics; final full application builds and tests belong to plans 11–13 after the resolved freeze exists. Do not duplicate all application acceptance before and after cohort resolution. The acceptance solve still demonstrates that the former bound was the blocker; select the verified admitting releases in the first-party snapshot and record them for plan 8.
+
 ## Progress
+
+- [ ] Already-admitting releases are reused after registry/tag verification; redundant publication is skipped
 
 - [x] (2026-09-26) Research: verified Hackage bounds, the dependency graph among shikumi, keiro and kioku, each repository's release skill, and the applications' own effectful bounds. Recorded in Context and Orientation and Surprises & Discoveries.
 - [ ] Milestone 0: re-verify the Hackage state, the three repositories' heads and the user's confirmation of the Decision Log entries marked "awaiting the user's confirmation".
@@ -84,6 +106,8 @@ A correction to the MasterPlan's wording: the floors are **`effectful` ≥ 2.7.1
 
 
 ## Decision Log
+
+- Decision (2026-10-04 review update): adopt the Review requirements above and ADR 5's update-isolation/build-evidence contract. Historical closure-only acceptance, fixed package counts and duplicated comparison implementations are superseded where noted. Preserve the agreed advisory fleet guard and effectful migration policy. Implementation evidence remains pending.
 
 - Decision: Release new versions instead of editing bounds through Hackage metadata revisions.
   Rationale: This repository builds first-party packages from their GitHub sources at a recorded revision (`packages/first-party-lock.json`). A Hackage revision would leave the Git tag and the Hackage metadata disagreeing, and every repository's release skill requires a full verification gate that a revision would skip. A release also gives plan 8's freeze a clean version to name.
@@ -473,6 +497,8 @@ The `allow-newer` entries name only the applications' own packages, never a libr
 
 ## Validation and Acceptance
 
+The review requirements above are additional completion gates, including the assigned update-isolation, manifest and cache evidence. Historical runtime-closure/version tables are diagnostic evidence only; they cannot replace those gates.
+
 The plan is accepted when all of the following hold. Record each observation in Progress and Outcomes.
 
 1. Hackage lists new releases that admit effectful 2.7. Each version below returns HTTP 200, and its `.cabal` file shows an upper bound of `<2.8`:
@@ -524,3 +550,8 @@ The freeze should record `effectful` 2.7.1.0 (or newer) and `effectful-core` 2.7
 - process-compose-managed PostgreSQL, for the keiro and kioku suites.
 - This repository's `haskell-nix-update` app.
 - Mori, to locate repositories: `mori registry show shinzui/<project> --full`, `mori path <uri>`.
+
+
+## Revision Notes
+
+- 2026-10-04: MasterPlan review for reducing change time: clarified shared ownership and acceptance, added the applicable targeted-update/build-identity/cache contracts, and corrected historical assumptions. No implementation completion is claimed.

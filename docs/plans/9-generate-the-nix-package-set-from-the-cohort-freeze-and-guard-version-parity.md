@@ -17,6 +17,17 @@ provenance:
       at: 2026-09-26T22:41:44Z
       mode: "update"
       note: "Reconcile cross-plan contracts after parallel drafting: freeze index-state, cohort-compare interface, ADR numbering, cabal-version correction"
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-04T13:51:42Z
+      mode: "update"
+      note: "Apply dependency-alignment review: routine update isolation, shared build evidence and applicable cache/ownership corrections; implementation pending."
+  reviews:
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-04T13:51:42Z
+      verdict: "changes-requested"
+      note: "Original review found static-link/duplicate-version false parity, metadata-revision drift and missing cache proof; applied findings in update."
 ---
 
 # Generate the Nix package set from the cohort freeze and guard version parity
@@ -64,7 +75,25 @@ and WAI dependency cohort"), because aeson 2.2.5.1, generic-lens 2.3, wai 3.2.5 
 their transitive cohort all arrive through the freeze.
 
 
+## Review requirements (2026-10-04)
+
+Follow [ADR 5](../adr/5-keep-routine-application-changes-independent-of-cohort-and-toolchain-updates.md): ordinary application edits retain the cohort and toolchain pins. Matching versions alone is insufficient evidence of reused builds. Historical input revisions, package counts and deletion lists below are starting observations; refresh them from recorded contributor revisions.
+
+Plan 9 owns the shared `cohort-compare` app. Use `--freeze FILE_OR_URL --plan-json FILE` for a freshly generated Cabal plan and `--freeze FILE_OR_URL --nix-manifest FILE` for the executable's build evidence. Use `--compare-manifests FILE FILE` to compare build identities and `--resolve-channel-lock FILE --input-path PATH` to obtain a channel's full locked revision. The resolver starts at the lock's declared root and handles recursive array `follows`, string nodes, missing nodes and cycles. Check the Cabal import revision against the application's own resolved lock, rather than assuming a node named `haskell-nix` exists. Return 0 on success, 1 on drift or missing/unverifiable evidence, and 2 on usage error.
+
+Export `packages.<system>.cohort-manifest` through plan 9's construction helper. Its JSON schema records the system, compiler/toolchain/channel, actual executable root drv/output and Haskell packages with names, versions, component roles, source/metadata identities, flags/policy and drv/output paths. Generate records from the actual composed scope used to build the executable, then verify dependency edges against that root's derivation graph through Nix metadata APIs. Runtime closures may omit static Haskell libraries; basename parsing and unrelated channel evaluation cannot prove parity. All instances of a Haskell package must pass, including when one correct and one incorrect version coexist. Missing expected dependencies fail. Native build tools and compiler packages are distinguished by role.
+
+Refresh `plan.json` with tests and benchmarks enabled for supported configurations; check all non-local packages. Record own packages and non-Hackage source pins in the channel's declared policy and `cabal/cohort-sources.json` (exact source revision/subdirectory plus reasons and owners for intentional Cabal/Nix source or flag differences). Do not use arbitrary `--ignore` lists. Keep exact-binary release rehearsals: version parity alone does not establish flag/source or behavioral equivalence. Consumer checks are thin calls to shared tooling, with no fallback comparator.
+
+Extend plan 8's model/parser/CLI; own generation-specific modules and `just cohort-generated-check`, called by plan 8's aggregate `cohort-check`. Do not redefine `CohortTest` or shared type ownership. A same-version Hackage package may have different Cabal metadata after index-state changes: select the metadata revision at the recorded index-state, key revision lookup by package/version/index-state, and reuse the tarball hash independently. `sameAsBase` requires matching source and metadata policy as well as version; otherwise emit a metadata override. Record source-pinned packages and declared local ownership, without silently excluding their provenance.
+
+Build and publish shared dependency outputs to the existing trusted cache before plans 11–13 adopt them. Verify publication credentials and read access on configured CI workers; retain no credentials in artifacts. Build one declared supported set/compiler per system and record actual substitution on a fresh worker. Scope parity claims to those selected sets, channels and compilers. Keep existing immutable historical selection and cache-identity checks passing; do not assume all older selectable first-party sets match the new default freeze. Preserve the updater's bootstrap independence from generated consumer dependencies.
+
+Acceptance fixtures include statically linked missing dependencies, wrong plus correct package instances, native homonyms, source/metadata changes without version changes, recursive/cyclic/missing follows paths, and stale import revisions. Cache readiness and shared identity evidence are gates distinct from version parity. Existing runtime-closure commands elsewhere below are diagnostic only.
+
 ## Progress
+
+- [ ] Manifest/lock-resolution fixtures pass and shared dependency outputs are available from the CI cache
 
 - [ ] Milestone 1 (prototype): reproduce which `cabal-version` values the channel's
   `callCabal2nix` path parses at the pinned nixpkgs, and decide whether a GHC 9.12 `cabal2nix`
@@ -154,6 +183,8 @@ their transitive cohort all arrive through the freeze.
 
 
 ## Decision Log
+
+- Decision (2026-10-04 review update): adopt the Review requirements above and ADR 5's update-isolation/build-evidence contract. Historical closure-only acceptance, fixed package counts and duplicated comparison implementations are superseded where noted. Preserve the agreed advisory fleet guard and effectful migration policy. Implementation evidence remains pending.
 
 - Decision: Do not add the `cabal2nix-unwrapped = justStaticExecutables haskell.packages.ghc9124.cabal2nix`
   overlay by default. Milestone 1 re-proves that the IFD path parses `cabal-version: 3.14` and
@@ -408,7 +439,7 @@ closure from source.
 Relevant ADRs:
 
 - [`docs/adr/1-compose-first-party-snapshots-in-one-haskell-scope.md`](../adr/1-compose-first-party-snapshots-in-one-haskell-scope.md)
-  (the only local ADR). The rules this plan must keep:
+  (the original local composition ADR; ADR 5 now adds update isolation). The rules this plan must keep:
   - one nixpkgs fixed point with one version per package name;
   - immutable first-party snapshots;
   - no dependency solver in this repository;
@@ -543,10 +574,13 @@ Defaults are `cabal/cohort.freeze`, `config/cohort-policy.json`,
    - `boot` (in the `ghc-pkg` list). If the frozen version differs from GHC's, fail.
    - `firstParty` (in the lock). The generator writes nothing for it; the parity check asserts it.
    - `excluded` or `sourcePinned` (from the policy file).
-   - `sameAsBase`.
+   - `sameAsBase` only when version, source identity and selected Cabal metadata match the base.
+     If only metadata differs, emit the metadata override instead of skipping the package.
    - `generated`.
-6. For each `generated` entry, reuses the hash and revision from the existing output file when the
-   version is unchanged. Otherwise it calls `prefetchHackage`, then fetches
+6. For each entry, independently reuses the source tarball hash when its package/version is
+   unchanged. Resolve Cabal metadata at the selected index-state even when the version is
+   unchanged; cache that lookup by package/version/index-state. For a new source call
+   `prefetchHackage`, then fetch
    `https://hackage.haskell.org/package/<p>-<v>/revisions/` with `Accept: application/json` and
    picks the highest revision whose `time` is at or before the index-state. A revision above 0 is
    recorded with its number (as a string) and its hex sha256.
@@ -555,7 +589,8 @@ Defaults are `cabal/cohort.freeze`, `config/cohort-policy.json`,
    saying it is generated and naming the command.
 
 With `--check`, the generator writes nothing and exits 1 if either file would change. Add
-`just cohort-generate` and `just cohort-check` recipes.
+`just cohort-generate` and `just cohort-generated-check` recipes; plan 8's aggregate
+`cohort-check` invokes the latter.
 
 The generated file's shape:
 
@@ -740,46 +775,40 @@ plan; plans 11 to 14 do that one application at a time. Build on the deploy plat
 (aarch64-darwin) first, so the store already holds the closure when those plans run.
 
 
-### Milestone 5: the shared comparison script
+### Milestone 5: shared comparison, manifest construction and lock resolution
 
-Scope: one tool that compares any Cabal plan or Nix closure against the freeze, for plans 11 to 14.
-At the end, `nix run .#cohort-compare -- …` works, and a fixture check proves both modes.
+Scope: implement the interface in Review requirements for plans 11–14. Add
+`scripts/cohort-compare.sh`, expose `packages.cohort-compare` and `apps.cohort-compare`,
+and implement the manifest construction helper alongside the package-set composition.
+The script may use jq and Nix metadata commands; it must never traverse store files.
 
-Add `scripts/cohort-compare.sh` and expose it from `flake.nix`'s `perSystem` as
-`packages.cohort-compare` and `apps.cohort-compare`, built with
-`pkgsPlain.writeShellApplication { name = "cohort-compare"; runtimeInputs = [ jq curl gnugrep gnused coreutils nix ]; text = builtins.readFile ../scripts/cohort-compare.sh; }`.
-
-Interface:
+Acceptance modes:
 
 ```text
-cohort-compare --freeze FILE_OR_HTTPS_URL
-               (--plan-json FILE | --closure STORE_PATH | --closure-list FILE)
-               [--ignore NAME]... [--all]
+cohort-compare --freeze FILE_OR_HTTPS_URL (--plan-json FILE | --nix-manifest FILE) [--all]
+cohort-compare --compare-manifests FILE FILE
+cohort-compare --resolve-channel-lock FILE --input-path PATH
 ```
 
-Behavior:
+Compare every non-local Cabal package and every expected Haskell dependency in the actual
+Nix root's graph. Classify declared local and source-pinned packages explicitly. Verify
+source-pinned identities against `cabal/cohort-sources.json`; intentional source/flag
+exceptions need a reason and owner. A package found at a wrong version fails even if another
+instance has the expected version. Native homonyms are separate roles. A missing expected
+Haskell package or unverifiable root fails, including when static linking hides it from the
+runtime output closure. An empty graph must not pass a nonempty expected dependency set.
+Identity comparison reports changed drv/output paths together with changed inputs and users.
+Do not turn channel revision metadata alone into library derivation inputs.
 
-- **Freeze.** Parse the freeze's `any.<name> ==<version>` items with `grep -oE`. An HTTPS URL is
-  fetched with `curl -fsSL`. Consumers pass the pinned raw URL of the freeze they import.
-- **`--plan-json`.** Read `.["install-plan"][]` entries whose `style` is not `local`, as
-  `pkg-name` and `pkg-version`. A name in the freeze with a different version is `mismatch`. A
-  name not in the freeze is `unfrozen`: the application selected a package the cohort does not
-  cover.
-- **`--closure`.** Run `nix-store -qR` on the path. `--closure-list` reads the same list from a
-  file. Strip `/nix/store/<32 chars>-`, strip a trailing output suffix (`-bin`, `-lib`, `-dev`,
-  `-doc`, `-data`, `-man`), and split `<name>-<version>` at the last `-` followed by a digit. For
-  each frozen name that appears at least once, the status is `ok` if any occurrence has the frozen
-  version and `mismatch` otherwise. This rule makes a non-Haskell homonym harmless: C `zlib-1.3.1`
-  next to Haskell `zlib-0.7.1.1` still passes.
-- **Output.** Print tab-separated `STATUS name freeze found` lines for `mismatch` and `unfrozen`
-  (and for `ok` with `--all`), then a one-line summary. Exit 0 when there are no mismatches or
-  unfrozen entries, 1 otherwise, 2 on usage error.
+The lock mode starts at the declared root and resolves string nodes and array follows paths
+recursively. Add nested application/library follows, nonstandard root names, missing inputs
+and cycles to fixtures. Consumer apps alias the pinned channel's comparator for initial
+lock resolution, so the resolver does not depend on guessing a lock node name.
 
-Add a `cohort-compare` check that runs the script against fixtures under
-`checks/fixtures/cohort/`: a tiny freeze, a `plan.json` with one mismatch and one unfrozen
-package, and a closure list with a homonym. It asserts the exact output and exit codes. Add a
-`just cohort-compare *args` recipe. Plan 14's shared-`drvPath` comparison is to be added to this
-same script as a new mode, not as a second script.
+Add fixture checks under `checks/fixtures/cohort/` for the positive and negative cases in
+Review requirements, exact exit statuses and diagnostic records. Existing `--closure` and
+`--closure-list` interfaces may remain for diagnostics, explicitly labeled insufficient for
+acceptance. Add `just cohort-compare *args`; no child creates another comparison script.
 
 
 ### Milestone 6: prove it with builds, and record what is durable
@@ -877,6 +906,8 @@ Commit on the current branch, and do not push without the user's go-ahead.
 
 
 ## Concrete Steps
+
+Use the Review requirements for final manifest-based acceptance. Historical runtime-closure commands below describe baseline diagnostics; they cannot establish Haskell dependency parity. Consumers export an app alias `apps.<system>.cohort-compare` from their pinned channel to bootstrap lock resolution without guessing node names.
 
 All commands run from `/Users/shinzui/Keikaku/bokuno/haskell-nix` unless stated. Put scratch
 files under a scratch directory, never in the repository.
@@ -981,6 +1012,8 @@ Outcomes.
 
 
 ## Validation and Acceptance
+
+The review requirements above are additional completion gates, including the assigned update-isolation, manifest and cache evidence. Historical runtime-closure/version tables are diagnostic evidence only; they cannot replace those gates.
 
 The plan is accepted when all of the following are observed:
 
@@ -1103,3 +1136,5 @@ Nothing in this plan requires a new flake input.
 ## Revision Notes
 
 - 2026-09-26 (MasterPlan reconciliation after parallel drafting): The ADR is renumbered to `docs/adr/3-generate-the-channels-package-versions-from-the-cohort-freeze.md`, because the MasterPlan allocates 2 to plan 8, 3 to this plan and 4 to plan 10. The freeze's `index-state:` line is confirmed: plan 8 writes it.
+
+- 2026-10-04: MasterPlan review for reducing change time: clarified shared ownership and acceptance, added the applicable targeted-update/build-identity/cache contracts, and corrected historical assumptions. No implementation completion is claimed.
