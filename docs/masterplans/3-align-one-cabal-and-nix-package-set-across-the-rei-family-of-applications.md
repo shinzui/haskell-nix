@@ -79,7 +79,7 @@ The original 2026-09-26 inventory also found these differences; refresh it from 
 
 After this initiative:
 
-- One shared package set, owned by this repository, holds a single version of every Haskell package the five applications use. It is recorded as one Cabal freeze file whose versions are resolved upward and never downward. All five `cabal.project` files import that freeze.
+- One shared package set, owned by this repository, holds a single version of every Haskell package the five applications use. It is recorded as one Cabal freeze file whose versions are resolved upward and never downward. All five `cabal.project` files import that freeze. A retained `keiro-runtime` generation is projected from the same solve; applications compose their own selections and packages onto it in one Haskell scope, with guarded runtime dependency ownership.
 - This repository's Nix set is generated from the same freeze. Evaluating any frozen package's `.version` in the channel returns the frozen version. A `nix flake check` version guard fails when it would not, and a per-application check fails when a Cabal plan leaves the freeze.
 - Shared overrides live in the channel, not in consumer overlays. Consumer overlays define only their own packages. mori-rei-app consumes `rei-core` from Rei's flake instead of rebuilding it, and dotfiles makes every application follow one channel revision.
 - The channel keeps parsing current Cabal files without per-package `cabal-version` patches. On the pinned nixpkgs, the path the channel actually uses (`callCabal2nix`/`callHackageDirect`) already accepts `cabal-version` up to 3.16. A check fails the day that stops being true.
@@ -90,6 +90,7 @@ Two terms used throughout:
 
 **In scope:**
 - this repository's channel, patch registry, updater and checks;
+- the reusable Keiro runtime set, exact source/configuration records, retained projections and runtime-plus-application composition API;
 - the five applications' `cabal.project`, bounds, flake inputs and overlays;
 - the dotfiles inputs and update recipes;
 - source changes an application needs to compile against newer versions.
@@ -113,23 +114,24 @@ Two terms used throughout:
 
 The cohort covers direct and transitive third-party dependencies as well as selected first-party libraries, including the library contributor `mori://shinzui/mori-app`. Package names used by several applications receive one version; an application need not add dependencies it does not use. Re-inventory every owned package and every supported component/flag configuration: Rei now has five local packages, and historical deletion counts are not an exhaustive current inventory.
 
-The proposed reusable Keiro runtime baseline must include `mori://shinzui/keiki`, which the user confirmed is essential on 2026-10-04. Its proposed membership also includes `mori://shinzui/keiro`, `mori://shinzui/kiroku`, `mori://shinzui/shibuya`, `mori://shinzui/pgmq-hs`, `mori://shinzui/settei`, `mori://shinzui/pg-migrate` and the maintained fork `mori://shinzui/hw-kafka-client`. Plan 8 must explicitly inventory Keiki's dependency edges and include its required packages in the solved cohort. This clarification establishes required membership; a named runtime set, catalog expansion and partial-selection interface remain proposals, not implemented outputs of this revision.
+The reusable Keiro runtime baseline delivered by plan 16 must include `mori://shinzui/keiki`, which the user confirmed is essential on 2026-10-04. Its membership also includes `mori://shinzui/keiro`, `mori://shinzui/kiroku`, `mori://shinzui/shibuya`, `mori://shinzui/pgmq-hs`, `mori://shinzui/settei`, `mori://shinzui/pg-migrate` and the maintained fork `mori://shinzui/hw-kafka-client`. Plan 8 must explicitly inventory Keiki's dependency edges and include its required packages in the solved cohort. Plan 16 now owns the named runtime set, retained version/source/policy records and guarded runtime-plus-application composition. It preserves the current first-party catalog and complete-selection API, representing non-catalog components in the runtime manifest. Creating a dedicated runtime baseline and adopting it in consumer plans are required MP-3 outcomes; implementation remains Not Started.
 
 ## Decomposition Strategy
 
 The work falls into four phases.
 
 - **Phase 0 (upstream releases):** plan 15 releases the first-party libraries that still cap `effectful` below 2.7, so the cohort can take effectful 2.7 everywhere.
-- **Phase 1 (this repository only):** build the shared set and prove it here.
+- **Phase 1 (this repository and disposable verification fixtures):** build the shared cohort, publish the reusable Keiro runtime set and prove composition/cache reuse.
 - **Phase 2 (one plan per consumer):** adopt the set in each consumer.
 - **Phase 3 (dotfiles):** deploy it and keep it true.
 
-Each child plan leaves an independently observable result: a freeze file and its upgrade-only report; a channel whose `.version` values equal the freeze; a consumer overlay with no shared overrides; an application whose fresh Cabal plan equals the freeze and whose structured Nix build manifest proves the versions used by its actual executable; a dotfiles lock with one channel revision.
+Each child plan leaves an independently observable result, including a retained runtime generation with equal dependency identities in two composed fixture applications: a freeze file and its upgrade-only report; a channel whose `.version` values equal the freeze; a consumer overlay with no shared overrides; an application whose fresh Cabal plan equals the freeze and whose structured Nix build manifest proves the versions used by its actual executable; a dotfiles lock with one channel revision.
 
-Phase 1 is split in three because the concerns are separable.
+Phase 1 is split in four because the concerns are separable.
 - **Resolving the cohort** (plan 8) is a Cabal solving problem.
 - **Generating Nix from it** (plan 9) is a Nix evaluation problem. It also adds the check that the channel still parses `cabal-version` 3.14 and 3.16. No `cabal2nix` rebuild is needed (see Surprises & Discoveries).
 - **Moving consumer overrides into the channel** (plan 10) is a registry-ownership problem that plan 9's guard cannot see, because those overrides live in other repositories.
+- **Publishing the reusable Keiro runtime baseline** (plan 16) defines retained runtime ownership, source/configuration policy and guarded application composition, using plans 8–10's shared tools. Its output is demonstrated with two disposable consumers before real application adoption.
 
 Phase 2 is split by consumer, because each has a different risk.
 - **Plan 11, rei and mori-rei-app:** they share a Kiroku database and a `rei-core` dependency. mori-rei-app must stop rebuilding `rei-core`, so the two move together.
@@ -147,6 +149,7 @@ Phase 3 (plan 14) comes last because it is the only place all five meet: the dot
 **Relevant ADRs:**
 
 - `docs/adr/1-compose-first-party-snapshots-in-one-haskell-scope.md`: one Nixpkgs fixed point with one version per package name, immutable snapshots, and no solver. This initiative keeps all three. The freeze is Cabal's output, not a solver inside Nix.
+- [ADR 7](../adr/7-compose-applications-on-retained-keiro-runtime-baselines.md): retained runtime ownership, exact source/configuration projections and guarded application composition. Plan 16 supplies implementation evidence.
 - `mori://shinzui/rei/okf/adrs/concepts/ADR-18` ("An index-state bump is half a cohort adoption"): Cabal and Nix select the cohort by different mechanisms, and adopting a release means changing and proving both. This initiative turns that rule into a check.
 - `mori://shinzui/rei/okf/adrs/concepts/ADR-16` ("Prefer moving a pin to lifting a bound"): applies whenever an application's bound caps an upgrade. Move the bound, don't `allow-newer` it, unless the ADR's documented conditions hold.
 - `mori://shinzui/mori/okf/adrs/concepts/ADR-24` ("Source first-party Haskell packages from the shared overlay"): consumers must not shadow the channel with local pins. Plan 10 extends it to shared third-party packages.
@@ -162,13 +165,14 @@ Phase 3 (plan 14) comes last because it is the only place all five meet: the dot
 | 8 | Resolve one upgrade-only cohort freeze for the Rei family of applications | docs/plans/8-resolve-one-upgrade-only-cohort-freeze-for-the-rei-family-of-applications.md | EP-15 | None | Not Started |
 | 9 | Generate the Nix package set from the cohort freeze and guard version parity | docs/plans/9-generate-the-nix-package-set-from-the-cohort-freeze-and-guard-version-parity.md | EP-8 | None | Not Started |
 | 10 | Own the shared third-party overrides in the channel instead of consumer overlays | docs/plans/10-own-the-shared-third-party-overrides-in-the-channel-instead-of-consumer-overlays.md | None | EP-9 | Not Started |
-| 11 | Adopt the shared package set in rei and mori-rei-app | docs/plans/11-adopt-the-shared-package-set-in-rei-and-mori-rei-app.md | EP-9, EP-10 | None | Not Started |
-| 12 | Adopt the shared package set in mori | docs/plans/12-adopt-the-shared-package-set-in-mori.md | EP-9, EP-10 | EP-11 | Not Started |
-| 13 | Bring mina and reiko up to the shared package set | docs/plans/13-bring-mina-and-reiko-up-to-the-shared-package-set.md | EP-9, EP-10 | None | Not Started |
+| 16 | Create the Keiro runtime package set and compose applications on it | docs/plans/16-create-the-keiro-runtime-package-set-and-compose-applications-on-it.md | EP-9, EP-10 | None | Not Started |
+| 11 | Adopt the shared package set in rei and mori-rei-app | docs/plans/11-adopt-the-shared-package-set-in-rei-and-mori-rei-app.md | EP-9, EP-10, EP-16 | None | Not Started |
+| 12 | Adopt the shared package set in mori | docs/plans/12-adopt-the-shared-package-set-in-mori.md | EP-9, EP-10, EP-16 | EP-11 | Not Started |
+| 13 | Bring mina and reiko up to the shared package set | docs/plans/13-bring-mina-and-reiko-up-to-the-shared-package-set.md | EP-9, EP-10, EP-16 | None | Not Started |
 | 14 | Deploy one channel revision from dotfiles and guard closure parity | docs/plans/14-deploy-one-channel-revision-from-dotfiles-and-guard-closure-parity.md | EP-11, EP-12, EP-13 | None | Not Started |
 
 Status values: Not Started, In Progress, Complete, Cancelled.
-Hard Deps and Soft Deps reference other rows by their # prefix (e.g., EP-8). This repository numbers ExecPlans globally, so this MasterPlan's children are 8 through 15. Plan 15 was added after the others, on the user's decision to move the whole family to effectful 2.7; it runs first.
+Hard Deps and Soft Deps reference other rows by their # prefix (e.g., EP-8). This repository numbers ExecPlans globally, so this MasterPlan's children are 8 through 16. Plan 15 was added after the others, on the user's decision to move the whole family to effectful 2.7; it runs first.
 
 
 ## Dependency Graph
@@ -186,7 +190,9 @@ Plan 15 releases versions that admit effectful 2.7 (floors: `effectful` 2.7.1.0,
 
 **Plan 10 has no hard dependency** and can begin in parallel with plan 8. It inventories consumer overlays and moves shared overrides into this repository's registry. It soft-depends on plan 9: once plan 9 generates version pins, plan 10's entries must carry only build policy (jailbreak, tests, flags, source revisions), not versions. If plan 10 lands first, plan 9 converts its version pins. The two reconcile through the registry (see Integration Points).
 
-**Plans 11, 12 and 13 each hard-depend on plans 9 and 10.** A consumer can import the freeze and delete its shared overrides only once the channel both matches the freeze and carries those overrides. The three are independent of each other and can proceed in parallel.
+**Plan 16 hard-depends on plans 9 and 10.** It captures the runtime from the coherent cohort and shared policy, exports the composition API, and proves it with disposable consumer fixtures. Read-only runtime inventory can begin earlier; completion does not depend on application ports or production deployment.
+
+**Plans 11, 12 and 13 each hard-depend on plans 9, 10 and 16.** A consumer can import the freeze, select the retained runtime and delete its shared overrides only once the channel matches the freeze, carries shared policy and exposes the tested runtime composition API. The three are independent of each other and can proceed in parallel.
 - Plan 12 soft-depends on plan 11: the mori-rei-app work in plan 11 decides how an application exports its Haskell extension for others to consume, and mori's `mori-types` consumers should reuse that shape.
 - The mori database cutover is already complete, and is not an additional prerequisite. Plan 12 verifies the current migration state read-only before its ordinary deploy.
 
@@ -201,6 +207,15 @@ Plan 15 releases versions that admit effectful 2.7 (floors: `effectful` 2.7.1.0,
 - Plan 9 reads it to generate Nix.
 - Plans 11, 12 and 13 import it from each application's `cabal.project`, pinned to the exact revision of this repository that the application's `flake.lock` pins. For example `import: https://raw.githubusercontent.com/shinzui/haskell-nix/<rev>/cabal/cohort.freeze`; cabal-install 3.16.1.0, which all five use, fetches remote imports. Never import `master`: a remote import has no content hash, so an unpinned one can change under a build.
 - Only plan 8, or a later rerun of its regeneration command, may edit the file.
+
+**The reusable Keiro runtime set.**
+- Plan 16 owns `config/runtime-package-sets.json`, `packages/runtime-lock.json`, retained projections under `cabal/runtimes/keiro-runtime/<generation>/` and `generated/runtimes/keiro-runtime/<generation>.nix`, and `lib.mkRuntimePackageSet`/`lib.runtimePackageSets`.
+- `lib.mkRuntimePackageSet` takes `runtime`, exact `generation`, source `channel`, explicit `applicationSelections` and build-configuration options. It combines retained runtime groups with the complete complementary application mapping before using the existing constructor. Missing groups/conflicting runtime ownership fail; no moving default fills selections. It returns normalized selections and the standard Haskell extension/overlay shape, composed with application-owned package recipes in one scope.
+- The runtime roots include Keiki, Keiro, Kiroku, Shibuya, pgmq-hs, Settei, pg-migrate and the maintained Kafka fork, each identified above by its canonical project URI. Plan 16 inventories separate adapters and transitive dependencies. Non-catalog source components receive exact retained descriptors without a hidden schema-2 topology migration.
+- Runtime version/source/configuration projections derive from plan 8's solve and plan 9's generator. If runtime roots add packages absent from the original application union, plan 16 supplies those inputs to the same existing solver/generator and upgrade report. There is no second unbounded solve. Existing runtime generations constrain subsequent app-only updates and retain captured policy; explicit runtime changes append a generation.
+- Plan 10's ownership audit includes runtime-owned transitive packages and sources. Plans 11–13 select the published generation, import its source/configuration project alongside the complete cohort and add application recipes using the wrapper. Their actual executable manifests record the runtime identity and verified graph. Applications build only the components they use.
+- Plan 16 proves runtime builds, cache publication/substitution and disposable integration scenarios. Plan 9 retains ownership of common generation/manifest/comparison/cache mechanisms; plan 14 compares actual system manifests and measures app-only reuse while preserving the advisory fleet guard.
+- The shared solver/parser and source policy definitions remain owned by plans 8–10. Plan 16 extends those contracts and CLI dispatch for runtime orchestration rather than duplicating them. Application selectors and cohort/runtime projections move atomically in consumer adoption.
 
 **The generated Nix version layer.**
 - Defined by plan 9 as a generated file in this repository, loaded by the package-set composition in `lib/mkFirstPartyPackageSet.nix`.
@@ -250,17 +265,20 @@ The goal is less repeated coordination and dependency compilation. Equal version
 - Plan 8 preserves the recorded pre-adoption inputs for the baseline experiments; plan 14 records before/after measurements on aarch64-darwin and x86_64-linux with a declared default package set, channel and compiler. Measure a repeated build, a documentation-only edit, an application leaf edit, a shared-library interface edit, a targeted dependency update and a deliberate base update. Separate evaluation, downloads, dependency compilation, application compilation/linking, and tests. Run a fresh CI worker without local dependency outputs and prove it substitutes the published shared outputs; record paths compiled unexpectedly. Use disposable checkouts and native/remote builders, without production activation.
 - Acceptance requires unchanged shared dependency identities and zero avoidable shared dependency compilations for application-only edits, reuse across applications with equal inputs, and a targeted update report that explains all changed identities. Record elapsed times and residual bottlenecks; do not invent an unmeasured speedup or mark this initiative complete on version checks alone. Nix still recompiles a changed Haskell package; Cabal module-level incremental builds remain a separate development workflow.
 
-**Shared implementation ownership.** Plan 8 owns the cohort model, freeze parser, inventory, update/report commands and aggregate `just cohort-check`. Plan 9 extends those modules for generation and owns `just cohort-generated-check`, manifests, lock resolution, parity and identity comparison. Plan 10 owns registry policy and overlay auditing. Plans 11–13 call those tools and export manifests; plan 14 orchestrates them without another parser. Plan 10's pre-adoption application builds are diagnostic: source incompatibilities belong to plans 11–13 and must not create a dependency cycle back into phase 1. All supported consumer builds pass before deployment.
+**Shared implementation ownership.** Plan 8 owns the cohort model, freeze parser, inventory, update/report commands and aggregate `just cohort-check`. Plan 9 extends those modules for generation and owns `just cohort-generated-check`, manifests, lock resolution, parity and identity comparison. Plan 10 owns registry policy and overlay auditing. Plan 16 owns runtime membership, retained records and composition, reusing those tools; plans 11–13 select its exact generation, call the shared tools and export manifests; plan 14 orchestrates them without another parser. Plan 10's pre-adoption application builds are diagnostic: source incompatibilities belong to plans 11–13 and must not create a dependency cycle back into phase 1. All supported consumer builds pass before deployment.
 
 **Cross-plan decisions that deserve ADRs**, to be written by the plan that makes each final:
 - The upgrade-only rule and its report: plan 8, as `docs/adr/2-resolve-the-rei-family-cohort-upgrade-only.md`.
 - The freeze file is the single source of truth for versions, and the channel is generated from it: plan 9, as `docs/adr/3-generate-the-channels-package-versions-from-the-cohort-freeze.md`.
 - Consumer overlays may define only their own packages: plan 10, as `docs/adr/4-consumer-overlays-define-only-their-own-packages.md`. This extends `mori://shinzui/mori/okf/adrs/concepts/ADR-24`.
-- Numbers 2–4 remain reserved for those child decisions. This review adds ADR 5 for routine update isolation and cache evidence; plan 14 reserves ADR 6 for its deploy guard.
+- Numbers 2–4 remain reserved for those child decisions. ADR 5 records routine update isolation/cache evidence; plan 14 reserves ADR 6 for its deploy guard. ADR 7 records retained runtime composition, with plan 16 responsible for implementation evidence.
 - An application that depends on another application's library consumes that application's flake output (plan 11).
 
 
 ## Progress
+
+- [ ] EP-16: Publish an immutable Keiro runtime generation, exact Cabal/Nix/source projections and guarded application composition API
+- [ ] EP-16: Prove two composed applications share runtime builds, explicit runtime upgrades preserve unrelated selections, and fresh workers substitute cached outputs
 
 - [ ] EP-8: Targeted dependency updates preserve unrelated pins and report affected applications/components
 - [ ] EP-9: Structured manifests and recursive lock resolution reject false parity, including static-link and duplicate-version fixtures
@@ -286,6 +304,8 @@ The goal is less repeated coordination and dependency compilation. Equal version
 
 
 ## Surprises & Discoveries
+
+- Observation (runtime planning, 2026-10-04): the existing constructor requires complete catalog selections, and several Kafka/adapter sources are not catalog families. Plan 16 adds a guarded runtime wrapper and exact non-catalog component records, preserving the schema-2 topology and historical selections.
 
 - Observation (review, 2026-10-04): matching versions does not establish build identity or binary-cache availability. Runtime closures can omit static Haskell dependencies; the original guard could pass incomplete evidence. The local cache research records these limits. This revision assigns manifest/cache proof to plans 9 and 14.
 - Observation (review, 2026-10-04): source inventories have moved since September. Rei has two additional local API packages, and consumers still have differing toolchain locks. Refresh recorded inputs before solving, rather than treating historical package counts as current.
@@ -318,6 +338,10 @@ The goal is less repeated coordination and dependency compilation. Equal version
 
 
 ## Decision Log
+
+- Decision (user request, 2026-10-04): add plan 16 to deliver the reusable Keiro runtime package set and application composition. Consumer plans 11–13 now depend on it. Preserve family independence, catalog topology and one Haskell scope; use retained runtime records for non-catalog components. ADR 7 records the durable contract.
+  Rationale: the proposal must have owned deliverables and acceptance gates, so MP-3 cannot finish without the runtime foundation and actual consumer adoption.
+  Date: 2026-10-04
 
 - Decision (discussion, 2026-10-04): Keiki is a required member of the proposed Keiro runtime baseline and must be visible in the dependency inventory and resolved cohort.
   Rationale: the user confirmed Keiki is essential, and Keiro's source declares dependencies on Keiki and its JSON codec. Runtime membership must cover these dependencies as well as the initially listed families.
@@ -367,7 +391,7 @@ The goal is less repeated coordination and dependency compilation. Equal version
 
 ## Outcomes & Retrospective
 
-Review outcome (2026-10-04): the decomposition remains eight children in four phases. The update adds observable contracts for direct/transitive dependency alignment, routine update isolation and remote cache reuse, and removes a potential phase-1/consumer build cycle. No software or deployment work was performed in this review; all implementation milestones and timing claims remain pending.
+Review outcome (2026-10-04): the initial review retained eight children in four phases. The subsequent runtime plan adds a ninth child in phase 1 and makes it a prerequisite of consumer adoption. The update adds observable contracts for direct/transitive dependency alignment, routine update isolation and remote cache reuse, and removes a potential phase-1/consumer build cycle. No software or deployment work was performed in this review; all implementation milestones and timing claims remain pending.
 
 
 ## Revision Notes
@@ -390,3 +414,5 @@ Review outcome (2026-10-04): the decomposition remains eight children in four ph
 - 2026-09-26: The mori session completed mori's Kiroku `0012` cutover. Verified read-only: ledger at `0012`, the index present, and `mori-automate` and mina-web's PATH `mori` both on `mori-cli` `35dr5zq5…` (kiroku-store 0.9.0.1). Plan 12's deploy is therefore Case A, a binary swap, and plan 13 no longer has to worry about a Kiroku 0.8 `mori` on mina-web's PATH.
 
 - 2026-10-04: Reviewed against reducing coordination and rebuild time. Added targeted updates, impact reporting, structured static-link-safe manifests, recursive lock resolution, cache publication and fresh-runner measurements; clarified direct/transitive and first-party alignment. Cascaded contracts to plans 8–15, corrected stale package/floor/database assumptions, and recorded ADR 5. Implementation remains Not Started.
+
+- 2026-10-04 (runtime plan): Created EP-16 with four milestones for retained runtime records/projections, composition and verification. Added it to phase 1 and to consumer hard dependencies; clarified shared ownership and completion criteria across affected children, and recorded ADR 7. No runtime software or deployment is claimed complete.

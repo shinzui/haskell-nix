@@ -82,6 +82,8 @@ only warns, exits 0, and the other four applications' store paths do not change.
 
 ## Review requirements (2026-10-04)
 
+Plan 16 (`docs/plans/16-create-the-keiro-runtime-package-set-and-compose-applications-on-it.md`) is a transitive hard dependency through application plans 11–13. Preconditions require those applications to publish an exact runtime generation/configuration and complementary selections, plus matching Cabal/Nix projections. Record these runtime fields in the actual candidate system manifests and deploy/update reports. Compare used runtime dependency identities through plan 9's manifest modes; runtime membership does not imply every application links every component. Generation spread remains a fleet advisory warning, while a mismatch with the application's own selected runtime/cohort or missing evidence fails. The app-only experiment retains runtime generation/configuration/toolchain and complementary unrelated selections. Explicit runtime updates report affected apps; unrelated app or Baikai/Shikumi/OKF updates must not advance runtime records implicitly. No extra dependency back into production deployment is introduced for plan 16's fixture/cache acceptance.
+
 Follow [ADR 5](../adr/5-keep-routine-application-changes-independent-of-cohort-and-toolchain-updates.md): ordinary application edits retain the cohort and toolchain pins. Matching versions alone is insufficient evidence of reused builds. Historical input revisions, package counts and deletion lists below are starting observations; refresh them from recorded contributor revisions.
 
 Plan 9 owns the shared `cohort-compare` app. Use `--freeze FILE_OR_URL --plan-json FILE` for a freshly generated Cabal plan and `--freeze FILE_OR_URL --nix-manifest FILE` for the executable's build evidence. Use `--compare-manifests FILE FILE` to compare build identities and `--resolve-channel-lock FILE --input-path PATH` to obtain a channel's full locked revision. The resolver starts at the lock's declared root and handles recursive array `follows`, string nodes, missing nodes and cycles. Check the Cabal import revision against the application's own resolved lock, rather than assuming a node named `haskell-nix` exists. Return 0 on success, 1 on drift or missing/unverifiable evidence, and 2 on usage error.
@@ -173,6 +175,8 @@ mina          -                  -                              baikai g5gl40b3 
 
 
 ## Decision Log
+
+- Decision (runtime plan, 2026-10-04): adopt the plan-16 integration contract above. It owns retained runtime selection/composition, while this plan retains its existing solver/generation/policy/consumer/deployment responsibility. Consumer plans 11–13 require runtime delivery before adoption; preparatory shared tools do not depend on consumers.
 
 - Decision (2026-10-04 review update): adopt the Review requirements above and ADR 5's update-isolation/build-evidence contract. Historical closure-only acceptance, fixed package counts and duplicated comparison implementations are superseded where noted. Preserve the agreed advisory fleet guard and effectful migration policy. Implementation evidence remains pending.
 
@@ -1004,6 +1008,8 @@ and ADR updates with explicit paths, for example
 
 ## Validation and Acceptance
 
+The actual candidate system manifests name the selected runtime generation/configuration. Guard checks prove coherence with each application's own runtime/cohort, and the app-only measurement preserves runtime identity. Fleet runtime-generation differences retain advisory severity.
+
 The review requirements above are additional completion gates, including the assigned update-isolation, manifest and cache evidence. Historical runtime-closure/version tables are diagnostic evidence only; they cannot replace those gates.
 
 Before activation, all of these hold on the M5 build:
@@ -1108,6 +1114,8 @@ deployed Rei worker); use `launchctl kickstart -k gui/$(id -u)/<label>` or
 
 
 ## Interfaces and Dependencies
+
+Runtime integration: Plan 16 (`docs/plans/16-create-the-keiro-runtime-package-set-and-compose-applications-on-it.md`) is a transitive hard dependency through application plans 11–13. Preconditions require those applications to publish an exact runtime generation/configuration and complementary selections, plus matching Cabal/Nix projections. Record these runtime fields in the actual candidate system manifests and deploy/update reports. Compare used runtime dependency identities through plan 9's manifest modes; runtime membership does not imply every application links every component. Generation spread remains a fleet advisory warning, while a mismatch with the application's own selected runtime/cohort or missing evidence fails. The app-only experiment retains runtime generation/configuration/toolchain and complementary unrelated selections. Explicit runtime updates report affected apps; unrelated app or Baikai/Shikumi/OKF updates must not advance runtime records implicitly. No extra dependency back into production deployment is introduced for plan 16's fixture/cache acceptance.
 
 Tools used: `nix` (Determinate Nix 3.17 / Nix 2.33 on 2026-09-26) for `flake lock`,
 `flake update`, `flake metadata --json`, `eval`, `build` and `run`; `nix-store -qR` and
@@ -1293,3 +1301,5 @@ the canonical project URI plus the repository-relative path).
   are kept and marked superseded. Every section was updated to match.
 
 - 2026-10-04: MasterPlan review for reducing change time: clarified shared ownership and acceptance, added the applicable targeted-update/build-identity/cache contracts, and corrected historical assumptions. No implementation completion is claimed.
+
+- 2026-10-04 (runtime workstream): Added EP-16 integration, ownership and applicable acceptance; consumer adoption now requires the retained runtime set and composes application selections/packages onto it. Shared-tool preparation remains acyclic and the fleet advisory policy is preserved.

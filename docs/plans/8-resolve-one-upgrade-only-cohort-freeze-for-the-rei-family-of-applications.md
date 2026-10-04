@@ -64,7 +64,9 @@ Nothing in this plan changes any application, any deployed binary or any databas
 
 ## Review requirements (2026-10-04)
 
-The user confirmed on 2026-10-04 that `mori://shinzui/keiki` is essential to the proposed Keiro runtime baseline. Explicitly inventory the Keiro-to-Keiki dependency edges, including the JSON codec, and retain the required Keiki package versions and selected family snapshot in the resolved cohort. The initially proposed runtime-family list omitted Keiki; do not use that list as an exhaustive inventory. Defining a new named runtime set or changing catalog membership is still separate proposed work.
+Plan 16 (`docs/plans/16-create-the-keiro-runtime-package-set-and-compose-applications-on-it.md`) is now the explicit runtime delivery workstream. This plan retains ownership of the single solver, freeze parser, upgrade-only and targeted-impact report. Accept runtime component roots and source/configuration inputs supplied by plan 16, including packages absent from the initial five-application union. Plan 16 invokes these existing commands to extend the cohort coherently rather than introducing a second solve. Subsequent app-only solves retain the selected runtime projection as exact constraints; conflicts report the required explicit runtime update. Record runtime ownership in the impact report. This plan does not depend on plan 16: its initial coherent cohort/tooling is a prerequisite of that later publication.
+
+The user confirmed that `mori://shinzui/keiki` is essential to the Keiro runtime baseline now delivered by plan 16. Explicitly inventory its dependency edges and required JSON codec, and retain their versions and selected family snapshot in the coherent cohort. The initially listed runtime roots are not an exhaustive dependency inventory. Catalog topology changes remain separate migration work; plan 16 represents non-catalog components in retained source records.
 
 Follow [ADR 5](../adr/5-keep-routine-application-changes-independent-of-cohort-and-toolchain-updates.md): ordinary application edits retain the cohort and toolchain pins. Matching versions alone is insufficient evidence of reused builds. Historical input revisions, package counts and deletion lists below are starting observations; refresh them from recorded contributor revisions.
 
@@ -140,6 +142,8 @@ These were found while writing the plan (2026-09-26) and shape it. Re-verify the
 
 
 ## Decision Log
+
+- Decision (runtime plan, 2026-10-04): adopt the plan-16 integration contract above. It owns retained runtime selection/composition, while this plan retains its existing solver/generation/policy/consumer/deployment responsibility. Consumer plans 11–13 require runtime delivery before adoption; preparatory shared tools do not depend on consumers.
 
 - Decision (discussion, 2026-10-04): explicitly include required Keiki packages and their dependency edges in the runtime inventory and cohort acceptance. This records the user's essential-runtime membership clarification without introducing a new package-set API.
 
@@ -567,6 +571,8 @@ If a solve fails halfway, nothing committed has changed. Fix `cabal/common.confi
 
 ## Interfaces and Dependencies
 
+Runtime integration: Plan 16 (`docs/plans/16-create-the-keiro-runtime-package-set-and-compose-applications-on-it.md`) is now the explicit runtime delivery workstream. This plan retains ownership of the single solver, freeze parser, upgrade-only and targeted-impact report. Accept runtime component roots and source/configuration inputs supplied by plan 16, including packages absent from the initial five-application union. Plan 16 invokes these existing commands to extend the cohort coherently rather than introducing a second solve. Subsequent app-only solves retain the selected runtime projection as exact constraints; conflicts report the required explicit runtime update. Record runtime ownership in the impact report. This plan does not depend on plan 16: its initial coherent cohort/tooling is a prerequisite of that later publication.
+
 The updater (`cli/haskell-nix-update`) gains these modules, all listed in `exposed-modules` of `haskell-nix-update.cabal`. They use only packages it already depends on: `Cabal` for `PackageName`, `Version`, `VersionRange`, `withinRange`, `intersectVersionRanges`, `simplifyVersionRange` and `parseGenericPackageDescription`; `aeson`; `containers`; `text`; `bytestring`; `filepath`; `optparse-applicative`.
 
 In `HaskellNix.Update.Cohort.Types`:
@@ -702,3 +708,5 @@ Plan 15 (`docs/plans/15-release-the-first-party-libraries-on-effectful-2-7.md`) 
 - 2026-09-26 (MasterPlan coordination): Corrected the effectful floor. `effectful` has no 2.7.1.1 release (its newest is 2.7.1.0), so the floors are `effectful` 2.7.1.0 and `effectful-core` 2.7.1.1. Only `effectful-core` 2.7.0.0 to 2.7.1.0 are excluded by kiroku and shibuya for the performance regression. Plan 15's research found this.
 
 - 2026-10-04: MasterPlan review for reducing change time: clarified shared ownership and acceptance, added the applicable targeted-update/build-identity/cache contracts, and corrected historical assumptions. No implementation completion is claimed.
+
+- 2026-10-04 (runtime workstream): Added EP-16 integration, ownership and applicable acceptance; consumer adoption now requires the retained runtime set and composes application selections/packages onto it. Shared-tool preparation remains acyclic and the fleet advisory policy is preserved.

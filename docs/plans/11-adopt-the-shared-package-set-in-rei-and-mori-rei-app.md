@@ -79,6 +79,8 @@ trailer is recorded as a Rei action by the new mori-rei-app.
 
 ## Review requirements (2026-10-04)
 
+This plan now hard-depends on plan 16 (`docs/plans/16-create-the-keiro-runtime-package-set-and-compose-applications-on-it.md`) as well as plans 9 and 10. Select its exact published `keiro-runtime` generation and declared source configuration. Commit a `nix/runtime-selection.json` containing runtime name/generation/channel and the complete complementary non-runtime group mapping; values come from published metadata, with no implicit latest/default filling. Construct the shared dependency scope through `lib.mkRuntimePackageSet`, then add Rei's own packages and exported extension into that same scope. Mori-rei-app composes the Rei library recipe into its identically configured runtime scope; it does not merge a separately built runtime set. Import the generation's pinned Cabal source/configuration project alongside the complete cohort import, at the same channel revision, and require their shared versions/index-state to agree. Nix/Cabal/runtime selector changes land atomically. Export runtime identity in the actual executable manifests and prove equal used runtime dependency identities across Rei and mori-rei-app, in addition to the `rei-core` proof. A requested app change to a runtime-owned dependency requires an explicit new runtime generation/configuration.
+
 Follow [ADR 5](../adr/5-keep-routine-application-changes-independent-of-cohort-and-toolchain-updates.md): ordinary application edits retain the cohort and toolchain pins. Matching versions alone is insufficient evidence of reused builds. Historical input revisions, package counts and deletion lists below are starting observations; refresh them from recorded contributor revisions.
 
 Plan 9 owns the shared `cohort-compare` app. Use `--freeze FILE_OR_URL --plan-json FILE` for a freshly generated Cabal plan and `--freeze FILE_OR_URL --nix-manifest FILE` for the executable's build evidence. Use `--compare-manifests FILE FILE` to compare build identities and `--resolve-channel-lock FILE --input-path PATH` to obtain a channel's full locked revision. The resolver starts at the lock's declared root and handles recursive array `follows`, string nodes, missing nodes and cycles. Check the Cabal import revision against the application's own resolved lock, rather than assuming a node named `haskell-nix` exists. Return 0 on success, 1 on drift or missing/unverifiable evidence, and 2 on usage error.
@@ -93,9 +95,11 @@ Export the Rei library extension into the consumer's single Haskell scope. Prove
 
 ## Progress
 
+- [ ] Prerequisite: EP-16 delivers a tested exact runtime generation and composition API; adopt it atomically with Cabal/Nix selectors and prove used runtime dependency identities
+
 - [ ] Documentation/CLI-only edits preserve unchanged library and shared dependency identities
 
-- [ ] Prerequisites: plans 9 and 10 are Complete and pushed (and therefore plans 8 and 15, which plan 9 depends on); record the haskell-nix revision `R`, plan 15's released versions of keiro, keiro-ops, keiro-pgmq, keiro-test-support and kioku-core, and plan 8's upgrade report entries for rei, mori-app and mori-rei-app in Surprises & Discoveries.
+- [ ] Prerequisites: plans 9, 10 and 16 are Complete and pushed (and therefore plans 8 and 15, which plan 9 depends on); record the haskell-nix revision `R`, plan 15's released versions of keiro, keiro-ops, keiro-pgmq, keiro-test-support and kioku-core, and plan 8's upgrade report entries for rei, mori-app and mori-rei-app in Surprises & Discoveries.
 - [ ] Milestone 1 (rei, Cabal): baseline `plan.json` captured before any edit.
 - [ ] Milestone 1: `import:` of the freeze at `R` added; `index-state`, `constraints:` and `allow-newer:` reconciled.
 - [ ] Milestone 1: capping bounds lifted (expected `brick`, `vty` in `rei-cli/rei-cli.cabal`, and the keiro/kioku bounds if plan 15 released a new major); source fixed until `cabal build all` passes.
@@ -180,6 +184,8 @@ Nothing has been implemented yet. The observations below were made while writing
 
 
 ## Decision Log
+
+- Decision (runtime plan, 2026-10-04): adopt the plan-16 integration contract above. It owns retained runtime selection/composition, while this plan retains its existing solver/generation/policy/consumer/deployment responsibility. Consumer plans 11–13 require runtime delivery before adoption; preparatory shared tools do not depend on consumers.
 
 - Decision (2026-10-04 review update): adopt the Review requirements above and ADR 5's update-isolation/build-evidence contract. Historical closure-only acceptance, fixed package counts and duplicated comparison implementations are superseded where noted. Preserve the agreed advisory fleet guard and effectful migration policy. Implementation evidence remains pending.
 
@@ -335,8 +341,8 @@ Conventional Commits and end with the trailers shown in Concrete Steps.
   the channel also owns the shared build overrides consumers used to carry.
 - **Overlay** (in an application): `nix/haskell-overlay.nix`, the application's own extension,
   composed after the channel.
-- **`R`**: the full 40-character haskell-nix revision on `master` after plans 9 and 10 are both
-  merged and pushed. **`C`**, **`A`**, **`M`**: the rei, mori-app and mori-rei-app commits this plan
+- **`R`**: the full 40-character haskell-nix revision on `master` after plans 9, 10 and 16 are
+  complete and pushed. **`C`**, **`A`**, **`M`**: the rei, mori-app and mori-rei-app commits this plan
   produces and pushes.
 - **Parity script**: the flake app `cohort-compare` that plan 9 (`docs/plans/9-generate-the-nix-package-set-from-the-cohort-freeze-and-guard-version-parity.md`, Milestone 5) adds as `scripts/cohort-compare.sh`. Invoke it as `nix run "github:shinzui/haskell-nix/$R#cohort-compare" -- --freeze <file-or-https-url> (--plan-json <file> | --nix-manifest <file>) [--all]`, where `$R` is the haskell-nix revision the application pins. It prints tab-separated `STATUS name freeze found` lines for `mismatch` (a frozen package at another version) and `unfrozen` (a package the freeze does not cover), then a summary, and exits 0 when there are none, 1 otherwise, 2 on a usage error. In `--closure` mode a frozen name passes if any store path of that name has the frozen version, so a C library sharing a Haskell package's name (C `zlib-1.3.1` beside Haskell `zlib-0.7.1.1`) is harmless. This plan abbreviates it as `$PARITY`, set once with `PARITY=(nix run "github:shinzui/haskell-nix/$R#cohort-compare" --)` and called as `"${PARITY[@]}" --freeze …`.
 - **Replay audit**: `scripts/replay-audit-gate.sh` in rei re-folds every stored event stream
@@ -506,9 +512,29 @@ lists each record and `log.md` records each change. mori-rei-app's `docs/adr/` h
 
 ## Plan of Work
 
+
+Before adopting selectors, commit `nix/runtime-selection.json` with keys `runtime`,
+`generation`, `channel` and `applicationSelections`, using the exact published runtime
+and an explicit complete complementary group map. Build options must match its tested
+configuration. Import both the full `cabal/cohort.freeze` and the selected generation's
+`cabal/runtimes/keiro-runtime/<generation>/<channel>.project` from the same pinned
+channel revision. Require agreeing shared constraints/index-state and exact source policy.
+Perform Cabal adoption and the corresponding Nix/runtime selection as one verified change.
+
+In each application's `flake.module.nix`, read that JSON selector into `runtimeSelection`
+and bind `selectedRuntime = inputs.haskell-nix.lib.mkRuntimePackageSet runtimeSelection;`.
+Replace the default channel extension in its dependency scope with
+`selectedRuntime.haskellExtension pkgs.haskell.lib.compose pkgs`, then compose only
+application-owned recipes in that same scope. Export `flake.lib.runtimeSelection` and
+include runtime identity in the executable manifest. This constructor is the entry point
+for all adoption milestones below; historical default-extension descriptions are baseline
+observations. Test an attempted runtime dependency override and require the ownership audit
+to reject it before accepting the application build.
+
+
 Work proceeds in six milestones. Milestones 1 to 3 happen in rei, 4 in mori-app, 5 in
 mori-rei-app, and 6 in dotfiles with the user. Nothing is pushed or deployed without the user's
-go-ahead. Before Milestone 1, confirm plans 9 and 10 are marked Complete in the MasterPlan
+go-ahead. Before Milestone 1, confirm plans 9, 10 and 16 are marked Complete in the MasterPlan
 registry (plan 9 depends on plan 8, which depends on plan 15, so those are complete too; check
 that plan 15's row says Complete and read its released versions), record `R`, read plan 9's Interfaces section for the parity script's real name and
 arguments and the consumer extension attribute, read plan 10's deletion lists for rei and
@@ -626,6 +652,8 @@ from it:
 ```nix
 { inputs, ... }:
 let
+  runtimeSelection = builtins.fromJSON (builtins.readFile ./nix/runtime-selection.json);
+  selectedRuntime = inputs.haskell-nix.lib.mkRuntimePackageSet runtimeSelection;
   # Rei's own Haskell packages as an extension for a ghc9124 scope that already
   # carries the haskell-nix channel. Same calling convention as
   # inputs.haskell-nix.lib.haskellExtension, so consumers compose both in one list.
@@ -639,12 +667,13 @@ let
 in
 {
   flake.lib.haskellExtension = haskellExtension;
+  flake.lib.runtimeSelection = runtimeSelection;
 
   perSystem = { system, pkgs, config, ... }:
     let
       haskellPackages = pkgs.haskell.packages.ghc9124.override {
         overrides = pkgs.lib.composeManyExtensions [
-          (inputs.haskell-nix.lib.haskellExtension pkgs.haskell.lib.compose pkgs)
+          (selectedRuntime.haskellExtension pkgs.haskell.lib.compose pkgs)
           (haskellExtension pkgs.haskell.lib.compose pkgs)
         ];
       };
@@ -663,9 +692,9 @@ in
 }
 ```
 
-Use `inputs.haskell-nix.lib.haskellExtension` (which equals `.haskellExtensions.github`) unless plan
-9 or 10 names a different consumer entry point, in which case use that one in both rei and
-mori-rei-app. The `gitRev` argument only affects `rei-cli`, so `rei-core`'s derivation does not
+Use the selected runtime extension from plan 16 in both rei and mori-rei-app.
+The latter must select the same runtime generation/configuration and matching complementary
+selections for shared dependencies before adding Rei's exported application recipes. The `gitRev` argument only affects `rei-cli`, so `rei-core`'s derivation does not
 depend on it.
 
 Prove it: `nix build .#rei --print-out-paths`, `nix build .#rei-api`, `nix build .#rei-core`, each
@@ -783,12 +812,14 @@ inputs = {
 Delete `rei-src` and `typeid-hs-src`; the channel supplies `typeid-hs-*` at `7164a74c`. Run `nix flake lock` and confirm in `flake.lock` that there is exactly one
 `haskell-nix` node and one `haskell-nix-dev` node and that the latter is `206ecd25…`.
 
-`flake.module.nix`:
+`flake.module.nix`: define `runtimeSelection` and `selectedRuntime` from this
+application's committed selector as in Rei above, and export `flake.lib.runtimeSelection`.
+Require equal runtime identity/configuration to Rei before constructing:
 
 ```nix
 haskellPackages = pkgs.haskell.packages.ghc9124.override {
   overrides = pkgs.lib.composeManyExtensions [
-    (inputs.haskell-nix.lib.haskellExtension pkgs.haskell.lib.compose pkgs)
+    (selectedRuntime.haskellExtension pkgs.haskell.lib.compose pkgs)
     (inputs.rei.lib.haskellExtension pkgs.haskell.lib.compose pkgs)
     (import ./nix/haskell-overlay.nix {
       inherit pkgs;
@@ -854,11 +885,11 @@ Use the Review requirements for final manifest-based acceptance. Historical runt
 Set these once per shell. `R`, `C`, `A`, `M` are filled in as they become known.
 
 ```bash
-export R=<40-hex haskell-nix revision after plans 9 and 10>
+export R=<40-hex haskell-nix revision after plans 9, 10 and 16>
 export HN=/Users/shinzui/Keikaku/bokuno/haskell-nix
 export FREEZE="https://raw.githubusercontent.com/shinzui/haskell-nix/$R/cabal/cohort.freeze"
 PARITY=(nix run "github:shinzui/haskell-nix/$R#cohort-compare" --)   # plan 9's flake app; a bash array, so not exported
-grep -n '^| 15 \|^| 9 \|^| 10 ' "$HN/docs/masterplans/3-align-one-cabal-and-nix-package-set-across-the-rei-family-of-applications.md"   # all Complete
+grep -n '^| 15 \|^| 9 \|^| 10 \|^| 16 ' "$HN/docs/masterplans/3-align-one-cabal-and-nix-package-set-across-the-rei-family-of-applications.md"   # all Complete
 curl -sf "$FREEZE" | grep -E 'any\.(effectful|effectful-core|keiro|kioku-core) '   # effectful 2.7.1.1 or later; plan 15's keiro/kioku-core
 ```
 
@@ -1093,6 +1124,8 @@ never on `rei`).
 
 ## Validation and Acceptance
 
+Acceptance includes selecting the exact EP-16 runtime through the shared wrapper, committing explicit complementary selections, importing its matching Cabal projection and recording runtime identity in the actual executable manifest. Used runtime dependencies with equal inputs share build identities, and application recipes cannot silently replace runtime-owned inputs.
+
 The review requirements above are additional completion gates, including the assigned update-isolation, manifest and cache evidence. Historical runtime-closure/version tables are diagnostic evidence only; they cannot replace those gates.
 
 The plan is accepted when all of the following are observed and recorded in Outcomes:
@@ -1160,6 +1193,8 @@ names must be unique; `validate-on-clone.sh` refuses protected names.
 
 ## Interfaces and Dependencies
 
+Runtime integration: This plan now hard-depends on plan 16 (`docs/plans/16-create-the-keiro-runtime-package-set-and-compose-applications-on-it.md`) as well as plans 9 and 10. Select its exact published `keiro-runtime` generation and declared source configuration. Commit a `nix/runtime-selection.json` containing runtime name/generation/channel and the complete complementary non-runtime group mapping; values come from published metadata, with no implicit latest/default filling. Construct the shared dependency scope through `lib.mkRuntimePackageSet`, then add Rei's own packages and exported extension into that same scope. Mori-rei-app composes the Rei library recipe into its identically configured runtime scope; it does not merge a separately built runtime set. Import the generation's pinned Cabal source/configuration project alongside the complete cohort import, at the same channel revision, and require their shared versions/index-state to agree. Nix/Cabal/runtime selector changes land atomically. Export runtime identity in the actual executable manifests and prove equal used runtime dependency identities across Rei and mori-rei-app, in addition to the `rei-core` proof. A requested app change to a runtime-owned dependency requires an explicit new runtime generation/configuration.
+
 Hard dependencies: plan 9
 (`docs/plans/9-generate-the-nix-package-set-from-the-cohort-freeze-and-guard-version-parity.md`)
 supplies `cabal/cohort.freeze` generation into Nix, the channel parity check, and the parity
@@ -1181,8 +1216,8 @@ Interfaces that must exist at the end:
 - rei `flake.nix` output `lib.haskellExtension :: haskellLib -> pkgs -> (final -> prev -> attrset)`,
   defining exactly `rei-core`, `rei-api`, `rei-cli` (`typeid-hs-*` come from the channel);
   intended to be composed after
-  `inputs.haskell-nix.lib.haskellExtension pkgs.haskell.lib.compose pkgs` in a
-  `pkgs.haskell.packages.ghc9124.override`.
+  `selectedRuntime.haskellExtension pkgs.haskell.lib.compose pkgs` in a
+  `pkgs.haskell.packages.ghc9124.override`, using the committed runtime selector.
 - rei `packages.<system>.rei-core`, `.rei`, `.rei-api`, `.default`.
 - mori-rei-app inputs `rei` (rev-pinned to `C`), `haskell-nix` and `haskell-nix-dev` following
   `rei`.
@@ -1205,3 +1240,5 @@ subscriptions status`; mori-rei-app's `scripts/dependency-closure-audit.sh`.
 - 2026-09-26 (MasterPlan coordination): Corrected the effectful floor. `effectful` has no 2.7.1.1 release (its newest is 2.7.1.0), so the floors are `effectful` 2.7.1.0 and `effectful-core` 2.7.1.1. Only `effectful-core` 2.7.0.0 to 2.7.1.0 are excluded by kiroku and shibuya for the performance regression. Plan 15's research found this.
 
 - 2026-10-04: MasterPlan review for reducing change time: clarified shared ownership and acceptance, added the applicable targeted-update/build-identity/cache contracts, and corrected historical assumptions. No implementation completion is claimed.
+
+- 2026-10-04 (runtime workstream): Added EP-16 integration, ownership and applicable acceptance; consumer adoption now requires the retained runtime set and composes application selections/packages onto it. Shared-tool preparation remains acyclic and the fleet advisory policy is preserved.

@@ -70,6 +70,8 @@ Milestone 6 establishes which case holds before anything is touched.
 
 ## Review requirements (2026-10-04)
 
+This plan now hard-depends on plan 16 (`docs/plans/16-create-the-keiro-runtime-package-set-and-compose-applications-on-it.md`) as well as plans 9 and 10; source-only Hasql vendoring preparation remains independent. Select its exact published `keiro-runtime` generation/source configuration and commit `nix/runtime-selection.json` with runtime identity and a complete complementary non-runtime group mapping from recorded metadata. Use `lib.mkRuntimePackageSet` for Mori's dependency scope before adding its own package recipes and library export. Import the matching pinned runtime Cabal source/configuration project alongside the full cohort, with agreeing shared constraints/index-state. Adopt Cabal/Nix/runtime selectors together. The exact executable manifest records the runtime identity, and comparison with a second consumer proves equal runtime identities under equal inputs. Keep Mori's intentional non-runtime Dhall policy explicit; any change that affects the runtime-owned dependency closure needs an explicit runtime configuration/generation update. The runtime plan does not repeat the already completed database cutover.
+
 Follow [ADR 5](../adr/5-keep-routine-application-changes-independent-of-cohort-and-toolchain-updates.md): ordinary application edits retain the cohort and toolchain pins. Matching versions alone is insufficient evidence of reused builds. Historical input revisions, package counts and deletion lists below are starting observations; refresh them from recorded contributor revisions.
 
 Plan 9 owns the shared `cohort-compare` app. Use `--freeze FILE_OR_URL --plan-json FILE` for a freshly generated Cabal plan and `--freeze FILE_OR_URL --nix-manifest FILE` for the executable's build evidence. Use `--compare-manifests FILE FILE` to compare build identities and `--resolve-channel-lock FILE --input-path PATH` to obtain a channel's full locked revision. The resolver starts at the lock's declared root and handles recursive array `follows`, string nodes, missing nodes and cycles. Check the Cabal import revision against the application's own resolved lock, rather than assuming a node named `haskell-nix` exists. Return 0 on success, 1 on drift or missing/unverifiable evidence, and 2 on usage error.
@@ -78,7 +80,7 @@ Export `packages.<system>.cohort-manifest` through plan 9's construction helper.
 
 Refresh `plan.json` with tests and benchmarks enabled for supported configurations; check all non-local packages. Record own packages and non-Hackage source pins in the channel's declared policy and `cabal/cohort-sources.json` (exact source revision/subdirectory plus reasons and owners for intentional Cabal/Nix source or flag differences). Do not use arbitrary `--ignore` lists. Keep exact-binary release rehearsals: version parity alone does not establish flag/source or behavioral equivalence. Consumer checks are thin calls to shared tooling, with no fallback comparator.
 
-Stage the Cabal and Nix selector adoption together after both paths pass; intermediate source-only vendoring commits retain old selectors. Milestone 1 preparation may run independently, but full adoption still requires plans 9 and 10. Remove the bespoke jq/join fallback: the pinned channel must already provide plan 9's tool.
+Stage the Cabal and Nix selector adoption together after both paths pass; intermediate source-only vendoring commits retain old selectors. Milestone 1 preparation may run independently, but full adoption still requires plans 9, 10 and 16. Remove the bespoke jq/join fallback: the pinned channel must already provide plan 9's tool.
 
 Mori's global database already received Kiroku `0012` on 2026-09-26. Read-only state checks should establish Case A and the deploy is an ordinary binary swap. Case B describes a different older target only; it is not pending work for the known global database. Rollback to a previously proven schema-compatible 0.9 binary remains possible; never roll back to a 0.8 writer against `0012`. Continue restored-clone exact-binary rehearsal.
 
@@ -86,9 +88,11 @@ Constrain package sources to their relevant directories plus required shared fil
 
 ## Progress
 
+- [ ] Prerequisite: EP-16 delivers a tested exact runtime generation and composition API; adopt it atomically with Cabal/Nix selectors and prove used runtime dependency identities
+
 - [ ] Atomic adoption and source-boundary proof pass; completed database cutover is verified read-only
 
-- [ ] M0: Confirm preconditions: plans 9, 10 and 15 complete and plan 8's freeze selecting `effectful`/`effectful-core` 2.7.x at a haskell-nix revision `R`, mori working tree clean, and plan 11's extension convention read (or its absence recorded). Milestone 1 needs none of these and may run first.
+- [ ] M0: Confirm preconditions: plans 9, 10, 15 and 16 complete and plan 8's freeze selecting `effectful`/`effectful-core` 2.7.x at a haskell-nix revision `R`, mori working tree clean, and plan 11's extension convention read (or its absence recorded). Milestone 1 needs none of these and may run first.
 - [ ] M0: Capture the baseline: mori's current Cabal plan versions, the current overlay entry list, and the current deployed mori store path.
 - [ ] M1: Copy the three `hasql-effectful` modules from `tan-effectful` `5e081ad8` into `mori-core` as `Mori.Infrastructure.Hasql.Effect`, `.Static.Pool` and `.Static.Connection`, with provenance headers; prove the copy by the formatter-normalized diff; commit (additive, nothing imports them yet).
 - [ ] M1: Rewrite the 59 `import Effectful.Hasql` lines (33 in `mori-core/src`, 26 in `mori-core/test`) to `Mori.Infrastructure.Hasql.Effect`; prove zero residue; drop `hasql-effectful` from `mori-core` (library and `mori-core-test`) and `mori-cli`; commit.
@@ -153,6 +157,8 @@ These were found while drafting on 2026-09-26. Re-verify each at execution time.
 
 
 ## Decision Log
+
+- Decision (runtime plan, 2026-10-04): adopt the plan-16 integration contract above. It owns retained runtime selection/composition, while this plan retains its existing solver/generation/policy/consumer/deployment responsibility. Consumer plans 11–13 require runtime delivery before adoption; preparatory shared tools do not depend on consumers.
 
 - Decision (2026-10-04 review update): adopt the Review requirements above and ADR 5's update-isolation/build-evidence contract. Historical closure-only acceptance, fixed package counts and duplicated comparison implementations are superseded where noted. Preserve the agreed advisory fleet guard and effectful migration policy. Implementation evidence remains pending.
 
@@ -223,7 +229,7 @@ These were found while drafting on 2026-09-26. Re-verify each at execution time.
 - **Plan 15** (`docs/plans/15-release-the-first-party-libraries-on-effectful-2-7.md`) releases `keiro`, `kioku-core`, `shikumi`, `shikumi-trace` and `shikumi-cache` with bounds admitting `effectful >= 2.7.1.1`. Until then those libraries cap `effectful`/`effectful-core` below 2.7, and plan 8's freeze cannot select 2.7. Once they are released, the freeze selects `effectful` and `effectful-core` 2.7.x, and mori must compile against it.
 - **effectful 2.7**: the `effectful-core` 2.7.0.0 release (its changelog is `effectful-core/CHANGELOG.md` in `mori://effectful/effectful`, located with `mori registry show effectful/effectful --full`) made these breaking or deprecating changes that can reach an application: the `LocalEnv` type lost its `handlerEs` parameter; the `SharedSuffix` class is deprecated and dropped from the `Effectful.Dispatch.Dynamic` signatures; the `KnownEffects` class is removed (`ProviderList` handlers need `KnownSubset`); `stateM`/`modifyM` and the `runStateMVar` family of the static `State` modules are deprecated; `withLiftMap` is deprecated; and `Effectful.Internal.MTL` became `Effectful.Internal.Effect.Dynamic`. It also requires `strict-mutable-base >= 2`. 2.7.1.1 fixed a dynamic-dispatch performance regression, which is why plan 15 uses it as the floor.
 - **Vendoring**: copying a small dependency's source into the application's own tree under the application's module names, instead of depending on a published package. Rei did this for the same Hasql glue in `mori://shinzui/rei/plans/225-vendor-the-hasql-effect-into-rei-core-and-retire-hasql-effectful`, under the rule `mori://shinzui/rei/okf/adrs/concepts/ADR-33` ("Vendor a first-party dependency when no release carries the API"). That ADR allows it only for code that is small, stable, unreachable upstream and first-party, and imposes four obligations on the copy: a header naming the upstream repository, revision and path; an enumerated list of deviations; a complete (not pruned) copy; and a diff check against upstream that first runs upstream through the repository's own formatter. Its stated deletion condition is a Hackage `hasql-effectful` release carrying the `SessionError`-based API. Rei's copies are `rei-core/src/Rei/Infrastructure/Hasql/Effect.hs`, `…/Static/Pool.hs` and `…/Static/Connection.hs` in `mori://shinzui/rei` (artifact-level URIs pending).
-- **`R`**: the full 40-character haskell-nix commit this plan adopts. It must contain plans 9 and 10's work and a freeze that selects `effectful`/`effectful-core` 2.7.x (plan 15's releases, adopted by plan 8). If rei has already adopted the set under plan 11, prefer the same `R` as rei's `flake.lock`.
+- **`R`**: the full 40-character haskell-nix commit this plan adopts. It must contain plans 9, 10 and 16's work and a freeze that selects `effectful`/`effectful-core` 2.7.x (plan 15's releases, adopted by plan 8). If rei has already adopted the set under plan 11, prefer the same `R` as rei's `flake.lock`.
 - **Kiroku**: the event store library. **Kiroku migration `0012`** (`kiroku-store-migrations` 0.6):
   - adds a `category` column to `kiroku.stream_events`;
   - backfills it on every `$all` row (rows with `stream_id = 0`);
@@ -299,10 +305,30 @@ From Rei:
 
 ## Plan of Work
 
+
+Before adopting selectors, commit `nix/runtime-selection.json` with keys `runtime`,
+`generation`, `channel` and `applicationSelections`, using the exact published runtime
+and an explicit complete complementary group map. Build options must match its tested
+configuration. Import both the full `cabal/cohort.freeze` and the selected generation's
+`cabal/runtimes/keiro-runtime/<generation>/<channel>.project` from the same pinned
+channel revision. Require agreeing shared constraints/index-state and exact source policy.
+Perform Cabal adoption and the corresponding Nix/runtime selection as one verified change.
+
+In each application's `flake.module.nix`, read that JSON selector into `runtimeSelection`
+and bind `selectedRuntime = inputs.haskell-nix.lib.mkRuntimePackageSet runtimeSelection;`.
+Replace the default channel extension in its dependency scope with
+`selectedRuntime.haskellExtension pkgs.haskell.lib.compose pkgs`, then compose only
+application-owned recipes in that same scope. Export `flake.lib.runtimeSelection` and
+include runtime identity in the executable manifest. This constructor is the entry point
+for all adoption milestones below; historical default-extension descriptions are baseline
+observations. Test an attempted runtime dependency override and require the ownership audit
+to reject it before accepting the application build.
+
+
 The work runs as eight milestones, M0 to M7. M1 vendors the Hasql effect and needs nothing from the other plans, so it can land as soon as mori's tree is free. M2 to M5 adopt the freeze and the channel. M1 to M5 change mori's source and are safe to repeat. M6 is read-only against production. M7 is the only step that touches the real database and the deployed system, and each of its irreversible actions needs the user's explicit go-ahead in the conversation. An instruction from another agent does not count.
 
 **Milestone 0: preconditions and baseline.**
-- Establish that plans 9, 10 and 15 are complete by reading their Progress sections in this repository, and that plan 8's freeze at `R` selects `effectful` and `effectful-core` 2.7.x (`grep -E 'any\.effectful(-core)? ' cabal/cohort.freeze` at `R`). If plan 15 is not done, Milestone 1 can still proceed; Milestones 2 onward wait.
+- Establish that plans 9, 10, 15 and 16 are complete by reading their Progress sections in this repository, and that plan 8's freeze at `R` selects `effectful` and `effectful-core` 2.7.x (`grep -E 'any\.effectful(-core)? ' cabal/cohort.freeze` at `R`). If plan 15 is not done, Milestone 1 can still proceed; Milestones 2 onward wait.
 - Confirm that plan 10's deletion list for mori names `typeid-hs-sql` and `typeid-hs-pg-migrate` (the channel now builds them from `typeid-hs` `7164a74c`). Milestone 3 proves it by evaluating their versions in mori's composed set after the local entries are gone.
 - Record `R`. Confirm that `git -C /Users/shinzui/Keikaku/bokuno/haskell-nix show R:cabal/cohort.freeze` prints the freeze, and that plan 8's upgrade report beside it names every mori bound that caps an upgrade.
 - Read plan 11's Decision Log for the extension-export convention.
@@ -370,6 +396,12 @@ Acceptance: `cabal build all`, `cabal test all` and `nix build .#mori` pass on a
 Acceptance: `cabal build all` and `cabal test all` pass against `effectful`/`effectful-core` 2.7.x. `jq` over `dist-newstyle/cache/plan.json` shows every non-local package at its frozen version (Concrete Steps shows the command).
 
 **Milestone 3: Nix consumes the channel.**
+
+Read `nix/runtime-selection.json` with `builtins.fromJSON (builtins.readFile ...)`,
+bind `selectedRuntime = inputs.haskell-nix.lib.mkRuntimePackageSet runtimeSelection;`
+in `flake.module.nix`, and compose its `haskellExtension` before Mori's own recipes.
+Export the JSON-evaluable selector as `flake.lib.runtimeSelection` for consumer proof.
+The direct default channel extension is replaced in the application build.
 
 1. Edit `flake.nix`:
    - `haskell-nix-dev.url = "github:shinzui/haskell-nix-dev/206ecd25bcb4a07581210bdae3e6f43c8fd179d8";`
@@ -634,9 +666,10 @@ nix eval --impure --expr '
   let f = builtins.getFlake (toString ./.);
       pkgs = f.inputs.nixpkgs.legacyPackages.aarch64-darwin;
       hl = pkgs.haskell.lib.compose;
+      selectedRuntime = f.inputs.haskell-nix.lib.mkRuntimePackageSet f.lib.runtimeSelection;
       hp = pkgs.haskell.packages.ghc9124.override {
         overrides = pkgs.lib.composeExtensions
-          (f.inputs.haskell-nix.lib.haskellExtension hl pkgs)
+          (selectedRuntime.haskellExtension hl pkgs)
           (f.lib.haskellExtension hl pkgs);
       };
   in [ hp.mori-types.version hp.mori-schema-pin.version ]'
@@ -794,6 +827,8 @@ Commit the two ground-truth captures and a short rollout note under mori's `docs
 
 ## Validation and Acceptance
 
+Acceptance includes selecting the exact EP-16 runtime through the shared wrapper, committing explicit complementary selections, importing its matching Cabal projection and recording runtime identity in the actual executable manifest. Used runtime dependencies with equal inputs share build identities, and application recipes cannot silently replace runtime-owned inputs.
+
 The review requirements above are additional completion gates, including the assigned update-isolation, manifest and cache evidence. Historical runtime-closure/version tables are diagnostic evidence only; they cannot replace those gates.
 
 The plan is complete when all of the following are observed.
@@ -852,6 +887,8 @@ The activation boots out and re-bootstraps every agent whose plist changed. It h
 
 ## Interfaces and Dependencies
 
+Runtime integration: This plan now hard-depends on plan 16 (`docs/plans/16-create-the-keiro-runtime-package-set-and-compose-applications-on-it.md`) as well as plans 9 and 10; source-only Hasql vendoring preparation remains independent. Select its exact published `keiro-runtime` generation/source configuration and commit `nix/runtime-selection.json` with runtime identity and a complete complementary non-runtime group mapping from recorded metadata. Use `lib.mkRuntimePackageSet` for Mori's dependency scope before adding its own package recipes and library export. Import the matching pinned runtime Cabal source/configuration project alongside the full cohort, with agreeing shared constraints/index-state. Adopt Cabal/Nix/runtime selectors together. The exact executable manifest records the runtime identity, and comparison with a second consumer proves equal runtime identities under equal inputs. Keep Mori's intentional non-runtime Dhall policy explicit; any change that affects the runtime-owned dependency closure needs an explicit runtime configuration/generation update. The runtime plan does not repeat the already completed database cutover.
+
 **Inputs this plan consumes:**
 - From plan 8: `cabal/cohort.freeze` at `R` (Cabal `constraints:` syntax, one `any.<pkg> ==<version>` per package), and its upgrade report naming mori's capping bounds. The freeze must select `effectful` and `effectful-core` 2.7.x, which it can do only after plan 15.
 - From plan 9: the channel's generated version layer (so `haskellPackages.<pkg>.version` equals the freeze) and the shared comparison script under `scripts/` in this repository.
@@ -865,7 +902,7 @@ The activation boots out and re-bootstraps every agent whose plist changed. It h
 - `flake.module.nix` outputs:
   - `packages.<system>.mori` and `.default` (the `mori-cli` derivation);
   - `legacyPackages.<system>.haskellPackages` (the composed GHC 9.12.4 set);
-  - `lib.haskellExtension :: haskellLib -> pkgs -> (final -> prev -> { mori-types, mori-schema-pin })`, system-independent. Consumers compose it after this repository's `lib.haskellExtension`, and both are applied with `pkgs.lib.composeExtensions`.
+  - `lib.haskellExtension :: haskellLib -> pkgs -> (final -> prev -> { mori-types, mori-schema-pin })`, system-independent. Consumers compose it after their selected runtime's `haskellExtension`, and both are applied with `pkgs.lib.composeExtensions` in one scope.
 - `nix/mori-haskell-extension.nix`, the single definition of those two packages.
 - `mori-core` modules `Mori.Infrastructure.Hasql.Effect` (exporting `Hasql`, `runSession`, `runSessionEither`, `runHasqlWithPool`, `runHasqlWithConnection`, and re-exporting `SessionError` and `Session`), `Mori.Infrastructure.Hasql.Static.Pool` and `Mori.Infrastructure.Hasql.Static.Connection`, vendored from `tan-effectful` `5e081ad8`, depending only on `effectful-core`, `hasql` and `hasql-pool`.
 - A mori ADR recording the vendoring (the next free number, `0054` at `bf28e026`).
@@ -892,3 +929,5 @@ The activation boots out and re-bootstraps every agent whose plist changed. It h
 - 2026-09-26 (MasterPlan coordination): The mori session completed mori's Kiroku `0012` cutover on 2026-09-26 (pushed `f3c5fa4b` + `bf28e026`; 11.9 s for 526,818 `$all` rows, 0 mismatches, verify clean; `mori-automate` runs `mori-cli` `35dr5zq5…`). The M0 state check will find Case A (`0012` applied, Kiroku 0.9 deployed), so this plan's deploy is a binary swap and the Case B stop-writers procedure stays only as the documented path for a future Kiroku migration. The dotfiles lock change for that deploy was left uncommitted for the user.
 
 - 2026-10-04: MasterPlan review for reducing change time: clarified shared ownership and acceptance, added the applicable targeted-update/build-identity/cache contracts, and corrected historical assumptions. No implementation completion is claimed.
+
+- 2026-10-04 (runtime workstream): Added EP-16 integration, ownership and applicable acceptance; consumer adoption now requires the retained runtime set and composes application selections/packages onto it. Shared-tool preparation remains acyclic and the fleet advisory policy is preserved.

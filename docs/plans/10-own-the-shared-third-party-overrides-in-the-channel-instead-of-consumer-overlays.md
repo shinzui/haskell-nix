@@ -84,6 +84,8 @@ You can see it working in three ways:
 
 ## Review requirements (2026-10-04)
 
+Plan 16 (`docs/plans/16-create-the-keiro-runtime-package-set-and-compose-applications-on-it.md`) will publish retained runtime ownership and source/policy records. Define the overlay audit so it can accept an explicit set of runtime-owned transitive packages/source components in addition to the existing registry/generated/freeze ownership. The baseline audit works before plan 16 exists; that later plan supplies the retained records and extends its fixtures. An application cannot declare a runtime-owned dependency as its own to evade the audit. Keep shared source/policy definitions centralized here; plan 16 captures immutable effective recipes for a generation, including Kafka forks/adapters outside the current family catalog, without copying them into consumer overlays.
+
 Follow [ADR 5](../adr/5-keep-routine-application-changes-independent-of-cohort-and-toolchain-updates.md): ordinary application edits retain the cohort and toolchain pins. Matching versions alone is insufficient evidence of reused builds. Historical input revisions, package counts and deletion lists below are starting observations; refresh them from recorded contributor revisions.
 
 Audit consumer-owned names against the union of selected first-party packages, generated cohort entries, frozen shared names and declared source pins, not just `overlays/registry.nix`. Declaring a shared package as owned cannot hide shadowing. Re-inventory current overlays, including Rei's added API packages and shared instrumentation overrides. Keep only the already agreed mina `mori-schema-pin` exception; do not reopen that decision as part of this review.
@@ -227,6 +229,8 @@ this repository at `4cabd105` and of the consumer overlays at the HEADs named in
 
 
 ## Decision Log
+
+- Decision (runtime plan, 2026-10-04): adopt the plan-16 integration contract above. It owns retained runtime selection/composition, while this plan retains its existing solver/generation/policy/consumer/deployment responsibility. Consumer plans 11–13 require runtime delivery before adoption; preparatory shared tools do not depend on consumers.
 
 - Decision (2026-10-04 review update): adopt the Review requirements above and ADR 5's update-isolation/build-evidence contract. Historical closure-only acceptance, fixed package counts and duplicated comparison implementations are superseded where noted. Preserve the agreed advisory fleet guard and effectful migration policy. Implementation evidence remains pending.
 
@@ -1397,6 +1401,8 @@ Every step is additive or a scratch evaluation, and all can be rerun.
 
 ## Interfaces and Dependencies
 
+Runtime integration: Plan 16 (`docs/plans/16-create-the-keiro-runtime-package-set-and-compose-applications-on-it.md`) will publish retained runtime ownership and source/policy records. Define the overlay audit so it can accept an explicit set of runtime-owned transitive packages/source components in addition to the existing registry/generated/freeze ownership. The baseline audit works before plan 16 exists; that later plan supplies the retained records and extends its fixtures. An application cannot declare a runtime-owned dependency as its own to evade the audit. Keep shared source/policy definitions centralized here; plan 16 captures immutable effective recipes for a generation, including Kafka forks/adapters outside the current family catalog, without copying them into consumer overlays.
+
 At the end of this plan these exist in `mori://shinzui/haskell-nix`.
 
 Registry entries in `overlays/registry.nix`:
@@ -1511,3 +1517,5 @@ Dependencies and hand-offs:
 - 2026-09-26 (user decisions on the private sources): `topagentnetwork/typeid-hs` was made public (anonymous `git ls-remote` returns `HEAD` `7164a74c`; the GitHub API answers 200 without credentials), so `typeid-hs-sql` and `typeid-hs-pg-migrate` move into the channel as source-pinned registry entries (`patches/typeid-hs/`, a `fetchFromGitHub` at `7164a74c`, not a new first-party family because ADR 1 requires a catalog migration for that), and rei, mori and mori-rei-app delete both entries and their `typeid-hs-src` input. `hasql-effectful` is used only by mori, so plan 12 vendors it into `mori-core`; mori's deletion list now includes it and `tan-effectful-src`, conditioned on that vendoring landing first or in the same change. Mina's `mori-schema-pin` at mori `7af02c55` is now the only declared exception (reclassified from sibling), and mina's `kdl-hs` is a conditional deletion reported as `undeclared`, not an exception. Updated throughout: Purpose (53 shared overrides), Progress, Surprises (typeid-hs public, hasql-effectful mori-only), Decision Log (old exception decision marked superseded; three user decisions added), the inventory's classes and counts (rei 14, mori 32, mori-rei-app 5), the deletion lists and freed flake inputs, M2's registry and patch steps and the anonymous-prefetch step, the audit's declarations and expected report (deletion list = `shadowing` + `undeclared`), the M4 rehearsals (dummy `typeid-hs-src`), the ADR's decision text, the consumer-integration example, Validation, Idempotence, and the hand-offs to plans 9, 11, 12, 13 and 15 and to the MasterPlan owner. The family's move to `effectful` 2.7 (plan 15) is noted where it matters: no moved package has an `effectful` bound, and `hasql-effectful`'s `<2.6` cap is one more reason to vendor it.
 
 - 2026-10-04: MasterPlan review for reducing change time: clarified shared ownership and acceptance, added the applicable targeted-update/build-identity/cache contracts, and corrected historical assumptions. No implementation completion is claimed.
+
+- 2026-10-04 (runtime workstream): Added EP-16 integration, ownership and applicable acceptance; consumer adoption now requires the retained runtime set and composes application selections/packages onto it. Shared-tool preparation remains acyclic and the fleet advisory policy is preserved.

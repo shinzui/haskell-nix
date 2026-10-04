@@ -74,6 +74,8 @@ of Work).
 
 ## Review requirements (2026-10-04)
 
+This plan now hard-depends on plan 16 (`docs/plans/16-create-the-keiro-runtime-package-set-and-compose-applications-on-it.md`) as well as plans 9 and 10. Both applications select an exact published `keiro-runtime` generation/configuration via committed `nix/runtime-selection.json`, including complete complementary non-runtime group selections. Use `lib.mkRuntimePackageSet` and add their own package recipes in one scope; Mina's Baikai/Shikumi selections remain independent outside runtime ownership. Import the matching pinned runtime Cabal source/configuration project alongside the complete cohort. Runtime availability does not require linking Keiro, Kafka or other unused components. Build/check only each application's actual dependencies, and record runtime identity and verified used dependency paths in its executable manifest. Adopt all selectors atomically and reject attempted overrides of runtime-owned dependencies. Retain the agreed Mina schema-pin exception and existing hotfix behavior.
+
 Follow [ADR 5](../adr/5-keep-routine-application-changes-independent-of-cohort-and-toolchain-updates.md): ordinary application edits retain the cohort and toolchain pins. Matching versions alone is insufficient evidence of reused builds. Historical input revisions, package counts and deletion lists below are starting observations; refresh them from recorded contributor revisions.
 
 Plan 9 owns the shared `cohort-compare` app. Use `--freeze FILE_OR_URL --plan-json FILE` for a freshly generated Cabal plan and `--freeze FILE_OR_URL --nix-manifest FILE` for the executable's build evidence. Use `--compare-manifests FILE FILE` to compare build identities and `--resolve-channel-lock FILE --input-path PATH` to obtain a channel's full locked revision. The resolver starts at the lock's declared root and handles recursive array `follows`, string nodes, missing nodes and cycles. Check the Cabal import revision against the application's own resolved lock, rather than assuming a node named `haskell-nix` exists. Return 0 on success, 1 on drift or missing/unverifiable evidence, and 2 on usage error.
@@ -88,9 +90,11 @@ The mori global database is already on `0012` and Kiroku 0.9; do not add its com
 
 ## Progress
 
+- [ ] Prerequisite: EP-16 delivers a tested exact runtime generation and composition API; adopt it atomically with Cabal/Nix selectors and prove used runtime dependency identities
+
 - [ ] Shared comparator/recursive resolver and atomic adoption pass for both applications
 
-- [ ] M0: Confirm plans 15, 8, 9 and 10 are complete and the channel revision carrying `cabal/cohort.freeze` is pushed; record `<CHANNEL_REV>` and plan 15's released `shikumi`, `shikumi-trace` and `shikumi-cache` versions in the Decision Log.
+- [ ] M0: Confirm plans 15, 8, 9, 10 and 16 are complete and the channel revision carrying `cabal/cohort.freeze` is pushed; record `<CHANNEL_REV>` and plan 15's released `shikumi`, `shikumi-trace` and `shikumi-cache` versions in the Decision Log.
 - [ ] M0: Record baselines for mina and reiko (current test results, current `plan.json`, current deployed closures) under the scratch directory.
 - [ ] M1: reiko `flake.nix` pins `haskell-nix-dev` to 206ecd25 and `haskell-nix` to `<CHANNEL_REV>`; `flake.lock` relocked.
 - [ ] M1: reiko `cabal.project` imports the freeze at `<CHANNEL_REV>` and no longer carries its own `index-state`.
@@ -188,6 +192,8 @@ These were found while drafting the plan (2026-09-26) and shaped it.
 
 
 ## Decision Log
+
+- Decision (runtime plan, 2026-10-04): adopt the plan-16 integration contract above. It owns retained runtime selection/composition, while this plan retains its existing solver/generation/policy/consumer/deployment responsibility. Consumer plans 11–13 require runtime delivery before adoption; preparatory shared tools do not depend on consumers.
 
 - Decision (2026-10-04 review update): adopt the Review requirements above and ADR 5's update-isolation/build-evidence contract. Historical closure-only acceptance, fixed package counts and duplicated comparison implementations are superseded where noted. Preserve the agreed advisory fleet guard and effectful migration policy. Implementation evidence remains pending.
 
@@ -343,7 +349,7 @@ Terms used in this plan:
   plan 9 the channel also sets every frozen package to its frozen version; after plan 10 it carries
   the shared build overrides (`generic-lens` 2.3, `kdl-hs`, and others) that applications used to
   define locally.
-- **`<CHANNEL_REV>`.** The full commit hash of this repository's `master` after plans 8, 9 and 10
+- **`<CHANNEL_REV>`.** The full commit hash of this repository's `master` after plans 8, 9, 10 and 16
   have landed and been pushed. It is the revision both the freeze import URL and the
   application's `flake.nix` `haskell-nix` input name. If plans 11 or 12 have already adopted a
   revision, prefer the same one. It is not required: plan 14's deploy guard, as the user relaxed
@@ -499,9 +505,29 @@ push, run a production migration, or activate without the user's explicit go-ahe
 ## Plan of Work
 
 
+Before adopting selectors, commit `nix/runtime-selection.json` with keys `runtime`,
+`generation`, `channel` and `applicationSelections`, using the exact published runtime
+and an explicit complete complementary group map. Build options must match its tested
+configuration. Import both the full `cabal/cohort.freeze` and the selected generation's
+`cabal/runtimes/keiro-runtime/<generation>/<channel>.project` from the same pinned
+channel revision. Require agreeing shared constraints/index-state and exact source policy.
+Perform Cabal adoption and the corresponding Nix/runtime selection as one verified change.
+
+In each application's `flake.module.nix`, read that JSON selector into `runtimeSelection`
+and bind `selectedRuntime = inputs.haskell-nix.lib.mkRuntimePackageSet runtimeSelection;`.
+Replace the default channel extension in its dependency scope with
+`selectedRuntime.haskellExtension pkgs.haskell.lib.compose pkgs`, then compose only
+application-owned recipes in that same scope. Export `flake.lib.runtimeSelection` and
+include runtime identity in the executable manifest. This constructor is the entry point
+for all adoption milestones below; historical default-extension descriptions are baseline
+observations. Test an attempted runtime dependency override and require the ownership audit
+to reject it before accepting the application build.
+
+
+
 ### Milestone 0: preconditions and baselines
 
-Nothing in this plan can start until plans 15, 8, 9 and 10 are complete, because the applications
+Nothing in this plan can start until plans 15, 8, 9, 10 and 16 are complete, because the applications
 import a freeze that plan 8 writes after plan 15's effectful 2.7 releases exist, rely on a channel
 whose versions plan 9 generates from it, and delete overrides that plan 10 moves into the channel.
 Confirm all four are marked Complete in
@@ -688,12 +714,12 @@ git fetch origin
 git log -1 --format='%H %s' origin/master
 git show origin/master:cabal/cohort.freeze | head -5
 git show origin/master:cabal/cohort.freeze | grep -E 'any\.(effectful|effectful-core|shikumi|shikumi-trace|shikumi-cache|shikumi-trace-otel|streamly|streamly-core) '
-grep -n '^| 8 \|^| 9 \|^| 10 \|^| 15 ' docs/masterplans/3-align-one-cabal-and-nix-package-set-across-the-rei-family-of-applications.md
+grep -n '^| 8 \|^| 9 \|^| 10 \|^| 15 \|^| 16 ' docs/masterplans/3-align-one-cabal-and-nix-package-set-across-the-rei-family-of-applications.md
 ```
 
 Expect the freeze to start with an `index-state:` line and a `constraints:` line, to carry
 `effectful` at 2.7.1.0 or later / `effectful-core` at 2.7.1.1 or later, plan 15's shikumi versions and Hackage
-`streamly`/`streamly-core` (0.11.x / 0.3.x), and rows 8, 9, 10 and 15 to say `Complete`. If any is
+`streamly`/`streamly-core` (0.11.x / 0.3.x), and rows 8, 9, 10, 15 and 16 to say `Complete`. If any is
 not complete, stop: this plan's hard dependencies are unmet.
 
 M0, baselines (repeat for reiko at `/Users/shinzui/Keikaku/bokuno/rei-project/reiko`):
@@ -898,6 +924,8 @@ repository's shell it points at the development database.
 
 ## Validation and Acceptance
 
+Acceptance includes selecting the exact EP-16 runtime through the shared wrapper, committing explicit complementary selections, importing its matching Cabal projection and recording runtime identity in the actual executable manifest. Used runtime dependencies with equal inputs share build identities, and application recipes cannot silently replace runtime-owned inputs.
+
 The review requirements above are additional completion gates, including the assigned update-isolation, manifest and cache evidence. Historical runtime-closure/version tables are diagnostic evidence only; they cannot replace those gates.
 
 The plan is accepted when all of the following hold, each observed rather than inferred.
@@ -961,6 +989,8 @@ transaction read-only.
 
 
 ## Interfaces and Dependencies
+
+Runtime integration: This plan now hard-depends on plan 16 (`docs/plans/16-create-the-keiro-runtime-package-set-and-compose-applications-on-it.md`) as well as plans 9 and 10. Both applications select an exact published `keiro-runtime` generation/configuration via committed `nix/runtime-selection.json`, including complete complementary non-runtime group selections. Use `lib.mkRuntimePackageSet` and add their own package recipes in one scope; Mina's Baikai/Shikumi selections remain independent outside runtime ownership. Import the matching pinned runtime Cabal source/configuration project alongside the complete cohort. Runtime availability does not require linking Keiro, Kafka or other unused components. Build/check only each application's actual dependencies, and record runtime identity and verified used dependency paths in its executable manifest. Adopt all selectors atomically and reject attempted overrides of runtime-owned dependencies. Retain the agreed Mina schema-pin exception and existing hotfix behavior.
 
 Libraries and versions this plan moves mina onto (the freeze is authoritative): `baikai 0.7.1.0`,
 `baikai-claude 0.7.0.0`, `baikai-openai 0.7.0.0`, `baikai-trace-otel 0.4.0.1`; `shikumi`,
@@ -1056,3 +1086,5 @@ from Hackage):
 - 2026-09-26 (MasterPlan coordination): Mori's database received Kiroku `0012` on 2026-09-26, and mina-web was restarted at 16:00 with a PATH whose `mori` is `mori-cli` `35dr5zq5…` on kiroku-store 0.9.0.1 (checked with `nix-store -qR` on its PATH entry). The ordering hazard this plan guarded against, a Kiroku 0.8 `mori` on mina-web's PATH after `0012`, is gone. The post-activation ledger-vs-`kiroku-store` check stays as a cheap confirmation.
 
 - 2026-10-04: MasterPlan review for reducing change time: clarified shared ownership and acceptance, added the applicable targeted-update/build-identity/cache contracts, and corrected historical assumptions. No implementation completion is claimed.
+
+- 2026-10-04 (runtime workstream): Added EP-16 integration, ownership and applicable acceptance; consumer adoption now requires the retained runtime set and composes application selections/packages onto it. Shared-tool preparation remains acyclic and the fleet advisory policy is preserved.

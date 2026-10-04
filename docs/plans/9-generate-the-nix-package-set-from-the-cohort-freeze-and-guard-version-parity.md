@@ -77,6 +77,8 @@ their transitive cohort all arrive through the freeze.
 
 ## Review requirements (2026-10-04)
 
+Plan 16 (`docs/plans/16-create-the-keiro-runtime-package-set-and-compose-applications-on-it.md`) owns retained runtime records and guarded application composition after this plan and plan 10. Provide reusable generator and manifest helpers accepting an explicit resolved cohort/source/configuration context. Plan 16 uses them to generate immutable runtime projections and extends manifests with runtime name/generation/configuration; no duplicate freeze parser, source/hash lookup or comparator is permitted. A selected runtime projection protects its owned dependency recipes when applying additional application entries. Detect shared-name source/metadata/flag/policy conflicts before claiming reuse. Keep ordinary default/historical factory behavior and checks valid. Runtime builds/cache warming in plan 16 reuse this plan's publication mechanism, including any additional runtime roots.
+
 Follow [ADR 5](../adr/5-keep-routine-application-changes-independent-of-cohort-and-toolchain-updates.md): ordinary application edits retain the cohort and toolchain pins. Matching versions alone is insufficient evidence of reused builds. Historical input revisions, package counts and deletion lists below are starting observations; refresh them from recorded contributor revisions.
 
 Plan 9 owns the shared `cohort-compare` app. Use `--freeze FILE_OR_URL --plan-json FILE` for a freshly generated Cabal plan and `--freeze FILE_OR_URL --nix-manifest FILE` for the executable's build evidence. Use `--compare-manifests FILE FILE` to compare build identities and `--resolve-channel-lock FILE --input-path PATH` to obtain a channel's full locked revision. The resolver starts at the lock's declared root and handles recursive array `follows`, string nodes, missing nodes and cycles. Check the Cabal import revision against the application's own resolved lock, rather than assuming a node named `haskell-nix` exists. Return 0 on success, 1 on drift or missing/unverifiable evidence, and 2 on usage error.
@@ -183,6 +185,8 @@ Acceptance fixtures include statically linked missing dependencies, wrong plus c
 
 
 ## Decision Log
+
+- Decision (runtime plan, 2026-10-04): adopt the plan-16 integration contract above. It owns retained runtime selection/composition, while this plan retains its existing solver/generation/policy/consumer/deployment responsibility. Consumer plans 11–13 require runtime delivery before adoption; preparatory shared tools do not depend on consumers.
 
 - Decision (2026-10-04 review update): adopt the Review requirements above and ADR 5's update-isolation/build-evidence contract. Historical closure-only acceptance, fixed package counts and duplicated comparison implementations are superseded where noted. Preserve the agreed advisory fleet guard and effectful migration policy. Implementation evidence remains pending.
 
@@ -1069,6 +1073,8 @@ The plan is accepted when all of the following are observed:
 
 ## Interfaces and Dependencies
 
+Runtime integration: Plan 16 (`docs/plans/16-create-the-keiro-runtime-package-set-and-compose-applications-on-it.md`) owns retained runtime records and guarded application composition after this plan and plan 10. Provide reusable generator and manifest helpers accepting an explicit resolved cohort/source/configuration context. Plan 16 uses them to generate immutable runtime projections and extends manifests with runtime name/generation/configuration; no duplicate freeze parser, source/hash lookup or comparator is permitted. A selected runtime projection protects its owned dependency recipes when applying additional application entries. Detect shared-name source/metadata/flag/policy conflicts before claiming reuse. Keep ordinary default/historical factory behavior and checks valid. Runtime builds/cache warming in plan 16 reuse this plan's publication mechanism, including any additional runtime roots.
+
 New and changed Nix interfaces, all under this repository:
 
 ```nix
@@ -1138,3 +1144,5 @@ Nothing in this plan requires a new flake input.
 - 2026-09-26 (MasterPlan reconciliation after parallel drafting): The ADR is renumbered to `docs/adr/3-generate-the-channels-package-versions-from-the-cohort-freeze.md`, because the MasterPlan allocates 2 to plan 8, 3 to this plan and 4 to plan 10. The freeze's `index-state:` line is confirmed: plan 8 writes it.
 
 - 2026-10-04: MasterPlan review for reducing change time: clarified shared ownership and acceptance, added the applicable targeted-update/build-identity/cache contracts, and corrected historical assumptions. No implementation completion is claimed.
+
+- 2026-10-04 (runtime workstream): Added EP-16 integration, ownership and applicable acceptance; consumer adoption now requires the retained runtime set and composes application selections/packages onto it. Shared-tool preparation remains acyclic and the fleet advisory policy is preserved.
