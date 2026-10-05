@@ -62,7 +62,7 @@ Build/test the changed libraries in the required supported configurations. Scrat
 
 - [x] (2026-09-26) Research: verified Hackage bounds, the dependency graph among shikumi, keiro and kioku, each repository's release skill, and the applications' own effectful bounds. Recorded in Context and Orientation and Surprises & Discoveries.
 - [x] (2026-10-05) Milestone 0 preflight: queried current Hackage metadata and remote tags; clean source revisions are Shikumi `7cd5f9e121166874fdb9a6a99f0a8a3051761149`, Keiro `4b01af10aa55ed09d33a1304331b5adf3931c7ac`, Kioku `f0f116b7168b651afa6209eed2293cdb4ed36026`.
-- [ ] Release approval: present concrete verified package changes before commit/tag/upload; historical confirmation questions are deferred until applicable.
+- [x] (2026-10-05) Release approval: Shikumi, Keiro and Kioku proposals were approved. The user explicitly confirmed authorization to release all Keiro runtime projects; this persists across the initiative, with each repository release skill and its verification gates retained.
 - [x] (2026-10-05) Milestone 1 preparation: drafted nine Shikumi patch versions, internal bounds and changelogs; validated 38 capability records and 112 filesystem evidence references; formatting and the isolated Hackage effectful 2.6 build passed.
 - [x] (2026-10-05) Milestone 1 release gates: effectful 2.6.1.0 and 2.7.1.0 full builds; 13/13 test suites passed on each; effectful-core 2.7.1.2; nine source archives and warning-free `cabal check`; `nix flake check` passed on aarch64-darwin.
 - [x] (2026-10-05) Milestone 1 approval/commit/tags: user approved the nine concrete Shikumi releases; commit `c22efb9` and nine annotated tags are pushed.
@@ -74,7 +74,8 @@ Build/test the changed libraries in the required supported configurations. Scrat
 - [x] (2026-10-05) Milestone 2 publication complete: all seven sources/docs return HTTP 200 with HTML. GitHub release `keiro-0.19.0.1` is non-draft and matches the pushed annotated tag. Evidence: `/tmp/mp3-ep15-keiro-release-evidence.json`; publisher `/tmp/mp3-ep15-keiro-publish.log` exited 0.
 - [x] (2026-10-05) Milestone 3 preparation: widened Kioku-core library/test and Kioku-cli library/test bounds; added root/core/CLI changelog entries. Versions remain 0.8.0.0 pending compatibility builds and release approval.
 - [x] (2026-10-05) Milestone 3 compatibility: full builds and all four suites pass on effectful/core 2.6.1.0 and effectful 2.7.1.0/core 2.7.1.2. Each run passes 467 tests (API 125, migrations 30, CLI 64, core 248). Both plans use Hackage Keiro/core 0.19.0.1, Shikumi 0.4.1.0 and trace 0.3.0.1. Formatting, host Nix checks and all five warning-free manifest checks pass. Local bounds commit `4e16709` in `mori://shinzui/kioku`; no tag, push or upload.
-- [ ] Milestone 3 release: propose Kioku 0.8.0.1 for all five packages, obtain explicit version/changelog/release approval, update all 16 internal bound sites and the two cohort tables, rerun final release gates, then commit/tag/push/publish through the Kioku release skill.
+- [x] (2026-10-05) Milestone 3 approved version preparation: all five versions and 16 internal bounds are 0.8.0.1; changelogs and all three bound tables are updated. No blueprint edge is required; migration plan remains 57. Formatting and host Nix checks pass.
+- [ ] Milestone 3 final release: both versioned-tree build/test runs, five manifest checks/archives, then approved commit/tag/push/publication.
 - [ ] Milestone 4 (this repository): refresh the keiro, kioku and shikumi-baikai groups into the default package set, validate, and commit locally.
 - [ ] Milestone 5: run the acceptance solve and its negative control. Compile rei, mori, mori-rei-app and mori-app against effectful 2.7 in scratch copies, record the breaks for plans 11–13, and update the MasterPlan's registry, Progress and Surprises.
 - [ ] Completion: fill Outcomes & Retrospective and perform the ADR distillation pass.
@@ -127,6 +128,8 @@ Build/test the changed libraries in the required supported configurations. Scrat
 
 
 ## Decision Log
+
+- Decision (user authorization, 2026-10-05): approval covers releases for all Keiro runtime projects. Do not ask for redundant per-project release confirmation; continue each repository's skill and mandatory verification gates before publication.
 
 - Decision (2026-10-05 implementation): reuse published Shikumi/Shikumi-tools 0.4.1.0, and prepare the nine remaining changed published packages as patch releases. Their changes are bounds, formatting and Haddock fixes; API behavior is unchanged. Do not publish documentation-only patches of the two already-compatible releases for this initiative. Run the release directly; no cross-session message or delegation is needed. Preserve effectful 2.6 compatibility and verify both lines before release approval.
 
