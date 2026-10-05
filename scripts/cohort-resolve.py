@@ -3,6 +3,7 @@
 import json
 from pathlib import Path
 import subprocess
+import tempfile
 
 
 def run(args, **kwargs):
@@ -16,8 +17,14 @@ def main():
     run([cli, "cohort", "stub"])
     generated = Path("cabal/cohort.project.freeze")
     generated.unlink(missing_ok=True)
-    run(["cabal", "build", "all", "--dry-run", "--project-file=cohort.project"], cwd="cabal")
-    run(["cabal", "freeze", "--project-file=cohort.project"], cwd="cabal")
+    # Imported policy edits must be read afresh; retain the old cache as evidence.
+    cache = Path("cabal/dist-newstyle/cache")
+    if cache.exists():
+        retained_cache = Path(tempfile.mkdtemp(prefix="cache-before-resolve-", dir=cache.parent))
+        cache.rename(retained_cache / "cache")
+    selected_index = "--index-state=" + inputs["indexState"]
+    run(["cabal", "build", "all", "--dry-run", "--project-file=cohort.project", selected_index], cwd="cabal")
+    run(["cabal", "freeze", "--project-file=cohort.project", selected_index], cwd="cabal")
     run([cli, "cohort", "normalise-freeze", "--in", str(generated), "--out", "cabal/cohort.freeze",
          "--index-state", inputs["indexState"], "--haskell-nix-rev", inputs["channelRevision"]])
     generated.unlink()

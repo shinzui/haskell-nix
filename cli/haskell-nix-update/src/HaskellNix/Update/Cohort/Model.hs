@@ -12,7 +12,8 @@ module HaskellNix.Update.Cohort.Model (
     renderFloors,
 ) where
 
-import Data.Aeson (FromJSON, ToJSON)
+import Data.Aeson (FromJSON, ToJSON, Value (..))
+import Data.Aeson.KeyMap qualified as KeyMap
 import Data.List (nub, sort)
 import Data.Map.Strict (Map)
 import Data.Map.Strict qualified as Map
@@ -44,8 +45,11 @@ parseRange value = maybe (Left ("invalid range: " <> value)) Right (simpleParsec
 floorVersions :: [Inventory] -> NixInventory -> Map Text Text -> [PolicyFloor] -> Either Text (Map Text Floor)
 floorVersions inventories nix firstParty policy = do
     entries <- traverse parseEntry (observations <> policyEntries <> firstPartyEntries)
-    pure (Map.fromListWith merge entries)
+    if any (\p -> Set.member p.package excluded) policy
+        then Left "a policy floor cannot target an owned or explicitly excluded dependency"
+        else pure (Map.withoutKeys (Map.fromListWith merge entries) excluded)
   where
+    excluded = Set.fromList (concatMap (\inventory -> inventory.contributor.ownPackages <> map (\e -> e.package) inventory.contributor.excludedDependencies) inventories)
     hackageVersions = Set.fromList [(name, p.version) | inventory <- inventories, (name, p) <- Map.toList inventory.packages, p.source == Hackage]
     used = Set.fromList [name | inventory <- inventories, (name, p) <- Map.toList inventory.packages, p.source /= Boot]
     observations =
@@ -69,9 +73,16 @@ floorVersions inventories nix firstParty policy = do
 stubBounds :: Map Text Floor -> [Inventory] -> Either Text (Map (Text, Maybe Text) VersionRange, [Cap])
 stubBounds floors inventories = do
     selected <- traverse classify entries
-    pure (Map.fromListWith intersectVersionRanges [(key, if cap == Nothing then range else anyVersion) | (key, range, cap) <- selected], [cap | (_, _, Just cap) <- selected])
+    pure (Map.fromListWith intersectVersionRanges (retainedLibraries <> [(key, if cap == Nothing then range else anyVersion) | (key, range, cap) <- selected]), [cap | (_, _, Just cap) <- selected])
   where
     excluded = Set.fromList (concatMap (\inventory -> inventory.contributor.ownPackages <> map (\e -> e.package) inventory.contributor.excludedDependencies) inventories)
+    -- Pre-existing non-boot records are registered libraries, including older
+    -- transitive libraries whose parents now select a different implementation.
+    -- Keep their observed floors represented instead of silently dropping them.
+    installedLibraries = Set.fromList [name | inventory <- inventories, (name, package) <- Map.toList inventory.packages, package.source == Hackage, any installed package.identities]
+    installed (Object fields) = KeyMap.lookup "type" fields == Just (String "pre-existing")
+    installed _ = False
+    retainedLibraries = [((name, Nothing), orLaterVersion entry.version) | (name, entry) <- Map.toList floors, Set.member name installedLibraries, not (Set.member name excluded)]
     entries = [(inventory.contributor.mori, bound) | inventory <- inventories, bound <- inventory.bounds, not (Set.member bound.package excluded)]
     classify (owner, bound) = do
         range <- parseRange bound.range

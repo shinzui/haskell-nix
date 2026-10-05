@@ -73,6 +73,12 @@ tests =
             (bounds, caps) <- right (Model.stubBounds floors [inv])
             assertBool "retained dependency admits floor" (withinRange (mkVersion [2, 9]) (bounds Map.! ("brick", Nothing)))
             length caps @?= 1
+        , testCase "previously installed transitive libraries retain their floor as roots" $ do
+            let inv = inventory (Map.singleton "legacy" (PlanPackage "1" Hackage [object ["type" .= ("pre-existing" :: Text)]] [])) []
+                floors = Map.singleton "legacy" (Model.Floor (mkVersion [2]) ["channel"])
+            (bounds, _) <- right (Model.stubBounds floors [inv])
+            assertBool "observed library remains represented" (withinRange (mkVersion [2]) (bounds Map.! ("legacy", Nothing)))
+            assertBool "floor remains enforced" (not (withinRange (mkVersion [1]) (bounds Map.! ("legacy", Nothing))))
         , testCase "excluded source dependencies never enter the stub" $ do
             let inv =
                     (inventory Map.empty [DeclaredBound "hasql-effectful" "<1" "app.cabal" "library" "always" Nothing])
@@ -81,6 +87,8 @@ tests =
             (bounds, caps) <- right (Model.stubBounds Map.empty [inv])
             Map.null bounds @?= True
             null caps @?= True
+            floors <- right (Model.floorVersions [inv{packages = Map.singleton "hasql-effectful" (PlanPackage "1" Hackage [] [])}] emptyNix Map.empty [])
+            Map.null floors @?= True
         , testCase "freeze drops flags but round-trips one recorded index-state" $ do
             versions <- right (normaliseCabalFreeze "constraints: any.aeson ==2.2.5.1,\n  aeson +ordered-keymap,\n  any.base ==4.21.2.0\nactive-repositories: hackage.haskell.org\nindex-state: ignored\n")
             let rendered = renderCohortFreeze (FreezeHeader "2026-10-05T18:43:07Z" "ghc-9.12.4" "recorded" "cohort") versions

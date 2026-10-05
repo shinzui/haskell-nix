@@ -5,6 +5,7 @@ module CohortTest (tests) where
 import Data.Aeson (encode, object, (.=))
 import Data.ByteString.Lazy qualified as LBS
 import Data.Map.Strict qualified as Map
+import Data.Set qualified as Set
 import Data.Text qualified as Text
 import Data.Text.IO qualified as TextIO
 import HaskellNix.Update.Cohort.Inventory
@@ -28,16 +29,18 @@ tests =
                                        , object ["id" .= ("library-id" :: Text.Text), "type" .= ("configured" :: Text.Text), "pkg-name" .= ("library" :: Text.Text), "pkg-version" .= ("1.0" :: Text.Text), "pkg-src" .= object ["type" .= ("repo-tar" :: Text.Text)], "depends" .= ["base-id" :: Text.Text]]
                                        , object ["id" .= ("fork-id" :: Text.Text), "type" .= ("configured" :: Text.Text), "pkg-name" .= ("fork" :: Text.Text), "pkg-version" .= ("2.0" :: Text.Text), "pkg-src" .= object ["type" .= ("source-repo" :: Text.Text)]]
                                        , object ["id" .= ("app-id" :: Text.Text), "type" .= ("configured" :: Text.Text), "pkg-name" .= ("app" :: Text.Text), "pkg-version" .= ("0.1" :: Text.Text), "pkg-src" .= object ["type" .= ("local" :: Text.Text)]]
+                                       , object ["id" .= ("installed-id" :: Text.Text), "type" .= ("pre-existing" :: Text.Text), "pkg-name" .= ("aeson" :: Text.Text), "pkg-version" .= ("2.2.5.1" :: Text.Text)]
                                        ]
                                 ]
-            result <- right (decodePlanVersions bytes)
-            Map.keys result @?= ["base", "fork", "library"]
+            result <- right (decodePlanVersions (Set.singleton "base") bytes)
+            Map.keys result @?= ["aeson", "base", "fork", "library"]
             (result Map.! "base").source @?= Boot
+            (result Map.! "aeson").source @?= Hackage
             (result Map.! "fork").source @?= SourcePin
             (result Map.! "library").dependencies @?= ["base"]
         , testCase "rejects unknown sources and unresolved dependency edges" $ do
-            assertLeft (decodePlanVersions "{\"install-plan\":[{\"id\":\"x\",\"type\":\"configured\",\"pkg-name\":\"x\",\"pkg-version\":\"1\",\"pkg-src\":{\"type\":\"unknown\"}}]}")
-            assertLeft (decodePlanVersions "{\"install-plan\":[{\"id\":\"x\",\"type\":\"configured\",\"pkg-name\":\"x\",\"pkg-version\":\"1\",\"depends\":[\"missing\"],\"pkg-src\":{\"type\":\"repo-tar\"}}]}")
+            assertLeft (decodePlanVersions Set.empty "{\"install-plan\":[{\"id\":\"x\",\"type\":\"configured\",\"pkg-name\":\"x\",\"pkg-version\":\"1\",\"pkg-src\":{\"type\":\"unknown\"}}]}")
+            assertLeft (decodePlanVersions Set.empty "{\"install-plan\":[{\"id\":\"x\",\"type\":\"configured\",\"pkg-name\":\"x\",\"pkg-version\":\"1\",\"depends\":[\"missing\"],\"pkg-src\":{\"type\":\"repo-tar\"}}]}")
         , testCase "conditional tests, benchmarks and executable tools are inventoried" $
             withSystemTempDirectory "cohort-test" $ \root -> do
                 TextIO.writeFile (root </> "example.cabal") $

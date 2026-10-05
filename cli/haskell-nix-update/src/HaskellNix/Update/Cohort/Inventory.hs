@@ -17,6 +17,8 @@ import Data.List (nub, sort)
 import Data.Map.Strict (Map)
 import Data.Map.Strict qualified as Map
 import Data.Maybe (maybeToList)
+import Data.Set (Set)
+import Data.Set qualified as Set
 import Data.Text (Text)
 import Data.Text qualified as Text
 import Data.Text.IO qualified as TextIO
@@ -26,16 +28,22 @@ import Distribution.Parsec (simpleParsec)
 import Distribution.Pretty (Pretty, prettyShow)
 import Distribution.Version (Version)
 import HaskellNix.Update.Cohort.Types
+import System.Environment (lookupEnv)
 import System.FilePath ((</>))
+import System.Process (readProcess)
 
 -- Retain component identities, flags, source hashes, and dependency edges for
 -- impact reporting. Multiple instances of one version merge; different versions
 -- of one name fail rather than silently selecting one.
 readPlanVersions :: FilePath -> IO (Either Text (Map Text PlanPackage))
-readPlanVersions path = decodePlanVersions <$> BS.readFile path
+readPlanVersions path = do
+    executable <- maybe "ghc-pkg" id <$> lookupEnv "COHORT_GHC_PKG"
+    installed <- Text.words . Text.pack <$> readProcess executable ["list", "--global", "--simple-output"] ""
+    let bootNames = Set.fromList [Text.intercalate "-" (init (Text.splitOn "-" entry)) | entry <- installed]
+    decodePlanVersions bootNames <$> BS.readFile path
 
-decodePlanVersions :: BS.ByteString -> Either Text (Map Text PlanPackage)
-decodePlanVersions bytes = do
+decodePlanVersions :: Set Text -> BS.ByteString -> Either Text (Map Text PlanPackage)
+decodePlanVersions bootNames bytes = do
     value <- either (Left . Text.pack) Right (eitherDecodeStrict' bytes)
     rows <- either (Left . Text.pack) Right (parseEither (withObject "plan" (.: "install-plan")) value :: Either String [Value])
     parsed <- traverse (either (Left . Text.pack) Right . parseEither parseRow) rows
@@ -69,7 +77,7 @@ decodePlanVersions bytes = do
         kind <- o .: "type" :: Parser Text
         src <-
             if kind == "pre-existing"
-                then pure (Just Boot)
+                then pure (Just (if Set.member pkgName bootNames then Boot else Hackage))
                 else do
                     pkgSrc <- o .: "pkg-src"
                     sourceType <- withObject "pkg-src" (.: "type") pkgSrc :: Parser Text
