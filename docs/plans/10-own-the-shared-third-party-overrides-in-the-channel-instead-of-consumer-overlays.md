@@ -126,6 +126,33 @@ Milestone 4's old-consumer builds are diagnostic rehearsals. A failure caused by
 
 ## Surprises & Discoveries
 
+- 2026-10-05: After EP-12's vendoring/configuration removal, the audit against
+  `mori://shinzui/mori` committed revision
+  `7a5f0ff5e9cd9dd5ca6ca02cbb122d4cd4abe2b0` reports 31 shared shadowing names,
+  `undeclared=[]`, `invalidDeclarations=[]` and `unusedDeclarations=[]`.
+  Removing hasql-effectful eliminates its sole undeclared entry without changing
+  the shared deletion set. Throwing source-input arguments remain unforced.
+  This new report supplements the historical 62be8048 inventory rather than
+  silently rewriting it.
+
+- 2026-10-05: The broad matrix blocker has an admitting release rather than a
+  bounds workaround. Mori registry search found no registered bytestring-lexing
+  source. Fresh [Hackage preferred versions](https://hackage.haskell.org/package/bytestring-lexing/preferred.json)
+  and the released 0.5.0.16 Cabal metadata identify the September 27 release;
+  upstream `v0.5.0.16` peels to `d23bad1ea208122e0e09526f4a041bf4711e5502`.
+  Its [changelog](https://github.com/wrengr/bytestring-lexing/blob/d23bad1ea208122e0e09526f4a041bf4711e5502/CHANGELOG)
+  states updated GHC 9.14 bounds, and its metadata explicitly tests GHC 9.14.1
+  and admits `base <4.23`. Hackage 0.5.0.15 has no revised metadata beyond r0.
+  A scoped registry replacement applies only to selected 0.5.0.15 and fetches
+  0.5.0.16 with unpacked hash
+  `sha256-Fi3+KzDIHA6y/WZ8SVdBQhi9tHhHfw8qEcT6nvW4YXs=`. It keeps upstream
+  tests and bounds and automatically retires for selected 0.5.0.16 or newer.
+  Target GHC 9.14 build (session 23546) passes, including all 58 tests, with
+  output identity `l27frp7pgbdarq653cy0qrhjvfpvwqjy-bytestring-lexing-0.5.0.16`.
+  Both compiler scopes evaluate version 0.5.0.16 with `doCheck=true`. A pure
+  dispatch probe confirms 0.5.0.14 and 0.6.0 remain unchanged; 0.5.0.15 becomes
+  0.5.0.16. The full-check retry remains required before completion.
+
 - 2026-10-05: Fresh native `nix flake check --print-build-logs --option max-jobs 2
   --option cores 2 --option eval-cache false` (session 61829) evaluated 389 checks
   across GHC 9.12.4/9.14.1, then exited 1. The reported build blocker is

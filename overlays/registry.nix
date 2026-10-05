@@ -53,6 +53,13 @@ in
   streamly-core = always (import ../patches/streamly-core/0.3.nix);
   streamly = always (import ../patches/streamly/0.11.nix);
   validation = always (import ../patches/validation/1.2.nix);
+  # Upstream's admitting release preserves tests/bounds on the GHC 9.14 matrix.
+  # Automatically retires when the selected layer supplies 0.5.0.16 or newer.
+  bytestring-lexing = [{
+    min = "0.5.0.15";
+    max = "0.5.0.16";
+    patch = import ../patches/bytestring-lexing/0.5.nix;
+  }];
 
   # ── hasql ecosystem ────────────────────────────────────────────────
   hasql = always (import ../patches/hasql/1.10.nix);
