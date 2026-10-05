@@ -26,6 +26,11 @@ provenance:
       at: 2026-10-04T14:06:33Z
       mode: "discuss"
       note: "Record the user-confirmed essential Keiki membership in the proposed Keiro runtime baseline and cohort inventory/acceptance."
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-05T14:23:13Z
+      mode: "implement"
+      note: "Select EP-15 and record current release prerequisites."
   reviews:
     - model: "gpt-6.1-sol"
       harness: "codex-cli"
@@ -161,7 +166,7 @@ Phase 3 (plan 14) comes last because it is the only place all five meet: the dot
 
 | # | Title | Path | Hard Deps | Soft Deps | Status |
 |---|-------|------|-----------|-----------|--------|
-| 15 | Release the first-party libraries on effectful 2.7 | docs/plans/15-release-the-first-party-libraries-on-effectful-2-7.md | None | None | Not Started |
+| 15 | Release the first-party libraries on effectful 2.7 | docs/plans/15-release-the-first-party-libraries-on-effectful-2-7.md | None | None | In Progress |
 | 8 | Resolve one upgrade-only cohort freeze for the Rei family of applications | docs/plans/8-resolve-one-upgrade-only-cohort-freeze-for-the-rei-family-of-applications.md | EP-15 | None | Not Started |
 | 9 | Generate the Nix package set from the cohort freeze and guard version parity | docs/plans/9-generate-the-nix-package-set-from-the-cohort-freeze-and-guard-version-parity.md | EP-8 | None | Not Started |
 | 10 | Own the shared third-party overrides in the channel instead of consumer overlays | docs/plans/10-own-the-shared-third-party-overrides-in-the-channel-instead-of-consumer-overlays.md | None | EP-9 | Not Started |
@@ -304,6 +309,8 @@ The goal is less repeated coordination and dependency compilation. Equal version
 
 
 ## Surprises & Discoveries
+
+- Observation (EP-15, 2026-10-05): current Hackage and upstream tags already provide Shikumi/Shikumi-tools 0.4.1.0 with effectful 2.7 bounds. Shikumi-cache/trace still cap below 2.7, as do Keiro 0.19 and Kioku 0.8. EP-15 is In Progress; release preparation starts with the nine remaining changed Shikumi packages, reusing the two compatible published versions. Publication and subsequent channel refresh remain pending.
 
 - Observation (runtime planning, 2026-10-04): the existing constructor requires complete catalog selections, and several Kafka/adapter sources are not catalog families. Plan 16 adds a guarded runtime wrapper and exact non-catalog component records, preserving the schema-2 topology and historical selections.
 

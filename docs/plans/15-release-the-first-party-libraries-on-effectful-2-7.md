@@ -23,6 +23,11 @@ provenance:
       at: 2026-10-04T13:51:42Z
       mode: "update"
       note: "Apply dependency-alignment review: routine update isolation, shared build evidence and applicable cache/ownership corrections; implementation pending."
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-05T14:23:13Z
+      mode: "implement"
+      note: "Begin EP-15 with current Hackage and upstream tag preflight."
 ---
 
 # Release the first-party libraries on effectful 2.7
@@ -56,9 +61,12 @@ Build/test the changed libraries in the required supported configurations. Scrat
 - [ ] Already-admitting releases are reused after registry/tag verification; redundant publication is skipped
 
 - [x] (2026-09-26) Research: verified Hackage bounds, the dependency graph among shikumi, keiro and kioku, each repository's release skill, and the applications' own effectful bounds. Recorded in Context and Orientation and Surprises & Discoveries.
-- [ ] Milestone 0: re-verify the Hackage state, the three repositories' heads and the user's confirmation of the Decision Log entries marked "awaiting the user's confirmation".
-- [ ] Milestone 1 (shikumi): run the shikumi release skill on the already-committed bound widening, publish the patch releases to Hackage, tag and push (with the user's approval).
-- [ ] Milestone 2 (keiro): widen the effectful bounds in `keiro`, `keiro-ops`, `keiro-pgmq` and `keiro-test-support`, prove builds against effectful 2.6 and 2.7, commit, then release all seven packages through the keiro release skill (with the user's approval).
+- [x] (2026-10-05) Milestone 0 preflight: queried current Hackage metadata and remote tags; clean source revisions are Shikumi `7cd5f9e121166874fdb9a6a99f0a8a3051761149`, Keiro `4b01af10aa55ed09d33a1304331b5adf3931c7ac`, Kioku `f0f116b7168b651afa6209eed2293cdb4ed36026`.
+- [ ] Release approval: present concrete verified package changes before commit/tag/upload; historical confirmation questions are deferred until applicable.
+- [x] (2026-10-05) Milestone 1 preparation: drafted nine Shikumi patch versions, internal bounds and changelogs; validated 38 capability records and 112 filesystem evidence references; formatting and the isolated Hackage effectful 2.6 build passed.
+- [ ] Milestone 1 remaining: all tests on both effectful lines, packaging lint/source archives, flake check, explicit release approval, then commit/tag/push/upload.
+- [x] (2026-10-05) Milestone 2 preparation: widened all effectful bounds in the four Keiro packages, preserving 2.6 and excluding effectful-core 2.7.0.0–2.7.1.0; added five changelog entries and passed formatting.
+- [ ] Milestone 2 remaining: prove both effectful builds, commit bounds, prepare and verify the seven-package release, then obtain approval and publish.
 - [ ] Milestone 3 (kioku): after Milestones 1 and 2 are live on Hackage, widen the effectful bounds in `kioku-core` and `kioku-cli`, prove builds against both effectful 2.6 and 2.7, commit, then release all five packages through the kioku release skill (with the user's approval).
 - [ ] Milestone 4 (this repository): refresh the keiro, kioku and shikumi-baikai groups into the default package set, validate, and commit locally.
 - [ ] Milestone 5: run the acceptance solve and its negative control. Compile rei, mori, mori-rei-app and mori-app against effectful 2.7 in scratch copies, record the breaks for plans 11–13, and update the MasterPlan's registry, Progress and Surprises.
@@ -66,6 +74,10 @@ Build/test the changed libraries in the required supported configurations. Scrat
 
 
 ## Surprises & Discoveries
+
+- Observation (2026-10-05 release preflight): ignored Shikumi `cabal.project.local` includes local Baikai packages; its Baikai-effectful 0.4.0.2 makes the effectful 2.6 control unsatisfiable. Preserve that developer file and verify from a tracked-file scratch copy without it, so both configurations solve published Baikai releases as the release skill requires. Initial failure log: `/tmp/mp3-ep15-shikumi-build-2.6.log`; scratch path is recorded in `/tmp/mp3-ep15-shikumi-scratch-path`. Formatting passed; the catalog validates 38 records and all 112 filesystem evidence references exist. Nine version/changelog/internal-bound edits are prepared in the Shikumi checkout, uncommitted pending the release gate and approval.
+
+- Observation (2026-10-05): Hackage already publishes Shikumi and Shikumi-tools 0.4.1.0 admitting effectful `<2.8`, with matching upstream tags at `5104a7d7d1a01bacc0519661c204ed9e9313e747`. Shikumi-cache 0.2.0.0 and Shikumi-trace 0.3.0.0 still cap `<2.7`; Keiro 0.19.0.0 and Kioku 0.8.0.0 remain unchanged on Hackage. The entire Shikumi milestone cannot be skipped.
 
 - Observation: there is no `effectful` 2.7.1.1. The effectful-core performance fix shipped as `effectful-core` 2.7.1.1 alone, so a floor of 2.7.1.1 on the `effectful` package is unsatisfiable.
   Evidence (Hackage, 2026-09-26):
@@ -106,6 +118,8 @@ Build/test the changed libraries in the required supported configurations. Scrat
 
 
 ## Decision Log
+
+- Decision (2026-10-05 implementation): reuse published Shikumi/Shikumi-tools 0.4.1.0, and prepare the nine remaining changed published packages as patch releases. Their changes are bounds, formatting and Haddock fixes; API behavior is unchanged. Do not publish documentation-only patches of the two already-compatible releases for this initiative. Run the release directly; no cross-session message or delegation is needed. Preserve effectful 2.6 compatibility and verify both lines before release approval.
 
 - Decision (2026-10-04 review update): adopt the Review requirements above and ADR 5's update-isolation/build-evidence contract. Historical closure-only acceptance, fixed package counts and duplicated comparison implementations are superseded where noted. Preserve the agreed advisory fleet guard and effectful migration policy. Implementation evidence remains pending.
 
@@ -148,7 +162,9 @@ Build/test the changed libraries in the required supported configurations. Scrat
 
 ## Outcomes & Retrospective
 
-(To be filled during and after implementation.)
+Implementation checkpoint (2026-10-05): EP-15 remains in progress. Reuse published Shikumi and Shikumi-tools 0.4.1.0. Prepared releases are Shikumi-cache 0.2.0.1, Shikumi-eval 0.3.0.1, Shikumi-compile 0.2.1.1, Shikumi-trace 0.3.0.1, Shikumi-trace-otel 0.1.2.1, Shikumi-cache-redis/postgres 0.1.3.1, Shikumi-optimize 0.3.0.1 and Shikumi-okf 0.2.1.1. The changes live in `mori://shinzui/shikumi`; no release commit, tag, push or upload has occurred. Shikumi release verification is in an isolated tracked-file scratch copy, with the path in `/tmp/mp3-ep15-shikumi-scratch-path`. The effectful 2.6 full build passed (`/tmp/mp3-ep15-shikumi-build-2.6-hackage.log`); subsequent tests/build/packaging run sequentially under `/tmp/mp3-ep15-shikumi-gates.sh`, logging to `/tmp/mp3-ep15-shikumi-gates.log`. The flake gate log is `/tmp/mp3-ep15-shikumi-flake-check.log`.
+
+Keiro bounds/changelogs are prepared in `mori://shinzui/keiro`, without a version bump or commit. Its effectful 2.6 full build log is `/tmp/mp3-ep15-keiro-build-2.6.log`; the build was still active at this checkpoint. Kioku is unchanged. The channel managed locks are unchanged. No durable architectural choice has changed, so there is no ADR addition at this checkpoint.
 
 Open questions for the user, carried from authoring:
 
