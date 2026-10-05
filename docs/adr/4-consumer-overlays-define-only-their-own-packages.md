@@ -1,6 +1,6 @@
 # Consumer overlays define only their own packages
 
-Status: Accepted for implementation; full shared build and consumer adoption evidence is pending.
+Status: Accepted; native/Linux shared policy and audit checks pass. Consumer adoption is pending.
 
 Date: 2026-10-05
 
@@ -65,7 +65,13 @@ Pure audit fixtures cover shadowing despite ownership/exception declarations, mi
 unused declarations, duplicate declarations, invalid reasons, all shared ownership layers,
 runtime ownership and deterministic reports. The `consumer-overlay-audit` check exposes a
 clean fixture. `shared-overrides` evaluates minimum versions and profiling redundancy and
-builds every listed shared dependency. Evaluation and build results are recorded in
+builds every listed shared dependency. Native aarch64-darwin and remote x86_64-linux
+builds pass, as do all 51 Nix-unit cases including 11 ownership cases. The broad native
+flake check fails separately in the existing GHC 9.14 matrix: bytestring-lexing
+0.5.0.15 excludes its installed base 4.22.0.0. The prior cpio patching OOM and the
+fresh reduced-concurrency retry are recorded separately; neither invalidates the
+independently passing policy/audit checks.
+Evaluation and build results are recorded in
 [EP-10](../plans/10-own-the-shared-third-party-overrides-in-the-channel-instead-of-consumer-overlays.md).
 Final application builds, exact executable manifests and deployments remain the consumer
 plans' gates under [MasterPlan 3](../masterplans/3-align-one-cabal-and-nix-package-set-across-the-rei-family-of-applications.md).

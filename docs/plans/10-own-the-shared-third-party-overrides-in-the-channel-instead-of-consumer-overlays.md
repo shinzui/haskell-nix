@@ -100,7 +100,7 @@ Milestone 4's old-consumer builds are diagnostic rehearsals. A failure caused by
 ## Progress
 
 - [x] 2026-10-05: Audit accepts generated/frozen/source/runtime shared ownership names.
-- [ ] Pre-adoption source failures are assigned to consumer plans after diagnostic rehearsals.
+- [x] 2026-10-05: Pre-adoption consumer rehearsals deferred to EP-11–13 by the MasterPlan owner under the Oct4 review. The optional Rei run was stopped gracefully after its build plan revealed 37 derivations still using effectful 2.6; EP-9 will replace those build identities with the 2.7 cohort.
 
 - [x] 2026-10-05: M1: Re-verify the inventory against each consumer's current HEAD (rei `25e4b492`, mori `62be8048`, mori-rei-app `453aaaef`, reiko `4f98ba91`, mina `8e0dcb80`) and record any drift in Surprises & Discoveries.
 - [x] 2026-10-05: M1: Re-evaluate the channel's current versions of the contested packages. If plan 9's generated version layer has landed, record which moved packages it already supplies.
@@ -109,22 +109,65 @@ Milestone 4's old-consumer builds are diagnostic rehearsals. A failure caused by
 - [x] 2026-10-05: M2: Confirm anonymous access to `topagentnetwork/typeid-hs` at `7164a74c` and its fetch hash, then add the source-pinned registry entries `typeid-hs-sql` and `typeid-hs-pg-migrate` (`patches/typeid-hs/source.nix` plus one patch file per package).
 - [x] 2026-10-05: M2: Add `checks/shared-overrides.nix` and wire it into `checks/default.nix`.
 - [x] 2026-10-05: M2: `nix build --no-link --print-build-logs .#checks.aarch64-darwin.shared-overrides` passes. It builds all 34 selected shared package entries, with no below-minimum versions and redundant Kioku profiling policy.
-- [ ] M2: x86_64-linux shared-overrides build finishes (started in session 74387).
-- [x] 2026-10-05: M2: Commit the channel entries with the independently verified audit integration; Linux evidence remains open.
+- [x] 2026-10-05: M2: x86_64-linux shared-overrides passes on nix-gcp-builder, all 34 shared entries built; no below-minimum versions and redundant profiling policy. Output `/nix/store/0phvdjc2404znhzpxkg0l1ml9qx3vjf2-shared-overrides` was copied back through Nix.
+- [x] 2026-10-05: M2: Commit the channel entries with the independently verified audit integration; native and Linux evidence are recorded below.
 - [x] 2026-10-05: M3: Add `lib/consumerOverlayReport.nix` and expose `lib.consumerOverlayReport` and `lib.auditConsumerOverlay` from `flake.nix`.
 - [x] 2026-10-05: M3: Add nix-unit tests to `checks/unit.nix` and a fixture-backed `consumer-overlay-audit` flake check.
 - [x] 2026-10-05: M3: Run the audit against all five consumers' current overlays and record the reports. Each consumer's `shadowing` plus `undeclared` must equal its deletion list (mori's `hasql-effectful` and mina's `kdl-hs` are the two `undeclared` names).
 - [x] 2026-10-05: M3: Commit the audit after the native fixture and 51-test Nix-unit checks pass.
-- [ ] M4: Rehearse the deletions. Build `rei-cli` and `rei-api` (rei), `mori-cli` (mori) and `mori-rei-app` against the local channel with the deletion lists filtered out and `typeid-hs-src` replaced by a dummy, then read the versions from the derivation closures.
-- [ ] M4: Evaluate mina's filtered overlay (evaluation only; plan 13 owns its build).
+- [x] 2026-10-05: M4 diagnostic disposition: defer old Rei/Mori/mori-rei-app compilation to their adoption plans, where the actual shared cohort/runtime replaces the current 2.6 graph. A recorded-source Rei rehearsal evaluated successfully with all 16 shared overrides removed and throwing TypeID input, then was stopped by SIGINT to avoid duplicate dependency compilation. No successful executable-build or final closure claim is made.
+- [x] 2026-10-05: M4: Mina's filtered overlay evaluates generic-lens and generic-lens-core to 2.3.0.0 (evaluation only; plan 13 owns its build).
 - [x] 2026-10-05: M5: Write the new ADR as `docs/adr/4-consumer-overlays-define-only-their-own-packages.md`.
 - [x] 2026-10-05: M5: Update `docs/user/consumer-integration.md`, `docs/user/adding-patches.md` and `docs/user/channels.md`, append to `docs/user/log.md`, and pass `just check-docs`.
-- [ ] M5: `nix flake check` passes, and the final commit is made.
+- [ ] M5: `nix flake check` passes. The fresh native retry fails in the existing GHC 9.14 matrix because bytestring-lexing 0.5.0.15 excludes base 4.22; independently passing EP-10 checks and the failed broad gate are committed without claiming plan completion.
 - [ ] M5: Fill in Outcomes & Retrospective and hand the deletion lists to plans 11, 12 and 13.
 - [x] 2026-09-26: Plan revised for the user's decisions: `typeid-hs` moves into the channel, `hasql-effectful` leaves the overlay through plan 12's vendoring, and mina's `mori-schema-pin` is the only declared exception. No implementation work has started.
 
 
 ## Surprises & Discoveries
+
+- 2026-10-05: Fresh native `nix flake check --print-build-logs --option max-jobs 2
+  --option cores 2 --option eval-cache false` (session 61829) evaluated 389 checks
+  across GHC 9.12.4/9.14.1, then exited 1. The reported build blocker is
+  bytestring-lexing 0.5.0.15 in the existing GHC 9.14 matrix: its `base >=4.9 &&
+  <4.22` bound rejects installed base 4.22.0.0. The remaining broad checks were
+  cancelled; the separate 34-package native/Linux policy builds and 51-test audit
+  proof remain valid. No unrelated package-bound workaround is added in EP-10.
+
+- 2026-10-05: Mori's vendoring rehearsal exposed a native extension-registration
+  race in Hackage cmark-gfm 0.2.6. The MasterPlan owner verified the MVar guard in
+  `mori://shinzui/cmark-gfm-hs` revision
+  `a9014e8c4974d636e7c8f85cd97812905d217faf` and selected it as an EP-8/9 shared
+  source-policy handoff, without changing Mori's M1 selectors. Its verified public
+  source hash is `sha256-NPzWjJQH/4IInSezr2nqI8sn0HtjBhqGP7oIP5FcPec=`.
+  Matching Cabal/Nix source policy must be wired before consumer adoption. The
+  current successful EP-10 build snapshot has no such entry and makes no build
+  claim for this source.
+
+- 2026-10-05: Linux shared-overrides finishes successfully on nix-gcp-builder and
+  copies its output back. All 34 entries build with `belowMinimum=[]` and
+  `kiokuProfilingRedundant=true`, matching native policy readiness. This is an
+  explicit remote build proof; it is not a fresh-worker substitution measurement,
+  which remains EP-9/14 work.
+
+- 2026-10-05: The first full native flake check failed in an existing cpio 2.15
+  dependency during patching (`patch: out of memory` for CVE-2026-66484.patch),
+  cancelling unfinished check builds. This does not invalidate the separately
+  successful shared policy/audit checks. The reduced-concurrency retry reports
+  the separate GHC 9.14 bounds failure above; full-check completion remains unchecked.
+
+- 2026-10-05: Mina's overlay with its generic-lens entries removed selects
+  generic-lens/core 2.3.0.0 from the channel. Linux shared-overrides runs on the
+  configured `nix-gcp-builder`; broad full-check failure and diagnostic rehearsal
+  deferral are recorded separately. The shared-overrides native derivation is
+  `/nix/store/9djlb3yj1z90sv2ah92ksb52ijq5cr3y-shared-overrides.drv` (identity
+  obtained through Nix evaluation; no store traversal).
+
+- 2026-10-05: This check establishes shared policy readiness against its stated
+  minimum table, not final Cabal/Nix parity. EP-9 still owns cohort-floor upgrades
+  such as thread-utils-context 0.4.1.1 and the effectful 2.7 package set; the current
+  channel builds thread-utils-context 0.4.1.0. This known drift remains explicit
+  rather than being presented as complete upgrade-only alignment.
 
 - 2026-10-05: Removing servant-health from an in-memory copy of the registry makes
   shared-overrides evaluation fail with `attribute servant-health missing`, confirming
@@ -264,6 +307,13 @@ this repository at `4cabd105` and of the consumer overlays at the HEADs named in
 
 
 ## Decision Log
+
+- 2026-10-05: The MasterPlan owner explicitly deferred optional old-consumer
+  rehearsal builds to EP-11–13 under the October review. The already successful
+  shared policy build remains the required EP-10 gate. Rei's rehearsal would
+  compile 37 derivations against current channel effectful 2.6, then rebuild after
+  EP-9 generates the 2.7 cohort; gracefully stopping it avoids that redundant work.
+  Final consumer executable manifests and builds remain mandatory before deployment.
 
 - 2026-10-05: Classify shared names as shadowing only and unknown undeclared names
   separately. The earlier literal undeclared formula duplicated every undeclared
@@ -435,10 +485,11 @@ this repository at `4cabd105` and of the consumer overlays at the HEADs named in
 ## Outcomes & Retrospective
 
 Implementation checkpoint (2026-10-05): shared channel entries and source pins are implemented,
-with 11 ownership tests; the fixture audit and Nix-unit check build successfully (51/51 overall). The real reports reproduce the refreshed deletion lists, and the negative mori-rei-app wrapper fails with its five shared names. Implemented and ADR 4/user documentation. Authoritative Hackage checks and upstream
+with 11 ownership tests, ADR 4 and user documentation. The fixture audit and Nix-unit
+check build successfully (51/51 overall). The real reports reproduce the refreshed
+deletion lists, and the negative mori-rei-app wrapper rejects its five shared names. Authoritative Hackage checks and upstream
 tags confirm the four Hackage pins. Anonymous TypeID prefetch confirms the recorded NAR hash.
-Channel evaluation reports no below-minimum versions and profiling redundancy; native shared-dependency compilation passes; Linux compilation remains
-a separate pending gate. `just check-docs` passes (9 user, 5 guide, 1 research concepts).
+Channel evaluation reports no below-minimum versions and profiling redundancy; native and x86_64-linux shared-dependency compilation pass. `just check-docs` passes (9 user, 5 guide, 1 research concepts).
 
 The refreshed deletion lists are Rei 16 shared names (the historical 14 plus
 `hs-opentelemetry-instrumentation-servant` and `hs-opentelemetry-exporter-in-memory`), Mori 32
@@ -448,8 +499,8 @@ Mori retains shibuya-pgmq-adapter until plan 9 supplies at least 0.16.1.0 and ha
 plan 12 vendors its imports. Mina retains kdl-hs until plan 13 lifts its bound. Mina's
 mori-schema-pin remains the sole exception. TypeID deletions free typeid-hs-src in Rei/Mori/mori-rei-app;
 Mori additionally frees tan-effectful-src and the three HTTP family source inputs in its adoption.
-No consumer repositories were modified. Linux shared-dependency and full flake-check builds, plus diagnostic
-consumer rehearsals remain pending; this checkpoint does not mark EP-10 complete.
+No consumer repositories were modified. The full native flake check fails in the existing GHC 9.14 bytestring-lexing/base bounds after its cpio dependency failure/retry. Diagnostic
+consumer compilation is deferred to the actual EP-11–13 cohort adoption; this checkpoint does not mark EP-10 complete.
 
 
 ## Context and Orientation
