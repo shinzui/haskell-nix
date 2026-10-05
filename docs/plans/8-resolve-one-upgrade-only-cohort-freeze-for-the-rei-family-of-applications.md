@@ -90,8 +90,8 @@ This plan owns the shared model/freeze parser, CLI inventory/update/report dispa
 - [x] (2026-10-05) Milestone 1: added the `cohort` command group to `cli/haskell-nix-update` with the `inventory` subcommand and its unit tests.
 - [x] (2026-10-05) Milestone 1: added the `cohort-inventory` just recipe (scratch copies, fresh `cabal build all --dry-run`, Nix channel evaluation, deployed closure query).
 - [x] (2026-10-05) Milestone 1: `just cohort-inventory` exits 0; the six fresh Cabal inventories and pinned Nix inventory are recorded with their source/configuration inputs and committed in this checkpoint.
-- [ ] Milestone 2: write `cabal/policy-floors.json` with the user's `effectful` 2.7.1.0 / `effectful-core` 2.7.1.1 floors.
-- [ ] Milestone 2: add the `cohort stub` subcommand that writes `cabal/rei-family-cohort/rei-family-cohort.cabal` and `cabal/floors.config` (inventory floors plus policy floors).
+- [x] (2026-10-05) Milestone 2: wrote `cabal/policy-floors.json` with distinct effectful 2.7.1.0 / core 2.7.1.1 policy floors. Observed core 2.7.1.2 raises the effective solve floor further.
+- [x] (2026-10-05) Milestone 2: added and tested `cohort stub`, generating the union Cabal package and 337 upgrade-only floors. A cap keeps its package in the stub rather than deleting the dependency.
 - [ ] Milestone 2: write `cabal/common.config`, `cabal/cohort.project` and `cabal/check.project`; choose and record the index-state (at or after plan 15's last upload).
 - [ ] Milestone 2: carry the applications' constraints and `allow-newer` entries into `cabal/common.config` with their ADR-16 justifications, except `hasql-effectful:*` and the `tan-effectful` pin (mori vendors the module in plan 12) and `baikai-trace-otel:streamly-core` (mina drops its Git streamly); then prune the ones the solve does not need.
 - [ ] Milestone 2: resolve every floor conflict without any `allow-newer` on `effectful` or `effectful-core`, and record each resolution in the Decision Log.
@@ -151,6 +151,12 @@ These were found while writing the plan (2026-09-26) and shape it. Re-verify the
 
 
 ## Decision Log
+
+- Decision (implementation, 2026-10-05): retain the three existing scoped `dhall-json` exceptions from `mori://shinzui/mori-rei-app`, which were omitted from the first combined configuration. `settei-dhall` is an unconditional library dependency; an earlier diagnosis calling this an inactive branch was wrong. All six recorded contributors currently have only unconditional declared bounds. Candidate compilation of dhall-json against the coherent solve is still required.
+
+- Decision (implementation, 2026-10-05): the observed `mori://shinzui/mori-app` plan raises the http-api-data floor to 0.7. Both core and Servant packages in `mori://shinzui/relay-pagination` 0.1.1.0 cap it below 0.7. Prepare a shared 0.1.1.1 bounds-only release: scratch builds and all five suites pass with 0.6.3 and 0.7; formatting and host Nix checks pass. Publication remains pending. Claude 1.5.0 has the same cap; current registry shows no newer release. Its candidate scoped exception requires compiling that library against the selected cohort before acceptance.
+
+- Observation (implementation, 2026-10-05): a disposable combined solve with the prepared relay packages and candidate exceptions selects 447 package names, effectful 2.7.1.0/core 2.7.1.2, Keiki/JSON codec 0.9.1.0, brick 3.0 and vty 6.6. This proves the candidate solver input, not a published canonical freeze or consumer compatibility. Shared model/parser/report tests pass (81 tests), including targeted pin isolation, runtime ownership guard and transitive component impact for metadata/flag/policy changes. Final CLI wiring and end-to-end targeted-update acceptance remain in progress.
 
 - Decision (runtime plan, 2026-10-04): adopt the plan-16 integration contract above. It owns retained runtime selection/composition, while this plan retains its existing solver/generation/policy/consumer/deployment responsibility. Consumer plans 11–13 require runtime delivery before adoption; preparatory shared tools do not depend on consumers.
 

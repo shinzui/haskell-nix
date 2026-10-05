@@ -169,14 +169,15 @@ Phase 3 (plan 14) comes last because it is the only place all five meet: the dot
 | 15 | Release the first-party libraries on effectful 2.7 | docs/plans/15-release-the-first-party-libraries-on-effectful-2-7.md | None | None | Complete |
 | 8 | Resolve one upgrade-only cohort freeze for the Rei family of applications | docs/plans/8-resolve-one-upgrade-only-cohort-freeze-for-the-rei-family-of-applications.md | EP-15 | None | In Progress |
 | 9 | Generate the Nix package set from the cohort freeze and guard version parity | docs/plans/9-generate-the-nix-package-set-from-the-cohort-freeze-and-guard-version-parity.md | EP-8 | None | Not Started |
-| 10 | Own the shared third-party overrides in the channel instead of consumer overlays | docs/plans/10-own-the-shared-third-party-overrides-in-the-channel-instead-of-consumer-overlays.md | None | EP-9 | Not Started |
+| 10 | Own the shared third-party overrides in the channel instead of consumer overlays | docs/plans/10-own-the-shared-third-party-overrides-in-the-channel-instead-of-consumer-overlays.md | None | EP-9 | In Progress |
 | 16 | Create the Keiro runtime package set and compose applications on it | docs/plans/16-create-the-keiro-runtime-package-set-and-compose-applications-on-it.md | EP-9, EP-10 | None | Not Started |
 | 11 | Adopt the shared package set in rei and mori-rei-app | docs/plans/11-adopt-the-shared-package-set-in-rei-and-mori-rei-app.md | EP-9, EP-10, EP-16 | None | Not Started |
-| 12 | Adopt the shared package set in mori | docs/plans/12-adopt-the-shared-package-set-in-mori.md | EP-9, EP-10, EP-16 | EP-11 | Not Started |
+| 12 | Adopt the shared package set in mori | docs/plans/12-adopt-the-shared-package-set-in-mori.md | EP-9, EP-10, EP-16 | EP-11 | In Progress |
 | 13 | Bring mina and reiko up to the shared package set | docs/plans/13-bring-mina-and-reiko-up-to-the-shared-package-set.md | EP-9, EP-10, EP-16 | None | Not Started |
 | 14 | Deploy one channel revision from dotfiles and guard closure parity | docs/plans/14-deploy-one-channel-revision-from-dotfiles-and-guard-closure-parity.md | EP-11, EP-12, EP-13 | None | Not Started |
 
 Status values: Not Started, In Progress, Complete, Cancelled.
+EP-12's current work is its explicitly independent Hasql-vendoring Milestone 1; cohort/runtime adoption still waits for its hard dependencies. On 2026-10-05 the user requested parallel execution: EP-10, EP-12 M1 and the relay compatibility release run concurrently with EP-8. EP-16's read-only runtime inventory is preparation, not completion of its prerequisite-dependent implementation.
 Hard Deps and Soft Deps reference other rows by their # prefix (e.g., EP-8). This repository numbers ExecPlans globally, so this MasterPlan's children are 8 through 16. Plan 15 was added after the others, on the user's decision to move the whole family to effectful 2.7; it runs first.
 
 
@@ -350,6 +351,8 @@ The goal is less repeated coordination and dependency compilation. Equal version
 
 
 ## Decision Log
+
+- Decision (user request, 2026-10-05): run independent work concurrently. Keep EP-8's solver/model ownership with the primary agent, assign shared-policy/audit work to EP-10 and only independent Hasql vendoring to EP-12, and perform read-only EP-16 inventory before its prerequisites complete. The required relay compatibility release uses a separate worker and its repository release gates. Consumer adoption and runtime delivery retain their existing hard dependencies.
 
 - Decision (user authorization, 2026-10-05): the user confirmed release authorization for all Keiro runtime projects. Keep repository-specific release skills and mandatory gates; do not repeat release approval requests already covered by this authorization.
 
