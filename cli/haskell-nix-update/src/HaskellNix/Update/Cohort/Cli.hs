@@ -37,7 +37,7 @@ data CohortCommand
     | CohortNormaliseFreeze !FilePath !FilePath !FilePath !Text !Text
     | CohortReport !FilePath !FilePath !FilePath !FilePath !FilePath !(Maybe FilePath)
     | CohortCheck !FilePath !FilePath !FilePath
-    | CohortUpdateConstraints !FilePath !(Maybe FilePath) !Bool ![Text] !FilePath
+    | CohortUpdateConstraints !FilePath !(Maybe FilePath) !Bool ![Text] !(Maybe Text) !FilePath
     | CohortImpact !FilePath !FilePath !FilePath !(Maybe FilePath) !(Maybe FilePath) !FilePath
     deriving stock (Eq, Show)
 
@@ -54,7 +54,7 @@ cohortParser =
             <> command "inventory-nix" (info (nixParser <**> helper) (fullDesc <> progDesc "Record channel and deployed dependency version maps"))
         )
   where
-    updateParser = CohortUpdateConstraints <$> pathOption "freeze" "cabal/cohort.freeze" <*> optionalPath "runtime-freeze" <*> switch (long "update-runtime") <*> some (textOption "package") <*> pathOption "out" "cabal/retained.config"
+    updateParser = CohortUpdateConstraints <$> pathOption "freeze" "cabal/cohort.freeze" <*> optionalPath "runtime-freeze" <*> switch (long "update-runtime") <*> some (textOption "package") <*> optional (textOption "index-state") <*> pathOption "out" "cabal/retained.config"
     impactParser = CohortImpact <$> pathOption "before" "cabal/cohort-sources.json" <*> strOption (long "after" <> metavar "FILE") <*> pathOption "inventory" "cabal/inventory" <*> optionalPath "before-policy" <*> optionalPath "after-policy" <*> pathOption "out" "cabal/cohort-impact.txt"
     optionalPath key = optional (strOption (long key <> metavar "FILE"))
     checkParser = CohortCheck <$> pathOption "freeze" "cabal/cohort.freeze" <*> pathOption "sources" "cabal/cohort-sources.json" <*> pathOption "plan" "cabal/dist-newstyle/cache/plan.json"
@@ -172,7 +172,7 @@ dispatch (CohortCheck freeze sources plan) = runExceptT $ do
             if actual /= expected
                 then ExceptT (pure (Left "resolved plan source, metadata, flags or dependency identities differ from the cohort manifest"))
                 else pure "Cohort plan matches the freeze and source manifest"
-dispatch (CohortUpdateConstraints freeze runtimeFreeze updateRuntime requested out) = runExceptT $ do
+dispatch (CohortUpdateConstraints freeze runtimeFreeze updateRuntime requested expectedIndex out) = runExceptT $ do
     original <- lift (TextIO.readFile freeze)
     versions <- ExceptT (pure (parseCohortFreeze original))
     runtime <- case runtimeFreeze of
@@ -180,6 +180,9 @@ dispatch (CohortUpdateConstraints freeze runtimeFreeze updateRuntime requested o
         Just path -> lift (TextIO.readFile path) >>= ExceptT . pure . parseCohortFreeze
     retained <- ExceptT (pure (retainedConstraints versions runtime updateRuntime requested))
     let index = maybe "" id (lookup "index-state" (projectFields original))
+    case expectedIndex of
+        Just expected | index /= "hackage.haskell.org " <> expected -> ExceptT (pure (Left "recorded index-state differs from the previous freeze; an explicit broad update is required"))
+        _ -> pure ()
     lift (TextIO.writeFile out ("-- Targeted update: unrelated versions remain exact.\nindex-state: " <> index <> "\n" <> retained))
     pure ("Retained unrelated versions in " <> Text.pack out)
 dispatch (CohortImpact before after directory beforePolicy afterPolicy out) = runExceptT $ do

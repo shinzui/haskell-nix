@@ -30,6 +30,7 @@ tests =
             assertLeft (retainedConstraints frozen runtime False ["shared"])
             _ <- right (retainedConstraints frozen runtime True ["shared"])
             assertLeft (retainedConstraints frozen runtime False ["missing"])
+            assertLeft (retainedConstraints frozen (Map.singleton "shared" (mkVersion [3])) False ["leaf"])
             pure ()
         , testCase "metadata, flags and policy changes expose transitive benchmark impact" $ do
             let old = PlanPackage "1" Hackage [object ["pkg-cabal-sha256" .= ("old" :: Text), "flags" .= object ["feature" .= False]]] []

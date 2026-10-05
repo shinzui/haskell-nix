@@ -122,3 +122,23 @@ drv-diff before after:
 # Inventory recorded contributor revisions with tests, benchmarks and Nix selections.
 cohort-inventory:
     nix develop .#cohort-inventory -c python3 scripts/cohort-inventory.py
+
+# Resolve the broad cohort from recorded inputs; routine changes use cohort-update.
+cohort-resolve:
+    nix develop .#cohort-inventory -c python3 scripts/cohort-resolve.py
+
+# Unlock only named packages; conflicts require an explicit wider request.
+cohort-update +packages:
+    nix develop .#cohort-inventory -c python3 scripts/cohort-update.py {{packages}}
+
+# Report upgrade-only floors, consumer caps and retained source identities.
+cohort-report:
+    nix develop .#cohort-inventory -c cabal run exe:haskell-nix-update -- cohort report --out cabal/cohort-report.txt
+    cat cabal/cohort-report.txt
+
+# Verify the freeze-only Cabal solve and its complete source manifest.
+cohort-check:
+    nix develop .#cohort-inventory -c python3 scripts/cohort-check.py
+
+# Explicitly refresh the full cohort, then report and verify it.
+cohort: cohort-inventory cohort-resolve cohort-report cohort-check

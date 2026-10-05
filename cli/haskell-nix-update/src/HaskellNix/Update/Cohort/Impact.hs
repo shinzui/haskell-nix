@@ -20,12 +20,14 @@ retainedConstraints :: Map Text Version -> Map Text Version -> Bool -> [Text] ->
 retainedConstraints previous runtime updateRuntime requested
     | null requested = Left "a targeted update requires at least one package"
     | not (null unknown) = Left ("requested packages are not frozen: " <> Text.intercalate ", " unknown)
+    | not (null inconsistentRuntime) = Left ("runtime projection differs from the recorded cohort: " <> Text.intercalate ", " inconsistentRuntime)
     | not updateRuntime && not (null runtimeRequests) = Left ("explicit runtime update required: " <> Text.intercalate ", " runtimeRequests)
     | otherwise = Right (Text.unlines ("constraints:" : zipWith render ("  " : repeat "  , ") (Map.toAscList retained)))
   where
     names = Set.fromList requested
     unknown = Set.toAscList (names Set.\\ Map.keysSet previous)
     runtimeRequests = Set.toAscList (names `Set.intersection` Map.keysSet runtime)
+    inconsistentRuntime = [name | (name, version) <- Map.toAscList runtime, Map.lookup name previous /= Just version]
     retained = Map.union (if updateRuntime then Map.withoutKeys runtime names else runtime) (Map.withoutKeys previous names)
     render prefix (name, version) = prefix <> "any." <> name <> " ==" <> Text.pack (prettyShow version)
 
