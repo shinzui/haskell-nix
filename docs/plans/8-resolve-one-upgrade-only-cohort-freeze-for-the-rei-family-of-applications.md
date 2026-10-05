@@ -27,6 +27,11 @@ provenance:
       at: 2026-10-04T14:06:33Z
       mode: "discuss"
       note: "Record the user-confirmed essential Keiki membership in the proposed Keiro runtime baseline and cohort inventory/acceptance."
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-05T19:24:30Z
+      mode: "implement"
+      note: "Begin contributor inventory after completing EP-15 releases and shared channel refresh."
   reviews:
     - model: "gpt-6.1-sol"
       harness: "codex-cli"
@@ -80,11 +85,11 @@ This plan owns the shared model/freeze parser, CLI inventory/update/report dispa
 
 - [ ] Targeted dependency update preserves unrelated pins and reports affected application components
 
-- [ ] Prerequisite: plan 15 is Complete; its releases (keiro, keiro-ops, keiro-pgmq, keiro-test-support, kioku-core, shikumi, shikumi-trace, shikumi-cache) are on Hackage and in the channel's `default` package set; record their versions and the channel revision in Surprises & Discoveries.
-- [ ] Milestone 1: add `cabal/contributors.json` naming the five applications and the `mori-app` library at recorded revisions (with `hasql-effectful` in mori's `excludedDependencies`).
-- [ ] Milestone 1: add the `cohort` command group to `cli/haskell-nix-update` with the `inventory` subcommand and its unit tests.
-- [ ] Milestone 1: add the `cohort-inventory` just recipe (scratch copies, fresh `cabal build all --dry-run`, Nix channel evaluation, deployed closure query).
-- [ ] Milestone 1: run it and commit `cabal/inventory/*.json`.
+- [x] (2026-10-05) Prerequisite: plan 15 is Complete; its releases (keiro, keiro-ops, keiro-pgmq, keiro-test-support, kioku-core, shikumi, shikumi-trace, shikumi-cache) are on Hackage and in the channel's `default` package set; record their versions and the channel revision in Surprises & Discoveries.
+- [x] (2026-10-05) Milestone 1: added `cabal/contributors.json` naming the five applications and the `mori-app` library at recorded revisions (with `hasql-effectful` in mori's `excludedDependencies`).
+- [x] (2026-10-05) Milestone 1: added the `cohort` command group to `cli/haskell-nix-update` with the `inventory` subcommand and its unit tests.
+- [x] (2026-10-05) Milestone 1: added the `cohort-inventory` just recipe (scratch copies, fresh `cabal build all --dry-run`, Nix channel evaluation, deployed closure query).
+- [x] (2026-10-05) Milestone 1: `just cohort-inventory` exits 0; the six fresh Cabal inventories and pinned Nix inventory are recorded with their source/configuration inputs and committed in this checkpoint.
 - [ ] Milestone 2: write `cabal/policy-floors.json` with the user's `effectful` 2.7.1.0 / `effectful-core` 2.7.1.1 floors.
 - [ ] Milestone 2: add the `cohort stub` subcommand that writes `cabal/rei-family-cohort/rei-family-cohort.cabal` and `cabal/floors.config` (inventory floors plus policy floors).
 - [ ] Milestone 2: write `cabal/common.config`, `cabal/cohort.project` and `cabal/check.project`; choose and record the index-state (at or after plan 15's last upload).
@@ -99,6 +104,10 @@ This plan owns the shared model/freeze parser, CLI inventory/update/report dispa
 
 
 ## Surprises & Discoveries
+
+- Observation (2026-10-05 inventory): all six recorded current-revision exports solve with tests and benchmarks enabled. External package counts are Rei 413, Mori 383, mori-rei-app 365, Mina 291, mori-app 220 and Reiko 166. The pinned channel maps 451 names with no evaluation errors; Keiki and its JSON codec are both 0.9.1.0, Keiro is 0.19.0.1, Kioku-core is 0.8.0.1 and Shikumi is 0.4.1.0. Dotfiles derivation metadata records 192–368 matching package names per application, as diagnostic build-time selections rather than proof of final static-link parity. `just cohort-inventory` exited 0; log `/tmp/mp3-ep8-cohort-inventory.log`. Rei requires `liblzma` through pkg-config; a dedicated pinned inventory shell includes native inputs without changing contributor code. Generated Rei/Mori DSL conformance packages are included. Mina's current revision already admits the new Shikumi releases, so September-era cap assumptions must not be reused. Initial updater tests pass all 69 cases, including four inventory tests; final full checks follow the remaining milestones.
+
+- Observation (2026-10-05 implementation): EP-15 completed all release and channel gates. Channel lock commit `d4ca4eb` selects Keiro 0.19.0.1, Kioku 0.8.0.1, Shikumi/tools 0.4.1.0, cache 0.2.0.1 and trace 0.3.0.1. Hackage acceptance solves effectful 2.7.1.0/core 2.7.1.2 without effectful overrides at index-state `2026-10-05T18:43:07Z`. Nix effectful remains its existing version until plan 9; this does not block the Cabal cohort. Contributor revisions and manifests will be inventoried afresh.
 
 These were found while writing the plan (2026-09-26) and shape it. Re-verify them when you start.
 
@@ -209,7 +218,7 @@ These were found while writing the plan (2026-09-26) and shape it. Re-verify the
 
 ## Outcomes & Retrospective
 
-(To be filled during and after implementation.)
+Implementation is In Progress. EP-15 is Complete, all six contributor solves and the pinned Nix inventory pass, and the inventory CLI has meaningful parser tests. The solver/freeze, upgrade and targeted-impact report, coherent source manifest and final acceptance remain unfinished.
 
 The two open questions carried from authoring were resolved by the user on 2026-09-26 (see the user-decisions entry in the Decision Log):
 

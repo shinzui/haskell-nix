@@ -40,6 +40,9 @@ library
     HaskellNix.Update
     HaskellNix.Update.Catalog
     HaskellNix.Update.Cli
+    HaskellNix.Update.Cohort.Cli
+    HaskellNix.Update.Cohort.Inventory
+    HaskellNix.Update.Cohort.Types
     HaskellNix.Update.Git
     HaskellNix.Update.Hackage
     HaskellNix.Update.Mori
@@ -89,6 +92,7 @@ test-suite haskell-nix-update-test
   autogen-modules: Paths_haskell_nix_update
   other-modules:
     AdapterTest
+    CohortTest
     PackageSetTest
     Paths_haskell_nix_update
     PlannerTest

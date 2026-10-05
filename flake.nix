@@ -225,6 +225,12 @@
               pkgsPlain.nix-diff
             ] ++ lib.optional (toolchain.hls != null) toolchain.hls;
           };
+          # Native pkg-config inputs needed to solve every contributor configuration.
+          devShells.cohort-inventory = pkgsPlain.mkShell {
+            inputsFrom = [ self.devShells.${system}.default ];
+            nativeBuildInputs = [ pkgsPlain.pkg-config pkgsPlain.python3 ];
+            buildInputs = [ pkgsPlain.xz pkgsPlain.zlib pkgsPlain.postgresql.dev pkgsPlain.openssl.dev ];
+          };
           checks = import ./checks/default.nix {
             inherit lib pkgsPlain pkgsGithub pkgsHackage updater firstPartyRegistries
               supportedGhcs defaultGhc defaultSelectedFamilies registries mkChannelExtension

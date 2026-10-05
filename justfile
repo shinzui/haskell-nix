@@ -118,3 +118,7 @@ nix-test:
 # Explain a failed cache-identity comparison; arguments are .drv paths.
 drv-diff before after:
     nix develop -c nix-diff '{{before}}' '{{after}}'
+
+# Inventory recorded contributor revisions with tests, benchmarks and Nix selections.
+cohort-inventory:
+    nix develop .#cohort-inventory -c python3 scripts/cohort-inventory.py

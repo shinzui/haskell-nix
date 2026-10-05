@@ -1,0 +1,12 @@
+{
+  "compiler": "ghc-9.12.4",
+  "system": "aarch64-darwin",
+  "channelRevision": "d4ca4eb4e4906691c92be75f5701eaed32090930",
+  "channelPackageSet": "default",
+  "channel": "github",
+  "dotfiles": "mori://shinzui/dotfiles.nix",
+  "dotfilesRevision": "679d0c194f8be2bd4c0cddebc98e288cfe089078",
+  "indexState": "2026-10-05T18:43:07Z",
+  "tests": true,
+  "benchmarks": true
+}

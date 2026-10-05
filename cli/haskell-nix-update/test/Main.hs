@@ -1,5 +1,6 @@
 module Main (main) where
 
+import CohortTest qualified
 import AdapterTest qualified
 import Data.ByteString qualified as ByteString
 import Data.ByteString.Lazy qualified as LazyByteString
@@ -23,7 +24,8 @@ tests :: TestTree
 tests =
   testGroup
     "haskell-nix-update"
-    [ catalogTests,
+    [ CohortTest.tests,
+      catalogTests,
       packageLockTests,
       PackageSetTest.tests,
       cliTests,

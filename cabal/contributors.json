@@ -1,0 +1,157 @@
+[
+  {
+    "name": "mina",
+    "mori": "mori://shinzui/mina",
+    "revision": "5d4be2ef8291f39030fbcc1ac9b1dda21e40eeec",
+    "role": "application",
+    "ownPackages": [
+      "mina-cli",
+      "mina-core"
+    ],
+    "excludedDependencies": [],
+    "cabalFiles": [
+      "mina-cli/mina-cli.cabal",
+      "mina-core/mina-core.cabal"
+    ],
+    "indexStateOverride": "2026-10-05T18:43:07Z",
+    "deployedAttr": "mina",
+    "configurations": [
+      {
+        "name": "default",
+        "flags": {}
+      }
+    ]
+  },
+  {
+    "name": "mori",
+    "mori": "mori://shinzui/mori",
+    "revision": "62be804826ecc1ff4ff0e41d690a04a51960ccd9",
+    "role": "application",
+    "ownPackages": [
+      "keiro-mori-conformance",
+      "mori-api",
+      "mori-cli",
+      "mori-core",
+      "mori-schema-pin",
+      "mori-types"
+    ],
+    "excludedDependencies": [
+      {
+        "package": "hasql-effectful",
+        "reason": "vendored into mori-core by plan 12"
+      }
+    ],
+    "cabalFiles": [
+      "mori-api/mori-api.cabal",
+      "mori-cli/mori-cli.cabal",
+      "mori-core/mori-core.cabal",
+      "mori-core/src/keiro-dsl-conformance.workspace.mori/keiro-mori-conformance.cabal",
+      "mori-schema-pin/mori-schema-pin.cabal",
+      "mori-types/mori-types.cabal"
+    ],
+    "indexStateOverride": null,
+    "deployedAttr": "mori",
+    "configurations": [
+      {
+        "name": "default",
+        "flags": {}
+      }
+    ]
+  },
+  {
+    "name": "mori-app",
+    "mori": "mori://shinzui/mori-app",
+    "revision": "30aca6e3bc61d7709e58e716e7a34d21e7a98208",
+    "role": "library",
+    "ownPackages": [
+      "mori-app"
+    ],
+    "excludedDependencies": [],
+    "cabalFiles": [
+      "mori-app/mori-app.cabal"
+    ],
+    "indexStateOverride": null,
+    "deployedAttr": null,
+    "configurations": [
+      {
+        "name": "default",
+        "flags": {}
+      }
+    ]
+  },
+  {
+    "name": "mori-rei-app",
+    "mori": "mori://shinzui/mori-rei-app",
+    "revision": "453aaaef7e327617bb968ee85c9cf2f6fa6eac5a",
+    "role": "application",
+    "ownPackages": [
+      "mori-rei-app"
+    ],
+    "excludedDependencies": [],
+    "cabalFiles": [
+      "mori-rei-app.cabal"
+    ],
+    "indexStateOverride": null,
+    "deployedAttr": "mori-rei-app",
+    "configurations": [
+      {
+        "name": "default",
+        "flags": {}
+      }
+    ]
+  },
+  {
+    "name": "rei",
+    "mori": "mori://shinzui/rei",
+    "revision": "25e4b4925ef0e206f8972ec89cb0e4f60fd09fc3",
+    "role": "application",
+    "ownPackages": [
+      "keiro-rei-conformance",
+      "rei-api",
+      "rei-api-client",
+      "rei-api-contract",
+      "rei-cli",
+      "rei-core"
+    ],
+    "excludedDependencies": [],
+    "cabalFiles": [
+      "rei-api-client/rei-api-client.cabal",
+      "rei-api-contract/rei-api-contract.cabal",
+      "rei-api/rei-api.cabal",
+      "rei-cli/rei-cli.cabal",
+      "rei-core/rei-core.cabal",
+      "rei-core/src/keiro-dsl-conformance.workspace.rei/keiro-rei-conformance.cabal"
+    ],
+    "indexStateOverride": null,
+    "deployedAttr": "rei",
+    "configurations": [
+      {
+        "name": "default",
+        "flags": {}
+      }
+    ]
+  },
+  {
+    "name": "reiko",
+    "mori": "mori://shinzui/reiko",
+    "revision": "4f98ba912060776a0d7ae5276e963e34dad447bb",
+    "role": "application",
+    "ownPackages": [
+      "reiko-cli",
+      "reiko-core"
+    ],
+    "excludedDependencies": [],
+    "cabalFiles": [
+      "reiko-cli/reiko-cli.cabal",
+      "reiko-core/reiko-core.cabal"
+    ],
+    "indexStateOverride": null,
+    "deployedAttr": "reiko",
+    "configurations": [
+      {
+        "name": "default",
+        "flags": {}
+      }
+    ]
+  }
+]

@@ -5,3 +5,9 @@ result-*
 .agents/
 CLAUDE.local.md
 .mina/
+
+# Local Cabal products; cohort freezes use explicit recorded filenames.
+dist-newstyle/
+cabal/dist-newstyle/
+cabal/*.project.freeze
+__pycache__/

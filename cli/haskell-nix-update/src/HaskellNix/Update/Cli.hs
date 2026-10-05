@@ -12,6 +12,7 @@ where
 import Data.Text (Text)
 import Data.Text qualified as Text
 import Data.Text.IO qualified as TextIO
+import HaskellNix.Update.Cohort.Cli (CohortCommand, cohortParser, runCohort)
 import HaskellNix.Update.Types (FamilyName (..), PackageSetCommand (..), PackageSetSupportLevel (..), RefreshTarget (..), SnapshotGeneration (..), UpdateError (..), UpdateGroupName (..))
 import HaskellNix.Update.Workflow
 import Options.Applicative
@@ -22,6 +23,7 @@ data Command
   = Refresh !RefreshOptions
   | Check !CheckOptions
   | MigrateLock !MigrateOptions
+  | Cohort !CohortCommand
   | PackageSetCommand !PackageSetCommand
   deriving stock (Eq, Show)
 
@@ -58,6 +60,7 @@ runCli = do
       runCheckCommand environment (defaultWorkflowPaths ".") packageSet targets online
     MigrateLock MigrateOptions {packageSet, importSets, dryRun} ->
       runMigrateLockWorkflow environment (defaultWorkflowPaths ".") packageSet importSets dryRun
+    Cohort cohortCommand -> runCohort cohortCommand
     PackageSetCommand packageSetCommand ->
       runPackageSetCommand environment (defaultWorkflowPaths ".") packageSetCommand
   case result of
@@ -76,7 +79,8 @@ parserInfo =
 commandParser :: Parser Command
 commandParser =
   subparser
-    ( command
+    ( command "cohort" (info (Cohort <$> cohortParser <**> helper) (fullDesc <> progDesc "Inventory, solve and report the shared dependency cohort"))
+        <> command
         "refresh"
         ( info
             (Refresh <$> refreshOptionsParser <**> helper)
