@@ -76,9 +76,9 @@ Build/test the changed libraries in the required supported configurations. Scrat
 - [x] (2026-10-05) Milestone 3 compatibility: full builds and all four suites pass on effectful/core 2.6.1.0 and effectful 2.7.1.0/core 2.7.1.2. Each run passes 467 tests (API 125, migrations 30, CLI 64, core 248). Both plans use Hackage Keiro/core 0.19.0.1, Shikumi 0.4.1.0 and trace 0.3.0.1. Formatting, host Nix checks and all five warning-free manifest checks pass. Local bounds commit `4e16709` in `mori://shinzui/kioku`; no tag, push or upload.
 - [x] (2026-10-05) Milestone 3 approved version preparation: all five versions and 16 internal bounds are 0.8.0.1; changelogs and all three bound tables are updated. No blueprint edge is required; migration plan remains 57. Formatting and host Nix checks pass.
 - [x] (2026-10-05) Milestone 3 complete: versioned 0.8.0.1 full builds and 467 tests per line pass; five package checks and archives pass. Commit `7c2f983` and annotated `v0.8.0.1` are pushed. Five sources/four docs return 200; the executable-only migrate package has no docs. Non-draft GitHub release matches the tag. Publisher resumed migration docs after correcting a temporary repack assertion, then exited 0; no source was re-uploaded. PostgreSQL stack is stopped.
-- [ ] Milestone 4 (this repository): refresh the keiro, kioku and shikumi-baikai groups into the default package set, validate, and commit locally.
-- [ ] Milestone 5: run the acceptance solve and its negative control. Compile rei, mori, mori-rei-app and mori-app against effectful 2.7 in scratch copies, record the breaks for plans 11–13, and update the MasterPlan's registry, Progress and Surprises.
-- [ ] Completion: fill Outcomes & Retrospective and perform the ADR distillation pass.
+- [x] (2026-10-05) Milestone 4: refresh and Nix validation exited 0; `just validate`, the first-party-versions build and all three online checks passed. Local lock commit `d4ca4eb` selects Keiro group generation 5, Kioku 4 and Shikumi–Baikai 6; all historical records and unrelated selections are preserved.
+- [x] (2026-10-05) Milestone 5 acceptance: the full first-party Hackage union solves on effectful 2.7.1.0/core 2.7.1.2 without effectful `allow-newer`. A focused comparison solves with Keiro 0.19.0.1 and rejects 0.19.0.0 on its direct core `<2.7` cap. Optional application diagnostics are explicitly deferred to plans 11–13 under the review requirements; MasterPlan registry coordination is complete.
+- [x] (2026-10-05) Completion: finalized release, solver, isolation and per-application handoff evidence. ADR distillation found no new durable architecture decision; ADRs 1 and 5 remain applicable.
 
 
 ## Surprises & Discoveries
@@ -139,7 +139,7 @@ Build/test the changed libraries in the required supported configurations. Scrat
   Rationale: This repository builds first-party packages from their GitHub sources at a recorded revision (`packages/first-party-lock.json`). A Hackage revision would leave the Git tag and the Hackage metadata disagreeing, and every repository's release skill requires a full verification gate that a revision would skip. A release also gives plan 8's freeze a clean version to name.
   Date: 2026-09-26
 
-- Decision (awaiting the user's confirmation): Keep effectful 2.6 admitted, and widen instead of replacing. Every bound becomes `effectful >=<existing floor> && <2.8` and `effectful-core >=<existing floor> && <2.7 || >=2.7.1.1 && <2.8`.
+- Decision (approved and implemented, 2026-10-05): Keep effectful 2.6 admitted, and widen instead of replacing. Every bound becomes `effectful >=<existing floor> && <2.8` and `effectful-core >=<existing floor> && <2.7 || >=2.7.1.1 && <2.8`.
   - The effectful-core range copies the shape `kiroku-store` 0.9.0.1 and `shibuya-core` 0.10.0.0 already publish.
   - The `effectful` range copies `kiroku-store`'s `effectful >=2.6.1 && <2.8`. It has no exclusion because `effectful` has no 2.7.1.1; the effectful-core bound and the cohort freeze keep the regressed effectful-core versions out.
   Rationale:
@@ -150,7 +150,7 @@ Build/test the changed libraries in the required supported configurations. Scrat
   - Each library is proved against both versions (Milestones 2 and 3), as shikumi's `c26db8c` already was.
   Date: 2026-09-26
 
-- Decision (awaiting the user's confirmation): Propose non-major releases: shikumi patch releases of the changed packages, `keiro` 0.19.0.1 for all seven keiro packages, and `kioku` 0.8.0.1 for all five kioku packages.
+- Decision (approved and implemented, 2026-10-05): Use non-major releases: shikumi patch releases of the changed packages, `keiro` 0.19.0.1 for all seven keiro packages, and `kioku` 0.8.0.1 for all five kioku packages.
   Rationale:
   - PVP (the Haskell Package Versioning Policy, `A.B.C.D`, where `A.B` is major, `C` minor and `D` patch) reserves a major bump for API changes. A bounds-only widening changes no exported entity, and precedents in the family agree: `baikai-effectful` 0.4.0.2 was a bounds-only patch release; `kioku` 0.4.1.0 was a bounds-only minor release.
   - Staying inside `A.B` means every consumer's existing bound (`keiro ^>=0.19`, `kioku-* ^>=0.8`, `shikumi ^>=0.4.0.0`, `shikumi-trace ^>=0.3.0.0`, `shikumi-cache ^>=0.2.0.0`) admits the new release with no edit.
@@ -163,7 +163,7 @@ Build/test the changed libraries in the required supported configurations. Scrat
 
 - Decision: Who performs each release. The implementer may delegate a release to that repository's existing Claude session by cross-session message: "keiro-release" for `mori://shinzui/keiro`, and "kioku-keiro-upgrade" (which ran kioku 0.8.0.0) for `mori://shinzui/kioku`. The implementer may also run the release directly. Either way:
   - the release goes through that repository's release skill;
-  - publishing to Hackage, creating tags and pushing happen only after the user's explicit approval, obtained per release.
+  - publishing to Hackage, creating tags and pushing require the user's explicit approval. The 2026-10-05 authorization covers all Keiro runtime projects, so no redundant per-project confirmation is needed.
   Rationale: Each skill encodes repository-specific gates (keiro's `just corpus-regen` and `just verify`, kioku's PostgreSQL-backed suites and haddock tarball quirk, shikumi's independent per-package versions). Publishing to Hackage is irreversible. A message from another agent is never the user's approval.
   Date: 2026-09-26
 
@@ -180,7 +180,19 @@ Each release passed its repository skill and both supported effectful lines. Shi
 
 Release evidence is recorded in `/tmp/mp3-ep15-shikumi-release-evidence.json`, `/tmp/mp3-ep15-keiro-release-evidence.json` and `/tmp/mp3-ep15-kioku-release-evidence.json`. Full gate logs are `/tmp/mp3-ep15-shikumi-gates.log`, `/tmp/mp3-ep15-keiro-release-gates.log` and `/tmp/mp3-ep15-kioku-release-gates.log`. Kioku's initial publication stopped at a temporary repack assertion because for-Hackage Haddock omits `index.html`; the real main-library pages and `doc-index.html` were present. The corrected USTAR repack contained seven HTML files and no colon, AppleDouble or test-support entries; `/tmp/mp3-ep15-kioku-publish-resume.log` records successful completion. This was a publication-script correction, with no source/package change.
 
-The scoped channel refresh and acceptance solve remain in progress. Optional application diagnostics are deferred to plans 11–13 under the review requirements. No application build, deploy, shared cache reuse or measured speedup is claimed. No new durable architecture decision has emerged; ADRs 1 and 5 continue to govern.
+The scoped channel refresh completed with `EXIT=0` and is committed locally at `d4ca4eb`. The default set selects Keiro family/group generation 5, Kioku generation 4 and Shikumi–Baikai group generation 6 (Baikai and Shikumi family generation 5). It pins the three release commits and Baikai `5f9c980975089f9269b37b8727139a5d1553ca2a`. Existing 35 family and 32 group snapshots remain byte-equivalent as decoded objects; only four family and three group records were appended. Both historical sets, every non-target default selection, package membership and published/unpublished status are preserved. `just validate`, `checks.aarch64-darwin.first-party-versions` and the Keiro/Kioku/Shikumi online checks pass. Nix effectful stays at its existing version pending plan 9; this release acceptance is a Hackage solve, not a Nix effectful migration. The full first-party Hackage union solves at index-state `2026-10-05T18:43:07Z`, selecting effectful 2.7.1.0/core 2.7.1.2, Keiro 0.19.0.1, Kioku-core 0.8.0.1 and the published Shikumi patches, with zero effectful `allow-newer` entries. The original full-union negative control rejected old Keiro through the new keiro-ops internal floor; pinning both old packages rejected keiro-ops' effectful cap. A focused comparison isolates Keiro itself: 0.19.0.1 solves and 0.19.0.0 fails on `effectful-core >=2.6 && <2.7` against the same core floor. Evidence: `/tmp/mp3-ep15-accept-evidence.json`, `/tmp/mp3-ep15-accept.log` and `/tmp/mp3-ep15-keiro-focused-control.log`.
+
+Optional application diagnostics are deferred under the review requirements, with final acceptance owned as follows:
+
+| Application/component | EP-15 diagnostic status | Final acceptance owner |
+|---|---|---|
+| Rei | Deferred | Plan 11 |
+| mori-rei-app and mori-app | Deferred | Plan 11 |
+| Mori | Deferred | Plan 12 |
+| Mina | Deferred; old Shikumi/Baikai bounds require the planned port | Plan 13 |
+| Reiko | Deferred; current manifests at `4f98ba912060776a0d7ae5276e963e34dad447bb` in `mori://shinzui/reiko` declare no effectful dependency | Plan 13 |
+
+ No application build, deploy, shared cache reuse or measured speedup is claimed. No new durable architecture decision has emerged; ADRs 1 and 5 continue to govern.
 
 ## Context and Orientation
 
