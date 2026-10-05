@@ -58,6 +58,11 @@ The committed lock currently has this family breakdown:
 | Shikumi | 14 | 11 | 3 |
 | **Total** | **78** | **68** | **10** |
 
+The common registry also owns the application HTTP/utility policies for `link-canonical`,
+`hw-kafka-client`, `servant-server`, `servant-health`, `wai-app-static` and `generic-lens(-core)`.
+It retains public source pins for the two TypeID packages and Servant instrumentation. These
+shared source exceptions survive selection of the Hackage first-party channel.
+
 The GitHub-only packages are:
 
 ```text

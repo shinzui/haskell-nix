@@ -1,5 +1,7 @@
 { lib }:
 let
+  consumerOverlayReport = import ../lib/consumerOverlayReport.nix { inherit lib; };
+  overlayReport = args: consumerOverlayReport ({ channelPackages = [ ]; overlayPackages = [ ]; ownPackages = [ ]; } // args);
   fixtures = ./fixtures/first-party;
   readJson = name: builtins.fromJSON (builtins.readFile (fixtures + "/${name}"));
   mkRegistries = import ../lib/mkFirstPartyRegistries.nix { inherit lib; };
@@ -154,6 +156,18 @@ let
   };
 in
 {
+  testConsumerOverlayClean = { expr = (overlayReport { overlayPackages = [ "app" ]; ownPackages = [ "app" ]; }).ok; expected = true; };
+  testConsumerOverlayShadowing = { expr = (overlayReport { channelPackages = [ "shared" ]; overlayPackages = [ "shared" ]; }).shadowing; expected = [ "shared" ]; };
+  testConsumerOverlayShadowingNotExcused = { expr = (overlayReport { channelPackages = [ "shared" ]; overlayPackages = [ "shared" ]; exceptions.shared = "reason"; }).shadowing; expected = [ "shared" ]; };
+  testConsumerOverlayUndeclared = { expr = (overlayReport { overlayPackages = [ "unknown" ]; }).undeclared; expected = [ "unknown" ]; };
+  testConsumerOverlayUnusedDeclaration = { expr = (overlayReport { ownPackages = [ "gone" ]; }).unusedDeclarations; expected = [ "gone" ]; };
+  testConsumerOverlayEmptyReason = { expr = (overlayReport { overlayPackages = [ "x" ]; exceptions.x = ""; }).invalidDeclarations; expected = [ "x" ]; };
+  testConsumerOverlayInvalidReason = { expr = (overlayReport { exceptions = { spaces = "  \t"; number = 42; }; }).invalidDeclarations; expected = [ "number" "spaces" ]; };
+  testConsumerOverlayDuplicateDeclaration = { expr = (overlayReport { overlayPackages = [ "app" ]; ownPackages = [ "app" ]; siblingPackages = [ "app" ]; }).invalidDeclarations; expected = [ "app" ]; };
+  testConsumerOverlayRuntimeCannotBeOwned = { expr = (overlayReport { overlayPackages = [ "runtime-lib" ]; ownPackages = [ "runtime-lib" ]; runtimePackages = [ "runtime-lib" ]; }).shadowing; expected = [ "runtime-lib" ]; };
+  testConsumerOverlayAllOwnershipLayers = { expr = (overlayReport { overlayPackages = [ "source" "frozen" "generated" ]; ownPackages = [ "source" "frozen" "generated" ]; generatedPackages = [ "generated" ]; frozenPackages = [ "frozen" ]; sourcePackages = [ "source" ]; }).shadowing; expected = [ "frozen" "generated" "source" ]; };
+  testConsumerOverlayDeterministic = { expr = overlayReport { overlayPackages = [ "z" "a" "z" ]; }; expected = { shadowing = [ ]; undeclared = [ "a" "z" ]; unusedDeclarations = [ ]; invalidDeclarations = [ ]; ok = false; }; };
+
   testGithubInventoryWithoutFetching = {
     expr = builtins.attrNames registries.github;
     expected = [ "example-core" "example-dev" "example-special" ];

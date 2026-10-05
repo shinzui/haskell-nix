@@ -22,6 +22,11 @@ provenance:
       at: 2026-10-04T13:51:42Z
       mode: "update"
       note: "Apply dependency-alignment review: routine update isolation, shared build evidence and applicable cache/ownership corrections; implementation pending."
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-05T22:10:10Z
+      mode: "implement"
+      note: "Parallel EP-10 implementation: shared policy/source pins and consumer ownership audit"
   reviews:
     - model: "gpt-6.1-sol"
       harness: "codex-cli"
@@ -94,30 +99,60 @@ Milestone 4's old-consumer builds are diagnostic rehearsals. A failure caused by
 
 ## Progress
 
-- [ ] Audit covers generated/shared names; pre-adoption source failures are assigned to consumer plans
+- [x] 2026-10-05: Audit accepts generated/frozen/source/runtime shared ownership names.
+- [ ] Pre-adoption source failures are assigned to consumer plans after diagnostic rehearsals.
 
-- [ ] M1: Re-verify the inventory against each consumer's current HEAD (rei `880093cc`, mori `f3c5fa4b`, mori-rei-app `2acd4ed`, reiko `4f98ba9`, mina `6a4b3f9`) and record any drift in Surprises & Discoveries.
-- [ ] M1: Re-evaluate the channel's current versions of the contested packages. If plan 9's generated version layer has landed, record which moved packages it already supplies.
-- [ ] M2: Add policy-only registry entries for `link-canonical`, `hw-kafka-client` and `servant-server`.
-- [ ] M2: Add version-pinned patches for `wai-app-static` 3.2.1, `servant-health` 0.1.0.0, `generic-lens-core` 2.3.0.0 and `generic-lens` 2.3.0.0. If plan 9's generated layer already supplies a version, add only the build policy.
-- [ ] M2: Confirm anonymous access to `topagentnetwork/typeid-hs` at `7164a74c` and its fetch hash, then add the source-pinned registry entries `typeid-hs-sql` and `typeid-hs-pg-migrate` (`patches/typeid-hs/source.nix` plus one patch file per package).
-- [ ] M2: Add `checks/shared-overrides.nix` and wire it into `checks/default.nix`.
-- [ ] M2: `nix build .#checks.aarch64-darwin.shared-overrides` passes, and x86_64-linux passes where a builder is available.
-- [ ] M2: Commit the channel entries.
-- [ ] M3: Add `lib/consumerOverlayReport.nix` and expose `lib.consumerOverlayReport` and `lib.auditConsumerOverlay` from `flake.nix`.
-- [ ] M3: Add nix-unit tests to `checks/unit.nix` and a fixture-backed `consumer-overlay-audit` flake check.
-- [ ] M3: Run the audit against all five consumers' current overlays and record the reports. Each consumer's `shadowing` plus `undeclared` must equal its deletion list (mori's `hasql-effectful` and mina's `kdl-hs` are the two `undeclared` names).
-- [ ] M3: Commit the audit.
+- [x] 2026-10-05: M1: Re-verify the inventory against each consumer's current HEAD (rei `25e4b492`, mori `62be8048`, mori-rei-app `453aaaef`, reiko `4f98ba91`, mina `8e0dcb80`) and record any drift in Surprises & Discoveries.
+- [x] 2026-10-05: M1: Re-evaluate the channel's current versions of the contested packages. If plan 9's generated version layer has landed, record which moved packages it already supplies.
+- [x] 2026-10-05: M2: Add policy-only registry entries for `link-canonical`, `hw-kafka-client` and `servant-server`.
+- [x] 2026-10-05: M2: Add version-pinned patches for `wai-app-static` 3.2.1, `servant-health` 0.1.0.0, `generic-lens-core` 2.3.0.0 and `generic-lens` 2.3.0.0. If plan 9's generated layer already supplies a version, add only the build policy.
+- [x] 2026-10-05: M2: Confirm anonymous access to `topagentnetwork/typeid-hs` at `7164a74c` and its fetch hash, then add the source-pinned registry entries `typeid-hs-sql` and `typeid-hs-pg-migrate` (`patches/typeid-hs/source.nix` plus one patch file per package).
+- [x] 2026-10-05: M2: Add `checks/shared-overrides.nix` and wire it into `checks/default.nix`.
+- [x] 2026-10-05: M2: `nix build --no-link --print-build-logs .#checks.aarch64-darwin.shared-overrides` passes. It builds all 34 selected shared package entries, with no below-minimum versions and redundant Kioku profiling policy.
+- [ ] M2: x86_64-linux shared-overrides build finishes (started in session 74387).
+- [x] 2026-10-05: M2: Commit the channel entries with the independently verified audit integration; Linux evidence remains open.
+- [x] 2026-10-05: M3: Add `lib/consumerOverlayReport.nix` and expose `lib.consumerOverlayReport` and `lib.auditConsumerOverlay` from `flake.nix`.
+- [x] 2026-10-05: M3: Add nix-unit tests to `checks/unit.nix` and a fixture-backed `consumer-overlay-audit` flake check.
+- [x] 2026-10-05: M3: Run the audit against all five consumers' current overlays and record the reports. Each consumer's `shadowing` plus `undeclared` must equal its deletion list (mori's `hasql-effectful` and mina's `kdl-hs` are the two `undeclared` names).
+- [x] 2026-10-05: M3: Commit the audit after the native fixture and 51-test Nix-unit checks pass.
 - [ ] M4: Rehearse the deletions. Build `rei-cli` and `rei-api` (rei), `mori-cli` (mori) and `mori-rei-app` against the local channel with the deletion lists filtered out and `typeid-hs-src` replaced by a dummy, then read the versions from the derivation closures.
 - [ ] M4: Evaluate mina's filtered overlay (evaluation only; plan 13 owns its build).
-- [ ] M5: Write the new ADR as `docs/adr/4-consumer-overlays-define-only-their-own-packages.md`.
-- [ ] M5: Update `docs/user/consumer-integration.md`, `docs/user/adding-patches.md` and `docs/user/channels.md`, append to `docs/user/log.md`, and pass `just check-docs`.
+- [x] 2026-10-05: M5: Write the new ADR as `docs/adr/4-consumer-overlays-define-only-their-own-packages.md`.
+- [x] 2026-10-05: M5: Update `docs/user/consumer-integration.md`, `docs/user/adding-patches.md` and `docs/user/channels.md`, append to `docs/user/log.md`, and pass `just check-docs`.
 - [ ] M5: `nix flake check` passes, and the final commit is made.
 - [ ] M5: Fill in Outcomes & Retrospective and hand the deletion lists to plans 11, 12 and 13.
 - [x] 2026-09-26: Plan revised for the user's decisions: `typeid-hs` moves into the channel, `hasql-effectful` leaves the overlay through plan 12's vendoring, and mina's `mori-schema-pin` is the only declared exception. No implementation work has started.
 
 
 ## Surprises & Discoveries
+
+- 2026-10-05: Removing servant-health from an in-memory copy of the registry makes
+  shared-overrides evaluation fail with `attribute servant-health missing`, confirming
+  the minimum-version/build check uses the centralized entry. No working-tree mutation
+  was needed.
+- 2026-10-05: Native shared-overrides completes successfully, building all shared policy
+  entries including TypeID and Servant instrumentation. `consumer-overlay-audit` and
+  `nix-unit` checks also finish successfully (51/51 unit tests). A negative report
+  against the current mori-rei-app overlay rejects exactly its five shared names.
+
+  ```text
+  belowMinimum = []
+  kiokuProfilingRedundant = true
+  nix-unit: 51/51 successful
+  mori-rei-app audit: shadows link-canonical, servant-server, typeid-hs-pg-migrate, typeid-hs-sql, wai-app-static
+  ```
+
+- 2026-10-05: Re-inventory at recorded Rei `25e4b492`, Mori `62be8048`, mori-rei-app
+  `453aaaef`, Reiko `4f98ba91` and current Mina `8e0dcb80` finds 21/37/9/2/6 overlay
+  attributes. Mina advanced from EP-8's recorded `5d4be2ef`; its overlay names are
+  unchanged and EP-8's input record was not advanced. Rei adds two own API packages,
+  shared instrumentation-servant and exporter-in-memory. The instrumentation source
+  is centralized at the same `7a6f692e85295f965cd1827f9354c28af9e62742` pin as Cabal.
+  Mori's local source corpus for this fork lags upstream; a fresh scratch clone
+  confirms the retained revision admits hs-opentelemetry-api >=0.3 && <1.1.
+- 2026-10-05: Source/version evaluation yields `belowMinimum=[]` and
+  `kiokuProfilingRedundant=true`, including both TypeID packages 0.1.0.0 and
+  instrumentation-servant 0.3.0.0. These are selection proofs, not build success.
 
 These observations were made while drafting on 2026-09-26, with read-only evaluation of
 this repository at `4cabd105` and of the consumer overlays at the HEADs named in Progress.
@@ -229,6 +264,18 @@ this repository at `4cabd105` and of the consumer overlays at the HEADs named in
 
 
 ## Decision Log
+
+- 2026-10-05: Classify shared names as shadowing only and unknown undeclared names
+  separately. The earlier literal undeclared formula duplicated every undeclared
+  shared name, contradicting the real-report acceptance examples. Disjoint diagnostics
+  retain rejection of every offending name and make deletion lists unambiguous.
+
+- 2026-10-05: Retain the exact current Servant instrumentation fork in shared policy
+  because the current Rei overlay and cohort source manifest require it. Add its name
+  to Rei's deletion list and include the existing in-memory exporter copy. The report
+  accepts explicit generated/frozen/source/runtime ownership lists so later EP-9/16
+  records extend one audit rather than introducing another implementation. Shared
+  ownership always wins over application declarations.
 
 - Decision (runtime plan, 2026-10-04): adopt the plan-16 integration contract above. It owns retained runtime selection/composition, while this plan retains its existing solver/generation/policy/consumer/deployment responsibility. Consumer plans 11–13 require runtime delivery before adoption; preparatory shared tools do not depend on consumers.
 
@@ -387,7 +434,22 @@ this repository at `4cabd105` and of the consumer overlays at the HEADs named in
 
 ## Outcomes & Retrospective
 
-(To be filled during and after implementation.)
+Implementation checkpoint (2026-10-05): shared channel entries and source pins are implemented,
+with 11 ownership tests; the fixture audit and Nix-unit check build successfully (51/51 overall). The real reports reproduce the refreshed deletion lists, and the negative mori-rei-app wrapper fails with its five shared names. Implemented and ADR 4/user documentation. Authoritative Hackage checks and upstream
+tags confirm the four Hackage pins. Anonymous TypeID prefetch confirms the recorded NAR hash.
+Channel evaluation reports no below-minimum versions and profiling redundancy; native shared-dependency compilation passes; Linux compilation remains
+a separate pending gate. `just check-docs` passes (9 user, 5 guide, 1 research concepts).
+
+The refreshed deletion lists are Rei 16 shared names (the historical 14 plus
+`hs-opentelemetry-instrumentation-servant` and `hs-opentelemetry-exporter-in-memory`), Mori 32
+(including the conditional retired effect), mori-rei-app 5, and Mina 3 conditional/shared names.
+Rei now declares five own overlay packages including rei-api-contract and rei-api-client.
+Mori retains shibuya-pgmq-adapter until plan 9 supplies at least 0.16.1.0 and hasql-effectful until
+plan 12 vendors its imports. Mina retains kdl-hs until plan 13 lifts its bound. Mina's
+mori-schema-pin remains the sole exception. TypeID deletions free typeid-hs-src in Rei/Mori/mori-rei-app;
+Mori additionally frees tan-effectful-src and the three HTTP family source inputs in its adoption.
+No consumer repositories were modified. Linux shared-dependency and full flake-check builds, plus diagnostic
+consumer rehearsals remain pending; this checkpoint does not mark EP-10 complete.
 
 
 ## Context and Orientation
@@ -512,7 +574,10 @@ Every attribute defined in the five overlays falls into one of five classes:
 
 The destination of each class-(c) entry is given with it.
 
-**Rei** defines 17 attributes.
+**Rei** originally defined 17 attributes; the 2026-10-05 inventory defines 21.
+Its own packages also include `rei-api-contract` and `rei-api-client`, and its shared
+entries also include `hs-opentelemetry-instrumentation-servant` (retained fork) and
+`hs-opentelemetry-exporter-in-memory` (already supplied by the channel).
 
 - Own (a): `rei-core`, `rei-api`, `rei-cli`.
 - Shared (c), 14 entries:
@@ -603,12 +668,13 @@ Mori's `dhall-haskell` source pin and mina's `streamly` source pins live only in
 
 The resulting per-repository deletion lists, which plans 11 to 13 apply, are:
 
-- **Rei (14):**
+- **Rei (16 after the October inventory):**
   - `typeid-hs-sql`, `typeid-hs-pg-migrate`;
   - `link-canonical`, `kioku-core`, `openapi-hs`, `servant-openapi-hs`,
     `servant-health`;
   - `hs-opentelemetry-instrumentation-wai`, `hs-opentelemetry-sdk`,
-    `hs-opentelemetry-exporter-otlp`;
+    `hs-opentelemetry-exporter-otlp`, `hs-opentelemetry-instrumentation-servant`,
+    `hs-opentelemetry-exporter-in-memory`;
   - `relay-pagination`, `relay-pagination-servant`, `relay-pagination-hasql`,
     `relay-pagination-conformance`.
 
@@ -811,15 +877,17 @@ Create `lib/consumerOverlayReport.nix`:
 #   , exceptions ? { name = "non-empty reason"; }
 #   } -> { shadowing; undeclared; unusedDeclarations; invalidDeclarations; ok; }
 { lib }:
-{ channelPackages, overlayPackages, ownPackages, siblingPackages ? [ ], exceptions ? { } }:
+{ channelPackages, overlayPackages, ownPackages, siblingPackages ? [ ], exceptions ? { },
+  generatedPackages ? [ ], frozenPackages ? [ ], sourcePackages ? [ ], runtimePackages ? [ ] }:
 ```
 
 It computes the following, each a sorted list:
 
 - `shadowing`: overlay names that are also channel names. Declaring such a name in any
   list does not excuse it; shadowing is never allowed.
-- `undeclared`: overlay names in none of `ownPackages`, `siblingPackages` or
-  `attrNames exceptions`.
+- `undeclared`: overlay names neither channel-owned nor declared in `ownPackages`,
+  `siblingPackages` or `attrNames exceptions`. Channel-owned offenders are reported once
+  as shadowing.
 - `unusedDeclarations`: declared names the overlay no longer defines. These keep
   declarations honest after a deletion.
 - `invalidDeclarations`: exceptions with an empty or non-string reason, and names that
@@ -1016,7 +1084,7 @@ Update the user documentation. `docs/user` is an OKF bundle validated by
     checks.consumer-overlay-audit = inputs.haskell-nix.lib.auditConsumerOverlay {
       inherit pkgs;
       overlay = import ./nix/haskell-overlay.nix { inherit pkgs gitRev; };
-      ownPackages = [ "rei-core" "rei-api" "rei-cli" ];
+      ownPackages = [ "rei-core" "rei-api" "rei-api-contract" "rei-api-client" "rei-cli" ];
     };
     ```
 
@@ -1203,7 +1271,7 @@ M3, running the report against the real overlays. Extend `inventory.nix` with a
 `reports` attribute that calls `hn.lib.consumerOverlayReport` once per consumer, passing
 `overlay`, `pkgs` and these declarations:
 
-- **rei:** own `rei-core rei-api rei-cli`; no siblings, no exceptions.
+- **rei:** own `rei-core rei-api rei-api-contract rei-api-client rei-cli`; no siblings, no exceptions.
 - **mori:** own `mori-types mori-schema-pin mori-core mori-api mori-cli`; no
   exceptions (`hasql-effectful` is deliberately left undeclared).
 - **mori-rei-app:** own `mori-rei-app`; siblings `mori-types mori-app rei-core`; no
@@ -1413,6 +1481,9 @@ Registry entries in `overlays/registry.nix`:
   (`patches/generic-lens/2.3.nix`).
 - Policy only: `link-canonical`, `hw-kafka-client` and `servant-server`, each
   `always dontCheckDoJailbreak`.
+- Source pins also include `hs-opentelemetry-instrumentation-servant` at the retained
+  Cabal revision `7a6f692e85295f965cd1827f9354c28af9e62742`, in
+  `patches/hs-opentelemetry-instrumentation-servant/source.nix`.
 - Source pins: `typeid-hs-sql` (to `patches/typeid-hs/sql.nix`) and
   `typeid-hs-pg-migrate` (to `patches/typeid-hs/pg-migrate.nix`), both built with tests
   off and jailbroken from `patches/typeid-hs/source.nix`, a `pkgs.fetchFromGitHub` of
@@ -1429,7 +1500,8 @@ the family's move to `effectful` 2.7 (plan 15) needs nothing from them.
 
 ```nix
 { lib }:
-{ channelPackages, overlayPackages, ownPackages, siblingPackages ? [ ], exceptions ? { } }:
+{ channelPackages, overlayPackages, ownPackages, siblingPackages ? [ ], exceptions ? { },
+  generatedPackages ? [ ], frozenPackages ? [ ], sourcePackages ? [ ], runtimePackages ? [ ] }:
 { shadowing = [ /* String */ ]; undeclared = [ ]; unusedDeclarations = [ ];
   invalidDeclarations = [ ]; ok = true; }
 ```
@@ -1438,7 +1510,8 @@ Flake library outputs (`flake.lib`):
 
 ```nix
 consumerOverlayReport :: { pkgs, overlay, ownPackages, siblingPackages ? [], exceptions ? {},
-                           registry ? registries.github, ghc ? defaultGhc } -> Report
+                           registry ? registries.github, ghc ? defaultGhc, generatedPackages ? [],
+                           frozenPackages ? [], sourcePackages ? [], runtimePackages ? [] } -> Report
 auditConsumerOverlay  :: same arguments -> derivation "consumer-overlay-audit" (throws when not ok)
 ```
 
@@ -1457,6 +1530,9 @@ A new ADR, `docs/adr/4-consumer-overlays-define-only-their-own-packages.md`.
 
 Dependencies and hand-offs:
 
+- **Plan 9** must supply its generated/frozen/source ownership name records to the
+  existing audit wrapper; **plan 16** supplies retained `runtimePackages`. Neither
+  creates a second ownership audit.
 - **Plan 9**
   (`docs/plans/9-generate-the-nix-package-set-from-the-cohort-freeze-and-guard-version-parity.md`)
   is a soft dependency.
@@ -1481,7 +1557,7 @@ Dependencies and hand-offs:
   an `effectful` bound. The move is one more reason `hasql-effectful`, which caps
   `effectful` below 2.6, is vendored by mori rather than carried by the channel.
 - **Plan 11** applies:
-  - rei's 14 deletions and mori-rei-app's 5;
+  - rei's refreshed 16 deletions and mori-rei-app's 5;
   - removal of the `typeid-hs-src` flake input and overlay argument in both
     repositories, once their lock's channel revision contains this plan's `typeid-hs`
     entries at `7164a74c` (the same tag as `cabal.project`);
@@ -1519,3 +1595,8 @@ Dependencies and hand-offs:
 - 2026-10-04: MasterPlan review for reducing change time: clarified shared ownership and acceptance, added the applicable targeted-update/build-identity/cache contracts, and corrected historical assumptions. No implementation completion is claimed.
 
 - 2026-10-04 (runtime workstream): Added EP-16 integration, ownership and applicable acceptance; consumer adoption now requires the retained runtime set and composes application selections/packages onto it. Shared-tool preparation remains acyclic and the fleet advisory policy is preserved.
+
+- 2026-10-05 (parallel implementation checkpoint): Added current shared policy/source pins,
+  the ownership report and wrapper with runtime/cohort inputs, 11 unit tests, build/audit
+  fixtures, ADR 4 and validated reader documentation. Refreshed Rei's inventory and
+  recorded remaining compilation/integration gates explicitly. No completion is claimed.

@@ -12,6 +12,8 @@
 , mkChannelExtension
 , mkFirstPartyPackageSet
 , mkFirstPartyPackageSetFactory
+, haskellExtensions
+, auditConsumerOverlay
 }:
 let
   fixture = import ./first-party-registry.nix {
@@ -101,6 +103,18 @@ in
     );
 
   first-party-registry = fixture.check;
+
+  shared-overrides = import ./shared-overrides.nix {
+    inherit lib defaultGhc;
+    pkgs = pkgsPlain;
+    haskellExtension = haskellExtensions.github;
+  };
+
+  consumer-overlay-audit = auditConsumerOverlay {
+    pkgs = pkgsPlain;
+    overlay = import ./fixtures/consumer-overlays/clean.nix { pkgs = pkgsPlain; };
+    ownPackages = [ "consumer-overlay-example" ];
+  };
 
   package-set-contract =
     let

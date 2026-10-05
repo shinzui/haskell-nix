@@ -112,6 +112,10 @@
         channelPackageSets;
       channelOverlays = lib.mapAttrs (_: packageSet: packageSet.overlay)
         channelPackageSets;
+      consumerOverlayAudit = import ./lib/mkConsumerOverlayAudit.nix {
+        inherit lib registries haskellExtensions defaultGhc;
+      };
+      inherit (consumerOverlayAudit) consumerOverlayReport auditConsumerOverlay;
 
       # haskell-nix-dev's systems: its nixpkgs (26.11) dropped x86_64-darwin.
       # Production test workloads currently run only on amd64 Linux; keep
@@ -174,7 +178,9 @@
             registries
             haskellExtensions
             firstPartyPackageSets
-            firstPartyGroupSnapshots;
+            firstPartyGroupSnapshots
+            consumerOverlayReport
+            auditConsumerOverlay;
 
           inherit supportedGhcs defaultGhc;
 
@@ -234,7 +240,8 @@
           checks = import ./checks/default.nix {
             inherit lib pkgsPlain pkgsGithub pkgsHackage updater firstPartyRegistries
               supportedGhcs defaultGhc defaultSelectedFamilies registries mkChannelExtension
-              mkFirstPartyPackageSet mkFirstPartyPackageSetFactory firstPartyPackageSets;
+              mkFirstPartyPackageSet mkFirstPartyPackageSetFactory firstPartyPackageSets
+              haskellExtensions auditConsumerOverlay;
           };
         };
     };

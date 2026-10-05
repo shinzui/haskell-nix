@@ -18,6 +18,13 @@ both the GitHub and Hackage channels. First-party family sources do not belong t
 refresh those through `config/first-party-families.json` and `haskell-nix-update` as
 described in [Updating first-party packages](updating-first-party-packages.md).
 
+A consumer that needs a shared third-party version or build policy adds it here before
+relocking its channel input. Temporary Hackage pins such as `patches/wai-app-static/3.2.nix`
+are converted to policy when the generated cohort owns their versions. Public unpublished
+sources use fixed revisions and hashes, as in `patches/typeid-hs/`. Consumer overlays do not
+copy either recipe; the [ownership audit](consumer-integration.md#audit-your-local-overlay)
+enforces that boundary.
+
 The common registry supports two entry types: **always-apply** and **version-scoped**.
 
 ## Always-apply entries

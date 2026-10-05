@@ -27,7 +27,8 @@ let
   shadowing = builtins.filter (name: builtins.elem name owned) overlay;
   # A shared name is already diagnosed as shadowing; reserve undeclared for unknown names.
   undeclared = builtins.filter
-    (name: !(builtins.elem name declarations) && !(builtins.elem name owned)) overlay;
+    (name: !(builtins.elem name declarations) && !(builtins.elem name owned))
+    overlay;
   unusedDeclarations = builtins.filter (name: !(builtins.elem name overlay)) (sorted declarations);
   invalidDeclarations = sorted (invalidReasons ++ duplicateDeclarations);
 in

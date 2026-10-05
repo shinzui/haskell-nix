@@ -82,9 +82,45 @@ show which names each registry exports.
 channel extension as the first argument means:
 
 1. haskell-nix patches and selected first-party packages are applied first
-2. Your local overrides see the patched package set and can build on or override them
+2. Your local overlay sees the patched package set and defines your application packages
 
-If your local overlay needs to further modify a package that haskell-nix already patches, your version wins because it runs second.
+The second extension wins on duplicate names. Consumer overlays therefore define only their own
+packages, declared sibling libraries, and reasoned exceptions. Shared dependencies belong in
+the channel; see [ADR 4](../adr/4-consumer-overlays-define-only-their-own-packages.md).
+
+## Audit your local overlay
+
+Add a check to reject local entries that shadow channel dependencies or lack an ownership
+declaration. The report examines attribute names without fetching application sources.
+
+```nix
+checks.consumer-overlay-audit = inputs.haskell-nix.lib.auditConsumerOverlay {
+  inherit pkgs;
+  overlay = import ./nix/haskell-overlay.nix { inherit pkgs gitRev; };
+  ownPackages = [ "rei-core" "rei-api" "rei-api-contract" "rei-api-client" "rei-cli" ];
+};
+```
+
+For a selected non-default set, pass its `registry` explicitly. The audit also accepts
+`generatedPackages`, `frozenPackages`, `sourcePackages`, and `runtimePackages` as lists of
+shared names from the selected cohort/runtime records. Include these retained ownership
+records when composing a runtime: declaring a runtime dependency as an application package
+or exception cannot exempt it from shadowing detection.
+
+Declared sibling libraries use `siblingPackages`. The one agreed exception is the schema
+pin used by `mori://shinzui/mina`, whose movement changes the Dhall it writes:
+
+```nix
+exceptions = {
+  mori-schema-pin = "mori://shinzui/mori at 7af02c55; moving it changes the Dhall Mina writes";
+};
+```
+
+Every exception needs a non-empty reason; duplicate and unused declarations fail. A package
+missing from Hackage gets a shared source pin, as the channel does for `mori://shinzui/typeid-hs`
+and `mori://shinzui/hs-opentelemetry-instrumentation-servant`. Add a required shared version or
+build-policy change here, then relock the consumer. Setting `disableProfiling = false` also
+reintroduces the known Kioku GHC 9.12.4 profiling panic; validate that configuration explicitly.
 
 ## Build settings the extension changes
 

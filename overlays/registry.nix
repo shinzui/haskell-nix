@@ -102,9 +102,24 @@ in
   # nixpkgs marks the Hackage cradle-0.0.0.0 broken; the library (all baikai
   # uses) builds with bounds relaxed and tests off.
   cradle = always markUnbrokenDontCheckDoJailbreak;
-  # nixpkgs ships wai-app-static 3.1.9.1; its original bounds predate the
-  # crypton / http-client-tls stack pinned below.
-  wai-app-static = always dontCheckDoJailbreak;
+  # 3.2.x uses cryptohash-md5, avoiding the crypton memory/ram instance clash.
+  wai-app-static = always (import ../patches/wai-app-static/3.2.nix);
+  # The original 0.20.3.0 metadata caps wai-app-static below 3.2.
+  servant-server = always dontCheckDoJailbreak;
+
+  # Shared application HTTP/utility policy belongs in the channel.
+  # link-canonical 0.1.0.0 caps http-client-tls and generic-lens below this stack.
+  link-canonical = always dontCheckDoJailbreak;
+  # Kafka integration tests need a broker; use the maintained runtime source when selected.
+  hw-kafka-client = always dontCheckDoJailbreak;
+  servant-health = always (import ../patches/servant-health/0.1.nix);
+  generic-lens-core = always (import ../patches/generic-lens-core/2.3.nix);
+  generic-lens = always (import ../patches/generic-lens/2.3.nix);
+
+  # Public source pins: preserve their Cabal source-repository-package revisions.
+  typeid-hs-sql = always (import ../patches/typeid-hs/sql.nix);
+  typeid-hs-pg-migrate = always (import ../patches/typeid-hs/pg-migrate.nix);
+  hs-opentelemetry-instrumentation-servant = always (import ../patches/hs-opentelemetry-instrumentation-servant/source.nix);
 
   # ── separate Shibuya adapter repository ────────────────────────────
   shibuya-pgmq-adapter = always (import ../patches/shibuya-pgmq-adapter/0.16.nix);
