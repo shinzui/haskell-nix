@@ -1,0 +1,12 @@
+[
+  {
+    "package": "effectful",
+    "floor": "2.7.1.0",
+    "reason": "user decision 2026-09-26: effectful 2.7 everywhere"
+  },
+  {
+    "package": "effectful-core",
+    "floor": "2.7.1.1",
+    "reason": "user decision 2026-09-26: effectful 2.7 everywhere; exclude the 2.7.0.0\u20132.7.1.0 performance regression"
+  }
+]

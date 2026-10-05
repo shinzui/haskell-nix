@@ -42,6 +42,10 @@ library
     HaskellNix.Update.Cli
     HaskellNix.Update.Cohort.Cli
     HaskellNix.Update.Cohort.Inventory
+    HaskellNix.Update.Cohort.Impact
+    HaskellNix.Update.Cohort.Model
+    HaskellNix.Update.Cohort.Report
+    HaskellNix.Update.Cohort.Freeze
     HaskellNix.Update.Cohort.Types
     HaskellNix.Update.Git
     HaskellNix.Update.Hackage
@@ -93,6 +97,7 @@ test-suite haskell-nix-update-test
   other-modules:
     AdapterTest
     CohortTest
+    CohortModelTest
     PackageSetTest
     Paths_haskell_nix_update
     PlannerTest
