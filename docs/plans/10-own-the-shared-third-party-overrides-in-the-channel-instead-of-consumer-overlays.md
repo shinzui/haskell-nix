@@ -100,7 +100,8 @@ Milestone 4's old-consumer builds are diagnostic rehearsals. A failure caused by
 ## Progress
 
 - [x] 2026-10-06: GHC 9.14 cborg-json 0.2.6.0 repair passes its preserved test suite (1/1); dec 0.0.6 passes using published admitting revision 2 (no test suites in that package). Seven compiler/version/hook/test-policy guard fixtures pass with the existing suite, 58/58 overall.
-- [x] 2026-10-06: Targeted native/Linux checks pass for the exact GHC 9.14 metadata repairs, including the locally verified tasty-wai bounds. The fresh required broad native check is running as session 77339; EP-10 remains In Progress pending its result.
+- [x] 2026-10-06: Targeted native/Linux checks pass for the first exact GHC 9.14 metadata batch, including the locally verified tasty-wai bounds. Full native session 77339 exits 1 at lens-family-core's containers upper bound after the actual bootstrap succeeds.
+- [x] 2026-10-06: Boot-bound batch native 28730 and Linux 30879 pass all four targets. Positive released example 75793 passes and the negative example preserves intended failure propagation. Fresh required full native gate 3690 is running; EP-10 remains In Progress.
 - [x] 2026-10-05: Audit accepts generated/frozen/source/runtime shared ownership names.
 - [x] 2026-10-05: Pre-adoption consumer rehearsals deferred to EP-11–13 by the MasterPlan owner under the Oct4 review. The optional Rei run was stopped gracefully after its build plan revealed 37 derivations still using effectful 2.6; EP-9 will replace those build identities with the 2.7 cohort.
 
@@ -121,12 +122,77 @@ Milestone 4's old-consumer builds are diagnostic rehearsals. A failure caused by
 - [x] 2026-10-05: M4: Mina's filtered overlay evaluates generic-lens and generic-lens-core to 2.3.0.0 (evaluation only; plan 13 owns its build).
 - [x] 2026-10-05: M5: Write the new ADR as `docs/adr/4-consumer-overlays-define-only-their-own-packages.md`.
 - [x] 2026-10-05: M5: Update `docs/user/consumer-integration.md`, `docs/user/adding-patches.md` and `docs/user/channels.md`, append to `docs/user/log.md`, and pass `just check-docs`.
-- [ ] M5: `nix flake check` passes. The upgraded daemon repairs cpio's security-patch phase, and all scoped compatibility targets pass on native Darwin and Linux. Fresh full native session 77339 remains running; targeted passing checks and historical failed broad gates do not establish plan completion.
+- [ ] M5: `nix flake check` passes. The upgraded daemon repairs cpio's security-patch phase and all compatibility targets pass on native Darwin and Linux. Full native session 77339 fails at lens-family-core's containers bound. The boot-bound batch repairs that issue and fresh full native session 3690 remains running. Targeted passing checks do not establish plan completion.
 - [ ] M5: Fill in Outcomes & Retrospective and hand the deletion lists to plans 11, 12 and 13.
 - [x] 2026-09-26: Plan revised for the user's decisions: `typeid-hs` moves into the channel, `hasql-effectful` leaves the overlay through plan 12's vendoring, and mina's `mori-schema-pin` is the only declared exception. No implementation work has started.
 
 
 ## Surprises & Discoveries
+
+- 2026-10-06: Full native session 77339 exits 1 at lens-family-core 2.1.3,
+  containers `<0.8` versus installed 0.8, after cpio and both patchutils variants
+  build successfully and nix-unit passes. Its complete log remains
+  `/tmp/mp3-ep10-native-full-check-cborg-20261006.log`. A fresh compiler query
+  (`ghc-pkg list --simple-output`, session 34820) records all actual GHC 9.14.1
+  boot-package versions. Expanded conservative metadata preflight in
+  `/tmp/mp3-ep10-boot-bounds-report.json` checks upper bounds and caret ranges,
+  then manually excludes existing policies, inactive conditional branches,
+  disabled tests/benchmarks and source-only mismatches. New active library
+  candidates are lens-family/core, rebase and tasty-hspec. This is the broad
+  compiler matrix, not the GHC 9.12 application cohort; the textual preflight
+  is candidate discovery, not a complete Cabal solver proof.
+
+- 2026-10-06: `mori://roconnor/lens-family` (project-relative
+  `core/lens-family-core.cabal` and `lens-family.cabal`; artifact-level URIs
+  pending) is absent from the local registry. Hackage latest 2.1.3 and
+  [authoritative Darcs HEAD](https://hub.darcs.net/roconnor/lens-family/browse/core/lens-family-core.cabal)
+  still exclude containers 0.8. The authorized local compatibility repair changes
+  only `<0.8` to `<0.9`, guards each exact r0 metadata hash, and applies only to
+  version 2.1.3/GHC >=9.14,<9.15. Scratch core session 79575 and parent batch
+  82970 pass compilation; neither released library has a test suite.
+  Released-source smoke session 7698 passes ten assertions covering lazy/strict
+  Map/IntMap lookup/insertion/deletion and Set/IntSet membership updates through
+  the actual optics against containers 0.8. No upstream endorsement is claimed;
+  retire when selected upstream metadata admits that version.
+
+- 2026-10-06: `mori://nikita-volkov/rebase/packages/rebase` has no local registry
+  entry. Hackage supplies 1.22 as the smallest published admitting release,
+  matching upstream tag `e5d80dc13648deef44986b68056bec614fd43b3d` and admitting
+  containers `<0.9`/time `<1.16`. Its verified unpacked hash is
+  `086k7y6llkxzpnx6ijx4rgqw94zp9zqys8llw9qwvydh30wfvprf`.
+  The replacement applies only to selected 1.21.2/GHC >=9.14,<9.15 and retires
+  once 1.22 is selected. Scratch batch 82970 builds all 368 modules; the released
+  package has no test suites. GHC 9.12 remains unchanged.
+
+- 2026-10-06: `mori://UnkindPartition/tasty/packages/tasty-hspec` has no admitting
+  release/revision: Hackage latest 1.2.0.4 r8 and upstream HEAD
+  `69545e04d9c32b84d39e54cb090db7d957e9c77c` stop the base caret union at 4.21.
+  The local repair adds only `|| ^>=4.22`, guarded by exact r8 SHA256
+  `a8fa8ec5e3a0594400d52ad13f823f2eaddccf01505c5924df21e4c8aa7ce5c9`, on
+  that package version/GHC >=9.14,<9.15. Scratch batch 82970 builds successfully;
+  no Cabal test suite is declared. Released example SHA256
+  `77ef651d944cbce79d180277674ab63ce1e03bc9f67467712a451da903f324f7`
+  matches Mori's corpus. Example session 6104 preserves the intentional behavior:
+  one passing assertion, one pending marker and one deliberate failed assertion,
+  exit 1 with two of three reported failed. This is a verified negative-result
+  propagation test, not an all-passing suite or upstream endorsement. Retirement
+  requires selected admitting upstream metadata.
+
+- 2026-10-06: Implemented second-batch native session 28730 passes all four targets
+  (lens-family-core, lens-family, rebase, tasty-hspec); formatting session 33921
+  passes without changes. Linux session 30879 passes all four targets and positive
+  example session 75793 passes its one expected-success assertion. Scratch example
+  retry 89930 failed closed because it layered
+  the same hash-guarded repair over the now-repaired policy; the proper policy
+  retry 75793 avoids applying the repair twice. No guard is relaxed.
+
+- 2026-10-06: With both native/Linux target batches passing, fresh required full
+  native session 3690 runs the same full-check command (max-jobs 2, cores 2,
+  eval-cache false), with durable log
+  `/tmp/mp3-ep10-native-full-check-boot-bounds-20261006.log`. The initial default
+  execution was denied access to Nix's fetcher-cache lock; its required execution
+  escalation starts successfully. No host configuration is changed. This full
+  gate remains running and is the only active worker validation job.
 
 - 2026-10-06: Preserve http-api-data 0.6.3's source/API while applying the exact
   base `<4.23` and containers `<0.9` metadata changes from
@@ -229,7 +295,8 @@ Milestone 4's old-consumer builds are diagnostic rehearsals. A failure caused by
   cores 2 --option eval-cache false`, with durable output in
   `/tmp/mp3-ep10-native-full-check-cborg-20261006.log`. The historical dec failure
   remains separately in `/tmp/mp3-ep10-native-full-check-dec-failure-20261006.log`.
-  This fresh full gate is still running; no completion claim is made.
+  This full gate later exits 1 at lens-family-core's containers bound; no
+  completion claim is made.
 
 - 2026-10-05: After the user upgraded the daemon/client to Determinate 3.23.0
   (Nix daemon 2.35.2), the MasterPlan owner's uncached `--rebuild` probe
@@ -691,7 +758,7 @@ Mori retains shibuya-pgmq-adapter until plan 9 supplies at least 0.16.1.0 and ha
 plan 12 vendors its imports. Mina retains kdl-hs until plan 13 lifts its bound. Mina's
 mori-schema-pin remains the sole exception. TypeID deletions free typeid-hs-src in Rei/Mori/mori-rei-app;
 Mori additionally frees tan-effectful-src and the three HTTP family source inputs in its adoption.
-No consumer repositories were modified. The existing GHC 9.14 bytestring-lexing/base blocker is repaired with an admitting release and 58 passing tests. The user's daemon upgrade repairs the confirmed bootstrap NOFILE failure: the uncached probe and the actual cpio security-patch phase pass. The narrowly guarded cborg-json upstream metadata repair then passes its preserved suite, and the next broad gate reaches dec's old bound. Dec's admitting published revision builds successfully; a batch preflight identifies further scoped metadata repairs and avoids repeated broad compilation per package. All targeted native/Linux repairs now pass. HTTP's preserved suite passes 231 examples, tasty-wai passes five endpoint tests on both platforms, and the scope fixtures pass 58/58 overall. The fresh full native gate (77339) remains running. The extra Unicode test-enabled proof fails its cross-version data oracle, separately from the passing normal policy build. Diagnostic
+No consumer repositories were modified. The existing GHC 9.14 bytestring-lexing/base blocker is repaired with an admitting release and 58 passing tests. The user's daemon upgrade repairs the confirmed bootstrap NOFILE failure: the uncached probe and the actual cpio security-patch phase pass. The narrowly guarded cborg-json upstream metadata repair then passes its preserved suite, and the next broad gate reaches dec's old bound. Dec's admitting published revision builds successfully; a batch preflight identifies further scoped metadata repairs and avoids repeated broad compilation per package. All targeted native/Linux repairs now pass. HTTP's preserved suite passes 231 examples, tasty-wai passes five endpoint tests on both platforms, and the scope fixtures pass 58/58 overall. Full native gate 77339 next fails at lens-family-core containers metadata; the boot-bound audit and second batch then pass all four targets on both platforms, with local optics assertions and Tasty example behavior checked. Fresh full native gate 3690 remains running. The extra Unicode test-enabled proof fails its cross-version data oracle, separately from the passing normal policy build. Diagnostic
 consumer compilation is deferred to the actual EP-11–13 cohort adoption; this checkpoint does not mark EP-10 complete.
 
 

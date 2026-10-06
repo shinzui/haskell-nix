@@ -88,6 +88,32 @@ in
     max = "0.1.2.1";
     patch = import ../patches/tasty-wai/0.1.2-ghc914.nix;
   }];
+  lens-family-core = [{
+    min = "2.1.3";
+    max = "2.1.4";
+    patch = import ../patches/lens-family/2.1.3-ghc914.nix {
+      name = "lens-family-core";
+      sha256 = "3714c3fa57a556d6fb958234fa4cde8401e098458dc9041416c54d25ec187473";
+    };
+  }];
+  lens-family = [{
+    min = "2.1.3";
+    max = "2.1.4";
+    patch = import ../patches/lens-family/2.1.3-ghc914.nix {
+      name = "lens-family";
+      sha256 = "e368ef693ed3d894dcec1735fe2952ab876c49a88231c7d76289d2a9d2bdd66f";
+    };
+  }];
+  rebase = [{
+    min = "1.21.2";
+    max = "1.22";
+    patch = import ../patches/rebase/1.21-ghc914.nix;
+  }];
+  tasty-hspec = [{
+    min = "1.2.0.4";
+    max = "1.2.0.5";
+    patch = import ../patches/tasty-hspec/1.2.0-ghc914.nix;
+  }];
   # Published GHC 9.14 metadata for mori://phadej/singleton-bool (singleton-bool.cabal;
   # artifact-level URI pending) and mori://haskell-servant/servant/packages/servant,
   # mori://haskell-servant/servant/packages/servant-client,
