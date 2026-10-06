@@ -1,11 +1,30 @@
 #!/usr/bin/env python3
 """Export and inventory recorded inputs; never build inside contributor checkouts."""
 import argparse
+import hashlib
 import json
+import os
 from pathlib import Path
 import re
 import subprocess
 import tempfile
+from cohort_toolchain import compiler_args, compiler_environment
+
+
+INPUT_FILES = (
+    "cabal/contributors.json", "cabal/inventory-inputs.json", "cabal/policy-floors.json",
+    "cabal/policy-roots.json", "cabal/floors.config", "cabal/compiler-boot-packages.json",
+    "flake.nix", "flake.lock", "cabal.project", "packages/first-party-lock.json",
+    "config/first-party-families.json",
+)
+INPUT_DIRECTORIES = ("config", "lib", "nix", "overlays", "patches")
+
+
+def capture_inputs(root):
+    paths = {root / name for name in INPUT_FILES}
+    for directory in INPUT_DIRECTORIES:
+        paths.update(path for path in (root / directory).rglob("*") if path.is_file())
+    return {path: path.read_bytes() for path in sorted(paths)}
 
 
 def run(args, **kwargs):
@@ -22,7 +41,65 @@ def mori_path(uri):
 
 
 def write_json(path, data):
+    path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(data, sort_keys=True, indent=2) + "\n")
+
+
+def read_floors(path):
+    result = {}
+    for line in path.read_text().splitlines():
+        line = line.strip()
+        if not line or line.startswith("--") or line == "constraints:":
+            continue
+        match = re.fullmatch(r"(?:,\s*)?any\.([^\s,]+)\s+>=([0-9]+(?:\.[0-9]+)*)", line)
+        if not match or match[1] in result:
+            raise ValueError(f"invalid generated floor record: {line}")
+        result[match[1]] = match[2]
+    return result
+
+
+def floor_delta(before, after):
+    removed = sorted(before.keys() - after.keys())
+    changed = {name: {"before": before[name], "after": after[name]}
+               for name in sorted(before.keys() & after.keys()) if before[name] != after[name]}
+    lowered = [name for name, values in changed.items()
+               if tuple(map(int, values["after"].split("."))) < tuple(map(int, values["before"].split(".")))]
+    return {"added": sorted(after.keys() - before.keys()), "removed": removed,
+            "changed": changed, "lowered": lowered}
+
+
+def canonical_inventory(value):
+    """Identity list order/multiplicity is incidental; all retained values matter."""
+    result = json.loads(json.dumps(value))
+    for package in result.get("packages", {}).values():
+        identities = {json.dumps(identity, sort_keys=True) for identity in package["identities"]}
+        package["identities"] = [json.loads(identity) for identity in sorted(identities)]
+    return result
+
+
+def promote_inventories(destination, staged, expected):
+    current = {path.name: path.read_bytes() for path in destination.glob("*.json")}
+    if current != expected:
+        raise RuntimeError("Recorded inventories changed during capture; no files promoted")
+    originals = current
+    candidates = {path.name: path.read_bytes() for path in staged.glob("*.json")}
+    try:
+        for name, content in candidates.items():
+            with tempfile.NamedTemporaryFile(dir=destination, prefix=name + ".", delete=False) as handle:
+                handle.write(content)
+                temporary = Path(handle.name)
+            try:
+                os.replace(temporary, destination / name)
+            finally:
+                temporary.unlink(missing_ok=True)
+        for name in originals.keys() - candidates.keys():
+            (destination / name).unlink()
+    except BaseException:
+        for name in candidates.keys() - originals.keys():
+            (destination / name).unlink(missing_ok=True)
+        for name, content in originals.items():
+            (destination / name).write_bytes(content)
+        raise
 
 
 def deployed_haskell_versions(metadata, names):
@@ -61,14 +138,31 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--reuse-solves", type=Path,
                         help="Use existing scratch exports after checking their recorded revision markers")
+    parser.add_argument("--promote", action="store_true",
+                        help="Explicitly refresh recorded inventories after reviewing staged observations")
+    parser.add_argument("--check-recorded", action="store_true",
+                        help="Require the staged inventory to match recorded metadata; never promote")
     args = parser.parse_args()
+    if args.check_recorded and args.promote:
+        parser.error("--check-recorded and --promote are mutually exclusive")
     root = Path.cwd()
-    contributors = json.loads((root / "cabal/contributors.json").read_text())
-    inputs = json.loads((root / "cabal/inventory-inputs.json").read_text())
+    root_revision = capture(["git", "rev-parse", "HEAD"])
+    baseline = capture_inputs(root)
+    contributors = json.loads(baseline[root / "cabal/contributors.json"])
+    inputs = json.loads(baseline[root / "cabal/inventory-inputs.json"])
+    recorded = {path.name: path.read_bytes() for path in (root / "cabal/inventory").glob("*.json")}
     run(["cabal", "build", "exe:haskell-nix-update"])
     cli = capture(["cabal", "list-bin", "exe:haskell-nix-update"])
     scratch = args.reuse_solves or Path(tempfile.mkdtemp(prefix="cohort-inventory-", dir="/tmp"))
     print(f"Inventory scratch: {scratch}", flush=True)
+    candidate = Path(tempfile.mkdtemp(prefix="cohort-inventory-candidate-", dir="/tmp"))
+    staged_inventory = candidate / "inventory"
+    staged_inventory.mkdir()
+    print(f"Staged inventory and receipt: {candidate}; recorded inputs are unchanged", flush=True)
+    captured_contributors = candidate / "contributors.json"
+    captured_inputs = candidate / "inventory-inputs.json"
+    captured_contributors.write_bytes(baseline[root / "cabal/contributors.json"])
+    captured_inputs.write_bytes(baseline[root / "cabal/inventory-inputs.json"])
     for contributor in contributors:
         name = contributor["name"]
         export = scratch / name
@@ -93,17 +187,19 @@ def main():
                 for package, flags in sorted(config["flags"].items()):
                     command.append("--constraint=" + package + " " + flags)
                 # Separate build directories prevent one flag configuration overwriting another.
-                command += ["--builddir=dist-cohort-" + config["name"]]
+                command += ["--builddir=dist-cohort-" + config["name"], *compiler_args()]
                 with (scratch / (name + "-" + config["name"] + ".log")).open("w") as log:
-                    run(command, cwd=export, stdout=log, stderr=subprocess.STDOUT)
+                    run(command, cwd=export, stdout=log, stderr=subprocess.STDOUT,
+                        env=compiler_environment())
         for config in contributor["configurations"]:
             builddir = "dist-newstyle" if args.reuse_solves else "dist-cohort-" + config["name"]
             suffix = "" if config["name"] == "default" else "-" + config["name"]
             run([cli, "cohort", "inventory", "--contributor", name,
+                 "--contributors", str(captured_contributors),
                  "--configuration", config["name"], "--source", str(export),
                  "--plan", str(export / builddir / "cache/plan.json"),
-                 "--out", "cabal/inventory/" + name + suffix + ".json"])
-    inventories = [json.loads(p.read_text()) for p in (root / "cabal/inventory").glob("*.json")
+                 "--out", str(staged_inventory / (name + suffix + ".json"))])
+    inventories = [json.loads(p.read_text()) for p in staged_inventory.glob("*.json")
                    if p.name != "nix.json"]
     names = sorted({name for inventory in inventories for name in inventory["packages"]})
     names_file = scratch / "names.json"
@@ -127,7 +223,7 @@ def main():
     dotfiles_ref = "git+file://" + str(dotfiles) + "?rev=" + inputs["dotfilesRevision"]
     command = [cli, "cohort", "inventory-nix", "--names", str(names_file), "--channel", str(channel_file),
                "--channel-revision", inputs["channelRevision"], "--dotfiles-revision", inputs["dotfilesRevision"],
-               "--system", inputs["system"], "--out", "cabal/inventory/nix.json"]
+               "--system", inputs["system"], "--out", str(staged_inventory / "nix.json")]
     for contributor in contributors:
         if not contributor["deployedAttr"]:
             continue
@@ -141,6 +237,54 @@ def main():
         write_json(deployed_file, versions)
         command += ["--deployed", contributor["name"] + "=" + str(deployed_file)]
     run(command)
+    for path, content in baseline.items():
+        destination = candidate / "inputs" / path.relative_to(root)
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        destination.write_bytes(content)
+    captured = candidate / "inputs"
+    run([cli, "cohort", "stub", "--inventory", str(staged_inventory),
+         "--lock", str(captured / "packages/first-party-lock.json"),
+         "--catalog", str(captured / "config/first-party-families.json"),
+         "--policy-floors", str(captured / "cabal/policy-floors.json"),
+         "--policy-roots", str(captured / "cabal/policy-roots.json"),
+         "--out-dir", str(candidate / "cohort")])
+    delta = floor_delta(read_floors(captured / "cabal/floors.config"),
+                        read_floors(candidate / "cohort/floors.config"))
+    staged = {path.name: path.read_bytes() for path in staged_inventory.glob("*.json")}
+    changed_records = sorted(name for name in recorded.keys() | staged.keys()
+                             if name not in recorded or name not in staged
+                             or canonical_inventory(json.loads(recorded[name])) != canonical_inventory(json.loads(staged[name])))
+    receipt = {"exports": str(scratch), "candidate": str(candidate),
+               "capturedRootRevision": root_revision,
+               "capturedFlakeLockSHA256": hashlib.sha256(baseline[root / "flake.lock"]).hexdigest(),
+               "recordedChannelRevision": inputs["channelRevision"],
+               "capturedToolchainInputs": [str(path.relative_to(root)) for path in baseline],
+               "stockCompiler": os.environ.get("COHORT_GHC"),
+               "stockPackageTool": os.environ.get("COHORT_GHC_PKG"),
+               "floorDelta": delta, "changedInventoryRecords": changed_records,
+               "promoted": False}
+    write_json(candidate / "receipt.json", receipt)
+    print(json.dumps(receipt, sort_keys=True, indent=2), flush=True)
+    if delta["removed"] or delta["lowered"]:
+        raise SystemExit("Candidate loses recorded floors; retain historical observations before promotion. "
+                         "Staged evidence is preserved; accepted inputs are unchanged.")
+    if args.check_recorded and changed_records:
+        raise SystemExit("Staged metadata differs from recorded inventory; see receipt. No files promoted.")
+    try:
+        unchanged = capture_inputs(root) == baseline
+    except OSError:
+        unchanged = False
+    if not unchanged:
+        raise SystemExit("Recorded solve inputs changed during capture; no files promoted.")
+    if {path.name: path.read_bytes() for path in (root / "cabal/inventory").glob("*.json")} != recorded:
+        raise SystemExit("Recorded inventory files changed during capture; no files promoted.")
+    if args.promote:
+        promote_inventories(root / "cabal/inventory", staged_inventory, recorded)
+        receipt["promoted"] = True
+        write_json(candidate / "receipt.json", receipt)
+        print("Promoted explicitly reviewed inventories; regenerate the cohort from this snapshot.")
+    else:
+        print("Inventory staged for review. Accepted files unchanged; use --promote only after reviewing the receipt.")
 
 
 if __name__ == "__main__":

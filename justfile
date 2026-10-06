@@ -119,9 +119,13 @@ nix-test:
 drv-diff before after:
     nix develop -c nix-diff '{{before}}' '{{after}}'
 
-# Inventory recorded contributor revisions with tests, benchmarks and Nix selections.
+# Stage contributor inventories and a review receipt without changing accepted inputs.
 cohort-inventory:
     nix develop .#cohort-inventory -c python3 scripts/cohort-inventory.py
+
+# Explicitly promote fresh inventories; reject lost floors or concurrently changed inputs.
+cohort-inventory-refresh:
+    nix develop .#cohort-inventory -c python3 scripts/cohort-inventory.py --promote
 
 # Resolve the broad cohort from recorded inputs; routine changes use cohort-update.
 cohort-resolve:
@@ -141,4 +145,4 @@ cohort-check:
     nix develop .#cohort-inventory -c python3 scripts/cohort-check.py
 
 # Explicitly refresh the full cohort, then report and verify it.
-cohort: cohort-inventory cohort-resolve cohort-report cohort-check
+cohort: cohort-inventory-refresh cohort-resolve cohort-report cohort-check
