@@ -25,6 +25,38 @@ def write_json(path, data):
     path.write_text(json.dumps(data, sort_keys=True, indent=2) + "\n")
 
 
+def deployed_haskell_versions(metadata, names):
+    """Classify build-graph metadata; this is diagnostic, not executable parity."""
+    # Nix supports both the legacy direct map and the versioned JSON envelope.
+    graph = metadata.get("derivations", metadata)
+    if not isinstance(graph, dict):
+        raise ValueError("Nix derivation metadata must contain a derivation map")
+    versions = {}
+    for record in graph.values():
+        if not isinstance(record, dict):
+            raise ValueError("invalid Nix derivation metadata record")
+        env = record.get("env", {})
+        # These phases and scripts identify the pinned Haskell generic builder.
+        # Native libraries, compilers and source-vendor artifacts can have the
+        # same basename as a Haskell package; their names establish no role.
+        is_haskell = (
+            "setupCompilerEnvironmentPhase" in env.get("prePhases", "").split()
+            and "compileBuildDriverPhase" in env.get("preConfigurePhases", "").split()
+            and bool(env.get("setupCompilerEnvironmentPhase"))
+            and bool(env.get("compileBuildDriverPhase"))
+        )
+        name, version = env.get("pname"), env.get("version")
+        if not is_haskell or name not in names:
+            continue
+        if not isinstance(version, str) or not re.fullmatch(r"[0-9]+(?:\.[0-9]+)*", version):
+            raise ValueError(f"invalid Haskell derivation version for {name}: {version!r}")
+        # Floors retain every observed Haskell version through their maximum;
+        # manifests must later verify all instances and the actual root edges.
+        if name not in versions or tuple(map(int, version.split("."))) > tuple(map(int, versions[name].split("."))):
+            versions[name] = version
+    return versions
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--reuse-solves", type=Path,
@@ -101,15 +133,10 @@ def main():
             continue
         attr = "darwinConfigurations.SungkyungM1X.pkgs." + contributor["deployedAttr"] + ".drvPath"
         drv = capture(["nix", "eval", "--raw", dotfiles_ref + "#" + attr])
-        closure = capture(["nix-store", "--query", "--requisites", drv])
-        versions = {}
-        for line in closure.splitlines():
-            # Query Nix metadata only. Do not open or traverse any store path.
-            match = re.match(r"[a-z0-9]{32}-(.+)-([0-9]+(?:\.[0-9]+)*)\.drv$", Path(line).name)
-            if match and match[1] in names:
-                name, version = match.groups()
-                if name not in versions or tuple(map(int, version.split("."))) > tuple(map(int, versions[name].split("."))):
-                    versions[name] = version
+        # Metadata API only: never open or traverse any store path. The build
+        # graph includes statically linked libraries but also native homonyms.
+        metadata = json.loads(capture(["nix", "derivation", "show", "--recursive", drv]))
+        versions = deployed_haskell_versions(metadata, names)
         deployed_file = scratch / (contributor["name"] + "-deployed.json")
         write_json(deployed_file, versions)
         command += ["--deployed", contributor["name"] + "=" + str(deployed_file)]

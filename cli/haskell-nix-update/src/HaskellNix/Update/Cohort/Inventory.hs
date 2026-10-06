@@ -3,6 +3,7 @@
 module HaskellNix.Update.Cohort.Inventory (
     readPlanVersions,
     decodePlanVersions,
+    validatePlanCompiler,
     readDeclaredBounds,
     readProjectConstraints,
     projectFields,
@@ -13,7 +14,7 @@ import Data.Aeson
 import Data.Aeson.KeyMap qualified as KeyMap
 import Data.Aeson.Types (Parser, parseEither)
 import Data.ByteString qualified as BS
-import Data.List (nub, sort)
+import Data.List (nub, sort, sortOn)
 import Data.Map.Strict (Map)
 import Data.Map.Strict qualified as Map
 import Data.Maybe (maybeToList)
@@ -63,9 +64,10 @@ decodePlanVersions bootNames bytes = do
             Nothing -> pure (Map.insert pkgName entry current)
             Just old
                 | old.version == entry.version && old.source == entry.source ->
-                    pure (Map.insert pkgName (old{identities = old.identities <> entry.identities, dependencies = sort (nub (old.dependencies <> entry.dependencies))}) current)
+                    pure (Map.insert pkgName (old{identities = canonicalIdentities (old.identities <> entry.identities), dependencies = sort (nub (old.dependencies <> entry.dependencies))}) current)
                 | otherwise -> Left ("multiple versions/sources for " <> pkgName)
-    identity (Object fields) = Object (KeyMap.filterWithKey (\key _ -> key `elem` ["pkg-name", "pkg-version", "pkg-src", "pkg-src-sha256", "pkg-cabal-sha256", "flags", "type"]) fields)
+    canonicalIdentities = sortOn encode . nub
+    identity (Object fields) = Object (KeyMap.filterWithKey (\key _ -> key `elem` ["pkg-name", "pkg-version", "pkg-src", "pkg-src-sha256", "pkg-cabal-sha256", "flags", "type", "component-name"]) fields)
     identity other = other
     parseRow = withObject "plan entry" $ \o -> do
         unitId <- o .: "id"
@@ -93,6 +95,13 @@ decodePlanVersions bootNames bytes = do
         components <- o .:? "components" .!= Object mempty
         nested <- withObject "components" (fmap concat . traverse (withObject "component" (\c -> (<>) <$> (c .:? "depends" .!= []) <*> (c .:? "exe-depends" .!= []))) . KeyMap.elems) components
         pure (nub (top <> executableDeps <> nested))
+
+-- Compiler provenance must describe the actual solver plan.
+validatePlanCompiler :: Text -> BS.ByteString -> Either Text ()
+validatePlanCompiler expected bytes = do
+    value <- either (Left . Text.pack) Right (eitherDecodeStrict' bytes)
+    actual <- either (Left . Text.pack) Right (parseEither (withObject "plan" (.: "compiler-id")) value)
+    if actual == expected then Right () else Left ("resolved compiler differs from recorded input: " <> actual <> " /= " <> expected)
 
 readDeclaredBounds :: FilePath -> [FilePath] -> IO (Either Text [DeclaredBound])
 readDeclaredBounds root files = fmap (fmap (sort . nub . concat) . sequence) $ forM files $ \file -> do

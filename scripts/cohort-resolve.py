@@ -26,7 +26,7 @@ def main():
     run(["cabal", "build", "all", "--dry-run", "--project-file=cohort.project", selected_index], cwd="cabal")
     run(["cabal", "freeze", "--project-file=cohort.project", selected_index], cwd="cabal")
     run([cli, "cohort", "normalise-freeze", "--in", str(generated), "--out", "cabal/cohort.freeze",
-         "--index-state", inputs["indexState"], "--haskell-nix-rev", inputs["channelRevision"]])
+         "--index-state", inputs["indexState"], "--haskell-nix-rev", inputs["channelRevision"], "--compiler", inputs["compiler"]])
     generated.unlink()
 
 

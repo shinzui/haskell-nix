@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedRecordDot #-}
 
-module HaskellNix.Update.Cohort.Impact (retainedConstraints, impactReport) where
+module HaskellNix.Update.Cohort.Impact (retainedConstraints, validateRetainedIdentities, impactReport) where
 
 import Data.Aeson (Value (..))
 import Data.Aeson.KeyMap qualified as KeyMap
@@ -30,6 +30,16 @@ retainedConstraints previous runtime updateRuntime requested
     inconsistentRuntime = [name | (name, version) <- Map.toAscList runtime, Map.lookup name previous /= Just version]
     retained = Map.union (if updateRuntime then Map.withoutKeys runtime names else runtime) (Map.withoutKeys previous names)
     render prefix (name, version) = prefix <> "any." <> name <> " ==" <> Text.pack (prettyShow version)
+
+-- Versions alone do not retain an unrelated package's source or build policy.
+validateRetainedIdentities :: Map Text PlanPackage -> Map Text PlanPackage -> [Text] -> Either Text ()
+validateRetainedIdentities before after requested =
+    if null changed then Right () else Left ("unrelated package identities changed; explicit unlock required: " <> Text.intercalate ", " changed)
+  where
+    changed = [name | (name, old) <- Map.toAscList before, name `notElem` requested, not (retained old (Map.lookup name after))]
+    retained _ Nothing = False
+    retained old (Just new) = old.version == new.version && old.source == new.source && sameValues old.identities new.identities
+    sameValues xs ys = let a = nub xs; b = nub ys in length a == length b && all (`elem` b) a
 
 -- Metadata and flag-only changes are real changes even when versions match.
 -- Compare identity values as sets so plan unit ordering cannot create churn.

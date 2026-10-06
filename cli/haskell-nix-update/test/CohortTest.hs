@@ -8,6 +8,7 @@ import Data.Map.Strict qualified as Map
 import Data.Set qualified as Set
 import Data.Text qualified as Text
 import Data.Text.IO qualified as TextIO
+import HaskellNix.Update.Cohort.Impact (validateRetainedIdentities)
 import HaskellNix.Update.Cohort.Inventory
 import HaskellNix.Update.Cohort.Types
 import System.FilePath ((</>))
@@ -19,7 +20,26 @@ tests :: TestTree
 tests =
     testGroup
         "cohort inventory"
-        [ testCase "classifies sources and retains transitive edges" $ do
+        [ testCase "validates actual compiler provenance" $ do
+            validatePlanCompiler "ghc-9.12.4" "{\"compiler-id\":\"ghc-9.12.4\"}" @?= Right ()
+            assertLeft (validatePlanCompiler "ghc-9.12.4" "{\"compiler-id\":\"ghc-9.14.1\"}")
+        , testCase "canonicalizes component identities independent of row order" $ do
+            let row component = object ["id" .= component, "type" .= ("configured" :: Text.Text), "pkg-name" .= ("example" :: Text.Text), "pkg-version" .= ("1" :: Text.Text), "component-name" .= component, "pkg-src" .= object ["type" .= ("repo-tar" :: Text.Text)]]
+                plan rows = LBS.toStrict (encode (object ["install-plan" .= rows]))
+                a = row ("lib" :: Text.Text)
+                b = row ("test:unit" :: Text.Text)
+            first <- right (decodePlanVersions Set.empty (plan [a, b, a]))
+            second <- right (decodePlanVersions Set.empty (plan [b, a]))
+            first @?= second
+            length (first Map.! "example").identities @?= 2
+        , testCase "targeted updates reject unrelated metadata and flags" $ do
+            let package flags = PlanPackage "1" Hackage [object ["flags" .= flags]] []
+                old = Map.singleton "example" (package False)
+                new = Map.singleton "example" (package True)
+            assertLeft (validateRetainedIdentities old new ["other"])
+            assertLeft (validateRetainedIdentities old Map.empty ["other"])
+            validateRetainedIdentities old new ["example"] @?= Right ()
+        , testCase "classifies sources and retains transitive edges" $ do
             let bytes =
                     LBS.toStrict $
                         encode $
