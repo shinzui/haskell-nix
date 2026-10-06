@@ -119,12 +119,26 @@ Milestone 4's old-consumer builds are diagnostic rehearsals. A failure caused by
 - [x] 2026-10-05: M4: Mina's filtered overlay evaluates generic-lens and generic-lens-core to 2.3.0.0 (evaluation only; plan 13 owns its build).
 - [x] 2026-10-05: M5: Write the new ADR as `docs/adr/4-consumer-overlays-define-only-their-own-packages.md`.
 - [x] 2026-10-05: M5: Update `docs/user/consumer-integration.md`, `docs/user/adding-patches.md` and `docs/user/channels.md`, append to `docs/user/log.md`, and pass `just check-docs`.
-- [ ] M5: `nix flake check` passes. The fresh native retry fails in the existing GHC 9.14 matrix because bytestring-lexing 0.5.0.15 excludes base 4.22; independently passing EP-10 checks and the failed broad gate are committed without claiming plan completion.
+- [ ] M5: `nix flake check` passes. The GHC 9.14 bytestring-lexing blocker is repaired and its 58 tests pass; the next full native retry fails again in cpio's security-patch phase. Independently passing EP-10 checks and the failed broad gate are committed without claiming plan completion.
 - [ ] M5: Fill in Outcomes & Retrospective and hand the deletion lists to plans 11, 12 and 13.
 - [x] 2026-09-26: Plan revised for the user's decisions: `typeid-hs` moves into the channel, `hasql-effectful` leaves the overlay through plan 12's vendoring, and mina's `mori-schema-pin` is the only declared exception. No implementation work has started.
 
 
 ## Surprises & Discoveries
+
+- 2026-10-05: The required full-check retry after the admitting-release repair
+  (session 66598, same reduced-concurrency command) exits 1 again in cpio 2.15
+  during CVE-2026-66484.patch with `patch: **** out of memory`, cancelling remaining
+  broad checks. [Nix issue 15619](https://github.com/NixOS/nix/issues/15619) and
+  [merged fix 15663](https://github.com/NixOS/nix/pull/15663) describe the matching
+  Darwin bootstrap failure: GNU patch before 2.8 misbehaves under unlimited
+  RLIMIT_NOFILE, and the Nix fix caps it at 1048576. The current client is
+  Determinate Nix 3.17.0/Nix 2.33.3. Pinned top-level patch is 2.8; the upstream
+  fix specifically discusses older bootstrap tools, so that top-level version
+  does not settle the builder's environment. Approximately 8 GB free host memory
+  was observed after failure. This is a concrete environment hypothesis, not a
+  confirmed causal proof. No daemon, toolchain, security patch or sandbox setting
+  was changed. The MasterPlan owner coordinates the remaining environment gate.
 
 - 2026-10-05: After EP-12's vendoring/configuration removal, the audit against
   `mori://shinzui/mori` committed revision
@@ -526,7 +540,7 @@ Mori retains shibuya-pgmq-adapter until plan 9 supplies at least 0.16.1.0 and ha
 plan 12 vendors its imports. Mina retains kdl-hs until plan 13 lifts its bound. Mina's
 mori-schema-pin remains the sole exception. TypeID deletions free typeid-hs-src in Rei/Mori/mori-rei-app;
 Mori additionally frees tan-effectful-src and the three HTTP family source inputs in its adoption.
-No consumer repositories were modified. The full native flake check fails in the existing GHC 9.14 bytestring-lexing/base bounds after its cpio dependency failure/retry. Diagnostic
+No consumer repositories were modified. The existing GHC 9.14 bytestring-lexing/base blocker is repaired with an admitting release and 58 passing tests; the full native retry still fails in cpio's patch phase, with a matching upstream Darwin bootstrap resource-limit issue under investigation. Diagnostic
 consumer compilation is deferred to the actual EP-11–13 cohort adoption; this checkpoint does not mark EP-10 complete.
 
 

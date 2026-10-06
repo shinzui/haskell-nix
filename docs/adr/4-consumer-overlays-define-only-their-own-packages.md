@@ -67,9 +67,11 @@ runtime ownership and deterministic reports. The `consumer-overlay-audit` check 
 clean fixture. `shared-overrides` evaluates minimum versions and profiling redundancy and
 builds every listed shared dependency. Native aarch64-darwin and remote x86_64-linux
 builds pass, as do all 51 Nix-unit cases including 11 ownership cases. The broad native
-flake check fails separately in the existing GHC 9.14 matrix: bytestring-lexing
-0.5.0.15 excludes its installed base 4.22.0.0. The prior cpio patching OOM and the
-fresh reduced-concurrency retry are recorded separately; neither invalidates the
+flake check remains blocked separately in cpio's security-patch phase by a
+reproducible patch OOM; the matching upstream Darwin bootstrap resource-limit
+issue is recorded as an environment hypothesis. The earlier GHC 9.14
+bytestring-lexing bounds failure is repaired with released 0.5.0.16, which passes
+all 58 tests with bounds intact. These broad gate failures do not invalidate the
 independently passing policy/audit checks.
 Evaluation and build results are recorded in
 [EP-10](../plans/10-own-the-shared-third-party-overrides-in-the-channel-instead-of-consumer-overlays.md).
