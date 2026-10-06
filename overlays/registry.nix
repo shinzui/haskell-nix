@@ -37,6 +37,12 @@ let
   }];
 in
 {
+  kioku-core = [{
+    always = true;
+    # Apply after generated first-party source selection, preserving that source.
+    afterFirstParty = true;
+    patch = import ../patches/kioku-core/0.8.0.2-ghc9141.nix;
+  }];
   # ── GHC 9.12 tool jailbreaks ──────────────────────────────────────
   ormolu = always dontCheckDoJailbreak;
   fourmolu = always dontCheckDoJailbreak;

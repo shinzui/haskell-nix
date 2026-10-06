@@ -169,7 +169,28 @@ let
     (builtins.attrNames profileRegistry)
     selectedPackageNames;
 
-  registry = commonRegistry // profileRegistry // firstPartyRegistry;
+  # Ordinary shared source recipes retain the existing precedence. Explicit
+  # compiler compatibility rows run after the generated source constructor.
+  # They receive the selected package, never the stock nixpkgs package.
+  fixPackageByVersion = import ./fixPackageByVersion.nix { inherit lib; };
+  compatibleFirstPartyRegistry = lib.mapAttrs
+    (name: entries:
+      let
+        compatibility = builtins.filter (row: row.afterFirstParty or false)
+          (commonRegistry.${name} or [ ]);
+      in
+      if compatibility == [ ] then entries else
+      map
+        (entry: entry // {
+          patch = args:
+            let selected = entry.patch args;
+            in (fixPackageByVersion name compatibility args.haskellLib args.pkgs
+              args.hself
+              { ${name} = selected; }).${name};
+        })
+        entries)
+    firstPartyRegistry;
+  registry = commonRegistry // profileRegistry // compatibleFirstPartyRegistry;
   hackageDependencyOverrides = _: _:
     lib.genAttrs githubOnlyPackageNames (_: null);
   extraOverrides =

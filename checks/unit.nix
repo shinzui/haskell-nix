@@ -14,6 +14,11 @@ let
     hself.ghc.version = compiler;
     haskellLib.overrideCabal = update: drv: drv // update drv;
   };
+  kiokuCompilerRepair = compiler: version: import ../patches/kioku-core/0.8.0.2-ghc9141.nix {
+    pkg = { inherit version; src = "selected-source"; configureFlags = [ "existing-flag" ]; postPatch = "existing hook\n"; doCheck = true; enableLibraryProfiling = true; jailbreak = false; };
+    hself.ghc.version = compiler;
+    haskellLib.overrideCabal = update: drv: drv // update drv;
+  };
   admittingRevisionFixture = compiler: version: import ../patches/metadata/admitting-revision-ghc914.nix
     {
       version = "1.2.3";
@@ -66,16 +71,34 @@ let
     { candidateLock ? packageSetLock
     , profiles ? { default = { }; }
     , fetchSource ? throwingFetcher
+    , commonRegistry ? { common-example = [ ]; }
     }:
     mkPackageSetFactory {
       config = packageSetConfig;
       lock = candidateLock;
-      commonRegistry = { common-example = [ ]; };
+      inherit commonRegistry;
       compatibilityProfiles = profiles;
       supportedGhcs = [ ];
       inherit fetchSource;
     };
   mkPackageSet = mkPackageSetWith { };
+  firstPartyCompatibilityFixture = afterFirstParty:
+    let
+      candidate = (mkPackageSetWith {
+        fetchSource = locked: { inherit (locked) rev; outPath = /tmp; };
+        commonRegistry.okf = [{
+          always = true;
+          inherit afterFirstParty;
+          patch = { pkg, ... }: pkg // { stages = pkg.stages ++ [ "compatibility" ]; };
+        }];
+      }) { packageSet = "default"; };
+    in
+    (builtins.head candidate.registry.okf).patch {
+      pkgs = { };
+      hself.callCabal2nix = _: source: _: { version = "2.0"; inherit source; stages = [ "selected-source" ]; };
+      haskellLib.doJailbreak = drv: drv // { stages = drv.stages ++ [ "existing-jailbreak" ]; };
+      haskellLib.dontCheck = drv: drv // { stages = drv.stages ++ [ "existing-test-policy" ]; };
+    };
   defaultSelections = {
     baikai-shikumi = 1;
     keiro = 1;
@@ -194,6 +217,26 @@ let
   };
 in
 {
+  testFirstPartyCompatibilityRunsAfterSourceAndExistingPolicy = {
+    expr = (firstPartyCompatibilityFixture true).stages;
+    expected = [ "selected-source" "existing-jailbreak" "existing-test-policy" "compatibility" ];
+  };
+  testOrdinarySharedSourceRecipeDoesNotOverrideFirstParty = {
+    expr = (firstPartyCompatibilityFixture false).stages;
+    expected = [ "selected-source" "existing-jailbreak" "existing-test-policy" ];
+  };
+  testFirstPartyCompatibilityPreservesSource = { expr = (firstPartyCompatibilityFixture true).source; expected = /tmp; };
+  testKiokuCompilerFlagAppendsOnlySupportedSwitch = { expr = (kiokuCompilerRepair "9.14.1" "0.8.0.2").configureFlags; expected = [ "existing-flag" "--ghc-option=-fno-opt-coercion" ]; };
+  testKiokuCompilerRepairRetainsGhc912 = { expr = kiokuCompilerRepair "9.12.4" "0.8.0.2"; expected = kiokuCompilerRepair "9.14.2" "0.8.0.2"; };
+  testKiokuCompilerRepairRetiresOnFutureVersion = { expr = (kiokuCompilerRepair "9.14.1" "0.8.0.3").configureFlags; expected = [ "existing-flag" ]; };
+  testKiokuCompilerRepairPreservesOtherPolicy = {
+    expr = let repaired = kiokuCompilerRepair "9.14.1" "0.8.0.2"; in { inherit (repaired) src doCheck enableLibraryProfiling jailbreak; };
+    expected = { src = "selected-source"; doCheck = true; enableLibraryProfiling = true; jailbreak = false; };
+  };
+  testKiokuCompilerRepairPreservesHookAndGuardsSource = {
+    expr = let hook = (kiokuCompilerRepair "9.14.1" "0.8.0.2").postPatch; in lib.hasPrefix "existing hook\n" hook && lib.hasInfix "524df9cc52fa48fc1c6326fc398070667ee9ad5d6490f8e42b7d88069b9af055" hook;
+    expected = true;
+  };
   testCborgMetadataUnchangedOnGhc912 = { expr = (cborgMetadataRepair "9.12.4" "0.2.6.0").postPatch; expected = "existing hook\n"; };
   testDhallRepairRetainsGhc912 = { expr = (dhallCompatibilityRepair "9.12.4" "1.42.3").postPatch; expected = "existing hook\n"; };
   testDhallRepairRetainsFutureCompiler = { expr = (dhallCompatibilityRepair "9.15.0" "1.42.3").postPatch; expected = "existing hook\n"; };
