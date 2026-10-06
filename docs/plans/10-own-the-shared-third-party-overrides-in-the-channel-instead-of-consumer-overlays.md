@@ -119,12 +119,35 @@ Milestone 4's old-consumer builds are diagnostic rehearsals. A failure caused by
 - [x] 2026-10-05: M4: Mina's filtered overlay evaluates generic-lens and generic-lens-core to 2.3.0.0 (evaluation only; plan 13 owns its build).
 - [x] 2026-10-05: M5: Write the new ADR as `docs/adr/4-consumer-overlays-define-only-their-own-packages.md`.
 - [x] 2026-10-05: M5: Update `docs/user/consumer-integration.md`, `docs/user/adding-patches.md` and `docs/user/channels.md`, append to `docs/user/log.md`, and pass `just check-docs`.
-- [ ] M5: `nix flake check` passes. The GHC 9.14 bytestring-lexing blocker is repaired and its 58 tests pass; the next full native retry fails again in cpio's security-patch phase. Independently passing EP-10 checks and the failed broad gate are committed without claiming plan completion.
+- [ ] M5: `nix flake check` passes. The GHC 9.14 bytestring-lexing blocker is repaired and its 58 tests pass. The upgraded daemon repairs cpio's security-patch phase; the fresh full native retry now fails at cborg-json 0.2.6.0 revision 4's base `<4.22` bound on GHC 9.14. Independently passing EP-10 checks and failed broad gates do not establish plan completion.
 - [ ] M5: Fill in Outcomes & Retrospective and hand the deletion lists to plans 11, 12 and 13.
 - [x] 2026-09-26: Plan revised for the user's decisions: `typeid-hs` moves into the channel, `hasql-effectful` leaves the overlay through plan 12's vendoring, and mina's `mori-schema-pin` is the only declared exception. No implementation work has started.
 
 
 ## Surprises & Discoveries
+
+- 2026-10-05: After the user upgraded the daemon/client to Determinate 3.23.0
+  (Nix daemon 2.35.2), the MasterPlan owner's uncached `--rebuild` probe
+  (session 91229) passes with builder soft/hard NOFILE 1048576 and GNU patch
+  2.7.6 default patch status 0, before applying any scratch limit adjustment.
+  The required full native command `nix flake check --print-build-logs --option
+  max-jobs 2 --option cores 2 --option eval-cache false` (session 80922) schedules
+  394 checks and passes cpio's complete security-patch phase. It exits 1 at
+  cborg-json 0.2.6.0 revision 4 configuring under GHC 9.14.1: `base >=4.11 &&
+  <4.22` rejects installed base 4.22.0.0. Remaining checks are cancelled. Full
+  output is retained in `/tmp/mp3-ep10-native-full-check-20261005.log`; no
+  source, security patch or host setting was changed by this lane.
+
+- 2026-10-05: Mori's registry search finds no cborg source. Fresh authoritative
+  [Hackage versions](https://hackage.haskell.org/package/cborg-json/preferred)
+  list 0.2.6.0 as latest, and its [revision history](https://hackage.haskell.org/package/cborg-json-0.2.6.0/revisions/)
+  ends at revision 4 (2025-06-17). The published library, executable and test
+  base bounds all exclude 4.22. Anonymous upstream tag verification places
+  `cborg-json-0.2.6.0` at `0c726590dcd7749f8d29ae1eac3e1410c2ba81fd` with no
+  newer cborg-json tag. [Exact upstream HEAD metadata](https://github.com/well-typed/cborg/blob/6ef2791ca41b397a3e36c868ad3e66a0d09f19b2/cborg-json/cborg-json.cabal)
+  admits base `<4.23`, but remains unpublished. No admitting released version
+  or revision exists to apply the bytestring-lexing repair policy automatically.
+  The MasterPlan owner coordinates the next scoped source-policy decision.
 
 - 2026-10-05: Isolated reproducer proves the cpio cause. Nix derivation metadata
   identifies `d4wfhdb55w962wxia8n7m6q2j21iqly2-cpio-2.15.drv` as a
@@ -563,7 +586,7 @@ Mori retains shibuya-pgmq-adapter until plan 9 supplies at least 0.16.1.0 and ha
 plan 12 vendors its imports. Mina retains kdl-hs until plan 13 lifts its bound. Mina's
 mori-schema-pin remains the sole exception. TypeID deletions free typeid-hs-src in Rei/Mori/mori-rei-app;
 Mori additionally frees tan-effectful-src and the three HTTP family source inputs in its adoption.
-No consumer repositories were modified. The existing GHC 9.14 bytestring-lexing/base blocker is repaired with an admitting release and 58 passing tests; the full native retry still fails in cpio's patch phase. The isolated probe proves old bootstrap patch's OOM under the daemon's unlimited NOFILE limit, and a client-only cap does not reach that builder. The remaining environment repair belongs to toolchain ownership. Diagnostic
+No consumer repositories were modified. The existing GHC 9.14 bytestring-lexing/base blocker is repaired with an admitting release and 58 passing tests. The user's daemon upgrade repairs the confirmed bootstrap NOFILE failure: the uncached probe and the actual cpio security-patch phase pass. The next broad native gate instead fails at cborg-json 0.2.6.0 revision 4's base bound under GHC 9.14; upstream admits it only in unpublished HEAD metadata. The broad gate remains open pending a scoped compatibility decision. Diagnostic
 consumer compilation is deferred to the actual EP-11–13 cohort adoption; this checkpoint does not mark EP-10 complete.
 
 
