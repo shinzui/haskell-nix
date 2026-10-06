@@ -74,7 +74,7 @@ Retire ephemeral-pg 0.2 from all registered first-party consumers and their Nix 
 
 ## Outcomes & Retrospective
 
-Implementation is in progress. The shared freeze already selects 0.3.1.0, and staged source migrations now address the configuration problem rather than version strings alone. Consumer tests, actual held-pin freeze regeneration, runtime publications and channel acceptance remain required. No fleet-wide migration or deployment completion is claimed.
+Implementation is in progress. The shared freeze selects 0.3.1.0, and source migrations address stable cleanup roots as well as dependency versions. The ten runtime cleanup packages are published and live-verified after 1,305 tests. Their channel refresh is committed and pushed; the shared cohort now incorporates the used releases at signed index `2026-10-06T21:15:24Z`, with zero downgrades and verified replay and deterministic regeneration. Nine additional consumer commits have been pushed, including the registration merge validated by 911 tests. Koyomi's held legacy migration compatibility proof, Keiei/Kizashi/Meibo's older helper constraints, the concurrent live-consumer retention probe and final channel acceptance remain required. No fleet-wide migration or deployment completion is claimed.
 
 
 ## Context and Orientation

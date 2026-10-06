@@ -262,7 +262,9 @@ These were found while writing the plan (2026-09-26) and shape it. Re-verify the
 
 ## Outcomes & Retrospective
 
-Implementation is In Progress. EP-15 is Complete, all six contributor solves and the pinned Nix inventory pass, and the inventory CLI has meaningful parser tests. The solver/freeze, upgrade and targeted-impact report, coherent source manifest and final acceptance remain unfinished.
+Implementation is In Progress. EP-15 is Complete. All six contributor solves and the pinned Nix inventory pass; the inventory/cohort CLI passes 88 tests and the Python helper passes 13 tests. The solver, freeze, upgrade and targeted-impact report, complete source manifest, negative downgrade/conflict checks and deterministic regeneration are implemented and verified. Final aggregate Nix and formatting acceptance and the completion handoff remain pending.
+
+The 2026-10-06 release refresh advances only the recorded Hackage index to `2026-10-06T21:15:24Z`; contributor and inventory channel revisions remain unchanged. Signed-index metadata matches all twelve checked runtime/OKF releases. The regenerated report contains 450 selections, zero downgrades, 37 consumer caps and 19 source-pin observations. All 445 previously frozen package names remain. Nine versions advance: three Kioku libraries to 0.8.0.2, four Relay libraries to 0.1.1.2, OKF core to 0.10.0.0 and the additionally selected HTTP/2 patch from 5.4.7 to 5.4.8. Random remains 1.3.1 and ephemeral-pg remains 0.3.1.0. Freeze/source replay passes, and a second resolve/report reproduces all five generated artifacts byte-for-byte. The additional OKF caps are reported for consumer adoption rather than hidden by an exception.
 
 The two open questions carried from authoring were resolved by the user on 2026-09-26 (see the user-decisions entry in the Decision Log):
 
