@@ -20,6 +20,20 @@ let
       hself.ghc.version = compiler;
       haskellLib.overrideCabal = update: drv: drv // update drv;
     };
+  ephemeralSelectionFixture = version: import ../patches/ephemeral-pg/0.3.1.nix {
+    inherit lib;
+    pkg = { inherit version; source = "generation"; };
+    hself.callHackageDirect = src: _: { version = src.ver; source = "published"; };
+    haskellLib.markUnbroken = drv: drv // { broken = false; };
+    haskellLib.dontCheck = drv: drv // { doCheck = false; };
+    haskellLib.doJailbreak = _: throw "ephemeral selection must preserve bounds";
+  };
+  rerebaseSelectionFixture = compiler: version: import ../patches/rerebase/1.21-ghc914.nix {
+    inherit lib;
+    pkg = { inherit version; source = "generation"; };
+    hself.ghc.version = compiler;
+    hself.callHackageDirect = src: _: { version = src.ver; source = "published"; };
+  };
   fixtures = ./fixtures/first-party;
   readJson = name: builtins.fromJSON (builtins.readFile (fixtures + "/${name}"));
   mkRegistries = import ../lib/mkFirstPartyRegistries.nix { inherit lib; };
@@ -181,6 +195,13 @@ in
   testAdmittingRevisionUnchangedOnGhc912 = { expr = (admittingRevisionFixture "9.12.4" "1.2.3").revision; expected = "1"; };
   testAdmittingRevisionUnchangedOnNewVersion = { expr = (admittingRevisionFixture "9.14.1" "1.2.4").revision; expected = "1"; };
   testAdmittingRevisionPreservesTests = { expr = admittingRevisionFixture "9.14.1" "1.2.3"; expected = { version = "1.2.3"; revision = "2"; editedCabalFile = "published-hash"; doCheck = true; }; };
+  testEphemeralOldSelectionReplaced = { expr = ephemeralSelectionFixture "0.2.1.0"; expected = { version = "0.3.1.0"; source = "published"; broken = false; doCheck = false; }; };
+  testEphemeralCohortSourceRetained = { expr = (ephemeralSelectionFixture "0.3.1.0").source; expected = "generation"; };
+  testEphemeralFutureSelectionRetained = { expr = (ephemeralSelectionFixture "0.4.0.0").version; expected = "0.4.0.0"; };
+  testRerebaseCoupledGhc914Release = { expr = rerebaseSelectionFixture "9.14.1" "1.21.2"; expected = { version = "1.22"; source = "published"; }; };
+  testRerebaseGhc912SelectionRetained = { expr = (rerebaseSelectionFixture "9.12.4" "1.21.2").source; expected = "generation"; };
+  testRerebaseAdmittingVersionRetained = { expr = (rerebaseSelectionFixture "9.14.1" "1.22").source; expected = "generation"; };
+  testRerebaseFutureCompilerRetained = { expr = (rerebaseSelectionFixture "9.16.1" "1.21.2").source; expected = "generation"; };
   testConsumerOverlayClean = { expr = (overlayReport { overlayPackages = [ "app" ]; ownPackages = [ "app" ]; }).ok; expected = true; };
   testConsumerOverlayShadowing = { expr = (overlayReport { channelPackages = [ "shared" ]; overlayPackages = [ "shared" ]; }).shadowing; expected = [ "shared" ]; };
   testConsumerOverlayShadowingNotExcused = { expr = (overlayReport { channelPackages = [ "shared" ]; overlayPackages = [ "shared" ]; exceptions.shared = "reason"; }).shadowing; expected = [ "shared" ]; };

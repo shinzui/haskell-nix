@@ -109,6 +109,11 @@ in
     max = "1.22";
     patch = import ../patches/rebase/1.21-ghc914.nix;
   }];
+  rerebase = [{
+    min = "1.21.2";
+    max = "1.22";
+    patch = import ../patches/rerebase/1.21-ghc914.nix;
+  }];
   tasty-hspec = [{
     min = "1.2.0.4";
     max = "1.2.0.5";
@@ -241,9 +246,9 @@ in
   repline = always doJailbreakOnly;
 
   # ── ephemeral-pg (test PostgreSQL; keiro/kiroku test-support dependency) ──
-  # nixpkgs ships 0.2.1.0 but marks it broken; unbreak it with bounds relaxed
-  # and tests off.
-  ephemeral-pg = always markUnbrokenDontCheckDoJailbreak;
+  # Public 0.3.1.0 exports withCachedConfig so consumers can set a stable cleanup
+  # root. Older stock versions cannot supply that API, regardless of jailbreak.
+  ephemeral-pg = always (import ../patches/ephemeral-pg/0.3.1.nix);
 
   # ── Version-scoped patches ────────────────────────────────────────
 }
