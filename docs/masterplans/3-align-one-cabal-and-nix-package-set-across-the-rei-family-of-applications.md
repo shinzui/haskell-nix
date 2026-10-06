@@ -296,8 +296,8 @@ The goal is less repeated coordination and dependency compilation. Equal version
 
 - [x] (2026-10-05) EP-15: Release keiro, kioku-core and the shikumi family admitting effectful 2.7 (`effectful` 2.7.1.0+, `effectful-core` 2.7.1.1+), and refresh the channel
 - [ ] EP-8: Inventory every package version each of the five applications selects under Cabal and Nix today
-- [ ] EP-8: Resolve the upgrade-only cohort in this repository and commit `cabal/cohort.freeze` with its upgrade report
-- [ ] EP-8: Report the application bounds that cap an upgrade
+- [x] (2026-10-05) EP-8: committed the 450-package upgrade-only freeze, complete source manifest and zero-downgrade report at `4e3a626`
+- [x] (2026-10-05) EP-8: report identifies 30 consumer caps with files and component roles
 - [ ] EP-9: Prove, and guard with a check, that the channel's `callCabal2nix` path parses `cabal-version` 3.14 and 3.16
 - [ ] EP-9: Generate the Nix version layer from the freeze and retire hand-written version pins (including `shibuya-pgmq-adapter` 0.16.0.0)
 - [ ] EP-9: Add the channel version-parity check and pass it in `nix flake check`
@@ -313,6 +313,8 @@ The goal is less repeated coordination and dependency compilation. Equal version
 
 
 ## Surprises & Discoveries
+
+- Observation (2026-10-05 checkpoint): EP-8 now commits the published shared freeze at `4e3a626`: 450 selections, zero downgrades, Effectful 2.7.1.0/core 2.7.1.2, Keiki/JSON codec 0.9.1.0, complete Hackage source/metadata identities and retained public Cmark fix. Freeze-only replay, targeted unrelated-identity isolation, a negative downgrade check, five-exception pruning and byte-identical regeneration pass. EP-8 remains In Progress pending the targeted-conflict/fresh-inventory gates and the full Nix check. EP-10's policies pass native/Linux builds, 51 unit tests and the 58-test GHC 9.14 admitting-release target; broad Nix validation is blocked by a reproduced Darwin bootstrap GNU patch 2.7.6/unlimited-NOFILE daemon issue, not an unresolved Haskell dependency conflict. EP-12 M1 is independently verified and committed in its owning repository; adoption remains gated. No deployed application changes are claimed.
 
 - Observation (EP-8, 2026-10-05): inventory now records current revisions and all local packages, including Rei's API contract/client and generated Rei/Mori conformance packages. All six scratch solves with tests/benchmarks enabled and pinned Nix metadata observations pass. Current Mina already admits the new Shikumi releases, superseding the September cap assumption. The recorded channel includes Keiki and its required JSON codec at 0.9.1.0. EP-8 is In Progress; freeze, source manifest, targeted-update/impact reporting and final acceptance remain pending.
 
