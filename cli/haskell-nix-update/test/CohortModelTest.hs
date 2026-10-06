@@ -79,6 +79,39 @@ tests =
             (bounds, _) <- right (Model.stubBounds floors [inv])
             assertBool "observed library remains represented" (withinRange (mkVersion [2]) (bounds Map.! ("legacy", Nothing)))
             assertBool "floor remains enforced" (not (withinRange (mkVersion [1]) (bounds Map.! ("legacy", Nothing))))
+        , testCase "explicit roots retain both mutually exclusive discovery helpers" $ do
+            let helpers = ["postgresql-libpq-configure", "postgresql-libpq-pkgconfig"]
+                inv = inventory (Map.fromList [(name, PlanPackage "0.11" Hackage [] []) | name <- helpers]) []
+                floors = Map.fromList [(name, Model.Floor (mkVersion [0, 11]) ["recorded configuration"]) | name <- helpers]
+                roots = [Model.PolicyRoot name ">=0.11" "retain the supported discovery configuration" "mori://example/app" | name <- helpers]
+            (withoutRoots, _) <- right (Model.stubBounds floors [inv])
+            Map.null withoutRoots @?= True
+            (withRoots, caps) <- right (Model.stubBoundsWithRoots floors [inv] roots)
+            Map.keys withRoots @?= [(name, Nothing) | name <- helpers]
+            caps @?= []
+            _ <- right (snd (runParseResult (parseGenericPackageDescription (TextEncoding.encodeUtf8 (Model.renderStubCabal withRoots)))))
+            Model.stubBoundsWithRoots floors [inv] [] @?= Model.stubBounds floors [inv]
+        , testCase "root policy cannot contradict floors or ownership" $ do
+            let root = Model.PolicyRoot "helper" ">=2" "supported configuration" "mori://example/app"
+                floors = Map.singleton "helper" (Model.Floor (mkVersion [2]) ["recorded"])
+                owned = (inventory Map.empty []){contributor = sampleContributor{ownPackages = ["helper"]}}
+                excluded = (inventory Map.empty []){contributor = sampleContributor{excludedDependencies = [Exclusion "helper" "vendored"]}}
+            assertLeft (Model.stubBoundsWithRoots floors [owned] [root])
+            assertLeft (Model.stubBoundsWithRoots floors [excluded] [root])
+            assertLeft (Model.stubBoundsWithRoots Map.empty [] [root])
+            assertLeft (Model.stubBoundsWithRoots floors [] [root{Model.range = "<2"}])
+            assertLeft (Model.stubBoundsWithRoots floors [] [root, root])
+            assertLeft (Model.stubBoundsWithRoots floors [] [Model.PolicyRoot "helper" ">=2" " " "mori://example/app"])
+            assertLeft (Model.stubBoundsWithRoots floors [] [root{Model.owner = "app"}])
+        , testCase "explicit root ranges intersect existing admitted component bounds" $ do
+            let inv = inventory Map.empty [DeclaredBound "helper" ">=1 && <3" "app.cabal" "library" "always" Nothing]
+                floors = Map.singleton "helper" (Model.Floor (mkVersion [2]) ["recorded"])
+                root = Model.PolicyRoot "helper" ">=2" "supported configuration" "mori://example/app"
+            (bounds, _) <- right (Model.stubBoundsWithRoots floors [inv] [root])
+            let range = bounds Map.! ("helper", Nothing)
+            assertBool "root lower bound retained" (not (withinRange (mkVersion [1]) range))
+            assertBool "component upper bound retained" (not (withinRange (mkVersion [3]) range))
+            assertBool "floor admitted" (withinRange (mkVersion [2]) range)
         , testCase "excluded source dependencies never enter the stub" $ do
             let inv =
                     (inventory Map.empty [DeclaredBound "hasql-effectful" "<1" "app.cabal" "library" "always" Nothing])

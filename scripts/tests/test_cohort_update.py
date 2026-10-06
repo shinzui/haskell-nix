@@ -3,12 +3,15 @@ import importlib.util
 import json
 from pathlib import Path
 import subprocess
+import sys
 import tempfile
 import unittest
 from unittest.mock import patch
 
 
-spec = importlib.util.spec_from_file_location("cohort_update", Path(__file__).parents[1] / "cohort-update.py")
+scripts_directory = Path(__file__).parents[1]
+sys.path.insert(0, str(scripts_directory))
+spec = importlib.util.spec_from_file_location("cohort_update", scripts_directory / "cohort-update.py")
 updater = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(updater)
 
@@ -23,7 +26,7 @@ class SnapshotTests(unittest.TestCase):
         names = ["cabal/" + name for name in [
             "cohort.freeze", "cohort-sources.json", "common.config", "floors.config",
             "contributors.json", "inventory-inputs.json", "policy-floors.json",
-            "compiler-boot-packages.json",
+            "compiler-boot-packages.json", "policy-roots.json",
         ]] + ["flake.nix", "flake.lock", "cabal.project", "packages/first-party-lock.json",
               "config/first-party-families.json", "cabal/inventory/one.json",
               "cabal/rei-family-cohort/rei-family-cohort.cabal", "nix/tooling.nix"]
@@ -35,6 +38,7 @@ class SnapshotTests(unittest.TestCase):
             "indexState": "2026-10-05T22:39:44Z", "channelRevision": "recorded-revision",
             "compiler": "ghc-9.12.4",
         }))
+        (self.root / "cabal/policy-roots.json").write_text("[]\n")
         self.runtime.write_text("original runtime")
 
     def test_changed_removed_and_added_inputs_invalidate_snapshot(self):
@@ -45,6 +49,7 @@ class SnapshotTests(unittest.TestCase):
             ("cabal/rei-family-cohort/new.cabal", "write"),
             ("flake.lock", "write"),
             ("nix/tooling.nix", "write"),
+            ("cabal/policy-roots.json", "write"),
             ("overlays/new.nix", "write"),
         ]
         for name, operation in mutations:
@@ -92,6 +97,9 @@ class SnapshotTests(unittest.TestCase):
             commands.append(command)
             if command[:2] == ["cabal", "build"]:
                 return
+            if command[:2] == ["cabal", "freeze"]:
+                self.assertNotIn("GHC_PACKAGE_PATH", kwargs["env"])
+                return
             name = command[2]
             if name == "normalise-freeze":
                 option(command, "--out").write_text("candidate freeze")
@@ -102,6 +110,8 @@ class SnapshotTests(unittest.TestCase):
                 raise subprocess.CalledProcessError(1, command)
 
         def fake_solve(command, **kwargs):
+            commands.append(command)
+            self.assertNotIn("GHC_PACKAGE_PATH", kwargs["env"])
             if mutate is not None:
                 mutate()
             return subprocess.CompletedProcess(command, 0)
@@ -111,6 +121,7 @@ class SnapshotTests(unittest.TestCase):
              patch.object(updater, "run", side_effect=fake_run), \
              patch.object(updater.subprocess, "run", side_effect=fake_solve), \
              patch.object(updater.subprocess, "check_output", return_value="/fake/cli\n"), \
+             patch.dict("os.environ", {"COHORT_GHC": "/fake/compiler/ghc", "COHORT_GHC_PKG": "/fake/compiler/ghc-pkg", "GHC_PACKAGE_PATH": "/unrelated/package-db"}), \
              patch("sys.argv", ["cohort-update.py", "leaf", "--runtime-freeze", str(self.runtime)]):
             updater.main()
         return commands
@@ -127,6 +138,9 @@ class SnapshotTests(unittest.TestCase):
         for command in commands:
             if command[2] in ["normalise-freeze", "check"]:
                 self.assertEqual(command[command.index("--compiler") + 1], "ghc-9.12.4")
+            if command[:2] == ["cabal", "freeze"] or "--dry-run" in command:
+                self.assertIn("--with-compiler=/fake/compiler/ghc", command)
+                self.assertIn("--with-hc-pkg=/fake/compiler/ghc-pkg", command)
         self.assertEqual((self.root / "cabal/cohort.freeze").read_text(), "candidate freeze")
 
     def test_new_inventory_aborts_without_promoting(self):

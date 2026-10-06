@@ -92,18 +92,20 @@ This plan owns the shared model/freeze parser, CLI inventory/update/report dispa
 - [x] (2026-10-05) Milestone 1: `just cohort-inventory` exits 0; the six fresh Cabal inventories and pinned Nix inventory are recorded with their source/configuration inputs and committed in this checkpoint.
 - [x] (2026-10-05) Milestone 2: wrote `cabal/policy-floors.json` with distinct effectful 2.7.1.0 / core 2.7.1.1 policy floors. Observed core 2.7.1.2 raises the effective solve floor further.
 - [x] (2026-10-05) Milestone 2: added and tested `cohort stub`, generating the union Cabal package and 337 upgrade-only floors. A cap keeps its package in the stub rather than deleting the dependency.
-- [ ] Milestone 2: write `cabal/common.config`, `cabal/cohort.project` and `cabal/check.project`; choose and record the index-state (at or after plan 15's last upload).
-- [ ] Milestone 2: carry the applications' constraints and `allow-newer` entries into `cabal/common.config` with their ADR-16 justifications, except `hasql-effectful:*` and the `tan-effectful` pin (mori vendors the module in plan 12) and `baikai-trace-otel:streamly-core` (mina drops its Git streamly); then prune the ones the solve does not need.
-- [ ] Milestone 2: resolve every floor conflict without any `allow-newer` on `effectful` or `effectful-core`, and record each resolution in the Decision Log.
-- [ ] Milestone 2: add the `cohort-resolve` recipe, run it, and commit `cabal/cohort.freeze`.
-- [ ] Milestone 3: add the `cohort report` subcommand and its unit tests (downgrade, cap, first-party lag, source pin, boot package).
-- [ ] Milestone 3: add the `cohort-report` recipe, run it, and commit `cabal/cohort-report.txt` showing zero downgrades.
-- [ ] Milestone 4: add the `cohort-check` and `cohort` recipes; prove `cabal build --dry-run` of `cabal/check.project` succeeds and its plan equals the freeze.
+- [x] (2026-10-05) Milestone 2: wrote the common/cohort/check configurations at signed index-state 2026-10-05T22:39:44Z, including the subsequent Relay release.
+- [x] (2026-10-05) Milestone 2: retained ten justified scoped exceptions and removed five obsolete proto-lens/haxl entries; a fresh freeze-held solve preserves all 450 package identities. Removed the specified private and Git Streamly exceptions.
+- [x] (2026-10-05) Milestone 2: all floor conflicts resolved with zero downgrades and no Effectful/core exception; source policies and explicit PostgreSQL configuration roots are recorded.
+- [x] (2026-10-05) Milestone 2: broad resolve recipe succeeds; recorded freeze and full source manifest are committed in this checkpoint.
+- [x] (2026-10-05) Milestone 3: added the `cohort report` subcommand and tests for downgrade, cap, first-party lag, source pin and boot packages; a real lowered-freeze negative gate also fails as required.
+- [x] (2026-10-05) Milestone 3: report recipe succeeds; committed report records 450 selected packages, zero downgrades and 30 consumer caps.
+- [x] (2026-10-05) Milestone 4: freeze-only dry run and complete source-manifest equality check pass; aggregate recipes are wired.
 - [ ] Milestone 4: prove idempotence (a second `just cohort` leaves `git status` clean) and that `just flake-check` and `just fmt-check` pass.
 - [ ] Milestone 4: write `docs/adr/2-resolve-the-rei-family-cohort-upgrade-only.md`, update the MasterPlan's Progress and Exec-Plan Registry rows for EP-8, and fill Outcomes & Retrospective.
 
 
 ## Surprises & Discoveries
+
+- 2026-10-05: deterministic broad regeneration after pruning reproduces freeze, source manifest and report byte-for-byte, including comments. The freeze-only replay passes, the downgrade-negative gate rejects aeson 2.2.0.0, and formatting/documentation checks pass. Whole-plan completion remains pending targeted-conflict acceptance and the full Nix flake gate: its existing Darwin bootstrap GNU patch 2.7.6 fails under the daemon's unlimited file limit, independently reproduced in EP-10.
 
 - 2026-10-05: Parallel implementation corrected deployed package role classification using actual Haskell builder phase metadata; native zlib, compiler GHC and Rust vendor artifacts no longer raise Haskell dependency floors. All five recorded graphs reproduce corrected maps and three regression tests pass. Targeted updates capture complete input bytes and file membership and use staged inputs for reports; six Python regression tests pass. The updater now canonicalizes component identities, validates actual compiler provenance and vetoes unrelated identity changes before promotion; all 85 updater tests pass. A fresh published-package solve succeeds with 448 manifest packages, Effectful 2.7.1.0/core 2.7.1.2 and the fixed Cmark source. Acceptance remains pending: its report still identifies the missing postgresql-libpq-pkgconfig 0.11 floor, exception pruning and the remaining freeze gates. These candidate artifacts are not an accepted freeze.
 
@@ -155,6 +157,10 @@ These were found while writing the plan (2026-09-26) and shape it. Re-verify the
 
 
 ## Decision Log
+
+- Decision (implementation, 2026-10-05): `cabal/policy-roots.json` explicitly retains both PostgreSQL discovery helpers at their recorded >=0.11 floors, with canonical owners and reasons. The recorded consumer configurations choose opposite `use-pkg-config` values; one union parent flag cannot select both. Keeping both helpers as roots preserves the upgrade-only inventory rather than discarding the inactive helper. The integrated suite passes all 88 tests.
+
+- Observation (implementation, 2026-10-05): stock-compiler solve and freeze-only replay pass with 450 manifest packages and zero downgrades. The solve explicitly selects the plain GHC/ghc-pkg binaries, removing the updater shell's exposed packages from the solver's global database. Only 38 compiler boot records remain pre-existing; every Hackage identity has both source and Cabal metadata hashes. A real targeted `aeson` update retains unrelated identities and the recorded index and passes report/check before promotion. A deliberately lowered `aeson` 2.2.0.0 freeze fails the report against its recorded 2.2.4.1 floor. Exception pruning, deterministic replay and the broad Nix environment gate remain pending.
 
 - Decision (implementation, 2026-10-05): retain the three existing scoped `dhall-json` exceptions from `mori://shinzui/mori-rei-app`, which were omitted from the first combined configuration. `settei-dhall` is an unconditional library dependency; an earlier diagnosis calling this an inactive branch was wrong. All six recorded contributors currently have only unconditional declared bounds. Candidate compilation of dhall-json against the coherent solve is still required.
 

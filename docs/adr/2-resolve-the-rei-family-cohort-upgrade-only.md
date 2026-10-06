@@ -63,9 +63,11 @@ defines the additional manifest, exact-binary and fresh-worker evidence.
 Plan 8 owns the inventories, freeze, report and targeted-update acceptance. Shared tests cover
 maximum floors, excluded dependencies, Git-only sources, capped bounds, downgrade failures,
 freeze normalization, unrelated-pin isolation, runtime ownership and transitive component
-impact. The implementation checkpoint passes 81 updater tests.
+impact. The integrated implementation passes 88 updater tests and nine Python regression tests.
 
 Completion also requires a published-package solve, a zero-downgrade report, a deliberately
 lowered-version negative report, a matching freeze-only plan, targeted-update conflict and
-isolation experiments, and byte-identical regeneration. Those final experiments remain
-pending. Plan 9 owns Nix generation and build/cache evidence; consumer adoption is separate.
+isolation experiments, and byte-identical regeneration. Published solve, zero-downgrade report, negative downgrade, freeze-only replay, targeted identity isolation and byte-identical regeneration now pass. Targeted conflict acceptance and the full Nix gate remain pending. Plan 9 owns Nix generation and build/cache evidence; consumer adoption is separate.
+
+
+Implementation clarification (2026-10-05): explicit `cabal/policy-roots.json` records dependencies needed by supported configurations whose parent flags cannot all be selected in one union solve, with canonical owners and reasons. Both PostgreSQL discovery helpers remain roots; choosing one parent flag does not remove the other configuration's recorded floor. Solve/check/update commands select the stock compiler binaries independently of updater-shell libraries, so third-party source hashes, metadata and flags are captured in the manifest rather than hidden as pre-existing registrations.

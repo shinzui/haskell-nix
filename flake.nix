@@ -234,6 +234,7 @@
           # Native pkg-config inputs needed to solve every contributor configuration.
           devShells.cohort-inventory = pkgsPlain.mkShell {
             inputsFrom = [ self.devShells.${system}.default ];
+            COHORT_GHC = "${pkgsPlain.haskell.packages.${defaultGhc}.ghc}/bin/ghc";
             COHORT_GHC_PKG = "${pkgsPlain.haskell.packages.${defaultGhc}.ghc}/bin/ghc-pkg";
             nativeBuildInputs = [ pkgsPlain.pkg-config pkgsPlain.python3 ];
             buildInputs = [ pkgsPlain.xz pkgsPlain.zlib pkgsPlain.postgresql.dev pkgsPlain.openssl.dev ];

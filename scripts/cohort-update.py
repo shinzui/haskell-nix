@@ -6,6 +6,7 @@ import os
 from pathlib import Path
 import subprocess
 import tempfile
+from cohort_toolchain import compiler_args, compiler_environment
 
 
 def run(args, **kwargs):
@@ -17,7 +18,7 @@ def capture_inputs(root, runtime_freeze=None):
     paths = {root / "cabal" / name for name in [
         "cohort.freeze", "cohort-sources.json", "common.config", "floors.config",
         "contributors.json", "inventory-inputs.json", "policy-floors.json",
-        "compiler-boot-packages.json",
+        "compiler-boot-packages.json", "policy-roots.json",
     ]}
     paths.update(root / name for name in [
         "flake.nix", "flake.lock", "cabal.project", "packages/first-party-lock.json",
@@ -88,14 +89,14 @@ def main():
     (stage / "cohort.project").write_text("packages: rei-family-cohort\nimport: floors.config\n"
                                          "import: retained.config\nimport: common.config\n")
     selected_index = "--index-state=" + inputs["indexState"]
-    solve = ["cabal", "build", "all", "--dry-run", "--project-file=cohort.project", selected_index]
+    solve = ["cabal", "build", "all", "--dry-run", "--project-file=cohort.project", selected_index, *compiler_args()]
     with (stage / "solve.log").open("w") as log:
-        result = subprocess.run(solve, cwd=stage, stdout=log, stderr=subprocess.STDOUT)
+        result = subprocess.run(solve, cwd=stage, stdout=log, stderr=subprocess.STDOUT, env=compiler_environment())
     if result.returncode:
         print((stage / "solve.log").read_text())
         raise SystemExit("Targeted solve failed. The conflict set above identifies constraints requiring "
                          "explicit transitive unlocks. No request was widened and no cohort files changed.")
-    run(["cabal", "freeze", "--project-file=cohort.project", selected_index], cwd=stage)
+    run(["cabal", "freeze", "--project-file=cohort.project", selected_index, *compiler_args()], cwd=stage, env=compiler_environment())
     run([cli, "cohort", "normalise-freeze", "--in", str(stage / "cohort.project.freeze"),
          "--out", str(stage / "cohort.freeze"), "--plan", str(stage / "dist-newstyle/cache/plan.json"),
          "--index-state", inputs["indexState"], "--haskell-nix-rev", inputs["channelRevision"],

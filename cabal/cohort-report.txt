@@ -1,0 +1,484 @@
+DOWNGRADES
+(none)
+
+TARGETS
+effectful 2.7.1.0 (target >=2.7.1.0: user decision 2026-09-26: effectful 2.7 everywhere)
+effectful-core 2.7.1.2 (target >=2.7.1.1: user decision 2026-09-26: effectful 2.7 everywhere; exclude the 2.7.0.0–2.7.1.0 performance regression)
+
+FIRST-PARTY AGREEMENT
+baikai snapshot=0.7.2.0 frozen=0.7.2.0 (equal)
+baikai-agent snapshot=0.2.0.1 frozen=(not frozen) (not used by the cohort)
+baikai-claude snapshot=0.7.1.0 frozen=0.7.1.0 (equal)
+baikai-effectful snapshot=0.4.0.2 frozen=0.4.0.2 (equal)
+baikai-kit snapshot=0.4.0.0 frozen=0.4.0.0 (equal)
+baikai-openai snapshot=0.7.1.0 frozen=0.7.1.0 (equal)
+baikai-trace-otel snapshot=0.4.0.1 frozen=0.4.0.1 (equal)
+keiki snapshot=0.9.1.0 frozen=0.9.1.0 (equal)
+keiki-codec-json snapshot=0.9.1.0 frozen=0.9.1.0 (equal)
+keiki-codec-json-test snapshot=0.9.1.0 frozen=(not frozen) (not used by the cohort)
+keiro snapshot=0.19.0.1 frozen=0.19.0.1 (equal)
+keiro-core snapshot=0.19.0.1 frozen=0.19.0.1 (equal)
+keiro-dsl snapshot=0.19.0.1 frozen=0.19.0.1 (equal)
+keiro-migrations snapshot=0.19.0.1 frozen=0.19.0.1 (equal)
+keiro-ops snapshot=0.19.0.1 frozen=0.19.0.1 (equal)
+keiro-pgmq snapshot=0.19.0.1 frozen=0.19.0.1 (equal)
+keiro-test-support snapshot=0.19.0.1 frozen=0.19.0.1 (equal)
+kioku-api snapshot=0.8.0.1 frozen=0.8.0.1 (equal)
+kioku-cli snapshot=0.8.0.1 frozen=(not frozen) (not used by the cohort)
+kioku-core snapshot=0.8.0.1 frozen=0.8.0.1 (equal)
+kioku-migrate snapshot=0.8.0.1 frozen=(not frozen) (not used by the cohort)
+kioku-migrations snapshot=0.8.0.1 frozen=0.8.0.1 (equal)
+kiroku-cli snapshot=0.2.0.8 frozen=0.2.0.8 (equal)
+kiroku-metrics snapshot=0.1.0.10 frozen=0.1.0.10 (equal)
+kiroku-otel snapshot=0.2.0.10 frozen=0.2.0.10 (equal)
+kiroku-store snapshot=0.9.0.1 frozen=0.9.0.1 (equal)
+kiroku-store-migrations snapshot=0.6.0.0 frozen=0.6.0.0 (equal)
+okf-cli snapshot=0.9.0.0 frozen=(not frozen) (not used by the cohort)
+okf-core snapshot=0.9.0.0 frozen=0.9.0.0 (equal)
+openapi-hs snapshot=5.0.0 frozen=5.0.0 (equal)
+pg-migrate snapshot=1.2.0.0 frozen=1.2.0.0 (equal)
+pg-migrate-cli snapshot=1.2.0.0 frozen=1.2.0.0 (equal)
+pg-migrate-embed snapshot=1.2.0.0 frozen=1.2.0.0 (equal)
+pg-migrate-import-codd snapshot=1.2.0.0 frozen=1.2.0.0 (equal)
+pg-migrate-import-hasql-migration snapshot=1.2.0.0 frozen=1.2.0.0 (equal)
+pg-migrate-test-support snapshot=1.2.0.0 frozen=(not frozen) (not used by the cohort)
+pgmq-config snapshot=0.6.1.1 frozen=0.6.1.1 (equal)
+pgmq-core snapshot=0.6.1.1 frozen=0.6.1.1 (equal)
+pgmq-effectful snapshot=0.6.1.1 frozen=0.6.1.1 (equal)
+pgmq-hasql snapshot=0.6.1.1 frozen=0.6.1.1 (equal)
+pgmq-migration snapshot=0.6.1.1 frozen=0.6.1.1 (equal)
+relay-pagination snapshot=0.1.1.0 frozen=0.1.1.1 (first-party lag)
+relay-pagination-conformance snapshot=0.1.1.0 frozen=0.1.1.1 (first-party lag)
+relay-pagination-hasql snapshot=0.1.1.0 frozen=0.1.1.1 (first-party lag)
+relay-pagination-servant snapshot=0.1.1.0 frozen=0.1.1.1 (first-party lag)
+servant-openapi-hs snapshot=5.1.0 frozen=5.1.0 (equal)
+settei snapshot=0.2.0.0 frozen=0.2.0.0 (equal)
+settei-dhall snapshot=0.2.0.0 frozen=0.2.0.0 (equal)
+settei-env snapshot=0.2.0.0 frozen=0.2.0.0 (equal)
+settei-formats snapshot=0.2.0.0 frozen=(not frozen) (not used by the cohort)
+settei-kdl snapshot=0.2.0.0 frozen=(not frozen) (not used by the cohort)
+settei-kubernetes snapshot=0.2.0.0 frozen=(not frozen) (not used by the cohort)
+settei-optparse-applicative snapshot=0.2.0.0 frozen=0.2.0.0 (equal)
+settei-yaml snapshot=0.2.0.0 frozen=(not frozen) (not used by the cohort)
+shibuya-core snapshot=0.10.0.0 frozen=0.10.0.0 (equal)
+shibuya-kiroku-adapter snapshot=0.5.1.5 frozen=0.5.1.5 (equal)
+shibuya-metrics snapshot=0.10.0.0 frozen=(not frozen) (not used by the cohort)
+shikumi snapshot=0.4.1.0 frozen=0.4.1.0 (equal)
+shikumi-cache snapshot=0.2.0.1 frozen=0.2.0.1 (equal)
+shikumi-cache-postgres snapshot=0.1.3.1 frozen=(not frozen) (not used by the cohort)
+shikumi-cache-redis snapshot=0.1.3.1 frozen=(not frozen) (not used by the cohort)
+shikumi-compile snapshot=0.2.1.1 frozen=(not frozen) (not used by the cohort)
+shikumi-eval snapshot=0.3.0.1 frozen=(not frozen) (not used by the cohort)
+shikumi-okf snapshot=0.2.1.1 frozen=(not frozen) (not used by the cohort)
+shikumi-optimize snapshot=0.3.0.1 frozen=(not frozen) (not used by the cohort)
+shikumi-tools snapshot=0.4.1.0 frozen=(not frozen) (not used by the cohort)
+shikumi-trace snapshot=0.3.0.1 frozen=0.3.0.1 (equal)
+shikumi-trace-otel snapshot=0.1.2.1 frozen=0.1.2.1 (equal)
+
+CAPS
+baikai-kit 0.4.0.0: mori://shinzui/mori mori-cli/mori-cli.cabal [library; always] ^>=0.3.0.0
+baikai-kit 0.4.0.0: mori://shinzui/mori mori-cli/mori-cli.cabal [test:mori-cli-test; always] ^>=0.3.0.0
+baikai-kit 0.4.0.0: mori://shinzui/rei rei-cli/rei-cli.cabal [library; always] ^>=0.3
+brick 3.0: mori://shinzui/rei rei-cli/rei-cli.cabal [library; always] ^>=2.6
+effectful 2.7.1.0: mori://shinzui/mori mori-api/mori-api.cabal [library; always] ^>=2.5 || ^>=2.6
+effectful 2.7.1.0: mori://shinzui/mori mori-api/mori-api.cabal [test:mori-api-test; always] ^>=2.5 || ^>=2.6
+effectful 2.7.1.0: mori://shinzui/mori mori-cli/mori-cli.cabal [library; always] ^>=2.5 || ^>=2.6
+effectful 2.7.1.0: mori://shinzui/mori mori-cli/mori-cli.cabal [test:mori-cli-test; always] ^>=2.5 || ^>=2.6
+effectful 2.7.1.0: mori://shinzui/mori mori-core/mori-core.cabal [library; always] ^>=2.5 || ^>=2.6
+effectful 2.7.1.0: mori://shinzui/mori mori-core/mori-core.cabal [test:mori-core-test; always] ^>=2.5 || ^>=2.6
+effectful 2.7.1.0: mori://shinzui/mori-app mori-app/mori-app.cabal [library; always] ^>=2.6
+effectful 2.7.1.0: mori://shinzui/mori-app mori-app/mori-app.cabal [test:mori-app-test; always] ^>=2.6
+effectful 2.7.1.0: mori://shinzui/mori-rei-app mori-rei-app.cabal [library; always] ^>=2.6
+effectful 2.7.1.0: mori://shinzui/mori-rei-app mori-rei-app.cabal [test:mori-rei-app-test; always] ^>=2.6
+effectful-core 2.7.1.2: mori://shinzui/mori mori-api/mori-api.cabal [library; always] ^>=2.5 || ^>=2.6
+effectful-core 2.7.1.2: mori://shinzui/mori mori-api/mori-api.cabal [test:mori-api-test; always] ^>=2.5 || ^>=2.6
+effectful-core 2.7.1.2: mori://shinzui/mori mori-cli/mori-cli.cabal [library; always] ^>=2.5 || ^>=2.6
+effectful-core 2.7.1.2: mori://shinzui/mori mori-cli/mori-cli.cabal [test:mori-cli-test; always] ^>=2.5 || ^>=2.6
+effectful-core 2.7.1.2: mori://shinzui/mori mori-core/mori-core.cabal [library; always] ^>=2.5 || ^>=2.6
+effectful-core 2.7.1.2: mori://shinzui/mori mori-core/mori-core.cabal [test:mori-core-test; always] ^>=2.5 || ^>=2.6
+effectful-core 2.7.1.2: mori://shinzui/mori-app mori-app/mori-app.cabal [library; always] ^>=2.6
+effectful-core 2.7.1.2: mori://shinzui/mori-app mori-app/mori-app.cabal [test:mori-app-test; always] ^>=2.6
+effectful-core 2.7.1.2: mori://shinzui/mori-rei-app mori-rei-app.cabal [library; always] ^>=2.6
+effectful-core 2.7.1.2: mori://shinzui/mori-rei-app mori-rei-app.cabal [test:mori-rei-app-test; always] ^>=2.6
+ephemeral-pg 0.3.1.0: mori://shinzui/mori-app mori-app/mori-app.cabal [test:mori-app-test; always] ^>=0.2
+http-api-data 0.7: mori://shinzui/mori mori-api/mori-api.cabal [library; always] ^>=0.6
+kdl-hs 1.2.1: mori://shinzui/mina mina-core/mina-core.cabal [library; always] ^>=1.0
+kdl-hs 1.2.1: mori://shinzui/mina mina-core/mina-core.cabal [test:mina-core-test; always] ^>=1.0
+megaparsec 9.8.3: mori://shinzui/rei rei-core/rei-core.cabal [library; always] ^>=9.7
+vty 6.6: mori://shinzui/rei rei-cli/rei-cli.cabal [library; always] ^>=6.2
+
+UPGRADES PER APPLICATION
+mori://shinzui/mina OneTuple 0.4.2.1 -> 0.4.3
+mori://shinzui/mina QuickCheck 2.15.0.1 -> 2.16.0.0
+mori://shinzui/mina aeson 2.2.4.1 -> 2.2.5.1
+mori://shinzui/mina aeson-pretty 0.8.10 -> 0.8.11
+mori://shinzui/mina crypton 1.0.6 -> 1.1.5
+mori://shinzui/mina crypton-connection 0.4.5 -> 0.4.6
+mori://shinzui/mina crypton-x509 1.8.0 -> 1.9.1
+mori://shinzui/mina crypton-x509-store 1.8.0 -> 1.9.0
+mori://shinzui/mina crypton-x509-system 1.8.0 -> 1.9.0
+mori://shinzui/mina crypton-x509-validation 1.8.0 -> 1.9.1
+mori://shinzui/mina hpke 0.0.0 -> 0.2.0
+mori://shinzui/mina http-api-data 0.6.3 -> 0.7
+mori://shinzui/mina http-client-tls 0.3.6.4 -> 0.4.0
+mori://shinzui/mina http-types 0.12.4 -> 0.12.6
+mori://shinzui/mina indexed-traversable 0.1.4 -> 0.1.5
+mori://shinzui/mina kdl-hs 1.0.1 -> 1.2.1
+mori://shinzui/mina microlens 0.4.14.0 -> 0.5.0.0
+mori://shinzui/mina microlens-mtl 0.2.1.0 -> 0.2.1.1
+mori://shinzui/mina network 3.2.7.0 -> 3.2.9.0
+mori://shinzui/mina prettyprinter 1.7.1 -> 1.7.2
+mori://shinzui/mina prettyprinter-ansi-terminal 1.1.3 -> 1.1.4
+mori://shinzui/mina recv 0.1.1 -> 0.1.2
+mori://shinzui/mina scientific 0.3.8.1 -> 0.3.9.0
+mori://shinzui/mina semialign 1.3.1.1 -> 1.4
+mori://shinzui/mina tagged 0.8.9 -> 0.8.11
+mori://shinzui/mina text-iso8601 0.1.1.1 -> 0.1.1.2
+mori://shinzui/mina tls 2.2.2 -> 2.4.6
+mori://shinzui/mina unix-time 0.4.17 -> 0.5.0
+mori://shinzui/mina unordered-containers 0.2.20.1 -> 0.2.21
+mori://shinzui/mina warp 3.4.15 -> 3.4.16
+mori://shinzui/mori OneTuple 0.4.2.1 -> 0.4.3
+mori://shinzui/mori QuickCheck 2.15.0.1 -> 2.16.0.0
+mori://shinzui/mori aeson 2.2.4.1 -> 2.2.5.1
+mori://shinzui/mori aeson-pretty 0.8.10 -> 0.8.11
+mori://shinzui/mori baikai 0.7.1.0 -> 0.7.2.0
+mori://shinzui/mori baikai-claude 0.7.0.0 -> 0.7.1.0
+mori://shinzui/mori baikai-effectful 0.4.0.1 -> 0.4.0.2
+mori://shinzui/mori baikai-kit 0.3.0.0 -> 0.4.0.0
+mori://shinzui/mori baikai-openai 0.7.0.0 -> 0.7.1.0
+mori://shinzui/mori effectful 2.6.1.0 -> 2.7.1.0
+mori://shinzui/mori effectful-core 2.6.1.0 -> 2.7.1.2
+mori://shinzui/mori hspec 2.11.17 -> 2.11.18
+mori://shinzui/mori hspec-core 2.11.17 -> 2.11.18
+mori://shinzui/mori hspec-discover 2.11.17 -> 2.11.18
+mori://shinzui/mori http-api-data 0.6.3 -> 0.7
+mori://shinzui/mori http-types 0.12.4 -> 0.12.6
+mori://shinzui/mori http2 5.4.6 -> 5.4.7
+mori://shinzui/mori indexed-traversable 0.1.4 -> 0.1.5
+mori://shinzui/mori keiro 0.19.0.0 -> 0.19.0.1
+mori://shinzui/mori keiro-core 0.19.0.0 -> 0.19.0.1
+mori://shinzui/mori keiro-migrations 0.19.0.0 -> 0.19.0.1
+mori://shinzui/mori keiro-ops 0.19.0.0 -> 0.19.0.1
+mori://shinzui/mori keiro-pgmq 0.19.0.0 -> 0.19.0.1
+mori://shinzui/mori keiro-test-support 0.19.0.0 -> 0.19.0.1
+mori://shinzui/mori kioku-api 0.8.0.0 -> 0.8.0.1
+mori://shinzui/mori kioku-core 0.8.0.0 -> 0.8.0.1
+mori://shinzui/mori kioku-migrations 0.8.0.0 -> 0.8.0.1
+mori://shinzui/mori prettyprinter 1.7.1 -> 1.7.2
+mori://shinzui/mori prettyprinter-ansi-terminal 1.1.3 -> 1.1.4
+mori://shinzui/mori relay-pagination 0.1.1.0 -> 0.1.1.1
+mori://shinzui/mori relay-pagination-conformance 0.1.1.0 -> 0.1.1.1
+mori://shinzui/mori relay-pagination-hasql 0.1.1.0 -> 0.1.1.1
+mori://shinzui/mori relay-pagination-servant 0.1.1.0 -> 0.1.1.1
+mori://shinzui/mori scientific 0.3.8.1 -> 0.3.9.0
+mori://shinzui/mori semialign 1.3.1.1 -> 1.4
+mori://shinzui/mori shikumi 0.4.0.0 -> 0.4.1.0
+mori://shinzui/mori shikumi-cache 0.2.0.0 -> 0.2.0.1
+mori://shinzui/mori shikumi-trace 0.3.0.0 -> 0.3.0.1
+mori://shinzui/mori strict-mutable-base 1.1.0.0 -> 2.0.0.0
+mori://shinzui/mori tagged 0.8.9 -> 0.8.11
+mori://shinzui/mori text-iso8601 0.1.1.1 -> 0.1.1.2
+mori://shinzui/mori unix-time 0.4.17 -> 0.5.0
+mori://shinzui/mori unordered-containers 0.2.20.1 -> 0.2.21
+mori://shinzui/mori-app OneTuple 0.4.2.1 -> 0.4.3
+mori://shinzui/mori-app QuickCheck 2.15.0.1 -> 2.16.0.0
+mori://shinzui/mori-app aeson 2.2.4.1 -> 2.2.5.1
+mori://shinzui/mori-app effectful 2.6.1.0 -> 2.7.1.0
+mori://shinzui/mori-app effectful-core 2.6.1.0 -> 2.7.1.2
+mori://shinzui/mori-app ephemeral-pg 0.2.2.0 -> 0.3.1.0
+mori://shinzui/mori-app http-types 0.12.4 -> 0.12.6
+mori://shinzui/mori-app http2 5.4.6 -> 5.4.7
+mori://shinzui/mori-app indexed-traversable 0.1.4 -> 0.1.5
+mori://shinzui/mori-app prettyprinter 1.7.1 -> 1.7.2
+mori://shinzui/mori-app prettyprinter-ansi-terminal 1.1.3 -> 1.1.4
+mori://shinzui/mori-app scientific 0.3.8.1 -> 0.3.9.0
+mori://shinzui/mori-app semialign 1.3.1.1 -> 1.4
+mori://shinzui/mori-app strict-mutable-base 1.1.0.0 -> 2.0.0.0
+mori://shinzui/mori-app tagged 0.8.9 -> 0.8.11
+mori://shinzui/mori-app text-iso8601 0.1.1.1 -> 0.1.1.2
+mori://shinzui/mori-app unix-time 0.4.17 -> 0.5.0
+mori://shinzui/mori-app unordered-containers 0.2.20.1 -> 0.2.21
+mori://shinzui/mori-rei-app OneTuple 0.4.2.1 -> 0.4.3
+mori://shinzui/mori-rei-app QuickCheck 2.15.0.1 -> 2.16.0.0
+mori://shinzui/mori-rei-app aeson 2.2.4.1 -> 2.2.5.1
+mori://shinzui/mori-rei-app aeson-pretty 0.8.10 -> 0.8.11
+mori://shinzui/mori-rei-app baikai 0.7.1.0 -> 0.7.2.0
+mori://shinzui/mori-rei-app baikai-claude 0.7.0.0 -> 0.7.1.0
+mori://shinzui/mori-rei-app baikai-effectful 0.4.0.1 -> 0.4.0.2
+mori://shinzui/mori-rei-app baikai-openai 0.7.0.0 -> 0.7.1.0
+mori://shinzui/mori-rei-app effectful 2.6.1.0 -> 2.7.1.0
+mori://shinzui/mori-rei-app effectful-core 2.6.1.0 -> 2.7.1.2
+mori://shinzui/mori-rei-app http-api-data 0.6.3 -> 0.7
+mori://shinzui/mori-rei-app http-types 0.12.4 -> 0.12.6
+mori://shinzui/mori-rei-app http2 5.4.6 -> 5.4.7
+mori://shinzui/mori-rei-app indexed-traversable 0.1.4 -> 0.1.5
+mori://shinzui/mori-rei-app keiro 0.19.0.0 -> 0.19.0.1
+mori://shinzui/mori-rei-app keiro-core 0.19.0.0 -> 0.19.0.1
+mori://shinzui/mori-rei-app keiro-migrations 0.19.0.0 -> 0.19.0.1
+mori://shinzui/mori-rei-app keiro-pgmq 0.19.0.0 -> 0.19.0.1
+mori://shinzui/mori-rei-app keiro-test-support 0.19.0.0 -> 0.19.0.1
+mori://shinzui/mori-rei-app kioku-api 0.8.0.0 -> 0.8.0.1
+mori://shinzui/mori-rei-app kioku-core 0.8.0.0 -> 0.8.0.1
+mori://shinzui/mori-rei-app kioku-migrations 0.8.0.0 -> 0.8.0.1
+mori://shinzui/mori-rei-app megaparsec 9.7.1 -> 9.8.3
+mori://shinzui/mori-rei-app microlens 0.4.14.0 -> 0.5.0.0
+mori://shinzui/mori-rei-app microlens-mtl 0.2.1.0 -> 0.2.1.1
+mori://shinzui/mori-rei-app prettyprinter 1.7.1 -> 1.7.2
+mori://shinzui/mori-rei-app prettyprinter-ansi-terminal 1.1.3 -> 1.1.4
+mori://shinzui/mori-rei-app relay-pagination 0.1.1.0 -> 0.1.1.1
+mori://shinzui/mori-rei-app relay-pagination-hasql 0.1.1.0 -> 0.1.1.1
+mori://shinzui/mori-rei-app scientific 0.3.8.1 -> 0.3.9.0
+mori://shinzui/mori-rei-app semialign 1.3.1.1 -> 1.4
+mori://shinzui/mori-rei-app shikumi 0.4.0.0 -> 0.4.1.0
+mori://shinzui/mori-rei-app shikumi-cache 0.2.0.0 -> 0.2.0.1
+mori://shinzui/mori-rei-app shikumi-trace 0.3.0.0 -> 0.3.0.1
+mori://shinzui/mori-rei-app strict-mutable-base 1.1.0.0 -> 2.0.0.0
+mori://shinzui/mori-rei-app tagged 0.8.9 -> 0.8.11
+mori://shinzui/mori-rei-app text-iso8601 0.1.1.1 -> 0.1.1.2
+mori://shinzui/mori-rei-app tzdata 0.2.20260708.0 -> 0.2.20260911.0
+mori://shinzui/mori-rei-app unix-time 0.4.17 -> 0.5.0
+mori://shinzui/mori-rei-app unordered-containers 0.2.20.1 -> 0.2.21
+mori://shinzui/rei OneTuple 0.4.2.1 -> 0.4.3
+mori://shinzui/rei QuickCheck 2.15.0.1 -> 2.16.0.0
+mori://shinzui/rei aeson 2.2.4.1 -> 2.2.5.1
+mori://shinzui/rei aeson-pretty 0.8.10 -> 0.8.11
+mori://shinzui/rei baikai 0.7.1.0 -> 0.7.2.0
+mori://shinzui/rei baikai-claude 0.7.0.0 -> 0.7.1.0
+mori://shinzui/rei baikai-effectful 0.4.0.1 -> 0.4.0.2
+mori://shinzui/rei baikai-kit 0.3.0.0 -> 0.4.0.0
+mori://shinzui/rei baikai-openai 0.7.0.0 -> 0.7.1.0
+mori://shinzui/rei brick 2.6 -> 3.0
+mori://shinzui/rei effectful 2.6.1.0 -> 2.7.1.0
+mori://shinzui/rei effectful-core 2.6.1.0 -> 2.7.1.2
+mori://shinzui/rei hspec 2.11.17 -> 2.11.18
+mori://shinzui/rei hspec-core 2.11.17 -> 2.11.18
+mori://shinzui/rei hspec-discover 2.11.17 -> 2.11.18
+mori://shinzui/rei http-api-data 0.6.3 -> 0.7
+mori://shinzui/rei http-types 0.12.4 -> 0.12.6
+mori://shinzui/rei http2 5.4.6 -> 5.4.7
+mori://shinzui/rei indexed-traversable 0.1.4 -> 0.1.5
+mori://shinzui/rei keiro 0.19.0.0 -> 0.19.0.1
+mori://shinzui/rei keiro-core 0.19.0.0 -> 0.19.0.1
+mori://shinzui/rei keiro-dsl 0.19.0.0 -> 0.19.0.1
+mori://shinzui/rei keiro-migrations 0.19.0.0 -> 0.19.0.1
+mori://shinzui/rei keiro-ops 0.19.0.0 -> 0.19.0.1
+mori://shinzui/rei keiro-pgmq 0.19.0.0 -> 0.19.0.1
+mori://shinzui/rei keiro-test-support 0.19.0.0 -> 0.19.0.1
+mori://shinzui/rei kioku-api 0.8.0.0 -> 0.8.0.1
+mori://shinzui/rei kioku-core 0.8.0.0 -> 0.8.0.1
+mori://shinzui/rei kioku-migrations 0.8.0.0 -> 0.8.0.1
+mori://shinzui/rei megaparsec 9.7.1 -> 9.8.3
+mori://shinzui/rei microlens 0.4.14.0 -> 0.5.0.0
+mori://shinzui/rei microlens-mtl 0.2.1.0 -> 0.2.1.1
+mori://shinzui/rei microlens-th 0.4.3.17 -> 0.4.3.18
+mori://shinzui/rei prettyprinter 1.7.1 -> 1.7.2
+mori://shinzui/rei prettyprinter-ansi-terminal 1.1.3 -> 1.1.4
+mori://shinzui/rei relay-pagination 0.1.1.0 -> 0.1.1.1
+mori://shinzui/rei relay-pagination-conformance 0.1.1.0 -> 0.1.1.1
+mori://shinzui/rei relay-pagination-hasql 0.1.1.0 -> 0.1.1.1
+mori://shinzui/rei relay-pagination-servant 0.1.1.0 -> 0.1.1.1
+mori://shinzui/rei scientific 0.3.8.1 -> 0.3.9.0
+mori://shinzui/rei semialign 1.3.1.1 -> 1.4
+mori://shinzui/rei shikumi 0.4.0.0 -> 0.4.1.0
+mori://shinzui/rei shikumi-cache 0.2.0.0 -> 0.2.0.1
+mori://shinzui/rei shikumi-trace 0.3.0.0 -> 0.3.0.1
+mori://shinzui/rei strict-mutable-base 1.1.0.0 -> 2.0.0.0
+mori://shinzui/rei tagged 0.8.9 -> 0.8.11
+mori://shinzui/rei text-iso8601 0.1.1.1 -> 0.1.1.2
+mori://shinzui/rei tzdata 0.2.20260708.0 -> 0.2.20260911.0
+mori://shinzui/rei unix-time 0.4.17 -> 0.5.0
+mori://shinzui/rei unordered-containers 0.2.20.1 -> 0.2.21
+mori://shinzui/rei vty 6.2 -> 6.6
+mori://shinzui/rei vty-unix 0.2.0.0 -> 0.4.0.0
+mori://shinzui/reiko OneTuple 0.4.2.1 -> 0.4.3
+mori://shinzui/reiko QuickCheck 2.15.0.1 -> 2.16.0.0
+mori://shinzui/reiko aeson 2.2.4.1 -> 2.2.5.1
+mori://shinzui/reiko aeson-pretty 0.8.10 -> 0.8.11
+mori://shinzui/reiko auto-update 0.2.6 -> 0.2.8
+mori://shinzui/reiko crypton 1.1.3 -> 1.1.5
+mori://shinzui/reiko crypton-x509 1.9.0 -> 1.9.1
+mori://shinzui/reiko crypton-x509-validation 1.9.0 -> 1.9.1
+mori://shinzui/reiko hpke 0.1.0 -> 0.2.0
+mori://shinzui/reiko http-semantics 0.4.0 -> 0.4.1
+mori://shinzui/reiko http-types 0.12.4 -> 0.12.6
+mori://shinzui/reiko http2 5.4.0 -> 5.4.7
+mori://shinzui/reiko indexed-traversable 0.1.4 -> 0.1.5
+mori://shinzui/reiko mlkem 0.2.1.0 -> 0.2.3.0
+mori://shinzui/reiko network 3.2.8.0 -> 3.2.9.0
+mori://shinzui/reiko prettyprinter 1.7.1 -> 1.7.2
+mori://shinzui/reiko prettyprinter-ansi-terminal 1.1.3 -> 1.1.4
+mori://shinzui/reiko ram 0.22.0 -> 0.22.1
+mori://shinzui/reiko recv 0.1.1 -> 0.1.2
+mori://shinzui/reiko scientific 0.3.8.1 -> 0.3.9.0
+mori://shinzui/reiko semialign 1.3.1.1 -> 1.4
+mori://shinzui/reiko split 0.2.5 -> 0.2.5.1
+mori://shinzui/reiko tagged 0.8.9 -> 0.8.11
+mori://shinzui/reiko text-iso8601 0.1.1.1 -> 0.1.1.2
+mori://shinzui/reiko tls 2.4.2 -> 2.4.6
+mori://shinzui/reiko unix-time 0.4.17 -> 0.5.0
+mori://shinzui/reiko unordered-containers 0.2.20.1 -> 0.2.21
+mori://shinzui/reiko vault 0.3.1.6 -> 0.3.2.0
+mori://shinzui/reiko wai 3.2.4 -> 3.2.5
+mori://shinzui/reiko warp 3.4.13.1 -> 3.4.16
+
+NIX UPGRADES
+OneTuple 0.4.2.1 -> 0.4.3
+QuickCheck 2.15.0.1 -> 2.16.0.0
+aeson 2.2.4.1 -> 2.2.5.1
+aeson-pretty 0.8.10 -> 0.8.11
+auto-update 0.2.6 -> 0.2.8
+binary-orphans 1.0.5.1 -> 1.0.6
+boring 0.2.2 -> 0.2.2.1
+brick 2.9 -> 3.0
+criterion 1.6.4.0 -> 1.6.5.0
+criterion-measurement 0.2.4.0 -> 0.2.5.0
+crypton 1.1.2 -> 1.1.5
+crypton-x509 1.9.0 -> 1.9.1
+crypton-x509-validation 1.9.0 -> 1.9.1
+effectful 2.6.1.0 -> 2.7.1.0
+effectful-core 2.6.1.0 -> 2.7.1.2
+ephemeral-pg 0.2.1.0 -> 0.3.1.0
+fast-logger 3.2.6 -> 3.2.7
+generic-lens 2.2.2.0 -> 2.3.0.0
+generic-lens-core 2.2.1.0 -> 2.3.0.0
+granite 0.4.0.1 -> 0.7.4.0
+happy 2.1.7 -> 2.2
+happy-lib 2.1.7 -> 2.2
+haskell-src-exts 1.23.1 -> 1.24.0
+haskell-src-meta 0.8.15 -> 0.8.16
+hasql 1.10.2.4 -> 1.10.3.7
+hasql-dynamic-statements 0.5.1 -> 0.5.1.1
+hasql-implicits 0.2.0.2 -> 0.2.0.3
+hasql-pool 1.4.1 -> 1.4.2.3
+hasql-transaction 1.2.2 -> 1.2.3.1
+hedgehog 1.5 -> 1.7
+hpke 0.1.0 -> 0.2.0
+hspec 2.11.17 -> 2.11.18
+hspec-core 2.11.17 -> 2.11.18
+hspec-discover 2.11.17 -> 2.11.18
+http-api-data 0.6.3 -> 0.7
+http-semantics 0.3.0 -> 0.4.1
+http-types 0.12.4 -> 0.12.6
+http2 5.3.10 -> 5.4.7
+indexed-traversable 0.1.4 -> 0.1.5
+kdl-hs 1.1.0 -> 1.2.1
+libBF 0.6.8 -> 0.6.9
+lifted-async 0.10.2.7 -> 0.11.0
+megaparsec 9.7.0 -> 9.8.3
+microlens 0.4.14.0 -> 0.5.0.0
+microlens-mtl 0.2.1.0 -> 0.2.1.1
+microlens-th 0.4.3.17 -> 0.4.3.18
+mlkem 0.2.0.0 -> 0.2.3.0
+mmzk-typeid 0.7.1.0 -> 0.7.1.2
+network 3.2.8.0 -> 3.2.9.0
+nothunks 0.3.1 -> 0.3.2
+parallel 3.2.2.0 -> 3.3.0.0
+prettyprinter 1.7.1 -> 1.7.2
+prettyprinter-ansi-terminal 1.1.3 -> 1.1.4
+ram 0.22.0 -> 0.22.1
+recv 0.1.1 -> 0.1.2
+regex-tdfa 1.3.2.5 -> 1.3.2.6
+relay-pagination 0.1.1.0 -> 0.1.1.1
+relay-pagination-conformance 0.1.1.0 -> 0.1.1.1
+relay-pagination-hasql 0.1.1.0 -> 0.1.1.1
+relay-pagination-servant 0.1.1.0 -> 0.1.1.1
+sbv 11.7 -> 14.8
+scientific 0.3.8.1 -> 0.3.9.0
+semialign 1.3.1.1 -> 1.4
+servant-multipart 0.12.1 -> 0.13.0
+servant-multipart-api 0.12.1 -> 0.13.0
+servant-multipart-client 0.12.2 -> 0.13.0
+shibuya-pgmq-adapter 0.16.0.0 -> 0.16.1.0
+some 1.0.6 -> 1.1
+split 0.2.5 -> 0.2.5.1
+streamly 0.11.0 -> 0.11.1
+streamly-core 0.3.0 -> 0.3.1
+strict-mutable-base 1.1.0.0 -> 2.0.0.0
+syb 0.7.2.4 -> 0.7.4
+tagged 0.8.9 -> 0.8.11
+text-builder 1.0.0.4 -> 1.0.0.5
+text-builder-core 0.1.1.1 -> 0.1.1.3
+text-iso8601 0.1.1.1 -> 0.1.1.2
+thread-utils-context 0.4.1.0 -> 0.4.1.1
+time-manager 0.2.4 -> 0.3.2
+tls 2.3.1 -> 2.4.6
+tzdata 0.2.20250115.0 -> 0.2.20260911.0
+unicode-data 0.6.0 -> 0.8.0
+unix-time 0.4.17 -> 0.5.0
+unordered-containers 0.2.20.1 -> 0.2.21
+vault 0.3.1.6 -> 0.3.2.0
+vty 6.4 -> 6.6
+vty-crossplatform 0.4.0.0 -> 0.5.0.0
+vty-unix 0.2.0.0 -> 0.4.0.0
+wai 3.2.4 -> 3.2.5
+wai-app-static 3.1.9.1 -> 3.2.1
+warp 3.4.9 -> 3.4.16
+wherefrom-compat 0.1.1.1 -> 0.2.0.0
+wl-pprint-annotated 0.1.0.1 -> 0.1.0.2
+
+SOURCE PINS
+mori://shinzui/mina mori-schema-pin 0.2.0.0 -> (not frozen)
+mori://shinzui/mina streamly 0.12.0 -> 0.11.1 (retired by plan 13)
+mori://shinzui/mina streamly-core 0.4.0 -> 0.3.1 (retired by plan 13)
+mori://shinzui/mori dhall 1.42.3 -> 1.42.3
+mori://shinzui/mori hasql-effectful 0.1.0.0 -> (not frozen)
+mori://shinzui/mori openapi-hs 5.0.0 -> 5.0.0
+mori://shinzui/mori servant-health 0.1.0.0 -> 0.1.0.0
+mori://shinzui/mori servant-openapi-hs 5.1.0 -> 5.1.0
+mori://shinzui/mori typeid-hs-pg-migrate 0.1.0.0 -> 0.1.0.0
+mori://shinzui/mori typeid-hs-sql 0.1.0.0 -> 0.1.0.0
+mori://shinzui/mori-app mori-types 5.0.0.0 -> (not frozen)
+mori://shinzui/mori-rei-app mori-app 0.1.0.0 -> (not frozen)
+mori://shinzui/mori-rei-app mori-types 5.0.0.0 -> (not frozen)
+mori://shinzui/mori-rei-app rei-core 7.0.0.0 -> (not frozen)
+mori://shinzui/mori-rei-app typeid-hs-pg-migrate 0.1.0.0 -> 0.1.0.0
+mori://shinzui/mori-rei-app typeid-hs-sql 0.1.0.0 -> 0.1.0.0
+mori://shinzui/rei hs-opentelemetry-instrumentation-servant 0.3.0.0 -> 0.3.0.0
+mori://shinzui/rei typeid-hs-pg-migrate 0.1.0.0 -> 0.1.0.0
+mori://shinzui/rei typeid-hs-sql 0.1.0.0 -> 0.1.0.0
+
+EXCLUDED
+mori://shinzui/mori hasql-effectful: vendored into mori-core by plan 12
+
+BOOT PACKAGES
+Cabal 3.14.2.0
+Cabal-syntax 3.14.2.0
+array 0.5.8.0
+base 4.21.2.0
+binary 0.8.9.3
+bytestring 0.12.2.0
+containers 0.7
+deepseq 1.5.1.0
+directory 1.3.10.1
+exceptions 0.10.12
+file-io 0.1.6
+filepath 1.5.5.0
+ghc 9.12.4
+ghc-bignum 1.3
+ghc-boot 9.12.4
+ghc-boot-th 9.12.4
+ghc-heap 9.12.4
+ghc-internal 9.1204.0
+ghc-platform 0.1.0.0
+ghc-prim 0.13.0
+ghci 9.12.4
+haskeline 0.8.4.1
+hpc 0.7.0.2
+integer-gmp 1.1
+mtl 2.3.2
+os-string 2.0.10
+parsec 3.1.18.0
+pretty 1.1.3.6
+process 1.6.26.1
+rts 1.0.3
+semaphore-compat 1.0.0
+stm 2.5.3.1
+template-haskell 2.23.0.0
+terminfo 0.4.1.7
+text 2.1.4
+time 1.14
+transformers 0.6.3.0
+unix 2.8.8.0
+
+packages: 450  downgrades: 0  caps: 30  source pins: 19

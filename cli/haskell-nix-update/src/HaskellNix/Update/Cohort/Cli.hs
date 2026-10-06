@@ -33,7 +33,7 @@ import System.FilePath (takeDirectory, takeExtension, (</>))
 data CohortCommand
     = CohortInventory !FilePath !Text !FilePath !FilePath !Text !FilePath
     | CohortInventoryNix !FilePath !FilePath ![(Text, FilePath)] !Text !Text !Text !FilePath
-    | CohortStub !FilePath !FilePath !FilePath !FilePath !FilePath
+    | CohortStub !FilePath !FilePath !FilePath !FilePath !FilePath !FilePath
     | CohortNormaliseFreeze !FilePath !FilePath !FilePath !Text !Text !Text
     | CohortReport !FilePath !FilePath !FilePath !FilePath !FilePath !(Maybe FilePath)
     | CohortCheck !FilePath !FilePath !FilePath !Text
@@ -64,7 +64,7 @@ cohortParser =
     checkParser = CohortCheck <$> pathOption "freeze" "cabal/cohort.freeze" <*> pathOption "sources" "cabal/cohort-sources.json" <*> pathOption "plan" "cabal/dist-newstyle/cache/plan.json" <*> compilerOption
     reportParser = CohortReport <$> pathOption "freeze" "cabal/cohort.freeze" <*> pathOption "inventory" "cabal/inventory" <*> pathOption "lock" "packages/first-party-lock.json" <*> pathOption "catalog" "config/first-party-families.json" <*> pathOption "policy-floors" "cabal/policy-floors.json" <*> optional (strOption (long "out" <> metavar "FILE"))
     pathOption key defaultPath = strOption (long key <> value defaultPath <> metavar "PATH")
-    stubParser = CohortStub <$> pathOption "inventory" "cabal/inventory" <*> pathOption "lock" "packages/first-party-lock.json" <*> pathOption "catalog" "config/first-party-families.json" <*> pathOption "policy-floors" "cabal/policy-floors.json" <*> pathOption "out-dir" "cabal"
+    stubParser = CohortStub <$> pathOption "inventory" "cabal/inventory" <*> pathOption "lock" "packages/first-party-lock.json" <*> pathOption "catalog" "config/first-party-families.json" <*> pathOption "policy-floors" "cabal/policy-floors.json" <*> pathOption "policy-roots" "cabal/policy-roots.json" <*> pathOption "out-dir" "cabal"
     normaliseParser = CohortNormaliseFreeze <$> strOption (long "in" <> metavar "FILE") <*> strOption (long "out" <> metavar "FILE") <*> pathOption "plan" "cabal/dist-newstyle/cache/plan.json" <*> textOption "index-state" <*> textOption "haskell-nix-rev" <*> compilerOption
     nixParser =
         CohortInventoryNix
@@ -137,10 +137,11 @@ dispatch (CohortInventoryNix namesFile channelFile deployedFiles channelRev dotf
                 else do
                     writeJSON out (NixInventory channelRev dotfilesRev system channelMap (Map.fromList deployments))
                     pure (Right ("Recorded Nix inventory in " <> Text.pack out))
-dispatch (CohortStub directory lockFile catalogFile policyFile out) = runExceptT $ do
+dispatch (CohortStub directory lockFile catalogFile policyFile rootsFile out) = runExceptT $ do
     (inventories, nix, firstParty, policy) <- loadInputs directory lockFile catalogFile policyFile
     floors <- ExceptT (pure (floorVersions inventories nix firstParty policy))
-    (bounds, _) <- ExceptT (pure (stubBounds floors inventories))
+    roots <- ExceptT (readJSON rootsFile)
+    (bounds, _) <- ExceptT (pure (stubBoundsWithRoots floors inventories roots))
     lift (createDirectoryIfMissing True (out </> "rei-family-cohort"))
     lift (TextIO.writeFile (out </> "rei-family-cohort/rei-family-cohort.cabal") (renderStubCabal bounds))
     lift (TextIO.writeFile (out </> "floors.config") (renderFloors floors))

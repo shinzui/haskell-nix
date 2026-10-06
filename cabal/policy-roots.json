@@ -1,0 +1,14 @@
+[
+  {
+    "package": "postgresql-libpq-configure",
+    "range": ">=0.11",
+    "reason": "Retain pg_config discovery used by mori://shinzui/rei, mori://shinzui/mori-rei-app and mori://shinzui/mori-app; the union solve selects one postgresql-libpq flag configuration.",
+    "owner": "mori://shinzui/rei"
+  },
+  {
+    "package": "postgresql-libpq-pkgconfig",
+    "range": ">=0.11",
+    "reason": "Retain pkg-config discovery used by mori://shinzui/mori alongside the pg_config configurations of other contributors; a single parent flag selects only one helper library.",
+    "owner": "mori://shinzui/mori"
+  }
+]

@@ -2,16 +2,19 @@
 
 module HaskellNix.Update.Cohort.Model (
     PolicyFloor (..),
+    PolicyRoot (..),
     Floor (..),
     Cap (..),
     parseVersion,
     parseRange,
     floorVersions,
     stubBounds,
+    stubBoundsWithRoots,
     renderStubCabal,
     renderFloors,
 ) where
 
+import Control.Monad (foldM)
 import Data.Aeson (FromJSON, ToJSON, Value (..))
 import Data.Aeson.KeyMap qualified as KeyMap
 import Data.List (nub, sort)
@@ -27,6 +30,12 @@ import GHC.Generics (Generic)
 import HaskellNix.Update.Cohort.Types
 
 data PolicyFloor = PolicyFloor {package :: !Text, floor :: !Text, reason :: !Text}
+    deriving stock (Eq, Show, Generic)
+    deriving anyclass (FromJSON, ToJSON)
+
+-- Explicit membership retains dependencies required by supported configurations
+-- whose parent flags cannot all be selected in the single union solve.
+data PolicyRoot = PolicyRoot {package :: !Text, range :: !Text, reason :: !Text, owner :: !Text}
     deriving stock (Eq, Show, Generic)
     deriving anyclass (FromJSON, ToJSON)
 
@@ -89,6 +98,25 @@ stubBounds floors inventories = do
         case Map.lookup bound.package floors of
             Just floorEntry | not (withinRange floorEntry.version range) -> pure ((bound.package, bound.tool), range, Just (Cap bound owner floorEntry.version))
             _ -> pure ((bound.package, bound.tool), range, Nothing)
+
+stubBoundsWithRoots :: Map Text Floor -> [Inventory] -> [PolicyRoot] -> Either Text (Map (Text, Maybe Text) VersionRange, [Cap])
+stubBoundsWithRoots floors inventories roots = do
+    (bounds, caps) <- stubBounds floors inventories
+    explicit <- foldM addRoot Map.empty roots
+    pure (Map.unionWith intersectVersionRanges bounds explicit, caps)
+  where
+    excluded = Set.fromList (concatMap (\inventory -> inventory.contributor.ownPackages <> map (\e -> e.package) inventory.contributor.excludedDependencies) inventories)
+    addRoot current root
+        | Set.member root.package excluded = Left ("policy root targets an owned or excluded dependency: " <> root.package)
+        | Map.member (root.package, Nothing) current = Left ("duplicate policy root: " <> root.package)
+        | Text.null (Text.strip root.reason) = Left ("policy root requires a reason: " <> root.package)
+        | not ("mori://" `Text.isPrefixOf` root.owner) || Text.null (Text.drop 7 root.owner) = Left ("policy root requires a canonical owner: " <> root.package)
+        | otherwise = do
+            range <- parseRange root.range
+            recorded <- maybe (Left ("policy root has no recorded floor: " <> root.package)) Right (Map.lookup root.package floors)
+            if withinRange recorded.version range
+                then pure (Map.insert (root.package, Nothing) range current)
+                else Left ("policy root excludes its recorded floor: " <> root.package)
 
 renderStubCabal :: Map (Text, Maybe Text) VersionRange -> Text
 renderStubCabal bounds =

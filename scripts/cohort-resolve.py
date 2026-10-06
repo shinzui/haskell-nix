@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 import subprocess
 import tempfile
+from cohort_toolchain import compiler_args, compiler_environment
 
 
 def run(args, **kwargs):
@@ -23,8 +24,8 @@ def main():
         retained_cache = Path(tempfile.mkdtemp(prefix="cache-before-resolve-", dir=cache.parent))
         cache.rename(retained_cache / "cache")
     selected_index = "--index-state=" + inputs["indexState"]
-    run(["cabal", "build", "all", "--dry-run", "--project-file=cohort.project", selected_index], cwd="cabal")
-    run(["cabal", "freeze", "--project-file=cohort.project", selected_index], cwd="cabal")
+    run(["cabal", "build", "all", "--dry-run", "--project-file=cohort.project", selected_index, *compiler_args()], cwd="cabal", env=compiler_environment())
+    run(["cabal", "freeze", "--project-file=cohort.project", selected_index, *compiler_args()], cwd="cabal", env=compiler_environment())
     run([cli, "cohort", "normalise-freeze", "--in", str(generated), "--out", "cabal/cohort.freeze",
          "--index-state", inputs["indexState"], "--haskell-nix-rev", inputs["channelRevision"], "--compiler", inputs["compiler"]])
     generated.unlink()
