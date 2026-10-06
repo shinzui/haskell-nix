@@ -68,8 +68,11 @@ clean fixture. `shared-overrides` evaluates minimum versions and profiling redun
 builds every listed shared dependency. Native aarch64-darwin and remote x86_64-linux
 builds pass, as do all 51 Nix-unit cases including 11 ownership cases. The broad native
 flake check remains blocked separately in cpio's security-patch phase by a
-reproducible patch OOM; the matching upstream Darwin bootstrap resource-limit
-issue is recorded as an environment hypothesis. The earlier GHC 9.14
+reproducible patch OOM. An isolated test confirms that the daemon's unlimited
+NOFILE limit makes bootstrap GNU patch 2.7.6 fail; capping the test builder's
+limit makes the identical patch succeed. A client-only cap does not reach the
+daemon-created builder, so the required native environment gate remains open.
+The earlier GHC 9.14
 bytestring-lexing bounds failure is repaired with released 0.5.0.16, which passes
 all 58 tests with bounds intact. These broad gate failures do not invalidate the
 independently passing policy/audit checks.

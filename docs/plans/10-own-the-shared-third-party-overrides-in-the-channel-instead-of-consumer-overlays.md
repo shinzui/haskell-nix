@@ -126,6 +126,29 @@ Milestone 4's old-consumer builds are diagnostic rehearsals. A failure caused by
 
 ## Surprises & Discoveries
 
+- 2026-10-05: Isolated reproducer proves the cpio cause. Nix derivation metadata
+  identifies `d4wfhdb55w962wxia8n7m6q2j21iqly2-cpio-2.15.drv` as a
+  bootstrap-stage1 build using bootstrap tools `0d63j9ma2simwi7ahsibd3a7vpca99ws`.
+  In a scratch `pkgs.stdenv.mkDerivation`, call
+  `${pkgs.stdenv.bootstrapTools}/bin/patch` on a one-line replacement in
+  `src/example` using a Git-style diff and `-p1`, first with the inherited limit
+  and then after `ulimit -Sn 1048576`. Session 35402 reports GNU patch 2.7.6,
+  soft/hard NOFILE unlimited, default patch status 2/OOM, then capped status 0
+  and the expected patched contents. Ordinary stdenv GNU patch 2.8 succeeds
+  with either limit (session 70160). The daemon reports version 2.33.3.
+
+- 2026-10-05: Client-only limits cannot repair this daemon-backed gate. Session
+  59956 launches the same isolated probe after setting both client soft/hard
+  NOFILE to 1048576; the actual builder still inherits unlimited and reproduces
+  the old patch failure. Upstream Nix 2.33.3 source/setting documentation provides
+  no NOFILE builder option; pre-build-hook runs a separate program and supports
+  extra-sandbox-paths, so it cannot set the parent's limits. The verified
+  upstream fix caps limits in Nix itself. Repairing the builder/daemon environment
+  belongs to toolchain ownership; changing daemon/system configuration, security
+  patches, or package source identities was explicitly excluded from this
+  diagnostic lane. No such change or unsupported bypass was made. EP-10 remains
+  In Progress and the broad native gate remains unsatisfied.
+
 - 2026-10-05: The required full-check retry after the admitting-release repair
   (session 66598, same reduced-concurrency command) exits 1 again in cpio 2.15
   during CVE-2026-66484.patch with `patch: **** out of memory`, cancelling remaining
@@ -540,7 +563,7 @@ Mori retains shibuya-pgmq-adapter until plan 9 supplies at least 0.16.1.0 and ha
 plan 12 vendors its imports. Mina retains kdl-hs until plan 13 lifts its bound. Mina's
 mori-schema-pin remains the sole exception. TypeID deletions free typeid-hs-src in Rei/Mori/mori-rei-app;
 Mori additionally frees tan-effectful-src and the three HTTP family source inputs in its adoption.
-No consumer repositories were modified. The existing GHC 9.14 bytestring-lexing/base blocker is repaired with an admitting release and 58 passing tests; the full native retry still fails in cpio's patch phase, with a matching upstream Darwin bootstrap resource-limit issue under investigation. Diagnostic
+No consumer repositories were modified. The existing GHC 9.14 bytestring-lexing/base blocker is repaired with an admitting release and 58 passing tests; the full native retry still fails in cpio's patch phase. The isolated probe proves old bootstrap patch's OOM under the daemon's unlimited NOFILE limit, and a client-only cap does not reach that builder. The remaining environment repair belongs to toolchain ownership. Diagnostic
 consumer compilation is deferred to the actual EP-11–13 cohort adoption; this checkpoint does not mark EP-10 complete.
 
 
