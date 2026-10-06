@@ -25,7 +25,8 @@ user policy floors. GHC boot packages follow the recorded compiler. A Git-only v
 not establish a Hackage floor. Retain exact source identities separately, including intentional
 forks, rather than pretending that equal version strings imply equal sources.
 
-Use distinct policy floors of Effectful 2.7.1.0 and effectful-core 2.7.1.1. Observed versions
+Use distinct policy floors of Effectful 2.7.1.0 and effectful-core 2.7.1.1, and Random 1.3.1
+(the user's 2026-10-05 decision to move above 1.3). Observed versions
 can raise these floors further. Do not bridge either policy with allow-newer. Resolve a
 conflict through an admitting release or a documented scoped exception for another package;
 record the declared bound, compatibility evidence and retirement condition. Never silently
@@ -46,6 +47,10 @@ dependencies, as specified by [ADR 7](7-compose-applications-on-retained-keiro-r
 
 The shared updater owns this model, parser and impact report. Nix generation and runtime
 composition extend these interfaces. Broad cohort refresh remains an explicit operation.
+Inventory capture stages observations and a review receipt by default. Explicit refresh
+rejects removed or lowered historical floors, checks complete captured input membership and
+bytes, and restores recorded files if promotion fails. A fresh observation is not permission
+to discard a historical floor merely because it makes the union harder to solve.
 
 ## Alternatives and consequences
 
@@ -63,11 +68,20 @@ defines the additional manifest, exact-binary and fresh-worker evidence.
 Plan 8 owns the inventories, freeze, report and targeted-update acceptance. Shared tests cover
 maximum floors, excluded dependencies, Git-only sources, capped bounds, downgrade failures,
 freeze normalization, unrelated-pin isolation, runtime ownership and transitive component
-impact. The integrated implementation passes 88 updater tests and nine Python regression tests.
+impact. The integrated implementation passes 88 updater tests and 13 Python regression tests.
 
 Completion also requires a published-package solve, a zero-downgrade report, a deliberately
 lowered-version negative report, a matching freeze-only plan, targeted-update conflict and
-isolation experiments, and byte-identical regeneration. Published solve, zero-downgrade report, negative downgrade, freeze-only replay, targeted identity isolation and byte-identical regeneration now pass. Targeted conflict acceptance and the full Nix gate remain pending. Plan 9 owns Nix generation and build/cache evidence; consumer adoption is separate.
+isolation experiments, and byte-identical regeneration. The earlier 450-package checkpoint
+passed the published solve, zero-downgrade report, negative downgrade, freeze-only replay,
+targeted identity isolation, real conflict experiment and byte-identical regeneration.
+The new Random policy and refreshed stock observations now pass coherent regeneration:
+450 selections, zero downgrades, Random 1.3.1, matching freeze/source replay and byte-identical
+second regeneration. Exact released-source checks justify three scoped non-Effectful bound
+exceptions; the full Nix gate remains pending. Plan 9 owns Nix generation and
+build/cache evidence; consumer adoption is separate.
 
 
 Implementation clarification (2026-10-05): explicit `cabal/policy-roots.json` records dependencies needed by supported configurations whose parent flags cannot all be selected in one union solve, with canonical owners and reasons. Both PostgreSQL discovery helpers remain roots; choosing one parent flag does not remove the other configuration's recorded floor. Solve/check/update commands select the stock compiler binaries independently of updater-shell libraries, so third-party source hashes, metadata and flags are captured in the manifest rather than hidden as pre-existing registrations.
+
+Implementation clarification (2026-10-06): explicit roots also retain historical observed libraries when newer transitive dependencies stop selecting them. Basement, memory and old-time remain at or above their recorded floors even after fresh stock inventories classify them as configured Hackage dependencies. A missing selection remains a downgrade; removing an old transitive edge does not authorize discarding its historical floor.

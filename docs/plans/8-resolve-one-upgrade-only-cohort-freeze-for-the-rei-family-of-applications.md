@@ -83,7 +83,7 @@ This plan owns the shared model/freeze parser, CLI inventory/update/report dispa
 
 ## Progress
 
-- [ ] Targeted dependency update preserves unrelated pins and reports affected application components
+- [x] (2026-10-05) Targeted dependency update preserves unrelated pins and reports affected application components; the real transitive-conflict fixture promotes nothing and preserves all 76 captured inputs.
 
 - [x] (2026-10-05) Prerequisite: plan 15 is Complete; its releases (keiro, keiro-ops, keiro-pgmq, keiro-test-support, kioku-core, shikumi, shikumi-trace, shikumi-cache) are on Hackage and in the channel's `default` package set; record their versions and the channel revision in Surprises & Discoveries.
 - [x] (2026-10-05) Milestone 1: added `cabal/contributors.json` naming the five applications and the `mori-app` library at recorded revisions (with `hasql-effectful` in mori's `excludedDependencies`).
@@ -94,7 +94,7 @@ This plan owns the shared model/freeze parser, CLI inventory/update/report dispa
 - [x] (2026-10-05) Milestone 2: added and tested `cohort stub`, generating the union Cabal package and 337 upgrade-only floors. A cap keeps its package in the stub rather than deleting the dependency.
 - [x] (2026-10-05) Milestone 2: wrote the common/cohort/check configurations at signed index-state 2026-10-05T22:39:44Z, including the subsequent Relay release.
 - [x] (2026-10-05) Milestone 2: retained ten justified scoped exceptions and removed five obsolete proto-lens/haxl entries; a fresh freeze-held solve preserves all 450 package identities. Removed the specified private and Git Streamly exceptions.
-- [x] (2026-10-05) Milestone 2: all floor conflicts resolved with zero downgrades and no Effectful/core exception; source policies and explicit PostgreSQL configuration roots are recorded.
+- [x] (2026-10-06) Milestone 2: re-resolved random >=1.3.1 and the fresh stock inventory without lowering floors: 450 packages, zero downgrades, 31 consumer caps and 19 source-pin observations. Exact released-source compatibility proofs justify three package-qualified non-Effectful exceptions. Freeze/source replay passes; a second solve/report reproduces all five generated artifacts byte-for-byte.
 - [x] (2026-10-05) Milestone 2: broad resolve recipe succeeds; recorded freeze and full source manifest are committed in this checkpoint.
 - [x] (2026-10-05) Milestone 3: added the `cohort report` subcommand and tests for downgrade, cap, first-party lag, source pin and boot packages; a real lowered-freeze negative gate also fails as required.
 - [x] (2026-10-05) Milestone 3: report recipe succeeds; committed report records 450 selected packages, zero downgrades and 30 consumer caps.
@@ -104,6 +104,24 @@ This plan owns the shared model/freeze parser, CLI inventory/update/report dispa
 
 
 ## Surprises & Discoveries
+
+- 2026-10-06: the refreshed solve and source replay pass, but the report correctly rejects three absent historical floors: basement 0.0.16, memory 0.18.0 and old-time 1.1.1.0. Fresh consumer inventories classify them as configured Hackage packages, so the installed-library root rule no longer retains them when newer transitive dependencies drop them. Add explicit policy roots with recorded floors and canonical ownership, following the existing PostgreSQL helper precedent; do not remove or lower historical observations. Acceptance is pending the regenerated report and replay.
+
+- 2026-10-06 acceptance follow-up: explicit historical roots restore all three selections. The regenerated 450-package report has zero downgrades and selects Random 1.3.1; freeze-only replay matches the complete source manifest. A second resolve/report reproduces freeze, source manifest, report, floors and stub byte-for-byte, recorded by `/tmp/mp3-ep8-random-acceptance-hashes.json`. The full Nix gate remains pending under plan 10: bootstrap now passes, while its separate GHC 9.14 matrix exposes lens-family-core's containers upper bound. Do not mark whole-child completion or consumer adoption from these cohort-only results.
+
+- 2026-10-06: batched preflight parses 407 exact Hackage metadata records and all five exact source pins against the 17 raised floors; no source-pin blocker exists. Beyond the handled monad-control cap, only servant-openapi-hs requires two new compatibility lifts. Its exact released 5.1.0 source passes library/executable/spec builds on both QuickCheck/base-compat 2.16/0.14.1 and 2.18/0.15.0: 22 examples, zero failures and 400 generated cases each. All ten modules have identical preprocessed source and exported API; independent negative solves reproduce both caps. Record only the two verified package-qualified exceptions, bound the verified lines below 2.19/0.16, and retire them when published metadata admits those lines. Published base-compat-batteries 0.15.0 resolves naturally. Scratch candidate solve/freezing succeeds; root acceptance is regenerating the same policies. Receipts: `/tmp/mp3-ep8-bound-preflight/receipt.json`, `/tmp/mp3-ep8-monad-source-evidence/evidence.json`, `/tmp/mp3-ep8-servant-openapi-evidence/evidence.json`.
+
+- 2026-10-06: released monad-control 1.0.3.1 builds and all 11 control/transformer semantic checks pass on transformers-compat 0.7.2 and 0.8 under stock GHC 9.12.4. Preprocessed implementation and exported API match. A negative dry run proves the published <0.8 cap is the cause; no published admitting revision or minimal upstream metadata fix exists. Retain one package-qualified exception, restrict the verified dependency line below 0.9, and retire it when published metadata admits 0.8. No Effectful/core exception is added. The subsequent solve reaches servant-openapi-hs 5.1.0's QuickCheck <2.17 cap against the newly observed 2.18 floor; compatibility preflight is now being batched.
+
+- 2026-10-06: Shibuya Core/Metrics 0.10.0.1 is published and verified at `de42f07a874bd7d59aff7e41e7ac07b7333f1397` in `mori://shinzui/shibuya`. Scoped channel refresh and its live online check pass. The signed-index receipt `/tmp/mp3-ep8-shibuya-index-proof.json` verifies both exact tested Cabal metadata hashes before the explicit cutoff 2026-10-06T04:46:00Z. Fresh cohort regeneration reaches a separate conflict: Reiko's stock inventory observes transformers-compat 0.8, but monad-control 1.0.3.1's published metadata requires <0.8. Historical floors remain intact while compatibility is investigated; the old freeze is not acceptance of the refreshed policy.
+
+- 2026-10-05: fresh stock-compiler capture and all six scratch contributor solves passed, and guarded promotion succeeded. Receipt `/tmp/cohort-inventory-candidate-w1rri1xy/receipt.json` records 408 floors (cmdargs added), 17 raised floors including the explicit Random floor, and zero removed/lowered floors. Contributor revisions and recorded channel/deployment observations remain pinned. Freeze regeneration still awaits both Shibuya publications. EP-10's repaired full check subsequently exposed cborg-json 0.2.6.0 revision 4's base <4.22 bound on GHC 9.14; this is separate from the now-passing bootstrap security patches.
+
+- 2026-10-05: the user upgraded the installed Determinate client and daemon to 3.23.0 (Nix daemon 2.35.2). The uncached bootstrap reproducer now inherits finite soft/hard NOFILE 1048576 and GNU patch 2.7.6 succeeds before any in-builder limit adjustment. The full native flake check resumes under EP-10; no whole-plan acceptance is claimed yet.
+
+- 2026-10-05: inventory capture stages by default, records captured compiler/toolchain inputs and a floor delta, and guards policy roots plus complete input file membership. Explicit promotion rejects removed/lowered historical floors and concurrent changes and restores files on interrupted promotion. Seven inventory tests and all 13 Python script tests pass. `cohort-inventory` stages only; `cohort-inventory-refresh` explicitly promotes, and the broad `cohort` recipe uses that refresh before solving.
+
+- 2026-10-05: the real targeted-conflict fixture passes: a requested aeson >=2.3.2.0 fails against retained Dhall 1.42.3's aeson <2.3 source bound, reports explicit transitive unlocks and promotes nothing; all 76 captured inputs are unchanged. Whole acceptance now also includes the user's newly requested Random upgrade. Supported Determinate 3.23.0 recovery is verified against published source; execution did not start because local sudo authentication is required, so the system remains unchanged.
 
 - 2026-10-05: deterministic broad regeneration after pruning reproduces freeze, source manifest and report byte-for-byte, including comments. The freeze-only replay passes, the downgrade-negative gate rejects aeson 2.2.0.0, and formatting/documentation checks pass. Whole-plan completion remains pending targeted-conflict acceptance and the full Nix flake gate: its existing Darwin bootstrap GNU patch 2.7.6 fails under the daemon's unlimited file limit, independently reproduced in EP-10.
 
@@ -157,6 +175,8 @@ These were found while writing the plan (2026-09-26) and shape it. Re-verify the
 
 
 ## Decision Log
+
+- Decision (user, 2026-10-05): move the shared cohort and all consumers to `random >1.3`, represented by an explicit 1.3.1 policy floor. Remove the copied common constraint below 1.3. Fresh stock inventory observes 17 higher floors and cmdargs, with no floor losses; its snapshot remains staged until a compatible Shibuya core/metrics 0.10.0.1 release permits the solve. The old Mori project cap is reported for consumer adoption, without implicitly advancing its recorded contributor revision. The previously committed coherent freeze is a prior validated checkpoint and must be regenerated against this new policy before final acceptance.
 
 - Decision (implementation, 2026-10-05): `cabal/policy-roots.json` explicitly retains both PostgreSQL discovery helpers at their recorded >=0.11 floors, with canonical owners and reasons. The recorded consumer configurations choose opposite `use-pkg-config` values; one union parent flag cannot select both. Keeping both helpers as roots preserves the upgrade-only inventory rather than discarding the inactive helper. The integrated suite passes all 88 tests.
 

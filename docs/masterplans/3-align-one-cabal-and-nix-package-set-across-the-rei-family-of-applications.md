@@ -289,7 +289,7 @@ The goal is less repeated coordination and dependency compilation. Equal version
 - [ ] EP-16: Publish an immutable Keiro runtime generation, exact Cabal/Nix/source projections and guarded application composition API
 - [ ] EP-16: Prove two composed applications share runtime builds, explicit runtime upgrades preserve unrelated selections, and fresh workers substitute cached outputs
 
-- [ ] EP-8: Targeted dependency updates preserve unrelated pins and report affected applications/components
+- [x] (2026-10-05) EP-8: Targeted dependency updates preserve unrelated pins and report affected applications/components; the real conflict fixture leaves all 76 inputs unchanged.
 - [ ] EP-9: Structured manifests and recursive lock resolution reject false parity, including static-link and duplicate-version fixtures
 - [ ] EP-9: Shared dependency outputs are published and available to configured CI workers
 - [ ] EP-14: Recorded update-isolation and cache-reuse measurements meet the time-saving acceptance contract
@@ -313,6 +313,10 @@ The goal is less repeated coordination and dependency compilation. Equal version
 
 
 ## Surprises & Discoveries
+
+- Observation (2026-10-06): Shibuya Core/Metrics 0.10.0.1 is published and verified in `mori://shinzui/shibuya`; its scoped channel refresh and live check pass. EP-8's refreshed stock inventory and Random policy now yield 450 selections, zero downgrades and Random 1.3.1. Exact released-source proofs justify three scoped non-Effectful exceptions; explicit roots retain three historical libraries. Freeze/source replay and byte-identical second regeneration pass. EP-10's scoped GHC 9.14 repairs pass native/Linux targets and 58 policy tests; its full check clears bootstrap and reaches a separate lens-family-core containers bound. Whole-child completion remains pending the full gate and final handoff.
+
+- Observation (2026-10-05): the user upgraded Determinate to 3.23.0; the running Nix daemon reports 2.35.2. A freshly executed bootstrap reproducer now inherits finite NOFILE 1048576 and GNU patch 2.7.6 succeeds without the prior workaround. EP-10 resumes the full native flake gate. EP-8's explicit Random upgrade remains pending Shibuya publication and coherent regeneration; the daemon repair alone does not complete either child.
 
 - Observation (2026-10-05 checkpoint): EP-8 now commits the published shared freeze at `4e3a626`: 450 selections, zero downgrades, Effectful 2.7.1.0/core 2.7.1.2, Keiki/JSON codec 0.9.1.0, complete Hackage source/metadata identities and retained public Cmark fix. Freeze-only replay, targeted unrelated-identity isolation, a negative downgrade check, five-exception pruning and byte-identical regeneration pass. EP-8 remains In Progress pending the targeted-conflict/fresh-inventory gates and the full Nix check. EP-10's policies pass native/Linux builds, 51 unit tests and the 58-test GHC 9.14 admitting-release target; broad Nix validation is blocked by a reproduced Darwin bootstrap GNU patch 2.7.6/unlimited-NOFILE daemon issue, not an unresolved Haskell dependency conflict. EP-12 M1 is independently verified and committed in its owning repository; adoption remains gated. No deployed application changes are claimed.
 
@@ -353,6 +357,8 @@ The goal is less repeated coordination and dependency compilation. Equal version
 
 
 ## Decision Log
+
+- Decision (user, 2026-10-05): upgrade the shared cohort and all consumers to random >1.3. EP-8 records a 1.3.1 floor and stages the refreshed stock inventory; a compatible Shibuya core/metrics patch release is required before accepting the new solve. EP-12 removes the obsolete Mori project cap during adoption. The prior committed freeze is a validated earlier checkpoint, not acceptance of this new policy.
 
 - Decision (user request, 2026-10-05): run independent work concurrently. Keep EP-8's solver/model ownership with the primary agent, assign shared-policy/audit work to EP-10 and only independent Hasql vendoring to EP-12, and perform read-only EP-16 inventory before its prerequisites complete. The required relay compatibility release uses a separate worker and its repository release gates. Consumer adoption and runtime delivery retain their existing hard dependencies.
 

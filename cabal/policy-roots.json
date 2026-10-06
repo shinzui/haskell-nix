@@ -1,5 +1,23 @@
 [
   {
+    "package": "basement",
+    "range": ">=0.0.16",
+    "reason": "Retain the recorded channel and mori://shinzui/mina consumer/deployed floor when newer transitive dependencies stop selecting this library; absence remains a downgrade.",
+    "owner": "mori://shinzui/mina"
+  },
+  {
+    "package": "memory",
+    "range": ">=0.18.0",
+    "reason": "Retain the recorded channel and mori://shinzui/mina consumer/deployed floor when newer transitive dependencies stop selecting this library; absence remains a downgrade.",
+    "owner": "mori://shinzui/mina"
+  },
+  {
+    "package": "old-time",
+    "range": ">=1.1.1.0",
+    "reason": "Retain the recorded channel, mori://shinzui/mina consumer and deployed family floor when newer transitive dependencies stop selecting this library; absence remains a downgrade.",
+    "owner": "mori://shinzui/mina"
+  },
+  {
     "package": "postgresql-libpq-configure",
     "range": ">=0.11",
     "reason": "Retain pg_config discovery used by mori://shinzui/rei, mori://shinzui/mori-rei-app and mori://shinzui/mori-app; the union solve selects one postgresql-libpq flag configuration.",
