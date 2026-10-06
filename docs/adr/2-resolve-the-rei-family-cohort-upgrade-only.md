@@ -26,8 +26,9 @@ not establish a Hackage floor. Retain exact source identities separately, includ
 forks, rather than pretending that equal version strings imply equal sources.
 
 Use distinct policy floors of Effectful 2.7.1.0 and effectful-core 2.7.1.1, and Random 1.3.1
-(the user's 2026-10-05 decision to move above 1.3). Observed versions
-can raise these floors further. Do not bridge either policy with allow-newer. Resolve a
+(the user's 2026-10-05 decision to move above 1.3), and ephemeral-pg 0.3.1.0
+(the user's 2026-10-06 decision to retire 0.2 and fix abandoned-cluster cleanup). Observed versions
+can raise these floors further. Do not bridge these policy floors with allow-newer. Resolve a
 conflict through an admitting release or a documented scoped exception for another package;
 record the declared bound, compatibility evidence and retirement condition. Never silently
 lower a floor or remove a capped dependency from the solve.
@@ -85,3 +86,5 @@ build/cache evidence; consumer adoption is separate.
 Implementation clarification (2026-10-05): explicit `cabal/policy-roots.json` records dependencies needed by supported configurations whose parent flags cannot all be selected in one union solve, with canonical owners and reasons. Both PostgreSQL discovery helpers remain roots; choosing one parent flag does not remove the other configuration's recorded floor. Solve/check/update commands select the stock compiler binaries independently of updater-shell libraries, so third-party source hashes, metadata and flags are captured in the manifest rather than hidden as pre-existing registrations.
 
 Implementation clarification (2026-10-06): explicit roots also retain historical observed libraries when newer transitive dependencies stop selecting them. Basement, memory and old-time remain at or above their recorded floors even after fresh stock inventories classify them as configured Hackage dependencies. A missing selection remains a downgrade; removing an old transitive edge does not authorize discarding its historical floor.
+
+Cleanup configuration (2026-10-06): adopting ephemeral-pg 0.3.1.0 also requires consumers to set a short, stable, effective-user-ID-specific `temporaryRoot`, shared by their suites across shell sessions, and retain enabled startup sweeping. Configless `with`/`withCached` wrappers inherit a changing `$TMPDIR` and cannot implement this contract. Use config-taking wrappers or existing stable configuration helpers while preserving custom PostgreSQL settings. The reference implementation and guide belong to `mori://shinzui/ephemeral-pg`; project-relative path `docs/guides/temporary-roots-and-stale-cleanup.md` (artifact-level URI pending). [Plan 17](../plans/17-upgrade-every-ephemeral-postgresql-consumer-to-stable-cleanup-roots.md) tracks cross-project configuration adoption and release evidence.

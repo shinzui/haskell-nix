@@ -168,6 +168,7 @@ Phase 3 (plan 14) comes last because it is the only place all five meet: the dot
 |---|-------|------|-----------|-----------|--------|
 | 15 | Release the first-party libraries on effectful 2.7 | docs/plans/15-release-the-first-party-libraries-on-effectful-2-7.md | None | None | Complete |
 | 8 | Resolve one upgrade-only cohort freeze for the Rei family of applications | docs/plans/8-resolve-one-upgrade-only-cohort-freeze-for-the-rei-family-of-applications.md | EP-15 | None | In Progress |
+| 17 | Upgrade every ephemeral PostgreSQL consumer to stable cleanup roots | docs/plans/17-upgrade-every-ephemeral-postgresql-consumer-to-stable-cleanup-roots.md | None | EP-8, EP-9, EP-10 | In Progress |
 | 9 | Generate the Nix package set from the cohort freeze and guard version parity | docs/plans/9-generate-the-nix-package-set-from-the-cohort-freeze-and-guard-version-parity.md | EP-8 | None | Not Started |
 | 10 | Own the shared third-party overrides in the channel instead of consumer overlays | docs/plans/10-own-the-shared-third-party-overrides-in-the-channel-instead-of-consumer-overlays.md | None | EP-9 | In Progress |
 | 16 | Create the Keiro runtime package set and compose applications on it | docs/plans/16-create-the-keiro-runtime-package-set-and-compose-applications-on-it.md | EP-9, EP-10 | None | Not Started |
@@ -178,10 +179,12 @@ Phase 3 (plan 14) comes last because it is the only place all five meet: the dot
 
 Status values: Not Started, In Progress, Complete, Cancelled.
 EP-12's current work is its explicitly independent Hasql-vendoring Milestone 1; cohort/runtime adoption still waits for its hard dependencies. On 2026-10-05 the user requested parallel execution: EP-10, EP-12 M1 and the relay compatibility release run concurrently with EP-8. EP-16's read-only runtime inventory is preparation, not completion of its prerequisite-dependent implementation.
-Hard Deps and Soft Deps reference other rows by their # prefix (e.g., EP-8). This repository numbers ExecPlans globally, so this MasterPlan's children are 8 through 16. Plan 15 was added after the others, on the user's decision to move the whole family to effectful 2.7; it runs first.
+Hard Deps and Soft Deps reference other rows by their # prefix (e.g., EP-8). This repository numbers ExecPlans globally, so this MasterPlan's children are 8 through 17. Plan 15 was added on the user's decision to move the whole family to effectful 2.7; it runs first. Plan 17 adds the user's later cross-project ephemeral PostgreSQL cleanup migration.
 
 
 ## Dependency Graph
+
+**Plan 17 is a user-requested extension (2026-10-06).** Retire ephemeral-pg 0.2 across registered first-party consumers and set stable per-effective-user temporary roots so startup sweeping works across sessions. Source/configuration migrations and patch-release gates run in parallel with shared Nix policy. Plans 8–10 retain solver/projection/policy ownership and incorporate the new release inputs before final acceptance; version agreement alone does not prove cleanup configuration. Plan 17's wider consumer audit supplements the initial Rei-family contributors without silently treating those extra applications as original cohort inputs.
 
 **Plan 15 comes first.** On 2026-09-26 the user chose effectful 2.7 across the whole family, with no `allow-newer` bridge. These releases cap `effectful` below 2.7:
 - `keiro`, `keiro-ops`, `keiro-pgmq` and `keiro-test-support` 0.19
@@ -314,6 +317,7 @@ The goal is less repeated coordination and dependency compilation. Equal version
 
 ## Surprises & Discoveries
 
+- Observation (2026-10-06, EP-17): the user requires all ephemeral-pg consumers to move to 0.3.1 and stable-root cleanup. Configless wrappers still miss abandoned clusters even where Cabal already selects 0.3.1. Source audits find extra dependents absent from registry declarations; runtime helpers in Keiro/Kiroku/pg-migrate already comply. Main consumer/source migrations are underway, with patch releases for remaining Kioku/Relay/Shikumi gaps. Shomei needs the admitting pg-migrate 1.2 family. Host load above 430 prompted bounded, sequential owned build jobs; no global daemon setting changed. Full migration acceptance is pending recorded tests and selection refreshes.
 - Observation (2026-10-06): Shibuya Core/Metrics 0.10.0.1 is published and verified in `mori://shinzui/shibuya`; its scoped channel refresh and live check pass. EP-8's refreshed stock inventory and Random policy now yield 450 selections, zero downgrades and Random 1.3.1. Exact released-source proofs justify three scoped non-Effectful exceptions; explicit roots retain three historical libraries. Freeze/source replay and byte-identical second regeneration pass. EP-10's scoped GHC 9.14 repairs pass native/Linux targets and 58 policy tests; its full check clears bootstrap and reaches a separate lens-family-core containers bound. Whole-child completion remains pending the full gate and final handoff.
 
 - Observation (2026-10-05): the user upgraded Determinate to 3.23.0; the running Nix daemon reports 2.35.2. A freshly executed bootstrap reproducer now inherits finite NOFILE 1048576 and GNU patch 2.7.6 succeeds without the prior workaround. EP-10 resumes the full native flake gate. EP-8's explicit Random upgrade remains pending Shibuya publication and coherent regeneration; the daemon repair alone does not complete either child.
