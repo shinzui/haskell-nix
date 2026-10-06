@@ -8,6 +8,12 @@ let
     hself.ghc.version = compiler;
     haskellLib.overrideCabal = update: drv: drv // update drv;
   };
+  dhallCompatibilityRepair = compiler: version: import ../patches/dhall/1.42.3-ghc914.nix {
+    inherit lib;
+    pkg = { inherit version; postPatch = "existing hook\n"; doCheck = true; };
+    hself.ghc.version = compiler;
+    haskellLib.overrideCabal = update: drv: drv // update drv;
+  };
   admittingRevisionFixture = compiler: version: import ../patches/metadata/admitting-revision-ghc914.nix
     {
       version = "1.2.3";
@@ -189,6 +195,11 @@ let
 in
 {
   testCborgMetadataUnchangedOnGhc912 = { expr = (cborgMetadataRepair "9.12.4" "0.2.6.0").postPatch; expected = "existing hook\n"; };
+  testDhallRepairRetainsGhc912 = { expr = (dhallCompatibilityRepair "9.12.4" "1.42.3").postPatch; expected = "existing hook\n"; };
+  testDhallRepairRetainsFutureCompiler = { expr = (dhallCompatibilityRepair "9.15.0" "1.42.3").postPatch; expected = "existing hook\n"; };
+  testDhallRepairRetiresOnNewRelease = { expr = (dhallCompatibilityRepair "9.14.1" "1.42.4").postPatch; expected = "existing hook\n"; };
+  testDhallRepairPreservesHook = { expr = lib.hasPrefix "existing hook\n" (dhallCompatibilityRepair "9.14.1" "1.42.3").postPatch; expected = true; };
+  testDhallRepairPreservesTests = { expr = (dhallCompatibilityRepair "9.14.1" "1.42.3").doCheck; expected = true; };
   testCborgMetadataUnchangedOnGhc915 = { expr = (cborgMetadataRepair "9.15.0" "0.2.6.0").postPatch; expected = "existing hook\n"; };
   testCborgMetadataUnchangedOnNewVersion = { expr = (cborgMetadataRepair "9.14.1" "0.2.6.1").postPatch; expected = "existing hook\n"; };
   testCborgMetadataRepairPreservesHook = { expr = lib.hasPrefix "existing hook\n" (cborgMetadataRepair "9.14.1" "0.2.6.0").postPatch; expected = true; };

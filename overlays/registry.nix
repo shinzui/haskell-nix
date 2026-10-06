@@ -239,7 +239,9 @@ in
   # dhall's `use-http-client-tls` flag pins http-client-tls <0.4. Relax the
   # bound rather than disabling the flag: without the flag every remote Dhall
   # import throws `TlsNotSupported` at runtime, on cache miss only.
-  dhall = always (import ../patches/dhall/keep-http-client-tls.nix);
+  dhall = always (args: import ../patches/dhall/keep-http-client-tls.nix (args // {
+    pkg = import ../patches/dhall/1.42.3-ghc914.nix args;
+  }));
   # dhall-1.42.3 depends on the latest Hackage repline release, 0.4.3.0.
   # That release caps containers below 0.8 even though its API usage remains
   # compatible; GHC 9.14.1 ships containers-0.8.
