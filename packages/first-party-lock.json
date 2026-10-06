@@ -473,6 +473,100 @@
         },
         {
             "discoveryPolicy": {
+                "excludedPackages": [],
+                "packageOverrides": {}
+            },
+            "family": "baikai",
+            "generation": 6,
+            "packages": [
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-YF6BEQvWqegthAJSjNa+yOSpexuENpSzFZehN/+2DjQ=",
+                        "version": "0.7.2.0"
+                    },
+                    "name": "baikai",
+                    "path": "baikai",
+                    "version": "0.7.2.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-mbD++i7QgCX3/ByZQx5jLLSoUbZ9lh1/e4Fd/jSqYXU=",
+                        "version": "0.2.0.1"
+                    },
+                    "name": "baikai-agent",
+                    "path": "baikai-agent",
+                    "version": "0.2.0.1"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-HskzJuUC3ZTYcQQcTLbV/IJ030fvCm5oDEEddNdH46M=",
+                        "version": "0.7.1.0"
+                    },
+                    "name": "baikai-claude",
+                    "path": "baikai-claude",
+                    "version": "0.7.1.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-SgcvuYmfJt8bF4WU5MCKQzTCBkAPdsy5G5X3nwPVPd0=",
+                        "version": "0.4.0.2"
+                    },
+                    "name": "baikai-effectful",
+                    "path": "baikai-effectful",
+                    "version": "0.4.0.2"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-k3Njva+Rb/K8G1fzN7UXUsNvTu/T7UoWEYyxnJh50fw=",
+                        "version": "0.4.0.0"
+                    },
+                    "name": "baikai-kit",
+                    "path": "baikai-kit",
+                    "version": "0.4.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-2d/u91NmFK+Na+/3T2JxfsgbYGTH5GZXa4oXDL4eslM=",
+                        "version": "0.7.1.0"
+                    },
+                    "name": "baikai-openai",
+                    "path": "baikai-openai",
+                    "version": "0.7.1.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": null,
+                    "name": "baikai-smoke",
+                    "path": "baikai-smoke",
+                    "version": "0.1.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-sPDgrw7EabbotyAi5iT2AE4r1dV2s1HvUfMLjGqMkfc=",
+                        "version": "0.4.0.1"
+                    },
+                    "name": "baikai-trace-otel",
+                    "path": "baikai-trace-otel",
+                    "version": "0.4.0.1"
+                }
+            ],
+            "source": {
+                "narHash": "sha256-cHdbwHVwVBIehgOiRqtqZBCE5nCSh3ITTOD0IeBUKUQ=",
+                "owner": "shinzui",
+                "repo": "baikai",
+                "rev": "e95544f27e9e0a571145a8eab0b27a646968f3ce",
+                "type": "github"
+            }
+        },
+        {
+            "discoveryPolicy": {
                 "excludedPackages": [
                     "jitsurei"
                 ],
@@ -1353,6 +1447,73 @@
                 "owner": "shinzui",
                 "repo": "kioku",
                 "rev": "7c2f983f0bf5ce0c32d6635287c18c96403a7d15",
+                "type": "github"
+            }
+        },
+        {
+            "discoveryPolicy": {
+                "excludedPackages": [],
+                "packageOverrides": {}
+            },
+            "family": "kioku",
+            "generation": 5,
+            "packages": [
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-bWG8ZrfXmTz2v8qcnA+gZr3AiN9jVnsJeEyL1HPgDUg=",
+                        "version": "0.8.0.2"
+                    },
+                    "name": "kioku-api",
+                    "path": "kioku-api",
+                    "version": "0.8.0.2"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-kJbqdJ0H34i0CK6sJ64Qvw5C8mBisDItye8XKgnS+II=",
+                        "version": "0.8.0.2"
+                    },
+                    "name": "kioku-cli",
+                    "path": "kioku-cli",
+                    "version": "0.8.0.2"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-P9Hv1s/M/lvH/I50GXatwumsKonqnPx8iqJSM6seuIM=",
+                        "version": "0.8.0.2"
+                    },
+                    "name": "kioku-core",
+                    "path": "kioku-core",
+                    "version": "0.8.0.2"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-8HNmyVdbGgfJBf7S4xk+PaKLkRI/V3PowTzVpoVKUkE=",
+                        "version": "0.8.0.2"
+                    },
+                    "name": "kioku-migrate",
+                    "path": "kioku-migrate",
+                    "version": "0.8.0.2"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-h8z7H1FHe903ecJBykzLWK/Y8YYr4kKD6INr8JMr+TY=",
+                        "version": "0.8.0.2"
+                    },
+                    "name": "kioku-migrations",
+                    "path": "kioku-migrations",
+                    "version": "0.8.0.2"
+                }
+            ],
+            "source": {
+                "narHash": "sha256-7FG4pKK8H4zZnICRg4sXHzAuvBz1nEwTpZmr7UEIOIk=",
+                "owner": "shinzui",
+                "repo": "kioku",
+                "rev": "d93992ddeb7c888e4b6e45654e325e66ecb85ac3",
                 "type": "github"
             }
         },
@@ -2245,6 +2406,63 @@
                 "owner": "shinzui",
                 "repo": "relay-pagination",
                 "rev": "634ef07eaa27676be0edda330209f0710abb145b",
+                "type": "github"
+            }
+        },
+        {
+            "discoveryPolicy": {
+                "excludedPackages": [],
+                "packageOverrides": {}
+            },
+            "family": "relay-pagination",
+            "generation": 3,
+            "packages": [
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-wXCvAMSg6PgIbjAX9JVitB2ft5Oz+FoloirhcET6vqs=",
+                        "version": "0.1.1.2"
+                    },
+                    "name": "relay-pagination",
+                    "path": "relay-pagination",
+                    "version": "0.1.1.2"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-mwVK+Cj21TWwdp95ghO2chbC0H1Q50kf9kwJ18hK9c8=",
+                        "version": "0.1.1.2"
+                    },
+                    "name": "relay-pagination-conformance",
+                    "path": "relay-pagination-conformance",
+                    "version": "0.1.1.2"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-bLm3clLcZgqUq0l5SQCJQ2ZEDyJJnRVLOQxEiULCmnY=",
+                        "version": "0.1.1.2"
+                    },
+                    "name": "relay-pagination-hasql",
+                    "path": "relay-pagination-hasql",
+                    "version": "0.1.1.2"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-lS5vAVwoDdpFDee061Yx242F+aqFPYDxKpC2+s9pVaQ=",
+                        "version": "0.1.1.2"
+                    },
+                    "name": "relay-pagination-servant",
+                    "path": "relay-pagination-servant",
+                    "version": "0.1.1.2"
+                }
+            ],
+            "source": {
+                "narHash": "sha256-BXBkXA0c0IarUQNwuBDuzbs3IEJQ7TsvicUx882+dOE=",
+                "owner": "shinzui",
+                "repo": "relay-pagination",
+                "rev": "4f8cfbaf0bc82394482df9e30233a5eafca1ddf7",
                 "type": "github"
             }
         },
@@ -3284,6 +3502,154 @@
                 "rev": "c22efb9efbf23ef4093c36070aced5e8e09dd2e0",
                 "type": "github"
             }
+        },
+        {
+            "discoveryPolicy": {
+                "excludedPackages": [],
+                "packageOverrides": {}
+            },
+            "family": "shikumi",
+            "generation": 6,
+            "packages": [
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-MrQPAbB4FF4QND5DsHTYfhrb2kyiAPmY6vzsq+6VfhU=",
+                        "version": "0.4.1.0"
+                    },
+                    "name": "shikumi",
+                    "path": "shikumi",
+                    "version": "0.4.1.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-l4NNtDPTLJGW1gyDmqfVNbMXkvgLnUXRCCOAjQ/bJFQ=",
+                        "version": "0.2.0.1"
+                    },
+                    "name": "shikumi-cache",
+                    "path": "shikumi-cache",
+                    "version": "0.2.0.1"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-79FpLkcPmgUJx2HW0BkyNnesxgk4c32IGhf4SqEII4Y=",
+                        "version": "0.1.3.2"
+                    },
+                    "name": "shikumi-cache-postgres",
+                    "path": "shikumi-cache-postgres",
+                    "version": "0.1.3.2"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-5aBWR6QauEvAWQtCgv7oBulCpbuo7kUyOXpSqkSivsU=",
+                        "version": "0.1.3.1"
+                    },
+                    "name": "shikumi-cache-redis",
+                    "path": "shikumi-cache-redis",
+                    "version": "0.1.3.1"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": null,
+                    "name": "shikumi-cli",
+                    "path": "shikumi-cli",
+                    "version": "0.1.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-4T2ElU89WHkVIsAolYArDCCMlftFZNE35TSgczBFnv0=",
+                        "version": "0.2.1.1"
+                    },
+                    "name": "shikumi-compile",
+                    "path": "shikumi-compile",
+                    "version": "0.2.1.1"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-hl3Dp7cz3r8JATlEfVSDb+BYd4ZI9ItZXMdKpvi68rk=",
+                        "version": "0.3.0.1"
+                    },
+                    "name": "shikumi-eval",
+                    "path": "shikumi-eval",
+                    "version": "0.3.0.1"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": null,
+                    "name": "shikumi-jitsurei",
+                    "path": "shikumi-jitsurei",
+                    "version": "0.1.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-pD/AOiQWo12Oi3U2+EtkBipBfaFpe9S2cKH2gTgkrIM=",
+                        "version": "0.2.1.1"
+                    },
+                    "name": "shikumi-okf",
+                    "path": "shikumi-okf",
+                    "version": "0.2.1.1"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-xV0wET6hRKboxNFd2ZDyT3yZkt2zlgINBYorsENwiwE=",
+                        "version": "0.3.0.1"
+                    },
+                    "name": "shikumi-optimize",
+                    "path": "shikumi-optimize",
+                    "version": "0.3.0.1"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": null,
+                    "name": "shikumi-testing",
+                    "path": "shikumi-testing",
+                    "version": "0.1.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-B21rtTB/uTIcnwh5S6wK8UZK5XU0E/rtwxg3fn/SzEs=",
+                        "version": "0.4.1.0"
+                    },
+                    "name": "shikumi-tools",
+                    "path": "shikumi-tools",
+                    "version": "0.4.1.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-EpT6iMV/sXvQJLV2gU0u7g/dGa6lOu5hIKwdBgVv6vI=",
+                        "version": "0.3.0.1"
+                    },
+                    "name": "shikumi-trace",
+                    "path": "shikumi-trace",
+                    "version": "0.3.0.1"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-0gBgd/JFQ+q5vrzo7eJMp20ifxK7jV0qzwIBN4maffc=",
+                        "version": "0.1.2.1"
+                    },
+                    "name": "shikumi-trace-otel",
+                    "path": "shikumi-trace-otel",
+                    "version": "0.1.2.1"
+                }
+            ],
+            "source": {
+                "narHash": "sha256-LF4JcegYy4K0zYD6fF0agv8DFwPv7VEOAt1y7uyBe+A=",
+                "owner": "shinzui",
+                "repo": "shikumi",
+                "rev": "5d2249696783c3a589d07b830c0fcc316c59fddb",
+                "type": "github"
+            }
         }
     ],
     "groupSnapshots": [
@@ -3417,6 +3783,17 @@
                 }
             ],
             "generation": 4,
+            "group": "kioku"
+        },
+        {
+            "compatibilityProfile": "default",
+            "families": [
+                {
+                    "family": "kioku",
+                    "generation": 5
+                }
+            ],
+            "generation": 5,
             "group": "kioku"
         },
         {
@@ -3588,6 +3965,17 @@
             "compatibilityProfile": "default",
             "families": [
                 {
+                    "family": "relay-pagination",
+                    "generation": 3
+                }
+            ],
+            "generation": 3,
+            "group": "relay-pagination"
+        },
+        {
+            "compatibilityProfile": "default",
+            "families": [
+                {
                     "family": "servant-openapi-hs",
                     "generation": 1
                 }
@@ -3739,6 +4127,21 @@
             ],
             "generation": 6,
             "group": "shikumi-baikai"
+        },
+        {
+            "compatibilityProfile": "default",
+            "families": [
+                {
+                    "family": "baikai",
+                    "generation": 6
+                },
+                {
+                    "family": "shikumi",
+                    "generation": 6
+                }
+            ],
+            "generation": 7,
+            "group": "shikumi-baikai"
         }
     ],
     "packageSets": [
@@ -3753,7 +4156,7 @@
                     "group": "keiro"
                 },
                 {
-                    "generation": 4,
+                    "generation": 5,
                     "group": "kioku"
                 },
                 {
@@ -3777,7 +4180,7 @@
                     "group": "pgmq-hs"
                 },
                 {
-                    "generation": 1,
+                    "generation": 3,
                     "group": "relay-pagination"
                 },
                 {
@@ -3793,7 +4196,7 @@
                     "group": "shibuya"
                 },
                 {
-                    "generation": 6,
+                    "generation": 7,
                     "group": "shikumi-baikai"
                 }
             ],
