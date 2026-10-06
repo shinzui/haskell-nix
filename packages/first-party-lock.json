@@ -2395,6 +2395,57 @@
                 "excludedPackages": [],
                 "packageOverrides": {}
             },
+            "family": "shibuya",
+            "generation": 3,
+            "packages": [
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-9uOUCAvYJeH+LcAK1lWT0LLuYRz7XL7MhsQv6DcPN2U=",
+                        "version": "0.10.0.1"
+                    },
+                    "name": "shibuya-core",
+                    "path": "shibuya-core",
+                    "version": "0.10.0.1"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": null,
+                    "name": "shibuya-core-bench",
+                    "path": "shibuya-core-bench",
+                    "version": "0.1.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": null,
+                    "name": "shibuya-example",
+                    "path": "shibuya-example",
+                    "version": "0.1.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-UslP8Y3Lmq4y6JjUOdM3KJSl9Hj5zwzUoKGnpz4EU8A=",
+                        "version": "0.10.0.1"
+                    },
+                    "name": "shibuya-metrics",
+                    "path": "shibuya-metrics",
+                    "version": "0.10.0.1"
+                }
+            ],
+            "source": {
+                "narHash": "sha256-L3gTzAFB7oFEYORNSvFcPgM9xUT7/SfJWsDQySQ4Nb0=",
+                "owner": "shinzui",
+                "repo": "shibuya",
+                "rev": "de42f07a874bd7d59aff7e41e7ac07b7333f1397",
+                "type": "github"
+            }
+        },
+        {
+            "discoveryPolicy": {
+                "excludedPackages": [],
+                "packageOverrides": {}
+            },
             "family": "shikumi",
             "generation": 1,
             "packages": [
@@ -3448,6 +3499,17 @@
             "compatibilityProfile": "default",
             "families": [
                 {
+                    "family": "shibuya",
+                    "generation": 3
+                }
+            ],
+            "generation": 3,
+            "group": "shibuya"
+        },
+        {
+            "compatibilityProfile": "default",
+            "families": [
+                {
                     "family": "baikai",
                     "generation": 1
                 },
@@ -3583,7 +3645,7 @@
                     "group": "settei"
                 },
                 {
-                    "generation": 2,
+                    "generation": 3,
                     "group": "shibuya"
                 },
                 {
