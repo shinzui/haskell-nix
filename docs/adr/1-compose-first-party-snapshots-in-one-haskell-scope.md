@@ -4,6 +4,8 @@ Status: Accepted for implementation; production migration is pending.
 
 Date: 2026-09-21
 
+Revised: 2026-10-06
+
 ## Context
 
 The current first-party lock keeps one observation per repository. Updating the default
@@ -39,6 +41,13 @@ receive new names. Deduplicate profile names, reject overlaps between distinct p
 reject profiles overriding selected first-party packages. A shared workaround can be expressed
 as one profile referenced by several groups. These profiles affect the whole Haskell scope,
 so all dependents of a changed shared dependency must be checked.
+
+Generated first-party entries own source selection. An explicitly scoped common compiler
+compatibility recipe may run after that selected entry, preserving its source, dependency
+bounds and test policy. This is distinct from a compatibility profile replacing a selected
+first-party package, which remains forbidden. Version/compiler guards and reviewed source
+hashes must prevent an untested future release from inheriting the workaround. A recipe that
+does not apply must preserve the original derivation identity.
 
 The initial version-2 schema fixes family identities and the update-group partition. Adding,
 removing, or regrouping families requires an explicit future catalog migration. This is a
