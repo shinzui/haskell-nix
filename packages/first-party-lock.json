@@ -1662,6 +1662,43 @@
                 "excludedPackages": [],
                 "packageOverrides": {}
             },
+            "family": "okf",
+            "generation": 4,
+            "packages": [
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-sAIGsGCcRiZSG2PjfaikApdxbjPS6DqijItIQ6FZZGc=",
+                        "version": "0.10.0.0"
+                    },
+                    "name": "okf-cli",
+                    "path": "okf-cli",
+                    "version": "0.10.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-SnxlWd8d4MJrcIXv+tMF6xqUzi6L3POcbGg8BbLbd4M=",
+                        "version": "0.10.0.0"
+                    },
+                    "name": "okf-core",
+                    "path": "okf-core",
+                    "version": "0.10.0.0"
+                }
+            ],
+            "source": {
+                "narHash": "sha256-QnABmBTVQ486/UBDgFhGzczRKEYIc1quMvxVyPqkCRo=",
+                "owner": "shinzui",
+                "repo": "okf",
+                "rev": "b57510200f949a72d48cb009d932be1d1cc11888",
+                "type": "github"
+            }
+        },
+        {
+            "discoveryPolicy": {
+                "excludedPackages": [],
+                "packageOverrides": {}
+            },
             "family": "openapi-hs",
             "generation": 1,
             "packages": [
@@ -3404,6 +3441,17 @@
             "compatibilityProfile": "default",
             "families": [
                 {
+                    "family": "okf",
+                    "generation": 4
+                }
+            ],
+            "generation": 4,
+            "group": "okf"
+        },
+        {
+            "compatibilityProfile": "default",
+            "families": [
+                {
                     "family": "openapi-hs",
                     "generation": 1
                 }
@@ -3665,7 +3713,7 @@
                     "group": "kiroku"
                 },
                 {
-                    "generation": 3,
+                    "generation": 4,
                     "group": "okf"
                 },
                 {

@@ -192,11 +192,11 @@
     "okf-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1791319816,
-        "narHash": "sha256-rizwuvq7hZSqy4Jn1gQn1ZHtZXcBJvweMGYp6LPwois=",
+        "lastModified": 1791321028,
+        "narHash": "sha256-QnABmBTVQ486/UBDgFhGzczRKEYIc1quMvxVyPqkCRo=",
         "owner": "shinzui",
         "repo": "okf",
-        "rev": "23651f99e4085ab17fac4fffa623a02428c91a19",
+        "rev": "b57510200f949a72d48cb009d932be1d1cc11888",
         "type": "github"
       },
       "original": {
