@@ -45,7 +45,10 @@ Retire ephemeral-pg 0.2 from all registered first-party consumers and their Nix 
 - [ ] Compile/test every changed consumer and verify stable-root behavior across different TMPDIR sessions, including killed-owner cleanup while retaining a live consumer.
 - [ ] Regenerate MLS and Koyomi freezes through held-pin solves, preserving unrelated selections; update the old Koyomi index cutoff only as required to admit the release.
 - [ ] Complete the shared/standalone Nix recipes and targeted Darwin/Linux checks. Channel guard tests currently pass 61 cases; full acceptance is pending.
-- [ ] Publish gated Kioku 0.8.0.2, Relay 0.1.1.2 and Shikumi cache-postgres 0.1.3.2 compatibility patches through their release skills; refresh only their channel generations and the shared cohort afterward.
+- [x] (2026-10-06) Publish and verify Kioku 0.8.0.2, Relay 0.1.1.2 and Shikumi cache-postgres 0.1.3.2 through their release skills: ten source packages, nine documentation archives, 22 suites and 1,305 tests passed. Exact source/Cabal/tag evidence is preserved in `/tmp/mp3-ep17-runtime-releases.json`.
+- [ ] Refresh the published runtime channel generations and shared cohort with an observed signed index cutoff admitting all ten release entries.
+- [x] (2026-10-06) Remaining four consumers pass 1,363 tests plus eight exact-function configuration guards: MessageDB 22, registration 911, Shibuya MessageDB adapter 37 and MLS 393. Commits are clean; MessageDB uses an external working toolchain because its own private dependency host is unavailable. The two archived consumers retain their historical cutoffs through an exact published ephemeral-pg source pin.
+- [x] (2026-10-06) Root batch compilation completes for all seven targets after retries: Shibuya PGMQ explicitly enables tests; Kawa uses its declared native Kafka shell. En/Shomei/Shiki database suites pass; PGMQ/adapter/benchmark/Kawa compilation alone does not claim those suites ran.
 - [ ] Commit verified consumer changes with canonical trailers, push authorized repositories, update the session retrospective and final audit. Mori push/deployment remains a separate coordinated step.
 
 
