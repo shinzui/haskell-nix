@@ -99,6 +99,8 @@ Milestone 4's old-consumer builds are diagnostic rehearsals. A failure caused by
 
 ## Progress
 
+- [x] 2026-10-06: GHC 9.14 cborg-json 0.2.6.0 repair passes its preserved test suite (1/1); dec 0.0.6 passes using published admitting revision 2 (no test suites in that package). Seven compiler/version/hook/test-policy guard fixtures pass with the existing suite, 58/58 overall.
+- [x] 2026-10-06: Targeted native/Linux checks pass for the exact GHC 9.14 metadata repairs, including the locally verified tasty-wai bounds. The fresh required broad native check is running as session 77339; EP-10 remains In Progress pending its result.
 - [x] 2026-10-05: Audit accepts generated/frozen/source/runtime shared ownership names.
 - [x] 2026-10-05: Pre-adoption consumer rehearsals deferred to EP-11–13 by the MasterPlan owner under the Oct4 review. The optional Rei run was stopped gracefully after its build plan revealed 37 derivations still using effectful 2.6; EP-9 will replace those build identities with the 2.7 cohort.
 
@@ -119,12 +121,115 @@ Milestone 4's old-consumer builds are diagnostic rehearsals. A failure caused by
 - [x] 2026-10-05: M4: Mina's filtered overlay evaluates generic-lens and generic-lens-core to 2.3.0.0 (evaluation only; plan 13 owns its build).
 - [x] 2026-10-05: M5: Write the new ADR as `docs/adr/4-consumer-overlays-define-only-their-own-packages.md`.
 - [x] 2026-10-05: M5: Update `docs/user/consumer-integration.md`, `docs/user/adding-patches.md` and `docs/user/channels.md`, append to `docs/user/log.md`, and pass `just check-docs`.
-- [ ] M5: `nix flake check` passes. The GHC 9.14 bytestring-lexing blocker is repaired and its 58 tests pass. The upgraded daemon repairs cpio's security-patch phase; the fresh full native retry now fails at cborg-json 0.2.6.0 revision 4's base `<4.22` bound on GHC 9.14. Independently passing EP-10 checks and failed broad gates do not establish plan completion.
+- [ ] M5: `nix flake check` passes. The upgraded daemon repairs cpio's security-patch phase, and all scoped compatibility targets pass on native Darwin and Linux. Fresh full native session 77339 remains running; targeted passing checks and historical failed broad gates do not establish plan completion.
 - [ ] M5: Fill in Outcomes & Retrospective and hand the deletion lists to plans 11, 12 and 13.
 - [x] 2026-09-26: Plan revised for the user's decisions: `typeid-hs` moves into the channel, `hasql-effectful` leaves the overlay through plan 12's vendoring, and mina's `mori-schema-pin` is the only declared exception. No implementation work has started.
 
 
 ## Surprises & Discoveries
+
+- 2026-10-06: Preserve http-api-data 0.6.3's source/API while applying the exact
+  base `<4.23` and containers `<0.9` metadata changes from
+  [upstream commit](https://github.com/fizruk/http-api-data/commit/7bc38dd4463b7275e9c97c4b2ac308df73278dad)
+  (`mori://fizruk/http-api-data`, `http-api-data.cabal`; artifact-level URI pending).
+  The commit changes only metadata/CI, and the exact selected normalized r0 hash
+  `21704c5bcaeb997594fdda9c73dd0a19ddcc1134dd40e9c2a2587a5b8f1dba89` guards
+  the repair before configure. Native session 51576 exits 0 with 231 examples,
+  zero failures; complete log `/tmp/mp3-ep10-http-api-data-native.log`.
+
+- 2026-10-06: Preserve unicode-data 0.6.0's source/data and existing `dontCheck`
+  policy, applying only the three base upper-bound changes from
+  [upstream metadata commit](https://github.com/composewell/unicode-data/commit/da6c4ece0d8cbf43498cd310c64c15d55e116d96)
+  (`mori://composewell/unicode-data`, `unicode-data/unicode-data.cabal`;
+  artifact-level URI pending). Normalized r2 hash
+  `bc653b4380dd9a1cc7f7cf6f11c9e6cf2d9457423a8938b5dba85dd9fa7e2bf4` guards
+  the change; normal-policy native session 75173 exits 0. An extra test-enabled
+  proof (session 42262) compiles all 33 modules, then fails 2/41 examples:
+  toUpper/toTitle at character `\\411`, comparing Unicode 15.1 package data to
+  base's Unicode 17.0 data. Full evidence is retained in
+  `/tmp/mp3-ep10-unicode-extra-tests.log`. The matching
+  [upstream test-only fix](https://github.com/composewell/unicode-data/commit/73e041022837492e1221973a44794fb685ad3c55)
+  adds mapped-character assignment checks to its version-aware oracle. That test
+  change is not imported, no new test disabling is introduced, and this extra
+  failed proof is not represented as a passing suite.
+
+- 2026-10-06: tasty-wai has no admitting Hackage release/revision or upstream HEAD
+  metadata: 0.1.2.0 r3 and HEAD `93cae2d6c67b0c4a11cedb544b3a68ecfd7f7f59`
+  both retain base `<4.22`. The MasterPlan owner authorizes a scratch-only local
+  compatibility proof changing its two base upper bounds to `<4.23`, preserving
+  all other bounds and tests; implementation is conditional on that proof passing.
+  Mori's registered `mori://UnkindPartition/tasty/packages/tasty-wai` source and
+  five endpoint tests exactly match the released tarball SHA256 identities. Its
+  base imports are Prelude, Control.Exception and Data.Monoid; actual compilation
+  and the preserved tests under base 4.22, not an upstream endorsement, prove
+  compatibility: scratch native session 55207 exits 0 with all five endpoint tests
+  passing. The implemented policy changes only those two bounds, guards exact
+  normalized r3 SHA256 `626eb98168de07a1f9e8938b851c96c244cf818e6d7a75005b272edb4597162b`,
+  and applies only to package 0.1.2.0/GHC >=9.14,<9.15. Retirement requires selected
+  admitting upstream release/revision metadata. No source/API changes, blanket
+  jailbreak or test disabling are introduced.
+
+- 2026-10-06: The cborg-json repair applies only the three base upper-bound changes
+  from [exact upstream commit](https://github.com/well-typed/cborg/commit/06cdc44be7497fe5be02b62697bc9268c6699134),
+  identified as `mori://well-typed/cborg` with project-relative
+  `cborg-json/cborg-json.cabal` (artifact-level URI pending). The commit contains
+  metadata changes only; no code/API prerequisite is imported. Its patch is
+  restricted to package 0.2.6.0 and GHC >=9.14,<9.15. It guards the exact Hackage
+  r4 metadata after the pinned generic builder's documented CRLF normalization
+  (SHA256 `9eefa257002b7d43b2f7cf47339367e78421d0814af6a2856c0d5809c574e0ed`),
+  preserving all other bounds and existing hooks. The initial raw-byte hash fails
+  closed before configure; the corrected normalized guard reports `cborg-json.cabal:
+  OK` and the patch runs before configure. Native session 64507 builds successfully
+  with base 4.22 and passes 1/1 tests. The next full gate (session 65322, log
+  `/tmp/mp3-ep10-native-full-check-cborg-20261006.log`) schedules 393 checks and
+  exits 1 at dec 0.0.6 r1's base `<4.22`; remaining checks are cancelled.
+
+- 2026-10-06: A metadata preflight queries the broad native first-party matrix's
+  derivation graph through `nix derivation show --recursive`, without opening store
+  files, and scans 479 selected GHC 9.14 package identities against authoritative
+  Cabal metadata. `/tmp/mp3-ep10-matrix-bounds-report.json` records candidates and
+  15 unavailable/source-only metadata results. Disabled benchmark branches,
+  comments, conditional legacy bounds and existing patched packages are excluded
+  from unconditional library blockers. Git-source identities such as
+  bsb-http-chunked are excluded where Hackage metadata does not describe the actual
+  source. This is the broad GHC 9.14 matrix closure, not the GHC 9.12 application
+  cohort or a claim that adoption requires these versions.
+
+- 2026-10-06: Authoritative current metadata supplies admitting same-version
+  revisions for dec 0.0.6 r2, singleton-bool 0.1.8 r2, servant 0.20.3.0 r7,
+  servant-client 0.20.3.0 r4, servant-client-core 0.20.3.0 r5,
+  servant-foreign 0.16.1 r3 and servant-docs 0.13.1 r3. Their exact published hashes
+  are recorded in the scoped registry/patches; GHC 9.12 and other package versions
+  retain their metadata. Mori source lookup precedes selection, and upstream tags
+  are checked against Hackage. No singleton-bool 0.1.8 upstream tag exists; that
+  release/revision identity comes from Hackage. Native dec session 67883 passes
+  after fetching r2; its check phase reports no test suites. Unit session 12767
+  passes 58/58, including scope and preserved-test-policy fixtures.
+
+- 2026-10-06: The Linux compatibility target initially cannot connect to the
+  configured builder, even when its existing machine specification is passed
+  explicitly. Batch-mode SSH closes before handshake; a read-only GCP status query
+  identifies the existing nix-builder-x86 instance as TERMINATED, not an
+  interactive authentication failure. Under the MasterPlan owner's authorized
+  Linux validation scope, session 27623 starts that same instance and tailnet port
+  22 readiness passes. No instance or SSH/daemon configuration is created/changed.
+  Fresh Linux cborg-json session 72700 exits 0 with its preserved 1/1 test suite.
+  Linux batch session 68391 exits 0 for all ten requested packages: cborg-json,
+  dec, http-api-data, singleton-bool, servant, servant-client,
+  servant-client-core, servant-foreign, servant-docs and unicode-data. Linux
+  tasty-wai session 31685 also exits 0 with all five endpoint tests passing.
+  Native revision batch session 82239 exits 0 for singleton-bool and the five
+  Servant packages; servant has 52 examples, servant-client-core 18,
+  servant-foreign seven and servant-client 54, all with zero failures.
+  No Linux jobs remain active in this worker; the MasterPlan owner coordinates
+  the running VM's lifecycle with other validation jobs.
+
+- 2026-10-06: After all targeted native/Linux repairs pass, full native session
+  77339 runs `nix flake check --print-build-logs --option max-jobs 2 --option
+  cores 2 --option eval-cache false`, with durable output in
+  `/tmp/mp3-ep10-native-full-check-cborg-20261006.log`. The historical dec failure
+  remains separately in `/tmp/mp3-ep10-native-full-check-dec-failure-20261006.log`.
+  This fresh full gate is still running; no completion claim is made.
 
 - 2026-10-05: After the user upgraded the daemon/client to Determinate 3.23.0
   (Nix daemon 2.35.2), the MasterPlan owner's uncached `--rebuild` probe
@@ -586,7 +691,7 @@ Mori retains shibuya-pgmq-adapter until plan 9 supplies at least 0.16.1.0 and ha
 plan 12 vendors its imports. Mina retains kdl-hs until plan 13 lifts its bound. Mina's
 mori-schema-pin remains the sole exception. TypeID deletions free typeid-hs-src in Rei/Mori/mori-rei-app;
 Mori additionally frees tan-effectful-src and the three HTTP family source inputs in its adoption.
-No consumer repositories were modified. The existing GHC 9.14 bytestring-lexing/base blocker is repaired with an admitting release and 58 passing tests. The user's daemon upgrade repairs the confirmed bootstrap NOFILE failure: the uncached probe and the actual cpio security-patch phase pass. The next broad native gate instead fails at cborg-json 0.2.6.0 revision 4's base bound under GHC 9.14; upstream admits it only in unpublished HEAD metadata. The broad gate remains open pending a scoped compatibility decision. Diagnostic
+No consumer repositories were modified. The existing GHC 9.14 bytestring-lexing/base blocker is repaired with an admitting release and 58 passing tests. The user's daemon upgrade repairs the confirmed bootstrap NOFILE failure: the uncached probe and the actual cpio security-patch phase pass. The narrowly guarded cborg-json upstream metadata repair then passes its preserved suite, and the next broad gate reaches dec's old bound. Dec's admitting published revision builds successfully; a batch preflight identifies further scoped metadata repairs and avoids repeated broad compilation per package. All targeted native/Linux repairs now pass. HTTP's preserved suite passes 231 examples, tasty-wai passes five endpoint tests on both platforms, and the scope fixtures pass 58/58 overall. The fresh full native gate (77339) remains running. The extra Unicode test-enabled proof fails its cross-version data oracle, separately from the passing normal policy build. Diagnostic
 consumer compilation is deferred to the actual EP-11–13 cohort adoption; this checkpoint does not mark EP-10 complete.
 
 

@@ -28,6 +28,13 @@ let
     haskellLib.doJailbreak pkg;
 
   always = patch: [{ always = true; inherit patch; }];
+  admittingRevision = version: max: revision: sha256: [{
+    min = version;
+    inherit max;
+    patch = import ../patches/metadata/admitting-revision-ghc914.nix {
+      inherit version revision sha256;
+    };
+  }];
 in
 {
   # ── GHC 9.12 tool jailbreaks ──────────────────────────────────────
@@ -42,7 +49,7 @@ in
   proto-lens-runtime = always dontCheckDoJailbreak;
 
   # ── Misc compatibility ─────────────────────────────────────────────
-  unicode-data = always dontCheckOnly;
+  unicode-data = always (args: import ../patches/unicode-data/0.6-ghc914.nix (args // { pkg = dontCheckOnly args; }));
   fuzzyfind = always markUnbrokenDontCheckDoJailbreak;
   # nixpkgs marks sbv-11.7 broken; the library builds fine — only its test
   # suite needs the z3 solver binary. keiki depends on it (symbolic core).
@@ -60,6 +67,40 @@ in
     max = "0.5.0.16";
     patch = import ../patches/bytestring-lexing/0.5.nix;
   }];
+  # Exact upstream metadata repair, restricted to 0.2.6.0 and GHC 9.14.
+  cborg-json = [{
+    min = "0.2.6.0";
+    max = "0.2.6.1";
+    patch = import ../patches/cborg-json/0.2.6-ghc914.nix;
+  }];
+  dec = [{
+    min = "0.0.6";
+    max = "0.0.7";
+    patch = import ../patches/dec/0.0.6-ghc914.nix;
+  }];
+  http-api-data = [{
+    min = "0.6.3";
+    max = "0.6.4";
+    patch = import ../patches/http-api-data/0.6.3-ghc914.nix;
+  }];
+  tasty-wai = [{
+    min = "0.1.2.0";
+    max = "0.1.2.1";
+    patch = import ../patches/tasty-wai/0.1.2-ghc914.nix;
+  }];
+  # Published GHC 9.14 metadata for mori://phadej/singleton-bool (singleton-bool.cabal;
+  # artifact-level URI pending) and mori://haskell-servant/servant/packages/servant,
+  # mori://haskell-servant/servant/packages/servant-client,
+  # mori://haskell-servant/servant/packages/servant-client-core,
+  # mori://haskell-servant/servant/packages/servant-foreign,
+  # mori://haskell-servant/servant/packages/servant-docs.
+  # Exact identities: https://hackage.haskell.org/package/<name>-<version>/revisions/
+  singleton-bool = admittingRevision "0.1.8" "0.1.9" "2" "94988e14281fa9c70714fbae5e32031f7008919c13b060ee16c714edb62858c0";
+  servant = admittingRevision "0.20.3.0" "0.20.3.1" "7" "4fe47ef2b2939c018cb0f87f3cd8ede0ae5365a275ad33e3deca109319d42a6f";
+  servant-client = admittingRevision "0.20.3.0" "0.20.3.1" "4" "c152c3b72328987f10dd0e2007c703404787e29d0947cad7d033a223a506bbd3";
+  servant-client-core = admittingRevision "0.20.3.0" "0.20.3.1" "5" "6611f79f74626c68483e30ff9f6acd0e14f5fedcef710d8472c14be6318cef7c";
+  servant-foreign = admittingRevision "0.16.1" "0.16.2" "3" "1b61e76b974e217b33c9c676e950ea15df7ad900dedb54756276bb65d88b7f7d";
+  servant-docs = admittingRevision "0.13.1" "0.13.2" "3" "69402db0eb641ee31e20c6e449baf58dac5bbe190150d3eb6d7f5fe861275048";
 
   # ── hasql ecosystem ────────────────────────────────────────────────
   hasql = always (import ../patches/hasql/1.10.nix);

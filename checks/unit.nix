@@ -2,6 +2,24 @@
 let
   consumerOverlayReport = import ../lib/consumerOverlayReport.nix { inherit lib; };
   overlayReport = args: consumerOverlayReport ({ channelPackages = [ ]; overlayPackages = [ ]; ownPackages = [ ]; } // args);
+  cborgMetadataRepair = compiler: version: import ../patches/cborg-json/0.2.6-ghc914.nix {
+    inherit lib;
+    pkg = { inherit version; postPatch = "existing hook\n"; };
+    hself.ghc.version = compiler;
+    haskellLib.overrideCabal = update: drv: drv // update drv;
+  };
+  admittingRevisionFixture = compiler: version: import ../patches/metadata/admitting-revision-ghc914.nix
+    {
+      version = "1.2.3";
+      revision = "2";
+      sha256 = "published-hash";
+    }
+    {
+      inherit lib;
+      pkg = { inherit version; revision = "1"; doCheck = true; };
+      hself.ghc.version = compiler;
+      haskellLib.overrideCabal = update: drv: drv // update drv;
+    };
   fixtures = ./fixtures/first-party;
   readJson = name: builtins.fromJSON (builtins.readFile (fixtures + "/${name}"));
   mkRegistries = import ../lib/mkFirstPartyRegistries.nix { inherit lib; };
@@ -156,6 +174,13 @@ let
   };
 in
 {
+  testCborgMetadataUnchangedOnGhc912 = { expr = (cborgMetadataRepair "9.12.4" "0.2.6.0").postPatch; expected = "existing hook\n"; };
+  testCborgMetadataUnchangedOnGhc915 = { expr = (cborgMetadataRepair "9.15.0" "0.2.6.0").postPatch; expected = "existing hook\n"; };
+  testCborgMetadataUnchangedOnNewVersion = { expr = (cborgMetadataRepair "9.14.1" "0.2.6.1").postPatch; expected = "existing hook\n"; };
+  testCborgMetadataRepairPreservesHook = { expr = lib.hasPrefix "existing hook\n" (cborgMetadataRepair "9.14.1" "0.2.6.0").postPatch; expected = true; };
+  testAdmittingRevisionUnchangedOnGhc912 = { expr = (admittingRevisionFixture "9.12.4" "1.2.3").revision; expected = "1"; };
+  testAdmittingRevisionUnchangedOnNewVersion = { expr = (admittingRevisionFixture "9.14.1" "1.2.4").revision; expected = "1"; };
+  testAdmittingRevisionPreservesTests = { expr = admittingRevisionFixture "9.14.1" "1.2.3"; expected = { version = "1.2.3"; revision = "2"; editedCabalFile = "published-hash"; doCheck = true; }; };
   testConsumerOverlayClean = { expr = (overlayReport { overlayPackages = [ "app" ]; ownPackages = [ "app" ]; }).ok; expected = true; };
   testConsumerOverlayShadowing = { expr = (overlayReport { channelPackages = [ "shared" ]; overlayPackages = [ "shared" ]; }).shadowing; expected = [ "shared" ]; };
   testConsumerOverlayShadowingNotExcused = { expr = (overlayReport { channelPackages = [ "shared" ]; overlayPackages = [ "shared" ]; exceptions.shared = "reason"; }).shadowing; expected = [ "shared" ]; };
