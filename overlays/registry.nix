@@ -43,6 +43,11 @@ in
     afterFirstParty = true;
     patch = import ../patches/kioku-core/0.8.0.2-ghc9141.nix;
   }];
+  kioku-cli = [{
+    always = true;
+    afterFirstParty = true;
+    patch = import ../patches/kioku-cli/0.8.0.2-ghc9141.nix;
+  }];
   # ── GHC 9.12 tool jailbreaks ──────────────────────────────────────
   ormolu = always dontCheckDoJailbreak;
   fourmolu = always dontCheckDoJailbreak;

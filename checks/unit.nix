@@ -19,6 +19,11 @@ let
     hself.ghc.version = compiler;
     haskellLib.overrideCabal = update: drv: drv // update drv;
   };
+  kiokuCliCompilerRepair = compiler: version: import ../patches/kioku-cli/0.8.0.2-ghc9141.nix {
+    pkg = { inherit version; src = "selected-source"; configureFlags = [ "existing-flag" ]; postPatch = "existing hook\n"; doCheck = true; enableLibraryProfiling = true; jailbreak = false; };
+    hself.ghc.version = compiler;
+    haskellLib.overrideCabal = update: drv: drv // update drv;
+  };
   admittingRevisionFixture = compiler: version: import ../patches/metadata/admitting-revision-ghc914.nix
     {
       version = "1.2.3";
@@ -227,6 +232,18 @@ in
   };
   testFirstPartyCompatibilityPreservesSource = { expr = (firstPartyCompatibilityFixture true).source; expected = /tmp; };
   testKiokuCompilerFlagAppendsOnlySupportedSwitch = { expr = (kiokuCompilerRepair "9.14.1" "0.8.0.2").configureFlags; expected = [ "existing-flag" "--ghc-option=-fno-opt-coercion" ]; };
+  testKiokuCliCompilerFlagAppendsOnlySupportedSwitch = { expr = (kiokuCliCompilerRepair "9.14.1" "0.8.0.2").configureFlags; expected = [ "existing-flag" "--ghc-option=-fno-opt-coercion" ]; };
+  testKiokuCliCompilerRepairRetainsGhc912 = { expr = (kiokuCliCompilerRepair "9.12.4" "0.8.0.2").configureFlags; expected = [ "existing-flag" ]; };
+  testKiokuCliCompilerRepairRetiresOnNewCompiler = { expr = (kiokuCliCompilerRepair "9.14.2" "0.8.0.2").configureFlags; expected = [ "existing-flag" ]; };
+  testKiokuCliCompilerRepairRetiresOnFutureVersion = { expr = (kiokuCliCompilerRepair "9.14.1" "0.8.0.3").configureFlags; expected = [ "existing-flag" ]; };
+  testKiokuCliCompilerRepairPreservesOtherPolicy = {
+    expr = let repaired = kiokuCliCompilerRepair "9.14.1" "0.8.0.2"; in { inherit (repaired) src doCheck enableLibraryProfiling jailbreak; };
+    expected = { src = "selected-source"; doCheck = true; enableLibraryProfiling = true; jailbreak = false; };
+  };
+  testKiokuCliCompilerRepairGuardsLibraryAndExecutableSource = {
+    expr = let hook = (kiokuCliCompilerRepair "9.14.1" "0.8.0.2").postPatch; in lib.hasPrefix "existing hook\n" hook && lib.hasInfix "find src app" hook && lib.hasInfix "4e6e34bc9816db4c9fe78fe38ecfbc07fbcb3e09a57f378cd9aa6a369403a298" hook;
+    expected = true;
+  };
   testKiokuCompilerRepairRetainsGhc912 = { expr = kiokuCompilerRepair "9.12.4" "0.8.0.2"; expected = kiokuCompilerRepair "9.14.2" "0.8.0.2"; };
   testKiokuCompilerRepairRetiresOnFutureVersion = { expr = (kiokuCompilerRepair "9.14.1" "0.8.0.3").configureFlags; expected = [ "existing-flag" ]; };
   testKiokuCompilerRepairPreservesOtherPolicy = {
