@@ -1,0 +1,11 @@
+--- a/cabal.project
++++ b/cabal.project
+@@ -102,7 +102,7 @@
+ source-repository-package
+   type: git
+   location: https://github.com/shinzui/ephemeral-pg.git
+-  tag: 215e4ae5fc844d322e2c715369bf5ec4ff285294
++  tag: e38175c155c71a77284d3f4b321726755cdb1de8
+ 
+ -- shomei: the platform identity service. meibo depends on the three
+ -- transport-agnostic packages ONLY (shomei-core, shomei-jwt, shomei-servant);

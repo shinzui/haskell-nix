@@ -1,0 +1,11 @@
+--- a/cabal.project
++++ b/cabal.project
+@@ -109,7 +109,7 @@
+ source-repository-package
+   type: git
+   location: https://github.com/shinzui/ephemeral-pg.git
+-  tag: 304c160f25570ea5e225baf5024778c93f434b56
++  tag: e38175c155c71a77284d3f4b321726755cdb1de8
+ 
+ source-repository-package
+   type: git
