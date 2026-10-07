@@ -99,8 +99,10 @@ This plan owns the shared model/freeze parser, CLI inventory/update/report dispa
 - [x] (2026-10-05) Milestone 3: added the `cohort report` subcommand and tests for downgrade, cap, first-party lag, source pin and boot packages; a real lowered-freeze negative gate also fails as required.
 - [x] (2026-10-05) Milestone 3: report recipe succeeds; committed report records 450 selected packages, zero downgrades and 30 consumer caps.
 - [x] (2026-10-05) Milestone 4: freeze-only dry run and complete source-manifest equality check pass; aggregate recipes are wired.
-- [ ] Milestone 4: prove idempotence (a second `just cohort` leaves `git status` clean) and that `just flake-check` and `just fmt-check` pass.
-- [ ] Milestone 4: write `docs/adr/2-resolve-the-rei-family-cohort-upgrade-only.md`, update the MasterPlan's Progress and Exec-Plan Registry rows for EP-8, and fill Outcomes & Retrospective.
+- [x] (2026-10-06) Milestone 4: prove regeneration idempotence; the second resolve/report reproduces freeze, source manifest, report, floors and stub byte-for-byte at the refreshed signed index.
+- [ ] Milestone 4: finish required aggregate `just flake-check` and `just fmt-check` acceptance on the final committed inputs.
+- [x] (2026-10-06) Milestone 4: write `docs/adr/2-resolve-the-rei-family-cohort-upgrade-only.md` and update the current Outcomes & Retrospective with verified solver/source/targeted-update evidence.
+- [ ] Milestone 4: after aggregate acceptance, finalize Outcomes & Retrospective and mark EP-8 Complete in the MasterPlan's Progress and Exec-Plan Registry.
 
 
 ## Surprises & Discoveries
