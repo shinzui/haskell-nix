@@ -109,7 +109,7 @@ Acceptance fixtures include statically linked missing dependencies, wrong plus c
   overlay is needed.
 - [x] (2026-10-07 UTC) Milestone 1: add the `cabal-version-support` check with `cabal-version: 3.14` and `3.16`
   fixtures (and, only if the prototype says so, the fallback override).
-- [ ] Milestone 2: add `lib/parseCohortFreeze.nix` and its nix-unit tests.
+- [x] (2026-10-07 UTC) Milestone 2: add `lib/parseCohortFreeze.nix` and twelve meaningful nix-unit checks. Shared packaged parser corpus covers comments, flags, trailing commas, duplicate versions/flag records, ranges, garbage, internal empty records and flag-only input; the real freeze is compared with the independently recorded source manifest.
 - [ ] Milestone 2: add `config/cohort-policy.json`.
 - [ ] Milestone 2: add the `cohort generate` subcommand to `haskell-nix-update`, with Haskell tests.
 - [ ] Milestone 2: run the generator against `cabal/cohort.freeze` and commit
@@ -346,7 +346,9 @@ Acceptance fixtures include statically linked missing dependencies, wrong plus c
 
 ## Outcomes & Retrospective
 
-(To be filled during and after implementation.)
+Independent preparation is underway. The Cabal-format guard passes on native Darwin and is committed/pushed at `3b2a593`. The exported Nix freeze parser shares packaged input files with the Haskell parser tests and adds live freeze/source membership equality. Generation modules are being tested; live source prefetch, command dispatch, generated artifacts, layer activation, manifests, comparison/lock tooling and cache publication are not yet delivered.
+
+The important early correction is to distinguish cabal2nix parsing from the boot Cabal setup driver. Building the 3.16 fixture caused an avoidable aggregate failure even though both channel parsers accepted it. The corrected check builds 3.14 and forces all four parsing paths. Aggregate validation now uses an immutable committed snapshot while additive work proceeds independently, preserving the required gates without serializing all preparation.
 
 
 ## Context and Orientation

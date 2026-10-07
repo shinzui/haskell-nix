@@ -1,0 +1,6 @@
+-- Shared parser fixture: comments, flags and trailing comma.
+index-state: hackage.haskell.org 2026-10-06T21:15:24Z
+constraints:
+  any.aeson ==2.2.5.1,
+  any.blake3 ==0.3.1,
+  any.blake3 +portable -avx2, -- application policy is retained as data

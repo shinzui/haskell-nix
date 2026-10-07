@@ -1,0 +1,2 @@
+index-state: 2026-10-06T21:15:24Z
+constraints: any.blake3 ==0.3.1, any.blake3 +portable, any.blake3 -avx2

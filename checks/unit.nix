@@ -470,4 +470,4 @@ in
   })
   invalidLocks) // lib.mapAttrs'
   (name: candidate: lib.nameValuePair "testRejectPackageSet-${name}" (rejectsPackageSet packageSetConfig candidate))
-  invalidPackageSetCases
+  invalidPackageSetCases // import ./cohort-freeze-parser.nix { inherit lib; }

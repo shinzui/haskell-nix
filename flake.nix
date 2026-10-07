@@ -165,6 +165,7 @@
         };
 
         lib = {
+          parseCohortFreeze = import ./lib/parseCohortFreeze.nix { inherit lib; };
           tests = import ./checks/unit.nix { inherit lib; };
           inherit
             disableHaddockOverride
