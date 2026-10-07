@@ -1,6 +1,7 @@
 module Main (main) where
 
 import CohortModelTest qualified
+import CohortGenerateTest qualified
 import CohortTest qualified
 import AdapterTest qualified
 import Data.ByteString qualified as ByteString
@@ -26,6 +27,7 @@ tests =
   testGroup
     "haskell-nix-update"
     [ CohortModelTest.tests,
+      CohortGenerateTest.tests,
       CohortTest.tests,
       catalogTests,
       packageLockTests,

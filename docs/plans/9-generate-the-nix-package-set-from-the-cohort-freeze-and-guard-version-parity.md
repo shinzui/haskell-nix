@@ -346,6 +346,8 @@ Acceptance fixtures include statically linked missing dependencies, wrong plus c
 
 ## Outcomes & Retrospective
 
+End-of-day checkpoint (2026-10-06): EP-8 acceptance is complete and implementation may proceed on resume. Preparatory Haskell generation modules and shared fixtures pass all 107 helper tests (including 19 generation tests), using capped `nix develop .#cohort-inventory --max-jobs 2 --cores 2 -c cabal test haskell-nix-update-test -j2 --test-show-details=direct`. Strict parsing, classification, revision selection and pure rendering are saved as a tested partial implementation. Live metadata/prefetch generation, formatting-stable regeneration, Nix layer wiring and actual-build parity remain unfinished. The user requested a clean committed stopping point for the day.
+
 Independent preparation is underway. The Cabal-format guard passes on native Darwin and is committed/pushed at `3b2a593`. The exported Nix freeze parser shares packaged input files with the Haskell parser tests and adds live freeze/source membership equality. Generation modules are being tested; live source prefetch, command dispatch, generated artifacts, layer activation, manifests, comparison/lock tooling and cache publication are not yet delivered.
 
 The important early correction is to distinguish cabal2nix parsing from the boot Cabal setup driver. Building the 3.16 fixture caused an avoidable aggregate failure even though both channel parsers accepted it. The corrected check builds 3.14 and forces all four parsing paths. Aggregate validation now uses an immutable committed snapshot while additive work proceeds independently, preserving the required gates without serializing all preparation.

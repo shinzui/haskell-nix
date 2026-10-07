@@ -1,6 +1,6 @@
 # Resolve the Rei family cohort upgrade-only
 
-Status: Accepted for implementation; published-cohort acceptance is pending.
+Status: Accepted.
 
 Date: 2026-10-05
 
@@ -79,7 +79,7 @@ targeted identity isolation, real conflict experiment and byte-identical regener
 The new Random policy and refreshed stock observations now pass coherent regeneration:
 450 selections, zero downgrades, Random 1.3.1, matching freeze/source replay and byte-identical
 second regeneration. Exact released-source checks justify three scoped non-Effectful bound
-exceptions; the full Nix gate remains pending. Plan 9 owns Nix generation and
+exceptions. The latest signed-index refresh at `2026-10-06T21:15:24Z` retains 450 selections, 445 freeze entries and zero downgrades, and reports 37 consumer caps. The full native Nix gate passed with exit 0 on immutable snapshot `3b2a593b77e700219283af92236f336e47255a63`; receipt `/tmp/mp3-ep10-native-full-check-3b2a593-20261006.log`. Formatting, shared overrides, Nix unit checks and package-set-default pass. All four compiler/source-channel cells report zero mismatches: GitHub 78 packages and Hackage 68 packages per compiler (GHC 9.12.4 and 9.14.1). Full Linux validation, generated-layer parity, consumer adoption and cache publication are separate later gates. Plan 9 owns Nix generation and
 build/cache evidence; consumer adoption is separate.
 
 

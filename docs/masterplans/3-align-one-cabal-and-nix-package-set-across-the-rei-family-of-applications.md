@@ -167,10 +167,10 @@ Phase 3 (plan 14) comes last because it is the only place all five meet: the dot
 | # | Title | Path | Hard Deps | Soft Deps | Status |
 |---|-------|------|-----------|-----------|--------|
 | 15 | Release the first-party libraries on effectful 2.7 | docs/plans/15-release-the-first-party-libraries-on-effectful-2-7.md | None | None | Complete |
-| 8 | Resolve one upgrade-only cohort freeze for the Rei family of applications | docs/plans/8-resolve-one-upgrade-only-cohort-freeze-for-the-rei-family-of-applications.md | EP-15 | None | In Progress |
+| 8 | Resolve one upgrade-only cohort freeze for the Rei family of applications | docs/plans/8-resolve-one-upgrade-only-cohort-freeze-for-the-rei-family-of-applications.md | EP-15 | None | Complete |
 | 17 | Upgrade every ephemeral PostgreSQL consumer to stable cleanup roots | docs/plans/17-upgrade-every-ephemeral-postgresql-consumer-to-stable-cleanup-roots.md | None | EP-8, EP-9, EP-10 | In Progress |
 | 9 | Generate the Nix package set from the cohort freeze and guard version parity | docs/plans/9-generate-the-nix-package-set-from-the-cohort-freeze-and-guard-version-parity.md | EP-8 | None | In Progress |
-| 10 | Own the shared third-party overrides in the channel instead of consumer overlays | docs/plans/10-own-the-shared-third-party-overrides-in-the-channel-instead-of-consumer-overlays.md | None | EP-9 | In Progress |
+| 10 | Own the shared third-party overrides in the channel instead of consumer overlays | docs/plans/10-own-the-shared-third-party-overrides-in-the-channel-instead-of-consumer-overlays.md | None | EP-9 | Complete |
 | 16 | Create the Keiro runtime package set and compose applications on it | docs/plans/16-create-the-keiro-runtime-package-set-and-compose-applications-on-it.md | EP-9, EP-10 | None | Not Started |
 | 11 | Adopt the shared package set in rei and mori-rei-app | docs/plans/11-adopt-the-shared-package-set-in-rei-and-mori-rei-app.md | EP-9, EP-10, EP-16 | None | Not Started |
 | 12 | Adopt the shared package set in mori | docs/plans/12-adopt-the-shared-package-set-in-mori.md | EP-9, EP-10, EP-16 | EP-11 | In Progress |
@@ -299,13 +299,13 @@ The goal is less repeated coordination and dependency compilation. Equal version
 - [ ] EP-14: Recorded update-isolation and cache-reuse measurements meet the time-saving acceptance contract
 
 - [x] (2026-10-05) EP-15: Release keiro, kioku-core and the shikumi family admitting effectful 2.7 (`effectful` 2.7.1.0+, `effectful-core` 2.7.1.1+), and refresh the channel
-- [ ] EP-8: Inventory every package version each of the five applications selects under Cabal and Nix today
+- [x] (2026-10-06) EP-8: all six fresh contributor solves and pinned Nix observations pass; cohort acceptance is complete.
 - [x] (2026-10-05) EP-8: committed the 450-package upgrade-only freeze, complete source manifest and zero-downgrade report at `4e3a626`
-- [x] (2026-10-05) EP-8: report identifies 30 consumer caps with files and component roles
-- [ ] EP-9: Prove, and guard with a check, that the channel's `callCabal2nix` path parses `cabal-version` 3.14 and 3.16
+- [x] (2026-10-06) EP-8: report identifies 37 consumer caps with files and component roles (30 in the earlier checkpoint).
+- [x] (2026-10-06) EP-9: both source-channel paths parse Cabal 3.14/3.16; format guard passes in the full native gate.
 - [ ] EP-9: Generate the Nix version layer from the freeze and retire hand-written version pins (including `shibuya-pgmq-adapter` 0.16.0.0)
 - [ ] EP-9: Add the channel version-parity check and pass it in `nix flake check`
-- [ ] EP-10: Inventory and move shared overrides from the five consumer overlays into the channel
+- [x] (2026-10-06) EP-10: inventory and move shared overrides into the channel; guarded recipes and consumer deletion handoff accepted at `074ea35`.
 - [ ] EP-11: rei and mori-rei-app import the freeze, drop shared overrides, and mori-rei-app consumes Rei's `rei-core`
 - [ ] EP-11: Deploy rei and mori-rei-app on the shared set
 - [ ] EP-12: mori imports the freeze and drops shared overrides
@@ -425,6 +425,8 @@ The goal is less repeated coordination and dependency compilation. Equal version
 
 
 ## Outcomes & Retrospective
+
+Stopping checkpoint (2026-10-06, user request): EP-8 and EP-10 are Complete; EP-9 is In Progress and its hard prerequisite is satisfied. The full native Nix gate passed with exit 0 on immutable snapshot `3b2a593b77e700219283af92236f336e47255a63`; receipt `/tmp/mp3-ep10-native-full-check-3b2a593-20261006.log`. Formatting, shared overrides, Nix unit checks and package-set-default pass. All four compiler/source-channel cells report zero mismatches: GitHub 78 packages and Hackage 68 packages per compiler (GHC 9.12.4 and 9.14.1). Full Linux validation, generated-layer parity, consumer adoption and cache publication are separate later gates. Committed parser preparation is at `9a7283e`. The Haskell generator modules, tests and registrations pass all 107 helper tests and are included in the committed stopping checkpoint. Resume with the live generator and Nix layer. EP-17 legacy consumers remain unfinished. Pause further implementation for the day; no new authorization is needed to resume the previously approved scope.
 
 Implementation checkpoint (2026-10-05): EP-15 is Complete. Shikumi's nine patches, Keiro's seven 0.19.0.1 packages and Kioku's five 0.8.0.1 packages are published with live sources/docs and non-draft GitHub releases; all repository release gates and both effectful-line checks passed. The scoped channel refresh is committed locally at `d4ca4eb`; historical snapshots and unrelated selections remain intact. The Hackage acceptance union solves on effectful 2.7.1.0/core 2.7.1.2 without effectful bound overrides, and a focused comparison rejects old Keiro on its direct core bound. Application diagnostics are deferred per the review to EP-11–13, with per-application status in EP-15. EP-8 is now implementable and the user requested continuing with it. All later children remain unfinished. No cohort/cache/deployment completion or measured speedup is claimed. ADR distillation found no new durable architecture decision; existing ADRs still govern.
 

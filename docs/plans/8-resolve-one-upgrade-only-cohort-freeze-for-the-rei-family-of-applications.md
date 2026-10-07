@@ -100,9 +100,9 @@ This plan owns the shared model/freeze parser, CLI inventory/update/report dispa
 - [x] (2026-10-05) Milestone 3: report recipe succeeds; committed report records 450 selected packages, zero downgrades and 30 consumer caps.
 - [x] (2026-10-05) Milestone 4: freeze-only dry run and complete source-manifest equality check pass; aggregate recipes are wired.
 - [x] (2026-10-06) Milestone 4: prove regeneration idempotence; the second resolve/report reproduces freeze, source manifest, report, floors and stub byte-for-byte at the refreshed signed index.
-- [ ] Milestone 4: finish required aggregate `just flake-check` and `just fmt-check` acceptance on the final committed inputs.
+- [x] (2026-10-06) Milestone 4: required native aggregate flake and formatting checks pass on final committed cohort inputs at `3b2a593`.
 - [x] (2026-10-06) Milestone 4: write `docs/adr/2-resolve-the-rei-family-cohort-upgrade-only.md` and update the current Outcomes & Retrospective with verified solver/source/targeted-update evidence.
-- [ ] Milestone 4: after aggregate acceptance, finalize Outcomes & Retrospective and mark EP-8 Complete in the MasterPlan's Progress and Exec-Plan Registry.
+- [x] (2026-10-06) Milestone 4: finalize Outcomes & Retrospective and mark EP-8 Complete after aggregate acceptance.
 
 
 ## Surprises & Discoveries
@@ -264,7 +264,7 @@ These were found while writing the plan (2026-09-26) and shape it. Re-verify the
 
 ## Outcomes & Retrospective
 
-Implementation is In Progress. EP-15 is Complete. All six contributor solves and the pinned Nix inventory pass; the inventory/cohort CLI passes 88 tests and the Python helper passes 13 tests. The solver, freeze, upgrade and targeted-impact report, complete source manifest, negative downgrade/conflict checks and deterministic regeneration are implemented and verified. Final aggregate Nix and formatting acceptance and the completion handoff remain pending.
+Implementation is Complete (2026-10-06). EP-15 is Complete. All six contributor solves and the pinned Nix inventory pass; the inventory/cohort CLI passes 88 tests and the Python helper passes 13 tests. The solver, freeze, upgrade and targeted-impact report, complete source manifest, negative downgrade/conflict checks and deterministic regeneration are implemented and verified. The full native Nix gate passed with exit 0 on immutable snapshot `3b2a593b77e700219283af92236f336e47255a63`; receipt `/tmp/mp3-ep10-native-full-check-3b2a593-20261006.log`. Formatting, shared overrides, Nix unit checks and package-set-default pass. All four compiler/source-channel cells report zero mismatches: GitHub 78 packages and Hackage 68 packages per compiler (GHC 9.12.4 and 9.14.1). Full Linux validation, generated-layer parity, consumer adoption and cache publication are separate later gates.
 
 The 2026-10-06 release refresh advances only the recorded Hackage index to `2026-10-06T21:15:24Z`; contributor and inventory channel revisions remain unchanged. Signed-index metadata matches all twelve checked runtime/OKF releases. The regenerated report contains 450 selections, zero downgrades, 37 consumer caps and 19 source-pin observations. All 445 previously frozen package names remain. Nine versions advance: three Kioku libraries to 0.8.0.2, four Relay libraries to 0.1.1.2, OKF core to 0.10.0.0 and the additionally selected HTTP/2 patch from 5.4.7 to 5.4.8. Random remains 1.3.1 and ephemeral-pg remains 0.3.1.0. Freeze/source replay passes, and a second resolve/report reproduces all five generated artifacts byte-for-byte. The additional OKF caps are reported for consumer adoption rather than hidden by an exception.
 

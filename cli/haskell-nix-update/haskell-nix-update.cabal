@@ -10,6 +10,7 @@ author: shinzui
 maintainer: shinzui@users.noreply.github.com
 build-type: Simple
 data-files:
+  test/fixtures/cohort-freeze/*.freeze
   test/fixtures/invalid/*.json
   test/fixtures/valid/*.json
 
@@ -46,6 +47,10 @@ library
     HaskellNix.Update.Cohort.Model
     HaskellNix.Update.Cohort.Report
     HaskellNix.Update.Cohort.Freeze
+    HaskellNix.Update.Cohort.Generate
+    HaskellNix.Update.Cohort.GenerationTypes
+    HaskellNix.Update.Cohort.Revision
+    HaskellNix.Update.Cohort.Render
     HaskellNix.Update.Cohort.Types
     HaskellNix.Update.Git
     HaskellNix.Update.Hackage
@@ -73,6 +78,7 @@ library
     process ^>=1.6,
     temporary ^>=1.3,
     text ^>=2.1,
+    time,
     transformers ^>=0.6
 
 executable haskell-nix-update
@@ -98,6 +104,7 @@ test-suite haskell-nix-update-test
     AdapterTest
     CohortTest
     CohortModelTest
+    CohortGenerateTest
     PackageSetTest
     Paths_haskell_nix_update
     PlannerTest
@@ -116,4 +123,5 @@ test-suite haskell-nix-update-test
     tasty ^>=1.5,
     tasty-hunit ^>=0.10,
     temporary ^>=1.3,
-    text ^>=2.1
+    text ^>=2.1,
+    time
