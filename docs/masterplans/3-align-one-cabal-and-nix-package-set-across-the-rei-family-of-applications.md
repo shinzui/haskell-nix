@@ -169,7 +169,7 @@ Phase 3 (plan 14) comes last because it is the only place all five meet: the dot
 | 15 | Release the first-party libraries on effectful 2.7 | docs/plans/15-release-the-first-party-libraries-on-effectful-2-7.md | None | None | Complete |
 | 8 | Resolve one upgrade-only cohort freeze for the Rei family of applications | docs/plans/8-resolve-one-upgrade-only-cohort-freeze-for-the-rei-family-of-applications.md | EP-15 | None | In Progress |
 | 17 | Upgrade every ephemeral PostgreSQL consumer to stable cleanup roots | docs/plans/17-upgrade-every-ephemeral-postgresql-consumer-to-stable-cleanup-roots.md | None | EP-8, EP-9, EP-10 | In Progress |
-| 9 | Generate the Nix package set from the cohort freeze and guard version parity | docs/plans/9-generate-the-nix-package-set-from-the-cohort-freeze-and-guard-version-parity.md | EP-8 | None | Not Started |
+| 9 | Generate the Nix package set from the cohort freeze and guard version parity | docs/plans/9-generate-the-nix-package-set-from-the-cohort-freeze-and-guard-version-parity.md | EP-8 | None | In Progress |
 | 10 | Own the shared third-party overrides in the channel instead of consumer overlays | docs/plans/10-own-the-shared-third-party-overrides-in-the-channel-instead-of-consumer-overlays.md | None | EP-9 | In Progress |
 | 16 | Create the Keiro runtime package set and compose applications on it | docs/plans/16-create-the-keiro-runtime-package-set-and-compose-applications-on-it.md | EP-9, EP-10 | None | Not Started |
 | 11 | Adopt the shared package set in rei and mori-rei-app | docs/plans/11-adopt-the-shared-package-set-in-rei-and-mori-rei-app.md | EP-9, EP-10, EP-16 | None | Not Started |
@@ -179,6 +179,7 @@ Phase 3 (plan 14) comes last because it is the only place all five meet: the dot
 
 Status values: Not Started, In Progress, Complete, Cancelled.
 EP-12's current work is its explicitly independent Hasql-vendoring Milestone 1; cohort/runtime adoption still waits for its hard dependencies. On 2026-10-05 the user requested parallel execution: EP-10, EP-12 M1 and the relay compatibility release run concurrently with EP-8. EP-16's read-only runtime inventory is preparation, not completion of its prerequisite-dependent implementation.
+EP-9's current work is its explicitly independent Cabal-format guard and fixture-based parser/generator preparation. Its Context already permits these additive milestones before EP-8 finishes. Activating the generated layer and completing EP-9 still require EP-8 acceptance; no aggregate gate is waived.
 Hard Deps and Soft Deps reference other rows by their # prefix (e.g., EP-8). This repository numbers ExecPlans globally, so this MasterPlan's children are 8 through 17. Plan 15 was added on the user's decision to move the whole family to effectful 2.7; it runs first. Plan 17 adds the user's later cross-project ephemeral PostgreSQL cleanup migration.
 
 
@@ -195,7 +196,7 @@ Plan 15 releases versions that admit effectful 2.7 (floors: `effectful` 2.7.1.0,
 
 **Plan 8 hard-depends on plan 15**, because the freeze cannot select effectful 2.7 until those releases exist. Every other plan consumes plan 8's freeze file. Plan 8 resolves the cohort in its own Cabal project inside this repository, not inside any application. The applications' own caps are reported by plan 8 and lifted by the consumer plans.
 
-**Plan 9 hard-depends on plan 8.** It generates Nix entries from the freeze, and its parity check compares the channel against that file. It cannot start without it.
+**Plan 9's generated-layer activation hard-depends on plan 8.** It generates Nix entries from the accepted freeze, and its parity check compares the channel against that file. Its additive Cabal-format guard and fixture-based parser/generator milestones can proceed independently, as its Context and Orientation specifies. This preparation changes no selected package versions and does not establish channel parity.
 
 **Plan 10 has no hard dependency** and can begin in parallel with plan 8. It inventories consumer overlays and moves shared overrides into this repository's registry. It soft-depends on plan 9: once plan 9 generates version pins, plan 10's entries must carry only build policy (jailbreak, tests, flags, source revisions), not versions. If plan 10 lands first, plan 9 converts its version pins. The two reconcile through the registry (see Integration Points).
 
@@ -364,6 +365,8 @@ The goal is less repeated coordination and dependency compilation. Equal version
 
 
 ## Decision Log
+
+- Decision (2026-10-06, parallel execution): begin only EP-9's already specified independent format guard and fixture-based parser/generator work while EP-8/EP-10 aggregate acceptance continues. Preserve every full-matrix, cache, manifest, runtime and deployment gate. The verified freeze/source artifacts are available at `237d83c`; separate compiler failures in the current pre-projection package set do not prevent additive tools from being implemented. Registry status tracks this limited preparation, matching EP-12's independent milestone convention.
 
 - Decision (user, 2026-10-05): upgrade the shared cohort and all consumers to random >1.3. EP-8 records a 1.3.1 floor and stages the refreshed stock inventory; a compatible Shibuya core/metrics patch release is required before accepting the new solve. EP-12 removes the obsolete Mori project cap during adoption. The prior committed freeze is a validated earlier checkpoint, not acceptance of this new policy.
 

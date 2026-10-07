@@ -22,6 +22,11 @@ provenance:
       at: 2026-10-04T13:51:42Z
       mode: "update"
       note: "Apply dependency-alignment review: routine update isolation, shared build evidence and applicable cache/ownership corrections; implementation pending."
+    - model: "gpt-6.1-sol"
+      harness: "codex"
+      at: 2026-10-07T00:41:12Z
+      mode: "implement"
+      note: "Independent format guard and parser/generator preparation; activation remains gated on EP8 acceptance"
   reviews:
     - model: "gpt-6.1-sol"
       harness: "codex-cli"
@@ -95,12 +100,14 @@ Acceptance fixtures include statically linked missing dependencies, wrong plus c
 
 ## Progress
 
+- [ ] (2026-10-06, started) Independent preparation: add the format guard and fixture-based rich parser/generator modules while EP-8's aggregate acceptance runs. No generated layer activation or completion is claimed.
+
 - [ ] Manifest/lock-resolution fixtures pass and shared dependency outputs are available from the CI cache
 
 - [ ] Milestone 1 (prototype): reproduce which `cabal-version` values the channel's
   `callCabal2nix` path parses at the pinned nixpkgs, and decide whether a GHC 9.12 `cabal2nix`
   overlay is needed.
-- [ ] Milestone 1: add the `cabal-version-support` check with `cabal-version: 3.14` and `3.16`
+- [x] (2026-10-07 UTC) Milestone 1: add the `cabal-version-support` check with `cabal-version: 3.14` and `3.16`
   fixtures (and, only if the prototype says so, the fallback override).
 - [ ] Milestone 2: add `lib/parseCohortFreeze.nix` and its nix-unit tests.
 - [ ] Milestone 2: add `config/cohort-policy.json`.
@@ -126,6 +133,9 @@ Acceptance fixtures include statically linked missing dependencies, wrong plus c
 
 
 ## Surprises & Discoveries
+
+- Observation (2026-10-06): forcing both 3.14 and 3.16 fixtures through both channel `callCabal2nix` paths parses successfully, but building the 3.16 fixture with GHC 9.12.4's boot Cabal 3.14.2.0 fails before configure. The guard must build the 3.14 fixture and separately force all four parser derivations. The two tools' supported format ceilings are distinct; no cabal2nix rebuild is justified by a setup-driver failure.
+  Evidence: the corrected `nix build .#checks.aarch64-darwin.cabal-version-support --no-link --max-jobs 2 --cores 2` exits 0, realizing the 3.14 tiny library and the guard after forcing all four parser paths. `nix fmt` succeeds. The guard does not claim that GHC's boot setup driver supports 3.16.
 
 - Observation: The channel's `callCabal2nix`, `callHackage` and `callHackageDirect` already parse
   `cabal-version: 3.14` and `3.16` at the pinned nixpkgs `d5dfd8e6`, and reject only `3.18`. The
@@ -185,6 +195,8 @@ Acceptance fixtures include statically linked missing dependencies, wrong plus c
 
 
 ## Decision Log
+
+- Decision (2026-10-06): implement only the additive preparatory milestones explicitly permitted in Context while EP-8 aggregate acceptance runs. Root owns format fixtures/check integration and CLI registration; the Haskell worker extends the existing freeze/model ownership with isolated generation modules/tests. The generator reads the source manifest as well as the 445-entry freeze, retaining all five source pins and the 450-selection identity coverage. Keep generated-layer activation gated on EP-8 and preserve final acceptance requirements.
 
 - Decision (runtime plan, 2026-10-04): adopt the plan-16 integration contract above. It owns retained runtime selection/composition, while this plan retains its existing solver/generation/policy/consumer/deployment responsibility. Consumer plans 11–13 require runtime delivery before adoption; preparatory shared tools do not depend on consumers.
 

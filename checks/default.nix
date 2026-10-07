@@ -87,6 +87,15 @@ let
       firstPartyPackageSets);
 in
 {
+  cabal-version-support = import ./cabal-version-support.nix {
+    inherit lib;
+    pkgs = pkgsPlain;
+    scopes = {
+      github = pkgsGithub.haskell.packages.${defaultGhc};
+      hackage = pkgsHackage.haskell.packages.${defaultGhc};
+    };
+  };
+
   # Validate that the registry has the expected structure:
   # each entry is a list of { min, max, patch } or { always, patch } attrsets.
   registry-valid =
