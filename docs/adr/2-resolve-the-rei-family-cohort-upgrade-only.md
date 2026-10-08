@@ -111,4 +111,5 @@ Stable instance roots and the reusable initdb cache are separate configuration
 boundaries. A Nix test recipe must provide a writable, build-owned cache location
 when its default HOME is read-only; setting `XDG_CACHE_HOME` in the check phase
 preserves caching without changing the effective-UID instance root or touching
-developer caches. The Codd helper's full Nix test gate exercises this distinction.
+developer caches. This cache rule is independent of whether any particular
+consumer remains active.
