@@ -173,7 +173,7 @@ Phase 3 (plan 14) comes last because it is the only place all five meet: the dot
 |---|-------|------|-----------|-----------|--------|
 | 15 | Release the first-party libraries on effectful 2.7 | docs/plans/15-release-the-first-party-libraries-on-effectful-2-7.md | None | None | Complete |
 | 8 | Resolve one upgrade-only cohort freeze for the Rei family of applications | docs/plans/8-resolve-one-upgrade-only-cohort-freeze-for-the-rei-family-of-applications.md | EP-15 | None | Complete |
-| 17 | Upgrade every ephemeral PostgreSQL consumer to stable cleanup roots | docs/plans/17-upgrade-every-ephemeral-postgresql-consumer-to-stable-cleanup-roots.md | None | EP-8, EP-9, EP-10 | In Progress |
+| 17 | Upgrade every ephemeral PostgreSQL consumer to stable cleanup roots | docs/plans/17-upgrade-every-ephemeral-postgresql-consumer-to-stable-cleanup-roots.md | None | EP-8, EP-9, EP-10 | Complete |
 | 9 | Generate the Nix package set from the cohort freeze and guard version parity | docs/plans/9-generate-the-nix-package-set-from-the-cohort-freeze-and-guard-version-parity.md | EP-8 | None | In Progress |
 | 10 | Own the shared third-party overrides in the channel instead of consumer overlays | docs/plans/10-own-the-shared-third-party-overrides-in-the-channel-instead-of-consumer-overlays.md | None | EP-9 | Complete |
 | 16 | Create the Keiro runtime package set and compose applications on it | docs/plans/16-create-the-keiro-runtime-package-set-and-compose-applications-on-it.md | EP-9, EP-10 | None | Not Started |
@@ -293,7 +293,8 @@ The goal is less repeated coordination and dependency compilation. Equal version
 ## Progress
 
 - [x] (2026-10-07) EP-17: concurrent cross-session cleanup probe passes; Keiei/Meibo adopt narrow test-only backports while retaining production runtime unit identities; migration fixtures and upstream helper assertions pass.
-- [ ] EP-17: finish Kizashi/codd-extras and remaining PGMQ/adapter/Kawa database suites, scoped Nix verification and final audit.
+- [x] (2026-10-07) EP-17: Kizashi/codd-extras and remaining PGMQ/adapter/Kawa default database suites pass; all three legacy consumers are committed and pushed.
+- [x] (2026-10-07) EP-17: Codd full native Nix gate and Darwin/Linux dependency targets pass; final current-source/local-dependency old-bound audits are empty. Its source/recipe is committed at `af5239e` in `mori://shinzui/codd-extras`; GitHub rejects push because the repository is archived. Kizashi uses the validated local checkout; remote publication remains an explicit limitation.
 
 - [x] (2026-10-05) EP-15 Shikumi milestone: reuse Shikumi/tools 0.4.1.0; publish nine remaining patch releases with docs/tags/GitHub releases after both effectful-line tests and release gates pass
 - [x] (2026-10-05) EP-15 Keiro compatibility preparation: bound widening committed locally; full builds with tests enabled pass on effectful 2.6 and 2.7
@@ -436,7 +437,7 @@ The goal is less repeated coordination and dependency compilation. Equal version
 
 ## Outcomes & Retrospective
 
-Resumed checkpoint (2026-10-07): EP-17 remains In Progress. The live-retention acceptance and Keiei/Meibo legacy cleanup backports pass; PGMQ passes 100 tests, and the channel Linux ephemeral-pg target returns exit 0. Kizashi/codd-extras and remaining database suites are running. The shared cohort and accepted runtime channel remain unchanged. EP-9 follows EP-17 in registry order; no generated-layer/runtime/deployment completion is claimed.
+Resumed checkpoint (2026-10-07): EP-17 is Complete. Concurrent live retention, orphan reclamation and normal teardown pass through the actual helper. Keiei/Meibo preserve runtime unit identities and pass migration fixtures; their commits and Kizashi's are pushed. All remaining default database suites pass, along with the targeted Linux channel dependency and full native Codd package check. Final registered/local-source old-bound audits are empty. Archived codd-extras cannot accept a push; validated source/recipe commit `af5239e` remains local and remote publication requires restored write access. Four of ten children are Complete. EP-9 is the next eligible child in registry order; generated-layer, runtime-generation, cache and deployment gates remain open.
 
 Stopping checkpoint (2026-10-06, user request): EP-8 and EP-10 are Complete; EP-9 is In Progress and its hard prerequisite is satisfied. The full native Nix gate passed with exit 0 on immutable snapshot `3b2a593b77e700219283af92236f336e47255a63`; receipt `/tmp/mp3-ep10-native-full-check-3b2a593-20261006.log`. Formatting, shared overrides, Nix unit checks and package-set-default pass. All four compiler/source-channel cells report zero mismatches: GitHub 78 packages and Hackage 68 packages per compiler (GHC 9.12.4 and 9.14.1). Full Linux validation, generated-layer parity, consumer adoption and cache publication are separate later gates. Committed parser preparation is at `9a7283e`. The Haskell generator modules, tests and registrations pass all 107 helper tests and are included in the committed stopping checkpoint. Resume with the live generator and Nix layer. EP-17 legacy consumers remain unfinished. Pause further implementation for the day; no new authorization is needed to resume the previously approved scope.
 
