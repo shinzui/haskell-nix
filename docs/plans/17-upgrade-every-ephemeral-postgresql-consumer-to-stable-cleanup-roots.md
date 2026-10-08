@@ -17,6 +17,11 @@ provenance:
       at: 2026-10-06T17:44:11Z
       mode: "implement"
       note: "Audit all registered consumers and stage stable-root source, release and Nix migrations"
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-08T04:24:34Z
+      mode: "implement"
+      note: "Resume legacy compatibility migrations and concurrent cleanup acceptance"
 ---
 
 # Upgrade every ephemeral PostgreSQL consumer to stable cleanup roots
@@ -42,17 +47,22 @@ Retire ephemeral-pg 0.2 from all registered first-party consumers and their Nix 
 - [x] (2026-10-06) Validate and commit En (`c3ee100`) and Shomei (`0eedad1`): En integration scenarios and lookup-spike compilation pass; Shomei migration tests, test-support and server compilation pass with published pg-migrate 1.2 and ephemeral-pg 0.3.1. Repository formatting hooks pass; unrelated En manifest edits remain untouched.
 - [x] (2026-10-06) Main Mori/Rei consumer gates pass 4,554 tests; actual modified Mori helper reclaims a killed owner's server/data across different TMPDIR sessions. Concurrent-live-consumer protection still needs explicit probe evidence.
 - [x] (2026-10-06) Regenerate MLS freeze through a held-pin solve: ephemeral-pg 0.2.2 becomes 0.3.1; 426 other versions remain unchanged; filelock 0.1.1.9 is the only added package.
-- [ ] Compile/test every changed consumer and verify stable-root behavior across different TMPDIR sessions, including killed-owner cleanup while retaining a live consumer.
-- [ ] Regenerate MLS and Koyomi freezes through held-pin solves, preserving unrelated selections; update the old Koyomi index cutoff only as required to admit the release.
+- [x] (2026-10-07) Verify stable-root behavior through Mori's actual helper in three different TMPDIR sessions: killed-owner process/data reclamation, concurrent live-consumer SQL connectivity and normal teardown all pass. Durable harness: `scripts/verify-ephemeral-cleanup.py`; probe: `cabal/fixtures/ephemeral-cleanup-probe.hs`; receipt: `/tmp/mp3-ep17-live-retention.json`.
+- [x] (2026-10-07) Backport only Keiei/Meibo's legacy test helpers; fresh whole-project solves retain every unrelated version and all Keiro/Kiroku/PG-migrate production unit identities. Both application migration fixtures and both five-assertion upstream PG helper suites pass. Commits: `f919e31` in `mori://shinzui/keiei`, `f0f4dec` in `mori://shinzui/meibo`.
+- [ ] Finish Kizashi/codd-extras compilation and database suites, and run the remaining PGMQ/adapter/Kawa database suites. PGMQ now passes all 100 assertions; remaining jobs retain bounded concurrency.
+- [x] (2026-10-06) Regenerate MLS and Koyomi freezes through held-pin solves. MLS retains 426 unrelated versions; Koyomi retains 310, all 56 ordered migration tuples and all 11 PostgreSQL assertions. Koyomi is pushed at `73bad36e968946efaaacd854d32b877d7aa35bcc`.
 - [ ] Complete the shared/standalone Nix recipes and targeted Darwin/Linux checks. Channel guard tests currently pass 61 cases; full acceptance is pending.
 - [x] (2026-10-06) Publish and verify Kioku 0.8.0.2, Relay 0.1.1.2 and Shikumi cache-postgres 0.1.3.2 through their release skills: ten source packages, nine documentation archives, 22 suites and 1,305 tests passed. Exact source/Cabal/tag evidence is preserved in `/tmp/mp3-ep17-runtime-releases.json`.
-- [ ] Refresh the published runtime channel generations and shared cohort with an observed signed index cutoff admitting all ten release entries.
+- [x] (2026-10-06) Refresh the runtime channel generations and shared cohort at observed signed index `2026-10-06T21:15:24Z`; all ten release entries are admitted, with zero downgrades and verified replay/deterministic regeneration.
 - [x] (2026-10-06) Remaining four consumers pass 1,363 tests plus eight exact-function configuration guards: MessageDB 22, registration 911, Shibuya MessageDB adapter 37 and MLS 393. Commits are clean; MessageDB uses an external working toolchain because its own private dependency host is unavailable. The two archived consumers retain their historical cutoffs through an exact published ephemeral-pg source pin.
 - [x] (2026-10-06) Root batch compilation completes for all seven targets after retries: Shibuya PGMQ explicitly enables tests; Kawa uses its declared native Kafka shell. En/Shomei/Shiki database suites pass; PGMQ/adapter/benchmark/Kawa compilation alone does not claim those suites ran.
 - [ ] Commit verified consumer changes with canonical trailers, push authorized repositories, update the session retrospective and final audit. Mori push/deployment remains a separate coordinated step.
 
 
 ## Surprises & Discoveries
+
+- 2026-10-07: Kizashi loads the unregistered `mori://shinzui/codd-extras` through `cabal.project.local`. Both of that helper's startup paths and its ephemeral-pg bound need migration. Its standalone Nix recipe also needs the admitting Hasql dependency scope; consume the pinned shared channel rather than duplicating its third-party fixes. The unused Kiroku test-support source goal is absent from every Kizashi component dependency and can be removed without changing its runtime.
+- 2026-10-07: old Keiro/PG-migrate test helpers can be backported locally without advancing their persistent migration packages. Baseline/candidate solves change only ephemeral-pg, filelock and the two local helper patch versions; production unit identities remain equal. The local packages are explicitly unpublished, with recorded upstream source revisions and a retirement contract.
 
 - 2026-10-06: startup sweeping defaults to enabled, but its search is confined to `temporaryRoot`. With an unset root, per-session TMPDIR makes the feature miss prior abandoned instances. 0.3.1.0 exports the needed cached config-taking bracket.
 - 2026-10-06: source scanning finds additional projects absent from declared reverse dependencies. Recorded Cabal selections were already 0.3.1 for Rei/Mori/mori-rei-app, but their startup helpers still used default roots. Version-only checks would miss the cleanup failure.
@@ -66,6 +76,8 @@ Retire ephemeral-pg 0.2 from all registered first-party consumers and their Nix 
 
 ## Decision Log
 
+- Decision (2026-10-07): use narrowly vendored, application-owned cleanup backports for Keiei/Meibo's test-only helpers, retaining their exact runtime pins and migration composition. Record local patch versions, upstream source revisions, retained tests and retirement conditions in each consumer's `test/compat`. Do not lift bounds on the old helpers or represent the copies as upstream releases. ADR 2 records the durable compatibility contract.
+
 - Decision (user, 2026-10-06): upgrade all projects to ephemeral-pg 0.3 and adopt the cleanup configuration. Require at least 0.3.1.0 because it exports `withCachedConfig`; use `<0.4` for consumer compatibility bounds.
 - Decision (2026-10-06): use short `/tmp/ephpg-<project>-<effectiveUid>` roots, shared across a project's suites, preserving caller settings. Retain default-enabled sweeping. Existing stable helpers are reused; copied packaged helpers must select the same root.
 - Decision (2026-10-06): keep unrelated dependency pins and user edits intact. Freeze updates use actual Cabal solves; never claim a manually edited version constraint proves compatibility. Minimal coupled pg-migrate updates are part of this migration.
@@ -74,7 +86,7 @@ Retire ephemeral-pg 0.2 from all registered first-party consumers and their Nix 
 
 ## Outcomes & Retrospective
 
-Implementation is in progress. The shared freeze selects 0.3.1.0, and source migrations address stable cleanup roots as well as dependency versions. The ten runtime cleanup packages are published and live-verified after 1,305 tests. Their channel refresh is committed and pushed; the shared cohort now incorporates the used releases at signed index `2026-10-06T21:15:24Z`, with zero downgrades and verified replay and deterministic regeneration. Nine additional consumer commits have been pushed, including the registration merge validated by 911 tests. Koyomi's held legacy migration compatibility proof, Keiei/Kizashi/Meibo's older helper constraints, the concurrent live-consumer retention probe and final channel acceptance remain required. No fleet-wide migration or deployment completion is claimed.
+Implementation is in progress. On 2026-10-07 the concurrent cleanup probe passes, Keiei/Meibo's legacy cleanup adoption is committed after real fixtures and fresh selection/identity comparisons, and the Linux channel ephemeral-pg target passes (exit 0). Kizashi/codd-extras and the remaining database suites are running. The shared freeze selects 0.3.1.0, and source migrations address stable cleanup roots as well as dependency versions. The ten runtime cleanup packages are published and live-verified after 1,305 tests. Their channel refresh is committed and pushed; the shared cohort now incorporates the used releases at signed index `2026-10-06T21:15:24Z`, with zero downgrades and verified replay and deterministic regeneration. Nine additional consumer commits have been pushed, including the registration merge validated by 911 tests. Koyomi's held migration proof is accepted at the end-of-day checkpoint below. Kizashi/codd-extras, final consumer-suite acceptance and the final audit remain required. No fleet-wide migration or deployment completion is claimed.
 
 
 ## Context and Orientation
@@ -83,7 +95,7 @@ The shared floor lives in `cabal/policy-floors.json`, the accepted selection in 
 
 Upstream is `mori://shinzui/ephemeral-pg`; its guide is available through `mori://shinzui/ephemeral-pg/docs/guides`, project-relative path `temporary-roots-and-stale-cleanup.md` (artifact-level URI pending). `src/EphemeralPg.hs` exports Config, Database, StartError, withConfig, withCachedConfig and sweepStaleInstances. `src/EphemeralPg/Config.hs` defines temporaryRoot and sweepStaleOnStart. A temporary root is the allocation/sweep boundary, not the reusable initdb cache. Effective UID distinguishes developer and Nix sandbox users.
 
-Runtime owners are `mori://shinzui/keiro`, `mori://shinzui/kiroku`, `mori://shinzui/kioku`, `mori://shinzui/shikumi`, `mori://shinzui/pg-migrate` and `mori://shinzui/relay-pagination`. Consumer owners include `mori://shinzui/rei`, `mori://shinzui/mori`, `mori://shinzui/mori-app`, `mori://shinzui/mori-rei-app`, `mori://shinzui/en`, `mori://shinzui/kawa`, `mori://shinzui/shiki`, `mori://shinzui/shomei`, `mori://shinzui/keiro-benchmarks`, `mori://shinzui/pgmq-hs`, `mori://shinzui/shibuya-pgmq-adapter`, `mori://shinzui/shibuya-message-db-adapter`, `mori://tan/message-db-hs`, `mori://tan/mls-service-v2` and `mori://tan/registration-service-v2`. Also audit source pins in `mori://shinzui/keiei`, `mori://shinzui/kizashi` and `mori://shinzui/meibo`, and the freeze in `mori://shinzui/koyomi`. Resolve checkout paths through Mori rather than assuming repo layouts.
+Runtime owners are `mori://shinzui/keiro`, `mori://shinzui/kiroku`, `mori://shinzui/kioku`, `mori://shinzui/shikumi`, `mori://shinzui/pg-migrate` and `mori://shinzui/relay-pagination`. Consumer owners include `mori://shinzui/rei`, `mori://shinzui/mori`, `mori://shinzui/mori-app`, `mori://shinzui/mori-rei-app`, `mori://shinzui/en`, `mori://shinzui/kawa`, `mori://shinzui/shiki`, `mori://shinzui/shomei`, `mori://shinzui/keiro-benchmarks`, `mori://shinzui/pgmq-hs`, `mori://shinzui/shibuya-pgmq-adapter`, `mori://shinzui/shibuya-message-db-adapter`, `mori://tan/message-db-hs`, `mori://tan/mls-service-v2` and `mori://tan/registration-service-v2`. The additional unregistered helper `mori://shinzui/codd-extras` is located through Kizashi's `cabal.project.local`; its owning Git remote confirms the canonical project identity. Also audit source pins in `mori://shinzui/keiei`, `mori://shinzui/kizashi` and `mori://shinzui/meibo`, and the freeze in `mori://shinzui/koyomi`. Resolve checkout paths through Mori rather than assuming repo layouts.
 
 
 ## Plan of Work
@@ -119,6 +131,26 @@ git diff --check
 ```
 
 Use existing Nix shells for native inputs when required, with `--max-jobs 2 --cores 2`. Root staging receipts are `/tmp/mp3-ephemeral-consumer-edits.json` and `/tmp/mp3-ephemeral-remaining-edits.json`; their scripts reject input changes before applying. Runtime audit is `/tmp/mp3-ephpg-runtime-audit.json`. Main consumer gates preserve logs in `/tmp/mp3-ephemeral-consumer-gates-limited`. These are session evidence; durable summaries belong here.
+
+
+The committed live-retention harness runs from this repository against Mori's actual helper:
+
+```bash
+python3 scripts/verify-ephemeral-cleanup.py \
+  --cwd "$(mori path mori://shinzui/mori)" \
+  --helper mori://shinzui/mori/packages/mori-core \
+  --receipt /tmp/mp3-ep17-live-retention.json -- \
+  cabal exec -- runghc -XGHC2024 -imori-core/test \
+  "$PWD/cabal/fixtures/ephemeral-cleanup-probe.hs"
+```
+
+It prints `PASS: cross-session orphan reclaimed; concurrent live consumer retained`.
+All three consumers and their servers belong to the probe. The receipt records
+the command, stable root, distinct TMPDIRs, orphan reclamation, live SQL query and
+normal process/data teardown. Keiei and Meibo use their local `test/compat`
+packages in `cabal.project`; run their application migration suite and
+`pg-migrate-test-support-test` with Cabal `-j2`. Their README and `sources.json`
+record the backport ownership, upstream revisions and retirement contract.
 
 
 ## Validation and Acceptance

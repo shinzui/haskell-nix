@@ -88,3 +88,21 @@ Implementation clarification (2026-10-05): explicit `cabal/policy-roots.json` re
 Implementation clarification (2026-10-06): explicit roots also retain historical observed libraries when newer transitive dependencies stop selecting them. Basement, memory and old-time remain at or above their recorded floors even after fresh stock inventories classify them as configured Hackage dependencies. A missing selection remains a downgrade; removing an old transitive edge does not authorize discarding its historical floor.
 
 Cleanup configuration (2026-10-06): adopting ephemeral-pg 0.3.1.0 also requires consumers to set a short, stable, effective-user-ID-specific `temporaryRoot`, shared by their suites across shell sessions, and retain enabled startup sweeping. Configless `with`/`withCached` wrappers inherit a changing `$TMPDIR` and cannot implement this contract. Use config-taking wrappers or existing stable configuration helpers while preserving custom PostgreSQL settings. The reference implementation and guide belong to `mori://shinzui/ephemeral-pg`; project-relative path `docs/guides/temporary-roots-and-stale-cleanup.md` (artifact-level URI pending). [Plan 17](../plans/17-upgrade-every-ephemeral-postgresql-consumer-to-stable-cleanup-roots.md) tracks cross-project configuration adoption and release evidence.
+
+Legacy cleanup compatibility (2026-10-07): a cleanup-only upgrade must not silently
+advance persistent migration components or writer versions. Consumers can retain
+their runtime cohort and vendor narrowly patched, application-owned test helpers
+from exact recorded upstream revisions. Give the local backports explicit patch
+versions, preserve upstream tests and record their source, changed configuration,
+dependency bounds and retirement contract. Do not describe these local packages as
+published upstream releases. Fresh baseline/candidate solves must retain unrelated
+versions and the production runtime unit identities; database fixtures must pass.
+Retire the copies when the application separately adopts an upstream runtime
+generation whose published helpers satisfy the cleanup contract.
+
+The implementation in `mori://shinzui/keiei` and `mori://shinzui/meibo` retains all
+selected Keiro, Kiroku and PG-migrate production unit identities. Only ephemeral-pg,
+the two test-helper patch versions and the newly required filelock selection move.
+The cross-session probe in [verify-ephemeral-cleanup.py](../../scripts/verify-ephemeral-cleanup.py)
+uses the actual helper in `mori://shinzui/mori` and demonstrates orphan process/data
+reclamation, concurrent live-consumer connectivity and normal teardown.

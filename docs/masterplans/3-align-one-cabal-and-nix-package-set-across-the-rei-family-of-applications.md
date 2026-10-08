@@ -31,6 +31,11 @@ provenance:
       at: 2026-10-05T14:23:13Z
       mode: "implement"
       note: "Select EP-15 and record current release prerequisites."
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-08T04:24:34Z
+      mode: "implement"
+      note: "Resume EP-17 as first eligible unfinished child"
   reviews:
     - model: "gpt-6.1-sol"
       harness: "codex-cli"
@@ -287,6 +292,9 @@ The goal is less repeated coordination and dependency compilation. Equal version
 
 ## Progress
 
+- [x] (2026-10-07) EP-17: concurrent cross-session cleanup probe passes; Keiei/Meibo adopt narrow test-only backports while retaining production runtime unit identities; migration fixtures and upstream helper assertions pass.
+- [ ] EP-17: finish Kizashi/codd-extras and remaining PGMQ/adapter/Kawa database suites, scoped Nix verification and final audit.
+
 - [x] (2026-10-05) EP-15 Shikumi milestone: reuse Shikumi/tools 0.4.1.0; publish nine remaining patch releases with docs/tags/GitHub releases after both effectful-line tests and release gates pass
 - [x] (2026-10-05) EP-15 Keiro compatibility preparation: bound widening committed locally; full builds with tests enabled pass on effectful 2.6 and 2.7
 
@@ -317,6 +325,8 @@ The goal is less repeated coordination and dependency compilation. Equal version
 
 
 ## Surprises & Discoveries
+
+- Observation (2026-10-07, EP-17): Keiei/Meibo's legacy runtime can remain fixed while local test-only helpers admit ephemeral-pg 0.3.1 and stable UID roots. Fresh baseline/candidate solves retain all unrelated versions and production Keiro/Kiroku/PG-migrate unit identities. Mori's actual helper passes orphan reclamation plus concurrent live SQL connectivity across three TMPDIR sessions. Kizashi additionally exposes an unregistered codd-extras cleanup consumer. Its source and standalone Nix recipe join the audit; no original five-application cohort membership is added.
 
 - Observation (2026-10-06, release cohort checkpoint): the published runtime cleanup patches and OKF 0.10 now enter the shared Cabal cohort at signed index `2026-10-06T21:15:24Z`. Replay and a second regeneration pass with identical artifacts: 450 selections, zero downgrades, 37 consumer caps and 19 source pins. All 445 previously frozen names remain; eight first-party versions and the HTTP/2 5.4.8 patch advance. Inventory channel/contributor revisions are preserved. EP-10's narrow Kioku 0.8.0.2/GHC 9.14.1 compiler workaround passes both native source-channel targets and 78 policy guards; the full matrix remains a required gate. EP-9 preparation can proceed read-only while that gate runs.
 
@@ -425,6 +435,8 @@ The goal is less repeated coordination and dependency compilation. Equal version
 
 
 ## Outcomes & Retrospective
+
+Resumed checkpoint (2026-10-07): EP-17 remains In Progress. The live-retention acceptance and Keiei/Meibo legacy cleanup backports pass; PGMQ passes 100 tests, and the channel Linux ephemeral-pg target returns exit 0. Kizashi/codd-extras and remaining database suites are running. The shared cohort and accepted runtime channel remain unchanged. EP-9 follows EP-17 in registry order; no generated-layer/runtime/deployment completion is claimed.
 
 Stopping checkpoint (2026-10-06, user request): EP-8 and EP-10 are Complete; EP-9 is In Progress and its hard prerequisite is satisfied. The full native Nix gate passed with exit 0 on immutable snapshot `3b2a593b77e700219283af92236f336e47255a63`; receipt `/tmp/mp3-ep10-native-full-check-3b2a593-20261006.log`. Formatting, shared overrides, Nix unit checks and package-set-default pass. All four compiler/source-channel cells report zero mismatches: GitHub 78 packages and Hackage 68 packages per compiler (GHC 9.12.4 and 9.14.1). Full Linux validation, generated-layer parity, consumer adoption and cache publication are separate later gates. Committed parser preparation is at `9a7283e`. The Haskell generator modules, tests and registrations pass all 107 helper tests and are included in the committed stopping checkpoint. Resume with the live generator and Nix layer. EP-17 legacy consumers remain unfinished. Pause further implementation for the day; no new authorization is needed to resume the previously approved scope.
 
