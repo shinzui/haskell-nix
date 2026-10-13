@@ -112,11 +112,11 @@
     "keiro-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1791216582,
-        "narHash": "sha256-O9Cs1U/AORS7ApmR7wMS9RKVSCqLiVj80JjlJmyYl+k=",
+        "lastModified": 1791832909,
+        "narHash": "sha256-zRZByw7Q5ugSZwKmQiP9295hLBRWEpWfnkYuRqMkYds=",
         "owner": "shinzui",
         "repo": "keiro",
-        "rev": "9b215c1121a694e49d582d9bb4e8600a3b9b446f",
+        "rev": "d1492d748fc1063a7eceb8e36516c71b853397b3",
         "type": "github"
       },
       "original": {
@@ -128,11 +128,11 @@
     "kioku-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1791312928,
-        "narHash": "sha256-7FG4pKK8H4zZnICRg4sXHzAuvBz1nEwTpZmr7UEIOIk=",
+        "lastModified": 1791867422,
+        "narHash": "sha256-8cnfZeR9PMMED6+e+Nx07UmlOQ3toHYUuoCLvlxL3w8=",
         "owner": "shinzui",
         "repo": "kioku",
-        "rev": "d93992ddeb7c888e4b6e45654e325e66ecb85ac3",
+        "rev": "718370584988cfac5296ae1bfe60fd4dab5c8655",
         "type": "github"
       },
       "original": {
@@ -144,11 +144,11 @@
     "kiroku-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1790373207,
-        "narHash": "sha256-wyKmeqJ+LqGKRHSPSBRtXpY65mxLpCwUJPig5Ujo9Ek=",
+        "lastModified": 1791832883,
+        "narHash": "sha256-VUtT3gjNwbyTK+8Nbd1xai4pUK3Bp40U86S9h03b4I0=",
         "owner": "shinzui",
         "repo": "kiroku",
-        "rev": "1bde55753ed7ede182481ce6d5df35f2f1a02c86",
+        "rev": "76ffe79804e88feed5bc5fc07e2f43fb2a71b9a5",
         "type": "github"
       },
       "original": {
