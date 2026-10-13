@@ -33,6 +33,7 @@ let
     servant-health = "0.1.0.0";
     servant-openapi-hs = "5.1.0";
     servant-server = "0.20.3.0";
+    shibuya-pgmq-adapter = "0.16.1.0";
     thread-utils-context = "0.4.1.0";
     thread-utils-finalizers = "0.1.1.0";
     typeid-hs-pg-migrate = "0.1.0.0";
