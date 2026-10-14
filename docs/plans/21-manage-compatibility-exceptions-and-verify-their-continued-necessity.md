@@ -5,6 +5,8 @@ title: "Manage compatibility exceptions and verify their continued necessity"
 kind: exec-plan
 created_at: 2026-10-14T17:03:19Z
 intention: "intention_01m4xnts6yewd84gx1ymajdzdv"
+mori_publish: true
+master_plan: "docs/masterplans/4-coordinate-horizon-inspired-haskell-nix-performance-and-reliability-improvements.md"
 provenance:
   created_by:
     model: "gpt-6.1-sol"
@@ -16,6 +18,11 @@ provenance:
       at: 2026-10-14T17:08:07Z
       mode: "other"
       note: "Define structured exception lifecycle, explicit dependency test/bounds policy, and evidence-backed removal probes."
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-14T17:32:37Z
+      mode: "update"
+      note: "Add cross-repository umbrella coordination and scoped Mori publication without changing implementation ownership."
 ---
 
 # Manage compatibility exceptions and verify their continued necessity
@@ -45,6 +52,9 @@ This is a standalone plan covering exception lifecycle and the validation necess
 No implementation experiments or retirement decisions are recorded. The source baseline and already documented exceptions are described in Context and Orientation.
 
 ## Decision Log
+
+
+2026-10-14: Coordinate this workstream under [MasterPlan 4](../masterplans/4-coordinate-horizon-inspired-haskell-nix-performance-and-reliability-improvements.md). Scoped Mori publication records its production prerequisites and integration relationships; initial fixture work remains independent. Existing generator/runtime ownership and this plan's acceptance remain unchanged.
 
 
 2026-10-14: Preserve existing production behavior during catalog migration, then narrow exceptions through explicit evidence-backed changes. New exceptions require scope, reason, owner, evidence requirements, and a retirement condition; old unverified behavior remains visibly unverified during migration rather than acquiring invented compatibility evidence.
@@ -171,9 +181,11 @@ Reports and checks are read-only; probes build explicit baseline/candidate recip
 
 The updater's new Compatibility modules validate contexts, invoke explicit Nix check targets, and verify receipts. Share parsing of policy/profile/context data between report and verification; do not maintain a second dispatch or freeze parser. Catalog IDs join recipes and evidence; recipe-affecting identity excludes prose and observation timestamps. Capture actual effective policy and dependency graphs through existing generator/runtime manifest APIs when delivered, distinguishing validation dependency instances from production ones.
 
-This plan owns structured exception metadata, package test/bounds policy, reports, removal probes, receipt rules, and a real narrowing pilot. Plans 9, 10, 16, and 19 keep generation/manifests, shared ownership, retained runtime, and full recipe conversion respectively. No new master plan is necessary because this single four-milestone plan delivers the coupled lifecycle/validation feature. The toolchain capability and smoke-check initiative at `mori://shinzui/haskell-nix-dev/masterplans/2-publish-verified-haskell-toolchain-capabilities-and-support-evidence` supplies optional identity/evidence integration and is not a hard prerequisite. Hoogle/documentation tooling is outside this plan's scope.
+This plan owns structured exception metadata, package test/bounds policy, reports, removal probes, receipt rules, and a real narrowing pilot. Plans 9, 10, 16, and 19 keep generation/manifests, shared ownership, retained runtime, and full recipe conversion respectively. The coupled lifecycle/validation feature remains one four-milestone plan, now coordinated by [MasterPlan 4](../masterplans/4-coordinate-horizon-inspired-haskell-nix-performance-and-reliability-improvements.md) at the user's request for cross-repository progress tracking. The toolchain capability and smoke-check initiative at `mori://shinzui/haskell-nix-dev/masterplans/2-publish-verified-haskell-toolchain-capabilities-and-support-evidence` supplies optional identity/evidence integration and is not a hard prerequisite. Hoogle/documentation tooling is outside this plan's scope.
 
 ## Revision Notes
 
 
 2026-10-14: Created from the compatibility lifecycle and dependency-test gaps identified after the Horizon comparison. Reconciled existing generator/runtime ownership, retained historical policy, and separate production/validation evidence. This records planning, not implementation or independent review.
+
+2026-10-14: Added umbrella membership and scoped Mori opt-in while preserving implementation boundaries and existing prerequisites.

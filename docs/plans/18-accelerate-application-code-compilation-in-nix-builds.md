@@ -4,6 +4,8 @@ slug: accelerate-application-code-compilation-in-nix-builds
 title: "Accelerate application code compilation in Nix builds"
 kind: exec-plan
 created_at: 2026-10-07T13:54:28Z
+mori_publish: true
+master_plan: "docs/masterplans/4-coordinate-horizon-inspired-haskell-nix-performance-and-reliability-improvements.md"
 provenance:
   created_by:
     model: "gpt-6.1-sol"
@@ -20,6 +22,11 @@ provenance:
       at: 2026-10-07T14:38:55Z
       mode: "discuss"
       note: "Replace rejected Cabal artifact proposal with project Nix compilation work; prioritize pinned-builder intermediate reuse, measured invalidation fixes, and package-boundary pilots."
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-14T17:32:37Z
+      mode: "update"
+      note: "Add cross-repository umbrella coordination and scoped Mori publication without changing implementation ownership."
 ---
 
 
@@ -60,6 +67,9 @@ At the 2026-10-07 source inspection, `mori://shinzui/rei` had 1,068 Haskell file
 
 
 ## Decision Log
+
+
+2026-10-14: Coordinate this workstream under [MasterPlan 4](../masterplans/4-coordinate-horizon-inspired-haskell-nix-performance-and-reliability-improvements.md). Scoped Mori publication records its production prerequisites and integration relationships; initial fixture work remains independent. Preserve the earlier declined intention association. Share effective compiler/source/policy identities and phase-separated measurements with plans 19 and 21 without introducing a Hard prerequisite on them.
 
 
 2026-10-07: Target the project's Nix compilation. The user explicitly rejected the Cabal executable handoff and clarified that a completed project Nix build already warms dotfiles. Replace that proposal throughout this plan, preserve the plan identity and authorship history, and record its revised title/path.
@@ -263,3 +273,5 @@ No dependency bounds or new pins are chosen during planning. Verify any required
 
 
 2026-10-07: Replaced the rejected local Cabal artifact-export proposal after the user clarified that the project `nix build` is the bottleneck and already warms dotfiles. Renamed the plan while preserving its number and provenance. Inspected the pinned Nixpkgs Haskell builder and prioritized a guarded intermediate-reuse experiment, then source/stamp isolation, measured compiler settings, and smaller Cabal-package pilots. No implementation or speedup is claimed.
+
+2026-10-14: Added umbrella membership and scoped Mori opt-in while preserving implementation boundaries and existing prerequisites.

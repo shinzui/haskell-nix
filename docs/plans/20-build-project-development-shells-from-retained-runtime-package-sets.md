@@ -5,6 +5,8 @@ title: "Build project development shells from retained runtime package sets"
 kind: exec-plan
 created_at: 2026-10-14T15:21:55Z
 intention: "intention_01m4xg1zg2e4wvbjgaagz3aqpz"
+mori_publish: true
+master_plan: "docs/masterplans/4-coordinate-horizon-inspired-haskell-nix-performance-and-reliability-improvements.md"
 provenance:
   created_by:
     model: "gpt-6.1-sol"
@@ -16,6 +18,11 @@ provenance:
       at: 2026-10-14T15:34:19Z
       mode: "other"
       note: "Flesh out retained-runtime project shell APIs with compiler and ownership validation."
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-14T17:32:37Z
+      mode: "update"
+      note: "Add cross-repository umbrella coordination and scoped Mori publication without changing implementation ownership."
 ---
 
 # Build project development shells from retained runtime package sets
@@ -45,6 +52,9 @@ This standalone plan requires [plan 16](16-create-the-keiro-runtime-package-set-
 No shell experiments are recorded. The existing toolchain helper only exposes extra native inputs and a shell hook; the retained runtime factory is still pending under plan 16.
 
 ## Decision Log
+
+
+2026-10-14: Coordinate this workstream under [MasterPlan 4](../masterplans/4-coordinate-horizon-inspired-haskell-nix-performance-and-reliability-improvements.md). Scoped Mori publication records its production prerequisites and integration relationships; initial fixture work remains independent. Existing generator/runtime ownership and this plan's acceptance remain unchanged.
 
 
 2026-10-14: Keep the dependency direction acyclic. The toolchain flake accepts a caller-supplied Haskell scope through a generic helper and gains no input on this repository. The channel owns runtime selection and conflict validation.
@@ -165,3 +175,5 @@ The generic helper receives a caller's scope and owned package function while ch
 
 
 2026-10-14: Created from the Horizon comparison, reconciled existing cohort/runtime ownership, and checked native plan structure, canonical references, milestones, and intention bindings. This records planning, not implementation or independent review.
+
+2026-10-14: Added umbrella membership and scoped Mori opt-in while preserving implementation boundaries and existing prerequisites.

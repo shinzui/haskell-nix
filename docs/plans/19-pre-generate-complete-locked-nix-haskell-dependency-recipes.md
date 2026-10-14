@@ -5,6 +5,8 @@ title: "Pre-generate complete locked Nix Haskell dependency recipes"
 kind: exec-plan
 created_at: 2026-10-14T15:21:55Z
 intention: "intention_01m4xg1xp3ekf9m1dbc5fpsq9k"
+mori_publish: true
+master_plan: "docs/masterplans/4-coordinate-horizon-inspired-haskell-nix-performance-and-reliability-improvements.md"
 provenance:
   created_by:
     model: "gpt-6.1-sol"
@@ -16,6 +18,11 @@ provenance:
       at: 2026-10-14T15:34:19Z
       mode: "other"
       note: "Flesh out Horizon-inspired recipe generation with scoped no-IFD evidence and existing cohort ownership."
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-14T17:32:37Z
+      mode: "update"
+      note: "Add cross-repository umbrella coordination and scoped Mori publication without changing implementation ownership."
 ---
 
 # Pre-generate complete locked Nix Haskell dependency recipes
@@ -45,6 +52,9 @@ This is a standalone follow-on to [plan 9](9-generate-the-nix-package-set-from-t
 No implementation measurements are recorded. The current generator preparation renders version/source metadata, while production source construction still uses evaluation-time cabal2nix paths.
 
 ## Decision Log
+
+
+2026-10-14: Coordinate this workstream under [MasterPlan 4](../masterplans/4-coordinate-horizon-inspired-haskell-nix-performance-and-reliability-improvements.md). Scoped Mori publication records its production prerequisites and integration relationships; initial fixture work remains independent. Existing generator/runtime ownership and this plan's acceptance remain unchanged.
 
 
 2026-10-14: Generate complete recipes as a separate follow-on to the accepted cohort contracts. Plan 9 owns source/revision lookup, classification, manifests, comparison, and publication; this plan extends those helpers without another parser or solver.
@@ -155,3 +165,5 @@ Generation writes only to a staging/output directory and promotes after verified
 
 
 2026-10-14: Created from the Horizon comparison, reconciled existing cohort/runtime ownership, and checked native plan structure, canonical references, milestones, and intention bindings. This records planning, not implementation or independent review.
+
+2026-10-14: Added umbrella membership and scoped Mori opt-in while preserving implementation boundaries and existing prerequisites.
