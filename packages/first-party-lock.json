@@ -1281,6 +1281,100 @@
                 "excludedPackages": [],
                 "packageOverrides": {}
             },
+            "family": "keiro",
+            "generation": 7,
+            "packages": [
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": null,
+                    "name": "jitsurei",
+                    "path": "jitsurei",
+                    "version": "0.1.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-yk7JlBmTioYH51Gq0C+Qr90NM+sElT8R7RCMsW0KMQo=",
+                        "version": "0.21.0.0"
+                    },
+                    "name": "keiro",
+                    "path": "keiro",
+                    "version": "0.21.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-1qiYAaVZsCqHnYcxlbPBmzlI0z+GbeIXgd04pq53Yb4=",
+                        "version": "0.21.0.0"
+                    },
+                    "name": "keiro-core",
+                    "path": "keiro-core",
+                    "version": "0.21.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-bOYBeHv1eZ8MWEPArVSwW51/6B7scpViHkAL/Duqtkk=",
+                        "version": "0.21.0.0"
+                    },
+                    "name": "keiro-dsl",
+                    "path": "keiro-dsl",
+                    "version": "0.21.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-OUy1XQES7p7qboDqvEiNCKTgKOlX07UbIlq5F0G/EgM=",
+                        "version": "0.21.0.0"
+                    },
+                    "name": "keiro-migrations",
+                    "path": "keiro-migrations",
+                    "version": "0.21.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-VRHf4A1gVvUkaRru/V+tMbCAWpTDsfpuMe4V1v5wcU4=",
+                        "version": "0.21.0.0"
+                    },
+                    "name": "keiro-ops",
+                    "path": "keiro-ops",
+                    "version": "0.21.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-yX91hWG7xVupt/8ZykgAeS8gh0/miq+8Ukj39UtBreU=",
+                        "version": "0.21.0.0"
+                    },
+                    "name": "keiro-pgmq",
+                    "path": "keiro-pgmq",
+                    "version": "0.21.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-0u62NGJI8BW592orw/t0Nps78LcTosqbWFuvOvMeNpw=",
+                        "version": "0.21.0.0"
+                    },
+                    "name": "keiro-test-support",
+                    "path": "keiro-test-support",
+                    "version": "0.21.0.0"
+                }
+            ],
+            "source": {
+                "narHash": "sha256-0UpFsMdhX6xnNKfISl9/YCmsDJvjLo0OMODkt/Yq/2w=",
+                "owner": "shinzui",
+                "repo": "keiro",
+                "rev": "e6ef560b0a8db0dc091d0f8d7da1bb08c29155be",
+                "type": "github"
+            }
+        },
+        {
+            "discoveryPolicy": {
+                "excludedPackages": [],
+                "packageOverrides": {}
+            },
             "family": "kioku",
             "generation": 1,
             "packages": [
@@ -1675,6 +1769,73 @@
                 "owner": "shinzui",
                 "repo": "kioku",
                 "rev": "718370584988cfac5296ae1bfe60fd4dab5c8655",
+                "type": "github"
+            }
+        },
+        {
+            "discoveryPolicy": {
+                "excludedPackages": [],
+                "packageOverrides": {}
+            },
+            "family": "kioku",
+            "generation": 7,
+            "packages": [
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-FLkrl9UpUr0dVIumJd6Pe2GCF2NetWMoJd6sfZTE+YA=",
+                        "version": "0.9.0.1"
+                    },
+                    "name": "kioku-api",
+                    "path": "kioku-api",
+                    "version": "0.9.0.1"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-0kfTTBpojXpHV1mhxsIlTT1h9dbyoiIBWpSflkbhmxc=",
+                        "version": "0.9.0.1"
+                    },
+                    "name": "kioku-cli",
+                    "path": "kioku-cli",
+                    "version": "0.9.0.1"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-BUIqpmtc7oA6oAv8kC6rie5vh7gFZD2tUQ3odCYxVaA=",
+                        "version": "0.9.0.1"
+                    },
+                    "name": "kioku-core",
+                    "path": "kioku-core",
+                    "version": "0.9.0.1"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-/HYztkO55TqtPj7YOjbuPt6vzSe+Cl8Z8tajTxIEsiY=",
+                        "version": "0.9.0.1"
+                    },
+                    "name": "kioku-migrate",
+                    "path": "kioku-migrate",
+                    "version": "0.9.0.1"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-Gggm/Cp1GDpLsm/rnwSasigmgM0Qg3TtprVGXMDk4Ts=",
+                        "version": "0.9.0.1"
+                    },
+                    "name": "kioku-migrations",
+                    "path": "kioku-migrations",
+                    "version": "0.9.0.1"
+                }
+            ],
+            "source": {
+                "narHash": "sha256-xcQyMf3/PHowLSsZhe40GhSgBT2AYjFdEQ7q5PjDynY=",
+                "owner": "shinzui",
+                "repo": "kioku",
+                "rev": "79bf8b963a285ed2bbb852dd5889af47fc325c23",
                 "type": "github"
             }
         },
@@ -4012,6 +4173,17 @@
             "compatibilityProfile": "default",
             "families": [
                 {
+                    "family": "keiro",
+                    "generation": 7
+                }
+            ],
+            "generation": 7,
+            "group": "keiro"
+        },
+        {
+            "compatibilityProfile": "default",
+            "families": [
+                {
                     "family": "kioku",
                     "generation": 1
                 }
@@ -4072,6 +4244,17 @@
                 }
             ],
             "generation": 6,
+            "group": "kioku"
+        },
+        {
+            "compatibilityProfile": "default",
+            "families": [
+                {
+                    "family": "kioku",
+                    "generation": 7
+                }
+            ],
+            "generation": 7,
             "group": "kioku"
         },
         {
@@ -4441,11 +4624,11 @@
                     "group": "keiki"
                 },
                 {
-                    "generation": 6,
+                    "generation": 7,
                     "group": "keiro"
                 },
                 {
-                    "generation": 6,
+                    "generation": 7,
                     "group": "kioku"
                 },
                 {
