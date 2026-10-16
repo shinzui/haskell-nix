@@ -1,6 +1,6 @@
 # Generate the channels' package versions from the cohort freeze
 
-Status: Accepted for implementation; Darwin compiler/channel checks and fresh-CI cache substitution on both systems pass, while Linux aggregate build acceptance remains pending.
+Status: Accepted
 
 Date: 2026-10-16
 
@@ -28,6 +28,8 @@ version and cutoff; retain tarball hashes independently. Supply the selected met
 cabal2nix before recipe translation, then apply the same revision during the build.
 Normalize Apple's `arm64` spelling to Cabal's `aarch64` for the pinned translator so that
 architecture-dependent dependencies match the actual host.
+
+The pinned cabal2nix path already parses Cabal specifications 3.14 and 3.16 in both source channels; no parser overlay or compiler/nixpkgs update is needed for that purpose. The guard builds the 3.14 fixture and evaluates all four 3.14/3.16 translation paths. Parsing a specification does not imply the compiler-bundled Cabal setup driver can build it.
 
 The generated layer owns shared Hackage versions. The registry owns explicit compatibility,
 test and flag policies plus declared non-Hackage sources. Reject newly introduced Hackage
@@ -68,6 +70,8 @@ runtime path basenames misses static dependencies and can confuse native homonym
 only versions, command-line flags or successful uploads leaves source/configuration and cache
 readiness unproven. Those approaches are insufficient acceptance evidence.
 
+Using a moving `all-cabal-hashes` selection would lose the retained index-state metadata choice. Retained generated expressions avoid network solving during ordinary evaluation while retaining exact archive and metadata hashes. A nixpkgs bump or migration to haskell.nix would expand toolchain scope without resolving the ownership boundary; generating Cabal from Nix would reverse the accepted solver authority. Those remain separate explicit toolchain decisions.
+
 Correcting metadata translation or platform interpretation can change dependency derivations
 without changing any frozen version. Rebuild and republish affected outputs, preserving the
 upgrade-only version contract. Ordinary application changes continue to reuse retained
@@ -80,5 +84,5 @@ comparison fixtures, compiler/channel builds and cache receipts. Fixtures reject
 static edges, duplicate conflicting instances, unowned source/configuration differences,
 wrong compiler-tool providers and unrecorded derivation overrides. Real pg-migrate-cli and
 Dhall JSON manifests exercise the shared comparison path, including pinned sources and the
-owned TLS difference. Retained receipts in `cabal/cohort-cache/` and [fresh hosted run 38967850038](https://github.com/shinzui/haskell-nix/actions/runs/38967850038) prove substitution of 556 Darwin and 561 Linux paths into empty stores with zero builds. Linux aggregate compiler/channel acceptance remains pending. Full platform/CI acceptance and downstream adoption remain governed by
+owned TLS difference. Retained receipts in `cabal/cohort-cache/` and [fresh hosted run 38967850038](https://github.com/shinzui/haskell-nix/actions/runs/38967850038) prove substitution of 556 Darwin and 561 Linux paths into empty stores with zero builds. Both complete platform flake checks and four-cell compiler/channel matrices pass. Full platform/CI acceptance and downstream adoption remain governed by
 MasterPlan 3; this record does not mark those gates complete.

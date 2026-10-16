@@ -49,7 +49,7 @@ plans 11–13, which now depend on this plan.
 
 ## Progress
 
-- [ ] Prerequisites: plans 9 and 10 are Complete, including the shared solver/generator/comparator contracts inherited from plan 8.
+- [x] (2026-10-16) Prerequisites: plans 9 and 10 are Complete, including both full platform checks, fresh-worker cache substitution and the shared solver/generator/comparator contracts inherited from plan 8.
 - [ ] M1: Inventory runtime roots, adapters, source forks and dependency closure; define and validate runtime lock records without changing catalog topology.
 - [ ] M2: Capture an immutable runtime generation and generate its Cabal/source/Nix projections using the existing cohort tools.
 - [ ] M3: Export `lib.runtimePackageSets`, `lib.mkRuntimePackageSet` and runtime build outputs; prove application composition in one scope with conflict fixtures.
