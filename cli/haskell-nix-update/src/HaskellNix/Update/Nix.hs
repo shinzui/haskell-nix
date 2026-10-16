@@ -2,6 +2,7 @@ module HaskellNix.Update.Nix
   ( decodeLockedSource,
     readLockedSource,
     decodeLockedRevision,
+    decodeChannelRevision,
     readLockedRevision,
     updateInput,
     prefetchHackage,
@@ -42,7 +43,12 @@ readLockedSource flakeLockPath inputName = do
     Right bytes -> decodeLockedSource inputName bytes
 
 decodeLockedRevision :: Text -> ByteString.ByteString -> Either UpdateError GitRevision
-decodeLockedRevision inputName bytes = do
+decodeLockedRevision inputName bytes = rev <$> decodeLockedSource inputName bytes
+
+-- Channel lock lookup also accepts Git inputs. Keep first-party updater source
+-- validation in decodeLockedRevision/decodeLockedSource unchanged.
+decodeChannelRevision :: Text -> ByteString.ByteString -> Either UpdateError GitRevision
+decodeChannelRevision inputName bytes = do
   value <- firstError "invalid flake.lock JSON" (eitherDecodeStrict' bytes)
   revision <- firstError "invalid flake.lock revision" (parseEither (\lock -> parseInputLocked inputName lock >>= withObject "locked input" (.: "rev")) value)
   if validRevision revision
@@ -257,6 +263,7 @@ parseInputLocked inputName = withObject "flake lock" $ \fields -> do
     segment (String value) | not (Text.null value) && not (Text.any (== '/') value) = pure value
     segment _ = fail "invalid flake follows path segment"
     parseLocked nodeFields = nodeFields .: "locked"
+
 parseDescriptor :: Object -> Parser LockedSource
 parseDescriptor lockedFields = do
   sourceType <- lockedFields .: "type"

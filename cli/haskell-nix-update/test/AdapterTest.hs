@@ -15,7 +15,7 @@ import Distribution.Types.Version (Version)
 import HaskellNix.Update.Git (discoverPackages)
 import HaskellNix.Update.Hackage
 import HaskellNix.Update.Mori (MoriProject (..), decodeMoriProject, locateMoriProject)
-import HaskellNix.Update.Nix (decodeLockedRevision, decodeLockedSource, validatePackageSetSelection)
+import HaskellNix.Update.Nix (decodeChannelRevision, decodeLockedRevision, decodeLockedSource, validatePackageSetSelection)
 import HaskellNix.Update.Process
 import HaskellNix.Update.Types
 import System.Exit (ExitCode (..))
@@ -36,8 +36,11 @@ tests =
       testCase "flake.lock resolves a named root input revision" testFlakeLock,
       testCase "flake.lock decodes a complete immutable source descriptor" testFlakeLockedSource,
       testCase "flake.lock revision lookup supports Git and rejects short revisions" $ do
-        decodeLockedRevision "example-src" (ByteString.pack (Text.unpack (Text.replace "\"github\"" "\"git\"" completeFlakeLock))) @?= Right (GitRevision "0123456789abcdef0123456789abcdef01234567")
+        decodeChannelRevision "example-src" (ByteString.pack (Text.unpack (Text.replace "\"github\"" "\"git\"" completeFlakeLock))) @?= Right (GitRevision "0123456789abcdef0123456789abcdef01234567")
         assertLeft (decodeLockedRevision "example-src" (ByteString.pack (Text.unpack (Text.replace "0123456789abcdef0123456789abcdef01234567" "0123456" completeFlakeLock)))),
+      testCase "first-party revision lookup retains complete GitHub source validation" $ do
+        assertLeft (decodeLockedRevision "example-src" (ByteString.pack (Text.unpack (Text.replace "\"github\"" "\"git\"" completeFlakeLock))))
+        assertLeft (decodeLockedRevision "example-src" (ByteString.pack (Text.unpack (Text.replace "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" "invalid" completeFlakeLock)))),
       testCase "flake.lock resolves nested and recursive follows from its declared root" testNestedFollows,
       testCase "flake.lock rejects cyclic follows missing nodes and malformed paths" testInvalidFollows,
       testCase "package-set validation applies its Nix expression" testPackageSetValidationCommand,

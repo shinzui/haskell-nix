@@ -23,7 +23,7 @@ import HaskellNix.Update.Cohort.Inventory
 import HaskellNix.Update.Cohort.Model
 import HaskellNix.Update.Cohort.Report qualified as Report
 import HaskellNix.Update.Cohort.Types
-import HaskellNix.Update.Nix (decodeLockedRevision)
+import HaskellNix.Update.Nix (decodeChannelRevision)
 import HaskellNix.Update.PackageLock (decodePackageSetLock, selectPackageSet)
 import HaskellNix.Update.Types (UpdateError (..))
 import HaskellNix.Update.Types qualified as Lock
@@ -110,7 +110,7 @@ writeJSON path payload = do
 dispatch :: CohortCommand -> IO (Either Text Text)
 dispatch (CohortResolveChannelLock lockFile inputPath) = do
     bytes <- BS.readFile lockFile
-    pure $ case decodeLockedRevision inputPath bytes of
+    pure $ case decodeChannelRevision inputPath bytes of
         Left (UpdateError err) -> Left err
         Right (Lock.GitRevision revision) -> Right revision
 dispatch (CohortInventory contributorsFile wanted root plan config out) = do
