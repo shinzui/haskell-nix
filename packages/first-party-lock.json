@@ -4228,6 +4228,154 @@
                 "rev": "5d2249696783c3a589d07b830c0fcc316c59fddb",
                 "type": "github"
             }
+        },
+        {
+            "discoveryPolicy": {
+                "excludedPackages": [],
+                "packageOverrides": {}
+            },
+            "family": "shikumi",
+            "generation": 7,
+            "packages": [
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-CuVKX+cUU9ah2WIxavVIKkktUE7+Av+++WpCk9vKbnE=",
+                        "version": "0.4.1.1"
+                    },
+                    "name": "shikumi",
+                    "path": "shikumi",
+                    "version": "0.4.1.1"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-eOZDJmU8HHsJQS9W8DZKF2+QhuPguDfkf6uNKqvzAYA=",
+                        "version": "0.2.0.2"
+                    },
+                    "name": "shikumi-cache",
+                    "path": "shikumi-cache",
+                    "version": "0.2.0.2"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-dWHrcgMZ6TB/4TvRJSNFF1tUQyXffHq4YUXy2+M+W4Y=",
+                        "version": "0.1.3.3"
+                    },
+                    "name": "shikumi-cache-postgres",
+                    "path": "shikumi-cache-postgres",
+                    "version": "0.1.3.3"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-dHFJt2nlZjML+9if56WXTXvL5GiZVHZl7t/SzSgfdCQ=",
+                        "version": "0.1.3.2"
+                    },
+                    "name": "shikumi-cache-redis",
+                    "path": "shikumi-cache-redis",
+                    "version": "0.1.3.2"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": null,
+                    "name": "shikumi-cli",
+                    "path": "shikumi-cli",
+                    "version": "0.1.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-FtmfOJSFYkn7jpp/qAccDuXywR406z/Rs2HZ22a9PcU=",
+                        "version": "0.2.1.2"
+                    },
+                    "name": "shikumi-compile",
+                    "path": "shikumi-compile",
+                    "version": "0.2.1.2"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-UbSPgiZrFT4zFUBs/rEGF1EWjR0dp5V34wRMKDnwecg=",
+                        "version": "0.3.0.2"
+                    },
+                    "name": "shikumi-eval",
+                    "path": "shikumi-eval",
+                    "version": "0.3.0.2"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": null,
+                    "name": "shikumi-jitsurei",
+                    "path": "shikumi-jitsurei",
+                    "version": "0.1.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-pD/AOiQWo12Oi3U2+EtkBipBfaFpe9S2cKH2gTgkrIM=",
+                        "version": "0.2.1.1"
+                    },
+                    "name": "shikumi-okf",
+                    "path": "shikumi-okf",
+                    "version": "0.2.1.1"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-CScshwQ6kTC0D7UhF4Kwo15nSGXjJ6McHgh5jS3QuyQ=",
+                        "version": "0.3.0.2"
+                    },
+                    "name": "shikumi-optimize",
+                    "path": "shikumi-optimize",
+                    "version": "0.3.0.2"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": null,
+                    "name": "shikumi-testing",
+                    "path": "shikumi-testing",
+                    "version": "0.1.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-Ei4Xc+FPrCO+bWCw7rGciLwIA4gvaaCdUf0Al0pApqk=",
+                        "version": "0.4.1.1"
+                    },
+                    "name": "shikumi-tools",
+                    "path": "shikumi-tools",
+                    "version": "0.4.1.1"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-g8EZ0KRZ+OA3g//92xaialXRxuty3VDdsK5ORdYgAqg=",
+                        "version": "0.3.0.2"
+                    },
+                    "name": "shikumi-trace",
+                    "path": "shikumi-trace",
+                    "version": "0.3.0.2"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-cpZypS+IGCuJSYraoNg/BsZ6Bnk/75JzF2ag1UVXE/I=",
+                        "version": "0.1.2.2"
+                    },
+                    "name": "shikumi-trace-otel",
+                    "path": "shikumi-trace-otel",
+                    "version": "0.1.2.2"
+                }
+            ],
+            "source": {
+                "narHash": "sha256-FFDS2EoxWwYiwBLMvhtQPhw3BEafTi1BJwCCgMQy8W8=",
+                "owner": "shinzui",
+                "repo": "shikumi",
+                "rev": "db4eb373803552762edc9e86a231dfb529f8105b",
+                "type": "github"
+            }
         }
     ],
     "groupSnapshots": [
@@ -4801,6 +4949,21 @@
             ],
             "generation": 8,
             "group": "shikumi-baikai"
+        },
+        {
+            "compatibilityProfile": "default",
+            "families": [
+                {
+                    "family": "baikai",
+                    "generation": 7
+                },
+                {
+                    "family": "shikumi",
+                    "generation": 7
+                }
+            ],
+            "generation": 9,
+            "group": "shikumi-baikai"
         }
     ],
     "packageSets": [
@@ -4855,7 +5018,7 @@
                     "group": "shibuya"
                 },
                 {
-                    "generation": 8,
+                    "generation": 9,
                     "group": "shikumi-baikai"
                 }
             ],

@@ -373,11 +373,11 @@
     "shikumi-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1791310865,
-        "narHash": "sha256-LF4JcegYy4K0zYD6fF0agv8DFwPv7VEOAt1y7uyBe+A=",
+        "lastModified": 1792148923,
+        "narHash": "sha256-FFDS2EoxWwYiwBLMvhtQPhw3BEafTi1BJwCCgMQy8W8=",
         "owner": "shinzui",
         "repo": "shikumi",
-        "rev": "5d2249696783c3a589d07b830c0fcc316c59fddb",
+        "rev": "db4eb373803552762edc9e86a231dfb529f8105b",
         "type": "github"
       },
       "original": {
