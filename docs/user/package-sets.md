@@ -6,7 +6,7 @@ docId: DOC-7
 tags: [package-sets, snapshots, cache]
 generated:
   by: human:nadeem
-  at: 2026-10-16T16:11:49Z
+  at: 2026-10-16T16:33:51Z
 ---
 
 [User guide](README.md)
@@ -174,6 +174,9 @@ derivation/output paths. Nix exports the root's derivation graph to the builder;
 fails if a recorded Haskell package or dependency edge is absent from that graph. This covers
 static libraries that disappear from a runtime output closure. `context` is explicit so a
 retained runtime projection can reuse the same helper without reading mutable defaults.
+Captured recipe arguments must reconstruct the exact actual derivation. Express recipe
+changes through `overrideCabal`; a lower-level override that changes unrecorded build inputs
+fails manifest construction.
 
 Build the channel's example with `nix build .#cohort-manifest`. Compare two manifest files with
 `nix run .#cohort-compare -- --compare-manifests BEFORE AFTER`; changed identities include input
