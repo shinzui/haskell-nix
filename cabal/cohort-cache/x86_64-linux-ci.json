@@ -1,0 +1,15 @@
+{
+  "buildsPerformed": 0,
+  "evidenceArtifact": "cohort-cache-x86_64-linux",
+  "initialExpectedPaths": 0,
+  "publicationReceipt": "cabal/cohort-cache/x86_64-linux.json",
+  "publicationReceiptSha256": "bf381f701a6a76d32f5ccffa9d6cb2b30dc3b39e8666602f0a88804abd84adf0",
+  "runId": 38967850038,
+  "runUrl": "https://github.com/shinzui/haskell-nix/actions/runs/38967850038",
+  "schemaVersion": 1,
+  "substitutedPaths": 561,
+  "verificationStore": "local?root=/home/runner/work/_temp/cohort-cache-hzlhzaz6",
+  "workerHostname": "runnervm8k3b6",
+  "workerSystem": "x86_64-linux",
+  "workflowRevision": "c0f6ca7ec6cdb54d462ac78cf29b35e15d856b6a"
+}
