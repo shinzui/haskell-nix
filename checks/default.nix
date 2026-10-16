@@ -4,6 +4,7 @@
 , pkgsHackage
 , updater
 , cohortCompare
+, cohortManifest
 , nixpkgsRevision
 , firstPartyRegistries
 , supportedGhcs
@@ -89,11 +90,24 @@ let
       firstPartyPackageSets);
 in
 {
+  cohort-pg-migrate-parity = pkgsPlain.runCommand "cohort-pg-migrate-parity"
+    { nativeBuildInputs = [ cohortCompare ]; manifestFile = cohortManifest; }
+    ''
+      cohort-compare --freeze ${../cabal/cohort.freeze} \
+        --sources ${../cabal/cohort-sources.json} --contributors ${../cabal/contributors.json} \
+        --nix-policy ${../cabal/cohort-nix-policy.json} --nix-manifest "$manifestFile"
+      touch "$out"
+    '';
   cohort-cache = import ./cohort-cache.nix { pkgs = pkgsPlain; };
   cohort-manifest = import ./cohort-manifest.nix {
     inherit lib cohortCompare;
     pkgs = pkgsPlain;
     scope = pkgsGithub.haskell.packages.${defaultGhc};
+  };
+  cohort-manifest-ghc914 = import ./cohort-manifest.nix {
+    inherit lib cohortCompare;
+    pkgs = pkgsPlain;
+    scope = pkgsGithub.haskell.packages.ghc9141;
   };
   cohort-compare = import ./cohort-compare.nix {
     pkgs = pkgsPlain;

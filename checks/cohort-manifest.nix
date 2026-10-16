@@ -1,6 +1,15 @@
 { lib, pkgs, scope, cohortCompare }:
 let
-  root = scope.callCabal2nix "tiny" ./fixtures/cabal-version/3.14 { };
+  root = scope.mkDerivation {
+    pname = "cohort-flags";
+    version = "0.1.0.0";
+    src = ./fixtures/cohort/flags;
+    isLibrary = true;
+    isExecutable = false;
+    libraryHaskellDepends = [ scope.base ];
+    configureFlags = [ "-f-retained" ];
+    license = lib.licenses.bsd3;
+  };
   manifest = (import ../lib/mkCohortManifest.nix { inherit lib; }) {
     inherit pkgs scope root;
     context = { fixture = true; };
@@ -23,6 +32,24 @@ pkgs.runCommand "cohort-manifest-fixtures"
     tool = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(tool)
     class GraphProof(unittest.TestCase):
+        def frozen_fixture(self):
+            declaration, graph = self.fixture()
+            declaration['system'] = 'aarch64-darwin'
+            declaration['compiler'].update(version='9.12.4', packages={'base': '4.21.0.0'})
+            declaration['packages'][0]['role'] = 'local'
+            package = declaration['packages'][1]
+            source_hash = 'sha256-' + 'A' * 43 + '='
+            package.update(role='haskell', source={'hash': source_hash},
+                metadata={'hash': None, 'revision': None, 'originalHash': 'b' * 64, 'patchedHash': 'b' * 64},
+                flags={}, flagsEvidence={'method': 'exact-configure-replay'}, configuration={})
+            sources = {'lib': {'version': '1', 'source': 'Hackage', 'identities': [{'flags': {}, 'pkg-src-sha256': 'a' * 64, 'pkg-cabal-sha256': 'b' * 64}], 'dependencies': []}}
+            policy = {'schemaVersion': 1, 'packages': {}}
+            expected = {'compiler': 'ghc-9.12.4', 'indexState': 'cutoff', 'sources': sources, 'flags': {}, 'localPackages': ['app']}
+            declaration['context'] = {'nixpkgsRevision': 'nixpkgs', 'configurationPolicy': copy.deepcopy(policy), 'versions': {
+                'sourceManifest': copy.deepcopy(sources), 'flags': {}, 'indexState': 'cutoff', 'ghc': '9.12.4',
+                'nixpkgsBase': 'nixpkgs', 'firstParty': [], 'policy': {},
+                'packages': {'lib': {'version': '1', 'sha256': source_hash, 'revision': None}}}}
+            return expected, tool.construct(declaration, graph), policy
         def fixture(self):
             declaration = {'schemaVersion': 1, 'root': {'drvPath': 'app'},
                 'compiler': {'drvPath': 'ghc'}, 'packages': [
@@ -34,9 +61,11 @@ pkgs.runCommand "cohort-manifest-fixtures"
         def test_actual_native_construction(self):
             actual = json.loads(Path(os.environ['manifestFile']).read_text())
             self.assertTrue(actual['graphVerified'])
-            self.assertEqual(actual['root']['name'], 'tiny')
-            self.assertEqual(actual['packages'][0]['name'], 'tiny')
+            self.assertEqual(actual['root']['name'], 'cohort-flags')
+            self.assertEqual(actual['packages'][0]['name'], 'cohort-flags')
             self.assertEqual(actual['packages'][0]['role'], 'local')
+            self.assertEqual(actual['packages'][0]['flags'], {'automatic': True, 'retained': False})
+            self.assertEqual(actual['packages'][0]['flagsEvidence']['method'], 'exact-configure-replay')
         def test_static_library_is_proven_by_derivation(self):
             declaration, graph = self.fixture()
             self.assertTrue(tool.construct(declaration, graph)['graphVerified'])
@@ -103,6 +132,106 @@ pkgs.runCommand "cohort-manifest-fixtures"
             graph['derivationGraph'].append({'path': 'wrong', 'references': ['ghc']})
             after = tool.construct(declaration, graph)
             self.assertTrue(tool.compare_manifests(before, after))
+        def test_frozen_source_metadata_flags_and_graph_match(self):
+            expected, manifest, policy = self.frozen_fixture()
+            self.assertIn('matches 1', tool.compare_freeze(expected, manifest, policy))
+        def test_frozen_wrong_and_correct_instances_fail(self):
+            expected, manifest, policy = self.frozen_fixture()
+            wrong = copy.deepcopy(manifest['packages'][1])
+            wrong.update(version='2', drvPath='wrong')
+            manifest['packages'].append(wrong)
+            manifest['derivationGraph']['app'].append('wrong')
+            manifest['derivationGraph']['wrong'] = ['ghc']
+            with self.assertRaisesRegex(ValueError, 'version mismatch'):
+                tool.compare_freeze(expected, manifest, policy)
+        def test_frozen_same_version_source_change_fails(self):
+            expected, manifest, policy = self.frozen_fixture()
+            manifest['packages'][1]['source']['hash'] = 'sha256-changed'
+            with self.assertRaisesRegex(ValueError, 'Hackage source differs'):
+                tool.compare_freeze(expected, manifest, policy)
+        def test_frozen_same_version_metadata_change_fails(self):
+            expected, manifest, policy = self.frozen_fixture()
+            manifest['packages'][1]['metadata']['originalHash'] = 'c' * 64
+            with self.assertRaisesRegex(ValueError, 'metadata differs'):
+                tool.compare_freeze(expected, manifest, policy)
+        def test_frozen_same_version_flag_change_fails(self):
+            expected, manifest, policy = self.frozen_fixture()
+            manifest['packages'][1]['flags']['extra'] = True
+            with self.assertRaisesRegex(ValueError, 'resolved flags differ'):
+                tool.compare_freeze(expected, manifest, policy)
+        def test_frozen_missing_resolved_flag_proof_fails(self):
+            expected, manifest, policy = self.frozen_fixture()
+            del manifest['packages'][1]['flagsEvidence']
+            with self.assertRaisesRegex(ValueError, 'missing resolved'):
+                tool.compare_freeze(expected, manifest, policy)
+        def test_frozen_missing_static_dependency_fails(self):
+            expected, manifest, policy = self.frozen_fixture()
+            expected['sources']['other'] = copy.deepcopy(expected['sources']['lib'])
+            expected['sources']['lib']['dependencies'] = ['other']
+            manifest['context']['versions']['sourceManifest'] = copy.deepcopy(expected['sources'])
+            with self.assertRaisesRegex(ValueError, 'missing static/build dependency edge'):
+                tool.compare_freeze(expected, manifest, policy)
+        def test_frozen_native_homonym_does_not_change_haskell_version(self):
+            expected, manifest, policy = self.frozen_fixture()
+            manifest['nativePackages'] = [{'name': 'lib', 'version': '99', 'role': 'native', 'drvPath': 'native-lib'}]
+            manifest['derivationGraph']['app'].append('native-lib')
+            manifest['derivationGraph']['native-lib'] = []
+            self.assertIn('matches 1', tool.compare_freeze(expected, manifest, policy))
+        def test_frozen_unowned_difference_cannot_hide_flags(self):
+            expected, manifest, policy = self.frozen_fixture()
+            policy['packages']['lib'] = {'flags': {'extra': True}}
+            manifest['context']['configurationPolicy'] = copy.deepcopy(policy)
+            with self.assertRaisesRegex(ValueError, 'unowned'):
+                tool.compare_freeze(expected, manifest, policy)
+        def test_frozen_undeclared_build_patch_fails(self):
+            expected, manifest, policy = self.frozen_fixture()
+            manifest['packages'][1]['configuration']['postPatch'] = 'alter-source'
+            with self.assertRaisesRegex(ValueError, 'missing owned build-patch policy'):
+                tool.compare_freeze(expected, manifest, policy)
+        def test_frozen_wrong_toolchain_fails(self):
+            expected, manifest, policy = self.frozen_fixture()
+            manifest['context']['nixpkgsRevision'] = 'other'
+            with self.assertRaisesRegex(ValueError, 'Nixpkgs differs'):
+                tool.compare_freeze(expected, manifest, policy)
+        def compiler_tool_fixture(self):
+            expected, manifest, policy = self.frozen_fixture()
+            expected['sources']['hsc2hs'] = {'version': '0.68.10', 'source': 'Hackage', 'identities': [], 'dependencies': []}
+            expected['sources']['lib']['dependencies'] = ['hsc2hs']
+            manifest['context']['versions']['sourceManifest'] = copy.deepcopy(expected['sources'])
+            manifest['compiler']['outputPath'] = '/compiler'
+            manifest['packages'][1]['programs'] = {'hsc2hs': {'version': '0.68.10', 'path': '/compiler/bin/hsc2hs'}}
+            policy['packages']['hsc2hs'] = {'owner': 'mori://shinzui/haskell-nix', 'reason': 'Compiler tool', 'compilerTool': True}
+            manifest['context']['configurationPolicy'] = copy.deepcopy(policy)
+            return expected, manifest, policy
+        def test_frozen_owned_compiler_tool_passes(self):
+            self.assertIn('matches 1', tool.compare_freeze(*self.compiler_tool_fixture()))
+        def test_frozen_versioned_compiler_tool_path_passes(self):
+            expected, manifest, policy = self.compiler_tool_fixture()
+            manifest['packages'][1]['programs']['hsc2hs']['path'] = '/compiler/bin/hsc2hs-ghc-9.12.4'
+            self.assertIn('matches 1', tool.compare_freeze(expected, manifest, policy))
+        def test_frozen_wrong_compiler_tool_version_fails(self):
+            expected, manifest, policy = self.compiler_tool_fixture()
+            manifest['packages'][1]['programs']['hsc2hs']['version'] = '0.1'
+            with self.assertRaisesRegex(ValueError, 'missing static/build dependency'):
+                tool.compare_freeze(expected, manifest, policy)
+        def test_frozen_wrong_compiler_tool_provider_fails(self):
+            expected, manifest, policy = self.compiler_tool_fixture()
+            manifest['packages'][1]['programs']['hsc2hs']['path'] = '/other/bin/hsc2hs'
+            with self.assertRaisesRegex(ValueError, 'missing static/build dependency'):
+                tool.compare_freeze(expected, manifest, policy)
+        def test_frozen_unowned_compiler_tool_fails(self):
+            expected, manifest, policy = self.compiler_tool_fixture()
+            del policy['packages']['hsc2hs']
+            manifest['context']['configurationPolicy'] = copy.deepcopy(policy)
+            with self.assertRaisesRegex(ValueError, 'missing static/build dependency'):
+                tool.compare_freeze(expected, manifest, policy)
+        def test_frozen_wrong_boot_dependency_fails(self):
+            expected, manifest, policy = self.frozen_fixture()
+            expected['sources']['base'] = {'version': '4.22', 'source': 'Boot', 'identities': [], 'dependencies': []}
+            expected['sources']['lib']['dependencies'] = ['base']
+            manifest['context']['versions']['sourceManifest'] = copy.deepcopy(expected['sources'])
+            with self.assertRaisesRegex(ValueError, 'compiler boot dependency differs'):
+                tool.compare_freeze(expected, manifest, policy)
     unittest.main()
     PY
     cohort-compare --compare-manifests "$manifestFile" "$manifestFile"

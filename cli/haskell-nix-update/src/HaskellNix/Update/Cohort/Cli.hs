@@ -16,10 +16,11 @@ import Data.Set qualified as Set
 import Data.Text (Text)
 import Data.Text qualified as Text
 import Data.Text.IO qualified as TextIO
+import Data.Text.Encoding (decodeUtf8)
 import Distribution.Pretty (prettyShow)
 import HaskellNix.Update.Catalog (decodeFamilyCatalog)
 import HaskellNix.Update.Cohort.Freeze (FreezeHeader (FreezeHeader), normaliseCabalFreeze, parseCohortFreeze, renderCohortFreeze)
-import HaskellNix.Update.Cohort.Compare (comparePlan, verifyCohortImport)
+import HaskellNix.Update.Cohort.Compare (comparePlan, verifyCohortImport, comparisonContext)
 import HaskellNix.Update.Cohort.GenerateIO (GenerateOptions (..), runGenerate)
 import HaskellNix.Update.Cohort.Impact (impactReport, retainedConstraints, validateRetainedIdentities)
 import HaskellNix.Update.Cohort.Inventory
@@ -39,6 +40,7 @@ import System.FilePath (takeDirectory, takeExtension, (</>))
 data CohortCommand
     = CohortResolveChannelLock !FilePath !Text
     | CohortVerifyImport !FilePath !FilePath !Text
+    | CohortComparisonContext !FilePath !FilePath !FilePath
     | CohortGenerate !GenerateOptions
     | CohortComparePlan !FilePath !FilePath !FilePath !FilePath
     | CohortInventory !FilePath !Text !FilePath !FilePath !Text !FilePath
@@ -57,6 +59,7 @@ cohortParser =
     subparser
         ( command "resolve-channel-lock" (info (resolveLockParser <**> helper) (fullDesc <> progDesc "Resolve a locked revision through nested inputs and recursive follows"))
             <> command "verify-import" (info (verifyImportParser <**> helper) (fullDesc <> progDesc "Verify the Cabal cohort import against this application's locked channel"))
+            <> command "comparison-context" (info (contextParser <**> helper) (fullDesc <> progDesc "Emit validated frozen source, flag and ownership context for shared Nix comparison"))
             <> command "generate" (info (generateParser <**> helper) (fullDesc <> progDesc "Generate retained Nix recipes from the frozen sources and metadata cutoff"))
             <> command "compare-plan" (info (compareParser <**> helper) (fullDesc <> progDesc "Check a consumer subset against frozen versions and source evidence"))
             <> command "inventory" (info (inventoryParser <**> helper) (fullDesc <> progDesc "Record a contributor's fresh Cabal plan and component bounds"))
@@ -72,6 +75,7 @@ cohortParser =
   where
     resolveLockParser = CohortResolveChannelLock <$> strOption (long "lock" <> metavar "FILE") <*> textOption "input-path"
     verifyImportParser = CohortVerifyImport <$> strOption (long "project" <> metavar "FILE") <*> strOption (long "lock" <> metavar "FILE") <*> textOption "input-path"
+    contextParser = CohortComparisonContext <$> pathOption "freeze" "cabal/cohort.freeze" <*> pathOption "sources" "cabal/cohort-sources.json" <*> pathOption "contributors" "cabal/contributors.json"
     generateParser = CohortGenerate <$> (GenerateOptions <$> pathOption "freeze" "cabal/cohort.freeze" <*> pathOption "policy" "config/cohort-policy.json" <*> pathOption "output" "generated/cohort-versions.nix" <*> pathOption "boot-output" "generated/ghc-boot-packages.nix" <*> switch (long "check"))
     compareParser = CohortComparePlan <$> pathOption "freeze" "cabal/cohort.freeze" <*> pathOption "sources" "cabal/cohort-sources.json" <*> pathOption "contributors" "cabal/contributors.json" <*> strOption (long "plan-json" <> metavar "FILE")
     updateParser = CohortUpdateConstraints <$> pathOption "freeze" "cabal/cohort.freeze" <*> optionalPath "runtime-freeze" <*> switch (long "update-runtime") <*> some (textOption "package") <*> optional (textOption "index-state") <*> pathOption "out" "cabal/retained.config"
@@ -139,6 +143,12 @@ dispatch (CohortComparePlan freezeFile sourcesFile contributorsFile planFile) = 
     contributors :: [Contributor] <- ExceptT (readJSON contributorsFile)
     bytes <- lift (BS.readFile planFile)
     ExceptT (pure (comparePlan (Set.fromList (concatMap (\c -> c.ownPackages) contributors)) freeze sources bytes))
+dispatch (CohortComparisonContext freezeFile sourcesFile contributorsFile) = runExceptT $ do
+    freeze <- lift (TextIO.readFile freezeFile)
+    sources <- ExceptT (readJSON sourcesFile)
+    contributors :: [Contributor] <- ExceptT (readJSON contributorsFile)
+    context <- ExceptT (pure (comparisonContext (Set.fromList (concatMap (\c -> c.ownPackages) contributors)) freeze sources))
+    pure (decodeUtf8 (LBS.toStrict (encodePretty context)))
 dispatch (CohortGenerate options) = runExceptT $ do
     (_, _, firstParty, _) <- loadInputs "cabal/inventory" "packages/first-party-lock.json" "config/first-party-families.json" "cabal/policy-floors.json"
     versions <- ExceptT (pure (traverse parseVersion firstParty))

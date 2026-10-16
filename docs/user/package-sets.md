@@ -6,7 +6,7 @@ docId: DOC-7
 tags: [package-sets, snapshots, cache]
 generated:
   by: human:nadeem
-  at: 2026-10-16T15:08:23Z
+  at: 2026-10-16T16:11:49Z
 ---
 
 [User guide](README.md)
@@ -177,8 +177,19 @@ retained runtime projection can reuse the same helper without reading mutable de
 
 Build the channel's example with `nix build .#cohort-manifest`. Compare two manifest files with
 `nix run .#cohort-compare -- --compare-manifests BEFORE AFTER`; changed identities include input
-fields and direct users. Manifest construction and identity comparison are distinct from
-full frozen source/flag acceptance, which remains under implementation.
+fields and direct users. Compare a manifest against its retained cohort with:
+
+```bash
+nix run .#cohort-compare -- --freeze cabal/cohort.freeze --nix-manifest MANIFEST.json
+```
+
+The comparator verifies source and metadata identities, resolved Cabal flags and dependency
+edges. It obtains flags from an exact configure replay, including automatic defaults.
+Intentional differences require an owner and reason in the sibling
+`cohort-nix-policy.json`; this also declares compiler-bundled tools whose configured version
+and provider are verified. A missing dependency, unknown package or unverifiable identity
+fails with status 1. Passing a manifest comparison does not establish full compiler/channel
+matrix or fresh-CI-worker cache acceptance; those remain separate gates.
 
 After the cohort build passes, publish its dependency outputs with:
 

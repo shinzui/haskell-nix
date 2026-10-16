@@ -240,6 +240,21 @@
             cohortVersions.sourceManifest);
           cohortFarm = name: names: pkgsPlain.linkFarm name
             (map (package: { name = package; path = cohortScope.${package}; }) names);
+          cohortManifest = (import ./lib/mkCohortManifest.nix { inherit lib; }) {
+            pkgs = pkgsPlain;
+            scope = cohortScope;
+            root = cohortScope.pg-migrate-cli;
+            localPackages = [ ];
+            context = {
+              versions = cohortVersions;
+              boot = import ./generated/ghc-boot-packages.nix;
+              configurationPolicy = builtins.fromJSON (builtins.readFile ./cabal/cohort-nix-policy.json);
+              nixpkgsRevision = nixpkgs.rev;
+              channel = "github";
+              sourceContext = channelPackageSets.github.sourceContext;
+              channelRevision = inputs.self.rev or inputs.self.dirtyRev or null;
+            };
+          };
         in
         {
           _module.args.pkgs = pkgsPlain;
@@ -248,20 +263,7 @@
             haskell-nix-update = updater;
             cohort-compare = cohortCompare;
             cohort-cache = cohortCache;
-            cohort-manifest = (import ./lib/mkCohortManifest.nix { inherit lib; }) {
-              pkgs = pkgsPlain;
-              scope = cohortScope;
-              root = cohortScope.pg-migrate-cli;
-              localPackages = [ ];
-              context = {
-                versions = cohortVersions;
-                boot = import ./generated/ghc-boot-packages.nix;
-                configurationPolicy = builtins.fromJSON (builtins.readFile ./cabal/cohort-nix-policy.json);
-                nixpkgsRevision = nixpkgs.rev;
-                channel = "github";
-                channelRevision = inputs.self.rev or inputs.self.dirtyRev or null;
-              };
-            };
+            cohort-manifest = cohortManifest;
             cohort-closure = cohortFarm "cohort-closure" cohortNames;
             cohort-roots = cohortFarm "cohort-roots" [
               "keiro"
@@ -322,7 +324,7 @@
           };
           checks = import ./checks/default.nix {
             nixpkgsRevision = nixpkgs.rev;
-            inherit lib pkgsPlain pkgsGithub pkgsHackage updater cohortCompare firstPartyRegistries
+            inherit lib pkgsPlain pkgsGithub pkgsHackage updater cohortCompare cohortManifest firstPartyRegistries
               supportedGhcs defaultGhc defaultSelectedFamilies registries mkChannelExtension
               mkFirstPartyPackageSet mkFirstPartyPackageSetFactory firstPartyPackageSets
               haskellExtensions auditConsumerOverlay;

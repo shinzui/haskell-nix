@@ -1,6 +1,11 @@
 {
   "schemaVersion": 1,
   "packages": {
+    "hsc2hs": {
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Use the identically versioned hsc2hs bundled with the selected GHC. Verify its resolved Cabal program path and version against that compiler's actual derivation graph.",
+      "compilerTool": true
+    },
     "dhall": {
       "owner": "mori://shinzui/haskell-nix",
       "reason": "Enable HTTPS imports in shipped binaries, including cache misses. The Cabal compatibility solve disables TLS; both systems retain the same upstream source revision.",

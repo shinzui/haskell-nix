@@ -139,6 +139,38 @@ let
     })
     selectedFamilies);
 
+  sourceContext = lib.listToAttrs (lib.concatMap
+    (snapshot: map
+      (package: {
+        name = package.name;
+        value = {
+          owner = "mori://${configByName.${snapshot.family}.moriProject}";
+          reason = "Retained ${channel} source channel for the selected ${snapshot.family} family snapshot.";
+          normalization = {
+            prePatch = if channel != "github" || package.path == "." then "" else
+            (import ./familySourceLinkHook.nix { inherit lib; })
+              sources.${configByName.${snapshot.family}.githubInput}
+              (sources.${configByName.${snapshot.family}.githubInput} + "/${package.path}");
+          };
+          source =
+            if channel == "github" then {
+              kind = "github";
+              uri = "https://github.com/${snapshot.source.owner}/${snapshot.source.repo}";
+              revision = snapshot.source.rev;
+              hash = snapshot.source.narHash;
+              subdirectory = package.path;
+              path = "${sources.${configByName.${snapshot.family}.githubInput}}"
+                + lib.optionalString (package.path != ".") "/${package.path}";
+            } else if package.hackage == null then null else {
+              kind = "hackage";
+              hash = package.hackage.hash;
+              version = package.hackage.version;
+            };
+        };
+      })
+      snapshot.packages)
+    selectedFamilies);
+
   firstPartyRegistries = mkFirstPartyRegistries {
     inherit sources;
     config = projectedConfig;
@@ -227,5 +259,5 @@ let
 in
 builtins.seq validation {
   selections = normalizedSelections;
-  inherit selectedFamilies registry haskellExtension overlay;
+  inherit selectedFamilies sourceContext registry haskellExtension overlay;
 }

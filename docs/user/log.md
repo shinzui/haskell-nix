@@ -1,6 +1,7 @@
 # Bundle Update Log
 
 ## 2026-10-16
+* **Update**: Document frozen manifest comparison, resolved flag evidence and owned compiler-tool differences.
 * **Update**: Document derivation-graph manifests, build identity comparison and same-system cache publication/substitution receipts; retain separate CI and frozen-configuration acceptance gates.
 * **Update**: Explain generated third-party layer precedence and scoped parity versus build/cache identity evidence.
 * **Update**: Document frozen cohort version ownership, policy-only registry patches and explicit disabled-test arguments.

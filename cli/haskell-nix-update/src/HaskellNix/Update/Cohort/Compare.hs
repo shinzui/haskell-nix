@@ -1,9 +1,9 @@
 {-# LANGUAGE OverloadedRecordDot #-}
 
-module HaskellNix.Update.Cohort.Compare (comparePlan, verifyCohortImport) where
+module HaskellNix.Update.Cohort.Compare (comparePlan, verifyCohortImport, comparisonContext) where
 
 import Control.Monad (unless)
-import Data.Aeson (Value (..), eitherDecodeStrict', withObject, (.:))
+import Data.Aeson (Value (..), eitherDecodeStrict', object, withObject, (.:), (.=))
 import Data.Aeson.Key qualified as Key
 import Data.Aeson.KeyMap qualified as KeyMap
 import Data.Aeson.Types (parseEither)
@@ -18,6 +18,44 @@ import Distribution.Pretty (prettyShow)
 import HaskellNix.Update.Cohort.Freeze (FreezeDocument (..), parseFreezeDocument)
 import HaskellNix.Update.Cohort.Inventory (decodePlanVersions, projectFields, validatePlanCompiler)
 import HaskellNix.Update.Cohort.Types (PackageSource (..), PlanPackage (..))
+import HaskellNix.Update.Cohort.Render (canonicalPackage)
+
+-- Nix graph/source comparison consumes this normalized context. The public
+-- comparator never implements a second freeze parser or ownership model.
+comparisonContext :: Set.Set Text -> Text -> Map Text PlanPackage -> Either Text Value
+comparisonContext owned freeze sources = do
+    (document, compiler) <- validateExpected owned freeze sources
+    pure (object
+        [ "compiler" .= compiler
+        , "indexState" .= document.freezeIndexState
+        , "versions" .= Map.map (Text.pack . prettyShow) document.freezeVersions
+        , "flags" .= document.freezeFlags
+        , "sources" .= Map.map canonicalPackage sources
+        , "localPackages" .= Set.toAscList owned
+        ])
+
+validateExpected :: Set.Set Text -> Text -> Map Text PlanPackage -> Either Text (FreezeDocument, Text)
+validateExpected owned freeze sources = do
+    document <- parseFreezeDocument freeze
+    compiler <- case [Text.strip value | line <- Text.lines freeze, Just value <- [Text.stripPrefix "-- Compiler:" line]] of
+        [value] | not (Text.null value) -> Right value
+        _ -> Left "freeze must record exactly one compiler header"
+    unless (Map.keysSet document.freezeVersions `Set.isSubsetOf` Map.keysSet sources) (Left "freeze packages missing from source manifest")
+    unless (Set.null (owned `Set.intersection` Map.keysSet sources)) (Left "local ownership overlaps the cohort source manifest")
+    mapM_ (validateFrozen document) (Map.toAscList sources)
+    pure (document, compiler)
+  where
+    validateFrozen document (name, package) = do
+        case Map.lookup name document.freezeVersions of
+            Just version -> unless (package.version == Text.pack (prettyShow version)) (Left ("freeze/source version mismatch: " <> name))
+            Nothing -> unless (package.source == SourcePin) (Left ("unfrozen source manifest package: " <> name))
+        case Map.lookup name document.freezeFlags of
+            Nothing -> pure ()
+            Just flags -> unless (not (null package.identities) && all (hasFlags flags) package.identities) (Left ("freeze/source flags mismatch: " <> name))
+    hasFlags flags (Object identity) = case KeyMap.lookup "flags" identity of
+        Just (Object actual) -> all (\(name, enabled) -> KeyMap.lookup (Key.fromText name) actual == Just (Bool enabled)) (Map.toList flags)
+        _ -> False
+    hasFlags _ _ = False
 
 -- The caller resolves the revision from this application's own lock, including
 -- follows paths. Accept only a full immutable revision and one canonical import.
@@ -37,19 +75,13 @@ verifyCohortImport revision project = do
 -- inventory decoder rejects mixed versions before merging component records.
 comparePlan :: Set.Set Text -> Text -> Map Text PlanPackage -> ByteString -> Either Text Text
 comparePlan owned freeze sources bytes = do
-    document <- parseFreezeDocument freeze
-    compiler <- case [Text.strip value | line <- Text.lines freeze, Just value <- [Text.stripPrefix "-- Compiler:" line]] of
-        [value] | not (Text.null value) -> Right value
-        _ -> Left "freeze must record exactly one compiler header"
+    (_, compiler) <- validateExpected owned freeze sources
     validatePlanCompiler compiler bytes
     value <- either (Left . Text.pack) Right (eitherDecodeStrict' bytes)
     rows <- either (Left . Text.pack) Right (parseEither (withObject "plan" (.: "install-plan")) value)
     locals <- either (Left . Text.pack) Right (traverse (parseEither localName) rows)
     let undeclared = Set.fromList [name | Just name <- locals] Set.\\ owned
     unless (Set.null undeclared) (Left ("undeclared local packages: " <> Text.intercalate ", " (Set.toAscList undeclared)))
-    unless (Map.keysSet document.freezeVersions `Set.isSubsetOf` Map.keysSet sources) (Left "freeze packages missing from source manifest")
-    unless (Set.null (owned `Set.intersection` Map.keysSet sources)) (Left "local ownership overlaps the cohort source manifest")
-    mapM_ (validateFrozen document) (Map.toAscList sources)
     actual <- decodePlanVersions (Map.keysSet (Map.filter (\p -> p.source == Boot) sources)) bytes
     unless (not (Map.null actual)) (Left "plan contains no verifiable non-local dependencies")
     results <- traverse check (Map.toAscList actual)
@@ -60,17 +92,6 @@ comparePlan owned freeze sources bytes = do
     localName = withObject "plan row" $ \row -> case KeyMap.lookup "pkg-src" row of
         Just (Object src) | KeyMap.lookup "type" src == Just (String "local") -> Just <$> row .: "pkg-name"
         _ -> pure Nothing
-    validateFrozen document (name, package) = do
-        case Map.lookup name document.freezeVersions of
-            Just version -> unless (package.version == Text.pack (prettyShow version)) (Left ("freeze/source version mismatch: " <> name))
-            Nothing -> unless (package.source == SourcePin) (Left ("unfrozen source manifest package: " <> name))
-        case Map.lookup name document.freezeFlags of
-            Nothing -> pure ()
-            Just flags -> unless (not (null package.identities) && all (hasFlags flags) package.identities) (Left ("freeze/source flags mismatch: " <> name))
-    hasFlags flags (Object identity) = case KeyMap.lookup "flags" identity of
-        Just (Object actual) -> all (\(name, enabled) -> KeyMap.lookup (Key.fromText name) actual == Just (Bool enabled)) (Map.toList flags)
-        _ -> False
-    hasFlags _ _ = False
     check (name, package) = pure $ case Map.lookup name sources of
         Nothing -> Left ("missing " <> name <> " from cohort source manifest")
         Just expected

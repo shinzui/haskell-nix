@@ -23,11 +23,16 @@ let
       (haskellRows item.package);
   };
   capture = package:
-    (haskellLib.overrideCabal
-      (args: {
+    let
+      expose = args: {
         passthru = (args.passthru or { }) // { cohortManifestArguments = args; };
-      })
-      package).cohortManifestArguments;
+      };
+      captured =
+        if package ? overrideScope
+        then haskellLib.overrideCabal expose package
+        else package.override expose;
+    in
+    captured.cohortManifestArguments;
   sourceRecord = source:
     if source == null then null else {
       path = "${source}";
@@ -40,6 +45,19 @@ let
     let
       package = item.package;
       args = capture package;
+      rawSource = args.src or null;
+      origin = args.passthru.cohortSourceOrigin or null;
+      declared = (context.sourceContext or { }).${package.pname} or null;
+      source =
+        if origin != null then
+          assert lib.assertMsg ("${rawSource}" == "${origin.source}/${origin.subdirectory}")
+            "mkCohortManifest: source origin differs from the actual package source";
+          (sourceRecord origin.source) // { path = "${rawSource}"; subdirectory = origin.subdirectory; }
+        else if declared != null && declared.source != null && declared.source.kind == "github" then
+          assert lib.assertMsg ("${rawSource}" == declared.source.path)
+            "mkCohortManifest: first-party source differs from its retained snapshot";
+          declared.source // { hashMode = "recursive"; urls = [ ]; }
+        else sourceRecord rawSource;
       roles = lib.unique ((lib.optional (item.key == root.drvPath) "root")
         ++ lib.concatMap
         (parent: map (row: row.field)
@@ -53,7 +71,8 @@ let
       componentRoles = roles;
       drvPath = item.key;
       outputPath = package.outPath;
-      source = sourceRecord (args.src or null);
+      configurationReplay = import ./mkCohortConfigureEvidence.nix { inherit package; ghc = scope.ghc; };
+      inherit source;
       metadata = { revision = args.revision or null; hash = args.editedCabalFile or null; };
       configuration = {
         configureFlags = args.configureFlags or [ ];
@@ -116,5 +135,6 @@ pkgs.runCommand name
   };
 }
   ''
-    python3 ${../scripts/cohort-manifest.py} "$declarationFile" .attrs.json "$out"
+    ${scope.ghc}/bin/ghc-pkg list --global --simple-output > compiler-packages
+    python3 ${../scripts/cohort-manifest.py} "$declarationFile" .attrs.json compiler-packages "$out"
   ''

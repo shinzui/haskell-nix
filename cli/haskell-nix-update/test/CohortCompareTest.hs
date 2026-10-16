@@ -9,7 +9,7 @@ import Data.Map.Strict qualified as Map
 import Data.Set qualified as Set
 import Data.Text (Text)
 import Data.Text qualified as Text
-import HaskellNix.Update.Cohort.Compare (comparePlan, verifyCohortImport)
+import HaskellNix.Update.Cohort.Compare (comparePlan, verifyCohortImport, comparisonContext)
 import HaskellNix.Update.Cohort.Types
 import Test.Tasty (TestTree, testGroup)
 import Test.Tasty.HUnit (assertBool, testCase)
@@ -58,6 +58,10 @@ tests = testGroup "consumer cohort comparison"
         failsWith "full locked Git revision" (verifyCohortImport "main" ("import: " <> importUrl))
     , testCase "a matching hash on a different source host fails" $
         failsWith "stale or missing" (verifyCohortImport revision ("import: " <> Text.replace "raw.githubusercontent.com" "example.com" importUrl))
+    , testCase "Nix comparison uses the shared validated freeze context" $
+        assertBool "context should be a JSON object" (case comparisonContext (Set.singleton "app") freeze sources of Right (Object _) -> True; _ -> False)
+    , testCase "Nix comparison context rejects overlapping local ownership" $
+        assertBool "overlapping ownership should fail" (case comparisonContext (Set.singleton "lib") freeze sources of Left message -> "ownership overlaps" `Text.isInfixOf` message; _ -> False)
     ]
   where
     check rows = comparePlan (Set.singleton "app") freeze sources (plan "ghc-9.12.4" rows)

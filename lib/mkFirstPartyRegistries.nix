@@ -206,29 +206,13 @@ let
   # package.
   stageFamilyLinks = haskellLib: familySource: packageSource: package:
     let
-      packageEntries = builtins.readDir packageSource;
-      familyEntries = builtins.readDir familySource;
-      inheritedLinkNames = builtins.filter
-        (name:
-          (packageEntries.${name} or null) == "symlink"
-          && builtins.hasAttr name familyEntries)
-        (builtins.attrNames packageEntries);
-      stageLink = name:
-        let sourceEntry = familySource + "/${name}";
-        in
-        ''
-          if [ ! -e ${lib.escapeShellArg name} ]; then
-            unlink ${lib.escapeShellArg name}
-            cp -R ${sourceEntry} ${lib.escapeShellArg name}
-          fi
-        '';
+      hook = (import ./familySourceLinkHook.nix { inherit lib; }) familySource packageSource;
     in
-    if inheritedLinkNames == [ ] then package
+    if hook == "" then package
     else
       haskellLib.overrideCabal
         (drv: {
-          prePatch = (drv.prePatch or "")
-            + lib.concatMapStrings stageLink inheritedLinkNames;
+          prePatch = (drv.prePatch or "") + hook;
         })
         package;
 

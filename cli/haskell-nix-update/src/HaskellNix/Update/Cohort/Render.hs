@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedRecordDot #-}
 
-module HaskellNix.Update.Cohort.Render (renderCohortVersions, renderBootPackages) where
+module HaskellNix.Update.Cohort.Render (renderCohortVersions, renderBootPackages, canonicalPackage) where
 
 import Control.Monad (unless)
 import Data.Aeson (Value (..), encode, toJSON)

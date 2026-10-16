@@ -39,6 +39,18 @@ edges using Nix metadata APIs. An arbitrary channel scope or an empty runtime cl
 insufficient evidence. Declare intentional source/flag exceptions with a reason and owner;
 do not disguise them as version parity. Keep exact-binary release rehearsals.
 
+Translate the selected Hackage metadata revision when constructing a Nix recipe,
+then apply that same revision at build time. Applying it only after translation
+can retain stale dependency edges. Evaluate platform conditions using Cabal's
+architecture spelling: Apple's `arm64` must become `aarch64` for the pinned
+cabal2nix parser. These translation inputs are part of dependency identity.
+
+Record resolved Cabal flags from the actual recipe's configure replay, including
+automatic/default decisions, rather than treating command-line flags as complete.
+Record original and patched metadata digests. A compiler-bundled build tool may
+replace its Hackage counterpart only through an owned policy and verified actual
+configured version, compiler path and reachable provider derivation.
+
 The shared updater owns the cohort model, parser and targeted-update report. The generation
 work owns manifest construction, comparison and recursive flake-lock resolution. Consumers
 call those interfaces. Dotfiles orchestrates them without duplicating parsers. Recursive

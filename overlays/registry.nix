@@ -89,6 +89,11 @@ in
     max = "0.2.6.1";
     patch = import ../patches/cborg-json/0.2.6-ghc914.nix;
   }];
+  cborg = [{
+    min = "0.2.10.0";
+    max = "0.2.10.1";
+    patch = import ../patches/cborg/0.2.10-ghc914.nix;
+  }];
   dec = [{
     min = "0.0.6";
     max = "0.0.7";

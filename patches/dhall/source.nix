@@ -9,4 +9,10 @@ let
     hash = "sha256-ashbketzUtSHiTQBMlzyhCKGfr9/Dhxh7rudU4zPDl4=";
   };
 in
-haskellLib.dontCheck (hself.callCabal2nix "dhall" (source + "/dhall") { })
+haskellLib.dontCheck (haskellLib.overrideCabal
+  (drv: {
+    passthru = (drv.passthru or { }) // {
+      cohortSourceOrigin = { inherit source; subdirectory = "dhall"; };
+    };
+  })
+  (hself.callCabal2nix "dhall" (source + "/dhall") { }))
