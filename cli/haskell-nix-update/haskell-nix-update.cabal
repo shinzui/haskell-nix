@@ -62,6 +62,7 @@ library
     HaskellNix.Update.Plan
     HaskellNix.Update.Process
     HaskellNix.Update.Runtime
+    HaskellNix.Update.Runtime.Types
     HaskellNix.Update.Types
     HaskellNix.Update.Workflow
 

@@ -230,6 +230,12 @@ let
   };
 in
 {
+  testCohortRootOriginUsesRepositoryRoot = { expr = (import ../lib/cohortSource.nix { inherit lib; }).originPath { source = "/fixture-source"; subdirectory = "."; }; expected = "/fixture-source"; };
+  testCohortNestedOriginKeepsPackageDirectory = { expr = (import ../lib/cohortSource.nix { inherit lib; }).originPath { source = "/fixture-source"; subdirectory = "library"; }; expected = "/fixture-source/library"; };
+  testCohortSourceFactsRetainActualNarEvidence = {
+    expr = let source = (import ../lib/cohortSource.nix { inherit lib; }).record { outPath = "/fixture-source"; outputHash = "fixed-nar-hash"; outputHashMode = "recursive"; urls = [ "https://example.test/archive" ]; }; in { inherit (source) hash hashMode urls; };
+    expected = { hash = "fixed-nar-hash"; hashMode = "recursive"; urls = [ "https://example.test/archive" ]; };
+  };
   testRuntimeValidOwnership = { expr = (validateRuntime runtimeConfig runtimeLock).schemaVersion; expected = 1; };
   testRuntimeMissingDependency = rejectRuntime (runtimeRecord // { ownership = builtins.removeAttrs runtimeRecord.ownership [ "base" ]; });
   testRuntimeMissingRoot = rejectRuntime (runtimeRecord // { roots = [ ]; });

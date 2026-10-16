@@ -35,14 +35,8 @@ let
     assert lib.assertMsg (package.drvPath == (scope.mkDerivation captured.cohortManifestArguments).drvPath)
       "mkCohortManifest: captured inputs do not reconstruct ${package.pname}; express recipe changes through overrideCabal";
     captured.cohortManifestArguments;
-  sourceRecord = source:
-    if source == null then null else {
-      path = "${source}";
-      hash = if builtins.isAttrs source then source.outputHash or source.narHash or null else null;
-      hashMode = if builtins.isAttrs source then source.outputHashMode or null else null;
-      urls = if builtins.isAttrs source then source.urls or (lib.optional (source ? url) source.url) else [ ];
-      revision = if builtins.isAttrs source then source.rev or null else null;
-    };
+  sourceFacts = import ./cohortSource.nix { inherit lib; };
+  sourceRecord = sourceFacts.record;
   packageRecord = item:
     let
       package = item.package;
@@ -52,7 +46,7 @@ let
       declared = (context.sourceContext or { }).${package.pname} or null;
       source =
         if origin != null then
-          assert lib.assertMsg ("${rawSource}" == "${origin.source}/${origin.subdirectory}")
+          assert lib.assertMsg ("${rawSource}" == sourceFacts.originPath origin)
             "mkCohortManifest: source origin differs from the actual package source";
           (sourceRecord origin.source) // { path = "${rawSource}"; subdirectory = origin.subdirectory; }
         else if declared != null && declared.source != null && declared.source.kind == "github" then

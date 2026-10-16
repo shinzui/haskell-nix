@@ -13,7 +13,8 @@
           "project": "mori://shinzui/keiki",
           "role": "library"
         }
-      }
+      },
+      "sourceProjects": {}
     }
   },
   "schemaVersion": 1

@@ -52,6 +52,17 @@ configuration, including native dependencies, rather than assuming that all comb
 are supported. Retained runtime labels and unrelated application metadata do not enter
 dependency derivations.
 
+Retain the recipe context itself: shared libraries, registries, patches, configuration,
+full cohort data and both source/toolchain locks. A generation also captures its root
+definition, resolved GitHub source descriptors with NAR hashes, and a recomputable identity
+covering ownership and effective policy inputs. Old records use their captured definition
+when the live definition grows. Store deterministic runtime version/flag projections and
+fresh bounded GitHub/Hackage source profiles; both replay the shared cohort with no new
+version choice. Checks verify hashes, recipe membership and source/freeze agreement without
+rewriting managed files. Snapshot stages all outputs and restores every managed file if
+publication fails. Append a changed generation; unchanged effective inputs select the
+existing record. Cache and build evidence is retained outside immutable recipe directories.
+
 Plan 16 owns membership, runtime records, the composition API and runtime-specific evidence.
 Plans 8, 9 and 10 retain ownership of solving/reporting, generation/manifests/comparison and
 shared policy/auditing respectively. Application-adoption plans 11–13 depend on plan 16;

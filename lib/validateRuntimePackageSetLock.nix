@@ -15,8 +15,9 @@ let
   hasAll = required: actual: builtins.all (value: builtins.elem value actual) required;
   validateDefinition = runtime: definition:
     require
-      (name runtime && exact [ "projects" "groups" "roots" ] definition
+      (name runtime && exact [ "projects" "groups" "roots" "sourceProjects" ] definition
         && unique definition.projects && unique definition.groups && definition.groups != [ ]
+        && builtins.all project (builtins.attrValues definition.sourceProjects) && builtins.all name (builtins.attrNames definition.sourceProjects)
         && builtins.all project definition.projects && builtins.attrNames definition.roots != [ ]
         && hasAll definition.projects (map (entry: entry.project) (builtins.attrValues definition.roots))
         && builtins.all
@@ -48,8 +49,17 @@ let
       projectionNames = builtins.attrNames record.projections;
     in
     require
-      (exact [ "generation" "selections" "configurations" "roots" "ownership" "roles" "components" "projections" "fingerprint" "recipeDirectory" "freezeFile" "sourceFile" "versionFile" "policyFile" ] record
-        && builtins.isInt record.generation && record.generation > 0 && hash record.fingerprint
+      (exact [ "definition" "generation" "indexState" "cohortFreezeSha256" "nixpkgsRevision" "toolchainRevision" "toolchainInputs" "selections" "configurations" "roots" "ownership" "roles" "components" "projections" "fingerprint" "recipeDirectory" "freezeFile" "sourceFile" "versionFile" "policyFile" ] record
+        && builtins.isInt record.generation && record.generation > 0 && hash record.fingerprint && hash record.cohortFreezeSha256
+        && builtins.match "[0-9a-fA-F]{40}" record.nixpkgsRevision != null && builtins.match "[0-9a-fA-F]{40}" record.toolchainRevision != null
+        && builtins.match "[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z" record.indexState != null
+        && builtins.attrNames record.toolchainInputs == [ "haskell-nix-dev" "nixpkgs" ]
+        && builtins.all
+        (name:
+          let descriptor = record.toolchainInputs.${name}; expected = if name == "nixpkgs" then record.nixpkgsRevision else record.toolchainRevision;
+          in exact [ "type" "owner" "repo" "rev" "narHash" ] descriptor && descriptor.type == "github" && descriptor.rev == expected
+            && descriptor.owner != "" && descriptor.repo != "" && builtins.match "sha256-[A-Za-z0-9+/]{43}=" descriptor.narHash != null)
+        [ "nixpkgs" "haskell-nix-dev" ]
         && selectionNames == builtins.sort builtins.lessThan definition.groups
         && builtins.all (group: knownGroup group record.selections.${group}) selectionNames
         && record.configurations != [ ] && unique record.configurations && builtins.all configuration record.configurations
@@ -70,12 +80,34 @@ let
             && roles != [ ] && unique roles && hasAll roles [ "library" "test" "build-tool" "compiler" ])
         packageNames
         && hasAll (builtins.attrNames record.components) packageNames
+        && hasAll (builtins.attrNames (lib.filterAttrs (_: entry: entry.source == "SourcePin") record.ownership)) (builtins.attrNames record.components)
+        && builtins.all
+        (package:
+          let
+            component = record.components.${package};
+            entry = record.ownership.${package};
+            expectedProject = definition.roots.${package}.project or definition.sourceProjects.${package} or null;
+            native = component.nativeSource or { };
+            recipe = component.recipe or null;
+          in
+          builtins.isAttrs component && project expectedProject
+            && (component.package or null) == package && (component.project or null) == expectedProject
+            && (component.source or null) == entry
+            && (entry.source != "SourcePin" || (builtins.isAttrs native
+            && (native.hashMode or null) == "recursive" && builtins.isString (native.hash or null)
+            && builtins.match "sha256-[A-Za-z0-9+/]{43}=" native.hash != null
+            && (recipe == null || (builtins.isAttrs recipe && (recipe.version or null) == entry.version
+            && (recipe.hash or null) == native.hash && (recipe.subdirectory or null) == (native.subdirectory or null))))))
+        (builtins.attrNames record.components)
         && projectionNames != [ ] && builtins.all path projectionNames
         && builtins.all
         (file: hash record.projections.${file}
           && builtins.hashString "sha256" (readProjection file) == record.projections.${file})
         projectionNames
+        && builtins.all (configuration: builtins.hasAttr "${builtins.dirOf record.freezeFile}/${configuration.channel}-sources.json" record.projections) record.configurations
         && hasAll [ record.freezeFile record.sourceFile record.versionFile record.policyFile ] projectionNames
+        && (record.projections."${builtins.dirOf record.freezeFile}/identity.json" or null) == record.fingerprint
+        && (record.projections."${record.recipeDirectory}/cabal/cohort.freeze" or null) == record.cohortFreezeSha256
         && path record.recipeDirectory && builtins.any (lib.hasPrefix "${record.recipeDirectory}/") projectionNames)
       "invalid generation, ownership, support configuration or projection hash";
   checks = [
@@ -88,7 +120,7 @@ let
         (validateDefinition runtime definition)
         (require (builtins.all (group: builtins.any (snapshot: snapshot.group == group) firstPartyLock.groupSnapshots) definition.groups) "unknown runtime group")
         (require (unique generations && generations == builtins.sort builtins.lessThan generations) "runtime generations must be unique and ordered")
-      ] ++ map (validateRecord definition) records)
+      ] ++ map (record: builtins.seq (validateDefinition runtime record.definition) (validateRecord record.definition record)) records)
     (builtins.attrNames config.runtimes);
 in
 builtins.deepSeq checks lock

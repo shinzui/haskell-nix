@@ -13,6 +13,7 @@ import Data.Text (Text)
 import Data.Text qualified as Text
 import Data.Text.IO qualified as TextIO
 import HaskellNix.Update.Cohort.Cli (CohortCommand, cohortParser, runCohort)
+import HaskellNix.Update.Runtime (RuntimeCommand, runtimeParser, runRuntime)
 import HaskellNix.Update.Types (FamilyName (..), PackageSetCommand (..), PackageSetSupportLevel (..), RefreshTarget (..), SnapshotGeneration (..), UpdateError (..), UpdateGroupName (..))
 import HaskellNix.Update.Workflow
 import Options.Applicative
@@ -24,6 +25,7 @@ data Command
   | Check !CheckOptions
   | MigrateLock !MigrateOptions
   | Cohort !CohortCommand
+  | Runtime !RuntimeCommand
   | PackageSetCommand !PackageSetCommand
   deriving stock (Eq, Show)
 
@@ -61,6 +63,7 @@ runCli = do
     MigrateLock MigrateOptions {packageSet, importSets, dryRun} ->
       runMigrateLockWorkflow environment (defaultWorkflowPaths ".") packageSet importSets dryRun
     Cohort cohortCommand -> runCohort cohortCommand
+    Runtime runtimeCommand -> runRuntime runtimeCommand
     PackageSetCommand packageSetCommand ->
       runPackageSetCommand environment (defaultWorkflowPaths ".") packageSetCommand
   case result of
@@ -79,7 +82,8 @@ parserInfo =
 commandParser :: Parser Command
 commandParser =
   subparser
-    ( command "cohort" (info (Cohort <$> cohortParser <**> helper) (fullDesc <> progDesc "Inventory, solve and report the shared dependency cohort"))
+    ( command "runtime" (info (Runtime <$> runtimeParser <**> helper) (fullDesc <> progDesc "Capture, check and describe retained runtime generations"))
+        <> command "cohort" (info (Cohort <$> cohortParser <**> helper) (fullDesc <> progDesc "Inventory, solve and report the shared dependency cohort"))
         <> command
         "refresh"
         ( info

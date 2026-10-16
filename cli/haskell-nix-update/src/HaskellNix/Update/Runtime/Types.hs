@@ -1,11 +1,20 @@
 {-# LANGUAGE OverloadedRecordDot #-}
 
-module HaskellNix.Update.Runtime.Types
-    ( RuntimeConfig (..), RuntimeDefinition (..), RuntimeRoot (..)
-    , RuntimeLock (..), RuntimeGeneration (..), RuntimeConfiguration (..)
-    , decodeRuntimeConfig, decodeRuntimeLock, validateRuntimeConfig, validateRuntimeLock
-    , runtimeClosure, composeRuntimeSelections, validateProjectionHashes
-    ) where
+module HaskellNix.Update.Runtime.Types (
+    RuntimeConfig (..),
+    RuntimeDefinition (..),
+    RuntimeRoot (..),
+    RuntimeLock (..),
+    RuntimeGeneration (..),
+    RuntimeConfiguration (..),
+    decodeRuntimeConfig,
+    decodeRuntimeLock,
+    validateRuntimeConfig,
+    validateRuntimeLock,
+    runtimeClosure,
+    composeRuntimeSelections,
+    validateProjectionHashes,
+) where
 
 import Control.Monad (unless)
 import Data.Aeson
@@ -14,45 +23,46 @@ import Data.ByteString (ByteString)
 import Data.Char (isHexDigit)
 import Data.Foldable (traverse_)
 import Data.List (sort)
-import Data.Maybe (isJust)
-import Data.Time (UTCTime, defaultTimeLocale, parseTimeM)
 import Data.Map.Strict (Map)
 import Data.Map.Strict qualified as Map
+import Data.Maybe (isJust)
 import Data.Set qualified as Set
 import Data.Text (Text)
 import Data.Text qualified as Text
+import Data.Time (UTCTime, defaultTimeLocale, parseTimeM)
 import GHC.Generics (Generic)
 import HaskellNix.Update.Cohort.Model (parseVersion)
-import HaskellNix.Update.Cohort.Types (PlanPackage (..))
+import HaskellNix.Update.Cohort.Render (validHash, validSriHash)
+import HaskellNix.Update.Cohort.Types (PackageSource (..), PlanPackage (..))
 import HaskellNix.Update.Types qualified as FirstParty
-import System.FilePath (isAbsolute, splitDirectories)
+import System.FilePath (isAbsolute, splitDirectories, takeDirectory)
 
 data RuntimeConfig = RuntimeConfig {schemaVersion :: !Int, runtimes :: !(Map Text RuntimeDefinition)}
     deriving stock (Eq, Show, Generic)
     deriving anyclass (ToJSON)
-instance FromJSON RuntimeConfig where parseJSON = genericParseJSON defaultOptions {rejectUnknownFields = True}
+instance FromJSON RuntimeConfig where parseJSON = genericParseJSON defaultOptions{rejectUnknownFields = True}
 
 data RuntimeDefinition = RuntimeDefinition
-    {projects :: ![Text], groups :: ![Text], roots :: !(Map Text RuntimeRoot)}
+    {projects :: ![Text], groups :: ![Text], roots :: !(Map Text RuntimeRoot), sourceProjects :: !(Map Text Text)}
     deriving stock (Eq, Show, Generic)
     deriving anyclass (ToJSON)
-instance FromJSON RuntimeDefinition where parseJSON = genericParseJSON defaultOptions {rejectUnknownFields = True}
+instance FromJSON RuntimeDefinition where parseJSON = genericParseJSON defaultOptions{rejectUnknownFields = True}
 
 data RuntimeRoot = RuntimeRoot {project :: !Text, capability :: !Text, role :: !Text}
     deriving stock (Eq, Show, Generic)
     deriving anyclass (ToJSON)
-instance FromJSON RuntimeRoot where parseJSON = genericParseJSON defaultOptions {rejectUnknownFields = True}
+instance FromJSON RuntimeRoot where parseJSON = genericParseJSON defaultOptions{rejectUnknownFields = True}
 
 data RuntimeLock = RuntimeLock {schemaVersion :: !Int, runtimes :: !(Map Text [RuntimeGeneration])}
     deriving stock (Eq, Show, Generic)
     deriving anyclass (ToJSON)
-instance FromJSON RuntimeLock where parseJSON = genericParseJSON defaultOptions {rejectUnknownFields = True}
+instance FromJSON RuntimeLock where parseJSON = genericParseJSON defaultOptions{rejectUnknownFields = True}
 
 data RuntimeConfiguration = RuntimeConfiguration
     {system :: !Text, compiler :: !Text, channel :: !Text, disableProfiling :: !Bool, disableHaddock :: !Bool}
     deriving stock (Eq, Ord, Show, Generic)
     deriving anyclass (ToJSON)
-instance FromJSON RuntimeConfiguration where parseJSON = genericParseJSON defaultOptions {rejectUnknownFields = True}
+instance FromJSON RuntimeConfiguration where parseJSON = genericParseJSON defaultOptions{rejectUnknownFields = True}
 
 -- Every projection and the retained recipe tree is content addressed. The
 -- ownership graph includes transitive libraries, boot packages and build tools.
@@ -64,6 +74,7 @@ data RuntimeGeneration = RuntimeGeneration
     , cohortFreezeSha256 :: !Text
     , nixpkgsRevision :: !Text
     , toolchainRevision :: !Text
+    , toolchainInputs :: !(Map Text (Map Text Text))
     , selections :: !(Map Text Int)
     , configurations :: ![RuntimeConfiguration]
     , roots :: ![Text]
@@ -77,9 +88,10 @@ data RuntimeGeneration = RuntimeGeneration
     , sourceFile :: !FilePath
     , versionFile :: !FilePath
     , policyFile :: !FilePath
-    } deriving stock (Eq, Show, Generic)
-      deriving anyclass (ToJSON)
-instance FromJSON RuntimeGeneration where parseJSON = genericParseJSON defaultOptions {rejectUnknownFields = True}
+    }
+    deriving stock (Eq, Show, Generic)
+    deriving anyclass (ToJSON)
+instance FromJSON RuntimeGeneration where parseJSON = genericParseJSON defaultOptions{rejectUnknownFields = True}
 
 decodeRuntimeConfig :: ByteString -> Either Text RuntimeConfig
 decodeRuntimeConfig bytes = either (Left . Text.pack) validateRuntimeConfig (eitherDecodeStrict' bytes)
@@ -95,16 +107,21 @@ validateRuntimeConfig config = do
   where
     validateDefinition (name, definition) = do
         require (safeName name && unique definition.projects && unique definition.groups && not (null definition.groups)) "invalid runtime name, duplicate projects or groups"
+        require (all canonicalProject (Map.elems definition.sourceProjects) && all safeName (Map.keys definition.sourceProjects)) "invalid canonical source-component project inventory"
         require (all canonicalProject definition.projects && not (Map.null definition.roots)) "runtime requires canonical projects and root components"
         require (all (`elem` map (.project) (Map.elems definition.roots)) definition.projects) "runtime project has no root component"
-        traverse_ (\(package, root) -> do
-            require (safeName package && canonicalProject root.project) ("invalid runtime root: " <> package)
-            require (root.role `elem` ["library", "test", "build-tool"] && root.capability `elem` ["core", "pgmq", "kafka"]) ("invalid runtime role/capability: " <> package)) (Map.toList definition.roots)
-        if name == "keiro-runtime" then do
-            require (all (`elem` definition.projects) requiredProjects) "keiro-runtime omits a required project"
-            require (all (`Map.member` definition.roots) ["keiki", "keiki-codec-json", "keiro", "kiroku-store", "shibuya-core", "pgmq-core", "settei", "pg-migrate", "hw-kafka-client", "shibuya-pgmq-adapter", "shibuya-kiroku-adapter", "shibuya-kafka-adapter", "kafka-effectful", "hw-kafka-streamly"]) "keiro-runtime omits a required root/codec/adapter"
-            require (all (`elem` definition.groups) ["keiki", "keiro", "kiroku", "shibuya", "pgmq-hs", "settei", "pg-migrate"]) "keiro-runtime omits a required first-party group"
-        else pure ()
+        traverse_
+            ( \(package, root) -> do
+                require (safeName package && canonicalProject root.project) ("invalid runtime root: " <> package)
+                require (root.role `elem` ["library", "test", "build-tool"] && root.capability `elem` ["core", "pgmq", "kafka"]) ("invalid runtime role/capability: " <> package)
+            )
+            (Map.toList definition.roots)
+        if name == "keiro-runtime"
+            then do
+                require (all (`elem` definition.projects) requiredProjects) "keiro-runtime omits a required project"
+                require (all (`Map.member` definition.roots) ["keiki", "keiki-codec-json", "keiro", "kiroku-store", "shibuya-core", "pgmq-core", "settei", "pg-migrate", "hw-kafka-client", "shibuya-pgmq-adapter", "shibuya-kiroku-adapter", "shibuya-kafka-adapter", "kafka-effectful", "hw-kafka-streamly"]) "keiro-runtime omits a required root/codec/adapter"
+                require (all (`elem` definition.groups) ["keiki", "keiro", "kiroku", "shibuya", "pgmq-hs", "settei", "pg-migrate"]) "keiro-runtime omits a required first-party group"
+            else pure ()
     requiredProjects = map ("mori://shinzui/" <>) ["keiki", "keiro", "kiroku", "shibuya", "pgmq-hs", "settei", "pg-migrate", "hw-kafka-client"]
 
 validateRuntimeLock :: RuntimeConfig -> FirstParty.PackageSetLock -> RuntimeLock -> Either Text RuntimeLock
@@ -119,12 +136,30 @@ validateRuntimeLock config firstParty lock = do
         let definition = config.runtimes Map.! name
         require (unique (map (.generation) records) && map (.generation) records == sort (map (.generation) records)) "runtime generations must be unique and ordered"
         require (all (`Map.member` knownGroups) definition.groups) "runtime definition contains an unknown group"
-        traverse_ (\record -> do
-            _ <- validateRuntimeConfig (RuntimeConfig 1 (Map.singleton name record.definition))
-            validateRecord record.definition record) records
+        traverse_
+            ( \record -> do
+                _ <- validateRuntimeConfig (RuntimeConfig 1 (Map.singleton name record.definition))
+                validateRecord record.definition record
+            )
+            records
     validateRecord definition record = do
         require (record.generation > 0 && validHash record.fingerprint && validHash record.cohortFreezeSha256) "invalid runtime generation/fingerprint"
         require (validRevision record.nixpkgsRevision && validRevision record.toolchainRevision && validTimestamp record.indexState) "invalid runtime toolchain/index-state identity"
+        require (Map.keys record.toolchainInputs == ["haskell-nix-dev", "nixpkgs"]) "missing retained toolchain source descriptors"
+        traverse_
+            ( \(name, revision) -> case Map.lookup name record.toolchainInputs of
+                Just descriptor ->
+                    require
+                        ( Map.keys descriptor == ["narHash", "owner", "repo", "rev", "type"]
+                            && Map.lookup "type" descriptor == Just "github"
+                            && Map.lookup "rev" descriptor == Just revision
+                            && maybe False validSriHash (Map.lookup "narHash" descriptor)
+                            && all (maybe False (not . Text.null) . (`Map.lookup` descriptor)) ["owner", "repo"]
+                        )
+                        ("invalid retained toolchain source: " <> name)
+                Nothing -> Left ("missing retained toolchain source: " <> name)
+            )
+            [("nixpkgs", record.nixpkgsRevision), ("haskell-nix-dev", record.toolchainRevision)]
         require (Map.keys record.selections == sort definition.groups) "runtime group selections are incomplete"
         traverse_ (\(group, value) -> require (value `elem` Map.findWithDefault [] group knownGroups) ("unknown runtime group generation: " <> group)) (Map.toList record.selections)
         require (not (null record.configurations) && unique record.configurations) "runtime configurations must be nonempty and unique"
@@ -134,31 +169,69 @@ validateRuntimeLock config firstParty lock = do
         require (Map.keys closure == Map.keys record.ownership) "runtime ownership includes unreachable dependencies"
         require (Map.keys record.roles == Map.keys record.ownership) "runtime dependency roles are incomplete"
         traverse_ (\rs -> require (not (null rs) && unique rs && all (`elem` ["library", "test", "build-tool", "compiler"]) rs) "invalid runtime dependency role") (Map.elems record.roles)
-        traverse_ (\(name, package) -> do
-            _ <- parseVersion package.version
-            require (not (null package.identities)) ("runtime source identity is missing: " <> name)
-            traverse_ (validateIdentity name package.version) package.identities
-            let identities = [map (`KeyMap.lookup` fields) ["pkg-src", "pkg-src-sha256", "pkg-cabal-sha256", "flags"] | Object fields <- package.identities]
-            case identities of
-                first : rest -> require (all (== first) rest) ("conflicting runtime source/metadata/flags: " <> name)
-                [] -> Left ("runtime source identity is missing: " <> name)) (Map.toList record.ownership)
+        traverse_
+            ( \(name, package) -> do
+                _ <- parseVersion package.version
+                require (not (null package.identities)) ("runtime source identity is missing: " <> name)
+                traverse_ (validateIdentity name package.version) package.identities
+                let identities = [map (`KeyMap.lookup` fields) ["pkg-src", "pkg-src-sha256", "pkg-cabal-sha256", "flags"] | Object fields <- package.identities]
+                case identities of
+                    first : rest -> require (all (== first) rest) ("conflicting runtime source/metadata/flags: " <> name)
+                    [] -> Left ("runtime source identity is missing: " <> name)
+            )
+            (Map.toList record.ownership)
         require (all (`Map.member` record.ownership) (Map.keys record.components)) "runtime source component has no ownership record"
+        require (all (`Map.member` record.components) (Map.keys (Map.filter (\package -> package.source == SourcePin) record.ownership))) "missing retained non-Hackage source component"
+        traverse_ (validateComponent record) (Map.toList record.components)
         require (not (Map.null record.projections) && all validHash (Map.elems record.projections) && all safePath (Map.keys record.projections)) "invalid runtime projection paths/hashes"
+        require (Map.lookup (takeDirectory record.freezeFile <> "/identity.json") record.projections == Just record.fingerprint) "runtime fingerprint projection identity mismatch"
         require (Map.lookup (record.recipeDirectory <> "/cabal/cohort.freeze") record.projections == Just record.cohortFreezeSha256) "runtime cohort projection identity mismatch"
+        require (all (`Map.member` record.projections) [takeDirectory record.freezeFile <> "/" <> Text.unpack configuration.channel <> "-sources.json" | configuration <- record.configurations]) "missing runtime source configuration projection"
         require (safePath record.recipeDirectory && all (`Map.member` record.projections) [record.freezeFile, record.sourceFile, record.versionFile, record.policyFile]) "missing runtime projection ownership"
         require (any (Text.isPrefixOf (Text.pack record.recipeDirectory <> "/") . Text.pack) (Map.keys record.projections)) "runtime recipes are not captured"
 
+validateComponent :: RuntimeGeneration -> (Text, Value) -> Either Text ()
+validateComponent record (name, Object fields) = do
+    let expectedProject = case Map.lookup name record.definition.roots of
+            Just root -> Just root.project
+            Nothing -> Map.lookup name record.definition.sourceProjects
+        package = record.ownership Map.! name
+    require
+        ( maybe False canonicalProject expectedProject
+            && KeyMap.lookup "package" fields == Just (String name)
+            && KeyMap.lookup "project" fields == (String <$> expectedProject)
+            && KeyMap.lookup "source" fields == Just (toJSON package)
+        )
+        ("conflicting runtime source component: " <> name)
+    case package.source of
+        SourcePin -> case KeyMap.lookup "nativeSource" fields of
+            Just (Object native) -> do
+                require (KeyMap.lookup "hashMode" native == Just (String "recursive") && case KeyMap.lookup "hash" native of Just (String hash) -> validSriHash hash; _ -> False) ("runtime source lacks actual NAR evidence: " <> name)
+                case KeyMap.lookup "recipe" fields of
+                    Just (Object recipe) ->
+                        require
+                            (KeyMap.lookup "version" recipe == Just (String package.version) && KeyMap.lookup "hash" recipe == KeyMap.lookup "hash" native && KeyMap.lookup "subdirectory" recipe == KeyMap.lookup "subdirectory" native)
+                            ("runtime source recipe disagrees with actual NAR/version: " <> name)
+                    Nothing -> pure ()
+                    _ -> Left ("invalid runtime source recipe: " <> name)
+            _ -> Left ("missing runtime NAR source evidence: " <> name)
+        _ -> pure ()
+validateComponent _ (name, _) = Left ("invalid runtime component: " <> name)
+
 validateIdentity :: Text -> Text -> Value -> Either Text ()
-validateIdentity name version (Object fields) = require
-    (KeyMap.lookup "pkg-name" fields == Just (String name) && KeyMap.lookup "pkg-version" fields == Just (String version))
-    ("runtime identity disagrees with package name/version: " <> name)
+validateIdentity name version (Object fields) =
+    require
+        (KeyMap.lookup "pkg-name" fields == Just (String name) && KeyMap.lookup "pkg-version" fields == Just (String version))
+        ("runtime identity disagrees with package name/version: " <> name)
 validateIdentity name _ _ = Left ("invalid runtime source identity: " <> name)
 
 -- Hashing is performed through the shared Nix process adapter; this pure
 -- comparison is also used by check/snapshot before publishing any managed file.
 validateProjectionHashes :: RuntimeGeneration -> Map FilePath Text -> Either Text ()
-validateProjectionHashes record observed = require (record.projections == observed)
-    "runtime projection source/metadata/policy hash drift"
+validateProjectionHashes record observed =
+    require
+        (record.projections == observed)
+        "runtime projection source/metadata/policy hash drift"
 
 runtimeClosure :: [Text] -> Map Text PlanPackage -> Either Text (Map Text PlanPackage)
 runtimeClosure names packages = go Set.empty names
@@ -180,14 +253,11 @@ composeRuntimeSelections allGroups runtime application = do
 require :: Bool -> Text -> Either Text ()
 require condition message = unless condition (Left message)
 
-unique :: Ord a => [a] -> Bool
+unique :: (Ord a) => [a] -> Bool
 unique values = Set.size (Set.fromList values) == length values
 
-validHash :: Text -> Bool
-validHash value = Text.length value == 64 && Text.all isHexDigit value
-
 safeName :: Text -> Bool
-safeName value = not (Text.null value) && Text.all (\c -> c `elem` ['a'..'z'] <> ['0'..'9'] <> ['-']) value
+safeName value = not (Text.null value) && Text.all (\c -> c `elem` ['a' .. 'z'] <> ['0' .. '9'] <> ['-']) value
 
 canonicalProject :: Text -> Bool
 canonicalProject value = case Text.splitOn "/" value of

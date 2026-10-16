@@ -2,6 +2,7 @@
   "runtimes": {
     "fixture": [
       {
+        "cohortFreezeSha256": "f16d05ec6b29248d2c61adb1e9263f78e4f7bace1b955014a2d17872cfe4064d",
         "components": {},
         "configurations": [
           {
@@ -12,9 +13,27 @@
             "system": "aarch64-darwin"
           }
         ],
+        "definition": {
+          "groups": [
+            "core"
+          ],
+          "projects": [
+            "mori://shinzui/keiki"
+          ],
+          "roots": {
+            "shared": {
+              "capability": "core",
+              "project": "mori://shinzui/keiki",
+              "role": "library"
+            }
+          },
+          "sourceProjects": {}
+        },
         "fingerprint": "f16d05ec6b29248d2c61adb1e9263f78e4f7bace1b955014a2d17872cfe4064d",
         "freezeFile": "fixture/freeze",
         "generation": 1,
+        "indexState": "2026-10-16T12:29:59Z",
+        "nixpkgsRevision": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
         "ownership": {
           "base": {
             "dependencies": [],
@@ -44,7 +63,10 @@
         "policyFile": "fixture/policy",
         "projections": {
           "fixture/freeze": "f16d05ec6b29248d2c61adb1e9263f78e4f7bace1b955014a2d17872cfe4064d",
+          "fixture/github-sources.json": "f16d05ec6b29248d2c61adb1e9263f78e4f7bace1b955014a2d17872cfe4064d",
+          "fixture/identity.json": "f16d05ec6b29248d2c61adb1e9263f78e4f7bace1b955014a2d17872cfe4064d",
           "fixture/policy": "f16d05ec6b29248d2c61adb1e9263f78e4f7bace1b955014a2d17872cfe4064d",
+          "fixture/recipes/cabal/cohort.freeze": "f16d05ec6b29248d2c61adb1e9263f78e4f7bace1b955014a2d17872cfe4064d",
           "fixture/recipes/registry.nix": "f16d05ec6b29248d2c61adb1e9263f78e4f7bace1b955014a2d17872cfe4064d",
           "fixture/sources": "f16d05ec6b29248d2c61adb1e9263f78e4f7bace1b955014a2d17872cfe4064d",
           "fixture/versions": "f16d05ec6b29248d2c61adb1e9263f78e4f7bace1b955014a2d17872cfe4064d"
@@ -65,6 +87,23 @@
           "core": 1
         },
         "sourceFile": "fixture/sources",
+        "toolchainInputs": {
+          "haskell-nix-dev": {
+            "narHash": "sha256-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=",
+            "owner": "fixture",
+            "repo": "haskell-nix-dev",
+            "rev": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "type": "github"
+          },
+          "nixpkgs": {
+            "narHash": "sha256-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=",
+            "owner": "fixture",
+            "repo": "nixpkgs",
+            "rev": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "type": "github"
+          }
+        },
+        "toolchainRevision": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
         "versionFile": "fixture/versions"
       }
     ]
