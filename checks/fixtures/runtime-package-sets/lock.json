@@ -1,0 +1,73 @@
+{
+  "runtimes": {
+    "fixture": [
+      {
+        "components": {},
+        "configurations": [
+          {
+            "channel": "github",
+            "compiler": "ghc9124",
+            "disableHaddock": true,
+            "disableProfiling": true,
+            "system": "aarch64-darwin"
+          }
+        ],
+        "fingerprint": "f16d05ec6b29248d2c61adb1e9263f78e4f7bace1b955014a2d17872cfe4064d",
+        "freezeFile": "fixture/freeze",
+        "generation": 1,
+        "ownership": {
+          "base": {
+            "dependencies": [],
+            "identities": [
+              {
+                "pkg-name": "base",
+                "pkg-version": "4.21"
+              }
+            ],
+            "source": "Boot",
+            "version": "4.21"
+          },
+          "shared": {
+            "dependencies": [
+              "base"
+            ],
+            "identities": [
+              {
+                "pkg-name": "shared",
+                "pkg-version": "1.0"
+              }
+            ],
+            "source": "Hackage",
+            "version": "1.0"
+          }
+        },
+        "policyFile": "fixture/policy",
+        "projections": {
+          "fixture/freeze": "f16d05ec6b29248d2c61adb1e9263f78e4f7bace1b955014a2d17872cfe4064d",
+          "fixture/policy": "f16d05ec6b29248d2c61adb1e9263f78e4f7bace1b955014a2d17872cfe4064d",
+          "fixture/recipes/registry.nix": "f16d05ec6b29248d2c61adb1e9263f78e4f7bace1b955014a2d17872cfe4064d",
+          "fixture/sources": "f16d05ec6b29248d2c61adb1e9263f78e4f7bace1b955014a2d17872cfe4064d",
+          "fixture/versions": "f16d05ec6b29248d2c61adb1e9263f78e4f7bace1b955014a2d17872cfe4064d"
+        },
+        "recipeDirectory": "fixture/recipes",
+        "roles": {
+          "base": [
+            "compiler"
+          ],
+          "shared": [
+            "library"
+          ]
+        },
+        "roots": [
+          "shared"
+        ],
+        "selections": {
+          "core": 1
+        },
+        "sourceFile": "fixture/sources",
+        "versionFile": "fixture/versions"
+      }
+    ]
+  },
+  "schemaVersion": 1
+}

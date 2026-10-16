@@ -20,6 +20,7 @@ import PackageSetTest qualified
 import PlannerTest qualified
 import Test.Tasty (TestTree, defaultMain, testGroup)
 import Test.Tasty.HUnit (assertBool, assertFailure, testCase, (@?=))
+import RuntimeTest qualified
 import WorkflowTest qualified
 
 main :: IO ()
@@ -29,7 +30,8 @@ tests :: TestTree
 tests =
   testGroup
     "haskell-nix-update"
-    [ CohortModelTest.tests,
+    [ RuntimeTest.tests,
+      CohortModelTest.tests,
       CohortCompareTest.tests,
       CohortGenerateTest.tests,
       CohortGenerateIOTest.tests,

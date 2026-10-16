@@ -1,0 +1,20 @@
+{
+  "runtimes": {
+    "fixture": {
+      "groups": [
+        "core"
+      ],
+      "projects": [
+        "mori://shinzui/keiki"
+      ],
+      "roots": {
+        "shared": {
+          "capability": "core",
+          "project": "mori://shinzui/keiki",
+          "role": "library"
+        }
+      }
+    }
+  },
+  "schemaVersion": 1
+}

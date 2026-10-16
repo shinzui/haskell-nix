@@ -61,6 +61,7 @@ library
     HaskellNix.Update.PackageLock
     HaskellNix.Update.Plan
     HaskellNix.Update.Process
+    HaskellNix.Update.Runtime
     HaskellNix.Update.Types
     HaskellNix.Update.Workflow
 
@@ -112,6 +113,7 @@ test-suite haskell-nix-update-test
     PackageSetTest
     Paths_haskell_nix_update
     PlannerTest
+    RuntimeTest
     WorkflowTest
 
   build-depends:

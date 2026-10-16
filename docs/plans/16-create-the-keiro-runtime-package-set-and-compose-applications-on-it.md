@@ -50,7 +50,7 @@ plans 11–13, which now depend on this plan.
 ## Progress
 
 - [x] (2026-10-16) Prerequisites: plans 9 and 10 are Complete, including both full platform checks, fresh-worker cache substitution and the shared solver/generator/comparator contracts inherited from plan 8.
-- [ ] M1: Inventory runtime roots, adapters, source forks and dependency closure; define and validate runtime lock records without changing catalog topology.
+- [x] (2026-10-16) M1: declared runtime roots/capabilities and the seven existing groups in `config/runtime-package-sets.json`; added schema-1 retained record contracts, transitive ownership and projection-hash validation in Haskell/Nix without changing catalog topology. All 156 updater tests and 136 Nix contracts pass, including missing Keiki/codec, closure/source/policy, support and complementary-selection rejection. No generation is published before M2.
 - [ ] M2: Capture an immutable runtime generation and generate its Cabal/source/Nix projections using the existing cohort tools.
 - [ ] M3: Export `lib.runtimePackageSets`, `lib.mkRuntimePackageSet` and runtime build outputs; prove application composition in one scope with conflict fixtures.
 - [ ] M4: Verify supported builds, fresh-worker cache substitution and runtime integration evidence; hand the exact generation and APIs to consumer plans.
@@ -58,6 +58,8 @@ plans 11–13, which now depend on this plan.
 
 
 ## Surprises & Discoveries
+
+Kafka source verification (2026-10-16): authoritative Hackage endpoints still report hw-kafka-streamly 0.2.0.0, kafka-effectful 0.3.1.0 and shibuya-kafka-adapter 0.9.1.0. The streaming release tag does not contain fatal classification `4216302` or scoped deterministic close `0c95a00`; both are ancestors of the maintained `945b5bdb2b96f2a3f13c380552ac5d17f13e3d92` head in `mori://shinzui/hw-kafka-streamly`. GitHub verifies that exact commit and the client fix `6caed636898a78e9f6e5a9c93eeb5562cbb2580a`. M2 must retain both source exceptions consistently in Cabal/Nix to meet the existing Kafka behavior gate. This preserves released version numbers and does not substitute an unpatched profile.
 
 Read-only preparation (2026-10-16, while EP-9 Linux acceptance runs): Mori resolves all eight required project roots and the existing verification project. The accepted 462-package `cabal/cohort-sources.json` contains Keiki/JSON, Keiro 0.21, Kiroku Store 0.11, Shibuya/PGMQ/Kiroku adapters, Settei, pg-migrate and Hackage hw-kafka-client 5.3.0. It does not contain `shibuya-kafka-adapter`, `kafka-effectful` or `hw-kafka-streamly`. The historical head profile in `mori://shinzui/keiro-runtime-kenshou`, project-relative `cohort/head.json` (artifact-level URI pending), records maintained Kafka source forks; its historical versions/index-state are not the new baseline. M2 must feed any required missing Kafka packages and the maintained client fork through the existing solver/source machinery before projecting the runtime. Hackage confirms current releases `shibuya-kafka-adapter` 0.9.1.0, `kafka-effectful` 0.3.1.0 and `hw-kafka-streamly` 0.2.0.0; local source bounds admit Effectful 2.7 and Streamly 0.11/core 0.3. The maintained client fix commit `6caed636898a78e9f6e5a9c93eeb5562cbb2580a` exists locally on the fix branch; the checkout default branch does not contain those fixes, so selecting its HEAD would lose the required provenance. Release preflight: `/tmp/mp3-ep16-runtime-release-preflight.json`. No runtime generation or prerequisite-dependent implementation is accepted by this inventory.
 

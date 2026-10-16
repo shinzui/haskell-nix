@@ -1,5 +1,16 @@
 { lib }:
 let
+  runtimeConfig = builtins.fromJSON (builtins.readFile ./fixtures/runtime-package-sets/config.json);
+  runtimeLock = builtins.fromJSON (builtins.readFile ./fixtures/runtime-package-sets/lock.json);
+  runtimeRecord = builtins.head runtimeLock.runtimes.fixture;
+  validateRuntime = config: lock: import ../lib/validateRuntimePackageSetLock.nix { inherit lib; } {
+    inherit config lock;
+    firstPartyLock.groupSnapshots = [{ group = "core"; generation = 1; }];
+    readProjection = _: "fixture";
+  };
+  runtimeCandidate = record: runtimeLock // { runtimes.fixture = [ record ]; };
+  rejectRuntime = record: rejectsPackageSetConstruction (validateRuntime runtimeConfig (runtimeCandidate record));
+  composeRuntime = import ../lib/composeRuntimeSelections.nix { inherit lib; };
   consumerOverlayReport = import ../lib/consumerOverlayReport.nix { inherit lib; };
   overlayReport = args: consumerOverlayReport ({ channelPackages = [ ]; overlayPackages = [ ]; ownPackages = [ ]; } // args);
   doctestTickerRepair = system: compiler: version: import ../patches/doctest/0.24.3-ghc9124-ticker.nix {
@@ -219,6 +230,24 @@ let
   };
 in
 {
+  testRuntimeValidOwnership = { expr = (validateRuntime runtimeConfig runtimeLock).schemaVersion; expected = 1; };
+  testRuntimeMissingDependency = rejectRuntime (runtimeRecord // { ownership = builtins.removeAttrs runtimeRecord.ownership [ "base" ]; });
+  testRuntimeMissingRoot = rejectRuntime (runtimeRecord // { roots = [ ]; });
+  testRuntimeMissingRoles = rejectRuntime (runtimeRecord // { roles = { }; });
+  testRuntimeUnknownGeneration = rejectRuntime (runtimeRecord // { selections.core = 2; });
+  testRuntimeProjectionTampering = rejectRuntime (runtimeRecord // { projections = runtimeRecord.projections // { "fixture/policy" = lib.concatStrings (lib.replicate 64 "0"); }; });
+  testRuntimeUnsupportedCompiler = rejectRuntime (runtimeRecord // { configurations = map (c: c // { compiler = "ghc9141"; }) runtimeRecord.configurations; });
+  testRuntimeSourceConflict = rejectRuntime (runtimeRecord // { ownership = runtimeRecord.ownership // { shared = runtimeRecord.ownership.shared // { identities = runtimeRecord.ownership.shared.identities ++ [{ pkg-name = "shared"; pkg-version = "1.0"; flags.changed = true; }]; }; }; });
+  testRuntimeUnownedSourceComponent = rejectRuntime (runtimeRecord // { components.unowned = { }; });
+  testRuntimeDuplicateGeneration = rejectsPackageSetConstruction (validateRuntime runtimeConfig (runtimeLock // { runtimes.fixture = [ runtimeRecord runtimeRecord ]; }));
+  testRuntimeMissingKeiki = rejectsPackageSetConstruction (import ../lib/validateRuntimePackageSetLock.nix { inherit lib; } {
+    config = let original = builtins.fromJSON (builtins.readFile ../config/runtime-package-sets.json); in original // { runtimes.keiro-runtime = original.runtimes.keiro-runtime // { roots = builtins.removeAttrs original.runtimes.keiro-runtime.roots [ "keiki-codec-json" ]; }; };
+    lock = builtins.fromJSON (builtins.readFile ../packages/runtime-lock.json);
+    firstPartyLock = builtins.fromJSON (builtins.readFile ../packages/first-party-lock.json);
+  });
+  testRuntimeExplicitComplement = { expr = composeRuntime { groups = [ "core" "application" ]; runtimeSelections.core = 1; applicationSelections = { core = 1; application = 3; }; }; expected = { core = 1; application = 3; }; };
+  testRuntimeMissingComplement = rejectsPackageSetConstruction (composeRuntime { groups = [ "core" "application" ]; runtimeSelections.core = 1; });
+  testRuntimeConflictingComplement = rejectsPackageSetConstruction (composeRuntime { groups = [ "core" ]; runtimeSelections.core = 1; applicationSelections.core = 2; });
   testDoctestTickerRepairKeepsSourceAndTests = {
     expr =
       let repaired = doctestTickerRepair "x86_64-linux" "9.12.4" "0.24.3";
