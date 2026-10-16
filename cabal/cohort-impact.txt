@@ -1,1 +1,5 @@
-quickcheck-instances: added
+hw-kafka-client: source, cabal-metadata
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [library] -> hw-kafka-client
+hw-kafka-streamly: added
+kafka-effectful: added
+shibuya-kafka-adapter: added

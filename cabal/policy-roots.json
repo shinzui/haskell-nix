@@ -64,5 +64,23 @@
     "range": ">=0.3.33",
     "owner": "mori://shinzui/haskell-nix",
     "reason": "Retain the declared JSON test-support package of mori://shinzui/keiki in both supported compiler matrices; its QuickCheck instances must admit the shared QuickCheck 2.18 cohort."
+  },
+  {
+    "package": "hw-kafka-streamly",
+    "range": "^>=0.2.0.0",
+    "owner": "mori://shinzui/hw-kafka-streamly",
+    "reason": "Retain the hw-kafka-streamly component of mori://shinzui/haskell-nix/plans/16-create-the-keiro-runtime-package-set-and-compose-applications-on-it in the same upgrade-only application cohort."
+  },
+  {
+    "package": "kafka-effectful",
+    "range": "^>=0.3.1.0",
+    "owner": "mori://shinzui/kafka-effectful",
+    "reason": "Retain the kafka-effectful component of mori://shinzui/haskell-nix/plans/16-create-the-keiro-runtime-package-set-and-compose-applications-on-it in the same upgrade-only application cohort."
+  },
+  {
+    "package": "shibuya-kafka-adapter",
+    "range": "^>=0.9.1.0",
+    "owner": "mori://shinzui/shibuya-kafka-adapter",
+    "reason": "Retain the shibuya-kafka-adapter component of mori://shinzui/haskell-nix/plans/16-create-the-keiro-runtime-package-set-and-compose-applications-on-it in the same upgrade-only application cohort."
   }
 ]

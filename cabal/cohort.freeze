@@ -203,7 +203,6 @@ constraints:
   , any.http-semantics ==0.4.1
   , any.http-types ==0.12.6
   , any.http2 ==5.4.8
-  , any.hw-kafka-client ==5.3.0
   , any.indexed-profunctors ==0.1.1.1
   , any.indexed-traversable ==0.1.5
   , any.indexed-traversable-instances ==0.1.2.1
@@ -213,6 +212,7 @@ constraints:
   , any.invariant ==0.6.5
   , any.iproute ==1.7.15
   , any.js-chart ==2.9.4.1
+  , any.kafka-effectful ==0.3.1.0
   , any.kan-extensions ==5.2.8
   , any.kdl-hs ==1.2.1
   , any.keiki ==0.9.1.0
@@ -357,6 +357,7 @@ constraints:
   , any.settei-env ==0.2.0.0
   , any.settei-optparse-applicative ==0.2.0.0
   , any.shibuya-core ==0.10.0.1
+  , any.shibuya-kafka-adapter ==0.9.1.0
   , any.shibuya-kiroku-adapter ==0.6.0.1
   , any.shibuya-pgmq-adapter ==0.16.1.0
   , any.shikumi ==0.4.1.1

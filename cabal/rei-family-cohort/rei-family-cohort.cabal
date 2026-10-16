@@ -66,6 +66,8 @@ library
     , http-media >=0.8 && <0.9
     , http-types >=0.12 && <0.13
     , hw-kafka-client >=5.3 && <5.4
+    , hw-kafka-streamly >=0.2.0.0 && <0.3
+    , kafka-effectful >=0.3.1.0 && <0.4
     , kdl-hs >=0
     , keiki >=0.9.0.0 && <0.10
     , keiki-codec-json >=0.9.0.0 && <0.10
@@ -136,6 +138,7 @@ library
     , settei-env ==0.2.0.0
     , settei-optparse-applicative ==0.2.0.0
     , shibuya-core >=0.10.0.1 && <0.11
+    , shibuya-kafka-adapter >=0.9.1.0 && <0.10
     , shibuya-kiroku-adapter >=0.6.0.1 && <0.7
     , shibuya-pgmq-adapter >=0.16.1.0 && <0.17
     , shikumi >=0.4.1.0 && <0.5

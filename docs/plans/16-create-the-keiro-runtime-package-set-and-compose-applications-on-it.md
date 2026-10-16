@@ -49,6 +49,8 @@ plans 11–13, which now depend on this plan.
 
 ## Progress
 
+M2 checkpoint (2026-10-16): the staged targeted update retains all 461 unrelated previous identities, changes only the requested hw-kafka-client source and adds hw-kafka-streamly, kafka-effectful and shibuya-kafka-adapter. The coherent 465-package cohort/370 generated recipes pass frozen replay, no-write generation and Nix version/policy guards. Both maintained Kafka sources build natively. Receipts: `/tmp/mp3-ep16-runtime-targeted-solve.log`, `/tmp/mp3-ep16-runtime-frozen-replay.log`, `/tmp/mp3-ep16-runtime-cohort-parity.log`, `/tmp/mp3-ep16-cohort-promotion.json` and `/tmp/mp3-ep16-kafka-streamly-native-build.log`. Snapshot/check/describe implementation and retained projections are being validated; no generation is accepted or public runtime API exported yet.
+
 - [x] (2026-10-16) Prerequisites: plans 9 and 10 are Complete, including both full platform checks, fresh-worker cache substitution and the shared solver/generator/comparator contracts inherited from plan 8.
 - [x] (2026-10-16) M1: declared runtime roots/capabilities and the seven existing groups in `config/runtime-package-sets.json`; added schema-1 retained record contracts, transitive ownership and projection-hash validation in Haskell/Nix without changing catalog topology. All 156 updater tests and 136 Nix contracts pass, including missing Keiki/codec, closure/source/policy, support and complementary-selection rejection. No generation is published before M2.
 - [ ] M2: Capture an immutable runtime generation and generate its Cabal/source/Nix projections using the existing cohort tools.
@@ -115,7 +117,7 @@ could create duplicate package instances and invalidate runtime reuse. Date: 202
 
 ## Outcomes & Retrospective
 
-Planning complete; implementation and all runtime/cache evidence are pending. This plan is
+M1 is implemented and validated; M2 is in progress. Runtime generation publication, composition, cross-platform cache and integration evidence remain pending. This plan is
 not authorization to deploy applications, migrate databases or publish first-party releases.
 At completion, record the actual supported configurations, retained generations, cache paths,
 consumer hand-off and remaining limitations, then distill them into ADR 7.

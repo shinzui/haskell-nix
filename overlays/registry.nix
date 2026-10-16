@@ -215,11 +215,11 @@ in
   # Shared application HTTP/utility policy belongs in the channel.
   # link-canonical 0.1.0.0 caps http-client-tls and generic-lens below this stack.
   link-canonical = always dontCheckDoJailbreak;
-  # Kafka integration tests need a broker; use the maintained runtime source when selected.
-  hw-kafka-client = always dontCheckDoJailbreak;
   servant-health = always doJailbreakOnly;
 
   # Public source pins: preserve their Cabal source-repository-package revisions.
+  hw-kafka-client = always (import ../patches/kafka-runtime/source.nix "hw-kafka-client");
+  hw-kafka-streamly = always (import ../patches/kafka-runtime/source.nix "hw-kafka-streamly");
   cmark-gfm = always (import ../patches/cmark-gfm/source.nix);
   typeid-hs-sql = always (import ../patches/typeid-hs/sql.nix);
   typeid-hs-pg-migrate = always (import ../patches/typeid-hs/pg-migrate.nix);

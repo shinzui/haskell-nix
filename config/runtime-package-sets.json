@@ -196,6 +196,11 @@
           "project": "mori://shinzui/shibuya-pgmq-adapter",
           "role": "library"
         }
+      },
+      "sourceProjects": {
+        "dhall": "mori://dhall-lang/dhall-haskell",
+        "typeid-hs-pg-migrate": "mori://shinzui/typeid-hs",
+        "typeid-hs-sql": "mori://shinzui/typeid-hs"
       }
     }
   },
