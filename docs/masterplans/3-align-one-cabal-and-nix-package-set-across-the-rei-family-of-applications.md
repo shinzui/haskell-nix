@@ -317,6 +317,8 @@ The goal is less repeated coordination and dependency compilation. Equal version
 
 ## Progress
 
+Linux execution resumed (2026-10-16, user direction): use Apple containers now and revisit the long-term builder later. The persistent `mp3-linux-builder` guest runs `x86_64-linux` via Rosetta with an independent Nix store, 8 CPUs and 24 GiB RAM. The curated EP-9 matrix is running; subsequent Linux publication and fresh-worker substitution remain required before EP-9 completion. Host builder configuration is unchanged. This replaces the earlier execution deferral, not any acceptance requirement.
+
 Fresh native CI gate accepted (2026-10-16): [run 38952400761](https://github.com/shinzui/haskell-nix/actions/runs/38952400761) substitutes all 556 retained publication paths into an empty store on a fresh GitHub-hosted ARM64 macOS worker, with zero builds. The downloaded evidence exactly matches the publication receipt; the durable summary and receipt hash are in `cabal/cohort-cache/aarch64-darwin-ci.json`. EP-9 now has accepted native matrix/build/manifest/cache and permanent IR-2 consumer evidence. Its remaining Linux build/cache gate is explicitly deferred; EP-9 remains In Progress, so EP-16 and subsequent whole-child dependencies remain blocked.
 
 Permanent consumer integration (2026-10-16): EP-9 completes IR-2 through published Seihou template 0.31.0 (`cc1b70c` in `mori://shinzui/seihou-modules`) and pushed Hurl Workbench adoption `5f2cff2` in `mori://shinzui/hurl-workbench`. The managed pin advances without toolchain changes, all eleven duplicate Hackage pins are removed, and the default build plus full native release gate pass. Fresh macOS CI substitution is prepared with the retained 556-path publication receipt; GitHub/private-cache access is restored, and fresh Darwin execution subsequently passes in run 38952400761. Linux remains deferred. EP-9 is still In Progress, and EP-16/consumer hard dependencies remain unchanged.
@@ -402,6 +404,8 @@ Related performance/reliability work now lives under [MasterPlan 4](4-coordinate
 
 
 ## Decision Log
+
+- Decision (user, 2026-10-16): use Apple containers as the immediate x86_64-linux execution environment to finish MP-3; revisit the long-term builder later. The guest uses Rosetta and guest-only Nix sandbox/syscall-filter settings. Preserve all Linux build/cache gates and whole-child prerequisite granularity.
 
 - Decision (2026-10-06, parallel execution): begin only EP-9's already specified independent format guard and fixture-based parser/generator work while EP-8/EP-10 aggregate acceptance continues. Preserve every full-matrix, cache, manifest, runtime and deployment gate. The verified freeze/source artifacts are available at `237d83c`; separate compiler failures in the current pre-projection package set do not prevent additive tools from being implemented. Registry status tracks this limited preparation, matching EP-12's independent milestone convention.
 
