@@ -62,6 +62,7 @@ in
   proto-lens-runtime = always dontCheckDoJailbreak;
 
   # ── Misc compatibility ─────────────────────────────────────────────
+  doctest = always (import ../patches/doctest/0.24.3-ghc9124-ticker.nix);
   monad-control = [{
     min = "1.0.3.1";
     max = "1.0.3.2";

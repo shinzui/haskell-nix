@@ -2,6 +2,13 @@
 let
   consumerOverlayReport = import ../lib/consumerOverlayReport.nix { inherit lib; };
   overlayReport = args: consumerOverlayReport ({ channelPackages = [ ]; overlayPackages = [ ]; ownPackages = [ ]; } // args);
+  doctestTickerRepair = system: compiler: version: import ../patches/doctest/0.24.3-ghc9124-ticker.nix {
+    patchFile = "fixture.patch";
+    pkg = { inherit version; src = "released-source"; doCheck = true; postPatch = "existing hook\n"; };
+    pkgs.stdenv.hostPlatform = { inherit system; };
+    hself.ghc.version = compiler;
+    haskellLib.overrideCabal = update: drv: drv // update drv;
+  };
   cborgMetadataRepair = compiler: version: import ../patches/cborg-json/0.2.6-ghc914.nix {
     inherit lib;
     pkg = { inherit version; postPatch = "existing hook\n"; };
@@ -212,6 +219,16 @@ let
   };
 in
 {
+  testDoctestTickerRepairKeepsSourceAndTests = {
+    expr =
+      let repaired = doctestTickerRepair "x86_64-linux" "9.12.4" "0.24.3";
+      in { inherit (repaired) src doCheck; guarded = lib.hasPrefix "existing hook\n" repaired.postPatch && lib.hasInfix "23f0224c088382bef245b77a261fbb153127ce58ccecdae3625db4f23c2a5e9d" repaired.postPatch; };
+    expected = { src = "released-source"; doCheck = true; guarded = true; };
+  };
+  testDoctestTickerRepairLeavesDarwinUnchanged = { expr = (doctestTickerRepair "aarch64-darwin" "9.12.4" "0.24.3").postPatch; expected = "existing hook\n"; };
+  testDoctestTickerRepairLeavesGhc914Unchanged = { expr = (doctestTickerRepair "x86_64-linux" "9.14.1" "0.24.3").postPatch; expected = "existing hook\n"; };
+  testDoctestTickerRepairRetiresOnNewCompiler = { expr = (doctestTickerRepair "x86_64-linux" "9.12.5" "0.24.3").postPatch; expected = "existing hook\n"; };
+  testDoctestTickerRepairRetiresOnNewRelease = { expr = (doctestTickerRepair "x86_64-linux" "9.12.4" "0.25.0.2").postPatch; expected = "existing hook\n"; };
   testFirstPartyCompatibilityRunsAfterSourceAndExistingPolicy = {
     expr = (firstPartyCompatibilityFixture true).stages;
     expected = [ "selected-source" "existing-jailbreak" "existing-test-policy" "compatibility" ];
