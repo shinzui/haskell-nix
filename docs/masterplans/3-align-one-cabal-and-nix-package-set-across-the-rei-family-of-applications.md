@@ -354,6 +354,8 @@ Related performance/reliability work now lives under [MasterPlan 4](4-coordinate
 
 ## Surprises & Discoveries
 
+- Linux execution (2026-10-16): the Apple guest builds the declared dependency roots and passes version/parser/boot/freshness guards. Rosetta makes a known GHC 9.12.4 timer diagnostic frequent enough to break doctest output comparisons; EP-9 owns a source-guarded, compiler/version/platform-scoped test-only normalization. All 201 doctest examples and 122 Nix contracts pass, and the full Darwin check plus its original cohort/cache identity remain valid. No tests are disabled. Linux aggregate compilation, complete publication and fresh native CI verification remain open; this is not EP-9 completion.
+
 - Observation (2026-10-15 refresh): channel commits `5cb50ca` and `ac9744c` advance the selected Keiro/Kioku and Shikumi–Baikai snapshots beyond `cabal/cohort.freeze`. Completed solver/policy work remains valid historical evidence, but cannot establish current parity. The generator must reconcile selected first-party versions and exact sources rather than silently overriding them with the old freeze.
 - Observation (2026-10-15 evidence limit): `mori registry list` fails because the configured PostgreSQL database `mori` does not exist. This refresh uses checked-in child plans, locks, ADRs and Git history; cross-repository runtime/deployment status and canonical references have not been reverified. Restore registry access before the next cross-project inventory; no database repair is part of this documentation update.
 
