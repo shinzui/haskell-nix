@@ -137,6 +137,8 @@ Two terms used throughout:
 - publishing any first-party release not required by a version move.
 
 **Persistent-database rule, inherited from the Keiro 0.19 adoption:**
+
+Read-only refresh (2026-10-16): the current cohort selects Kiroku Store 0.11.0.0 and migrations 0.7.1.0, whose release notes require subscription/group migrations 0013/0014 and include index migration 0015. Queries through the existing Sungkyung PostgreSQL tunnel show every Kiroku migration through 0015 applied in both `rei` and `mori`; Mori also exposes the group-size/target-binding columns and browse index. No production mutation was performed. The earlier 0012 cutover below is historical evidence; consumer adoption must still use exact-binary restored-clone rehearsals and fresh deployment checks. Release-note source: `mori://shinzui/kiroku`, project-relative `kiroku-store/CHANGELOG.md` and `kiroku-store-migrations/CHANGELOG.md` (source-file artifact URIs pending).
 - Kiroku 0.9 requires Kiroku migration `0012` before any 0.9 process appends, and a Kiroku 0.8 process fails every append after it. There is no rolling deploy.
 - Rei's global database (`host=/Users/shinzui/.local/state/postgresql dbname=rei`) received `0012` on 2026-09-26.
 - Mori's global database (`dbname=mori`) received `0012` later the same day (11.9 s for 526,818 `$all` rows, 0 mismatches, verify clean). Mori `f3c5fa4b` + `bf28e026` is deployed, and `mori-automate` and mina-web's `mori` both run `mori-cli` `35dr5zq5…` on kiroku-store 0.9.0.1. So no plan in this initiative needs a Kiroku schema cutover. Every deploy is an ordinary binary swap, though the stop-writers rule still governs any future Kiroku migration.
