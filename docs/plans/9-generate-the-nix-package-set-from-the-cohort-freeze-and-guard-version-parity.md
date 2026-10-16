@@ -32,6 +32,11 @@ provenance:
       at: 2026-10-16T05:03:12Z
       mode: "update"
       note: "Add resume handoff to reconcile later selected snapshots before live cohort generation."
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-16T05:07:23Z
+      mode: "implement"
+      note: "Verify resume prerequisites and record missing Mori registry database blocking required cohort refresh."
   reviews:
     - model: "gpt-6.1-sol"
       harness: "codex-cli"
@@ -104,6 +109,8 @@ Build and publish shared dependency outputs to the existing trusted cache before
 Acceptance fixtures include statically linked missing dependencies, wrong plus correct package instances, native homonyms, source/metadata changes without version changes, recursive/cyclic/missing follows paths, and stale import revisions. Cache readiness and shared identity evidence are gates distinct from version parity. Existing runtime-closure commands elsewhere below are diagnostic only.
 
 ## Progress
+
+Resume blocker (2026-10-15): both `mori registry list` and `mori path mori://shinzui/rei` fail because PostgreSQL reports that database `mori` does not exist at the configured local socket. `scripts/cohort-inventory.py` resolves contributor and dotfiles checkouts through `mori path`, so the required fresh inventory cannot run. Restore access to the existing Mori registry before refreshing floors/sources and activating the generated layer; do not recreate an empty database or substitute guessed checkout paths. EP-9 remains In Progress and its downstream hard dependencies remain unmet. Existing parser/generator preparation is retained; no new generation, parity, cache or deployment acceptance is claimed.
 
 Refresh handoff (2026-10-15): EP-8 is Complete at the October 6 checkpoint. Before live generation/layer activation, reuse its inventory, solve and report tools to reconcile the newer default selections in `packages/first-party-lock.json`: Keiro group 7, Kioku group 7 and Shikumi–Baikai group 8. The existing freeze still selects Keiro 0.19.0.1, Kioku 0.8.0.2 and Baikai 0.7.2.0, below current selected releases. Refresh floors, exact source records and consumer-cap evidence coherently, retaining upgrade-only and historical snapshots. Do not claim current parity from the earlier aggregate gate. Pure generation modules exist, but `Cohort.Cli` has no live generate command; live generation, layer wiring, manifest/comparison/resolver and cache acceptance remain open.
 
@@ -352,6 +359,8 @@ Refresh handoff (2026-10-15): EP-8 is Complete at the October 6 checkpoint. Befo
 
 
 ## Outcomes & Retrospective
+
+Implementation resume (2026-10-15): verified the next eligible child is EP-9 and reproduced the missing-registry-database prerequisite with both discovery and canonical path resolution. Cohort refresh and downstream implementation remain blocked on registry recovery; accepted cohort artifacts and channel selections were left unchanged.
 
 End-of-day checkpoint (2026-10-06): EP-8 acceptance is complete and implementation may proceed on resume. Preparatory Haskell generation modules and shared fixtures pass all 107 helper tests (including 19 generation tests), using capped `nix develop .#cohort-inventory --max-jobs 2 --cores 2 -c cabal test haskell-nix-update-test -j2 --test-show-details=direct`. Strict parsing, classification, revision selection and pure rendering are saved as a tested partial implementation. Live metadata/prefetch generation, formatting-stable regeneration, Nix layer wiring and actual-build parity remain unfinished. The user requested a clean committed stopping point for the day.
 

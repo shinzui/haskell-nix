@@ -41,6 +41,11 @@ provenance:
       at: 2026-10-16T05:03:12Z
       mode: "update"
       note: "Refresh coordination status, post-freeze channel drift and MP-4 handoff against checked-in evidence."
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-16T05:07:23Z
+      mode: "implement"
+      note: "Record verified EP-9 registry prerequisite and downstream implementation blocker."
   reviews:
     - model: "gpt-6.1-sol"
       harness: "codex-cli"
@@ -297,6 +302,8 @@ The goal is less repeated coordination and dependency compilation. Equal version
 
 ## Progress
 
+Resume blocker (2026-10-15): both `mori registry list` and `mori path mori://shinzui/rei` fail because PostgreSQL reports that database `mori` does not exist at the configured local socket. `scripts/cohort-inventory.py` resolves contributor and dotfiles checkouts through `mori path`, so the required fresh inventory cannot run. Restore access to the existing Mori registry before refreshing floors/sources and activating the generated layer; do not recreate an empty database or substitute guessed checkout paths. EP-9 remains In Progress and its downstream hard dependencies remain unmet. Existing parser/generator preparation is retained; no new generation, parity, cache or deployment acceptance is claimed.
+
 Refreshed 2026-10-15 against child plans, checked-in implementation and Git history. Four of ten children are Complete (EP-15, EP-8, EP-10 and EP-17). EP-9 and EP-12 are In Progress; EP-12 has completed only its independent Hasql-removal M1. EP-16 and EP-11/13/14 remain Not Started. The registry remains the source of truth for whole-child status; child plans retain milestone evidence.
 
 EP-9 is the next eligible implementation work. Its Cabal-format guard, Nix freeze parser and tested pure Haskell generation modules are present. Live generation/CLI dispatch, generated artifacts, layer activation, structured executable manifests, recursive lock resolution, comparison and shared cache publication remain unfinished. The current channel is not proven equal to the freeze.
@@ -424,6 +431,8 @@ Related performance/reliability work now lives under [MasterPlan 4](4-coordinate
 
 
 ## Outcomes & Retrospective
+
+Implementation resume (2026-10-15): verified the next eligible child is EP-9 and reproduced the missing-registry-database prerequisite with both discovery and canonical path resolution. Cohort refresh and downstream implementation remain blocked on registry recovery; accepted cohort artifacts and channel selections were left unchanged.
 
 Refresh checkpoint (2026-10-15): four of ten children remain Complete. EP-9 is ready to resume with a coherent cohort refresh followed by live generation and parity implementation. EP-12's independent M1 is accepted, while adoption remains gated on shared generation/runtime delivery. Consolidated Progress into a coordination snapshot and distinguished later channel upgrades and MP-4 follow-on work from MP-3 acceptance. No new architecture decision, implementation acceptance or deployment is claimed; ADRs 5 and 7 continue to govern.
 
