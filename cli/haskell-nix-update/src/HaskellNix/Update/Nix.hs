@@ -19,6 +19,7 @@ import Data.Aeson.KeyMap qualified as KeyMap
 import Data.Aeson.Types (Parser, parseEither)
 import Data.ByteString qualified as ByteString
 import Data.Char (isAlphaNum, isHexDigit)
+import Data.Set qualified as Set
 import Data.Text (Text)
 import Data.Text qualified as Text
 import Data.Text.Encoding qualified as TextEncoding
@@ -41,7 +42,12 @@ readLockedSource flakeLockPath inputName = do
     Right bytes -> decodeLockedSource inputName bytes
 
 decodeLockedRevision :: Text -> ByteString.ByteString -> Either UpdateError GitRevision
-decodeLockedRevision inputName bytes = rev <$> decodeLockedSource inputName bytes
+decodeLockedRevision inputName bytes = do
+  value <- firstError "invalid flake.lock JSON" (eitherDecodeStrict' bytes)
+  revision <- firstError "invalid flake.lock revision" (parseEither (\lock -> parseInputLocked inputName lock >>= withObject "locked input" (.: "rev")) value)
+  if validRevision revision
+    then Right (GitRevision revision)
+    else Left (UpdateError ("flake input " <> inputName <> " does not contain a 40-character Git revision"))
 
 readLockedRevision :: FilePath -> Text -> IO (Either UpdateError GitRevision)
 readLockedRevision flakeLockPath inputName = do
@@ -215,41 +221,58 @@ managedFilesDirty runner repositoryRoot managedPaths = do
     Right (not (Text.null (Text.strip standardOutput)))
 
 parseInputSource :: Text -> Value -> Parser LockedSource
-parseInputSource inputName = withObject "flake lock" $ \fields -> do
+parseInputSource inputName value = parseInputLocked inputName value >>= withObject "flake locked input" parseDescriptor
+
+parseInputLocked :: Text -> Value -> Parser Value
+parseInputLocked inputName = withObject "flake lock" $ \fields -> do
   rootName <- fields .: "root"
   nodesValue <- fields .: "nodes"
   withObject "flake nodes" (parseRootNode rootName) nodesValue
   where
     parseRootNode rootName nodes = do
-      rootValue <- lookupValue "root node" rootName nodes
-      withObject "flake root node" (parseRootInputs nodes) rootValue
-    parseRootInputs nodes rootFields = do
-      inputsValue <- rootFields .: "inputs"
-      withObject "flake root inputs" (parseInputNode nodes) inputsValue
-    parseInputNode nodes inputs = do
-      inputValue <- lookupValue "flake input" inputName inputs
-      nodeName <- case inputValue of
-        String name -> pure name
-        _ -> fail ("flake input " <> Text.unpack inputName <> " is not a direct node reference")
+      let path = Text.splitOn "/" inputName
+      if any Text.null path then fail "flake input path contains an empty segment" else pure ()
+      nodeName <- walk nodes rootName Set.empty rootName path
       nodeValue <- lookupValue "input node" nodeName nodes
       withObject "flake input node" parseLocked nodeValue
-    parseLocked nodeFields = do
-      lockedValue <- nodeFields .: "locked"
-      withObject "flake locked input" parseDescriptor lockedValue
-    parseDescriptor lockedFields = do
-      sourceType <- lockedFields .: "type"
-      owner <- lockedFields .: "owner"
-      repo <- lockedFields .: "repo"
-      revision <- lockedFields .: "rev"
-      narHash <- lockedFields .: "narHash"
-      pure
-        LockedSource
-          { sourceType,
-            owner,
-            repo,
-            rev = GitRevision revision,
-            narHash = SriHash narHash
-          }
+    -- Follows arrays are absolute paths from the declared root. Track active
+    -- input edges only while expanding a follows expression; revisiting a node
+    -- along a finite explicit path is legal and is not a follows cycle.
+    walk nodes rootName active nodeName path = do
+      nodeValue <- lookupValue "input node" nodeName nodes
+      case path of
+        [] -> pure nodeName
+        input : rest -> do
+          inputs <- withObject "flake input node" (\node -> node .: "inputs") nodeValue
+          edge <- withObject "flake inputs" (lookupValue "flake input" input) inputs
+          let key = (nodeName, input)
+          if Set.member key active then fail ("cyclic flake follows at " <> Text.unpack nodeName <> "/" <> Text.unpack input) else pure ()
+          target <- case edge of
+            String name -> pure name
+            Array parts -> do
+              followed <- traverse segment (foldr (:) [] parts)
+              walk nodes rootName (Set.insert key active) rootName followed
+            _ -> fail "flake input must be a node reference or a follows path"
+          walk nodes rootName active target rest
+    segment (String value) | not (Text.null value) && not (Text.any (== '/') value) = pure value
+    segment _ = fail "invalid flake follows path segment"
+    parseLocked nodeFields = nodeFields .: "locked"
+parseDescriptor :: Object -> Parser LockedSource
+parseDescriptor lockedFields = do
+  sourceType <- lockedFields .: "type"
+  owner <- lockedFields .: "owner"
+  repo <- lockedFields .: "repo"
+  revision <- lockedFields .: "rev"
+  narHash <- lockedFields .: "narHash"
+  pure
+    LockedSource
+      { sourceType,
+        owner,
+        repo,
+        rev = GitRevision revision,
+        narHash = SriHash narHash
+      }
+
 
 lookupValue :: String -> Text -> Object -> Parser Value
 lookupValue context key fields =

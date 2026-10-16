@@ -1,5 +1,9 @@
 module AdapterTest (tests) where
 
+import Data.Aeson (Value (..), encode, object, (.=))
+import Data.Aeson qualified
+import Data.Aeson.Key qualified as Key
+import Data.ByteString.Lazy qualified as LazyByteString
 import Data.ByteString.Char8 qualified as ByteString
 import Data.IORef (newIORef, readIORef, writeIORef)
 import Data.Map.Strict qualified as Map
@@ -31,6 +35,11 @@ tests =
       testCase "Hackage 404 means unpublished" testHackage404,
       testCase "flake.lock resolves a named root input revision" testFlakeLock,
       testCase "flake.lock decodes a complete immutable source descriptor" testFlakeLockedSource,
+      testCase "flake.lock revision lookup supports Git and rejects short revisions" $ do
+        decodeLockedRevision "example-src" (ByteString.pack (Text.unpack (Text.replace "\"github\"" "\"git\"" completeFlakeLock))) @?= Right (GitRevision "0123456789abcdef0123456789abcdef01234567")
+        assertLeft (decodeLockedRevision "example-src" (ByteString.pack (Text.unpack (Text.replace "0123456789abcdef0123456789abcdef01234567" "0123456" completeFlakeLock)))),
+      testCase "flake.lock resolves nested and recursive follows from its declared root" testNestedFollows,
+      testCase "flake.lock rejects cyclic follows missing nodes and malformed paths" testInvalidFollows,
       testCase "package-set validation applies its Nix expression" testPackageSetValidationCommand,
       testCase "Git discovery keeps root and one-directory-deep Cabal files" testGitDiscovery
     ]
@@ -139,6 +148,48 @@ testFlakeLockedSource = do
 completeFlakeLock :: Text
 completeFlakeLock =
   "{\"root\":\"root\",\"nodes\":{\"root\":{\"inputs\":{\"example-src\":\"example-src\"}},\"example-src\":{\"locked\":{\"type\":\"github\",\"owner\":\"owner\",\"repo\":\"example\",\"rev\":\"0123456789abcdef0123456789abcdef01234567\",\"narHash\":\"sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=\"}}}}"
+
+-- The root and channel node deliberately use nonstandard names.
+lockFixture :: [(Text, Value)] -> ByteString.ByteString
+lockFixture inputs = LazyByteString.toStrict $ encode $ object
+  [ "root" .= ("entry" :: Text)
+  , "nodes" .= object
+      [ "entry" .= object ["inputs" .= object [Key.fromText key .= value | (key, value) <- inputs]]
+      , "app" .= object ["inputs" .= object ["library" .= ("library-node" :: Text)]]
+      , "library-node" .= object ["inputs" .= object ["channel" .= (["channel"] :: [Text])]]
+      , "pinned" .= object ["locked" .= object
+          [ "type" .= ("github" :: Text), "owner" .= ("shinzui" :: Text), "repo" .= ("haskell-nix" :: Text)
+          , "rev" .= ("0123456789abcdef0123456789abcdef01234567" :: Text)
+          , "narHash" .= ("sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" :: Text)
+          ]]
+      ]
+  ]
+
+testNestedFollows :: IO ()
+testNestedFollows = do
+  let inputs = [("application", String "app"), ("channel", String "pinned"), ("alias", toValue ["application", "library"]), ("root-alias", toValue [])]
+      expected = Right (GitRevision "0123456789abcdef0123456789abcdef01234567")
+  mapM_ (\path -> decodeLockedRevision path (lockFixture inputs) @?= expected)
+    ["application/library/channel", "alias/channel", "root-alias/channel", "root-alias/root-alias/channel"]
+  where
+    toValue = Data.Aeson.toJSON :: [Text] -> Value
+
+testInvalidFollows :: IO ()
+testInvalidFollows = do
+  let valid = [("channel", String "pinned")]
+      cyclic = [("channel", Data.Aeson.toJSON (["other"] :: [Text])), ("other", Data.Aeson.toJSON (["channel"] :: [Text]))]
+  mapM_ (\(path, inputs) -> assertLeft (decodeLockedRevision path (lockFixture inputs)))
+    [ ("channel", cyclic)
+    , ("channel", [("channel", String "absent-node")])
+    , ("channel", [("channel", Data.Aeson.toJSON (["absent-input"] :: [Text]))])
+    , ("absent-input", valid)
+    , ("", valid)
+    , ("/channel", valid)
+    , ("channel/", valid)
+    , ("channel", [("channel", Bool True)])
+    , ("channel", [("channel", Data.Aeson.toJSON ([""] :: [Text]))])
+    , ("channel", [("channel", Data.Aeson.toJSON (["bad/path"] :: [Text]))])
+    ]
 
 testPackageSetValidationCommand :: IO ()
 testPackageSetValidationCommand = do

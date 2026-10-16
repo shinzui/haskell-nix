@@ -9,6 +9,7 @@ import Data.ByteString.Lazy qualified as LazyByteString
 import Data.Text (Text)
 import HaskellNix.Update.Catalog (decodeFamilyCatalog, encodeFamilyCatalog)
 import HaskellNix.Update.Cli
+import HaskellNix.Update.Cohort.Cli (CohortCommand (..))
 import HaskellNix.Update.PackageLock (decodePackageLock, decodePackageLockForRefresh, encodePackageLock)
 import HaskellNix.Update.Types (FamilyCatalog, FamilyName (..), PackageLock (..), RefreshTarget (..), SnapshotGeneration (..), UpdateGroupName (..))
 import Options.Applicative (ParserResult (..), defaultPrefs, execParserPure)
@@ -92,7 +93,13 @@ cliTests :: TestTree
 cliTests =
   testGroup
     "CLI parser"
-    [ testCase "refresh accepts package-set, mixed scope, profile, and dry-run" $
+    [ testCase "cohort lock lookup accepts a nested input path" $
+        case execParserPure defaultPrefs parserInfo ["cohort", "resolve-channel-lock", "--lock", "consumer.lock", "--input-path", "application/library/haskell-nix"] of
+          Success (Cohort (CohortResolveChannelLock lockPath inputPath)) -> do
+            lockPath @?= "consumer.lock"
+            inputPath @?= "application/library/haskell-nix"
+          other -> assertFailure ("unexpected parser result: " <> show other),
+      testCase "refresh accepts package-set, mixed scope, profile, and dry-run" $
         case execParserPure defaultPrefs parserInfo ["refresh", "--package-set", "candidate", "--family", "alpha", "--group", "runtime", "--compatibility-profile", "legacy", "--dry-run"] of
           Success (Refresh RefreshOptions {packageSet, targets, compatibilityProfile, dryRun}) -> do
             packageSet @?= Just "candidate"

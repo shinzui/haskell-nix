@@ -23,6 +23,7 @@ import HaskellNix.Update.Cohort.Inventory
 import HaskellNix.Update.Cohort.Model
 import HaskellNix.Update.Cohort.Report qualified as Report
 import HaskellNix.Update.Cohort.Types
+import HaskellNix.Update.Nix (decodeLockedRevision)
 import HaskellNix.Update.PackageLock (decodePackageSetLock, selectPackageSet)
 import HaskellNix.Update.Types (UpdateError (..))
 import HaskellNix.Update.Types qualified as Lock
@@ -31,7 +32,8 @@ import System.Directory (createDirectoryIfMissing, listDirectory)
 import System.FilePath (takeDirectory, takeExtension, (</>))
 
 data CohortCommand
-    = CohortInventory !FilePath !Text !FilePath !FilePath !Text !FilePath
+    = CohortResolveChannelLock !FilePath !Text
+    | CohortInventory !FilePath !Text !FilePath !FilePath !Text !FilePath
     | CohortInventoryNix !FilePath !FilePath ![(Text, FilePath)] !Text !Text !Text !FilePath
     | CohortStub !FilePath !FilePath !FilePath !FilePath !FilePath !FilePath
     | CohortNormaliseFreeze !FilePath !FilePath !FilePath !Text !Text !Text
@@ -45,7 +47,8 @@ data CohortCommand
 cohortParser :: Parser CohortCommand
 cohortParser =
     subparser
-        ( command "inventory" (info (inventoryParser <**> helper) (fullDesc <> progDesc "Record a contributor's fresh Cabal plan and component bounds"))
+        ( command "resolve-channel-lock" (info (resolveLockParser <**> helper) (fullDesc <> progDesc "Resolve a locked revision through nested inputs and recursive follows"))
+            <> command "inventory" (info (inventoryParser <**> helper) (fullDesc <> progDesc "Record a contributor's fresh Cabal plan and component bounds"))
             <> command "report" (info (reportParser <**> helper) (fullDesc <> progDesc "Report upgrade-only violations, caps and source identities"))
             <> command "check" (info (checkParser <**> helper) (fullDesc <> progDesc "Compare a resolved plan with the freeze and source manifest"))
             <> command "update-constraints" (info (updateParser <**> helper) (fullDesc <> progDesc "Retain unrelated and runtime versions for an explicit targeted update"))
@@ -56,6 +59,7 @@ cohortParser =
             <> command "inventory-nix" (info (nixParser <**> helper) (fullDesc <> progDesc "Record channel and deployed dependency version maps"))
         )
   where
+    resolveLockParser = CohortResolveChannelLock <$> strOption (long "lock" <> metavar "FILE") <*> textOption "input-path"
     updateParser = CohortUpdateConstraints <$> pathOption "freeze" "cabal/cohort.freeze" <*> optionalPath "runtime-freeze" <*> switch (long "update-runtime") <*> some (textOption "package") <*> optional (textOption "index-state") <*> pathOption "out" "cabal/retained.config"
     impactParser = CohortImpact <$> pathOption "before" "cabal/cohort-sources.json" <*> strOption (long "after" <> metavar "FILE") <*> pathOption "inventory" "cabal/inventory" <*> optionalPath "before-policy" <*> optionalPath "after-policy" <*> pathOption "out" "cabal/cohort-impact.txt"
     optionalPath key = optional (strOption (long key <> metavar "FILE"))
@@ -104,6 +108,11 @@ writeJSON path payload = do
     LBS.writeFile path (encodePretty payload <> "\n")
 
 dispatch :: CohortCommand -> IO (Either Text Text)
+dispatch (CohortResolveChannelLock lockFile inputPath) = do
+    bytes <- BS.readFile lockFile
+    pure $ case decodeLockedRevision inputPath bytes of
+        Left (UpdateError err) -> Left err
+        Right (Lock.GitRevision revision) -> Right revision
 dispatch (CohortInventory contributorsFile wanted root plan config out) = do
     contributors <- readJSON contributorsFile
     case contributors >>= selectContributor of
