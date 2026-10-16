@@ -1,0 +1,61 @@
+import: cohort.freeze
+import: configuration.project
+
+source-repository-package
+  type: git
+  location: https://github.com/dhall-lang/dhall-haskell
+  tag: 03b40e85d0c677350ad2a2f75ef92627d5952cee
+  subdir: dhall
+
+source-repository-package
+  type: git
+  location: https://github.com/shinzui/hw-kafka-client
+  tag: 6caed636898a78e9f6e5a9c93eeb5562cbb2580a
+
+source-repository-package
+  type: git
+  location: https://github.com/shinzui/hw-kafka-streamly
+  tag: 945b5bdb2b96f2a3f13c380552ac5d17f13e3d92
+  subdir: hw-kafka-streamly
+
+source-repository-package
+  type: git
+  location: https://github.com/shinzui/keiki
+  tag: 3ed37eb08bde38ab8af8c0855d9e8cca87db7f4e
+  subdir: . keiki-codec-json
+
+source-repository-package
+  type: git
+  location: https://github.com/shinzui/keiro
+  tag: e6ef560b0a8db0dc091d0f8d7da1bb08c29155be
+  subdir: keiro keiro-core keiro-dsl keiro-migrations keiro-ops keiro-pgmq keiro-test-support
+
+source-repository-package
+  type: git
+  location: https://github.com/shinzui/kiroku
+  tag: 76ffe79804e88feed5bc5fc07e2f43fb2a71b9a5
+  subdir: kiroku-cli kiroku-metrics kiroku-otel kiroku-store kiroku-store-migrations shibuya-kiroku-adapter
+
+source-repository-package
+  type: git
+  location: https://github.com/shinzui/pg-migrate
+  tag: 13865052bef62688c40576ad36889221a0ba7e08
+  subdir: pg-migrate pg-migrate-cli pg-migrate-embed pg-migrate-import-codd pg-migrate-import-hasql-migration
+
+source-repository-package
+  type: git
+  location: https://github.com/shinzui/pgmq-hs
+  tag: 696b6bd28f29e1ea53d07bf66d2d6d59f1182fa3
+  subdir: pgmq-config pgmq-core pgmq-effectful pgmq-hasql pgmq-migration
+
+source-repository-package
+  type: git
+  location: https://github.com/shinzui/settei
+  tag: 1bf62b0af110b4f42fe2528e9d459e0ccf12d626
+  subdir: settei settei-dhall settei-env settei-optparse-applicative
+
+source-repository-package
+  type: git
+  location: https://github.com/shinzui/shibuya
+  tag: de42f07a874bd7d59aff7e41e7ac07b7333f1397
+  subdir: shibuya-core
