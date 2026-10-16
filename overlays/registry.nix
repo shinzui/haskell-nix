@@ -99,6 +99,11 @@ in
     max = "0.2.6.2";
     patch = import ../patches/serialise/0.2.6-ghc914.nix;
   }];
+  shibuya-pgmq-adapter = [{
+    min = "0.16.1.0";
+    max = "0.16.1.1";
+    patch = import ../patches/shibuya-pgmq-adapter/0.16.1-ghc914.nix;
+  }];
   dec = [{
     min = "0.0.6";
     max = "0.0.7";
