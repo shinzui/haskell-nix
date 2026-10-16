@@ -5,11 +5,11 @@ description: Add the mutually compatible Hackage releases needed by Hurl Workben
   the shared GHC 9.12/9.14 package-set extension, so consumers do not duplicate a
   fixed-hash override graph for current generic-lens and WAI/Warp APIs.
 generated:
-  by: openai-codex/gpt-5
-  at: "2026-09-21T04:27:41Z"
+  by: openai-codex/gpt-6.1-sol
+  at: "2026-10-16T17:40:32Z"
 origin: mori://shinzui/hurl-workbench/plans/6-harden-document-and-package-the-workbench
 requestId: IR-2
-status: proposed
+status: in-progress
 reviews:
   - kind: model
     reviewer: openai-codex
@@ -30,14 +30,37 @@ reviews:
 
 ## Status
 
-- **Status:** proposed
+- **Status:** in-progress
 - **Origin:**
   `mori://shinzui/hurl-workbench/plans/6-harden-document-and-package-the-workbench`
   (the artifact-level URI is intended; current Mori plan resolution may require a
   refreshed registry)
 - **Owner of the package set:** `mori://shinzui/haskell-nix`
 - **Size:** medium — nine Hackage pins forming two tested dependency cohorts
-- **Planning:** unplanned
+- **Planning:** [ExecPlan 9](../plans/9-generate-the-nix-package-set-from-the-cohort-freeze-and-guard-version-parity.md) under MasterPlan 3
+
+## Implementation progress (2026-10-16)
+
+The generated cohort now supplies this compatibility set instead of adding manual Hackage
+pins to the policy registry. Both source channels evaluate all eleven requested package
+names at the requested versions or newer compatible patch releases under GHC 9.12.4 and
+9.14.1; HTTP/2 is 5.4.8. Receipt: `/tmp/mp3-ep9-ir2-evaluated-versions.json`. The complete
+GHC 9.12 cohort builds and its 556 cache paths substitute into an empty isolated Darwin
+store with zero builds. The full native compiler/channel matrix now passes.
+
+The prepared change for `mori://shinzui/hurl-workbench/repos/hurl-workbench`, project-relative
+`flake.module.nix` (source-file artifact URI pending), removes all eleven duplicate pins and
+composes the shared extension before its two local packages. Its default Nix build and full
+`just check` pass in an isolated checkout against immutable local channel commit
+`aa45d216c0601e41757329bdd416708adcf34df8`: 65 core and 33 CLI tests, schema checks, examples,
+the 100-case smoke, unpacked source distributions and Nix checks. Receipts:
+`/tmp/mp3-ep9-hurl-review-build.log`, `/tmp/mp3-ep9-hurl-review-full-check.log`; module patch:
+`/tmp/mp3-ep9-hurl-shared-extension.patch`.
+
+Acceptance remains open: the primary consumer checkout and its Seihou-managed channel pin
+are unchanged. Permanent adoption follows channel publication and the managed-input update;
+Linux and fresh-CI acceptance retain their separate gates. The
+original proposal and observations below describe the request's starting point.
 
 ## Problem
 

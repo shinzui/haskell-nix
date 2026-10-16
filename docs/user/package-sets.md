@@ -6,7 +6,7 @@ docId: DOC-7
 tags: [package-sets, snapshots, cache]
 generated:
   by: human:nadeem
-  at: 2026-10-16T16:33:51Z
+  at: 2026-10-16T17:53:12Z
 ---
 
 [User guide](README.md)
@@ -56,6 +56,13 @@ from `generated/cohort-versions.nix`, generated from `cabal/cohort.freeze`. Its 
 source hashes and the Hackage metadata revision visible at the frozen index-state.
 Compiler boot libraries remain supplied by GHC. Owned non-Hackage source pins and selected
 first-party packages are classified separately.
+
+The modern CLI projection includes Aeson 2.2.5.1, generic-lens 2.3 and
+optparse-applicative 0.19. The WAI/Warp cohort moves together: Warp 3.4.16 requires
+WAI 3.2.5, HTTP/2 5.4, HTTP Semantics 0.4 and recv 0.1.2; their dependencies include
+time-manager 0.3 and network 3.2.9. Updating only Warp can leave an unbuildable graph.
+Update the retained cohort as a unit and compose the shared extension instead of copying
+these Hackage replacements into each consumer.
 
 The Haskell extension applies global profiling and Haddock settings, channel-specific extra
 overrides, generated third-party versions, then common and compatibility policy and the
