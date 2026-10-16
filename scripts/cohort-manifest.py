@@ -141,6 +141,9 @@ def code_hash(package, normalization=None):
     if len(patches) != len(hashes):
         raise ValueError("missing patch content hashes")
     value = {"prePatch": pre_patch, "postPatch": config.get("postPatch", ""), "patches": hashes}
+    hooks = {name: text for name, text in config.get("hooks", {}).items() if text}
+    if hooks:
+        value["hooks"] = hooks
     return hashlib.sha256(json.dumps(value, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
 
 

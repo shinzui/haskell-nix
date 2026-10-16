@@ -84,6 +84,16 @@ let
         patches = map (patch: "${patch}") (args.patches or [ ]);
         prePatch = args.prePatch or "";
         postPatch = args.postPatch or "";
+        hooks = lib.genAttrs [
+          "postUnpack"
+          "preConfigure"
+          "postConfigure"
+          "preBuild"
+          "postBuild"
+          "preInstall"
+          "postInstall"
+        ]
+          (hook: if (args.${hook} or null) == null then "" else args.${hook});
       };
       dependencies = lib.unique (map (row: row.dependency.drvPath) (haskellRows package));
     };

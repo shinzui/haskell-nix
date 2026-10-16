@@ -47,7 +47,8 @@ cabal2nix parser. These translation inputs are part of dependency identity.
 
 Record resolved Cabal flags from the actual recipe's configure replay, including
 automatic/default decisions, rather than treating command-line flags as complete.
-Record original and patched metadata digests. A compiler-bundled build tool may
+Record original and patched metadata digests, and require owned policy for source-altering
+patch, configure, build and install hooks. A compiler-bundled build tool may
 replace its Hackage counterpart only through an owned policy and verified actual
 configured version, compiler path and reachable provider derivation.
 

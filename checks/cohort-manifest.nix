@@ -193,6 +193,11 @@ pkgs.runCommand "cohort-manifest-fixtures"
             manifest['context']['nixpkgsRevision'] = 'other'
             with self.assertRaisesRegex(ValueError, 'Nixpkgs differs'):
                 tool.compare_freeze(expected, manifest, policy)
+        def test_frozen_undeclared_configure_source_edit_fails(self):
+            expected, manifest, policy = self.frozen_fixture()
+            manifest['packages'][1]['configuration']['hooks'] = {'preConfigure': 'alter-source'}
+            with self.assertRaisesRegex(ValueError, 'missing owned build-patch policy'):
+                tool.compare_freeze(expected, manifest, policy)
         def compiler_tool_fixture(self):
             expected, manifest, policy = self.frozen_fixture()
             expected['sources']['hsc2hs'] = {'version': '0.68.10', 'source': 'Hackage', 'identities': [], 'dependencies': []}
