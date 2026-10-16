@@ -5,6 +5,7 @@
 {
   # The pkg-config input is the native library, not the Haskell fixed point.
   zlib = { zlib = pkgs.zlib; };
+  postgresql-libpq-pkgconfig = { libpq = pkgs.libpq; };
   hasql-dynamic-statements = {
     # Hackage 0.5.1.2 declares these exclusively in test-suite test.
     pqi-native = throw "hasql-dynamic-statements: pqi-native is available only to disabled upstream tests";

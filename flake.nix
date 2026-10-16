@@ -166,6 +166,7 @@
         };
 
         lib = {
+          mkCohortManifest = import ./lib/mkCohortManifest.nix { inherit lib; };
           parseCohortFreeze = import ./lib/parseCohortFreeze.nix { inherit lib; };
           # Retained cohort data used by generation, parity and consumer tools.
           cohort =
@@ -219,8 +220,15 @@
           updater = mkUpdaterPackage pkgsPlain;
           cohortCompare = pkgsPlain.writeShellApplication {
             name = "cohort-compare";
-            runtimeInputs = [ updater pkgsPlain.curl pkgsPlain.coreutils ];
-            text = builtins.readFile ./scripts/cohort-compare.sh;
+            runtimeInputs = [ updater pkgsPlain.curl pkgsPlain.coreutils pkgsPlain.python3 ];
+            text = ''
+              manifest_tool=${./scripts/cohort-manifest.py}
+            '' + builtins.readFile ./scripts/cohort-compare.sh;
+          };
+          cohortCache = pkgsPlain.writeShellApplication {
+            name = "cohort-cache";
+            runtimeInputs = [ pkgsPlain.python3 pkgsPlain.nix pkgsPlain.cachix ];
+            text = ''exec python3 ${./scripts/cohort-cache.py} "$@"'';
           };
           toolchain = haskell-nix-dev.lib.${system}.ghcVersions.${defaultGhc};
           cohortVersions = import ./generated/cohort-versions.nix;
@@ -239,6 +247,21 @@
             default = updater;
             haskell-nix-update = updater;
             cohort-compare = cohortCompare;
+            cohort-cache = cohortCache;
+            cohort-manifest = (import ./lib/mkCohortManifest.nix { inherit lib; }) {
+              pkgs = pkgsPlain;
+              scope = cohortScope;
+              root = cohortScope.pg-migrate-cli;
+              localPackages = [ ];
+              context = {
+                versions = cohortVersions;
+                boot = import ./generated/ghc-boot-packages.nix;
+                configurationPolicy = builtins.fromJSON (builtins.readFile ./cabal/cohort-nix-policy.json);
+                nixpkgsRevision = nixpkgs.rev;
+                channel = "github";
+                channelRevision = inputs.self.rev or inputs.self.dirtyRev or null;
+              };
+            };
             cohort-closure = cohortFarm "cohort-closure" cohortNames;
             cohort-roots = cohortFarm "cohort-roots" [
               "keiro"
@@ -262,6 +285,10 @@
             ];
           };
           apps = {
+            cohort-cache = {
+              type = "app";
+              program = "${cohortCache}/bin/cohort-cache";
+            };
             cohort-compare = {
               type = "app";
               program = "${cohortCompare}/bin/cohort-compare";

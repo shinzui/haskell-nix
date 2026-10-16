@@ -131,6 +131,10 @@ cohort-inventory-refresh:
 cohort-compare *args:
     nix run .#cohort-compare -- {{args}}
 
+# Publish dependency roots or verify substitution into an empty worker store.
+cohort-cache *args:
+    nix run .#cohort-cache -- {{args}}
+
 # Generate channel recipes from the frozen sources and exact metadata cutoff.
 cohort-generate:
     {{cli}} cohort generate

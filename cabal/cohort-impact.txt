@@ -1,11 +1,1 @@
-bytestring-lexing: added
-crypto-token: added
-either-n: added
-groups: added
-keys: added
-pointed: added
-rebase: added
-rerebase: added
-validation: added
-vector-instances: added
-void: added
+quickcheck-instances: added

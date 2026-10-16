@@ -10560,6 +10560,51 @@
         "source": "Hackage",
         "version": "1.0.0.0"
     },
+    "quickcheck-instances": {
+        "dependencies": [
+            "QuickCheck",
+            "array",
+            "base",
+            "bytestring",
+            "case-insensitive",
+            "data-fix",
+            "hashable",
+            "integer-logarithms",
+            "old-time",
+            "scientific",
+            "splitmix",
+            "strict",
+            "tagged",
+            "text",
+            "text-short",
+            "these",
+            "time-compat",
+            "transformers",
+            "unordered-containers",
+            "uuid-types",
+            "vector"
+        ],
+        "identities": [
+            {
+                "component-name": "lib",
+                "flags": {},
+                "pkg-cabal-sha256": "7ad296a8cb4a20d08af8dd0c6e0e667de1cd8b53657fbbe94ceba188f29f22a9",
+                "pkg-name": "quickcheck-instances",
+                "pkg-src": {
+                    "repo": {
+                        "type": "secure-repo",
+                        "uri": "http://hackage.haskell.org/"
+                    },
+                    "type": "repo-tar"
+                },
+                "pkg-src-sha256": "fb28fe2fce4e99c0a1d20ed15f6d6ecd56241c16e1a8e99ea166ea90e96727f3",
+                "pkg-version": "0.4",
+                "type": "configured"
+            }
+        ],
+        "source": "Hackage",
+        "version": "0.4"
+    },
     "quickcheck-io": {
         "dependencies": [
             "HUnit",

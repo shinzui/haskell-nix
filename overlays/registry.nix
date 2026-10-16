@@ -62,6 +62,16 @@ in
   proto-lens-runtime = always dontCheckDoJailbreak;
 
   # ── Misc compatibility ─────────────────────────────────────────────
+  monad-control = [{
+    min = "1.0.3.1";
+    max = "1.0.3.2";
+    patch = import ../patches/monad-control/transformers-compat-0.8.nix;
+  }];
+  errors = [{
+    min = "2.3.0";
+    max = "2.3.1";
+    patch = import ../patches/errors/transformers-compat-0.8.nix;
+  }];
   unicode-data = always (args: import ../patches/unicode-data/0.6-ghc914.nix (args // { pkg = dontCheckOnly args; }));
   fuzzyfind = always markUnbrokenDontCheckDoJailbreak;
   # SBV integration tests need an external solver; retain the shared test and
@@ -132,6 +142,13 @@ in
   # ── hasql ecosystem ────────────────────────────────────────────────
   hasql = always doJailbreakOnly;
   postgresql-binary = always doJailbreakOnly;
+  # The Configure provider discovers libpq outside its Cabal dependency fields.
+  postgresql-libpq-configure = always ({ pkg, haskellLib, pkgs, ... }:
+    haskellLib.overrideCabal
+      (drv: {
+        libraryPkgconfigDepends = (drv.libraryPkgconfigDepends or [ ]) ++ [ pkgs.libpq ];
+      })
+      pkg);
   hasql-pool = always doJailbreakOnly;
   hasql-transaction = always doJailbreakOnly;
   hasql-migration = always (import ../patches/hasql-migration/shinzui.nix);
@@ -187,6 +204,7 @@ in
   servant-health = always doJailbreakOnly;
 
   # Public source pins: preserve their Cabal source-repository-package revisions.
+  cmark-gfm = always (import ../patches/cmark-gfm/source.nix);
   typeid-hs-sql = always (import ../patches/typeid-hs/sql.nix);
   typeid-hs-pg-migrate = always (import ../patches/typeid-hs/pg-migrate.nix);
   hs-opentelemetry-instrumentation-servant = always (import ../patches/hs-opentelemetry-instrumentation-servant/source.nix);
@@ -213,8 +231,13 @@ in
   # bound rather than disabling the flag: without the flag every remote Dhall
   # import throws `TlsNotSupported` at runtime, on cache miss only.
   dhall = always (args: import ../patches/dhall/keep-http-client-tls.nix (args // {
-    pkg = import ../patches/dhall/1.42.3-ghc914.nix args;
+    pkg = import ../patches/dhall/source.nix args;
   }));
+  dhall-json = [{
+    min = "1.7.12";
+    max = "1.7.13";
+    patch = import ../patches/dhall-json/cohort-bounds.nix;
+  }];
   # dhall-1.42.3 depends on the latest Hackage repline release, 0.4.3.0.
   # That release caps containers below 0.8 even though its API usage remains
   # compatible; GHC 9.14.1 ships containers-0.8.

@@ -1,0 +1,12 @@
+{
+  "schemaVersion": 1,
+  "packages": {
+    "dhall": {
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Enable HTTPS imports in shipped binaries, including cache misses. The Cabal compatibility solve disables TLS; both systems retain the same upstream source revision.",
+      "flags": {
+        "use-http-client-tls": true
+      }
+    }
+  }
+}

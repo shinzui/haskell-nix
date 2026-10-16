@@ -6,7 +6,7 @@ docId: DOC-7
 tags: [package-sets, snapshots, cache]
 generated:
   by: human:nadeem
-  at: 2026-10-16T14:44:08Z
+  at: 2026-10-16T15:08:23Z
 ---
 
 [User guide](README.md)
@@ -164,3 +164,42 @@ binary cache has published the resulting path.
 First-party packages are currently built with Cabal bounds jailbroken and test suites
 disabled by the generated registry. A curated matrix therefore proves the supported Nix
 construction, not unmodified upstream bounds or upstream test-suite success.
+
+## Build manifests and cache receipts
+
+`lib.mkCohortManifest { pkgs; scope; root; context; localPackages; }` constructs JSON evidence
+for a root built by the supplied composed Haskell scope. It records actual Haskell dependency
+instances, native dependencies, compiler, source and metadata inputs, configuration, and
+derivation/output paths. Nix exports the root's derivation graph to the builder; construction
+fails if a recorded Haskell package or dependency edge is absent from that graph. This covers
+static libraries that disappear from a runtime output closure. `context` is explicit so a
+retained runtime projection can reuse the same helper without reading mutable defaults.
+
+Build the channel's example with `nix build .#cohort-manifest`. Compare two manifest files with
+`nix run .#cohort-compare -- --compare-manifests BEFORE AFTER`; changed identities include input
+fields and direct users. Manifest construction and identity comparison are distinct from
+full frozen source/flag acceptance, which remains under implementation.
+
+After the cohort build passes, publish its dependency outputs with:
+
+```bash
+nix run .#cohort-cache -- publish --root .#cohort-closure --cache tan --receipt publication.json
+```
+
+Repeat `--root` for additional runtime roots on the same system. The full cohort link farm
+retains every cohort library, including static dependencies. Publication verifies the remote
+NAR hashes, sizes and references before writing a receipt; a successful build alone is not
+publication evidence.
+
+On a worker matching the published system, verify substitution into an empty isolated store:
+
+```bash
+nix run .#cohort-cache -- verify --receipt publication.json \
+  --store 'local?root=/absolute/empty-worker' --evidence substitution.json
+```
+
+Use a path without symlink parents (`/private/tmp/...` rather than `/tmp/...` on macOS).
+Verification rejects a store that already holds any expected path, copies exclusively from
+the cache without building, and checks the complete recorded graph. Receipts record the
+worker system and hostname. An isolated store on a developer machine proves substitution
+there; supported CI-worker acceptance still requires running it in the declared CI environment.

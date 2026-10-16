@@ -53,6 +53,8 @@ pkgs.runCommand "cohort-compare-fixtures"
     expect_status 2 cohort-compare --freeze cohort.freeze --plan-json good.json --input-path channel
     expect_status 2 cohort-compare --freeze cohort.freeze --freeze other --plan-json good.json
     expect_status 2 cohort-compare --nix-manifest future.json
+    expect_status 2 cohort-compare --compare-manifests before.json
+    expect_status 2 cohort-compare --compare-manifests before.json after.json --all
     expect_status 0 cohort-compare --freeze cohort.freeze --plan-json good.json --all
     grep -q 'ok lib 1' stdout
     expect_status 1 cohort-compare --freeze cohort.freeze --plan-json bad.json

@@ -58,5 +58,11 @@
     "range": ">=1.2.2",
     "reason": "Retain the highest existing channel pin across both source channels and supported compilers while moving all Hackage version selection into the shared cohort.",
     "owner": "mori://shinzui/haskell-nix"
+  },
+  {
+    "package": "quickcheck-instances",
+    "range": ">=0.3.33",
+    "owner": "mori://shinzui/haskell-nix",
+    "reason": "Retain the declared JSON test-support package of mori://shinzui/keiki in both supported compiler matrices; its QuickCheck instances must admit the shared QuickCheck 2.18 cohort."
   }
 ]

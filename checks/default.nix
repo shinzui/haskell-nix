@@ -89,6 +89,12 @@ let
       firstPartyPackageSets);
 in
 {
+  cohort-cache = import ./cohort-cache.nix { pkgs = pkgsPlain; };
+  cohort-manifest = import ./cohort-manifest.nix {
+    inherit lib cohortCompare;
+    pkgs = pkgsPlain;
+    scope = pkgsGithub.haskell.packages.${defaultGhc};
+  };
   cohort-compare = import ./cohort-compare.nix {
     pkgs = pkgsPlain;
     inherit cohortCompare;

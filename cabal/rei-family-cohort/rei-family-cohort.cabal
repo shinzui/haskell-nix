@@ -112,6 +112,7 @@ library
     , prettyprinter >=1.7 && <1.8
     , prettyprinter-ansi-terminal >=1.1 && <2
     , process >=1.6 && <1.7
+    , quickcheck-instances >=0.3.33
     , ram >=0.22 && <0.23
     , random >=0
     , rebase >=1.22
