@@ -222,7 +222,21 @@ in
   };
   testFirstPartyCompatibilityPreservesSource = { expr = (firstPartyCompatibilityFixture true).source; expected = /tmp; };
   testKiokuCompilerFlagAppendsOnlySupportedSwitch = { expr = (kiokuCompilerRepair "9.14.1" "0.8.0.2").configureFlags; expected = [ "existing-flag" "--ghc-option=-fno-opt-coercion" ]; };
+  testKiokuPublishedCompilerRepair = { expr = (kiokuCompilerRepair "9.14.1" "0.9.0.2").configureFlags; expected = [ "existing-flag" "--ghc-option=-fno-opt-coercion" ]; };
+  testKiokuPublishedCompilerRepairRetainsGhc912 = { expr = (kiokuCompilerRepair "9.12.4" "0.9.0.2").configureFlags; expected = [ "existing-flag" ]; };
+  testKiokuPublishedCompilerRepairRetiresOnNextRelease = { expr = (kiokuCompilerRepair "9.14.1" "0.9.0.3").configureFlags; expected = [ "existing-flag" ]; };
+  testKiokuPublishedCompilerRepairGuardsSource = {
+    expr = lib.hasInfix "7743737627fc444dc6f623c337aa627b132aa188026bf2ead847ba544f81c8cd" (kiokuCompilerRepair "9.14.1" "0.9.0.2").postPatch;
+    expected = true;
+  };
   testKiokuCliCompilerFlagAppendsOnlySupportedSwitch = { expr = (kiokuCliCompilerRepair "9.14.1" "0.8.0.2").configureFlags; expected = [ "existing-flag" "--ghc-option=-fno-opt-coercion" ]; };
+  testKiokuPublishedCliCompilerRepair = { expr = (kiokuCliCompilerRepair "9.14.1" "0.9.0.2").configureFlags; expected = [ "existing-flag" "--ghc-option=-fno-opt-coercion" ]; };
+  testKiokuPublishedCliCompilerRepairRetainsGhc912 = { expr = (kiokuCliCompilerRepair "9.12.4" "0.9.0.2").configureFlags; expected = [ "existing-flag" ]; };
+  testKiokuPublishedCliCompilerRepairRetiresOnNextRelease = { expr = (kiokuCliCompilerRepair "9.14.1" "0.9.0.3").configureFlags; expected = [ "existing-flag" ]; };
+  testKiokuPublishedCliCompilerRepairGuardsSource = {
+    expr = lib.hasInfix "843f7b9593b93d2ccd0f4a00f47c8c64d6ce22543651063cfc3eb1acafca984b" (kiokuCliCompilerRepair "9.14.1" "0.9.0.2").postPatch;
+    expected = true;
+  };
   testKiokuCliCompilerRepairRetainsGhc912 = { expr = (kiokuCliCompilerRepair "9.12.4" "0.8.0.2").configureFlags; expected = [ "existing-flag" ]; };
   testKiokuCliCompilerRepairRetiresOnNewCompiler = { expr = (kiokuCliCompilerRepair "9.14.2" "0.8.0.2").configureFlags; expected = [ "existing-flag" ]; };
   testKiokuCliCompilerRepairRetiresOnFutureVersion = { expr = (kiokuCliCompilerRepair "9.14.1" "0.8.0.3").configureFlags; expected = [ "existing-flag" ]; };
