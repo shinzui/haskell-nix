@@ -1,0 +1,269 @@
+--- a/kenshou-kiroku.cabal
++++ b/kenshou-kiroku.cabal
+@@ -36,6 +36,7 @@
+   import: warnings
+   hs-source-dirs: src
+   exposed-modules:
++    Kenshou.Suite.Kiroku.Compat
+     Kenshou.Suite.Kiroku
+     Kenshou.Suite.Kiroku.Bench.Append
+     Kenshou.Suite.Kiroku.Bench.Hardening
+--- a/src/Kenshou/Suite/Kiroku/Bench/Subscription.hs
++++ b/src/Kenshou/Suite/Kiroku/Bench/Subscription.hs
+@@ -1,5 +1,6 @@
+ module Kenshou.Suite.Kiroku.Bench.Subscription (scenarios) where
+ 
++import Kenshou.Suite.Kiroku.Compat qualified as RuntimeCompat
+ import Control.Concurrent (threadDelay)
+ import Control.Concurrent.MVar (MVar, newEmptyMVar, takeMVar, tryPutMVar)
+ import Control.Concurrent.STM (atomically, retry)
+@@ -119,7 +120,7 @@
+               delivered <- newIORef (0 :: Int)
+               writeIORef active (Just (subscription, seen, done))
+               let handler _ = atomicModifyIORef' delivered (\count -> (count + 1, ())) >> pure Continue
+-                  config member = (defaultSubscriptionConfig subscription target handler) {batchSize = fromIntegral batch, consumerGroup = fmap (\index -> ConsumerGroup (fromIntegral index) (fromIntegral groupSize)) member}
++                  config member = (defaultSubscriptionConfig subscription target handler) {batchSize = RuntimeCompat.batchSize (fromIntegral batch), consumerGroup = fmap (\index -> RuntimeCompat.consumerGroup (fromIntegral index) (fromIntegral groupSize)) member}
+                   withMembers [] action = action
+                   withMembers (member : rest) action = withSubscription store (config member) (\_ -> withMembers rest action)
+               caughtUp <- try @SomeException (withMembers members (timeout 60000000 (takeMVar done)))
+--- /dev/null
++++ b/src/Kenshou/Suite/Kiroku/Compat.hs
+@@ -0,0 +1,15 @@
++module Kenshou.Suite.Kiroku.Compat (consumerGroup, batchSize, bufferSize) where
++
++import Data.Int (Int32)
++import Numeric.Natural (Natural)
++import Kiroku.Store.Subscription.Types qualified as Types
++import Kiroku.Store.Subscription.Stream qualified as Stream
++
++consumerGroup :: Int32 -> Int32 -> Types.ConsumerGroup
++consumerGroup member size = either (error . show) id (Types.mkConsumerGroupSize size >>= Types.mkConsumerGroup member)
++
++batchSize :: Int32 -> Types.BatchSize
++batchSize = either (error . show) id . Types.mkBatchSize
++
++bufferSize :: Natural -> Stream.StreamBufferSize
++bufferSize = either (error . show) id . Stream.mkStreamBufferSize
+--- a/src/Kenshou/Suite/Kiroku/Concurrency/KnownDefects.hs
++++ b/src/Kenshou/Suite/Kiroku/Concurrency/KnownDefects.hs
+@@ -1,5 +1,6 @@
+ module Kenshou.Suite.Kiroku.Concurrency.KnownDefects (scenarios) where
+ 
++import Kenshou.Suite.Kiroku.Compat qualified as RuntimeCompat
+ import Control.Concurrent (forkIO, killThread, threadDelay, yield)
+ import Control.Exception (SomeException, bracket, throwIO, try)
+ import Control.Monad (forM, replicateM, replicateM_)
+@@ -134,7 +135,7 @@
+     observed <- newIORef []
+     let stream = StreamName "reconnect-events"
+         event = EventData Nothing (EventType "Reconnect") (object []) Nothing Nothing Nothing
+-        config = (defaultSubscriptionConfig name (Category (CategoryName "reconnect")) (\row -> atomicModifyIORef' observed (\rows -> (row.globalPosition : rows, ())) >> pure Continue)) {batchSize = fromIntegral batch}
++        config = (defaultSubscriptionConfig name (Category (CategoryName "reconnect")) (\row -> atomicModifyIORef' observed (\rows -> (row.globalPosition : rows, ())) >> pure Continue)) {batchSize = RuntimeCompat.batchSize (fromIntegral batch)}
+         awaitPosition target = timeout 30000000 loop
+           where
+             loop = do
+@@ -300,7 +301,7 @@
+       event = EventData Nothing (EventType "Resize") (object []) Nothing Nothing Nothing
+       config size member ref =
+         (defaultSubscriptionConfig name AllStreams (\row -> atomicModifyIORef' ref (\rows -> (row.globalPosition : rows, ())) >> pure Continue))
+-          { consumerGroup = Just (ConsumerGroup member size)
++          { consumerGroup = Just (RuntimeCompat.consumerGroup member size)
+           }
+       awaitHead members = timeout 30000000 loop
+         where
+@@ -384,7 +385,7 @@
+ probe store name size = do
+   calls <- newIORef (0 :: Int)
+   let handler _ = atomicModifyIORef' calls (\count -> (count + 1, ())) >> pure Continue
+-      config = (defaultSubscriptionConfig name AllStreams handler) {batchSize = size}
++      config = (defaultSubscriptionConfig name AllStreams handler) {batchSize = RuntimeCompat.batchSize size}
+   started <- try @SomeException (subscribe store config)
+   refused <- case started of
+     Left _ -> pure True
+--- a/src/Kenshou/Suite/Kiroku/Concurrency/Telemetry.hs
++++ b/src/Kenshou/Suite/Kiroku/Concurrency/Telemetry.hs
+@@ -1,5 +1,6 @@
+ module Kenshou.Suite.Kiroku.Concurrency.Telemetry (scenarios) where
+ 
++import Kenshou.Suite.Kiroku.Compat qualified as RuntimeCompat
+ import Control.Concurrent (threadDelay)
+ import Control.Monad (forM_)
+ import Data.Aeson (object, (.=))
+@@ -73,7 +74,7 @@
+         Right _ -> pure ()
+         Left err -> fail ("slow handler prepopulation failed: " <> show err)
+     let handler _ = atomicModifyIORef' delivered (\count -> (count + 1, ())) >> pure Continue
+-        config = (defaultSubscriptionConfig subscription AllStreams handler) {batchSize = 100}
++        config = (defaultSubscriptionConfig subscription AllStreams handler) {batchSize = RuntimeCompat.batchSize 100}
+         waitFor target = do
+           current <- readIORef delivered
+           if current >= target then pure () else threadDelay 10000 >> waitFor target
+--- a/src/Kenshou/Suite/Kiroku/Correctness/ConsumerGroup.hs
++++ b/src/Kenshou/Suite/Kiroku/Correctness/ConsumerGroup.hs
+@@ -1,5 +1,6 @@
+ module Kenshou.Suite.Kiroku.Correctness.ConsumerGroup (scenarios) where
+ 
++import Kenshou.Suite.Kiroku.Compat qualified as RuntimeCompat
+ import Control.Concurrent (threadDelay)
+ import Control.Exception (try)
+ import Control.Monad (forM, forM_)
+@@ -68,7 +69,7 @@
+       streamName i = StreamName ("cg-" <> Text.pack (show i))
+       config member ref =
+         (defaultSubscriptionConfig subscriptionName target (\row -> modifyIORef' ref (row :) >> pure Continue))
+-          { consumerGroup = Just (ConsumerGroup member size)
++          { consumerGroup = Just (RuntimeCompat.consumerGroup member size)
+           }
+       withMembers [] action = action
+       withMembers ((member, ref) : rest) action = withSubscription store (config member ref) \_ -> withMembers rest action
+@@ -100,10 +101,10 @@
+       checkpoints = case inventory of
+         Right snapshot -> [row.consumerGroupMember | row <- Vector.toList snapshot.checkpoints, row.subscriptionName == subscriptionName]
+         Left _ -> []
+-      invalid group = try @InvalidConsumerGroup (withSubscription store ((defaultSubscriptionConfig (SubscriptionName "cg-invalid") AllStreams (\_ -> pure Continue)) {consumerGroup = Just group}) (\_ -> pure ()))
+-  invalidZero <- invalid (ConsumerGroup 0 0)
+-  invalidHigh <- invalid (ConsumerGroup size size)
+-  invalidNegative <- invalid (ConsumerGroup (-1) size)
++      invalid member count = pure (mkConsumerGroupSize count >>= mkConsumerGroup member)
++  invalidZero <- invalid 0 0
++  invalidHigh <- invalid size size
++  invalidNegative <- invalid (-1) size
+   let cells =
+         [ ("all-members-complete", case counts of Just values -> sum values == 10000; _ -> False),
+           ("union-covers-global-events", sort positions == [GlobalPosition value | value <- [1 .. 10000]]),
+--- a/src/Kenshou/Suite/Kiroku/Correctness/Notifier.hs
++++ b/src/Kenshou/Suite/Kiroku/Correctness/Notifier.hs
+@@ -1,5 +1,6 @@
+ module Kenshou.Suite.Kiroku.Correctness.Notifier (scenarios) where
+ 
++import Kenshou.Suite.Kiroku.Compat qualified as RuntimeCompat
+ import Control.Concurrent (threadDelay)
+ import Control.Monad (forM_)
+ import Data.Aeson (object, (.=))
+@@ -60,7 +61,7 @@
+         pure Continue
+       allConfig = defaultSubscriptionConfig (SubscriptionName "wake-all") AllStreams (handler allTimes)
+       categoryConfig = defaultSubscriptionConfig (SubscriptionName "wake-category") (Category (CategoryName "wake")) (handler categoryTimes)
+-      groupConfig = (defaultSubscriptionConfig (SubscriptionName "wake-group") AllStreams (handler groupTimes)) {consumerGroup = Just (ConsumerGroup 0 1)}
++      groupConfig = (defaultSubscriptionConfig (SubscriptionName "wake-group") AllStreams (handler groupTimes)) {consumerGroup = Just (RuntimeCompat.consumerGroup 0 1)}
+       awaitLive handle = timeout 10000000 loop
+         where
+           loop = do
+--- a/src/Kenshou/Suite/Kiroku/Correctness/Subscription.hs
++++ b/src/Kenshou/Suite/Kiroku/Correctness/Subscription.hs
+@@ -1,5 +1,6 @@
+ module Kenshou.Suite.Kiroku.Correctness.Subscription (scenarios) where
+ 
++import Kenshou.Suite.Kiroku.Compat qualified as RuntimeCompat
+ import Control.Concurrent (forkIO, threadDelay)
+ import Control.Concurrent.MVar (newEmptyMVar, putMVar, takeMVar)
+ import Control.Concurrent.STM (atomically, putTMVar)
+@@ -57,7 +58,7 @@
+     let target = Category (CategoryName "idle")
+         handler _ = pure Continue
+         categoryConfig = defaultSubscriptionConfig idleName target handler
+-        groupConfig = (defaultSubscriptionConfig groupName target handler) {consumerGroup = Just (ConsumerGroup 0 1)}
++        groupConfig = (defaultSubscriptionConfig groupName target handler) {consumerGroup = Just (RuntimeCompat.consumerGroup 0 1)}
+         stream = StreamName "other-events"
+         event = EventData Nothing (EventType "Other") (object []) Nothing Nothing Nothing
+         awaitLive handle = timeout 10000000 loop
+@@ -125,7 +126,7 @@
+       event = EventData Nothing (EventType "Handoff") (object []) Nothing Nothing Nothing
+       config seen =
+         (defaultSubscriptionConfig subscriptionName target (\row -> modifyIORef' seen (row.globalPosition :) >> pure Continue))
+-          { batchSize = batchSizeValue
++          { batchSize = RuntimeCompat.batchSize batchSizeValue
+           }
+       awaitLive handle = timeout 10000000 loop
+         where
+@@ -225,9 +226,9 @@
+       (bridge, cancelBridge) <-
+         if ack
+           then do
+-            (items, cancelAction) <- subscriptionAckStream store config 256
++            (items, cancelAction) <- subscriptionAckStream store config (RuntimeCompat.bufferSize 256)
+             pure (Stream.mapM (\item -> atomically (putTMVar item.ackReply Continue) >> pure item.ackEvent) items, cancelAction)
+-          else subscriptionStream store config 256
++          else subscriptionStream store config (RuntimeCompat.bufferSize 256)
+       countRef <- newIORef (0 :: Int)
+       done <- newEmptyMVar
+       _ <- forkIO do
+--- a/src/Kenshou/Suite/Kiroku/Fixture/Store.hs
++++ b/src/Kenshou/Suite/Kiroku/Fixture/Store.hs
+@@ -70,7 +70,7 @@
+           statementTimeout = options.statementTimeout,
+           idleInTransactionTimeout = options.idleInTransactionTimeout,
+           eventHandler = options.eventTap,
+-          storeSettings = defaultStoreSettings {enrichEvent = enricher, decodeHook = options.decodeHook}
++          storeSettings = defaultStoreSettings {enrichEvent = enricher, decodeHook = fmap (\hook event -> Right <$> hook event) options.decodeHook}
+         }
+     connectionString =
+       (requirePostgres context).connectionString
+--- a/src/Kenshou/Suite/Kiroku/Roles.hs
++++ b/src/Kenshou/Suite/Kiroku/Roles.hs
+@@ -1,5 +1,6 @@
+ module Kenshou.Suite.Kiroku.Roles (roles, appenderRoleName, readerRoleName, subscriberRoleName, txAppenderRoleName) where
+ 
++import Kenshou.Suite.Kiroku.Compat qualified as RuntimeCompat
+ import Control.Concurrent (forkIO, killThread, threadDelay)
+ import Control.Concurrent.MVar (newEmptyMVar, newMVar, putMVar, takeMVar, withMVar)
+ import Control.Concurrent.STM (atomically, putTMVar)
+@@ -20,6 +21,7 @@
+ import Hasql.Transaction qualified as Tx
+ import Kenshou.Core.Role (ControlMessage (..), PostgresConnInfo (..), RoleContext (..), RoleName, WorkerInit (..), WorkerMessage (..), WorkerRole (..), mkRoleName)
+ import Kenshou.Suite.Kiroku.Fixture.Workload (eventIdFor)
++import Kiroku.Store.Subscription.Types qualified as RuntimeTypes
+ import Kiroku.Store hiding (id)
+ import Kiroku.Store.Subscription.Stream (AckItem (..), subscriptionAckStream, subscriptionStream)
+ import Streamly.Data.Fold qualified as Fold
+@@ -110,7 +112,7 @@
+           threadDelay args.handlerDelayMicros
+           pure Continue
+         target = if args.targetName == "category" then Category (CategoryName "crash") else AllStreams
+-        config = (defaultSubscriptionConfig (SubscriptionName args.name) target handler) {consumerGroup = uncurry ConsumerGroup <$> args.group, consumerGroupGuard = args.guardEnabled, batchSize = args.requestedBatchSize}
++        config = (defaultSubscriptionConfig (SubscriptionName args.name) target handler) {consumerGroup = (\(member, size) -> either (error . show) id (RuntimeTypes.mkConsumerGroupSize size >>= RuntimeTypes.mkConsumerGroup member)) <$> args.group, consumerGroupGuard = args.guardEnabled, batchSize = either (error . show) id (RuntimeTypes.mkBatchSize args.requestedBatchSize)}
+         loop =
+           context.receive >>= \case
+             Just CtlStart -> loop
+@@ -129,11 +131,11 @@
+             Nothing -> pure ()
+     case args.api of
+       "plain" -> do
+-        (items, cancel) <- subscriptionStream store config 256
++        (items, cancel) <- subscriptionStream store config (RuntimeCompat.bufferSize 256)
+         consumer <- forkIO $ void $ Stream.fold Fold.drain $ Stream.mapM handler items
+         (context.send WrkReady >> loop) `finally` (cancel >> killThread consumer)
+       "ack" -> do
+-        (items, cancel) <- subscriptionAckStream store config 256
++        (items, cancel) <- subscriptionAckStream store config (RuntimeCompat.bufferSize 256)
+         consumer <- forkIO $ void $ Stream.fold Fold.drain $ Stream.mapM (\item -> handler item.ackEvent >>= atomically . putTMVar item.ackReply) items
+         (context.send WrkReady >> loop) `finally` (cancel >> killThread consumer)
+       _ -> withSubscription store config \_ -> context.send WrkReady >> loop
+--- a/src/Kenshou/Suite/Kiroku/Soak/AppendSubscribe.hs
++++ b/src/Kenshou/Suite/Kiroku/Soak/AppendSubscribe.hs
+@@ -2,6 +2,7 @@
+ 
+ module Kenshou.Suite.Kiroku.Soak.AppendSubscribe (scenarios) where
+ 
++import Kenshou.Suite.Kiroku.Compat qualified as RuntimeCompat
+ import Control.Concurrent (forkIO, killThread, threadDelay)
+ import Control.Concurrent.STM (atomically, putTMVar)
+ import Control.Exception (bracket, finally, mask_)
+@@ -94,7 +95,7 @@
+         native subscriptionName target state contiguous = defaultSubscriptionConfig subscriptionName target (\row -> update contiguous state row >> pure Continue)
+         allConfigs = [native (SubscriptionName ("soak-all-" <> Text.pack (show index))) AllStreams state True | (index, state) <- zip [0 :: Int ..] allStates]
+         categoryConfigs = [native (SubscriptionName ("soak-category-" <> Text.pack (show index))) (Category (CategoryName ("soak" <> Text.pack (show index)))) state False | (index, state) <- zip [0 :: Int ..] categoryStates]
+-        groupConfig = (defaultSubscriptionConfig (SubscriptionName "soak-group") AllStreams (\row -> let GlobalPosition position = row.globalPosition in hPutStrLn groupZeroHandle (show position) >> pure Continue)) {consumerGroup = Just (ConsumerGroup 0 3), consumerGroupGuard = False}
++        groupConfig = (defaultSubscriptionConfig (SubscriptionName "soak-group") AllStreams (\row -> let GlobalPosition position = row.globalPosition in hPutStrLn groupZeroHandle (show position) >> pure Continue)) {consumerGroup = Just (RuntimeCompat.consumerGroup 0 3), consumerGroupGuard = False}
+         withNative [] action = action
+         withNative (cfg : rest) action = withSubscription store cfg (\_ -> withNative rest action)
+         killLoop = do
+@@ -120,7 +121,7 @@
+             else threadDelay 100000 >> awaitLocal expected categoryExpected
+     (measurement, durable@(eventCount, _, _), categoryExpected, local, groupCaughtUp, killCount) <- flip finally (hClose groupZeroHandle) $ withNative (allConfigs <> categoryConfigs <> [groupConfig]) do
+       let ackConfig = defaultSubscriptionConfig (SubscriptionName "soak-ack") AllStreams (\_ -> pure Continue)
+-      (items, cancelBridge) <- subscriptionAckStream store ackConfig 256
++      (items, cancelBridge) <- subscriptionAckStream store ackConfig (RuntimeCompat.bufferSize 256)
+       consumer <- forkIO $ void $ Stream.fold Fold.drain $ Stream.mapM (\item -> do update True ackState item.ackEvent; atomically (putTMVar item.ackReply Continue); pure item.ackEvent) items
+       flip finally (cancelBridge >> killThread consumer) do
+         (_, measurement) <- withKills (withMeasurement context config \session -> runLoad session loadModel (Operation (OpName "append") operation))

@@ -270,6 +270,14 @@
                 shikumi-baikai = 9;
               };
             });
+          runtimeImport = pkgsPlain.writeShellApplication {
+            name = "runtime-import";
+            runtimeInputs = [ pkgsPlain.python3 ];
+            text = ''
+              export SSL_CERT_FILE="${pkgsPlain.cacert}/etc/ssl/certs/ca-bundle.crt"
+              exec python3 ${./scripts/runtime-import.py} "$@"
+            '';
+          };
           toolchain = haskell-nix-dev.lib.${system}.ghcVersions.${defaultGhc};
           cohortVersions = import ./generated/cohort-versions.nix;
           cohortScope = pkgsGithub.haskell.packages.${defaultGhc};
@@ -303,8 +311,15 @@
             haskell-nix-update = updater;
             cohort-compare = cohortCompare;
             cohort-cache = cohortCache;
+            runtime-import = runtimeImport;
             keiro-runtime-verifier = import ./checks/runtime-verifier.nix {
               inherit lib mkRuntimePackageSet;
+              channelRevision = inputs.self.rev or inputs.self.dirtyRev or "uncommitted";
+              pkgs = pkgsPlain;
+            };
+            keiro-runtime-hackage-verifier = import ./checks/runtime-verifier.nix {
+              inherit lib mkRuntimePackageSet;
+              channel = "hackage";
               channelRevision = inputs.self.rev or inputs.self.dirtyRev or "uncommitted";
               pkgs = pkgsPlain;
             };
@@ -339,6 +354,10 @@
             ];
           };
           apps = {
+            runtime-import = {
+              type = "app";
+              program = "${runtimeImport}/bin/runtime-import";
+            };
             cohort-cache = {
               type = "app";
               program = "${cohortCache}/bin/cohort-cache";
@@ -368,10 +387,14 @@
           };
           # Native pkg-config inputs needed to solve every contributor configuration.
           devShells.runtime-integration =
-            let postgres = pkgsPlain.postgresql_17.withPackages (extensions: [ extensions.pg_partman ]);
-            in pkgsPlain.mkShell {
-              nativeBuildInputs = [ postgres pkgsPlain.python3 pkgsPlain.coreutils ];
-              KENSHOU_PG17_BIN = "${postgres}/bin";
+            let
+              postgres17 = pkgsPlain.postgresql_17.withPackages (extensions: [ extensions.pg_partman ]);
+              postgres18 = pkgsPlain.postgresql_18.withPackages (extensions: [ extensions.pg_partman ]);
+            in
+            pkgsPlain.mkShell {
+              nativeBuildInputs = [ postgres18 pkgsPlain.python3 pkgsPlain.coreutils ];
+              KENSHOU_PG17_BIN = "${postgres17}/bin";
+              KENSHOU_PG18_BIN = "${postgres18}/bin";
               KENSHOU_KAFKA_RUNTIME = "container";
             };
           devShells.cohort-inventory = pkgsPlain.mkShell {
@@ -400,6 +423,13 @@
               manifest = runtimeOutputs.hackage.manifest;
               record = runtimeOutputs.hackage.selected.metadata;
             };
+            runtime-import = pkgsPlain.runCommand "runtime-import-fixtures"
+              {
+                nativeBuildInputs = [ pkgsPlain.python3 ];
+              } ''
+              python3 ${./checks/runtime-import.py} ${./scripts/runtime-import.py} ${./.}
+              touch "$out"
+            '';
             runtime-kafka-close = import ./checks/runtime-kafka-close.nix {
               inherit lib mkRuntimePackageSet;
               pkgs = pkgsPlain;

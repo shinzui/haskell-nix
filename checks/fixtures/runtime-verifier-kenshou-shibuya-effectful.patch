@@ -1,0 +1,20 @@
+--- a/kenshou-shibuya.cabal
++++ b/kenshou-shibuya.cabal
+@@ -82,7 +82,7 @@
+     containers >=0.7 && <0.8,
+     deepseq,
+     directory,
+-    effectful-core >=2.6 && <2.7,
++    effectful-core >=2.7 && <2.8,
+     filepath,
+     hasql,
+     hasql-pool,
+@@ -124,7 +124,7 @@
+   ghc-options: -threaded
+   build-depends:
+     base >=4.21 && <4.22,
+-    effectful-core >=2.6 && <2.7,
++    effectful-core >=2.7 && <2.8,
+     hedgehog >=1.4 && <1.8,
+     hspec >=2.11 && <2.12,
+     hspec-hedgehog >=0.0 && <0.4,

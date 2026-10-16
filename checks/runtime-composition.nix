@@ -32,6 +32,23 @@ let
   b = scope (hself: _: { runtime-app-b = app "b" hself; });
   docs = scope (hself: _: { runtime-app-a = app "a-docs" hself; });
   changedLeaf = scope (hself: _: { runtime-app-a = app "a-edit" hself; });
+  changedInterface = scope (hself: hsuper: {
+    keiki = pkgs.haskell.lib.compose.overrideCabal
+      (previous: {
+        postPatch = (previous.postPatch or "") + ''
+          cat > src/Keiki/RuntimeIdentityProbe.hs <<'HS'
+          module Keiki.RuntimeIdentityProbe (runtimeIdentityProbe) where
+          runtimeIdentityProbe :: Int
+          runtimeIdentityProbe = 1
+          HS
+          substituteInPlace keiki.cabal --replace-fail '  exposed-modules:' '  exposed-modules:
+              Keiki.RuntimeIdentityProbe'
+        '';
+      })
+      hsuper.keiki;
+    runtime-app-a = app "a" hself;
+    runtime-app-b = app "b" hself;
+  });
   unrelatedSelection = mkRuntimePackageSet (arguments // {
     applicationSelections = arguments.applicationSelections // { okf = 1; };
   });
@@ -45,6 +62,11 @@ let
   accepts = value: (builtins.tryEval (builtins.deepSeq value true)).success;
   reject = value: !accepts value;
   assertions = [
+    (changedInterface.keiki.drvPath != a.keiki.drvPath)
+    (changedInterface.runtime-app-a.drvPath != a.runtime-app-a.drvPath)
+    (changedInterface.runtime-app-b.drvPath != b.runtime-app-b.drvPath)
+    (changedInterface.aeson.drvPath == a.aeson.drvPath)
+    (reject (selected.validateApplicationScope pkgs changedInterface))
     (identities a == identities b)
     (identities a == identities unrelated)
     (identities a == identities changedLeaf)
@@ -71,6 +93,8 @@ pkgs.linkFarm "runtime-composition" [
   { name = "app-a"; path = a.runtime-app-a; }
   { name = "app-b"; path = b.runtime-app-b; }
   { name = "app-edited"; path = changedLeaf.runtime-app-a; }
+  { name = "runtime-interface-app-a"; path = changedInterface.runtime-app-a; }
+  { name = "runtime-interface-app-b"; path = changedInterface.runtime-app-b; }
   {
     name = "identities.json";
     path = pkgs.writeText "runtime-composition-identities.json" (builtins.toJSON {

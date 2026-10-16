@@ -1,5 +1,5 @@
 # Reuse scenarios from mori://shinzui/keiro-runtime-kenshou (source URI pending).
-{ lib, pkgs, mkRuntimePackageSet, channelRevision }:
+{ lib, pkgs, mkRuntimePackageSet, channelRevision, channel ? "github" }:
 let
   source = builtins.fetchTree {
     type = "github";
@@ -17,6 +17,7 @@ let
   selected = mkRuntimePackageSet {
     runtime = "keiro-runtime";
     generation = 1;
+    inherit channel;
     applicationSelections = {
       kioku = 8;
       okf = 1;
@@ -26,6 +27,21 @@ let
       shikumi-baikai = 9;
     };
   };
+  packageSource = name:
+    if name == "kenshou-kafka" then
+      pkgs.applyPatches
+        {
+          name = "kenshou-kafka-retained-ack-api";
+          src = admittedSource + "/${name}";
+          patches = [ ./fixtures/runtime-verifier-kafka-ack.patch ];
+        } else if builtins.elem name [ "kenshou-kiroku" "kenshou-shibuya" "kenshou-pgmq" "kenshou-keiro" ] then
+      pkgs.applyPatches
+        {
+          name = "${name}-effectful-2.7";
+          src = admittedSource + "/${name}";
+          patches = lib.optional (name != "kenshou-keiro") (./fixtures + "/runtime-verifier-${name}-effectful.patch")
+            ++ lib.optional (builtins.elem name [ "kenshou-kiroku" "kenshou-keiro" ]) (./fixtures + "/runtime-verifier-${name}-typed-api.patch");
+        } else admittedSource + "/${name}";
   names = map (suffix: "kenshou-${suffix}") [
     "check"
     "cli"
@@ -46,7 +62,7 @@ let
     overrides = lib.composeExtensions
       (selected.haskellExtension pkgs.haskell.lib.compose pkgs)
       (hself: _: (lib.genAttrs names (name: pkgs.haskell.lib.compose.dontCheck
-        (hself.callCabal2nix name (admittedSource + "/${name}") { }))) // {
+        (hself.callCabal2nix name (packageSource name) { }))) // {
         # Verification-only dependency, outside the runtime ownership closure.
         hs-opentelemetry-exporter-prometheus = hself.callHackageDirect
           {
@@ -57,7 +73,7 @@ let
           { };
       });
   };
-  profile = builtins.fromJSON (builtins.readFile ../cabal/runtimes/keiro-runtime/1/github-sources.json);
+  profile = builtins.fromJSON (builtins.readFile (../cabal/runtimes/keiro-runtime/1 + "/${channel}-sources.json"));
   component = name:
     let
       package = profile.${name};
@@ -80,6 +96,8 @@ let
     indexState = selected.metadata.indexState;
     components = map component (selected.metadata.roots ++ [ "dhall" ]);
   };
+  # mori://shinzui/keiro-runtime-kenshou, project-relative nix/kenshou/identity.nix
+  # (artifact-level source URI pending).
   identity = import (source.outPath + "/nix/kenshou/identity.nix") {
     inherit pkgs descriptor;
     hp = scope;
@@ -104,6 +122,7 @@ assert selected.validateApplicationScope pkgs scope;
 pkgs.symlinkJoin {
   name = "keiro-runtime-verifier";
   paths = [ scope.kenshou-cli ];
+  meta.mainProgram = "kenshou";
   nativeBuildInputs = [ pkgs.makeWrapper ];
   postBuild = ''
     wrapProgram "$out/bin/kenshou" \

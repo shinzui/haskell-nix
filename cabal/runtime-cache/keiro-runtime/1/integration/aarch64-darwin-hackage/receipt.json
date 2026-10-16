@@ -1,0 +1,80 @@
+{
+  "compatibilityPatches": [
+    "checks/fixtures/runtime-verifier-cohort-bounds.patch",
+    "checks/fixtures/runtime-verifier-kafka-ack.patch",
+    "checks/fixtures/runtime-verifier-kenshou-keiro-typed-api.patch",
+    "checks/fixtures/runtime-verifier-kenshou-kiroku-effectful.patch",
+    "checks/fixtures/runtime-verifier-kenshou-kiroku-typed-api.patch",
+    "checks/fixtures/runtime-verifier-kenshou-pgmq-effectful.patch",
+    "checks/fixtures/runtime-verifier-kenshou-shibuya-effectful.patch"
+  ],
+  "generation": 1,
+  "postgresMajors": [
+    17,
+    18
+  ],
+  "results": [
+    {
+      "outcome": "passed",
+      "resultFile": "0.json",
+      "resultSha256": "57471ebc16caf7ded1f9a7220ca7e855d9e4c66d799fcb8e31b84d977da9dcc3",
+      "runId": "01a14715-2e9e-72b7-8167-3922c95293d4",
+      "scenario": "kiroku/append/correctness/all-order-and-gaps"
+    },
+    {
+      "outcome": "passed",
+      "resultFile": "1.json",
+      "resultSha256": "ee5959a496be530cdc09d12b12e49bfc3afc7705b4e15a11059f6f205c55d237",
+      "runId": "01a14715-37dd-7430-b28e-7fa3f04b65cc",
+      "scenario": "kiroku/append/correctness/multi-stream-atomicity"
+    },
+    {
+      "outcome": "passed",
+      "resultFile": "2.json",
+      "resultSha256": "9e9bce2225c33c6252e7ad4955ea3494b4ba4608c464a10748ac47909a5b9493",
+      "runId": "01a14715-3e75-73d7-b6ff-dd2b3d0bd091",
+      "scenario": "kiroku/read/correctness/cursor-semantics"
+    },
+    {
+      "outcome": "passed",
+      "resultFile": "3.json",
+      "resultSha256": "5bd4fc9dff7cdd007bcfd2e329720aa9150c941e0921e1b9aa642351e9ad9e5c",
+      "runId": "01a14715-4a5d-7289-974a-b3bdb0014459",
+      "scenario": "keiro/workflow/correctness/linear-replay-smoke"
+    },
+    {
+      "outcome": "passed",
+      "resultFile": "4.json",
+      "resultSha256": "23808b93457cd4a40c1044e1a15df9a1a081671f1a195d016c77e8dc43c96045",
+      "runId": "01a14715-5158-77a5-8b0b-ca9f8adb7986",
+      "scenario": "keiro/workflow/correctness/replay-and-journal-identity"
+    },
+    {
+      "outcome": "passed",
+      "resultFile": "5.json",
+      "resultSha256": "59b5a7df73d52a22eb0cb15bc555c6e6da93104d401b0a578e37e868233a90d8",
+      "runId": "01a14715-5a21-73ac-bfcf-3da4a4326e50",
+      "scenario": "keiro/shard/correctness/ack-coupled-handler-variants"
+    },
+    {
+      "outcome": "passed",
+      "resultFile": "6.json",
+      "resultSha256": "a68063606832eb3e9ff39e3552de7b3212163b78df6ee005494afec587870f39",
+      "runId": "01a14715-6734-7508-9cad-4901240fa02e",
+      "scenario": "pgmq/ack/correctness/delete-archive-semantics"
+    },
+    {
+      "outcome": "passed",
+      "resultFile": "7.json",
+      "resultSha256": "8a13a7b266bf640e97ed29cab620f45e3244c1839d3813ab46d545a8c465ca3f",
+      "runId": "01a14715-6d64-701a-b513-49c1bc969c54",
+      "scenario": "kafka/consumer/concurrency/static-membership-fencing-is-observable"
+    }
+  ],
+  "runtime": "keiro-runtime",
+  "runtimeFingerprint": "da00319eb1423b4372a0a0b050911b7719d1de0867a3e32160dbd327a2762e81",
+  "schemaVersion": 1,
+  "sourceChannel": "hackage",
+  "verifierProject": "mori://shinzui/keiro-runtime-kenshou",
+  "verifierRevision": "a1648293443ad88ff1695ed800ff44c99993574e"
+}

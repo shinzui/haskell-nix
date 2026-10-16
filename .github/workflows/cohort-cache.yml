@@ -46,12 +46,12 @@ jobs:
           python3 - <<'PY'
           import hashlib, json, os
           from pathlib import Path
-          receipt = json.loads(Path('cabal/cohort-cache', os.environ['COHORT_SYSTEM'] + '.json').read_text())
+          receipt = json.loads(Path('cabal/cohort-cache/current', os.environ['COHORT_SYSTEM'] + '.json').read_text())
           assert receipt['context']['cohortFreezeSha256'] == hashlib.sha256(Path('cabal/cohort.freeze').read_bytes()).hexdigest(), 'stale publication receipt'
           PY
           worker_root="$(python3 -c 'import pathlib,tempfile; print(pathlib.Path(tempfile.mkdtemp(prefix="cohort-cache-")).resolve())')"
           python3 scripts/cohort-cache.py verify \
-            --receipt "cabal/cohort-cache/$COHORT_SYSTEM.json" \
+            --receipt "cabal/cohort-cache/current/$COHORT_SYSTEM.json" \
             --store "local?root=$worker_root" \
             --evidence cohort-cache-substitution.json
 

@@ -1,0 +1,11 @@
+--- a/src/Kenshou/Suite/Kafka/Concurrency/BarrierOverwrite.hs
++++ b/src/Kenshou/Suite/Kafka/Concurrency/BarrierOverwrite.hs
+@@ -115,7 +115,7 @@
+ finalize :: (C.KafkaConsumer :> es, Error KafkaError :> es, IOE :> es) => KafkaAdapterState -> TopicName -> ConsumerRecord (Maybe ByteString.ByteString) (Maybe ByteString.ByteString) -> AckDecision -> Eff es ()
+ finalize state topic record decision = do
+   let config = defaultConfig [topic]
+-      AckHandle ack = mkAckHandle state config record
++  AckHandle ack <- mkAckHandle state config record
+   ack decision
+ 
+ recordOffset :: ConsumerRecord key value -> Int

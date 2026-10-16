@@ -22,17 +22,19 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--runner", required=True)
     parser.add_argument("--output", required=True)
+    parser.add_argument("--channel", choices=["github", "hackage"], default="github")
     args = parser.parse_args()
     output = Path(args.output).resolve()
     output.mkdir(parents=True, exist_ok=False)
     root = Path(__file__).resolve().parent.parent
     record = json.loads((root / "packages/runtime-lock.json").read_text())["runtimes"]["keiro-runtime"][0]
+    profile = json.loads((root / f"cabal/runtimes/keiro-runtime/1/{args.channel}-sources.json").read_text())
     results = []
     for index, scenario in enumerate(SCENARIOS):
         command = [args.runner, "run", scenario, "--out", str(output / "runs"),
                    "--timeout", "150", "--strict-known-defects", "--json"]
         if not scenario.startswith("kafka/"):
-            command += ["--dim", "pg.version=17"]
+            command += ["--dim", "pg.version=" + ("18" if scenario.startswith("keiro/") else "17")]
         completed = subprocess.run(command, capture_output=True, text=True, timeout=180)
         (output / f"{index}.stdout").write_text(completed.stdout)
         (output / f"{index}.stderr").write_text(completed.stderr)
@@ -44,17 +46,19 @@ def main():
         assert identity["cohort"] == "keiro-runtime-1" and identity["compiler"] == "ghc-9.12.4", identity
         for component in identity["components"]:
             for package in component["packages"]:
-                expected = record["ownership"][package["name"]]
+                expected = profile[package["name"]]
                 assert package["version"] == expected["version"], package
                 if expected["source"] == "SourcePin":
                     origin = expected["identities"][0]["pkg-src"]["source-repo"]
                     assert package["source"]["type"] == "git" and package["source"]["rev"] == origin["tag"], package
+                else:
+                    assert package["source"]["type"] == "hackage", package
         results.append({"scenario": scenario, "runId": result["runId"], "outcome": result["outcome"],
                         "resultSha256": hashlib.sha256(completed.stdout.encode()).hexdigest()})
         print(f"passed {scenario}", flush=True)
     receipt = {"schemaVersion": 1, "runtime": "keiro-runtime", "generation": 1,
-               "runtimeFingerprint": record["fingerprint"], "postgresMajor": 17,
-               "sourceChannel": "github", "results": results}
+               "runtimeFingerprint": record["fingerprint"],
+               "sourceChannel": args.channel, "postgresMajors": [17, 18], "results": results}
     (output / "receipt.json").write_text(json.dumps(receipt, indent=2) + "\n")
     print(f"All {len(results)} disposable runtime scenarios passed; {output}/receipt.json", flush=True)
 

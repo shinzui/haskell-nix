@@ -1,0 +1,13 @@
+--- a/kenshou-pgmq.cabal
++++ b/kenshou-pgmq.cabal
+@@ -88,8 +88,8 @@
+     base >=4.21 && <4.22,
+     bytestring >=0.12 && <0.13,
+     containers >=0.7 && <0.8,
+-    effectful >=2.6 && <2.7,
+-    effectful-core >=2.6 && <2.7,
++    effectful >=2.7 && <2.8,
++    effectful-core >=2.7 && <2.8,
+     hasql >=1.10 && <1.11,
+     hasql-pool >=1.4 && <1.5,
+     hs-opentelemetry-api >=1.0 && <1.1,

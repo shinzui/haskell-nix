@@ -6,7 +6,7 @@ docId: DOC-7
 tags: [package-sets, snapshots, cache]
 generated:
   by: human:nadeem
-  at: 2026-10-16T23:15:05Z
+  at: 2026-10-16T23:37:25Z
 ---
 
 [User guide](README.md)
@@ -265,9 +265,22 @@ application builds. `haskellExtension` and `overlay` remain available for existi
 call `validateApplicationScope pkgs hs` when constructing a scope manually. Always compare the
 actual executable manifest using the shared comparator to catch additional dependency instances.
 
-Import the generation's `cabal/runtimes/keiro-runtime/1/github.project` or `hackage.project`
-alongside the complete cohort freeze, all pinned to the same channel revision. These projects
-retain runtime source exceptions even in the Hackage channel. Enable the application's own
+Materialize the generation's Cabal project and its two relative imports from the same full
+channel revision used by the application's lock:
+
+```bash
+nix run github:shinzui/haskell-nix/REV#runtime-import -- \
+  --revision REV --generation 1 --channel github \
+  --destination cabal/runtime/keiro-runtime/1
+```
+
+Replace `REV` with the full locked commit and commit the resulting four files. Add
+`import: cabal/runtime/keiro-runtime/1/github.project` alongside the complete cohort freeze
+import. The tool verifies each unmodified projection against the retained lock and records
+the revision/fingerprint in `selection.json`; `--check` verifies the committed imports without
+writing. Cabal resolves relative children of a URL import against the application directory,
+so directly importing the remote runtime project does not fetch its sibling files. A local,
+hash-checked projection preserves those imports. Both channels retain declared source forks. Enable the application's own
 supported tests and benchmarks explicitly. Application dependencies outside runtime ownership
 still need complete cohort source and configuration policy; a runtime projection alone is not
 a complete application solver input.

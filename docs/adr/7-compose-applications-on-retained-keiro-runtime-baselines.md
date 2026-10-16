@@ -1,6 +1,6 @@
 # Compose applications on retained Keiro runtime baselines
 
-Status: Accepted for implementation; runtime generations and validation evidence are pending.
+Status: Accepted; generation 1 and composition are implemented. Cross-platform support acceptance remains pending plan 16.
 
 Date: 2026-10-04
 
@@ -62,6 +62,29 @@ version choice. Checks verify hashes, recipe membership and source/freeze agreem
 rewriting managed files. Snapshot stages all outputs and restores every managed file if
 publication fails. Append a changed generation; unchanged effective inputs select the
 existing record. Cache and build evidence is retained outside immutable recipe directories.
+
+Cabal import behavior was verified in `mori://haskell/cabal`, project-relative
+`cabal/cabal-install-solver/src/Distribution/Solver/Types/ProjectConfigPath.hs` and
+`cabal/cabal-install/src/Distribution/Client/ProjectConfig/Import.hs` (artifact-level
+source URIs pending).
+
+Cabal does not resolve relative children against a remote project URL. Consumer adoption
+therefore materializes the original runtime project, freeze and configuration bytes from an
+explicit channel commit, verifies their retained SHA256 values and commits them with a source
+selection receipt. The shared `runtime-import` tool refuses changed retained projections,
+provides no-write checking and rolls back partial publication. The complete cohort freeze
+continues to use the application's same pinned channel revision. This changes delivery of
+projections, not their immutable contents or any dependency recipe.
+
+The public constructor requires explicit runtime, generation and complementary selections.
+It imports a content-addressed retained recipe subtree with a stable name, independently of
+the current wrapper flake's source path. `mkApplicationScope` checks the final scope against
+an independent scope from the retained compiler, native stdenv, recipes and original catalog
+selection. `mkApplicationManifest` applies that check before building actual-root evidence;
+manual extension users must invoke `validateApplicationScope`. Application cohort and policy
+inputs cannot replace runtime-owned records. Non-runtime compatibility fragments cannot own
+runtime names. Ordinary app documentation, leaf source and unrelated group changes preserve
+runtime identities; a real runtime public-interface addition changes both fixture dependents.
 
 Plan 16 owns membership, runtime records, the composition API and runtime-specific evidence.
 Plans 8, 9 and 10 retain ownership of solving/reporting, generation/manifests/comparison and
