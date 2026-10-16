@@ -56,6 +56,11 @@ provenance:
       at: 2026-10-16T12:41:52Z
       mode: "implement"
       note: "Record satisfied Kioku publication gate and successful clean cohort solve."
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-16T18:54:57Z
+      mode: "implement"
+      note: "Record published managed-template and Hurl adoption; retain CI/Linux prerequisites."
   reviews:
     - model: "gpt-6.1-sol"
       harness: "codex-cli"
@@ -311,6 +316,8 @@ The goal is less repeated coordination and dependency compilation. Equal version
 
 
 ## Progress
+
+Permanent consumer integration (2026-10-16): EP-9 completes IR-2 through published Seihou template 0.31.0 (`cc1b70c` in `mori://shinzui/seihou-modules`) and pushed Hurl Workbench adoption `5f2cff2` in `mori://shinzui/hurl-workbench`. The managed pin advances without toolchain changes, all eleven duplicate Hackage pins are removed, and the default build plus full native release gate pass. Fresh macOS CI substitution is prepared with the retained 556-path publication receipt; GitHub access is restored, but execution requires the private-cache Actions secret. Linux remains deferred. EP-9 is still In Progress, and EP-16/consumer hard dependencies remain unchanged.
 
 Native acceptance checkpoint (2026-10-16): EP-9’s complete Darwin flake check now passes, including all four curated source-channel/compiler cells, 117 Nix contract tests, unchanged cache identities and both real frozen-manifest comparisons. The full default cohort’s 556-path publication and empty-store zero-build substitution remain valid. IR-2’s Hurl Workbench pin-removal change passes default Nix build and the full consumer release gate in an isolated checkout; its permanent Seihou-managed input adoption/publication is still pending. Linux was explicitly deferred by the user, and fresh-CI-worker acceptance remains open. EP-9 stays In Progress; runtime and consumer hard dependencies remain intact.
 

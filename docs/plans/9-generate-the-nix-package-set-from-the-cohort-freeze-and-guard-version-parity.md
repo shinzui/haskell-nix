@@ -47,6 +47,11 @@ provenance:
       at: 2026-10-16T12:41:52Z
       mode: "implement"
       note: "Verify Kioku publication and clean upgrade-only solve; reconcile channel release snapshots before cohort promotion."
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-16T18:54:57Z
+      mode: "implement"
+      note: "Complete permanent IR-2 adoption and prepare fresh Darwin CI cache substitution."
   reviews:
     - model: "gpt-6.1-sol"
       harness: "codex-cli"
@@ -120,6 +125,8 @@ Acceptance fixtures include statically linked missing dependencies, wrong plus c
 
 ## Progress
 
+Permanent IR-2 adoption (2026-10-16): published `mori://shinzui/seihou-modules/templates/nix-haskell-flake` 0.31.0 at `cc1b70c`, then adopted the managed channel pin through Seihou in `mori://shinzui/hurl-workbench` at pushed commit `5f2cff2`. The consumer composes the shared extension and removes all eleven Hackage replacements. Its default Nix build and complete native `just check` pass (98 tests, schemas, examples, smoke, unpacked sdists and Nix checks). Seihou required updating the shared-file owner too; application sources were retained and unused newly generated starter files removed. Toolchain/infrastructure nodes are unchanged. The fresh-worker workflow is `.github/workflows/cohort-cache.yml`, with the verified 556-path receipt in `cabal/cohort-cache/aarch64-darwin.json`; its default cohort derivation matches the publication. GitHub access is now available; fresh-worker execution awaits the private-cache Actions secret. Linux remains explicitly deferred, so EP-9 stays In Progress.
+
 Latest native acceptance (2026-10-16): the full Darwin flake check passes, including all four curated GitHub/Hackage × GHC 9.12.4/9.14.1 cells with zero version mismatches, 117 Nix contract tests and the cache-identity guards. The updater’s 144 tests and both 32-case manifest fixture suites pass. Real manifests verify 78 pg-migrate-cli and 120 Dhall JSON Haskell instances; Rei’s fresh pre-adoption Cabal plan correctly fails with 23 version and one source mismatch. The frozen solve and read-only generation check pass for 462 packages/369 recipes. The current default cohort remains identical to its remotely verified 556-path publication and zero-build isolated substitution. Hurl Workbench’s prepared pin-removal review passes default Nix build and full `just check`; permanent managed-pin adoption/publication is still pending. Linux is deferred by the user and fresh-CI-worker evidence remains open. EP-9 is In Progress; no downstream hard dependency is waived.
 
 Current build/evidence checkpoint (2026-10-16): the accepted cohort now has 462 packages and 369 generated Hackage recipes. The curated matrix exposed a real dependency of the JSON test-support library in `mori://shinzui/keiki`: base `quickcheck-instances` 0.3.33 cannot admit QuickCheck 2.18. Hackage and upstream tag `v0.4` verify the admitting 0.4 release; a new explicit channel-owned root/floor selects it at the unchanged index-state. Clean solve, fresh frozen replay and the upgrade-only report pass with all prior 461 identities exactly unchanged. Candidate/rollback receipt: `/tmp/mp3-ep9-quickcheck-instances-wo2pdnzj/promotion-receipt.json`.
@@ -165,7 +172,7 @@ Refresh handoff (2026-10-15): EP-8 is Complete at the October 6 checkpoint. Befo
 - [x] (2026-10-16) Milestone 4: registry-policy-only and the complete native `nix flake check` pass, including all four curated GitHub/Hackage × GHC 9.12.4/9.14.1 cells, cache-identity checks and 117 Nix contract tests. Receipt: `/tmp/mp3-ep9-kioku-repaired-native-flake-check.log`. Linux acceptance remains explicitly deferred.
 - [x] (2026-10-16) Milestone 5: the shared comparator, manifest helper and import/lock verification are implemented. All 144 updater tests and 32 graph/source/configuration fixtures on each compiler pass. Real pg-migrate-cli and Dhall JSON graphs verify 78 and 120 frozen Haskell instances. Packaged CLI modes and identity comparison pass. A fresh pre-adoption plan from mori://shinzui/rei, with tests and benchmarks enabled and an isolated build directory, solves and the public comparator returns 1 with real version/source drift (`/tmp/mp3-ep9-rei-pre-adoption-comparison.log`). Rei’s project files and Git tree remain unchanged; adoption and exact-binary rehearsals remain with plans 11–14.
 - [ ] Milestone 6: the 462-package native closure, complete Darwin compiler/channel matrix, 556-path cache publication/isolated substitution and before/after table pass. Linux is deferred and fresh-CI-worker acceptance remains required.
-- [ ] Milestone 6: ADR 3, user documentation and MasterPlan updates are in place. Complete IR-2 through permanent adoption of its tested Hurl Workbench pin-removal change; its managed-input publication/adoption remains open.
+- [x] (2026-10-16) Milestone 6 documentation/consumer gate: ADR 3, user documentation and MasterPlan updates are in place. IR-2 is complete through published Seihou 0.31.0 and Hurl Workbench `5f2cff2`; permanent shared-cohort adoption passes the default Nix build and full native release gate.
 
 
 ## Surprises & Discoveries

@@ -6,10 +6,16 @@ description: Add the mutually compatible Hackage releases needed by Hurl Workben
   fixed-hash override graph for current generic-lens and WAI/Warp APIs.
 generated:
   by: openai-codex/gpt-6.1-sol
-  at: "2026-10-16T17:40:32Z"
+  at: "2026-10-16T18:54:57Z"
 origin: mori://shinzui/hurl-workbench/plans/6-harden-document-and-package-the-workbench
 requestId: IR-2
-status: in-progress
+status: completed
+completedAt: "2026-10-16T18:55:14Z"
+resolution: >-
+  The generated channel supplies the complete CLI/WAI cohort on both compilers
+  and source channels. Published Seihou 0.31.0 supplies the managed pin;
+  mori://shinzui/hurl-workbench commit 5f2cff2 removes eleven duplicate pins and
+  passes its default Nix build and full native release gate.
 reviews:
   - kind: model
     reviewer: openai-codex
@@ -30,7 +36,7 @@ reviews:
 
 ## Status
 
-- **Status:** in-progress
+- **Status:** completed
 - **Origin:**
   `mori://shinzui/hurl-workbench/plans/6-harden-document-and-package-the-workbench`
   (the artifact-level URI is intended; current Mori plan resolution may require a
@@ -57,9 +63,7 @@ the 100-case smoke, unpacked source distributions and Nix checks. Receipts:
 `/tmp/mp3-ep9-hurl-review-build.log`, `/tmp/mp3-ep9-hurl-review-full-check.log`; module patch:
 `/tmp/mp3-ep9-hurl-shared-extension.patch`.
 
-Acceptance remains open: the primary consumer checkout and its Seihou-managed channel pin
-are unchanged. Permanent adoption follows channel publication and the managed-input update;
-Linux and fresh-CI acceptance retain their separate gates. The
+Acceptance is complete: `mori://shinzui/seihou-modules/templates/nix-haskell-flake` 0.31.0 is published at commit `cc1b70c`, retaining the existing toolchain/nixpkgs inputs and pinning channel `58a2c26`. The primary consumer adopted it through Seihou at commit `5f2cff2` in `mori://shinzui/hurl-workbench`, removed all eleven Hackage replacements and passed its default Nix build and complete native `just check` (65 core tests, 33 CLI tests, schemas, examples, 100-case smoke, unpacked sdists and flake checks). Both commits are pushed. Receipts: `/tmp/mp3-ep9-hurl-adoption-build.log` and `/tmp/mp3-ep9-hurl-adoption-full-check.log`. EP-9 retains its separate Linux and fresh-CI cache gates. The
 original proposal and observations below describe the request's starting point.
 
 ## Problem
