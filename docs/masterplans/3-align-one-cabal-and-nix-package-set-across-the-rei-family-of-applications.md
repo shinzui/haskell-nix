@@ -317,7 +317,9 @@ The goal is less repeated coordination and dependency compilation. Equal version
 
 ## Progress
 
-Permanent consumer integration (2026-10-16): EP-9 completes IR-2 through published Seihou template 0.31.0 (`cc1b70c` in `mori://shinzui/seihou-modules`) and pushed Hurl Workbench adoption `5f2cff2` in `mori://shinzui/hurl-workbench`. The managed pin advances without toolchain changes, all eleven duplicate Hackage pins are removed, and the default build plus full native release gate pass. Fresh macOS CI substitution is prepared with the retained 556-path publication receipt; GitHub access is restored, but execution requires the private-cache Actions secret. Linux remains deferred. EP-9 is still In Progress, and EP-16/consumer hard dependencies remain unchanged.
+Fresh native CI gate accepted (2026-10-16): [run 38952400761](https://github.com/shinzui/haskell-nix/actions/runs/38952400761) substitutes all 556 retained publication paths into an empty store on a fresh GitHub-hosted ARM64 macOS worker, with zero builds. The downloaded evidence exactly matches the publication receipt; the durable summary and receipt hash are in `cabal/cohort-cache/aarch64-darwin-ci.json`. EP-9 now has accepted native matrix/build/manifest/cache and permanent IR-2 consumer evidence. Its remaining Linux build/cache gate is explicitly deferred; EP-9 remains In Progress, so EP-16 and subsequent whole-child dependencies remain blocked.
+
+Permanent consumer integration (2026-10-16): EP-9 completes IR-2 through published Seihou template 0.31.0 (`cc1b70c` in `mori://shinzui/seihou-modules`) and pushed Hurl Workbench adoption `5f2cff2` in `mori://shinzui/hurl-workbench`. The managed pin advances without toolchain changes, all eleven duplicate Hackage pins are removed, and the default build plus full native release gate pass. Fresh macOS CI substitution is prepared with the retained 556-path publication receipt; GitHub/private-cache access is restored, and fresh Darwin execution subsequently passes in run 38952400761. Linux remains deferred. EP-9 is still In Progress, and EP-16/consumer hard dependencies remain unchanged.
 
 Native acceptance checkpoint (2026-10-16): EP-9’s complete Darwin flake check now passes, including all four curated source-channel/compiler cells, 117 Nix contract tests, unchanged cache identities and both real frozen-manifest comparisons. The full default cohort’s 556-path publication and empty-store zero-build substitution remain valid. IR-2’s Hurl Workbench pin-removal change passes default Nix build and the full consumer release gate in an isolated checkout; its permanent Seihou-managed input adoption/publication is still pending. Linux was explicitly deferred by the user, and fresh-CI-worker acceptance remains open. EP-9 stays In Progress; runtime and consumer hard dependencies remain intact.
 
@@ -460,6 +462,8 @@ Related performance/reliability work now lives under [MasterPlan 4](4-coordinate
 
 
 ## Outcomes & Retrospective
+
+Fresh-worker checkpoint (2026-10-16): native shared dependency publication is now proven on a fresh hosted CI worker, rather than only an isolated store on the development host. All 556 paths substitute with zero builds; permanent Hurl shared-channel adoption also passes. EP-9 retains its deferred Linux acceptance, so the registry remains four Complete children out of ten and no downstream prerequisite is weakened.
 
 Implementation resume (2026-10-15): corrected the stale local connection using the dotfiles tunnel and completed fresh six-contributor inventory capture. The upgrade-only union exposes the released Shikumi OTel adapter’s Baikai cap. Publication credentials are unavailable on this host, so its mandatory release preflight cannot pass. Preserved the candidate and solver evidence, restored accepted cohort artifacts unchanged, and retained all generation/runtime/cache/deployment acceptance gates. No package-set activation or production changes were made.
 

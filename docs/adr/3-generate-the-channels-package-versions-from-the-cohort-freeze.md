@@ -1,6 +1,6 @@
 # Generate the channels' package versions from the cohort freeze
 
-Status: Accepted for implementation; native compiler/channel checks pass, while Linux and fresh-CI acceptance remain pending.
+Status: Accepted for implementation; native compiler/channel and fresh-CI cache checks pass, while Linux acceptance remains pending.
 
 Date: 2026-10-16
 
