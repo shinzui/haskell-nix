@@ -11,3 +11,4 @@ dist-newstyle/
 cabal/dist-newstyle/
 cabal/*.project.freeze
 __pycache__/
+.codex/
