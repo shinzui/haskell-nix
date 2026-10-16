@@ -195,7 +195,10 @@ def compare_freeze(expected, manifest, policy):
         location, revision = pinned.get("location", "").removesuffix(".git").rstrip("/"), pinned.get("tag")
         if not location or not revision or not re.fullmatch(r"sha256-[A-Za-z0-9+/]{43}=", actual.get("hash", "")):
             return False
-        if actual.get("subdirectory", "") != pinned.get("subdir", ""):
+        # Cabal omits subdir for a repository-root package; source recipes
+        # explicitly record ".". Both identify the same root, unlike a child.
+        normalize_root = lambda value: "" if value in (None, "", ".") else value
+        if normalize_root(actual.get("subdirectory")) != normalize_root(pinned.get("subdir")):
             return False
         urls = [location + "/archive/" + revision + ".tar.gz"]
         if location.startswith("https://github.com/"):

@@ -305,6 +305,7 @@
             cohort-cache = cohortCache;
             keiro-runtime-verifier = import ./checks/runtime-verifier.nix {
               inherit lib mkRuntimePackageSet;
+              channelRevision = inputs.self.rev or inputs.self.dirtyRev or "uncommitted";
               pkgs = pkgsPlain;
             };
             keiro-runtime = runtimeOutputs.github.roots;
@@ -366,6 +367,13 @@
             ] ++ lib.optional (toolchain.hls != null) toolchain.hls;
           };
           # Native pkg-config inputs needed to solve every contributor configuration.
+          devShells.runtime-integration =
+            let postgres = pkgsPlain.postgresql_17.withPackages (extensions: [ extensions.pg_partman ]);
+            in pkgsPlain.mkShell {
+              nativeBuildInputs = [ postgres pkgsPlain.python3 pkgsPlain.coreutils ];
+              KENSHOU_PG17_BIN = "${postgres}/bin";
+              KENSHOU_KAFKA_RUNTIME = "container";
+            };
           devShells.cohort-inventory = pkgsPlain.mkShell {
             inputsFrom = [ self.devShells.${system}.default ];
             COHORT_GHC = "${pkgsPlain.haskell.packages.${defaultGhc}.ghc}/bin/ghc";
@@ -380,6 +388,18 @@
               mkFirstPartyPackageSet mkFirstPartyPackageSetFactory firstPartyPackageSets
               haskellExtensions auditConsumerOverlay;
           }) // {
+            runtime-github-parity = import ./checks/runtime-parity.nix {
+              inherit lib updater;
+              pkgs = pkgsPlain;
+              manifest = runtimeOutputs.github.manifest;
+              record = runtimeOutputs.github.selected.metadata;
+            };
+            runtime-hackage-parity = import ./checks/runtime-parity.nix {
+              inherit lib updater;
+              pkgs = pkgsPlain;
+              manifest = runtimeOutputs.hackage.manifest;
+              record = runtimeOutputs.hackage.selected.metadata;
+            };
             runtime-kafka-close = import ./checks/runtime-kafka-close.nix {
               inherit lib mkRuntimePackageSet;
               pkgs = pkgsPlain;

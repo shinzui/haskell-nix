@@ -208,6 +208,25 @@ pkgs.runCommand "cohort-manifest-fixtures"
             manifest['packages'][1]['configuration']['hooks'] = {'preConfigure': 'alter-source'}
             with self.assertRaisesRegex(ValueError, 'missing owned build-patch policy'):
                 tool.compare_freeze(expected, manifest, policy)
+        def pinned_root_fixture(self):
+            expected, manifest, policy = self.frozen_fixture()
+            frozen = expected['sources']['lib']
+            frozen['source'] = 'SourcePin'
+            frozen['identities'][0]['pkg-src'] = {'type': 'source-repo', 'source-repo': {
+                'location': 'https://github.com/owner/repo', 'tag': 'a' * 40}}
+            manifest['context']['versions']['sourceManifest'] = copy.deepcopy(expected['sources'])
+            manifest['context']['versions']['policy']['lib'] = {
+                'owner': 'mori://shinzui/haskell-nix', 'reason': 'Retained source', 'sourcePinned': True}
+            manifest['packages'][1]['source'].update(subdirectory='.', urls=[
+                'https://github.com/owner/repo/archive/' + 'a' * 40 + '.tar.gz'])
+            return expected, manifest, policy
+        def test_pinned_repository_root_matches_omitted_cabal_subdir(self):
+            self.assertIn('matches 1', tool.compare_freeze(*self.pinned_root_fixture()))
+        def test_pinned_child_does_not_match_repository_root(self):
+            expected, manifest, policy = self.pinned_root_fixture()
+            manifest['packages'][1]['source']['subdirectory'] = 'child'
+            with self.assertRaisesRegex(ValueError, 'revision/subdirectory mismatch'):
+                tool.compare_freeze(expected, manifest, policy)
         def owned_patch_fixture(self):
             expected, manifest, policy = self.frozen_fixture()
             package = manifest['packages'][1]
