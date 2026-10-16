@@ -20,6 +20,7 @@
   # haskell-nix-dev's supported GHCs; the flake passes its `supportedGhcs`.
 , compilers ? [ "ghc9124" "ghc9141" ]
 , extraOverrides ? (_: _: { })
+, versionLayer ? (_: _: _: _: { })
 , disableProfiling ? true
 , disableHaddock ? true
 }:
@@ -27,7 +28,7 @@
 let
   mkHaskellExtension = import ./mkHaskellExtension.nix { inherit lib; };
   combinedOverride = mkHaskellExtension {
-    inherit registry extraOverrides disableProfiling disableHaddock;
+    inherit registry extraOverrides versionLayer disableProfiling disableHaddock;
   };
 
 in

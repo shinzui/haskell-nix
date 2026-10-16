@@ -1885,6 +1885,32 @@
         "source": "Boot",
         "version": "0.12.2.0"
     },
+    "bytestring-lexing": {
+        "dependencies": [
+            "base",
+            "bytestring"
+        ],
+        "identities": [
+            {
+                "component-name": "lib",
+                "flags": {},
+                "pkg-cabal-sha256": "d9af575771262adc94f249264e514fb20f34140b30dc64b61a65ebea25ce1b14",
+                "pkg-name": "bytestring-lexing",
+                "pkg-src": {
+                    "repo": {
+                        "type": "secure-repo",
+                        "uri": "http://hackage.haskell.org/"
+                    },
+                    "type": "repo-tar"
+                },
+                "pkg-src-sha256": "c977519606775adef945e87e0fb3f27366a1a8d378b09d7e4057f5cc06a356d8",
+                "pkg-version": "0.5.0.16",
+                "type": "configured"
+            }
+        ],
+        "source": "Hackage",
+        "version": "0.5.0.16"
+    },
     "bytestring-strict-builder": {
         "dependencies": [
             "base",
@@ -2962,6 +2988,36 @@
         ],
         "source": "Hackage",
         "version": "0.2.5.0"
+    },
+    "crypto-token": {
+        "dependencies": [
+            "array",
+            "base",
+            "bytestring",
+            "crypton",
+            "network-byte-order",
+            "ram"
+        ],
+        "identities": [
+            {
+                "component-name": "lib",
+                "flags": {},
+                "pkg-cabal-sha256": "29296642032e37008c71744ae05ccb553d569b9eaa0d111b2f05ecf50df4fb9e",
+                "pkg-name": "crypto-token",
+                "pkg-src": {
+                    "repo": {
+                        "type": "secure-repo",
+                        "uri": "http://hackage.haskell.org/"
+                    },
+                    "type": "repo-tar"
+                },
+                "pkg-src-sha256": "007948e56e6dce41a66a653a7f175a1fc3138f88e8035cc8c13a743a9921e552",
+                "pkg-version": "0.2.0",
+                "type": "configured"
+            }
+        ],
+        "source": "Hackage",
+        "version": "0.2.0"
     },
     "cryptohash-md5": {
         "dependencies": [
@@ -4106,6 +4162,39 @@
         "source": "Hackage",
         "version": "5.0.3"
     },
+    "either-n": {
+        "dependencies": [
+            "assoc",
+            "base",
+            "deepseq",
+            "lens",
+            "mtl",
+            "selective",
+            "semigroupoids"
+        ],
+        "identities": [
+            {
+                "component-name": "lib",
+                "flags": {
+                    "doctest": false
+                },
+                "pkg-cabal-sha256": "66ee26bd216a7e42442d7843889681c43596bedcc6e5604facd226c27ffb4c1c",
+                "pkg-name": "either-n",
+                "pkg-src": {
+                    "repo": {
+                        "type": "secure-repo",
+                        "uri": "http://hackage.haskell.org/"
+                    },
+                    "type": "repo-tar"
+                },
+                "pkg-src-sha256": "4374f2004a8ff8eceb67b9fa9c07750e96903ff30e02e3b3ca6afa76230d900c",
+                "pkg-version": "0.1.0.0",
+                "type": "configured"
+            }
+        ],
+        "source": "Hackage",
+        "version": "0.1.0.0"
+    },
     "entropy": {
         "dependencies": [
             "Cabal",
@@ -4851,6 +4940,31 @@
         ],
         "source": "Hackage",
         "version": "0.7.4.0"
+    },
+    "groups": {
+        "dependencies": [
+            "base"
+        ],
+        "identities": [
+            {
+                "component-name": "lib",
+                "flags": {},
+                "pkg-cabal-sha256": "b536d995c65281f5b891a694213fe4abce2fcee71ebda08bb9ec9e334cdcc741",
+                "pkg-name": "groups",
+                "pkg-src": {
+                    "repo": {
+                        "type": "secure-repo",
+                        "uri": "http://hackage.haskell.org/"
+                    },
+                    "type": "repo-tar"
+                },
+                "pkg-src-sha256": "ce1e52a8be7effbd1f995eadf0ed34fa45c412656d372db8a38f9c955e43ac38",
+                "pkg-version": "0.5.3",
+                "type": "configured"
+            }
+        ],
+        "source": "Hackage",
+        "version": "0.5.3"
     },
     "half": {
         "dependencies": [
@@ -7361,6 +7475,40 @@
         "source": "Hackage",
         "version": "0.21.0.0"
     },
+    "keys": {
+        "dependencies": [
+            "array",
+            "base",
+            "comonad",
+            "containers",
+            "free",
+            "hashable",
+            "semigroupoids",
+            "tagged",
+            "transformers",
+            "unordered-containers"
+        ],
+        "identities": [
+            {
+                "component-name": "lib",
+                "flags": {},
+                "pkg-cabal-sha256": "20ccbf658cdeb145fe3c36ae23740bfc340d274cfafa5783d3286e1b7df1f61f",
+                "pkg-name": "keys",
+                "pkg-src": {
+                    "repo": {
+                        "type": "secure-repo",
+                        "uri": "http://hackage.haskell.org/"
+                    },
+                    "type": "repo-tar"
+                },
+                "pkg-src-sha256": "b004faac6423874018597c52c24cd0f721df7700c59748382436b0604399f303",
+                "pkg-version": "3.12.5",
+                "type": "configured"
+            }
+        ],
+        "source": "Hackage",
+        "version": "3.12.5"
+    },
     "kioku-api": {
         "dependencies": [
             "aeson",
@@ -9831,6 +9979,51 @@
         "source": "Hackage",
         "version": "0.6.1.1"
     },
+    "pointed": {
+        "dependencies": [
+            "base",
+            "comonad",
+            "containers",
+            "data-default-class",
+            "hashable",
+            "kan-extensions",
+            "semigroupoids",
+            "stm",
+            "tagged",
+            "transformers",
+            "transformers-compat",
+            "unordered-containers"
+        ],
+        "identities": [
+            {
+                "component-name": "lib",
+                "flags": {
+                    "comonad": true,
+                    "containers": true,
+                    "kan-extensions": true,
+                    "semigroupoids": true,
+                    "stm": true,
+                    "tagged": true,
+                    "transformers": true,
+                    "unordered-containers": true
+                },
+                "pkg-cabal-sha256": "d02fd1e73a62348377cb9b1697bf576af45a61a4b911732a116c8a4258962910",
+                "pkg-name": "pointed",
+                "pkg-src": {
+                    "repo": {
+                        "type": "secure-repo",
+                        "uri": "http://hackage.haskell.org/"
+                    },
+                    "type": "repo-tar"
+                },
+                "pkg-src-sha256": "f99d95cdfb50083f762fa816ba53eed481e28cf4c0e902e2cad35e7452bb6ef1",
+                "pkg-version": "5.0.5",
+                "type": "configured"
+            }
+        ],
+        "source": "Hackage",
+        "version": "5.0.5"
+    },
     "postgresql-binary": {
         "dependencies": [
             "aeson",
@@ -10452,6 +10645,57 @@
         "source": "Hackage",
         "version": "1.3.1"
     },
+    "rebase": {
+        "dependencies": [
+            "base",
+            "bifunctors",
+            "bytestring",
+            "comonad",
+            "containers",
+            "contravariant",
+            "deepseq",
+            "dlist",
+            "either",
+            "groups",
+            "hashable",
+            "invariant",
+            "mtl",
+            "profunctors",
+            "scientific",
+            "selective",
+            "semigroupoids",
+            "stm",
+            "text",
+            "time",
+            "time-compat",
+            "transformers",
+            "unordered-containers",
+            "uuid",
+            "vector",
+            "vector-instances",
+            "void"
+        ],
+        "identities": [
+            {
+                "component-name": "lib",
+                "flags": {},
+                "pkg-cabal-sha256": "c7b950107e9be15e5137914214dea4f7ad19d018aeda523e3642fabdb50946ba",
+                "pkg-name": "rebase",
+                "pkg-src": {
+                    "repo": {
+                        "type": "secure-repo",
+                        "uri": "http://hackage.haskell.org/"
+                    },
+                    "type": "repo-tar"
+                },
+                "pkg-src-sha256": "247c068da9b6268f05b34218438b20f6574ed516cb2d8272a5dd79a6cce47a81",
+                "pkg-version": "1.23",
+                "type": "configured"
+            }
+        ],
+        "source": "Hackage",
+        "version": "1.23"
+    },
     "recv": {
         "dependencies": [
             "base",
@@ -10769,6 +11013,31 @@
         ],
         "source": "Hackage",
         "version": "0.4.3.0"
+    },
+    "rerebase": {
+        "dependencies": [
+            "rebase"
+        ],
+        "identities": [
+            {
+                "component-name": "lib",
+                "flags": {},
+                "pkg-cabal-sha256": "011d6536a86182abcfcda1c9b1c7a22f4a9ca9466785eae0243c19792dc6b861",
+                "pkg-name": "rerebase",
+                "pkg-src": {
+                    "repo": {
+                        "type": "secure-repo",
+                        "uri": "http://hackage.haskell.org/"
+                    },
+                    "type": "repo-tar"
+                },
+                "pkg-src-sha256": "04292b10a6ac25416bdd9591aa7f38e59483d597b099cc97f83f40876e6ec050",
+                "pkg-version": "1.23",
+                "type": "configured"
+            }
+        ],
+        "source": "Hackage",
+        "version": "1.23"
     },
     "resourcet": {
         "dependencies": [
@@ -14323,6 +14592,41 @@
         "source": "Hackage",
         "version": "1.0.6.1"
     },
+    "validation": {
+        "dependencies": [
+            "assoc",
+            "base",
+            "bifunctors",
+            "deepseq",
+            "either-n",
+            "lens",
+            "mtl",
+            "profunctors",
+            "selective",
+            "semigroupoids",
+            "transformers"
+        ],
+        "identities": [
+            {
+                "component-name": "lib",
+                "flags": {},
+                "pkg-cabal-sha256": "0b6f84dee17a81272409729eefc03b22b5761819c88ed8ac71ed3f8a7de89e79",
+                "pkg-name": "validation",
+                "pkg-src": {
+                    "repo": {
+                        "type": "secure-repo",
+                        "uri": "http://hackage.haskell.org/"
+                    },
+                    "type": "repo-tar"
+                },
+                "pkg-src-sha256": "763a634db3373ddb055c1b70d24b8692d3e8989af5f3ca39e69fbb9dcddc6f5d",
+                "pkg-version": "1.3.3",
+                "type": "configured"
+            }
+        ],
+        "source": "Hackage",
+        "version": "1.3.3"
+    },
     "vault": {
         "dependencies": [
             "base",
@@ -14498,6 +14802,39 @@
         "source": "Hackage",
         "version": "0.3.8.7"
     },
+    "vector-instances": {
+        "dependencies": [
+            "base",
+            "comonad",
+            "hashable",
+            "keys",
+            "pointed",
+            "semigroupoids",
+            "vector"
+        ],
+        "identities": [
+            {
+                "component-name": "lib",
+                "flags": {
+                    "hashable": true
+                },
+                "pkg-cabal-sha256": "1b4d6bd6b2da3f2a853a5945551d1ad93c5c96efef2ff3ac19272a3caf759336",
+                "pkg-name": "vector-instances",
+                "pkg-src": {
+                    "repo": {
+                        "type": "secure-repo",
+                        "uri": "http://hackage.haskell.org/"
+                    },
+                    "type": "repo-tar"
+                },
+                "pkg-src-sha256": "67259803df61fad998e2e8410253ca0552d25d7dfb87d0ddc702c82277314caa",
+                "pkg-version": "3.4.3",
+                "type": "configured"
+            }
+        ],
+        "source": "Hackage",
+        "version": "3.4.3"
+    },
     "vector-stream": {
         "dependencies": [
             "base",
@@ -14550,6 +14887,33 @@
         ],
         "source": "Hackage",
         "version": "0.2.2"
+    },
+    "void": {
+        "dependencies": [
+            "base"
+        ],
+        "identities": [
+            {
+                "component-name": "lib",
+                "flags": {
+                    "safe": false
+                },
+                "pkg-cabal-sha256": "e71a5ba41b8c49fdcfb5136fadef00ae0e898b6fcb4cd5c20ae747ad9268ecb6",
+                "pkg-name": "void",
+                "pkg-src": {
+                    "repo": {
+                        "type": "secure-repo",
+                        "uri": "http://hackage.haskell.org/"
+                    },
+                    "type": "repo-tar"
+                },
+                "pkg-src-sha256": "61ff790961edb34fd653e62f9f37020792f416f329b12e87549169e7f624fdf9",
+                "pkg-version": "0.7.4",
+                "type": "configured"
+            }
+        ],
+        "source": "Hackage",
+        "version": "0.7.4"
     },
     "vty": {
         "dependencies": [

@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedRecordDot #-}
 
-module HaskellNix.Update.Cohort.Compare (comparePlan) where
+module HaskellNix.Update.Cohort.Compare (comparePlan, verifyCohortImport) where
 
 import Control.Monad (unless)
 import Data.Aeson (Value (..), eitherDecodeStrict', withObject, (.:))
@@ -16,8 +16,21 @@ import Data.Text (Text)
 import Data.Text qualified as Text
 import Distribution.Pretty (prettyShow)
 import HaskellNix.Update.Cohort.Freeze (FreezeDocument (..), parseFreezeDocument)
-import HaskellNix.Update.Cohort.Inventory (decodePlanVersions, validatePlanCompiler)
+import HaskellNix.Update.Cohort.Inventory (decodePlanVersions, projectFields, validatePlanCompiler)
 import HaskellNix.Update.Cohort.Types (PackageSource (..), PlanPackage (..))
+
+-- The caller resolves the revision from this application's own lock, including
+-- follows paths. Accept only a full immutable revision and one canonical import.
+verifyCohortImport :: Text -> Text -> Either Text Text
+verifyCohortImport revision project = do
+    unless (Text.length revision == 40 && Text.all isHexDigit revision)
+        (Left "cohort import requires a full locked Git revision")
+    let expected = "https://raw.githubusercontent.com/shinzui/haskell-nix/" <> revision <> "/cabal/cohort.freeze"
+        imports = concat [Text.words (Text.replace "," " " value) | ("import", value) <- projectFields project]
+        cohortImports = filter (Text.isInfixOf "cohort.freeze") imports
+    unless (cohortImports == [expected])
+        (Left ("stale or missing cohort import: expected exactly " <> expected))
+    pure ("Cohort import matches locked channel " <> revision)
 
 -- A consumer uses a subset of the union. Check every retained instance, rather
 -- than requiring that each application depend on the entire cohort. The shared

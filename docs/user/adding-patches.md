@@ -6,7 +6,7 @@ docId: DOC-2
 tags: [patches, compatibility, maintainers]
 generated:
   by: human:nadeem
-  at: 2026-09-11T00:15:36Z
+  at: 2026-10-16T14:44:08Z
 ---
 
 [User guide](README.md)
@@ -18,28 +18,35 @@ both the GitHub and Hackage channels. First-party family sources do not belong t
 refresh those through `config/first-party-families.json` and `haskell-nix-update` as
 described in [Updating first-party packages](updating-first-party-packages.md).
 
-A consumer that needs a shared third-party version or build policy adds it here before
-relocking its channel input. Temporary Hackage pins such as `patches/wai-app-static/3.2.nix`
-are converted to policy when the generated cohort owns their versions. Public unpublished
-sources use fixed revisions and hashes, as in `patches/typeid-hs/`. Consumer overlays do not
-copy either recipe; the [ownership audit](consumer-integration.md#audit-your-local-overlay)
-enforces that boundary.
+Third-party Hackage versions come from `cabal/cohort.freeze` and its generated projection,
+`generated/cohort-versions.nix`. Add a required package to the cohort's declared policy roots
+and upgrade-only floors, solve and verify the cohort, then run `just cohort-generate`.
+Do not edit the generated file or fetch a Hackage release from a registry patch.
+`registry-policy-only` rejects those fetches in `overlays/` and `patches/`.
+
+The registry wraps the generated versions with build policy: compiler compatibility fixes,
+explicit jailbreaks, flags and exceptions for owned non-Hackage sources. Public unpublished
+sources use fixed revisions and hashes, as in `patches/typeid-hs/`. Record source ownership
+and intentional differences in `config/cohort-policy.json` and the cohort source manifest.
+Consumer overlays reuse these recipes; the
+[ownership audit](consumer-integration.md#audit-your-local-overlay) enforces that boundary.
 
 The common registry supports two entry types: **always-apply** and **version-scoped**.
 
 ## Always-apply entries
 
-Use for patches that should apply regardless of the package version (jailbreaks, unbreaks, Hackage pins).
+Use for patches that should apply regardless of the package version (jailbreaks, unbreaks, or owned non-Hackage sources).
 
 ### Built-in helpers
 
-The registry defines four helpers at the top of the file:
+The registry defines five helpers at the top of the file:
 
 | Helper | Effect |
 |--------|--------|
 | `dontCheckDoJailbreak` | `dontCheck` + `doJailbreak` |
 | `markUnbrokenDontCheckDoJailbreak` | `markUnbroken` + `dontCheck` + `doJailbreak` |
 | `dontCheckOnly` | `dontCheck` only |
+| `markUnbrokenDontCheck` | `markUnbroken` + `dontCheck` |
 | `doJailbreakOnly` | `doJailbreak` only |
 
 Add an entry with the `always` wrapper:
@@ -64,7 +71,7 @@ The patch function receives `{ pkg, lib, haskellLib, pkgs, hself, hsuper }`:
 
 | Argument | Description |
 |----------|-------------|
-| `pkg` | The package derivation from `hsuper` (i.e. the unpatched version) |
+| `pkg` | The selected derivation at this stage, including the generated version layer |
 | `lib` | `nixpkgs.lib` |
 | `haskellLib` | `haskell.lib.compose` — the standard Haskell derivation helpers |
 | `pkgs` | The top-level Nixpkgs package set |
@@ -76,10 +83,11 @@ The patch function receives `{ pkg, lib, haskellLib, pkgs, hself, hsuper }`:
 Use when a patch should only apply to a specific version range. The range is half-open: `min <= version < max`.
 
 ```nix
-hasql = [
-  { min = "1.9";  max = "1.10"; patch = import ../patches/hasql/1.9.nix; }
-  { min = "1.10"; max = "1.11"; patch = import ../patches/hasql/1.10.nix; }
-];
+cborg-json = [{
+  min = "0.2.6.0";
+  max = "0.2.6.1";
+  patch = import ../patches/cborg-json/0.2.6-ghc914.nix;
+}];
 ```
 
 The first matching entry wins. If no entry matches the resolved version, the package passes through unmodified.
@@ -91,7 +99,7 @@ Version comparison uses `lib.versionAtLeast` and `lib.versionOlder`, which compa
 When a patch needs more than a one-liner, create a file under `patches/<package>/<version>.nix`:
 
 ```nix
-# patches/hasql/1.10.nix
+# patches/my-package/compatibility.nix
 { pkg, lib, haskellLib, ... }:
 
 haskellLib.appendConfigureFlags pkg [ "--flag=new-api" ]
@@ -100,44 +108,19 @@ haskellLib.appendConfigureFlags pkg [ "--flag=new-api" ]
 Reference it from the registry with `import`:
 
 ```nix
-hasql = [
-  { min = "1.10"; max = "1.11"; patch = import ../patches/hasql/1.10.nix; }
+my-package = [
+  { min = "1.0"; max = "1.1"; patch = import ../patches/my-package/compatibility.nix; }
 ];
 ```
 
-### Using `callCabal2nix` for Hackage version pins
+### Dependencies used only by disabled upstream tests
 
-To pin a package to a specific Hackage release (e.g. for GHC compatibility), use `hself.callCabal2nix` inside the patch. This replaces the package wholesale rather than modifying it, so it must be an always-apply entry:
-
-```nix
-# patches/optparse-applicative/0.19.nix
-{ hself, haskellLib, ... }:
-
-haskellLib.dontCheck (haskellLib.doJailbreak (hself.callCabal2nix "optparse-applicative"
-  (builtins.fetchTarball {
-    url = "https://hackage.haskell.org/package/optparse-applicative-0.19.0.0/optparse-applicative-0.19.0.0.tar.gz";
-    sha256 = "sha256-dhqvRILfdbpYPMxC+WpAyO0KUfq2nLopGk1NdSN2SDM=";
-  })
-  { }))
-```
-
-Note: `callCabal2nix` patches use `hself` (not `pkg`) because they construct a new derivation rather than modifying the existing one. The `pkg` argument is available but unused — destructure with `...` to ignore it.
-
-Wire it in the registry as an always-apply entry:
-
-```nix
-optparse-applicative = always (import ../patches/optparse-applicative/0.19.nix);
-```
-
-To get the SRI `sha256` for a new tarball, use the same prefetch operation as the first-party
-updater:
-
-```bash
-nix store prefetch-file --json --unpack URL
-```
-
-Copy the returned `hash` value, or temporarily use `lib.fakeHash` and let the focused build
-report the expected hash.
+Generated third-party recipes disable tests because the cohort solves upstream libraries,
+not their test suites. Cabal2nix can still require an argument for a test dependency missing
+from the pinned Nixpkgs. Declare that argument in `overlays/cohort-arguments.nix` only after
+checking the released Cabal file. Use a lazy `throw` with an explanatory message, rather
+than a replacement package: construction succeeds while tests are disabled, but an active
+component that uses the missing argument fails. This policy never chooses a version or source.
 
 ## Verification
 

@@ -6,7 +6,7 @@ docId: DOC-7
 tags: [package-sets, snapshots, cache]
 generated:
   by: human:nadeem
-  at: 2026-09-22T21:30:17Z
+  at: 2026-10-16T14:44:08Z
 ---
 
 [User guide](README.md)
@@ -48,6 +48,32 @@ A **channel** chooses source provenance after selection. `github` uses the conte
 locked repository revision and includes unpublished packages. `hackage` uses recorded
 release archives and omits packages whose Hackage pin is null. Changing channels does not
 change the selected family or group generations.
+
+## Shared third-party cohort
+
+Every package set constructed by the channel also receives the shared third-party versions
+from `generated/cohort-versions.nix`, generated from `cabal/cohort.freeze`. Its records retain
+source hashes and the Hackage metadata revision visible at the frozen index-state.
+Compiler boot libraries remain supplied by GHC. Owned non-Hackage source pins and selected
+first-party packages are classified separately.
+
+The Haskell extension applies global profiling and Haddock settings, channel-specific extra
+overrides, generated third-party versions, then common and compatibility policy and the
+selected first-party registry. A generated recipe cannot also own a selected first-party name.
+Policy wraps the generated selection; it does not independently pin a Hackage release.
+
+`just cohort-generate` refreshes the projection after an accepted cohort update.
+`just cohort-generated-check` verifies it without writing files. The pure
+`cohort-generated-fresh` check verifies retained records; `cohort-versions` evaluates the
+actual composed default scope for both source channels under the cohort compiler, GHC 9.12.4.
+Historical selections retain their first-party versions and are not claimed to match the
+default cohort. GHC 9.14 receives the generated versions while retaining its own boot libraries;
+its curated build matrix is separate evidence from the GHC 9.12 parity check.
+
+Version equality alone does not prove source, flags, metadata or derivation equality.
+Intentional source/configuration differences require owned policy and build evidence before
+cache reuse can be claimed. Routine application edits retain the shared cohort and toolchain;
+refresh them through the cohort workflow when a dependency update is intended.
 
 ## Select a named set
 

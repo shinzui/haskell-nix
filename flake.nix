@@ -54,6 +54,7 @@
         inherit lib mkFirstPartyRegistries mkHaskellExtension mkHaskellOverlay;
       };
       mkFirstPartyPackageSet = mkFirstPartyPackageSetFactory {
+        cohortVersions = import ./generated/cohort-versions.nix;
         config = firstPartyConfig;
         lock = firstPartyLock;
         inherit commonRegistry compatibilityProfiles supportedGhcs;
@@ -166,8 +167,7 @@
 
         lib = {
           parseCohortFreeze = import ./lib/parseCohortFreeze.nix { inherit lib; };
-          # Selection data is exported before layer activation; this alone
-          # changes no consumer derivation.
+          # Retained cohort data used by generation, parity and consumer tools.
           cohort =
             let
               freeze = (import ./lib/parseCohortFreeze.nix { inherit lib; })
@@ -223,6 +223,15 @@
             text = builtins.readFile ./scripts/cohort-compare.sh;
           };
           toolchain = haskell-nix-dev.lib.${system}.ghcVersions.${defaultGhc};
+          cohortVersions = import ./generated/cohort-versions.nix;
+          cohortScope = pkgsGithub.haskell.packages.${defaultGhc};
+          cohortNames = builtins.attrNames (lib.filterAttrs
+            (name: package: package.source != "Boot"
+              && !(builtins.hasAttr name cohortVersions.policy
+              && !cohortVersions.policy.${name}.sourcePinned))
+            cohortVersions.sourceManifest);
+          cohortFarm = name: names: pkgsPlain.linkFarm name
+            (map (package: { name = package; path = cohortScope.${package}; }) names);
         in
         {
           _module.args.pkgs = pkgsPlain;
@@ -230,6 +239,27 @@
             default = updater;
             haskell-nix-update = updater;
             cohort-compare = cohortCompare;
+            cohort-closure = cohortFarm "cohort-closure" cohortNames;
+            cohort-roots = cohortFarm "cohort-roots" [
+              "keiro"
+              "kiroku-store"
+              "kioku-core"
+              "shibuya-pgmq-adapter"
+              "pg-migrate-cli"
+              "baikai-kit"
+              "claude"
+              "openai"
+              "relay-pagination-servant"
+              "servant-openapi-hs"
+              "warp"
+              "wai-app-static"
+              "brick"
+              "sbv"
+              "dhall"
+              "hs-opentelemetry-exporter-otlp"
+              "streamly"
+              "generic-lens"
+            ];
           };
           apps = {
             cohort-compare = {

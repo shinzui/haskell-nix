@@ -18,5 +18,30 @@
     "package": "ephemeral-pg",
     "floor": "0.3.1.0",
     "reason": "user decision 2026-10-06: retire the 0.2 series and adopt stable per-user temporaryRoot cleanup across all consumers"
+  },
+  {
+    "package": "bytestring-lexing",
+    "floor": "0.5.0.16",
+    "reason": "Retain the highest existing channel pin across both source channels and supported compilers while moving all Hackage version selection into the shared cohort. Owner: mori://shinzui/haskell-nix."
+  },
+  {
+    "package": "crypto-token",
+    "floor": "0.2.0",
+    "reason": "Retain the highest existing channel pin across both source channels and supported compilers while moving all Hackage version selection into the shared cohort. Owner: mori://shinzui/haskell-nix."
+  },
+  {
+    "package": "rebase",
+    "floor": "1.22",
+    "reason": "Retain the highest existing channel pin across both source channels and supported compilers while moving all Hackage version selection into the shared cohort. Owner: mori://shinzui/haskell-nix."
+  },
+  {
+    "package": "rerebase",
+    "floor": "1.22",
+    "reason": "Retain the highest existing channel pin across both source channels and supported compilers while moving all Hackage version selection into the shared cohort. Owner: mori://shinzui/haskell-nix."
+  },
+  {
+    "package": "validation",
+    "floor": "1.2.2",
+    "reason": "Retain the highest existing channel pin across both source channels and supported compilers while moving all Hackage version selection into the shared cohort. Owner: mori://shinzui/haskell-nix."
   }
 ]

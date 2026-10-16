@@ -5,6 +5,7 @@ usage() {
   cat <<'EOF'
 Usage:
   cohort-compare --resolve-channel-lock FILE --input-path PATH
+  cohort-compare --verify-import PROJECT --lock FILE --input-path PATH
   cohort-compare --freeze FILE_OR_HTTPS_URL --plan-json FILE [--all]
                  [--sources FILE] [--contributors FILE]
 
@@ -17,7 +18,7 @@ EOF
 }
 
 invalid() { echo "cohort-compare: $*" >&2; usage >&2; exit 2; }
-lock=''; input_path=''; freeze=''; plan=''; sources=''; contributors=''
+lock=''; input_path=''; freeze=''; plan=''; sources=''; contributors=''; project=''; project_lock=''
 declare -A seen=()
 while (($#)); do
   option=$1
@@ -26,7 +27,7 @@ while (($#)); do
   case "$option" in
     --help|-h) usage; exit 0 ;;
     --all) shift; continue ;;
-    --resolve-channel-lock|--input-path|--freeze|--plan-json|--sources|--contributors)
+    --resolve-channel-lock|--input-path|--freeze|--plan-json|--sources|--contributors|--verify-import|--lock)
       (($# >= 2)) && [[ -n $2 && $2 != --* ]] || invalid "$option requires a value"
       case "$option" in
         --resolve-channel-lock) lock=$2 ;;
@@ -35,12 +36,18 @@ while (($#)); do
         --plan-json) plan=$2 ;;
         --sources) sources=$2 ;;
         --contributors) contributors=$2 ;;
+        --verify-import) project=$2 ;;
+        --lock) project_lock=$2 ;;
       esac
       shift 2 ;;
     *) invalid "unknown option $option" ;;
   esac
 done
 
+if [[ -n $project || -n $project_lock ]]; then
+  [[ -n $project && -n $project_lock && -n $input_path && -z $lock && -z $freeze && -z $plan && -z $sources && -z $contributors && -z ${seen[--all]:-} ]] || invalid 'import mode requires only --verify-import, --lock and --input-path'
+  exec haskell-nix-update cohort verify-import --project "$project" --lock "$project_lock" --input-path "$input_path"
+fi
 if [[ -n $lock || -n $input_path ]]; then
   [[ -n $lock && -n $input_path && -z $freeze && -z $plan && -z $sources && -z $contributors && -z ${seen[--all]:-} ]] || invalid 'lock mode requires only --resolve-channel-lock and --input-path'
   exec haskell-nix-update cohort resolve-channel-lock --lock "$lock" --input-path "$input_path"

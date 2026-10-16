@@ -93,6 +93,27 @@ in
     pkgs = pkgsPlain;
     inherit cohortCompare;
   };
+  cohort-versions = import ./cohort-versions.nix {
+    inherit lib;
+    pkgs = pkgsPlain;
+    scopes = {
+      github-ghc9124 = pkgsGithub.haskell.packages.ghc9124;
+      hackage-ghc9124 = pkgsHackage.haskell.packages.ghc9124;
+    };
+  };
+  registry-policy-only = pkgsPlain.runCommand "registry-policy-only"
+    { nativeBuildInputs = [ pkgsPlain.python3 ]; }
+    ''
+      python3 ${../scripts/lint-registry-policy.py} ${../overlays} ${../patches}
+      mkdir rejected-policy
+      echo 'hself.callHackageDirect { pkg = "hasql"; ver = "1"; } { }' > rejected-policy/pin.nix
+      if python3 ${../scripts/lint-registry-policy.py} rejected-policy > rejected.log 2>&1; then
+        echo 'registry-policy-only: failed to reject a reintroduced pin' >&2
+        exit 1
+      fi
+      grep -q 'pin.nix:1:' rejected.log
+      touch "$out"
+    '';
   cabal-version-support = import ./cabal-version-support.nix {
     inherit lib;
     pkgs = pkgsPlain;

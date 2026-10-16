@@ -9,7 +9,7 @@ import Data.Map.Strict qualified as Map
 import Data.Set qualified as Set
 import Data.Text (Text)
 import Data.Text qualified as Text
-import HaskellNix.Update.Cohort.Compare (comparePlan)
+import HaskellNix.Update.Cohort.Compare (comparePlan, verifyCohortImport)
 import HaskellNix.Update.Cohort.Types
 import Test.Tasty (TestTree, testGroup)
 import Test.Tasty.HUnit (assertBool, testCase)
@@ -48,9 +48,21 @@ tests = testGroup "consumer cohort comparison"
         failsWith "freeze/source flags" (comparePlan Set.empty (Text.strip freeze <> ", any.lib +fast\n") sources (plan "ghc-9.12.4" [row "lib" "1" "lib-id"]))
     , testCase "duplicate unit IDs cannot obscure dependency edges" $
         failsWith "duplicate plan unit IDs" (check [row "lib" "1" "duplicate", row "unused" "1" "duplicate"])
+    , testCase "cohort import supports continuation fields and ignores comments" $
+        succeeds (verifyCohortImport revision ("-- import: stale/cohort.freeze\nimport:\n  common.config,\n  " <> importUrl <> "\n"))
+    , testCase "a stale import fails even alongside the correct import" $
+        failsWith "stale or missing" (verifyCohortImport revision ("import: " <> importUrl <> ", https://raw.githubusercontent.com/shinzui/haskell-nix/old/cabal/cohort.freeze\n"))
+    , testCase "a commented import cannot prove current provenance" $
+        failsWith "stale or missing" (verifyCohortImport revision ("-- import: " <> importUrl))
+    , testCase "a mutable or abbreviated locked revision fails" $
+        failsWith "full locked Git revision" (verifyCohortImport "main" ("import: " <> importUrl))
+    , testCase "a matching hash on a different source host fails" $
+        failsWith "stale or missing" (verifyCohortImport revision ("import: " <> Text.replace "raw.githubusercontent.com" "example.com" importUrl))
     ]
   where
     check rows = comparePlan (Set.singleton "app") freeze sources (plan "ghc-9.12.4" rows)
+    revision = Text.replicate 40 "a"
+    importUrl = "https://raw.githubusercontent.com/shinzui/haskell-nix/" <> revision <> "/cabal/cohort.freeze"
 
 freeze :: Text
 freeze = "-- Compiler: ghc-9.12.4\nindex-state: 2026-10-06T00:00:00Z\nconstraints: any.lib ==1, any.unused ==1\n"

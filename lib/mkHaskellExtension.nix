@@ -9,6 +9,7 @@
 
 { registry
 , extraOverrides ? (_: _: { })
+, versionLayer ? (_: _: _: _: { })
 , disableProfiling ? true
 , disableHaddock ? true
 }:
@@ -28,4 +29,5 @@ composeManyExtensions
   (lib.optional disableProfiling disableProfilingOverride
     ++ lib.optional disableHaddock disableHaddockOverride
     ++ [ extraOverrides ]
+    ++ [ (versionLayer haskellLib pkgs) ]
   ++ map (override: override haskellLib pkgs) perPackageOverrides)

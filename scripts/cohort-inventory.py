@@ -201,7 +201,9 @@ def main():
                  "--out", str(staged_inventory / (name + suffix + ".json"))])
     inventories = [json.loads(p.read_text()) for p in staged_inventory.glob("*.json")
                    if p.name != "nix.json"]
-    names = sorted({name for inventory in inventories for name in inventory["packages"]})
+    roots = json.loads(baseline[root / "cabal/policy-roots.json"])
+    names = sorted({name for inventory in inventories for name in inventory["packages"]}
+                   | {entry["package"] for entry in roots})
     names_file = scratch / "names.json"
     write_json(names_file, names)
     # Pin the package scope to the recorded channel revision. This is selection

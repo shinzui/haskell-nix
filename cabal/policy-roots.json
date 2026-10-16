@@ -28,5 +28,35 @@
     "range": ">=0.11",
     "reason": "Retain pkg-config discovery used by mori://shinzui/mori alongside the pg_config configurations of other contributors; a single parent flag selects only one helper library.",
     "owner": "mori://shinzui/mori"
+  },
+  {
+    "package": "bytestring-lexing",
+    "range": ">=0.5.0.16",
+    "reason": "Retain the highest existing channel pin across both source channels and supported compilers while moving all Hackage version selection into the shared cohort.",
+    "owner": "mori://shinzui/haskell-nix"
+  },
+  {
+    "package": "crypto-token",
+    "range": ">=0.2.0",
+    "reason": "Retain the highest existing channel pin across both source channels and supported compilers while moving all Hackage version selection into the shared cohort.",
+    "owner": "mori://shinzui/haskell-nix"
+  },
+  {
+    "package": "rebase",
+    "range": ">=1.22",
+    "reason": "Retain the highest existing channel pin across both source channels and supported compilers while moving all Hackage version selection into the shared cohort.",
+    "owner": "mori://shinzui/haskell-nix"
+  },
+  {
+    "package": "rerebase",
+    "range": ">=1.22",
+    "reason": "Retain the highest existing channel pin across both source channels and supported compilers while moving all Hackage version selection into the shared cohort.",
+    "owner": "mori://shinzui/haskell-nix"
+  },
+  {
+    "package": "validation",
+    "range": ">=1.2.2",
+    "reason": "Retain the highest existing channel pin across both source channels and supported compilers while moving all Hackage version selection into the shared cohort.",
+    "owner": "mori://shinzui/haskell-nix"
   }
 ]

@@ -12,6 +12,7 @@
 , commonRegistry
 , compatibilityProfiles
 , supportedGhcs
+, cohortVersions ? { packages = { }; }
 , fetchSource ? builtins.fetchTree
 }:
 
@@ -196,11 +197,15 @@ let
   extraOverrides =
     if channel == "hackage" then hackageDependencyOverrides
     else (_: _: { });
+  versionLayer = (import ./mkCohortVersionLayer.nix { inherit lib; }) cohortVersions;
+  cohortPackageConflicts = lib.intersectLists
+    (builtins.attrNames cohortVersions.packages)
+    selectedPackageNames;
   haskellExtension = mkHaskellExtension {
-    inherit registry extraOverrides disableProfiling disableHaddock;
+    inherit registry extraOverrides versionLayer disableProfiling disableHaddock;
   };
   overlay = mkHaskellOverlay {
-    inherit registry extraOverrides disableProfiling disableHaddock;
+    inherit registry extraOverrides versionLayer disableProfiling disableHaddock;
     compilers = supportedGhcs;
   };
 
@@ -215,6 +220,8 @@ let
       throw "mkFirstPartyPackageSet: a selected compatibility profile is not defined"
     else if profilePackageConflicts != [ ] then
       throw "mkFirstPartyPackageSet: compatibility profiles conflict with selected packages: ${lib.concatStringsSep ", " profilePackageConflicts}"
+    else if cohortPackageConflicts != [ ] then
+      throw "mkFirstPartyPackageSet: the generated cohort layer names first-party packages: ${lib.concatStringsSep ", " cohortPackageConflicts}"
     else true
   );
 in

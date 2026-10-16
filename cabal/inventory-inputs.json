@@ -1,7 +1,7 @@
 {
   "compiler": "ghc-9.12.4",
   "system": "aarch64-darwin",
-  "channelRevision": "15f2617f7db468e6d52eaed467a9fc69fc3afba7",
+  "channelRevision": "5673994840006c57c3a5d20150afc430b3ebfd60",
   "channelPackageSet": "default",
   "channel": "github",
   "dotfiles": "mori://shinzui/dotfiles.nix",

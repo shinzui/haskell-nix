@@ -24,6 +24,8 @@ pkgs.runCommand "cohort-compare-fixtures"
     Path('cycle.lock').write_text(json.dumps({'root': 'application', 'nodes': {
         'application': {'inputs': {'channel': ['channel']}}
     }}))
+    Path('cabal.project').write_text('import: https://raw.githubusercontent.com/shinzui/haskell-nix/' + 'a' * 40 + '/cabal/cohort.freeze\n')
+    Path('stale.project').write_text('import: https://raw.githubusercontent.com/shinzui/haskell-nix/' + 'b' * 40 + '/cabal/cohort.freeze\n')
     PY
     expect_status() {
       expected=$1
@@ -39,6 +41,12 @@ pkgs.runCommand "cohort-compare-fixtures"
     expect_status 0 cohort-compare --resolve-channel-lock consumer.lock --input-path channel
     test "$(cat stdout)" = aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
     expect_status 0 cohort-compare --resolve-channel-lock consumer.lock --input-path library/channel
+    expect_status 0 cohort-compare --verify-import cabal.project --lock consumer.lock --input-path channel
+    expect_status 1 cohort-compare --verify-import stale.project --lock consumer.lock --input-path library/channel
+    grep -q 'stale or missing cohort import' stderr
+    expect_status 1 cohort-compare --verify-import cabal.project --lock cycle.lock --input-path channel
+    expect_status 2 cohort-compare --verify-import cabal.project --input-path channel
+    expect_status 2 cohort-compare --verify-import cabal.project --lock consumer.lock --input-path channel --plan-json good.json
     expect_status 1 cohort-compare --resolve-channel-lock cycle.lock --input-path channel
     expect_status 1 cohort-compare --resolve-channel-lock consumer.lock --input-path missing
     expect_status 2 cohort-compare --input-path channel
