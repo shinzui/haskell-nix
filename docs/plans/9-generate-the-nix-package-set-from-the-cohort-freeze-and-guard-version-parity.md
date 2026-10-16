@@ -42,6 +42,11 @@ provenance:
       at: 2026-10-16T12:12:36Z
       mode: "implement"
       note: "Implement public cohort comparator bootstrap with strict consumer Cabal comparison and shared recursive lock resolution; activation still awaits Kioku publication."
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-16T12:41:52Z
+      mode: "implement"
+      note: "Verify Kioku publication and clean upgrade-only solve; reconcile channel release snapshots before cohort promotion."
   reviews:
     - model: "gpt-6.1-sol"
       harness: "codex-cli"
@@ -114,6 +119,8 @@ Build and publish shared dependency outputs to the existing trusted cache before
 Acceptance fixtures include statically linked missing dependencies, wrong plus correct package instances, native homonyms, source/metadata changes without version changes, recursive/cyclic/missing follows paths, and stale import revisions. Cache readiness and shared identity evidence are gates distinct from version parity. Existing runtime-closure commands elsewhere below are diagnostic only.
 
 ## Progress
+
+Post-publication resume (2026-10-16): all five Kioku 0.9.0.2 releases are live on Hackage and upstream tag `v0.9.0.2` resolves to `c4bf956b5b00c899adde225e026484c3a1a44258` in `mori://shinzui/kioku`. Core/CLI declare `baikai >=0.7.0.0 && <0.9`. The clean union solve at signed index `2026-10-16T12:29:59Z` succeeds with no added bound override: 450 selections, no names removed or versions lowered relative to the accepted manifest. All six contributor commits still match the prior fresh capture. The retained handoff had omitted `mori-app.json`; recovered its exact unchanged revision from the original capture before running the report, which now records zero downgrades and 49 consumer caps. Candidate: `/var/folders/xf/z_902qyd0dg5m6n8pjv1vk300000gn/T/mp3-ep9-post-kioku-9u69ovro`; clean-solve receipt: `/tmp/mp3-ep9-solve-post-kioku-20261016.log`; report: `/tmp/mp3-ep9-post-kioku-report-20261016.log`. The scoped Kioku channel refresh adds family generation 8, preserves all historical snapshots, passes updater evaluation and the native first-party version guard. Shikumi channel reconciliation, frozen-plan replay and coherent cohort promotion still remain before generation activation.
 
 The public `cohort-compare` app now exposes recursive lock resolution and strict consumer Cabal-plan comparison through the shared updater. Its `--plan-json` mode checks an application's subset of the union against the freeze and sibling `cohort-sources.json` and `contributors.json`: compiler, every non-local version/source instance, source and Cabal metadata hashes, flags and declared local ownership. It rejects empty evidence, mixed versions, conflicting unit IDs and missing metadata; identical repeated rows remain canonicalized. HTTPS inputs fetch the freeze and companion manifests, with optional explicit `--sources` and `--contributors` locations. The shared `decodeLockedSource` retains its complete GitHub descriptor validation. All 128 updater tests pass; packaged fixtures verify status 0/1/2 and nested, cyclic and missing lock paths. The native public lock command resolves `haskell-nix-dev/nixpkgs` to `d5dfd8e6716dde34398bc14bc87c10dece9c8c68`. Nix manifest construction/comparison and stale Cabal-import verification remain unfinished; unsupported manifest options fail with usage status 2. This is partial Milestone 5 implementation, not aggregate acceptance.
 

@@ -51,6 +51,11 @@ provenance:
       at: 2026-10-16T12:12:36Z
       mode: "implement"
       note: "Record EP-9 comparator bootstrap and pending Kioku publication prerequisite."
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-16T12:41:52Z
+      mode: "implement"
+      note: "Record satisfied Kioku publication gate and successful clean cohort solve."
   reviews:
     - model: "gpt-6.1-sol"
       harness: "codex-cli"
@@ -306,6 +311,8 @@ The goal is less repeated coordination and dependency compilation. Equal version
 
 
 ## Progress
+
+Post-publication resume (2026-10-16): the Kioku release prerequisite is satisfied by all five 0.9.0.2 packages, upstream commit `c4bf956b5b00c899adde225e026484c3a1a44258` in `mori://shinzui/kioku`. EP-9’s clean six-contributor union now solves at signed index `2026-10-16T12:29:59Z`: 450 selections, zero removed names, zero lowered versions and zero report downgrades. Kioku channel generation 8 is validated with history preserved. Shikumi snapshot reconciliation and frozen-plan replay precede promotion; generated-layer, manifest, runtime, cache and deployment gates remain open.
 
 EP-9 comparator checkpoint (2026-10-16): the public `cohort-compare` app supports consumer Cabal-plan subsets with strict version/source/metadata/flag checks and the shared recursive lock resolver. All 128 updater tests pass, with packaged status/lock/plan fixtures and native formatting validation. Manifest construction/comparison and stale-import verification remain open, so EP-9 remains In Progress. Registry and upstream verification still show Kioku 0.9.0.1 with the Baikai cap; the user has been given the five-package 0.9.0.2 publication handoff for the committed fix in `mori://shinzui/kioku`. The generated layer and downstream consumers remain gated on the refreshed solve and remaining EP-9/EP-16 acceptance.
 
