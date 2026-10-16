@@ -37,6 +37,11 @@ provenance:
       at: 2026-10-16T05:07:23Z
       mode: "implement"
       note: "Verify resume prerequisites and record missing Mori registry database blocking required cohort refresh."
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-16T12:12:36Z
+      mode: "implement"
+      note: "Implement public cohort comparator bootstrap with strict consumer Cabal comparison and shared recursive lock resolution; activation still awaits Kioku publication."
   reviews:
     - model: "gpt-6.1-sol"
       harness: "codex-cli"
@@ -110,7 +115,7 @@ Acceptance fixtures include statically linked missing dependencies, wrong plus c
 
 ## Progress
 
-The shared updater now resolves slash-separated input paths from the lock's declared root, including recursive array follows, valid repeated node visits, Git sources and missing/cyclic/malformed-path failures. The existing `decodeLockedSource` keeps its complete GitHub descriptor validation. The maintenance CLI exposes this through its `cohort resolve-channel-lock` subcommand; all 112 updater tests pass and a native command resolves `haskell-nix-dev/nixpkgs` to `d5dfd8e6716dde34398bc14bc87c10dece9c8c68`. The public `cohort-compare` app, manifest construction and comparison modes remain unfinished; this helper supplies their shared lock-resolution algorithm.
+The public `cohort-compare` app now exposes recursive lock resolution and strict consumer Cabal-plan comparison through the shared updater. Its `--plan-json` mode checks an application's subset of the union against the freeze and sibling `cohort-sources.json` and `contributors.json`: compiler, every non-local version/source instance, source and Cabal metadata hashes, flags and declared local ownership. It rejects empty evidence, mixed versions, conflicting unit IDs and missing metadata; identical repeated rows remain canonicalized. HTTPS inputs fetch the freeze and companion manifests, with optional explicit `--sources` and `--contributors` locations. The shared `decodeLockedSource` retains its complete GitHub descriptor validation. All 128 updater tests pass; packaged fixtures verify status 0/1/2 and nested, cyclic and missing lock paths. The native public lock command resolves `haskell-nix-dev/nixpkgs` to `d5dfd8e6716dde34398bc14bc87c10dece9c8c68`. Nix manifest construction/comparison and stale Cabal-import verification remain unfinished; unsupported manifest options fail with usage status 2. This is partial Milestone 5 implementation, not aggregate acceptance.
 
 Resume after Shikumi publication (2026-10-16): Hackage and upstream tags verify `shikumi-trace-otel` 0.1.2.2 (`db4eb373803552762edc9e86a231dfb529f8105b` in `mori://shinzui/shikumi`), admitting Baikai 0.8. The signed index at `2026-10-16T11:09:45Z` also supplies the other admitting Shikumi patches. The unmodified upgrade-only solve now fails on `kioku-core` 0.9.0.1's `baikai ^>=0.7.0.0` bound. Kioku core/CLI compatibility changes are committed at `37a47cb` in `mori://shinzui/kioku`: all 471 tests, the full build, all five package checks and native flake checks pass against Baikai 0.8.0.0. The fix retains Baikai 0.7 compatibility and supplies libcurl metadata in the project-local developer shell. Versions and release tags are unchanged; an admitting Kioku publication is still required. A separate diagnostic solve with only `kioku-core:baikai` relaxed selects 451 packages and succeeds, including Shikumi 0.4.1.1, Cache 0.2.0.2, Trace 0.3.0.2 and OTel 0.1.2.2. This diagnostic is not acceptance and its override was not added to checked-in policy. Retained candidate: `/tmp/mp3-ep9-post-shikumi-dx009hyj`. Accepted Cabal artifacts remain unchanged; EP-9 remains In Progress.
 
@@ -378,6 +383,8 @@ Refresh handoff (2026-10-15): EP-8 is Complete at the October 6 checkpoint. Befo
 
 
 ## Outcomes & Retrospective
+
+2026-10-16 comparator checkpoint: delivered the public lock-resolution and consumer Cabal-plan modes without activating the generated package layer. The 128-test updater suite passes; the packaged comparator fixtures and formatting check are the focused native gates. Receipts: `/tmp/mp3-ep9-compare-tests-final-20261016.log`, `/tmp/mp3-ep9-compare-check-final-20261016.log`, and `/tmp/mp3-ep9-public-lock-20261016.log`. The historical Rei plan path is absent on this host, so no fresh application acceptance is claimed. Hackage and upstream tags still end at Kioku 0.9.0.1, whose Core Baikai cap remains unchanged. The user has been asked to publish all five Kioku packages with the committed compatibility fix as patch 0.9.0.2; versions and tags have not been changed by this work. Native publication credentials and cache access remain unavailable. Manifest, generation, runtime, cache and deployment gates remain open.
 
 2026-10-16 checkpoint: verified the published Shikumi patches and advanced the diagnostic solve to 451 selections, identifying Kioku's Baikai cap as the remaining release prerequisite. Prepared and committed the Kioku compatibility fix with all 471 tests, native build/flake gates and five package checks passing. Independently implemented recursive root-based lock lookup and its maintenance CLI, passing all 112 updater tests and a real nested-lock command; the complete source-descriptor checks used by first-party updates remain strict. Shared comparison/manifests, generation activation, runtime delivery and cache acceptance remain unfinished. The accepted cohort is unchanged pending an admitting Kioku release.
 
@@ -841,7 +848,16 @@ nix run .#haskell-nix-update -- cohort resolve-channel-lock \
   --lock flake.lock --input-path haskell-nix-dev/nixpkgs
 ```
 
-Expected output is the full pinned nixpkgs revision. Synthetic checks cover nested library follows, cycles, missing nodes/inputs, empty or malformed paths, Git sources and repeated finite node visits. The public app and remaining modes below are still required.
+Expected output is the full pinned nixpkgs revision. Synthetic checks cover nested library follows, cycles, missing nodes/inputs, empty or malformed paths, Git sources and repeated finite node visits. The public app now exposes this mode; Nix manifest construction/comparison and import verification below are still required.
+
+The public bootstrap commands now work from the repository root:
+
+```bash
+nix run .#cohort-compare -- --resolve-channel-lock flake.lock --input-path haskell-nix-dev/nixpkgs
+nix run .#cohort-compare -- --freeze cabal/cohort.freeze --plan-json /path/to/fresh/plan.json
+```
+
+The second command reads companion manifests beside the freeze, compares only dependencies used by that consumer and prints `ok` records or returns 1 with drift/missing-evidence diagnostics. This does not yet prove that a consumer imported the freeze revision resolved by its own lock. Do not substitute these partial checks for the full Milestone 5 gates.
 
 Scope: implement the interface in Review requirements for plans 11–14. Add
 `scripts/cohort-compare.sh`, expose `packages.cohort-compare` and `apps.cohort-compare`,

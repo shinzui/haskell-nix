@@ -42,6 +42,7 @@ library
     HaskellNix.Update.Catalog
     HaskellNix.Update.Cli
     HaskellNix.Update.Cohort.Cli
+    HaskellNix.Update.Cohort.Compare
     HaskellNix.Update.Cohort.Inventory
     HaskellNix.Update.Cohort.Impact
     HaskellNix.Update.Cohort.Model
@@ -105,6 +106,7 @@ test-suite haskell-nix-update-test
     CohortTest
     CohortModelTest
     CohortGenerateTest
+    CohortCompareTest
     PackageSetTest
     Paths_haskell_nix_update
     PlannerTest

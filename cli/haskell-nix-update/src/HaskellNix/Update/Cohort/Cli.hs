@@ -12,12 +12,14 @@ import Data.ByteString.Lazy qualified as LBS
 import Data.List (sort)
 import Data.Map.Strict (Map)
 import Data.Map.Strict qualified as Map
+import Data.Set qualified as Set
 import Data.Text (Text)
 import Data.Text qualified as Text
 import Data.Text.IO qualified as TextIO
 import Distribution.Pretty (prettyShow)
 import HaskellNix.Update.Catalog (decodeFamilyCatalog)
 import HaskellNix.Update.Cohort.Freeze (FreezeHeader (FreezeHeader), normaliseCabalFreeze, parseCohortFreeze, renderCohortFreeze)
+import HaskellNix.Update.Cohort.Compare (comparePlan)
 import HaskellNix.Update.Cohort.Impact (impactReport, retainedConstraints, validateRetainedIdentities)
 import HaskellNix.Update.Cohort.Inventory
 import HaskellNix.Update.Cohort.Model
@@ -33,6 +35,7 @@ import System.FilePath (takeDirectory, takeExtension, (</>))
 
 data CohortCommand
     = CohortResolveChannelLock !FilePath !Text
+    | CohortComparePlan !FilePath !FilePath !FilePath !FilePath
     | CohortInventory !FilePath !Text !FilePath !FilePath !Text !FilePath
     | CohortInventoryNix !FilePath !FilePath ![(Text, FilePath)] !Text !Text !Text !FilePath
     | CohortStub !FilePath !FilePath !FilePath !FilePath !FilePath !FilePath
@@ -48,6 +51,7 @@ cohortParser :: Parser CohortCommand
 cohortParser =
     subparser
         ( command "resolve-channel-lock" (info (resolveLockParser <**> helper) (fullDesc <> progDesc "Resolve a locked revision through nested inputs and recursive follows"))
+            <> command "compare-plan" (info (compareParser <**> helper) (fullDesc <> progDesc "Check a consumer subset against frozen versions and source evidence"))
             <> command "inventory" (info (inventoryParser <**> helper) (fullDesc <> progDesc "Record a contributor's fresh Cabal plan and component bounds"))
             <> command "report" (info (reportParser <**> helper) (fullDesc <> progDesc "Report upgrade-only violations, caps and source identities"))
             <> command "check" (info (checkParser <**> helper) (fullDesc <> progDesc "Compare a resolved plan with the freeze and source manifest"))
@@ -60,6 +64,7 @@ cohortParser =
         )
   where
     resolveLockParser = CohortResolveChannelLock <$> strOption (long "lock" <> metavar "FILE") <*> textOption "input-path"
+    compareParser = CohortComparePlan <$> pathOption "freeze" "cabal/cohort.freeze" <*> pathOption "sources" "cabal/cohort-sources.json" <*> pathOption "contributors" "cabal/contributors.json" <*> strOption (long "plan-json" <> metavar "FILE")
     updateParser = CohortUpdateConstraints <$> pathOption "freeze" "cabal/cohort.freeze" <*> optionalPath "runtime-freeze" <*> switch (long "update-runtime") <*> some (textOption "package") <*> optional (textOption "index-state") <*> pathOption "out" "cabal/retained.config"
     impactParser = CohortImpact <$> pathOption "before" "cabal/cohort-sources.json" <*> strOption (long "after" <> metavar "FILE") <*> pathOption "inventory" "cabal/inventory" <*> optionalPath "before-policy" <*> optionalPath "after-policy" <*> pathOption "out" "cabal/cohort-impact.txt"
     optionalPath key = optional (strOption (long key <> metavar "FILE"))
@@ -113,6 +118,12 @@ dispatch (CohortResolveChannelLock lockFile inputPath) = do
     pure $ case decodeChannelRevision inputPath bytes of
         Left (UpdateError err) -> Left err
         Right (Lock.GitRevision revision) -> Right revision
+dispatch (CohortComparePlan freezeFile sourcesFile contributorsFile planFile) = runExceptT $ do
+    freeze <- lift (TextIO.readFile freezeFile)
+    sources <- ExceptT (readJSON sourcesFile)
+    contributors :: [Contributor] <- ExceptT (readJSON contributorsFile)
+    bytes <- lift (BS.readFile planFile)
+    ExceptT (pure (comparePlan (Set.fromList (concatMap (\c -> c.ownPackages) contributors)) freeze sources bytes))
 dispatch (CohortInventory contributorsFile wanted root plan config out) = do
     contributors <- readJSON contributorsFile
     case contributors >>= selectContributor of

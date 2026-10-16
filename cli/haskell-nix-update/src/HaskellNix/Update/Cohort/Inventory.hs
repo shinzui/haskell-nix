@@ -9,7 +9,7 @@ module HaskellNix.Update.Cohort.Inventory (
     projectFields,
 ) where
 
-import Control.Monad (forM)
+import Control.Monad (forM, unless)
 import Data.Aeson
 import Data.Aeson.KeyMap qualified as KeyMap
 import Data.Aeson.Types (Parser, parseEither)
@@ -50,6 +50,9 @@ decodePlanVersions bootNames bytes = do
     parsed <- traverse (either (Left . Text.pack) Right . parseEither parseRow) rows
     let ids = Map.fromList [(unitId, pkgName) | (unitId, pkgName, _, _, _) <- parsed]
         resolve dep = maybe (Left ("unresolved plan dependency: " <> dep)) Right (Map.lookup dep ids)
+    -- Identical repeated rows are harmless and canonicalized below. Conflicting
+    -- rows sharing an ID would make dependency-edge resolution ambiguous.
+    unless (Map.size ids == length (nub parsed)) (Left "duplicate plan unit IDs")
     entries <- forM parsed $ \(_, pkgName, pkgVersion, pkgSource, raw) -> case pkgSource of
         Nothing -> pure Nothing
         Just src -> do

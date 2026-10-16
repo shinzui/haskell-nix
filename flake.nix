@@ -204,6 +204,11 @@
           };
           updaterHaskellPackages = mkUpdaterHaskellPackages pkgsPlain;
           updater = mkUpdaterPackage pkgsPlain;
+          cohortCompare = pkgsPlain.writeShellApplication {
+            name = "cohort-compare";
+            runtimeInputs = [ updater pkgsPlain.curl pkgsPlain.coreutils ];
+            text = builtins.readFile ./scripts/cohort-compare.sh;
+          };
           toolchain = haskell-nix-dev.lib.${system}.ghcVersions.${defaultGhc};
         in
         {
@@ -211,8 +216,13 @@
           packages = {
             default = updater;
             haskell-nix-update = updater;
+            cohort-compare = cohortCompare;
           };
           apps = {
+            cohort-compare = {
+              type = "app";
+              program = "${cohortCompare}/bin/cohort-compare";
+            };
             default = {
               type = "app";
               program = "${updater}/bin/haskell-nix-update";
@@ -241,7 +251,7 @@
             buildInputs = [ pkgsPlain.xz pkgsPlain.zlib pkgsPlain.postgresql.dev pkgsPlain.openssl.dev ];
           };
           checks = import ./checks/default.nix {
-            inherit lib pkgsPlain pkgsGithub pkgsHackage updater firstPartyRegistries
+            inherit lib pkgsPlain pkgsGithub pkgsHackage updater cohortCompare firstPartyRegistries
               supportedGhcs defaultGhc defaultSelectedFamilies registries mkChannelExtension
               mkFirstPartyPackageSet mkFirstPartyPackageSetFactory firstPartyPackageSets
               haskellExtensions auditConsumerOverlay;

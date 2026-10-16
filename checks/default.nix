@@ -3,6 +3,7 @@
 , pkgsGithub
 , pkgsHackage
 , updater
+, cohortCompare
 , firstPartyRegistries
 , supportedGhcs
 , defaultGhc
@@ -87,6 +88,10 @@ let
       firstPartyPackageSets);
 in
 {
+  cohort-compare = import ./cohort-compare.nix {
+    pkgs = pkgsPlain;
+    inherit cohortCompare;
+  };
   cabal-version-support = import ./cabal-version-support.nix {
     inherit lib;
     pkgs = pkgsPlain;

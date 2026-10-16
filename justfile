@@ -127,6 +127,10 @@ cohort-inventory:
 cohort-inventory-refresh:
     nix develop .#cohort-inventory -c python3 scripts/cohort-inventory.py --promote
 
+# Compare a consumer plan or resolve its pinned channel revision.
+cohort-compare *args:
+    nix run .#cohort-compare -- {{args}}
+
 # Resolve the broad cohort from recorded inputs; routine changes use cohort-update.
 cohort-resolve:
     nix develop .#cohort-inventory -c python3 scripts/cohort-resolve.py

@@ -46,6 +46,11 @@ provenance:
       at: 2026-10-16T05:07:23Z
       mode: "implement"
       note: "Record verified EP-9 registry prerequisite and downstream implementation blocker."
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-16T12:12:36Z
+      mode: "implement"
+      note: "Record EP-9 comparator bootstrap and pending Kioku publication prerequisite."
   reviews:
     - model: "gpt-6.1-sol"
       harness: "codex-cli"
@@ -301,6 +306,8 @@ The goal is less repeated coordination and dependency compilation. Equal version
 
 
 ## Progress
+
+EP-9 comparator checkpoint (2026-10-16): the public `cohort-compare` app supports consumer Cabal-plan subsets with strict version/source/metadata/flag checks and the shared recursive lock resolver. All 128 updater tests pass, with packaged status/lock/plan fixtures and native formatting validation. Manifest construction/comparison and stale-import verification remain open, so EP-9 remains In Progress. Registry and upstream verification still show Kioku 0.9.0.1 with the Baikai cap; the user has been given the five-package 0.9.0.2 publication handoff for the committed fix in `mori://shinzui/kioku`. The generated layer and downstream consumers remain gated on the refreshed solve and remaining EP-9/EP-16 acceptance.
 
 Resume after Shikumi publication (2026-10-16): Hackage and upstream tags verify `shikumi-trace-otel` 0.1.2.2 (`db4eb373803552762edc9e86a231dfb529f8105b` in `mori://shinzui/shikumi`), admitting Baikai 0.8. The signed index at `2026-10-16T11:09:45Z` also supplies the other admitting Shikumi patches. The unmodified upgrade-only solve now fails on `kioku-core` 0.9.0.1's `baikai ^>=0.7.0.0` bound. Kioku core/CLI compatibility changes are committed at `37a47cb` in `mori://shinzui/kioku`: all 471 tests, the full build, all five package checks and native flake checks pass against Baikai 0.8.0.0. The fix retains Baikai 0.7 compatibility and supplies libcurl metadata in the project-local developer shell. Versions and release tags are unchanged; an admitting Kioku publication is still required. A separate diagnostic solve with only `kioku-core:baikai` relaxed selects 451 packages and succeeds, including Shikumi 0.4.1.1, Cache 0.2.0.2, Trace 0.3.0.2 and OTel 0.1.2.2. This diagnostic is not acceptance and its override was not added to checked-in policy. Retained candidate: `/tmp/mp3-ep9-post-shikumi-dx009hyj`. Accepted Cabal artifacts remain unchanged; EP-9 remains In Progress.
 
