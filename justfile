@@ -131,6 +131,13 @@ cohort-inventory-refresh:
 cohort-compare *args:
     nix run .#cohort-compare -- {{args}}
 
+# Generate channel recipes from the frozen sources and exact metadata cutoff.
+cohort-generate:
+    {{cli}} cohort generate
+
+cohort-generated-check:
+    {{cli}} cohort generate --check
+
 # Resolve the broad cohort from recorded inputs; routine changes use cohort-update.
 cohort-resolve:
     nix develop .#cohort-inventory -c python3 scripts/cohort-resolve.py

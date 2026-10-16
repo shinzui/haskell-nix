@@ -1406,7 +1406,7 @@
             "mina-cli",
             "mina-core"
         ],
-        "revision": "5d4be2ef8291f39030fbcc1ac9b1dda21e40eeec",
+        "revision": "8e0dcb80a34fd366936b4028cd69c57e409c6aef",
         "role": "application"
     },
     "indexState": "2026-10-05T18:43:07Z",

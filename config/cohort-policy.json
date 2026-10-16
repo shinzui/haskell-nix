@@ -1,0 +1,99 @@
+{
+  "excluded": {
+    "keiro-mori-conformance": {
+      "owner": "mori://shinzui/mori",
+      "reason": "Application-owned package supplied by its contributor flake."
+    },
+    "keiro-rei-conformance": {
+      "owner": "mori://shinzui/rei",
+      "reason": "Application-owned package supplied by its contributor flake."
+    },
+    "mina-cli": {
+      "owner": "mori://shinzui/mina",
+      "reason": "Application-owned package supplied by its contributor flake."
+    },
+    "mina-core": {
+      "owner": "mori://shinzui/mina",
+      "reason": "Application-owned package supplied by its contributor flake."
+    },
+    "mori-api": {
+      "owner": "mori://shinzui/mori",
+      "reason": "Application-owned package supplied by its contributor flake."
+    },
+    "mori-app": {
+      "owner": "mori://shinzui/mori-app",
+      "reason": "Application-owned package supplied by its contributor flake."
+    },
+    "mori-cli": {
+      "owner": "mori://shinzui/mori",
+      "reason": "Application-owned package supplied by its contributor flake."
+    },
+    "mori-core": {
+      "owner": "mori://shinzui/mori",
+      "reason": "Application-owned package supplied by its contributor flake."
+    },
+    "mori-rei-app": {
+      "owner": "mori://shinzui/mori-rei-app",
+      "reason": "Application-owned package supplied by its contributor flake."
+    },
+    "mori-schema-pin": {
+      "owner": "mori://shinzui/mori",
+      "reason": "Application-owned package supplied by its contributor flake."
+    },
+    "mori-types": {
+      "owner": "mori://shinzui/mori",
+      "reason": "Application-owned package supplied by its contributor flake."
+    },
+    "rei-api": {
+      "owner": "mori://shinzui/rei",
+      "reason": "Application-owned package supplied by its contributor flake."
+    },
+    "rei-api-client": {
+      "owner": "mori://shinzui/rei",
+      "reason": "Application-owned package supplied by its contributor flake."
+    },
+    "rei-api-contract": {
+      "owner": "mori://shinzui/rei",
+      "reason": "Application-owned package supplied by its contributor flake."
+    },
+    "rei-cli": {
+      "owner": "mori://shinzui/rei",
+      "reason": "Application-owned package supplied by its contributor flake."
+    },
+    "rei-core": {
+      "owner": "mori://shinzui/rei",
+      "reason": "Application-owned package supplied by its contributor flake."
+    },
+    "reiko-cli": {
+      "owner": "mori://shinzui/reiko",
+      "reason": "Application-owned package supplied by its contributor flake."
+    },
+    "reiko-core": {
+      "owner": "mori://shinzui/reiko",
+      "reason": "Application-owned package supplied by its contributor flake."
+    }
+  },
+  "schemaVersion": 1,
+  "sourcePinned": {
+    "cmark-gfm": {
+      "owner": "mori://shinzui/cmark-gfm-hs",
+      "reason": "Retain the exact thread-safe extension-registration fork recorded by the cohort."
+    },
+    "dhall": {
+      "owner": "mori://shinzui/mori",
+      "reason": "Retain the exact Dhall source revision recorded by the Mori contributor."
+    },
+    "hs-opentelemetry-instrumentation-servant": {
+      "owner": "mori://shinzui/rei",
+      "reason": "Retain the exact route-template instrumentation source recorded by Rei."
+    },
+    "typeid-hs-pg-migrate": {
+      "owner": "mori://shinzui/typeid-hs",
+      "reason": "The split migration package has no Hackage release; retain the recorded Git revision and subdirectory."
+    },
+    "typeid-hs-sql": {
+      "owner": "mori://shinzui/typeid-hs",
+      "reason": "The split SQL package has no Hackage release; retain the recorded Git revision and subdirectory."
+    }
+  }
+}

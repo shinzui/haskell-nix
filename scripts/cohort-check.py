@@ -14,6 +14,7 @@ def main():
                     "--index-state=" + inputs["indexState"], *compiler_args()],
                    cwd="cabal", check=True, env=compiler_environment())
     subprocess.run([cli, "cohort", "check", "--compiler", inputs["compiler"]], check=True)
+    subprocess.run([cli, "cohort", "generate", "--check"], check=True)
 
 
 if __name__ == "__main__":

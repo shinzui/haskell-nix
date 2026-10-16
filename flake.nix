@@ -166,6 +166,19 @@
 
         lib = {
           parseCohortFreeze = import ./lib/parseCohortFreeze.nix { inherit lib; };
+          # Selection data is exported before layer activation; this alone
+          # changes no consumer derivation.
+          cohort =
+            let
+              freeze = (import ./lib/parseCohortFreeze.nix { inherit lib; })
+                (builtins.readFile ./cabal/cohort.freeze);
+            in
+            {
+              inherit freeze;
+              versions = import ./generated/cohort-versions.nix;
+              boot = import ./generated/ghc-boot-packages.nix;
+              versionTable = freeze.constraints;
+            };
           tests = import ./checks/unit.nix { inherit lib; };
           inherit
             disableHaddockOverride
@@ -251,6 +264,7 @@
             buildInputs = [ pkgsPlain.xz pkgsPlain.zlib pkgsPlain.postgresql.dev pkgsPlain.openssl.dev ];
           };
           checks = import ./checks/default.nix {
+            nixpkgsRevision = nixpkgs.rev;
             inherit lib pkgsPlain pkgsGithub pkgsHackage updater cohortCompare firstPartyRegistries
               supportedGhcs defaultGhc defaultSelectedFamilies registries mkChannelExtension
               mkFirstPartyPackageSet mkFirstPartyPackageSetFactory firstPartyPackageSets

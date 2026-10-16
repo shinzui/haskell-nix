@@ -80,7 +80,7 @@ getWithManager manager url = do
   attempted <-
     try $ do
       request <- Http.parseRequest (Text.unpack url)
-      response <- Http.httpLbs request manager
+      response <- Http.httpLbs request{Http.requestHeaders = ("Accept", "application/json") : Http.requestHeaders request} manager
       pure
         HttpResponse
           { statusCode = HttpStatus.statusCode (Http.responseStatus response),

@@ -221,7 +221,7 @@
             "condition": "always",
             "file": "mori-rei-app.cabal",
             "package": "ephemeral-pg",
-            "range": ">=0.2",
+            "range": ">=0.3.1 && <0.4",
             "tool": null
         },
         {
@@ -349,7 +349,7 @@
             "condition": "always",
             "file": "mori-rei-app.cabal",
             "package": "keiro",
-            "range": "^>=0.19",
+            "range": "^>=0.21.0.0",
             "tool": null
         },
         {
@@ -357,7 +357,7 @@
             "condition": "always",
             "file": "mori-rei-app.cabal",
             "package": "keiro-migrations",
-            "range": "^>=0.19",
+            "range": "^>=0.21.0.0",
             "tool": null
         },
         {
@@ -365,7 +365,7 @@
             "condition": "always",
             "file": "mori-rei-app.cabal",
             "package": "kiroku-store",
-            "range": "^>=0.9.0.1",
+            "range": "^>=0.11.0.0",
             "tool": null
         },
         {
@@ -373,7 +373,7 @@
             "condition": "always",
             "file": "mori-rei-app.cabal",
             "package": "kiroku-store",
-            "range": "^>=0.9.0.1",
+            "range": "^>=0.11.0.0",
             "tool": null
         },
         {
@@ -381,7 +381,7 @@
             "condition": "always",
             "file": "mori-rei-app.cabal",
             "package": "kiroku-store-migrations",
-            "range": "^>=0.6",
+            "range": "^>=0.7.1.0",
             "tool": null
         },
         {
@@ -605,7 +605,7 @@
             "condition": "always",
             "file": "mori-rei-app.cabal",
             "package": "rei-core",
-            "range": "^>=7.0",
+            "range": "^>=7.1",
             "tool": null
         },
         {
@@ -613,7 +613,7 @@
             "condition": "always",
             "file": "mori-rei-app.cabal",
             "package": "rei-core",
-            "range": "^>=7.0",
+            "range": "^>=7.1",
             "tool": null
         },
         {
@@ -753,6 +753,14 @@
             "tool": null
         },
         {
+            "component": "test:mori-rei-app-test",
+            "condition": "always",
+            "file": "mori-rei-app.cabal",
+            "package": "unix",
+            "range": "^>=2.8",
+            "tool": null
+        },
+        {
             "component": "library",
             "condition": "always",
             "file": "mori-rei-app.cabal",
@@ -852,10 +860,10 @@
         "ownPackages": [
             "mori-rei-app"
         ],
-        "revision": "453aaaef7e327617bb968ee85c9cf2f6fa6eac5a",
+        "revision": "9cbde11b2f8809159b676f4b3cd11ce01850b169",
         "role": "application"
     },
-    "indexState": "2026-09-26T18:09:31Z",
+    "indexState": "2026-10-14T22:38:45Z",
     "packages": {
         "Cabal": {
             "dependencies": [
@@ -1686,7 +1694,7 @@
                 {
                     "component-name": "exe:baikai-fetch-models",
                     "flags": {},
-                    "pkg-cabal-sha256": "0f5f28cc598602ecdfc39de863522ff6c22ce858fe1b0a0a75d0a515cb2d4d5c",
+                    "pkg-cabal-sha256": "959a58dc72e25ad7cc982c9cd4e5a6cb9ed1b59fccf01d78d0c9ed6d2cd999b5",
                     "pkg-name": "baikai",
                     "pkg-src": {
                         "repo": {
@@ -1695,14 +1703,14 @@
                         },
                         "type": "repo-tar"
                     },
-                    "pkg-src-sha256": "31b47d6dd7690141818c582a501550299d927fc0de87a347afcd786e87d9cebf",
-                    "pkg-version": "0.7.1.0",
+                    "pkg-src-sha256": "eaaea9d76d890ce7757379d6017e51f3108dfcb71400c280b078995b9c908e53",
+                    "pkg-version": "0.7.2.0",
                     "type": "configured"
                 },
                 {
                     "component-name": "exe:baikai-gen-models",
                     "flags": {},
-                    "pkg-cabal-sha256": "0f5f28cc598602ecdfc39de863522ff6c22ce858fe1b0a0a75d0a515cb2d4d5c",
+                    "pkg-cabal-sha256": "959a58dc72e25ad7cc982c9cd4e5a6cb9ed1b59fccf01d78d0c9ed6d2cd999b5",
                     "pkg-name": "baikai",
                     "pkg-src": {
                         "repo": {
@@ -1711,14 +1719,14 @@
                         },
                         "type": "repo-tar"
                     },
-                    "pkg-src-sha256": "31b47d6dd7690141818c582a501550299d927fc0de87a347afcd786e87d9cebf",
-                    "pkg-version": "0.7.1.0",
+                    "pkg-src-sha256": "eaaea9d76d890ce7757379d6017e51f3108dfcb71400c280b078995b9c908e53",
+                    "pkg-version": "0.7.2.0",
                     "type": "configured"
                 },
                 {
                     "component-name": "lib",
                     "flags": {},
-                    "pkg-cabal-sha256": "0f5f28cc598602ecdfc39de863522ff6c22ce858fe1b0a0a75d0a515cb2d4d5c",
+                    "pkg-cabal-sha256": "959a58dc72e25ad7cc982c9cd4e5a6cb9ed1b59fccf01d78d0c9ed6d2cd999b5",
                     "pkg-name": "baikai",
                     "pkg-src": {
                         "repo": {
@@ -1727,13 +1735,13 @@
                         },
                         "type": "repo-tar"
                     },
-                    "pkg-src-sha256": "31b47d6dd7690141818c582a501550299d927fc0de87a347afcd786e87d9cebf",
-                    "pkg-version": "0.7.1.0",
+                    "pkg-src-sha256": "eaaea9d76d890ce7757379d6017e51f3108dfcb71400c280b078995b9c908e53",
+                    "pkg-version": "0.7.2.0",
                     "type": "configured"
                 }
             ],
             "source": "Hackage",
-            "version": "0.7.1.0"
+            "version": "0.7.2.0"
         },
         "baikai-claude": {
             "dependencies": [
@@ -1765,7 +1773,7 @@
                 {
                     "component-name": "lib",
                     "flags": {},
-                    "pkg-cabal-sha256": "c9694ffd3b342f9522c0b87b11364ae02fbe35dc348ab510e33054b6c56c3f88",
+                    "pkg-cabal-sha256": "ed2f8e6118f01828459db568cc5040415bf6aa736b158b9c978130a7ca359e92",
                     "pkg-name": "baikai-claude",
                     "pkg-src": {
                         "repo": {
@@ -1774,13 +1782,13 @@
                         },
                         "type": "repo-tar"
                     },
-                    "pkg-src-sha256": "43b481a091768b989ed6c3b1edddf8fc7813a427b6965661abad4e33230e21f9",
-                    "pkg-version": "0.7.0.0",
+                    "pkg-src-sha256": "5cba61cdfa87b4d8eddaf38fc0e9f69e32a650955d7f8a7988a03f6750474bec",
+                    "pkg-version": "0.7.1.0",
                     "type": "configured"
                 }
             ],
             "source": "Hackage",
-            "version": "0.7.0.0"
+            "version": "0.7.1.0"
         },
         "baikai-effectful": {
             "dependencies": [
@@ -1821,6 +1829,7 @@
                 "bytestring",
                 "case-insensitive",
                 "containers",
+                "directory",
                 "generic-lens",
                 "http-client",
                 "http-client-tls",
@@ -1840,7 +1849,7 @@
                 {
                     "component-name": "lib",
                     "flags": {},
-                    "pkg-cabal-sha256": "5b1745f2977c37e82e434acfcf19d8ddc66eef2a0015eecdaf3b00640c7e3f15",
+                    "pkg-cabal-sha256": "6e5b36d6fbb24687125e2fe4a5eda588bc492b34cb42b7ad823a6b32032e6585",
                     "pkg-name": "baikai-openai",
                     "pkg-src": {
                         "repo": {
@@ -1849,13 +1858,13 @@
                         },
                         "type": "repo-tar"
                     },
-                    "pkg-src-sha256": "2fb5280106226369b6ca829502ed4233fe4cde2c2807115a347f19dca092c2e5",
-                    "pkg-version": "0.7.0.0",
+                    "pkg-src-sha256": "ec993277ba2d18a526f42444593025ea131701facbb55d0ec8af30993fabf6cf",
+                    "pkg-version": "0.7.1.0",
                     "type": "configured"
                 }
             ],
             "source": "Hackage",
-            "version": "0.7.0.0"
+            "version": "0.7.1.0"
         },
         "base": {
             "dependencies": [
@@ -1990,8 +1999,10 @@
             "identities": [
                 {
                     "component-name": "lib",
-                    "flags": {},
-                    "pkg-cabal-sha256": "7f92c1268e6fa191b41abab53313201644af756f3fdd7e99edf3c875e6ba02a4",
+                    "flags": {
+                        "simd": false
+                    },
+                    "pkg-cabal-sha256": "28ecc180651b677a38cca349024371c2bee96fe3b86c552d533434623cee2897",
                     "pkg-name": "base64",
                     "pkg-src": {
                         "repo": {
@@ -2000,13 +2011,13 @@
                         },
                         "type": "repo-tar"
                     },
-                    "pkg-src-sha256": "7942239f1804945fd6d319a953f26c53b64518076cd294141fda983f2ff1b2b6",
-                    "pkg-version": "1.0",
+                    "pkg-src-sha256": "74dfbbf44358167aba154871ed976c15cd9a5746ff37c84e7f22e613a20bc1fe",
+                    "pkg-version": "2.0",
                     "type": "configured"
                 }
             ],
             "source": "Hackage",
-            "version": "1.0"
+            "version": "2.0"
         },
         "base64-bytestring": {
             "dependencies": [
@@ -4346,7 +4357,7 @@
                 {
                     "component-name": "lib",
                     "flags": {},
-                    "pkg-cabal-sha256": "3c752ec14fd9455d4641bbc7652590d6f77e3d2cfda456892914d0575349d00a",
+                    "pkg-cabal-sha256": "d13df58f2cb38fdcaa988b2af62c0c12e8ca4232da39b2c1f5bc0f5af0941665",
                     "pkg-name": "fast-logger",
                     "pkg-src": {
                         "repo": {
@@ -4355,13 +4366,13 @@
                         },
                         "type": "repo-tar"
                     },
-                    "pkg-src-sha256": "2a344d9a783c90919a71c6c089f98800904e651fdef6e2c3b57af830f2af6bf2",
-                    "pkg-version": "3.2.7",
+                    "pkg-src-sha256": "39cdaf2c12b2f795be30d85eb638785f74aa5162c6daf827b5ca202511debc8f",
+                    "pkg-version": "3.2.8",
                     "type": "configured"
                 }
             ],
             "source": "Hackage",
-            "version": "3.2.7"
+            "version": "3.2.8"
         },
         "file-embed": {
             "dependencies": [
@@ -5123,7 +5134,7 @@
                 {
                     "component-name": "lib",
                     "flags": {},
-                    "pkg-cabal-sha256": "fb7267aedbe93648224fdee7b0d72a87291c8e0b631d75c34616713807bb6a4b",
+                    "pkg-cabal-sha256": "0ff7cd17dd43f7b9dda318f2acdf532d0568352c7f2641bd38f5285141dfbba3",
                     "pkg-name": "hasql-dynamic-statements",
                     "pkg-src": {
                         "repo": {
@@ -5132,13 +5143,13 @@
                         },
                         "type": "repo-tar"
                     },
-                    "pkg-src-sha256": "5a3b35e9de4eae55802eecf040fb7ab6f9c3100c078f792e15a017f29b1b2d9f",
-                    "pkg-version": "0.5.1.1",
+                    "pkg-src-sha256": "d1e8889b0be3fed5ffe3c7f07086d061379236411dccc9303c5104caaf6e2ebc",
+                    "pkg-version": "0.5.1.2",
                     "type": "configured"
                 }
             ],
             "source": "Hackage",
-            "version": "0.5.1.1"
+            "version": "0.5.1.2"
         },
         "hasql-implicits": {
             "dependencies": [
@@ -6153,7 +6164,7 @@
                         "devel": false,
                         "h2spec": false
                     },
-                    "pkg-cabal-sha256": "7cc49e6168f0da25e2d1701396c1617734c404b8ea4b892e9d893a696ff9ee2f",
+                    "pkg-cabal-sha256": "a75c02eb2cccb36160b1e17dff580358de60e0d77f9d2bee6f81aa615e25281b",
                     "pkg-name": "http2",
                     "pkg-src": {
                         "repo": {
@@ -6162,13 +6173,13 @@
                         },
                         "type": "repo-tar"
                     },
-                    "pkg-src-sha256": "242b2811d376fed626f65eadbdbf6d4fe09908824930cdbe50e089f5cfe59c79",
-                    "pkg-version": "5.4.6",
+                    "pkg-src-sha256": "42f48fb00972e05454677e03a1b9d173a04c8c571967ed5752d5d1c168a658be",
+                    "pkg-version": "5.4.8",
                     "type": "configured"
                 }
             ],
             "source": "Hackage",
-            "version": "5.4.6"
+            "version": "5.4.8"
         },
         "indexed-profunctors": {
             "dependencies": [
@@ -6542,7 +6553,7 @@
                     "flags": {
                         "reaction-hydration-probe": false
                     },
-                    "pkg-cabal-sha256": "22a9e32510cee621f7072354112494f4046602846087cd93cae7a95430674f7c",
+                    "pkg-cabal-sha256": "6ce42752c998b290f67706ada8d727a559b110e1d8a0d8f6abfba8b65b4fed49",
                     "pkg-name": "keiro",
                     "pkg-src": {
                         "repo": {
@@ -6551,13 +6562,13 @@
                         },
                         "type": "repo-tar"
                     },
-                    "pkg-src-sha256": "fca4253ec5b3b96b872edca98db89f5a48738b93387570a187a904003e9d31a1",
-                    "pkg-version": "0.19.0.0",
+                    "pkg-src-sha256": "31b53b65e2b959a28afdaf38813cfeb858b0a7bdd3d8c4ae2ef303a7b1d489ca",
+                    "pkg-version": "0.21.0.0",
                     "type": "configured"
                 }
             ],
             "source": "Hackage",
-            "version": "0.19.0.0"
+            "version": "0.21.0.0"
         },
         "keiro-core": {
             "dependencies": [
@@ -6581,7 +6592,7 @@
                 {
                     "component-name": "lib",
                     "flags": {},
-                    "pkg-cabal-sha256": "aff7bcaf0421dd329cca2a372f8a270f85727d0635b02ffcc774b4d76199379f",
+                    "pkg-cabal-sha256": "92ffdcf03e6d7ce8986ba2ca99963fe99b9029c25c0177bf290842017bc13403",
                     "pkg-name": "keiro-core",
                     "pkg-src": {
                         "repo": {
@@ -6590,13 +6601,13 @@
                         },
                         "type": "repo-tar"
                     },
-                    "pkg-src-sha256": "667aac75edeedb807a4b805ee5c52d647f95c08e4df152db451b79551e61a6ed",
-                    "pkg-version": "0.19.0.0",
+                    "pkg-src-sha256": "1372b470011cea2c80573ce1ae7f04a6059f240ba77805590f7f7188647c60ee",
+                    "pkg-version": "0.21.0.0",
                     "type": "configured"
                 }
             ],
             "source": "Hackage",
-            "version": "0.19.0.0"
+            "version": "0.21.0.0"
         },
         "keiro-migrations": {
             "dependencies": [
@@ -6621,7 +6632,7 @@
                     "flags": {
                         "legacy-codd-tools": false
                     },
-                    "pkg-cabal-sha256": "1aad9bf171896022d8c8734253aa5435dfd6f12ab46fdc486047ac8f9b12ab5f",
+                    "pkg-cabal-sha256": "b0640fa7ef9dccc367771ddbe51a8c5367f41c456f2a571c2e2e99634942cb33",
                     "pkg-name": "keiro-migrations",
                     "pkg-src": {
                         "repo": {
@@ -6630,8 +6641,8 @@
                         },
                         "type": "repo-tar"
                     },
-                    "pkg-src-sha256": "1aae0ec1b05be7421282381a57d641ab82d3524d0ed6cabd4c8633d1eed81542",
-                    "pkg-version": "0.19.0.0",
+                    "pkg-src-sha256": "d737aa76972072efad9fde10046ccdeb1efa33c17460a58327d113cb9f9c7140",
+                    "pkg-version": "0.21.0.0",
                     "type": "configured"
                 },
                 {
@@ -6639,7 +6650,7 @@
                     "flags": {
                         "legacy-codd-tools": false
                     },
-                    "pkg-cabal-sha256": "1aad9bf171896022d8c8734253aa5435dfd6f12ab46fdc486047ac8f9b12ab5f",
+                    "pkg-cabal-sha256": "b0640fa7ef9dccc367771ddbe51a8c5367f41c456f2a571c2e2e99634942cb33",
                     "pkg-name": "keiro-migrations",
                     "pkg-src": {
                         "repo": {
@@ -6648,13 +6659,13 @@
                         },
                         "type": "repo-tar"
                     },
-                    "pkg-src-sha256": "1aae0ec1b05be7421282381a57d641ab82d3524d0ed6cabd4c8633d1eed81542",
-                    "pkg-version": "0.19.0.0",
+                    "pkg-src-sha256": "d737aa76972072efad9fde10046ccdeb1efa33c17460a58327d113cb9f9c7140",
+                    "pkg-version": "0.21.0.0",
                     "type": "configured"
                 }
             ],
             "source": "Hackage",
-            "version": "0.19.0.0"
+            "version": "0.21.0.0"
         },
         "keiro-pgmq": {
             "dependencies": [
@@ -6679,7 +6690,7 @@
                 {
                     "component-name": "lib",
                     "flags": {},
-                    "pkg-cabal-sha256": "5434c429f61ac7d17bcea6c2d0f6c0f6323b9b84249881c15f5a301b01bf9627",
+                    "pkg-cabal-sha256": "17ae04b7659cb23cf9a8f0d06bbe68a07f49d0f5f7dc20aeb47ec3dc9a027595",
                     "pkg-name": "keiro-pgmq",
                     "pkg-src": {
                         "repo": {
@@ -6688,13 +6699,13 @@
                         },
                         "type": "repo-tar"
                     },
-                    "pkg-src-sha256": "9bee7cd36e804aad0f903bbc29f0ca3fde1d57b2487dfa7eec4b7a8df12dce8b",
-                    "pkg-version": "0.19.0.0",
+                    "pkg-src-sha256": "51b8bd85b021d3d51882cbff0d701c02ca4aee499f3e7e47766b0c4181d1fcb0",
+                    "pkg-version": "0.21.0.0",
                     "type": "configured"
                 }
             ],
             "source": "Hackage",
-            "version": "0.19.0.0"
+            "version": "0.21.0.0"
         },
         "keiro-test-support": {
             "dependencies": [
@@ -6718,7 +6729,7 @@
                 {
                     "component-name": "lib",
                     "flags": {},
-                    "pkg-cabal-sha256": "537be6337db7e639f084520f47d5f70bdeb374020b262b8ad6fe94ed851938d9",
+                    "pkg-cabal-sha256": "5b1e77cedbb24e346528386defc32135694942e2353b82aa36d5a505052d7c3e",
                     "pkg-name": "keiro-test-support",
                     "pkg-src": {
                         "repo": {
@@ -6727,13 +6738,13 @@
                         },
                         "type": "repo-tar"
                     },
-                    "pkg-src-sha256": "b72139c99aebb54fbbbb203ad960cc30c90dca1ba39c61b2781ee58067b91114",
-                    "pkg-version": "0.19.0.0",
+                    "pkg-src-sha256": "58194c79deb4cb8d9c3f8f2fbc31bc393b433bad2b70fa9a8345f5fc4a693e0e",
+                    "pkg-version": "0.21.0.0",
                     "type": "configured"
                 }
             ],
             "source": "Hackage",
-            "version": "0.19.0.0"
+            "version": "0.21.0.0"
         },
         "kioku-api": {
             "dependencies": [
@@ -6749,7 +6760,7 @@
                 {
                     "component-name": "lib",
                     "flags": {},
-                    "pkg-cabal-sha256": "e8de6028f628e99dcebed3f5cfb85431c5bba13b24f6eb229082f631bdf546e4",
+                    "pkg-cabal-sha256": "959ee34b9889ece6182d53ef32be5efbe8f2c8a48992cec9c80de0f315b6617c",
                     "pkg-name": "kioku-api",
                     "pkg-src": {
                         "repo": {
@@ -6758,13 +6769,13 @@
                         },
                         "type": "repo-tar"
                     },
-                    "pkg-src-sha256": "0a25a441461f409bf136a7fe73c70666bbd5ed8bfdd8689083a005708d7b62bb",
-                    "pkg-version": "0.8.0.0",
+                    "pkg-src-sha256": "22e5a8d701158755c856bfcfaff8341639d7f66377315f1bdd2695596d5cf9ac",
+                    "pkg-version": "0.9.0.1",
                     "type": "configured"
                 }
             ],
             "source": "Hackage",
-            "version": "0.8.0.0"
+            "version": "0.9.0.1"
         },
         "kioku-core": {
             "dependencies": [
@@ -6810,7 +6821,7 @@
                 {
                     "component-name": "lib",
                     "flags": {},
-                    "pkg-cabal-sha256": "f0b6e5b42695f1a1caf57c344c5380ef081bf0dedd7a5003e6c59c58e49e2b31",
+                    "pkg-cabal-sha256": "4bf0a72368ee755462c8a85031590596fe80517cc7b79279e7b2b6f93d1a6e5b",
                     "pkg-name": "kioku-core",
                     "pkg-src": {
                         "repo": {
@@ -6819,13 +6830,13 @@
                         },
                         "type": "repo-tar"
                     },
-                    "pkg-src-sha256": "4a5d84a7e0f147ce220e50cbcd03d3e0c0c38368d5e3f359f5bb384bc12bde03",
-                    "pkg-version": "0.8.0.0",
+                    "pkg-src-sha256": "671ccf859bedda71e147450f17dd09bdd5f829b5a7b112c0b028803b5582ca45",
+                    "pkg-version": "0.9.0.1",
                     "type": "configured"
                 }
             ],
             "source": "Hackage",
-            "version": "0.8.0.0"
+            "version": "0.9.0.1"
         },
         "kioku-migrations": {
             "dependencies": [
@@ -6833,6 +6844,7 @@
                 "base",
                 "bytestring",
                 "containers",
+                "directory",
                 "ephemeral-pg",
                 "hasql",
                 "hasql-transaction",
@@ -6844,13 +6856,14 @@
                 "pg-migrate-embed",
                 "pg-migrate-import-codd",
                 "template-haskell",
-                "text"
+                "text",
+                "unix"
             ],
             "identities": [
                 {
                     "component-name": "lib",
                     "flags": {},
-                    "pkg-cabal-sha256": "c2e0643666d733e5e6ac02ad6c4f406b66c1ca70b99ea97dc2a9c7b81a3c311d",
+                    "pkg-cabal-sha256": "8b094da60c32c41572c453c37f0db9a867fad1d44119a1ae04037bc1d6558341",
                     "pkg-name": "kioku-migrations",
                     "pkg-src": {
                         "repo": {
@@ -6859,14 +6872,14 @@
                         },
                         "type": "repo-tar"
                     },
-                    "pkg-src-sha256": "3a84884b3c3a40b13be8781fbbbb088d0b599976fdea40f0e5e4436f99a3b8eb",
-                    "pkg-version": "0.8.0.0",
+                    "pkg-src-sha256": "35f9320a6c4e7908d74a90418fb6195040b4ce3d7fdadf57c27321108f81784e",
+                    "pkg-version": "0.9.0.1",
                     "type": "configured"
                 },
                 {
                     "component-name": "lib:test-support",
                     "flags": {},
-                    "pkg-cabal-sha256": "c2e0643666d733e5e6ac02ad6c4f406b66c1ca70b99ea97dc2a9c7b81a3c311d",
+                    "pkg-cabal-sha256": "8b094da60c32c41572c453c37f0db9a867fad1d44119a1ae04037bc1d6558341",
                     "pkg-name": "kioku-migrations",
                     "pkg-src": {
                         "repo": {
@@ -6875,13 +6888,13 @@
                         },
                         "type": "repo-tar"
                     },
-                    "pkg-src-sha256": "3a84884b3c3a40b13be8781fbbbb088d0b599976fdea40f0e5e4436f99a3b8eb",
-                    "pkg-version": "0.8.0.0",
+                    "pkg-src-sha256": "35f9320a6c4e7908d74a90418fb6195040b4ce3d7fdadf57c27321108f81784e",
+                    "pkg-version": "0.9.0.1",
                     "type": "configured"
                 }
             ],
             "source": "Hackage",
-            "version": "0.8.0.0"
+            "version": "0.9.0.1"
         },
         "kiroku-otel": {
             "dependencies": [
@@ -6902,7 +6915,7 @@
                 {
                     "component-name": "lib",
                     "flags": {},
-                    "pkg-cabal-sha256": "4768b925b8f1534ef5fbce004dfe9b317a314aa01544aee359691adb8616e2f0",
+                    "pkg-cabal-sha256": "5413ad6964344e7d8abd3a984f19a2668a2747484840d612ac01bcd3d13cd237",
                     "pkg-name": "kiroku-otel",
                     "pkg-src": {
                         "repo": {
@@ -6911,13 +6924,13 @@
                         },
                         "type": "repo-tar"
                     },
-                    "pkg-src-sha256": "18a36452be6df836055d396bf16b302a95ffb3d847efcb19eb94ce39ff4d7c12",
-                    "pkg-version": "0.2.0.10",
+                    "pkg-src-sha256": "d92f389e97951b026723f571d53eda36aaea603e265f429b2a883bf5b89f09b1",
+                    "pkg-version": "0.2.0.12",
                     "type": "configured"
                 }
             ],
             "source": "Hackage",
-            "version": "0.2.0.10"
+            "version": "0.2.0.12"
         },
         "kiroku-store": {
             "dependencies": [
@@ -6948,7 +6961,7 @@
                 {
                     "component-name": "lib",
                     "flags": {},
-                    "pkg-cabal-sha256": "b8df05b02167e21247ea965926a770b0dd90f25ddb3b79124e30ee748b80cef4",
+                    "pkg-cabal-sha256": "67e37cec852fca8548909f4a20458872be143f6a36199323403df13285ddb3ea",
                     "pkg-name": "kiroku-store",
                     "pkg-src": {
                         "repo": {
@@ -6957,13 +6970,13 @@
                         },
                         "type": "repo-tar"
                     },
-                    "pkg-src-sha256": "0625101bb9cad9427e936193756b23cce527b20bf40230937777e4f21c196b58",
-                    "pkg-version": "0.9.0.1",
+                    "pkg-src-sha256": "c3a756d96b5341274b681a3d2f643d69deb287ee15cfe932ec8d7eb14928d9f7",
+                    "pkg-version": "0.11.0.0",
                     "type": "configured"
                 }
             ],
             "source": "Hackage",
-            "version": "0.9.0.1"
+            "version": "0.11.0.0"
         },
         "kiroku-store-migrations": {
             "dependencies": [
@@ -6986,7 +6999,7 @@
                 {
                     "component-name": "exe:kiroku-store-migrate",
                     "flags": {},
-                    "pkg-cabal-sha256": "1591ff381f8fb5420b0bfe2dbce8db775309cf55aabdcf8dadb71e6436596ef1",
+                    "pkg-cabal-sha256": "d410a411ba62d06d9348d63a3e3697d308b8df6cf310b9bcec9c1c761358402a",
                     "pkg-name": "kiroku-store-migrations",
                     "pkg-src": {
                         "repo": {
@@ -6995,14 +7008,14 @@
                         },
                         "type": "repo-tar"
                     },
-                    "pkg-src-sha256": "8c0d8e9b98e39c332457a0d34d37c8e909e3c2618dc6d334b6a16cc98fc353de",
-                    "pkg-version": "0.6.0.0",
+                    "pkg-src-sha256": "013e07503c380b8b6efda9568bd1666be5534646eb1d6a334d16eef37fd84c3c",
+                    "pkg-version": "0.7.1.0",
                     "type": "configured"
                 },
                 {
                     "component-name": "lib",
                     "flags": {},
-                    "pkg-cabal-sha256": "1591ff381f8fb5420b0bfe2dbce8db775309cf55aabdcf8dadb71e6436596ef1",
+                    "pkg-cabal-sha256": "d410a411ba62d06d9348d63a3e3697d308b8df6cf310b9bcec9c1c761358402a",
                     "pkg-name": "kiroku-store-migrations",
                     "pkg-src": {
                         "repo": {
@@ -7011,13 +7024,13 @@
                         },
                         "type": "repo-tar"
                     },
-                    "pkg-src-sha256": "8c0d8e9b98e39c332457a0d34d37c8e909e3c2618dc6d334b6a16cc98fc353de",
-                    "pkg-version": "0.6.0.0",
+                    "pkg-src-sha256": "013e07503c380b8b6efda9568bd1666be5534646eb1d6a334d16eef37fd84c3c",
+                    "pkg-version": "0.7.1.0",
                     "type": "configured"
                 }
             ],
             "source": "Hackage",
-            "version": "0.6.0.0"
+            "version": "0.7.1.0"
         },
         "lens": {
             "dependencies": [
@@ -7527,7 +7540,7 @@
                     "flags": {
                         "dev": false
                     },
-                    "pkg-cabal-sha256": "b3f325d17426273fda7304a38bac06e71f62fbc2de5f3d59b9dea6a38ff6e7a6",
+                    "pkg-cabal-sha256": "9c6471f6a333911b8012208ad831a824a07a677c30bf45893ac4be04da7ac461",
                     "pkg-name": "modern-uri",
                     "pkg-src": {
                         "repo": {
@@ -9118,13 +9131,14 @@
                 "bytestring",
                 "deepseq",
                 "mtl",
-                "splitmix"
+                "splitmix",
+                "transformers"
             ],
             "identities": [
                 {
                     "component-name": "lib",
                     "flags": {},
-                    "pkg-cabal-sha256": "117541ba0a177397a3333f94870f789ef050dca31b0688a19824b2bc401b8823",
+                    "pkg-cabal-sha256": "0b4f649c3e78713b2ccad1535251ee34b148237fb2229d7058c2b1d9ccc324b8",
                     "pkg-name": "random",
                     "pkg-src": {
                         "repo": {
@@ -9133,13 +9147,13 @@
                         },
                         "type": "repo-tar"
                     },
-                    "pkg-src-sha256": "e9c81926a7d1e40328f645f73592b31efc9c631589669a7f130687b9cc3051dc",
-                    "pkg-version": "1.2.1.3",
+                    "pkg-src-sha256": "d840ac83f265b0cfa2a678f8ec78627eb50cf9be2f067c52c8a4239c29b71a35",
+                    "pkg-version": "1.3.1",
                     "type": "configured"
                 }
             ],
             "source": "Hackage",
-            "version": "1.2.1.3"
+            "version": "1.3.1"
         },
         "recv": {
             "dependencies": [
@@ -9244,6 +9258,7 @@
                 "megaparsec",
                 "mmzk-typeid",
                 "modern-uri",
+                "network",
                 "network-uri",
                 "optparse-applicative",
                 "pg-migrate",
@@ -9263,6 +9278,7 @@
                 "settei-env",
                 "shibuya-core",
                 "shibuya-kiroku-adapter",
+                "tasty-hunit",
                 "text",
                 "time",
                 "typeid-hs-pg-migrate",
@@ -9282,13 +9298,13 @@
                         "source-repo": {
                             "location": "https://github.com/shinzui/rei",
                             "subdir": "rei-core",
-                            "tag": "c6cc82db10f0f57dbfaf7bd3a4ce58486aeba1b9",
+                            "tag": "a3765f6e09e15876695b47c75f0139b4c03ead85",
                             "type": "git"
                         },
                         "type": "source-repo"
                     },
-                    "pkg-src-sha256": "253f9e219f6ff19166ba75605475c380cb2eeb6041538b1204becccc156d54bb",
-                    "pkg-version": "7.0.0.0",
+                    "pkg-src-sha256": "d318a3811c823df16df202daa1a10665bd57332d363bf647cc11c31b4bb04458",
+                    "pkg-version": "7.1.0.0",
                     "type": "configured"
                 },
                 {
@@ -9299,13 +9315,13 @@
                         "source-repo": {
                             "location": "https://github.com/shinzui/rei",
                             "subdir": "rei-core",
-                            "tag": "c6cc82db10f0f57dbfaf7bd3a4ce58486aeba1b9",
+                            "tag": "a3765f6e09e15876695b47c75f0139b4c03ead85",
                             "type": "git"
                         },
                         "type": "source-repo"
                     },
-                    "pkg-src-sha256": "253f9e219f6ff19166ba75605475c380cb2eeb6041538b1204becccc156d54bb",
-                    "pkg-version": "7.0.0.0",
+                    "pkg-src-sha256": "d318a3811c823df16df202daa1a10665bd57332d363bf647cc11c31b4bb04458",
+                    "pkg-version": "7.1.0.0",
                     "type": "configured"
                 },
                 {
@@ -9316,18 +9332,35 @@
                         "source-repo": {
                             "location": "https://github.com/shinzui/rei",
                             "subdir": "rei-core",
-                            "tag": "c6cc82db10f0f57dbfaf7bd3a4ce58486aeba1b9",
+                            "tag": "a3765f6e09e15876695b47c75f0139b4c03ead85",
                             "type": "git"
                         },
                         "type": "source-repo"
                     },
-                    "pkg-src-sha256": "253f9e219f6ff19166ba75605475c380cb2eeb6041538b1204becccc156d54bb",
-                    "pkg-version": "7.0.0.0",
+                    "pkg-src-sha256": "d318a3811c823df16df202daa1a10665bd57332d363bf647cc11c31b4bb04458",
+                    "pkg-version": "7.1.0.0",
+                    "type": "configured"
+                },
+                {
+                    "component-name": "lib:test-support",
+                    "flags": {},
+                    "pkg-name": "rei-core",
+                    "pkg-src": {
+                        "source-repo": {
+                            "location": "https://github.com/shinzui/rei",
+                            "subdir": "rei-core",
+                            "tag": "a3765f6e09e15876695b47c75f0139b4c03ead85",
+                            "type": "git"
+                        },
+                        "type": "source-repo"
+                    },
+                    "pkg-src-sha256": "d318a3811c823df16df202daa1a10665bd57332d363bf647cc11c31b4bb04458",
+                    "pkg-version": "7.1.0.0",
                     "type": "configured"
                 }
             ],
             "source": "SourcePin",
-            "version": "7.0.0.0"
+            "version": "7.1.0.0"
         },
         "relay-pagination": {
             "dependencies": [
@@ -9343,7 +9376,7 @@
                 {
                     "component-name": "lib",
                     "flags": {},
-                    "pkg-cabal-sha256": "0794160cc1ff0a0134728a770a86008391f00a2259711e14bf70103a83538cd8",
+                    "pkg-cabal-sha256": "6d1e6c9d79c1cb2de019def6483ec2ad40167717acd4ce02fe5975af4a5f7b04",
                     "pkg-name": "relay-pagination",
                     "pkg-src": {
                         "repo": {
@@ -9352,13 +9385,13 @@
                         },
                         "type": "repo-tar"
                     },
-                    "pkg-src-sha256": "e84f18ce24c2c797e0b4a584938585957afc651b79d78b92161a34a26b41b0bc",
-                    "pkg-version": "0.1.1.0",
+                    "pkg-src-sha256": "96a0867a473a32ab7d7f54744ba86f0b2ea80461a57316fab6aef266ce9159ab",
+                    "pkg-version": "0.1.1.2",
                     "type": "configured"
                 }
             ],
             "source": "Hackage",
-            "version": "0.1.1.0"
+            "version": "0.1.1.2"
         },
         "relay-pagination-hasql": {
             "dependencies": [
@@ -9375,7 +9408,7 @@
                 {
                     "component-name": "lib",
                     "flags": {},
-                    "pkg-cabal-sha256": "de2792a5412a6410e45770d6463da4e9caa3168dc60b64c708e13e95870a2642",
+                    "pkg-cabal-sha256": "309caf72c9dae9c137eb876a7f638af635a889616eba24ba570756d662dab20c",
                     "pkg-name": "relay-pagination-hasql",
                     "pkg-src": {
                         "repo": {
@@ -9384,13 +9417,13 @@
                         },
                         "type": "repo-tar"
                     },
-                    "pkg-src-sha256": "74972c79df9bec99534188baeb598328a8d3c420445bfaf465b5de0d4f001012",
-                    "pkg-version": "0.1.1.0",
+                    "pkg-src-sha256": "17e86cf82633350fa82eef26ddf42e6f10a03ba450fedc2038aa608b9b742b51",
+                    "pkg-version": "0.1.1.2",
                     "type": "configured"
                 }
             ],
             "source": "Hackage",
-            "version": "0.1.1.0"
+            "version": "0.1.1.2"
         },
         "repline": {
             "dependencies": [
@@ -9590,7 +9623,7 @@
                     "flags": {
                         "integer-simple": false
                     },
-                    "pkg-cabal-sha256": "11b0c3bcc572f08ddcb13bfad94df85e0323f39915e74cae2d7a205c631b4d30",
+                    "pkg-cabal-sha256": "867d3d862acf041cf1540eca4e1d699797e9d8b61ade41a8284c94ad83ff540d",
                     "pkg-name": "scientific",
                     "pkg-src": {
                         "repo": {
@@ -9599,13 +9632,13 @@
                         },
                         "type": "repo-tar"
                     },
-                    "pkg-src-sha256": "ad3781be149dfc7936e62eb9c3ad78ded0e9985b4dae16d2f62d9ba957ccdcfe",
-                    "pkg-version": "0.3.8.1",
+                    "pkg-src-sha256": "39e9c7baa13852e245f5fc9c82d82eb564cd15a0dcb3a2850d9a1fc13af1c707",
+                    "pkg-version": "0.3.9.0",
                     "type": "configured"
                 }
             ],
             "source": "Hackage",
-            "version": "0.3.8.1"
+            "version": "0.3.9.0"
         },
         "selective": {
             "dependencies": [
@@ -10346,7 +10379,7 @@
                 {
                     "component-name": "lib",
                     "flags": {},
-                    "pkg-cabal-sha256": "4ad3f71c5b68c1519334ea1d2314a322bf020d05354e70cf50b76eaf4bee157d",
+                    "pkg-cabal-sha256": "6faf1f836edbac59f48cea67c531d6f6162a54dac1c7126ad2f64daeae5284c8",
                     "pkg-name": "shibuya-core",
                     "pkg-src": {
                         "repo": {
@@ -10355,13 +10388,13 @@
                         },
                         "type": "repo-tar"
                     },
-                    "pkg-src-sha256": "fde7bd013d1c6e9652bdf66571cd9b17771b26494e33d982c744a9621208471e",
-                    "pkg-version": "0.10.0.0",
+                    "pkg-src-sha256": "d1b383a1a5a49f6b095d530079cf6ee85cb0d980c6b990fa3be74b8a8a8f81ce",
+                    "pkg-version": "0.10.0.1",
                     "type": "configured"
                 }
             ],
             "source": "Hackage",
-            "version": "0.10.0.0"
+            "version": "0.10.0.1"
         },
         "shibuya-kiroku-adapter": {
             "dependencies": [
@@ -10376,6 +10409,7 @@
                 "stm",
                 "streamly-core",
                 "text",
+                "time",
                 "unordered-containers",
                 "uuid"
             ],
@@ -10385,7 +10419,7 @@
                     "flags": {
                         "lifecycle-live": false
                     },
-                    "pkg-cabal-sha256": "1ce0c72098111b45399463757fe55738ded2e7447d589af36c1ea1e79f8638ba",
+                    "pkg-cabal-sha256": "a3c1b3aba4c5f14685c51fa40f00d7136ec1a8f2e975dc20088d4c3186de8c8e",
                     "pkg-name": "shibuya-kiroku-adapter",
                     "pkg-src": {
                         "repo": {
@@ -10394,8 +10428,8 @@
                         },
                         "type": "repo-tar"
                     },
-                    "pkg-src-sha256": "d688e8c939688fe7a630ef405ac1e5cbde196ef3f38b37eb403faed4153e453c",
-                    "pkg-version": "0.5.1.5",
+                    "pkg-src-sha256": "47f9bd73094de9b6a658807ae57d7dd812c68fb3e071e0bd39985f14f19e8cf4",
+                    "pkg-version": "0.6.0.1",
                     "type": "configured"
                 },
                 {
@@ -10403,7 +10437,7 @@
                     "flags": {
                         "lifecycle-live": false
                     },
-                    "pkg-cabal-sha256": "1ce0c72098111b45399463757fe55738ded2e7447d589af36c1ea1e79f8638ba",
+                    "pkg-cabal-sha256": "a3c1b3aba4c5f14685c51fa40f00d7136ec1a8f2e975dc20088d4c3186de8c8e",
                     "pkg-name": "shibuya-kiroku-adapter",
                     "pkg-src": {
                         "repo": {
@@ -10412,13 +10446,13 @@
                         },
                         "type": "repo-tar"
                     },
-                    "pkg-src-sha256": "d688e8c939688fe7a630ef405ac1e5cbde196ef3f38b37eb403faed4153e453c",
-                    "pkg-version": "0.5.1.5",
+                    "pkg-src-sha256": "47f9bd73094de9b6a658807ae57d7dd812c68fb3e071e0bd39985f14f19e8cf4",
+                    "pkg-version": "0.6.0.1",
                     "type": "configured"
                 }
             ],
             "source": "Hackage",
-            "version": "0.5.1.5"
+            "version": "0.6.0.1"
         },
         "shibuya-pgmq-adapter": {
             "dependencies": [
@@ -10487,7 +10521,7 @@
                 {
                     "component-name": "lib",
                     "flags": {},
-                    "pkg-cabal-sha256": "e05e36c24c3f5cadf5511d78ccada265e8faeda00a5e14d0368bd31406b730dd",
+                    "pkg-cabal-sha256": "70874dab6f1ab97f95f18165ed593b5aa6054ab946fb8f5cec834654d0b8f343",
                     "pkg-name": "shikumi",
                     "pkg-src": {
                         "repo": {
@@ -10496,13 +10530,13 @@
                         },
                         "type": "repo-tar"
                     },
-                    "pkg-src-sha256": "b39fc3934ea8b57cc0649113a563a5f4ccb247ef050801dbe7ae3d6eb42d9ac5",
-                    "pkg-version": "0.4.0.0",
+                    "pkg-src-sha256": "0c794111ab68fd2980dd54f40650cf184d1432369760f47e6bae04fea93bf4d0",
+                    "pkg-version": "0.4.1.0",
                     "type": "configured"
                 }
             ],
             "source": "Hackage",
-            "version": "0.4.0.0"
+            "version": "0.4.1.0"
         },
         "shikumi-cache": {
             "dependencies": [
@@ -10527,7 +10561,7 @@
                 {
                     "component-name": "lib",
                     "flags": {},
-                    "pkg-cabal-sha256": "05d7f7714cb8cdd74b13706d2cbd27f66ef31949c7cb06dad0c5b9b0d9c9fdd6",
+                    "pkg-cabal-sha256": "6fb0d70b56d3ecb6c39f394ce3e1a8e19cb6f2e71608d3023e662054f9b31f63",
                     "pkg-name": "shikumi-cache",
                     "pkg-src": {
                         "repo": {
@@ -10536,13 +10570,13 @@
                         },
                         "type": "repo-tar"
                     },
-                    "pkg-src-sha256": "174ecdf6ea6eb87f5c9bb97244eef4311379c2108b21688c1057bb7d649a3803",
-                    "pkg-version": "0.2.0.0",
+                    "pkg-src-sha256": "e53fd294c165f1791d66e995e08284e5bd05603eca548e1b5f919c1ae6ca632a",
+                    "pkg-version": "0.2.0.1",
                     "type": "configured"
                 }
             ],
             "source": "Hackage",
-            "version": "0.2.0.0"
+            "version": "0.2.0.1"
         },
         "shikumi-trace": {
             "dependencies": [
@@ -10567,7 +10601,7 @@
                 {
                     "component-name": "exe:shikumi-trace-demo",
                     "flags": {},
-                    "pkg-cabal-sha256": "e3854c17a8be0e9868b10b8e66a2c2bd4e06e62dc6a04db29d8e328799ef7e13",
+                    "pkg-cabal-sha256": "f774fa9b7cdef9a7c8776b9202d0abee7b7012c93688683ed0c8e92472739bed",
                     "pkg-name": "shikumi-trace",
                     "pkg-src": {
                         "repo": {
@@ -10576,14 +10610,14 @@
                         },
                         "type": "repo-tar"
                     },
-                    "pkg-src-sha256": "88c4fffe4a1475dc90f4a731306d4cb8ef0e66f0427f633c33b57c37665f7bbe",
-                    "pkg-version": "0.3.0.0",
+                    "pkg-src-sha256": "366dec63fa68aeafdee8288e497f5acaed7699833d1e8db702e39371c3931215",
+                    "pkg-version": "0.3.0.1",
                     "type": "configured"
                 },
                 {
                     "component-name": "lib",
                     "flags": {},
-                    "pkg-cabal-sha256": "e3854c17a8be0e9868b10b8e66a2c2bd4e06e62dc6a04db29d8e328799ef7e13",
+                    "pkg-cabal-sha256": "f774fa9b7cdef9a7c8776b9202d0abee7b7012c93688683ed0c8e92472739bed",
                     "pkg-name": "shikumi-trace",
                     "pkg-src": {
                         "repo": {
@@ -10592,13 +10626,13 @@
                         },
                         "type": "repo-tar"
                     },
-                    "pkg-src-sha256": "88c4fffe4a1475dc90f4a731306d4cb8ef0e66f0427f633c33b57c37665f7bbe",
-                    "pkg-version": "0.3.0.0",
+                    "pkg-src-sha256": "366dec63fa68aeafdee8288e497f5acaed7699833d1e8db702e39371c3931215",
+                    "pkg-version": "0.3.0.1",
                     "type": "configured"
                 }
             ],
             "source": "Hackage",
-            "version": "0.3.0.0"
+            "version": "0.3.0.1"
         },
         "simple-sendfile": {
             "dependencies": [
@@ -10855,7 +10889,7 @@
                         "limit-build-mem": false,
                         "opt": true
                     },
-                    "pkg-cabal-sha256": "b55bfbb0d2a0042a4392de8231a27575c916ab9dd53ddb8274e9ea2269430840",
+                    "pkg-cabal-sha256": "7b49316d922ae7acbb0008a5f06fb6733cc3fc55e31129cec2cf07ea2c7d25ba",
                     "pkg-name": "streamly",
                     "pkg-src": {
                         "repo": {
@@ -11043,7 +11077,7 @@
                         "deepseq": true,
                         "template-haskell": true
                     },
-                    "pkg-cabal-sha256": "e9b97c98e9827981d62f37c5febf9e6bbb67acec92b8bd41fd9f7ace5eb31d32",
+                    "pkg-cabal-sha256": "2ada8d2cc33dcc4ed5e2ebf1fc272793b04a9840d95e44cf556f248c0a3a894c",
                     "pkg-name": "tagged",
                     "pkg-src": {
                         "repo": {
@@ -11052,13 +11086,13 @@
                         },
                         "type": "repo-tar"
                     },
-                    "pkg-src-sha256": "17ef791eb4caf314a3b4b158827a0f1f4b695c2a24af0875f09e3d8c10f56c5d",
-                    "pkg-version": "0.8.10",
+                    "pkg-src-sha256": "b288cf67bce7df2b21717fc254c05dea8eb814fec41059d263ba5d822cd8c75e",
+                    "pkg-version": "0.8.11",
                     "type": "configured"
                 }
             ],
             "source": "Hackage",
-            "version": "0.8.10"
+            "version": "0.8.11"
         },
         "tasty": {
             "dependencies": [
@@ -11077,7 +11111,7 @@
                     "flags": {
                         "unix": true
                     },
-                    "pkg-cabal-sha256": "49f8307d78c7d6b1959d4448152858efe102ca5e9b289be082b9bf221e798084",
+                    "pkg-cabal-sha256": "2065ef38e061551c7e3a997c4a4eac1b68dbf0553cc6177f01c8f7982f4cd375",
                     "pkg-name": "tasty",
                     "pkg-src": {
                         "repo": {
@@ -12053,7 +12087,7 @@
                 {
                     "component-name": "lib",
                     "flags": {},
-                    "pkg-cabal-sha256": "996f12b1780e04e22f08fb117c61706eadfeebcf4e5956cbaca9e03ead5080aa",
+                    "pkg-cabal-sha256": "56c8dc431bf7c99622d35221d82e22415ac4dbd044cf2d93954c4dd066890661",
                     "pkg-name": "tzdata",
                     "pkg-src": {
                         "repo": {
@@ -12062,13 +12096,13 @@
                         },
                         "type": "repo-tar"
                     },
-                    "pkg-src-sha256": "960364006da6c74992c84837aedab45830b9a8df6c1a0a20937254948446f812",
-                    "pkg-version": "0.2.20260708.0",
+                    "pkg-src-sha256": "bb9fe67cc61de86217883d174a02418385df35362effdf47841876f4adf7c1f7",
+                    "pkg-version": "0.2.20260911.0",
                     "type": "configured"
                 }
             ],
             "source": "Hackage",
-            "version": "0.2.20260708.0"
+            "version": "0.2.20260911.0"
         },
         "unagi-chan": {
             "dependencies": [
@@ -12110,7 +12144,7 @@
                     "flags": {
                         "dev-has-icu": false
                     },
-                    "pkg-cabal-sha256": "10270c065629de12285387b514026c5efc497cd0692661daf388eaa463272c9b",
+                    "pkg-cabal-sha256": "d0d1edbe61472e3679ad2f7ff2258baa7175cda12c9be9e00df6669571dccf54",
                     "pkg-name": "unicode-data",
                     "pkg-src": {
                         "repo": {
@@ -12119,13 +12153,13 @@
                         },
                         "type": "repo-tar"
                     },
-                    "pkg-src-sha256": "7ea97b6acda64c46e7df5b6721a4dcf8abb7ae41dc92a010b643ff68b6dd0f0b",
-                    "pkg-version": "0.8.0",
+                    "pkg-src-sha256": "8c2d6d91d90d3a428e592f996296606957a86805407ef34e1ca92361f42045e0",
+                    "pkg-version": "0.9.0",
                     "type": "configured"
                 }
             ],
             "source": "Hackage",
-            "version": "0.8.0"
+            "version": "0.9.0"
         },
         "uniplate": {
             "dependencies": [
@@ -13041,5 +13075,5 @@
             "version": "0.7.1.1"
         }
     },
-    "project": "-- Every first-party dependency is either a Hackage release or a GitHub git pin\n-- (source-repository-package) at a commit SHA, so this project builds with no sibling\n-- working copies on disk. The only local `packages:` entry is this repository's own\n-- package. See ExecPlan\n-- docs/plans/23-convert-cabal-project-local-paths-to-github-git-pins-with-api-modernization.md\n-- for the conversion rationale.\n--\n-- Cabal reads only the top-level project's cabal.project, so a git dependency does\n-- NOT inherit the other repository's pins: this tree must declare rei-core's own\n-- closure itself, even though it reaches it through mori-app. That is the lockstep\n-- invariant. It means \"mirror what the dependency needs\", NOT \"be identical to\n-- mori-app's file\" -- mori-app no longer depends on rei-core at all\n-- (mori://shinzui/mori-rei-app/plans/24-reshape-the-mori-app-seam-so-the-consumer-owns-the-effect-stack),\n-- so it keeps only mori-types while this tree keeps four pins. The two files are\n-- deliberately different. Do not harmonise them.\n--\n-- Everything other than the four pins below mirrors rei's own cabal.project at rei\n-- master c6cc82db, which is the authoritative coherent set: Keiro 0.19, Kiroku 0.9\n-- (kiroku-store-migrations 0.6), Kioku 0.8, Shibuya 0.10, pg-migrate 1.2 and PGMQ\n-- 0.6.1, per rei docs/adr/018. Keep this file in lockstep with rei's when the\n-- rei-core pin moves. Kiroku 0.9 cannot run against a database before migration\n-- 0012, and a Kiroku 0.8 build cannot append after it: deploy only across rei's\n-- stop-writers cutover.\n--\n-- index-state matches rei master's exactly. This tree and rei share a large Hackage\n-- cohort through rei-core's bounds, and two snapshots is two cohorts\n-- (mori://shinzui/rei/okf/adrs/concepts/ADR-18).\nindex-state: 2026-09-26T18:09:31Z\npackages:\n  .\n\n-- settei-dhall (a mori-rei-app-only dependency; rei's cohort does not use dhall-json)\n-- pulls dhall-json 1.7.12, whose *source* builds against aeson 2.2, bytestring 0.12,\n-- and GHC 9.12's text, but whose Hackage cabal-file revision still carries the old\n-- upper bounds (notably aeson <2.2). The dhall-haskell monorepo already widened these\n-- for the same release; Hackage's copy was never revised. Relax exactly those three\n-- stale bounds so dhall-json co-installs with the aeson-2.2 mori/rei cohort. This is an\n-- additive divergence from rei's mirrored cabal.project (ADR-001): it constrains no\n-- package rei uses and moves no pin or index-state. settei uses the identical line.\nallow-newer: dhall-json:aeson, dhall-json:bytestring, dhall-json:text\n\n-- Four git pins. Everything else resolves from Hackage at the index-state above.\n-- mori-app (the generic webhook daemon this application consumes)\nsource-repository-package\n  type: git\n  location: https://github.com/shinzui/mori-app\n  tag: 30aca6e3bc61d7709e58e716e7a34d21e7a98208\n  subdir:\n    mori-app\n\n-- mori-types (from the shinzui/mori monorepo)\nsource-repository-package\n  type: git\n  location: https://github.com/shinzui/mori\n  tag: 32882f2d48bde6735d73cbd81c012c8d30ba11f3\n  subdir:\n    mori-types\n\n-- rei-core (from the shinzui/rei monorepo), at rei master.\n-- This pin supplies Rei.Infrastructure.Hasql.Effect, the vendored copy of\n-- hasql-effectful that ten modules in this tree import. Hackage's hasql-effectful\n-- 0.2.0.0 is a different, incompatible API over Hasql.Pool.UsageError; see\n-- mori://shinzui/rei/okf/adrs/concepts/ADR-33.\n--\n-- Note for anyone moving this pin BACKWARDS: nothing at or before 8e8462c is\n-- consumable as a git pin. rei-core declared no `extra-source-files` until\n-- d17bb17a, so the prompts and templates its `embedStringFile` splices read at\n-- compile time are missing from the source distribution a\n-- source-repository-package consumer builds from, and the build dies with\n-- \"src/Rei/Template/defaults/notes/default.md: does not exist\". Building from a\n-- local path hides this; building from a pin cannot.\nsource-repository-package\n  type: git\n  location: https://github.com/shinzui/rei\n  tag: c6cc82db10f0f57dbfaf7bd3a4ce58486aeba1b9\n  subdir:\n    rei-core\n\npackage pgmq-effectful\n  tests: False\n\nwith-compiler: ghc-9.12.4\ntest-show-details: direct\ntests: True\n\npackage hasql-dynamic-statements\n  tests: False\n\n-- RTS tuning for faster GHC compilation\n-- -A128m: larger allocation area reduces GC frequency\n-- -qg: disable parallel GC (single-threaded GC is faster for compilation workloads)\n-- -n4m: larger nursery chunk size\nprogram-options\n  ghc-options:\n    +RTS\n    -A128m\n    -qg\n    -n4m\n    -RTS\n\n-- Parallel module compilation\njobs: $ncpus\n-- Force crypton >= 1.1 (which uses ram, not memory). pg-migrate-import-hasql-\n-- migration declares `crypton >=1.1 && <1.2` for the legacy MD5 checksums it\n-- verifies when importing a predecessor ledger. http-client-tls < 0.4 caps\n-- crypton below 1.1 via `crypton < 1.1`, so lift that too. The dhall\n-- `use-http-client-tls` flag pins http-client-tls < 0.4, so disable it.\n--\n-- The three `shikumi* == ...` equalities were removed by ExecPlan 224. They existed\n-- because a source-repository-package block supplies whatever version its tag holds, so\n-- the equality asserted the tag was the one the comment claimed. With both families now\n-- resolved from Hackage that assertion has no subject. Rei names no shikumi package in\n-- any .cabal file -- it imports no Shikumi module -- so the versions are selected by\n-- kioku-core 0.6.0.0's `shikumi ^>=0.4.0.0` and `shikumi-trace ^>=0.3.0.0`, by\n-- shikumi-trace 0.3.0.0's `shikumi-cache ^>=0.2.0.0`, and by the frozen index-state.\n-- See docs/adr/018, rule 2: a constraint without its own reason documents nothing.\nconstraints:\n  crypton >= 1.1,\n  http-client-tls >= 0.4,\n  dhall -use-http-client-tls,\n  blake3 -avx512 -avx2 -sse41 -sse2\n\npackage blake3\n  ghc-options: -optc-DBLAKE3_USE_NEON=0\n\n-- Package-qualified allow-newer. ADR 016 requires each entry to name the bound it\n-- lifts and what declared it, why the breakage does not reach Rei, the evidence\n-- that was run, and the release that retires it. ExecPlan 228 brought the block to\n-- that standard and deleted the six entries whose removal no longer changed the\n-- solved plan: proto-lens:base, proto-lens:ghc-prim, proto-lens:deepseq,\n-- proto-lens-runtime:base, http-conduit:http-client-tls, and haxl:time (haxl is not\n-- in the install plan at all). Evidence for the deletions: `cabal build all\n-- --dry-run` solves with all six absent.\n--\n-- The formatter hoists comments out of a field's value list, so the six\n-- justifications below cannot sit beside their entries. They appear in the SAME\n-- ORDER as the list that follows them; keep it that way when adding or removing one.\nallow-newer:\n  -- fuzzyfind:containers -- lifts the `containers == 0.6.*` upper bound declared by\n  -- fuzzyfind 3.0.2. GHC 9.12.4 ships containers 0.7 as a boot library, so the bound\n  -- cannot be satisfied by downgrading. fuzzyfind imports only Data.Sequence, whose\n  -- API is unchanged across 0.6-to-0.7; that release's breaking changes are in the\n  -- Data.Map / Data.IntMap surface fuzzyfind never touches. Evidence: rei-cli builds\n  -- and `cabal test all` passes with fuzzyfind linked, and removing the entry makes\n  -- the solver reject the plan. Remove when fuzzyfind publishes bounds admitting\n  -- containers 0.7.\n  -- link-canonical:http-client-tls -- lifts the `http-client-tls >=0.3 && <0.4`\n  -- upper bound declared by link-canonical 0.1.0.0. Rei forces http-client-tls >= 0.4\n  -- in the constraints block above, because crypton 1.1 (needed by\n  -- pg-migrate-import-hasql-migration for legacy MD5 ledger checksums) is only\n  -- admitted by http-client-tls 0.4. The 0.3-to-0.4 change is a TLS-manager\n  -- construction change; link-canonical calls only `TLS.newTlsManager`, the default\n  -- manager, whose signature is unchanged. Evidence: `cabal test all` passes with the\n  -- link canonicalisation suite linked. Remove when link-canonical publishes bounds\n  -- admitting http-client-tls 0.4.\n  -- link-canonical:generic-lens -- lifts the `generic-lens >=2.2 && <2.3` upper bound\n  -- declared by link-canonical 0.1.0.0; the plan resolves generic-lens 2.3.0.0.\n  -- link-canonical uses only Data.Generics.Labels, the orphan `#field` instances,\n  -- which 2.3 leaves unchanged. Evidence: as above -- and removing the entry makes\n  -- the solver report `link-canonical => generic-lens>=2.2 && <2.3`. Remove when\n  -- link-canonical publishes bounds admitting generic-lens 2.3.\n  -- kiroku-cli:http-client-tls -- lifts the same `http-client-tls >=0.3 && <0.4`\n  -- bound, declared twice by kiroku-cli 0.2.0.6 (library and executable stanzas),\n  -- against the same forced http-client-tls >= 0.4. kiroku-cli imports only\n  -- `tlsManagerSettings` and passes it to `newManager`; both are unchanged in 0.4.\n  -- Evidence: `just build` and `just test` pass with kiroku-cli in the plan. Remove\n  -- when kiroku-cli publishes bounds admitting http-client-tls 0.4.\n  -- claude:http-client-tls -- lifts the `http-client-tls >=0.3 && <0.4` upper bound\n  -- declared by `claude` 1.5.0, the Anthropic SDK that baikai-claude builds on.\n  -- Rei forces http-client-tls >= 0.4 in the constraints block above, because\n  -- crypton 1.1 (needed by pg-migrate-import-hasql-migration for legacy MD5 ledger\n  -- checksums) is only admitted by http-client-tls 0.4. The 0.3-to-0.4 change is a\n  -- TLS-manager construction change that `claude` does not depend on: it uses the\n  -- default manager settings only. Evidence: the full rei-core and rei-cli suites,\n  -- including the three Baikai backend specs, run on the resolved plan by ExecPlan 223\n  -- and re-run by ExecPlan 224. Remove when `claude` publishes bounds admitting\n  -- http-client-tls 0.4.\n  -- baikai-kit:crypton -- lifts the `crypton ^>=1.0` upper bound declared by\n  -- baikai-kit 0.2.0.1 (revision 0; no metadata revision has widened it). Rei forces\n  -- crypton >= 1.1 in the constraints block above. crypton 1.1's breaking change is the\n  -- switch from `memory` to `ram` for secure byte arrays; baikai-kit uses only the\n  -- hashing surface (Crypto.Hash) whose API is unchanged across that boundary.\n  -- Evidence: rei-cli builds and its suite passes with baikai-kit linked, and\n  -- `rei kit` -- the only consumer -- is exercised by ExecPlan 223's acceptance and by\n  -- ExecPlan 224's rerun. Remove when baikai-kit publishes bounds admitting crypton 1.1.\n  --\n  -- Baikai 0.7 admits http-client-tls 0.4 and baikai-claude 0.7 admits crypton 1.1\n  -- (>=1.0 && <1.2), so their former exceptions stay retired.\n  fuzzyfind:containers,\n  link-canonical:http-client-tls,\n  link-canonical:generic-lens,\n  kiroku-cli:http-client-tls,\n  claude:http-client-tls,\n  baikai-kit:crypton\n\n-- ============================================================================\n-- Released Keiro/Kiroku/Kioku/Shibuya/PGMQ/pg-migrate/keiki cohort now resolves\n-- entirely from Hackage (rei MasterPlan 19, EP-1). The bounds in rei-core.cabal\n-- select the released versions.\n-- ============================================================================\n-- Six git pins were retired when this tree moved to rei master\n-- (mori://shinzui/mori-rei-app/plans/27-move-mori-rei-app-onto-rei-master-and-retire-its-legacy-dependency-closure).\n-- Each had been mirrored from rei's own cabal.project, and rei deleted all six:\n--\n--   tan-commons         -- rei owns that code as Rei.Config.Pg\n--   tan-effectful       -- hasql-effectful is vendored into rei-core as\n--                          Rei.Infrastructure.Hasql.Effect\n--                          (mori://shinzui/rei/okf/adrs/concepts/ADR-33)\n--   hasql-migration     -- TypeID installs through typeid-hs-pg-migrate now\n--   hasql-notifications -- no .cabal file named it, no module imported it\n--   baikai, shikumi     -- resolved from Hackage; rei-core's bounds select them\n--\n-- pg-migrate-import-hasql-migration is a DIFFERENT, Hackage package that decodes a\n-- legacy hasql-migration ledger. It stays.\n-- See mori://shinzui/rei/okf/adrs/concepts/ADR-11 and ADR-24.\n--\n-- scripts/dependency-closure-audit.sh fails if any of the six comes back.\n-- typeid-hs (topagentnetwork fork; not on Hackage). Since the four-package split the\n-- repository root has no .cabal file, so both Cabal and Nix must name the\n-- subdirectories. typeid-hs-pg-migrate is the native pg-migrate component;\n-- typeid-hs-sql supplies the SQL bytes the history import reconciles against. The\n-- deprecated typeid-hs-hasql-migration backend is gone, and with it the\n-- hasql-migration pin. Required transitively by rei-core; kept at rei master's tag.\nsource-repository-package\n  type: git\n  location: https://github.com/topagentnetwork/typeid-hs\n  tag: 7164a74c490cc92ffe73a315d827c9515de125d3\n  subdir:\n    typeid-hs-sql\n    typeid-hs-pg-migrate\n"
+    "project": "-- Every first-party dependency is either a Hackage release or a GitHub git pin\n-- (source-repository-package) at a commit SHA, so this project builds with no sibling\n-- working copies on disk. The only local `packages:` entry is this repository's own\n-- package. See ExecPlan\n-- docs/plans/23-convert-cabal-project-local-paths-to-github-git-pins-with-api-modernization.md\n-- for the conversion rationale.\n--\n-- Cabal reads only the top-level project's cabal.project, so a git dependency does\n-- NOT inherit the other repository's pins: this tree must declare rei-core's own\n-- closure itself, even though it reaches it through mori-app. That is the lockstep\n-- invariant. It means \"mirror what the dependency needs\", NOT \"be identical to\n-- mori-app's file\" -- mori-app no longer depends on rei-core at all\n-- (mori://shinzui/mori-rei-app/plans/24-reshape-the-mori-app-seam-so-the-consumer-owns-the-effect-stack),\n-- so it keeps only mori-types while this tree keeps four pins. The two files are\n-- deliberately different. Do not harmonise them.\n--\n-- Everything other than the four pins below mirrors rei's own cabal.project at rei\n-- accepted candidate a3765f6e: Keiro 0.21, Kiroku 0.11\n-- (kiroku-store-migrations 0.7.1), Kioku 0.9.0.1, Shibuya 0.10, pg-migrate 1.2\n-- and PGMQ 0.6.1.1; see mori://shinzui/rei/okf/adrs/concepts/ADR-18.\n-- Keep this file in lockstep with Rei when the rei-core pin moves. Kiroku 0013–0015 and the new Rei catalog must be adopted in Rei's\n-- stopped-writer rollout before this daemon resumes. The old embedded catalog\n-- fails closed after adoption; never bypass registration to restore service.\n--\n-- index-state matches rei master's exactly. This tree and rei share a large Hackage\n-- cohort through rei-core's bounds, and two snapshots is two cohorts\n-- (mori://shinzui/rei/okf/adrs/concepts/ADR-18).\nindex-state: 2026-10-14T22:38:45Z\npackages:\n  .\n\n-- settei-dhall (a mori-rei-app-only dependency; rei's cohort does not use dhall-json)\n-- pulls dhall-json 1.7.12, whose *source* builds against aeson 2.2, bytestring 0.12,\n-- and GHC 9.12's text, but whose Hackage cabal-file revision still carries the old\n-- upper bounds (notably aeson <2.2). The dhall-haskell monorepo already widened these\n-- for the same release; Hackage's copy was never revised. Relax exactly those three\n-- stale bounds so dhall-json co-installs with the aeson-2.2 mori/rei cohort. This is an\n-- additive divergence from rei's mirrored cabal.project (ADR-001): it constrains no\n-- package rei uses and moves no pin or index-state. settei uses the identical line.\nallow-newer: dhall-json:aeson, dhall-json:bytestring, dhall-json:text\n\n-- Four git pins. Everything else resolves from Hackage at the index-state above.\n-- mori-app (the generic webhook daemon this application consumes)\nsource-repository-package\n  type: git\n  location: https://github.com/shinzui/mori-app\n  tag: 30aca6e3bc61d7709e58e716e7a34d21e7a98208\n  subdir:\n    mori-app\n\n-- mori-types (from the shinzui/mori monorepo)\nsource-repository-package\n  type: git\n  location: https://github.com/shinzui/mori\n  tag: 32882f2d48bde6735d73cbd81c012c8d30ba11f3\n  subdir:\n    mori-types\n\n-- rei-core (from the shinzui/rei monorepo), at rei master.\n-- This pin supplies Rei.Infrastructure.Hasql.Effect, the vendored copy of\n-- hasql-effectful that ten modules in this tree import. Hackage's hasql-effectful\n-- 0.2.0.0 is a different, incompatible API over Hasql.Pool.UsageError; see\n-- mori://shinzui/rei/okf/adrs/concepts/ADR-33.\n--\n-- Note for anyone moving this pin BACKWARDS: nothing at or before 8e8462c is\n-- consumable as a git pin. rei-core declared no `extra-source-files` until\n-- d17bb17a, so the prompts and templates its `embedStringFile` splices read at\n-- compile time are missing from the source distribution a\n-- source-repository-package consumer builds from, and the build dies with\n-- \"src/Rei/Template/defaults/notes/default.md: does not exist\". Building from a\n-- local path hides this; building from a pin cannot.\nsource-repository-package\n  type: git\n  location: https://github.com/shinzui/rei\n  tag: a3765f6e09e15876695b47c75f0139b4c03ead85\n  subdir:\n    rei-core\n\npackage pgmq-effectful\n  tests: False\n\nwith-compiler: ghc-9.12.4\ntest-show-details: direct\ntests: True\n\npackage hasql-dynamic-statements\n  tests: False\n\n-- RTS tuning for faster GHC compilation\n-- -A128m: larger allocation area reduces GC frequency\n-- -qg: disable parallel GC (single-threaded GC is faster for compilation workloads)\n-- -n4m: larger nursery chunk size\nprogram-options\n  ghc-options:\n    +RTS\n    -A128m\n    -qg\n    -n4m\n    -RTS\n\n-- Parallel module compilation\njobs: $ncpus\n-- Force crypton >= 1.1 (which uses ram, not memory). pg-migrate-import-hasql-\n-- migration declares `crypton >=1.1 && <1.2` for the legacy MD5 checksums it\n-- verifies when importing a predecessor ledger. http-client-tls < 0.4 caps\n-- crypton below 1.1 via `crypton < 1.1`, so lift that too. The dhall\n-- `use-http-client-tls` flag pins http-client-tls < 0.4, so disable it.\n--\n-- The three `shikumi* == ...` equalities were removed by ExecPlan 224. They existed\n-- because a source-repository-package block supplies whatever version its tag holds, so\n-- the equality asserted the tag was the one the comment claimed. With both families now\n-- resolved from Hackage that assertion has no subject. Rei names no shikumi package in\n-- any .cabal file -- it imports no Shikumi module -- so the versions are selected by\n-- kioku-core 0.6.0.0's `shikumi ^>=0.4.0.0` and `shikumi-trace ^>=0.3.0.0`, by\n-- shikumi-trace 0.3.0.0's `shikumi-cache ^>=0.2.0.0`, and by the frozen index-state.\n-- See docs/adr/018, rule 2: a constraint without its own reason documents nothing.\nconstraints:\n  crypton >= 1.1,\n  http-client-tls >= 0.4,\n  dhall -use-http-client-tls,\n  blake3 -avx512 -avx2 -sse41 -sse2\n\npackage blake3\n  ghc-options: -optc-DBLAKE3_USE_NEON=0\n\n-- Package-qualified allow-newer. ADR 016 requires each entry to name the bound it\n-- lifts and what declared it, why the breakage does not reach Rei, the evidence\n-- that was run, and the release that retires it. ExecPlan 228 brought the block to\n-- that standard and deleted the six entries whose removal no longer changed the\n-- solved plan: proto-lens:base, proto-lens:ghc-prim, proto-lens:deepseq,\n-- proto-lens-runtime:base, http-conduit:http-client-tls, and haxl:time (haxl is not\n-- in the install plan at all). Evidence for the deletions: `cabal build all\n-- --dry-run` solves with all six absent.\n--\n-- The formatter hoists comments out of a field's value list, so the six\n-- justifications below cannot sit beside their entries. They appear in the SAME\n-- ORDER as the list that follows them; keep it that way when adding or removing one.\nallow-newer:\n  -- fuzzyfind:containers -- lifts the `containers == 0.6.*` upper bound declared by\n  -- fuzzyfind 3.0.2. GHC 9.12.4 ships containers 0.7 as a boot library, so the bound\n  -- cannot be satisfied by downgrading. fuzzyfind imports only Data.Sequence, whose\n  -- API is unchanged across 0.6-to-0.7; that release's breaking changes are in the\n  -- Data.Map / Data.IntMap surface fuzzyfind never touches. Evidence: rei-cli builds\n  -- and `cabal test all` passes with fuzzyfind linked, and removing the entry makes\n  -- the solver reject the plan. Remove when fuzzyfind publishes bounds admitting\n  -- containers 0.7.\n  -- link-canonical:http-client-tls -- lifts the `http-client-tls >=0.3 && <0.4`\n  -- upper bound declared by link-canonical 0.1.0.0. Rei forces http-client-tls >= 0.4\n  -- in the constraints block above, because crypton 1.1 (needed by\n  -- pg-migrate-import-hasql-migration for legacy MD5 ledger checksums) is only\n  -- admitted by http-client-tls 0.4. The 0.3-to-0.4 change is a TLS-manager\n  -- construction change; link-canonical calls only `TLS.newTlsManager`, the default\n  -- manager, whose signature is unchanged. Evidence: `cabal test all` passes with the\n  -- link canonicalisation suite linked. Remove when link-canonical publishes bounds\n  -- admitting http-client-tls 0.4.\n  -- link-canonical:generic-lens -- lifts the `generic-lens >=2.2 && <2.3` upper bound\n  -- declared by link-canonical 0.1.0.0; the plan resolves generic-lens 2.3.0.0.\n  -- link-canonical uses only Data.Generics.Labels, the orphan `#field` instances,\n  -- which 2.3 leaves unchanged. Evidence: as above -- and removing the entry makes\n  -- the solver report `link-canonical => generic-lens>=2.2 && <2.3`. Remove when\n  -- link-canonical publishes bounds admitting generic-lens 2.3.\n  -- kiroku-cli:http-client-tls -- lifts the same `http-client-tls >=0.3 && <0.4`\n  -- bound, declared twice by kiroku-cli 0.2.0.6 (library and executable stanzas),\n  -- against the same forced http-client-tls >= 0.4. kiroku-cli imports only\n  -- `tlsManagerSettings` and passes it to `newManager`; both are unchanged in 0.4.\n  -- Evidence: `just build` and `just test` pass with kiroku-cli in the plan. Remove\n  -- when kiroku-cli publishes bounds admitting http-client-tls 0.4.\n  -- claude:http-client-tls -- lifts the `http-client-tls >=0.3 && <0.4` upper bound\n  -- declared by `claude` 1.5.0, the Anthropic SDK that baikai-claude builds on.\n  -- Rei forces http-client-tls >= 0.4 in the constraints block above, because\n  -- crypton 1.1 (needed by pg-migrate-import-hasql-migration for legacy MD5 ledger\n  -- checksums) is only admitted by http-client-tls 0.4. The 0.3-to-0.4 change is a\n  -- TLS-manager construction change that `claude` does not depend on: it uses the\n  -- default manager settings only. Evidence: the full rei-core and rei-cli suites,\n  -- including the three Baikai backend specs, run on the resolved plan by ExecPlan 223\n  -- and re-run by ExecPlan 224. Remove when `claude` publishes bounds admitting\n  -- http-client-tls 0.4.\n  -- baikai-kit:crypton -- lifts the `crypton ^>=1.0` upper bound declared by\n  -- baikai-kit 0.2.0.1 (revision 0; no metadata revision has widened it). Rei forces\n  -- crypton >= 1.1 in the constraints block above. crypton 1.1's breaking change is the\n  -- switch from `memory` to `ram` for secure byte arrays; baikai-kit uses only the\n  -- hashing surface (Crypto.Hash) whose API is unchanged across that boundary.\n  -- Evidence: rei-cli builds and its suite passes with baikai-kit linked, and\n  -- `rei kit` -- the only consumer -- is exercised by ExecPlan 223's acceptance and by\n  -- ExecPlan 224's rerun. Remove when baikai-kit publishes bounds admitting crypton 1.1.\n  --\n  -- Baikai 0.7 admits http-client-tls 0.4 and baikai-claude 0.7 admits crypton 1.1\n  -- (>=1.0 && <1.2), so their former exceptions stay retired.\n  fuzzyfind:containers,\n  link-canonical:http-client-tls,\n  link-canonical:generic-lens,\n  kiroku-cli:http-client-tls,\n  claude:http-client-tls,\n  baikai-kit:crypton\n\n-- ============================================================================\n-- Released Keiro/Kiroku/Kioku/Shibuya/PGMQ/pg-migrate/keiki cohort now resolves\n-- entirely from Hackage (rei MasterPlan 19, EP-1). The bounds in rei-core.cabal\n-- select the released versions.\n-- ============================================================================\n-- Six git pins were retired when this tree moved to rei master\n-- (mori://shinzui/mori-rei-app/plans/27-move-mori-rei-app-onto-rei-master-and-retire-its-legacy-dependency-closure).\n-- Each had been mirrored from rei's own cabal.project, and rei deleted all six:\n--\n--   tan-commons         -- rei owns that code as Rei.Config.Pg\n--   tan-effectful       -- hasql-effectful is vendored into rei-core as\n--                          Rei.Infrastructure.Hasql.Effect\n--                          (mori://shinzui/rei/okf/adrs/concepts/ADR-33)\n--   hasql-migration     -- TypeID installs through typeid-hs-pg-migrate now\n--   hasql-notifications -- no .cabal file named it, no module imported it\n--   baikai, shikumi     -- resolved from Hackage; rei-core's bounds select them\n--\n-- pg-migrate-import-hasql-migration is a DIFFERENT, Hackage package that decodes a\n-- legacy hasql-migration ledger. It stays.\n-- See mori://shinzui/rei/okf/adrs/concepts/ADR-11 and ADR-24.\n--\n-- scripts/dependency-closure-audit.sh fails if any of the six comes back.\n-- typeid-hs (topagentnetwork fork; not on Hackage). Since the four-package split the\n-- repository root has no .cabal file, so both Cabal and Nix must name the\n-- subdirectories. typeid-hs-pg-migrate is the native pg-migrate component;\n-- typeid-hs-sql supplies the SQL bytes the history import reconciles against. The\n-- deprecated typeid-hs-hasql-migration backend is gone, and with it the\n-- hasql-migration pin. Required transitively by rei-core; kept at rei master's tag.\nsource-repository-package\n  type: git\n  location: https://github.com/topagentnetwork/typeid-hs\n  tag: 7164a74c490cc92ffe73a315d827c9515de125d3\n  subdir:\n    typeid-hs-sql\n    typeid-hs-pg-migrate\n"
 }

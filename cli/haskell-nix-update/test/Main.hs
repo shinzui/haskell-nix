@@ -3,6 +3,7 @@ module Main (main) where
 import CohortModelTest qualified
 import CohortCompareTest qualified
 import CohortGenerateTest qualified
+import CohortGenerateIOTest qualified
 import CohortTest qualified
 import AdapterTest qualified
 import Data.ByteString qualified as ByteString
@@ -31,6 +32,7 @@ tests =
     [ CohortModelTest.tests,
       CohortCompareTest.tests,
       CohortGenerateTest.tests,
+      CohortGenerateIOTest.tests,
       CohortTest.tests,
       catalogTests,
       packageLockTests,

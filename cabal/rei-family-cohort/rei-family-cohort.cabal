@@ -12,9 +12,9 @@ library
     , ansi-terminal >=1.1 && <1.2
     , async >=2.2 && <2.3
     , attoparsec >=0.14 && <0.15
-    , baikai >=0.7.2.0 && <0.8
+    , baikai >=0
     , baikai-claude >=0.7.1.0 && <0.8
-    , baikai-kit >=0
+    , baikai-kit >=0.4.0.0 && <0.5
     , baikai-openai >=0.7.1.0 && <0.8
     , baikai-trace-otel >=0.4.0.1 && <0.5
     , base >=4.20 && <5
@@ -37,7 +37,7 @@ library
     , effectful >=0
     , effectful-core >=0
     , either >=0
-    , ephemeral-pg >=0.3.1.0 && <0.4
+    , ephemeral-pg >=0.3.1 && <0.4
     , file-embed >=0.0.16 && <0.1
     , filepath >=1.5 && <1.6
     , fuzzyfind >=3.0 && <3.1
@@ -67,21 +67,21 @@ library
     , kdl-hs >=0
     , keiki >=0.9.0.0 && <0.10
     , keiki-codec-json >=0.9.0.0 && <0.10
-    , keiro >=0.19.0.0 && <0.20
-    , keiro-core >=0.19.0.0 && <0.20
-    , keiro-dsl >=0.19 && <0.20
-    , keiro-migrations >=0.19.0.0 && <0.20
-    , keiro-ops >=0.19.0.0 && <0.20
-    , keiro-pgmq >=0.19.0.0 && <0.20
-    , keiro-test-support >=0.19.0.0 && <0.20
-    , kioku-api >=0.8.0.0 && <0.9
-    , kioku-core >=0.8.0.0 && <0.9
-    , kioku-migrations >=0.8.0.0 && <0.9
-    , kiroku-cli >=0.2.0.4 && <0.3
-    , kiroku-metrics >=0.1.0.6 && <0.2
-    , kiroku-otel >=0.2.0.7 && <0.3
-    , kiroku-store >=0.9.0.1 && <0.10
-    , kiroku-store-migrations >=0.6.0.0 && <0.7
+    , keiro >=0.21.0.0 && <0.22
+    , keiro-core >=0.21.0.0 && <0.22
+    , keiro-dsl >=0.21.0.0 && <0.22
+    , keiro-migrations >=0.21.0.0 && <0.22
+    , keiro-ops >=0.21.0.0 && <0.22
+    , keiro-pgmq >=0.21.0.0 && <0.22
+    , keiro-test-support >=0.21.0.0 && <0.22
+    , kioku-api >=0.9.0.1 && <0.10
+    , kioku-core >=0.9.0.1 && <0.10
+    , kioku-migrations >=0.9.0.1 && <0.10
+    , kiroku-cli >=0.2.0.10 && <0.3
+    , kiroku-metrics >=0.3.0.0 && <0.4
+    , kiroku-otel >=0.2.0.12 && <0.3
+    , kiroku-store >=0.11.0.0 && <0.12
+    , kiroku-store-migrations >=0.7.1.0 && <0.8
     , lens >=5.3 && <5.4
     , link-canonical >=0
     , megaparsec >=9.0 && <10
@@ -130,8 +130,8 @@ library
     , settei-dhall ==0.2.0.0
     , settei-env ==0.2.0.0
     , settei-optparse-applicative ==0.2.0.0
-    , shibuya-core >=0.10.0.0 && <0.11
-    , shibuya-kiroku-adapter >=0.5.1.5 && <0.6
+    , shibuya-core >=0.10.0.1 && <0.11
+    , shibuya-kiroku-adapter >=0.6.0.1 && <0.7
     , shibuya-pgmq-adapter >=0.16.1.0 && <0.17
     , shikumi >=0.4.1.0 && <0.5
     , shikumi-trace >=0.3.0.0 && <0.4
@@ -139,6 +139,7 @@ library
     , sop-core >=0.5 && <0.6
     , sqlite-simple >=0.4.19 && <0.5
     , stm >=2.5 && <2.6
+    , streamly-core >=0.3 && <0.4
     , tasty >=1.5 && <1.6
     , tasty-golden >=2.3 && <2.4
     , tasty-hedgehog >=1.4

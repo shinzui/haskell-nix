@@ -2,7 +2,7 @@
   {
     "name": "mina",
     "mori": "mori://shinzui/mina",
-    "revision": "5d4be2ef8291f39030fbcc1ac9b1dda21e40eeec",
+    "revision": "8e0dcb80a34fd366936b4028cd69c57e409c6aef",
     "role": "application",
     "ownPackages": [
       "mina-cli",
@@ -25,7 +25,7 @@
   {
     "name": "mori",
     "mori": "mori://shinzui/mori",
-    "revision": "62be804826ecc1ff4ff0e41d690a04a51960ccd9",
+    "revision": "56efc0257d8c4a4fd4a542d6f5847ae55c7cc312",
     "role": "application",
     "ownPackages": [
       "keiro-mori-conformance",
@@ -82,7 +82,7 @@
   {
     "name": "mori-rei-app",
     "mori": "mori://shinzui/mori-rei-app",
-    "revision": "453aaaef7e327617bb968ee85c9cf2f6fa6eac5a",
+    "revision": "9cbde11b2f8809159b676f4b3cd11ce01850b169",
     "role": "application",
     "ownPackages": [
       "mori-rei-app"
@@ -103,7 +103,7 @@
   {
     "name": "rei",
     "mori": "mori://shinzui/rei",
-    "revision": "25e4b4925ef0e206f8972ec89cb0e4f60fd09fc3",
+    "revision": "553f2e06903bb481b61f5d2064666426897ee4ba",
     "role": "application",
     "ownPackages": [
       "keiro-rei-conformance",
@@ -134,7 +134,7 @@
   {
     "name": "reiko",
     "mori": "mori://shinzui/reiko",
-    "revision": "4f98ba912060776a0d7ae5276e963e34dad447bb",
+    "revision": "7a624963170872a3db378bc07742a64ea1130ac5",
     "role": "application",
     "ownPackages": [
       "reiko-cli",

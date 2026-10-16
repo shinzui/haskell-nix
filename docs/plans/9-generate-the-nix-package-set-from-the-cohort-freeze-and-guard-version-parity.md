@@ -76,7 +76,7 @@ After this plan, the channel's versions are no longer written by hand. A sibling
 commits `cabal/cohort.freeze`: one Cabal constraints file listing a single version for every
 Haskell package the five Rei-family applications use. This plan adds a generator that reads that
 file and writes `generated/cohort-versions.nix`, a Nix file naming the exact Hackage release for
-every package whose version differs from what nixpkgs already ships. The channel loads it, so
+every package whose source, metadata or configuration differs from nixpkgs or cannot be proven equal. The channel loads it, so
 evaluating, for example, `haskell.packages.ghc9124.hasql.version` through the channel returns the
 frozen version. A pure `nix flake check` entry fails the moment any frozen package's Nix version
 differs from the freeze, and a shared comparison script under `scripts/` answers the same question
@@ -120,7 +120,9 @@ Acceptance fixtures include statically linked missing dependencies, wrong plus c
 
 ## Progress
 
-Post-publication resume (2026-10-16): all five Kioku 0.9.0.2 releases are live on Hackage and upstream tag `v0.9.0.2` resolves to `c4bf956b5b00c899adde225e026484c3a1a44258` in `mori://shinzui/kioku`. Core/CLI declare `baikai >=0.7.0.0 && <0.9`. The clean union solve at signed index `2026-10-16T12:29:59Z` succeeds with no added bound override: 450 selections, no names removed or versions lowered relative to the accepted manifest. All six contributor commits still match the prior fresh capture. The retained handoff had omitted `mori-app.json`; recovered its exact unchanged revision from the original capture before running the report, which now records zero downgrades and 49 consumer caps. Candidate: `/var/folders/xf/z_902qyd0dg5m6n8pjv1vk300000gn/T/mp3-ep9-post-kioku-9u69ovro`; clean-solve receipt: `/tmp/mp3-ep9-solve-post-kioku-20261016.log`; report: `/tmp/mp3-ep9-post-kioku-report-20261016.log`. The scoped Kioku channel refresh adds family generation 8, preserves all historical snapshots, passes updater evaluation and the native first-party version guard. Shikumi–Baikai group generation 9 now selects the admitting Shikumi patches, with Baikai family generation 8 reused unchanged and all history preserved. Its updater evaluation and native first-party version guard pass. A fresh freeze-only replay also exactly matches all source/metadata/flag/dependency identities. Fresh channel inventory, floor revalidation and coherent cohort promotion remain before generation activation.
+Post-publication resume (2026-10-16): all five Kioku 0.9.0.2 packages are published at upstream tag commit `c4bf956b5b00c899adde225e026484c3a1a44258` in `mori://shinzui/kioku`. The scoped Kioku generation 8 and Shikumi–Baikai generation 9 refreshes pass updater evaluation and native version guards, preserving all historical snapshots and reusing Baikai family generation 7. A fresh 452-name channel inventory at committed channel `15f2617f7db468e6d52eaed467a9fc69fc3afba7` raises 32 historical floors and adds two; none are lowered or removed. All six contributor commits still match the prior capture. The retained handoff omitted `mori-app.json`; recovered its exact unchanged revision from the original capture before acceptance. The clean union at signed index `2026-10-16T12:29:59Z` and its fresh freeze-only replay agree: 450 selections, zero removed names, zero lowered versions, zero report downgrades and 49 consumer caps. Promoted the coherent inventories, freeze, sources and reports. Candidate and rollback receipt: `/var/folders/xf/z_902qyd0dg5m6n8pjv1vk300000gn/T/mp3-ep9-post-kioku-9u69ovro/promotion-receipt.json`.
+
+Milestone 2 is implemented: `cohort generate` resolves exact-cutoff Hackage revisions, independently reuses versioned source hashes, writes both files with staged publication/rollback, and supports read-only `--check`. The live output has 357 Hackage recipes, 50 selected first-party entries, 38 frozen boot packages and five owned source pins (450 records in total). Policy also declares contributor-owned local packages. No base identity is assumed from version equality; the default generates a recipe when base source/metadata/configuration evidence is unavailable. `sameAsBase` remains available through the explicit-context shared classifier. All 137 Haskell tests pass, including metadata-cutoff/cache separation, transient transport retry, no writes on failure and input/output collision rejection. Both artifacts are formatting-stable; native repeat generation and packaged `nix run .#haskell-nix-update -- cohort generate --check` pass. Deliberate freeze/comment/version mutations are rejected without modifying either artifact. Pure freshness and shipped-boot-package checks pass; composed-scope version parity and layer activation remain open.
 
 The public `cohort-compare` app now exposes recursive lock resolution and strict consumer Cabal-plan comparison through the shared updater. Its `--plan-json` mode checks an application's subset of the union against the freeze and sibling `cohort-sources.json` and `contributors.json`: compiler, every non-local version/source instance, source and Cabal metadata hashes, flags and declared local ownership. It rejects empty evidence, mixed versions, conflicting unit IDs and missing metadata; identical repeated rows remain canonicalized. HTTPS inputs fetch the freeze and companion manifests, with optional explicit `--sources` and `--contributors` locations. The shared `decodeLockedSource` retains its complete GitHub descriptor validation. All 128 updater tests pass; packaged fixtures verify status 0/1/2 and nested, cyclic and missing lock paths. The native public lock command resolves `haskell-nix-dev/nixpkgs` to `d5dfd8e6716dde34398bc14bc87c10dece9c8c68`. Nix manifest construction/comparison and stale Cabal-import verification remain unfinished; unsupported manifest options fail with usage status 2. This is partial Milestone 5 implementation, not aggregate acceptance.
 
@@ -132,22 +134,20 @@ Resume correction (2026-10-15): Mori is available through the existing dotfiles-
 
 Refresh handoff (2026-10-15): EP-8 is Complete at the October 6 checkpoint. Before live generation/layer activation, reuse its inventory, solve and report tools to reconcile the newer default selections in `packages/first-party-lock.json`: Keiro group 7, Kioku group 7 and Shikumi–Baikai group 8. The existing freeze still selects Keiro 0.19.0.1, Kioku 0.8.0.2 and Baikai 0.7.2.0, below current selected releases. Refresh floors, exact source records and consumer-cap evidence coherently, retaining upgrade-only and historical snapshots. Do not claim current parity from the earlier aggregate gate. Pure generation modules exist, but `Cohort.Cli` has no live generate command; live generation, layer wiring, manifest/comparison/resolver and cache acceptance remain open.
 
-- [ ] (2026-10-06, started) Independent preparation: add the format guard and fixture-based rich parser/generator modules while EP-8's aggregate acceptance runs. No generated layer activation or completion is claimed.
+- [x] (2026-10-16) Parser/generator preparation is integrated into the live Milestone 2 command; format and parser guards remain passing. Generated-layer activation is a separate milestone.
 
 - [ ] Manifest/lock-resolution fixtures pass and shared dependency outputs are available from the CI cache
 
-- [ ] Milestone 1 (prototype): reproduce which `cabal-version` values the channel's
+- [x] (2026-10-07) Milestone 1 (prototype): reproduce which `cabal-version` values the channel's
   `callCabal2nix` path parses at the pinned nixpkgs, and decide whether a GHC 9.12 `cabal2nix`
   overlay is needed.
 - [x] (2026-10-07 UTC) Milestone 1: add the `cabal-version-support` check with `cabal-version: 3.14` and `3.16`
   fixtures (and, only if the prototype says so, the fallback override).
 - [x] (2026-10-07 UTC) Milestone 2: add `lib/parseCohortFreeze.nix` and twelve meaningful nix-unit checks. Shared packaged parser corpus covers comments, flags, trailing commas, duplicate versions/flag records, ranges, garbage, internal empty records and flag-only input; the real freeze is compared with the independently recorded source manifest.
-- [ ] Milestone 2: add `config/cohort-policy.json`.
-- [ ] Milestone 2: add the `cohort generate` subcommand to `haskell-nix-update`, with Haskell tests.
-- [ ] Milestone 2: run the generator against `cabal/cohort.freeze` and commit
-  `generated/cohort-versions.nix` and `generated/ghc-boot-packages.nix`.
-- [ ] Milestone 3: add `checks/cohort-parity.nix` (`cohort-generated-fresh`, `cohort-versions`,
-  `ghc-boot-packages`) and record the failing `cohort-versions` output before wiring.
+- [x] (2026-10-16) Milestone 2: add `config/cohort-policy.json` with explicit Mori ownership and reasons for local packages and five source pins.
+- [x] (2026-10-16) Milestone 2: add the live `cohort generate` subcommand; all 137 updater tests and packaged CLI checks pass.
+- [x] (2026-10-16) Milestone 2: generate formatting-stable `generated/cohort-versions.nix` and `generated/ghc-boot-packages.nix`; repeat generation and read-only freshness checks pass. Both comment and version mutations are rejected without writes.
+- [ ] Milestone 3: `cohort-generated-fresh` and `ghc-boot-packages` now pass through `checks/cohort-parity.nix`. Add composed-scope `cohort-versions` and retain its failing output before wiring.
 - [ ] Milestone 4: add `lib/mkCohortVersionLayer.nix` and wire it into
   `lib/mkHaskellExtension.nix`, `lib/mkHaskellOverlay.nix`, `lib/mkFirstPartyPackageSet.nix` and
   `flake.nix`.
@@ -165,6 +165,8 @@ Refresh handoff (2026-10-15): EP-8 is Complete at the October 6 checkpoint. Befo
 
 
 ## Surprises & Discoveries
+
+- Observation (2026-10-16 live generation): the previously saved scratch handoff omitted `mori-app.json` although the original inventory capture retained it. This produced a spurious downgrade for the application-owned `mori-app` package. Recovering the original record at the identical contributor revision restores all six contributors and yields zero downgrades; no floor or ownership exception was added. Hackage briefly returned an invalid chunked HTTP response during sequential revision lookup; three bounded retries for transport errors and transient HTTP statuses allow generation to complete while permanent metadata/hash failures still fail before publication. The default cannot prove the complete identity of base-equal packages from version values, so it emits 357 recipes instead of silently claiming source/configuration equality.
 
 - Observation (2026-10-16 compatibility verification): Kioku Core/CLI need only a widened Baikai bound; neither constructs the pricing tier changed by Baikai 0.8. All four suites pass with Baikai 0.8.0.0: API 125, CLI 64, Core 251 and Migrations 31 (471 total). The native full build, all five package checks, formatting and flake checks pass. A fresh libpq configure initially failed because its pkg-config metadata requires libcurl; the project-local shell now supplies `curl.dev`. Highly parallel ephemeral PostgreSQL fixtures exhausted this host's shared-memory IDs. Sequential suites with two Tasty workers pass; no kernel settings or unrelated processes were changed. Test evidence: `/tmp/mp3-kioku-baikai08-tests-serial-20261016.log`; native checks: `/tmp/mp3-kioku-flake-check-20261016.log`. Commit `37a47cb` in `mori://shinzui/kioku` contains the validated fix and changelog notes, with no version/tag/publication changes. Resume the clean union solve after its publication; do not promote the diagnostic allow-newer plan.
 
@@ -391,6 +393,8 @@ Refresh handoff (2026-10-15): EP-8 is Complete at the October 6 checkpoint. Befo
 
 ## Outcomes & Retrospective
 
+2026-10-16 release/generation checkpoint: the admitting Kioku and Shikumi releases now enter a coherently refreshed cohort and channel. Clean solve, frozen replay, upgrade-only report, native first-party guards and all 137 updater tests pass. The live generator produces deterministic retained recipes and boot records; packaged generation freshness, failure/no-write fixtures, formatting, pure freshness and actual shipped-boot checks pass. Receipts: `/tmp/mp3-ep9-promoted-cohort-check-20261016.log`, `/tmp/mp3-ep9-reconciled-report-20261016.log`, `/tmp/mp3-ep9-reconciled-replay-20261016.log`, `/tmp/mp3-ep9-live-generator-tests-20261016.log`, `/tmp/mp3-ep9-generated-readonly-20261016.log`, `/tmp/mp3-ep9-version-mutation-20261016.log`, `/tmp/mp3-ep9-packaged-generate-check-20261016.log` and `/tmp/mp3-ep9-generated-pure-checks-20261016.log`. The generated layer is not active yet. Actual composed version parity, registry pin retirement, Nix manifests, build/cache publication, runtime adoption and deployment remain unfinished; the existing trusted cache still returns HTTP 401. ADR 5 continues to govern source/configuration equality and reuse claims.
+
 2026-10-16 comparator checkpoint: delivered the public lock-resolution and consumer Cabal-plan modes without activating the generated package layer. The 128-test updater suite passes; the packaged comparator fixtures and formatting check are the focused native gates. Receipts: `/tmp/mp3-ep9-compare-tests-final-20261016.log`, `/tmp/mp3-ep9-compare-check-final-20261016.log`, and `/tmp/mp3-ep9-public-lock-20261016.log`. The historical Rei plan path is absent on this host, so no fresh application acceptance is claimed. Hackage and upstream tags still end at Kioku 0.9.0.1, whose Core Baikai cap remains unchanged. The user has been asked to publish all five Kioku packages with the committed compatibility fix as patch 0.9.0.2; versions and tags have not been changed by this work. Native publication credentials and cache access remain unavailable. Manifest, generation, runtime, cache and deployment gates remain open.
 
 2026-10-16 checkpoint: verified the published Shikumi patches and advanced the diagnostic solve to 451 selections, identifying Kioku's Baikai cap as the remaining release prerequisite. Prepared and committed the Kioku compatibility fix with all 471 tests, native build/flake gates and five package checks passing. Independently implemented recursive root-based lock lookup and its maintenance CLI, passing all 112 updater tests and a real nested-lock command; the complete source-descriptor checks used by first-party updates remain strict. Shared comparison/manifests, generation activation, runtime delivery and cache acceptance remain unfinished. The accepted cohort is unchanged pending an admitting Kioku release.
@@ -613,12 +617,11 @@ Export it from `flake.nix` as `lib.parseCohortFreeze`, and export
 (`versionTable` is the name → version map, which is what Purpose's first command reads).
 
 **Policy file.** Add `config/cohort-policy.json` with `schemaVersion: 1` and two keys:
-- `excluded`: a map from package name to a one-sentence reason. These are frozen packages the
+- `excluded`: a map from package name to `{ "reason": "...", "owner": "mori://..." }`. These are frozen packages the
   channel does not provide, because each belongs to an application: for example `rei-core`,
   `mori-types`, `mori-app`, `mori-schema-pin`, or any other application-local library that plan 8's
   freeze includes. The reason names the providing flake with a `mori://` URI.
-- `sourcePinned`: a list of names the registry provides from a non-Hackage source (today `codd` and
-  `hasql-migration`; plan 10 adds `typeid-hs`, `typeid-hs-sql` and `typeid-hs-pg-migrate`).
+- `sourcePinned`: a map with the same owned-policy shape for every source-pinned cohort package. The current solve records `cmark-gfm`, `dhall`, `hs-opentelemetry-instrumentation-servant`, `typeid-hs-sql` and `typeid-hs-pg-migrate`; the source manifest retains each exact Git revision/subdirectory.
 
 Both kinds are skipped by the generator. `sourcePinned` names are still parity-checked;
 `excluded` names are not.
@@ -640,7 +643,7 @@ Defaults are `cabal/cohort.freeze`, `config/cohort-policy.json`,
 4. Gets nixpkgs' base versions for every frozen name in one call:
    `nix eval --json --impure --expr` over the flake's nixpkgs input, plain
    `haskell.packages.ghc9124`, mapping each name to its version, `"null"` (boot) or `"absent"`.
-   This needs no IFD and takes about two seconds for 400 names.
+   A version probe alone is insufficient to classify a package as `sameAsBase`. The live default has no complete trusted base source/metadata/configuration map and conservatively emits recipes for these packages. Retained runtime callers may supply explicit identity evidence to the shared classifier; no equality is inferred from matching versions.
 5. Classifies each freeze entry, in this order:
    - `boot` (in the `ghc-pkg` list). If the frozen version differs from GHC's, fail.
    - `firstParty` (in the lock). The generator writes nothing for it; the parity check asserts it.
@@ -1231,3 +1234,5 @@ Nothing in this plan requires a new flake input.
 - 2026-10-04: MasterPlan review for reducing change time: clarified shared ownership and acceptance, added the applicable targeted-update/build-identity/cache contracts, and corrected historical assumptions. No implementation completion is claimed.
 
 - 2026-10-04 (runtime workstream): Added EP-16 integration, ownership and applicable acceptance; consumer adoption now requires the retained runtime set and composes application selections/packages onto it. Shared-tool preparation remains acyclic and the fleet advisory policy is preserved.
+
+- 2026-10-16 (implementation): Reconciled published Kioku/Shikumi inputs and accepted the refreshed solve; documented the live owned-policy schema and conservative base classification required by the existing source/configuration review contract.

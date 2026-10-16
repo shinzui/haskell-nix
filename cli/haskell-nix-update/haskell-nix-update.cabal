@@ -49,6 +49,7 @@ library
     HaskellNix.Update.Cohort.Report
     HaskellNix.Update.Cohort.Freeze
     HaskellNix.Update.Cohort.Generate
+    HaskellNix.Update.Cohort.GenerateIO
     HaskellNix.Update.Cohort.GenerationTypes
     HaskellNix.Update.Cohort.Revision
     HaskellNix.Update.Cohort.Render
@@ -106,6 +107,7 @@ test-suite haskell-nix-update-test
     CohortTest
     CohortModelTest
     CohortGenerateTest
+    CohortGenerateIOTest
     CohortCompareTest
     PackageSetTest
     Paths_haskell_nix_update

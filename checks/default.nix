@@ -4,6 +4,7 @@
 , pkgsHackage
 , updater
 , cohortCompare
+, nixpkgsRevision
 , firstPartyRegistries
 , supportedGhcs
 , defaultGhc
@@ -266,4 +267,7 @@ in
       echo 'Overlay evaluation succeeded: ${builtins.toJSON results}'
       touch "$out"
     '';
-} // curatedPackageSetChecks
+} // (import ./cohort-parity.nix {
+  inherit lib nixpkgsRevision;
+  pkgs = pkgsPlain;
+}) // curatedPackageSetChecks

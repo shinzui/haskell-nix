@@ -57,7 +57,9 @@ renderCohortVersions metadata document classified entries = do
             , "}"
             ]
   where
-    names category = "[ " <> Text.unwords [quote name | (name, p) <- Map.toAscList classified, p.packageClassification == category] <> " ]"
+    names category = case [quote name | (name, p) <- Map.toAscList classified, p.packageClassification == category] of
+        [] -> "[ ]"
+        selected -> "[ " <> Text.unwords selected <> " ]"
     owned (CohortExcluded owner) = [(owner, False)]
     owned (CohortSourcePinned owner) = [(owner, True)]
     owned _ = []
