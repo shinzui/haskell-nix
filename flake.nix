@@ -59,6 +59,26 @@
         lock = firstPartyLock;
         inherit commonRegistry compatibilityProfiles supportedGhcs;
       };
+      mkRuntimePackageSet = import ./lib/mkRuntimePackageSet.nix { inherit lib; };
+      runtimeLock = builtins.fromJSON (builtins.readFile ./packages/runtime-lock.json);
+      runtimePackageSets = lib.mapAttrs
+        (_: records: map
+          (record:
+            let
+              retained = builtins.fromJSON (builtins.readFile (./. + "/${record.recipeDirectory}/packages/first-party-lock.json"));
+              complete = builtins.head (builtins.filter (set: set.name == retained.defaultPackageSet) retained.packageSets);
+              complement = builtins.filter (selection: !(builtins.hasAttr selection.group record.selections)) complete.groups;
+            in
+            record // {
+              applicationSelections = lib.listToAttrs (map
+                (selection: {
+                  name = selection.group;
+                  value = selection.generation;
+                })
+                complement);
+            })
+          records)
+        runtimeLock.runtimes;
       defaultPackageSet = firstPartyLock.defaultPackageSet;
       channelPackageSets = lib.genAttrs [ "github" "hackage" ]
         (channel: mkFirstPartyPackageSet {
@@ -187,6 +207,8 @@
             fixPackageByVersion
             mkChannelExtension
             mkFirstPartyPackageSet
+            mkRuntimePackageSet
+            runtimePackageSets
             mkFirstPartyRegistries
             mkHaskellExtension
             mkHaskellOverlay
@@ -230,6 +252,24 @@
             runtimeInputs = [ pkgsPlain.python3 pkgsPlain.nix pkgsPlain.cachix ];
             text = ''exec python3 ${./scripts/cohort-cache.py} "$@"'';
           };
+          runtimeOutputs = lib.genAttrs [ "github" "hackage" ] (channel:
+            (import ./lib/mkRuntimeOutputs.nix {
+              inherit lib mkRuntimePackageSet;
+              pkgs = pkgsPlain;
+              mkCohortManifest = import ./lib/mkCohortManifest.nix { inherit lib; };
+            }) {
+              runtime = "keiro-runtime";
+              generation = 1;
+              inherit channel;
+              applicationSelections = {
+                kioku = 8;
+                okf = 5;
+                openapi-hs = 1;
+                relay-pagination = 3;
+                servant-openapi-hs = 1;
+                shikumi-baikai = 9;
+              };
+            });
           toolchain = haskell-nix-dev.lib.${system}.ghcVersions.${defaultGhc};
           cohortVersions = import ./generated/cohort-versions.nix;
           cohortScope = pkgsGithub.haskell.packages.${defaultGhc};
@@ -263,6 +303,17 @@
             haskell-nix-update = updater;
             cohort-compare = cohortCompare;
             cohort-cache = cohortCache;
+            keiro-runtime-verifier = import ./checks/runtime-verifier.nix {
+              inherit lib mkRuntimePackageSet;
+              pkgs = pkgsPlain;
+            };
+            keiro-runtime = runtimeOutputs.github.roots;
+            keiro-runtime-hackage = runtimeOutputs.hackage.roots;
+            keiro-runtime-closure = runtimeOutputs.github.closure;
+            keiro-runtime-hackage-closure = runtimeOutputs.hackage.closure;
+            keiro-runtime-manifest = runtimeOutputs.github.manifest;
+            keiro-runtime-hackage-manifest = runtimeOutputs.hackage.manifest;
+            keiro-runtime-proof = runtimeOutputs.github.proof;
             cohort-manifest = cohortManifest;
             cohort-closure = cohortFarm "cohort-closure" cohortNames;
             cohort-roots = cohortFarm "cohort-roots" [
@@ -322,12 +373,21 @@
             nativeBuildInputs = [ pkgsPlain.pkg-config pkgsPlain.python3 ];
             buildInputs = [ pkgsPlain.xz pkgsPlain.zlib pkgsPlain.postgresql.dev pkgsPlain.openssl.dev ];
           };
-          checks = import ./checks/default.nix {
+          checks = (import ./checks/default.nix {
             nixpkgsRevision = nixpkgs.rev;
             inherit lib pkgsPlain pkgsGithub pkgsHackage updater cohortCompare cohortManifest firstPartyRegistries
               supportedGhcs defaultGhc defaultSelectedFamilies registries mkChannelExtension
               mkFirstPartyPackageSet mkFirstPartyPackageSetFactory firstPartyPackageSets
               haskellExtensions auditConsumerOverlay;
+          }) // {
+            runtime-kafka-close = import ./checks/runtime-kafka-close.nix {
+              inherit lib mkRuntimePackageSet;
+              pkgs = pkgsPlain;
+            };
+            runtime-composition = import ./checks/runtime-composition.nix {
+              inherit lib mkRuntimePackageSet;
+              pkgs = pkgsPlain;
+            };
           };
         };
     };

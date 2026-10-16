@@ -1,0 +1,9 @@
+cabal-version: 3.0
+name: runtime-app-a
+version: 1.0.0
+build-type: Simple
+license: BSD-3-Clause
+executable runtime-app-a
+  main-is: Main.hs
+  build-depends: base, keiki, bytestring
+  default-language: GHC2021

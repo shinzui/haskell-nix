@@ -1,0 +1,74 @@
+name: Retained runtime cache substitution
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  substitute:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - system: aarch64-darwin
+            channel: github
+            runner: macos-15
+          - system: aarch64-darwin
+            channel: hackage
+            runner: macos-15
+          - system: x86_64-linux
+            channel: github
+            runner: ubuntu-24.04
+          - system: x86_64-linux
+            channel: hackage
+            runner: ubuntu-24.04
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 30
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Require private cache read access
+        env:
+          CACHIX_AUTH_TOKEN: ${{ secrets.CACHIX_AUTH_TOKEN }}
+        run: test -n "$CACHIX_AUTH_TOKEN"
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@448cde739abec1eaf0646249e3d25bb8d9bc7702 # v31.11.2
+
+      - name: Configure private cache read access
+        uses: cachix/cachix-action@38b082610b782e7e93e209c35fd730d399dee866 # v17
+        with:
+          name: tan
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+          skipPush: true
+
+      - name: Verify published cohort in an empty store
+        shell: bash
+        env:
+          COHORT_SYSTEM: ${{ matrix.system }}
+          RUNTIME_CHANNEL: ${{ matrix.channel }}
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+          receipt = json.loads(Path('cabal/runtime-cache/keiro-runtime/1', os.environ['COHORT_SYSTEM'] + '-' + os.environ['RUNTIME_CHANNEL'] + '.json').read_text())
+          record = json.loads(Path('packages/runtime-lock.json').read_text())['runtimes']['keiro-runtime'][0]
+          assert receipt['context']['runtimeFingerprint'] == record['fingerprint'], 'wrong runtime publication receipt'
+          assert receipt['context']['channel'] == os.environ['RUNTIME_CHANNEL'], 'wrong source channel'
+          PY
+          worker_root="$(python3 -c 'import pathlib,tempfile; print(pathlib.Path(tempfile.mkdtemp(prefix="cohort-cache-")).resolve())')"
+          python3 scripts/cohort-cache.py verify \
+            --receipt "cabal/runtime-cache/keiro-runtime/1/$COHORT_SYSTEM-$RUNTIME_CHANNEL.json" \
+            --store "local?root=$worker_root" \
+            --evidence cohort-cache-substitution.json
+
+      - name: Retain substitution evidence
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: runtime-cache-${{ matrix.system }}-${{ matrix.channel }}
+          path: cohort-cache-substitution.json
+          if-no-files-found: error

@@ -6,7 +6,7 @@ docId: DOC-7
 tags: [package-sets, snapshots, cache]
 generated:
   by: human:nadeem
-  at: 2026-10-16T17:53:12Z
+  at: 2026-10-16T23:15:05Z
 ---
 
 [User guide](README.md)
@@ -224,3 +224,63 @@ Verification rejects a store that already holds any expected path, copies exclus
 the cache without building, and checks the complete recorded graph. Receipts record the
 worker system and hostname. An isolated store on a developer machine proves substitution
 there; supported CI-worker acceptance still requires running it in the declared CI environment.
+
+
+## Retained Keiro runtime generations
+
+A runtime generation retains a transitive dependency baseline as well as the first-party
+selection. `keiro-runtime` generation 1 owns 311 packages, including Keiki and its JSON codec,
+Keiro, Kiroku, Shibuya, PGMQ, Settei, pg-migrate and the maintained Kafka client and streaming
+forks. Its 35 roots are available lazily: an application builds only dependencies it uses.
+The record captures recipes, source hashes, metadata, flags, policies and toolchain pins.
+The existing complete-selection API and catalog topology are unchanged.
+
+Inspect `lib.runtimePackageSets.keiro-runtime` for explicit generation records, configurations,
+roots and the recorded complementary `applicationSelections`. Persist the chosen generation,
+source channel and complete complementary map in the application's `nix/runtime-selection.json`.
+The constructor never fills missing groups from a moving default. Equal duplicate runtime
+group selections are allowed; conflicting values fail by group name.
+
+```nix
+let
+  choice = builtins.fromJSON (builtins.readFile ./nix/runtime-selection.json);
+  selected = inputs.haskell-nix.lib.mkRuntimePackageSet choice;
+  hs = selected.mkApplicationScope pkgs (hself: _hsuper: {
+    my-application = hself.callCabal2nix "my-application" ./my-application { };
+  });
+in {
+  packages.default = hs.my-application;
+  packages.cohort-manifest = selected.mkApplicationManifest {
+    inherit pkgs;
+    scope = hs;
+    root = hs.my-application;
+  };
+}
+```
+
+Use the retained nixpkgs/GHC toolchain and declared profiling/Haddock choices. The checked
+scope constructor compares every non-boot runtime derivation against an independent retained
+scope and checks the compiler. It rejects application overrides of owned packages before the
+application builds. `haskellExtension` and `overlay` remain available for existing composition;
+call `validateApplicationScope pkgs hs` when constructing a scope manually. Always compare the
+actual executable manifest using the shared comparator to catch additional dependency instances.
+
+Import the generation's `cabal/runtimes/keiro-runtime/1/github.project` or `hackage.project`
+alongside the complete cohort freeze, all pinned to the same channel revision. These projects
+retain runtime source exceptions even in the Hackage channel. Enable the application's own
+supported tests and benchmarks explicitly. Application dependencies outside runtime ownership
+still need complete cohort source and configuration policy; a runtime projection alone is not
+a complete application solver input.
+
+`runtime snapshot --name keiro-runtime --cohort-freeze cabal/cohort.freeze` stages and checks a
+new generation. An unchanged effective input returns the existing record without writing.
+`runtime check --name keiro-runtime` verifies retained artifacts; `runtime describe --name
+keiro-runtime --json` reports metadata. Existing generations remain immutable when membership
+or policy changes. Build/cache evidence lives outside their immutable projection directories.
+
+The root, closure and manifest outputs are `keiro-runtime`, `keiro-runtime-closure` and
+`keiro-runtime-manifest`, with corresponding `keiro-runtime-hackage*` outputs. Declared initial
+targets are GHC 9.12.4 on aarch64-darwin and x86_64-linux, both source channels, profiling and
+Haddock disabled. Declared targets become supported only when plan 16's build, disposable
+integration and fresh-worker cache acceptance is recorded. Generation numbers and documentation
+labels do not enter library derivation inputs.

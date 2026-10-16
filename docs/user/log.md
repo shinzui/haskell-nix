@@ -1,6 +1,7 @@
 # Bundle Update Log
 
 ## 2026-10-16
+* **Addition**: Document retained runtime generations, explicit application complements, checked scope/manifest construction and immutable projection operations; distinguish declared targets from accepted support.
 * **Update**: Explain why the modern CLI and WAI/Warp transitive dependency cohorts move together.
 * **Update**: Document exact recipe reconstruction and the supported overrideCabal boundary for build evidence.
 * **Update**: Document frozen manifest comparison, resolved flag evidence and owned compiler-tool differences.
