@@ -1,0 +1,16 @@
+{
+  "buildsPerformed": 0,
+  "evidenceArtifact": "runtime-cache-x86_64-linux-hackage",
+  "evidenceArtifactSha256": "69821e7458428baa3bb1a63cc5f55720a349565aec2e0140f6c21cde526b2774",
+  "initialExpectedPaths": 0,
+  "publicationReceipt": "cabal/runtime-cache/keiro-runtime/1/x86_64-linux-hackage.json",
+  "publicationReceiptSha256": "6851431b343cf098839e1ed83bd231341eea8a1b6cdb448934898b5dad6652b5",
+  "runId": 38983141096,
+  "runUrl": "https://github.com/shinzui/haskell-nix/actions/runs/38983141096",
+  "schemaVersion": 1,
+  "substitutedPaths": 400,
+  "verificationStore": "local?root=/home/runner/work/_temp/cohort-cache-ol6jnafe",
+  "workerHostname": "runnervm8k3b6",
+  "workerSystem": "x86_64-linux",
+  "workflowRevision": "453e098c80c01836da980460438f5264810eaa0b"
+}

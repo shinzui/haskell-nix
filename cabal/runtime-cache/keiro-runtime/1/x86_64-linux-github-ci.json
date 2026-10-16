@@ -1,0 +1,16 @@
+{
+  "buildsPerformed": 0,
+  "evidenceArtifact": "runtime-cache-x86_64-linux-github",
+  "evidenceArtifactSha256": "f8a3c9375313fca7fc157dee3714283c0bef89c15eb08d303967c5d080236fd4",
+  "initialExpectedPaths": 0,
+  "publicationReceipt": "cabal/runtime-cache/keiro-runtime/1/x86_64-linux-github.json",
+  "publicationReceiptSha256": "6c92a68fb5cbe999e581f1192d807055cf93d74ce03a56737a7fb0302688b17e",
+  "runId": 38983141096,
+  "runUrl": "https://github.com/shinzui/haskell-nix/actions/runs/38983141096",
+  "schemaVersion": 1,
+  "substitutedPaths": 400,
+  "verificationStore": "local?root=/home/runner/work/_temp/cohort-cache-ql2lbvmu",
+  "workerHostname": "runnervm8k3b6",
+  "workerSystem": "x86_64-linux",
+  "workflowRevision": "453e098c80c01836da980460438f5264810eaa0b"
+}

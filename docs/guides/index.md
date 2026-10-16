@@ -4,6 +4,8 @@ okf_version: "0.2"
 
 # Guide
 
+- [Compose applications on the Keiro runtime](compose-on-the-keiro-runtime.md) - Select a retained runtime generation, materialize its Cabal imports and compose application recipes in one checked Haskell scope.
+
 - [Create a first-party package set](create-a-package-set.md) - Clone a named set, choose retained group generations, and validate its support level.
 - [Adopt haskell-nix in an existing flake](adopt-in-an-existing-flake.md) - Wire shared Nix inputs and compose a selected haskell-nix extension with a consumer's Haskell overrides.
 - [Move from an overlay to extension composition](move-from-an-overlay.md) - Preserve shared haskell-nix patches when a consumer also overrides the same Haskell package set.

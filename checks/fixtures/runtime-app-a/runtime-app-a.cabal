@@ -5,5 +5,5 @@ build-type: Simple
 license: BSD-3-Clause
 executable runtime-app-a
   main-is: Main.hs
-  build-depends: base, keiki, bytestring
+  build-depends: base, keiki, aeson
   default-language: GHC2021

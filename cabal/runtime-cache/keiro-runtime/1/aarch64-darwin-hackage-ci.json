@@ -1,0 +1,16 @@
+{
+  "buildsPerformed": 0,
+  "evidenceArtifact": "runtime-cache-aarch64-darwin-hackage",
+  "evidenceArtifactSha256": "03d2e1dfcc98ec508a71c5733c02949943ea04bbe1a55c376d9ef86548d48994",
+  "initialExpectedPaths": 0,
+  "publicationReceipt": "cabal/runtime-cache/keiro-runtime/1/aarch64-darwin-hackage.json",
+  "publicationReceiptSha256": "db739afe4e4e3bd9f753937e1f94aec49eb047767b08a142af74ff48ee25d4e6",
+  "runId": 38983141096,
+  "runUrl": "https://github.com/shinzui/haskell-nix/actions/runs/38983141096",
+  "schemaVersion": 1,
+  "substitutedPaths": 393,
+  "verificationStore": "local?root=/private/var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/cohort-cache-qdbxkanq",
+  "workerHostname": "sat12-dp153-230a4635-6384-41bf-83df-9c25896a482d-8A96A2711F40.local",
+  "workerSystem": "aarch64-darwin",
+  "workflowRevision": "453e098c80c01836da980460438f5264810eaa0b"
+}

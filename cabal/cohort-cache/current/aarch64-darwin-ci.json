@@ -1,0 +1,16 @@
+{
+  "buildsPerformed": 0,
+  "evidenceArtifact": "cohort-cache-aarch64-darwin",
+  "evidenceArtifactSha256": "479c1f18a28655fc56049f53d3a2c1ff8ea249b4f7f6da0a87f4252dbd9d88ae",
+  "initialExpectedPaths": 0,
+  "publicationReceipt": "cabal/cohort-cache/current/aarch64-darwin.json",
+  "publicationReceiptSha256": "9ac0078441279f531f2d90db03475ff18d4f87bb951b99db5113e934407871ef",
+  "runId": 38983143439,
+  "runUrl": "https://github.com/shinzui/haskell-nix/actions/runs/38983143439",
+  "schemaVersion": 1,
+  "substitutedPaths": 560,
+  "verificationStore": "local?root=/private/var/folders/nj/vtw8zd2j31d1gdrtntc5y4600000gn/T/cohort-cache-q1c836l4",
+  "workerHostname": "sjc22-be107-66c45563-eec0-43e4-b2f5-c0b40c5aeefb-D619DB157EE9.local",
+  "workerSystem": "aarch64-darwin",
+  "workflowRevision": "453e098c80c01836da980460438f5264810eaa0b"
+}

@@ -4,6 +4,10 @@ Version-scoped Haskell patch management for multi-repository Nix builds.
 
 A shared flake that provides GHC compatibility patches (jailbreaks, version pins, etc.) and selectable first-party package sources as composable Haskell package set extensions. Consumers get a single source of truth for cross-cutting Haskell fixes without maintaining duplicate overrides across projects.
 
+For a retained transitive runtime baseline, use `lib.mkRuntimePackageSet` and the
+[Keiro runtime composition guide](docs/guides/compose-on-the-keiro-runtime.md). It pairs
+hash-checked Cabal imports with one checked Nix scope and explicit application selections.
+
 ## Usage
 
 ### Recommended: direct extension composition

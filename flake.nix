@@ -434,6 +434,11 @@
               inherit lib mkRuntimePackageSet;
               pkgs = pkgsPlain;
             };
+            runtime-hackage-composition = import ./checks/runtime-composition.nix {
+              inherit lib mkRuntimePackageSet;
+              pkgs = pkgsPlain;
+              channel = "hackage";
+            };
             runtime-composition = import ./checks/runtime-composition.nix {
               inherit lib mkRuntimePackageSet;
               pkgs = pkgsPlain;
