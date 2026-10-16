@@ -11,6 +11,12 @@ provenance:
     model: "gpt-6.1-sol"
     harness: "codex-cli"
     at: 2026-10-04T14:38:53Z
+  revisions:
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-16T19:35:36Z
+      mode: "implement"
+      note: "Record read-only source/cohort inventory while prerequisite Linux acceptance runs; no runtime implementation accepted."
 ---
 
 # Create the Keiro runtime package set and compose applications on it
@@ -52,6 +58,8 @@ plans 11–13, which now depend on this plan.
 
 
 ## Surprises & Discoveries
+
+Read-only preparation (2026-10-16, while EP-9 Linux acceptance runs): Mori resolves all eight required project roots and the existing verification project. The accepted 462-package `cabal/cohort-sources.json` contains Keiki/JSON, Keiro 0.21, Kiroku Store 0.11, Shibuya/PGMQ/Kiroku adapters, Settei, pg-migrate and Hackage hw-kafka-client 5.3.0. It does not contain `shibuya-kafka-adapter`, `kafka-effectful` or `hw-kafka-streamly`. The historical head profile in `mori://shinzui/keiro-runtime-kenshou`, project-relative `cohort/head.json` (artifact-level URI pending), records maintained Kafka source forks; its historical versions/index-state are not the new baseline. M2 must feed any required missing Kafka packages and the maintained client fork through the existing solver/source machinery before projecting the runtime. Hackage confirms current releases `shibuya-kafka-adapter` 0.9.1.0, `kafka-effectful` 0.3.1.0 and `hw-kafka-streamly` 0.2.0.0; local source bounds admit Effectful 2.7 and Streamly 0.11/core 0.3. The maintained client fix commit `6caed636898a78e9f6e5a9c93eeb5562cbb2580a` exists locally on the fix branch; the checkout default branch does not contain those fixes, so selecting its HEAD would lose the required provenance. Release preflight: `/tmp/mp3-ep16-runtime-release-preflight.json`. No runtime generation or prerequisite-dependent implementation is accepted by this inventory.
 
 At planning time, `lib.mkFirstPartyPackageSet` requires a complete group-to-generation map.
 It cannot directly accept a runtime-only subset. The schema-2 first-party catalog also
