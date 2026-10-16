@@ -36,6 +36,11 @@ provenance:
       at: 2026-10-08T04:24:34Z
       mode: "implement"
       note: "Resume EP-17 as first eligible unfinished child"
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-16T05:03:12Z
+      mode: "update"
+      note: "Refresh coordination status, post-freeze channel drift and MP-4 handoff against checked-in evidence."
   reviews:
     - model: "gpt-6.1-sol"
       harness: "codex-cli"
@@ -184,7 +189,7 @@ Phase 3 (plan 14) comes last because it is the only place all five meet: the dot
 
 Status values: Not Started, In Progress, Complete, Cancelled.
 EP-12's current work is its explicitly independent Hasql-vendoring Milestone 1; cohort/runtime adoption still waits for its hard dependencies. On 2026-10-05 the user requested parallel execution: EP-10, EP-12 M1 and the relay compatibility release run concurrently with EP-8. EP-16's read-only runtime inventory is preparation, not completion of its prerequisite-dependent implementation.
-EP-9's current work is its explicitly independent Cabal-format guard and fixture-based parser/generator preparation. Its Context already permits these additive milestones before EP-8 finishes. Activating the generated layer and completing EP-9 still require EP-8 acceptance; no aggregate gate is waived.
+EP-9 has completed preparatory guard/parser work and has tested pure generation modules. EP-8 is accepted, so live generation and layer integration are eligible, subject to reconciling the later channel changes recorded in Progress. No aggregate gate is waived.
 Hard Deps and Soft Deps reference other rows by their # prefix (e.g., EP-8). This repository numbers ExecPlans globally, so this MasterPlan's children are 8 through 17. Plan 15 was added on the user's decision to move the whole family to effectful 2.7; it runs first. Plan 17 adds the user's later cross-project ephemeral PostgreSQL cleanup migration.
 
 
@@ -201,7 +206,7 @@ Plan 15 releases versions that admit effectful 2.7 (floors: `effectful` 2.7.1.0,
 
 **Plan 8 hard-depends on plan 15**, because the freeze cannot select effectful 2.7 until those releases exist. Every other plan consumes plan 8's freeze file. Plan 8 resolves the cohort in its own Cabal project inside this repository, not inside any application. The applications' own caps are reported by plan 8 and lifted by the consumer plans.
 
-**Plan 9's generated-layer activation hard-depends on plan 8.** It generates Nix entries from the accepted freeze, and its parity check compares the channel against that file. Its additive Cabal-format guard and fixture-based parser/generator milestones can proceed independently, as its Context and Orientation specifies. This preparation changes no selected package versions and does not establish channel parity.
+**Plan 9's generated-layer activation hard-depends on plan 8.** EP-8 is Complete at its October 6 checkpoint; subsequent selected-source changes require coherent regeneration and renewed parity evidence, as described in Progress. It generates Nix entries from the accepted freeze, and its parity check compares the channel against that file. Its additive Cabal-format guard and fixture-based parser/generator milestones can proceed independently, as its Context and Orientation specifies. This preparation changes no selected package versions and does not establish channel parity.
 
 **Plan 10 has no hard dependency** and can begin in parallel with plan 8. It inventories consumer overlays and moves shared overrides into this repository's registry. It soft-depends on plan 9: once plan 9 generates version pins, plan 10's entries must carry only build policy (jailbreak, tests, flags, source revisions), not versions. If plan 10 lands first, plan 9 converts its version pins. The two reconcile through the registry (see Integration Points).
 
@@ -292,40 +297,23 @@ The goal is less repeated coordination and dependency compilation. Equal version
 
 ## Progress
 
-- [x] (2026-10-07) EP-17: concurrent cross-session cleanup probe passes; Keiei/Meibo adopt narrow test-only backports while retaining production runtime unit identities; migration fixtures and upstream helper assertions pass.
-- [x] (2026-10-07) EP-17: Kizashi and remaining PGMQ/adapter/Kawa default database suites pass; all three legacy consumers are committed and pushed.
-- [x] (2026-10-07) EP-17: final active-source/local-dependency old-bound audits are empty. The user confirms `mori://shinzui/codd-extras` is unused and deprecated; exclude its incidental migration and publication from acceptance.
+Refreshed 2026-10-15 against child plans, checked-in implementation and Git history. Four of ten children are Complete (EP-15, EP-8, EP-10 and EP-17). EP-9 and EP-12 are In Progress; EP-12 has completed only its independent Hasql-removal M1. EP-16 and EP-11/13/14 remain Not Started. The registry remains the source of truth for whole-child status; child plans retain milestone evidence.
 
-- [x] (2026-10-05) EP-15 Shikumi milestone: reuse Shikumi/tools 0.4.1.0; publish nine remaining patch releases with docs/tags/GitHub releases after both effectful-line tests and release gates pass
-- [x] (2026-10-05) EP-15 Keiro compatibility preparation: bound widening committed locally; full builds with tests enabled pass on effectful 2.6 and 2.7
+EP-9 is the next eligible implementation work. Its Cabal-format guard, Nix freeze parser and tested pure Haskell generation modules are present. Live generation/CLI dispatch, generated artifacts, layer activation, structured executable manifests, recursive lock resolution, comparison and shared cache publication remain unfinished. The current channel is not proven equal to the freeze.
 
-- [ ] EP-16: Publish an immutable Keiro runtime generation, exact Cabal/Nix/source projections and guarded application composition API
-- [ ] EP-16: Prove two composed applications share runtime builds, explicit runtime upgrades preserve unrelated selections, and fresh workers substitute cached outputs
+Before activating the layer, reconcile the accepted October 6 cohort with subsequent channel changes. The default lock now selects Keiro group generation 7 (Keiro 0.21.0.0), Kioku group generation 7 (0.9.0.1) and Shikumi–Baikai group generation 8 (including Baikai 0.8.0.0). The freeze still selects Keiro 0.19.0.1, Kioku 0.8.0.2 and Baikai 0.7.2.0. EP-8's completion remains the historical accepted checkpoint, not proof of parity with today's default. Reuse its inventory/solver/report commands to refresh current floors, sources and consumer caps coherently; preserve historical selections and do not lower the channel to the old freeze. Record fresh acceptance evidence in the owning child plans.
 
-- [x] (2026-10-05) EP-8: Targeted dependency updates preserve unrelated pins and report affected applications/components; the real conflict fixture leaves all 76 inputs unchanged.
-- [ ] EP-9: Structured manifests and recursive lock resolution reject false parity, including static-link and duplicate-version fixtures
-- [ ] EP-9: Shared dependency outputs are published and available to configured CI workers
-- [ ] EP-14: Recorded update-isolation and cache-reuse measurements meet the time-saving acceptance contract
+EP-16 waits for EP-9 completion; consumer adoption in EP-11–13 waits for EP-9/10/16. EP-12's accepted M1 does not waive these gates. EP-14 waits for all consumer plans. No production deployment, retained runtime generation, fresh-worker cache reuse or measured speedup is accepted by this refresh.
 
-- [x] (2026-10-05) EP-15: Release keiro, kioku-core and the shikumi family admitting effectful 2.7 (`effectful` 2.7.1.0+, `effectful-core` 2.7.1.1+), and refresh the channel
-- [x] (2026-10-06) EP-8: all six fresh contributor solves and pinned Nix observations pass; cohort acceptance is complete.
-- [x] (2026-10-05) EP-8: committed the 450-package upgrade-only freeze, complete source manifest and zero-downgrade report at `4e3a626`
-- [x] (2026-10-06) EP-8: report identifies 37 consumer caps with files and component roles (30 in the earlier checkpoint).
-- [x] (2026-10-06) EP-9: both source-channel paths parse Cabal 3.14/3.16; format guard passes in the full native gate.
-- [ ] EP-9: Generate the Nix version layer from the freeze and retire hand-written version pins (including `shibuya-pgmq-adapter` 0.16.0.0)
-- [ ] EP-9: Add the channel version-parity check and pass it in `nix flake check`
-- [x] (2026-10-06) EP-10: inventory and move shared overrides into the channel; guarded recipes and consumer deletion handoff accepted at `074ea35`.
-- [ ] EP-11: rei and mori-rei-app import the freeze, drop shared overrides, and mori-rei-app consumes Rei's `rei-core`
-- [ ] EP-11: Deploy rei and mori-rei-app on the shared set
-- [ ] EP-12: mori imports the freeze and drops shared overrides
-- [ ] EP-12: Deploy mori on the shared set (an ordinary binary swap: the mori database received Kiroku `0012` on 2026-09-26)
-- [ ] EP-13: mina moves to the current baikai and shikumi cohort and imports the freeze
-- [ ] EP-13: reiko imports the freeze
-- [ ] EP-14: dotfiles follows one channel revision, and the update recipes move one application at a time
-- [ ] EP-14: The deploy-time closure parity check passes for all five applications
+The remaining initiative-wide acceptance is equal intended shared build identities, fresh-worker substitution on both supported systems, exact-binary consumer rehearsals and EP-14's update-isolation/timing measurements. These remain required even if later channel refreshes or separate application work have already upgraded individual packages.
+
+Related performance/reliability work now lives under [MasterPlan 4](4-coordinate-horizon-inspired-haskell-nix-performance-and-reliability-improvements.md), which coordinates EP-18–21 and the toolchain work. It consumes EP-9/16 production contracts without taking their ownership or adding completion prerequisites to MP-3. Keep those plans outside this registry.
 
 
 ## Surprises & Discoveries
+
+- Observation (2026-10-15 refresh): channel commits `5cb50ca` and `ac9744c` advance the selected Keiro/Kioku and Shikumi–Baikai snapshots beyond `cabal/cohort.freeze`. Completed solver/policy work remains valid historical evidence, but cannot establish current parity. The generator must reconcile selected first-party versions and exact sources rather than silently overriding them with the old freeze.
+- Observation (2026-10-15 evidence limit): `mori registry list` fails because the configured PostgreSQL database `mori` does not exist. This refresh uses checked-in child plans, locks, ADRs and Git history; cross-repository runtime/deployment status and canonical references have not been reverified. Restore registry access before the next cross-project inventory; no database repair is part of this documentation update.
 
 - Observation (2026-10-07, EP-17): Keiei/Meibo's legacy runtime can remain fixed while local test-only helpers admit ephemeral-pg 0.3.1 and stable UID roots. Fresh baseline/candidate solves retain all unrelated versions and production Keiro/Kiroku/PG-migrate unit identities. Mori's actual helper passes orphan reclamation plus concurrent live SQL connectivity across three TMPDIR sessions. Kizashi has a local override referencing codd-extras, which led to incidental work before the user confirmed that project is unused and deprecated. It is excluded from active-consumer acceptance; no original five-application cohort membership is added.
 
@@ -437,6 +425,8 @@ The goal is less repeated coordination and dependency compilation. Equal version
 
 ## Outcomes & Retrospective
 
+Refresh checkpoint (2026-10-15): four of ten children remain Complete. EP-9 is ready to resume with a coherent cohort refresh followed by live generation and parity implementation. EP-12's independent M1 is accepted, while adoption remains gated on shared generation/runtime delivery. Consolidated Progress into a coordination snapshot and distinguished later channel upgrades and MP-4 follow-on work from MP-3 acceptance. No new architecture decision, implementation acceptance or deployment is claimed; ADRs 5 and 7 continue to govern.
+
 Resumed checkpoint (2026-10-07): EP-17 is Complete. Concurrent live retention, orphan reclamation and normal teardown pass through the actual helper. Keiei/Meibo preserve runtime unit identities and pass migration fixtures; their commits and Kizashi's are pushed. All remaining default database suites pass, along with the targeted Linux channel dependency check. Final registered/local-source old-bound audits are empty. The user confirms codd-extras is unused and deprecated; its incidental local commit is excluded, and publication is not an outstanding requirement. Four of ten children are Complete. EP-9 is the next eligible child in registry order; generated-layer, runtime-generation, cache and deployment gates remain open.
 
 Stopping checkpoint (2026-10-06, user request): EP-8 and EP-10 are Complete; EP-9 is In Progress and its hard prerequisite is satisfied. The full native Nix gate passed with exit 0 on immutable snapshot `3b2a593b77e700219283af92236f336e47255a63`; receipt `/tmp/mp3-ep10-native-full-check-3b2a593-20261006.log`. Formatting, shared overrides, Nix unit checks and package-set-default pass. All four compiler/source-channel cells report zero mismatches: GitHub 78 packages and Hackage 68 packages per compiler (GHC 9.12.4 and 9.14.1). Full Linux validation, generated-layer parity, consumer adoption and cache publication are separate later gates. Committed parser preparation is at `9a7283e`. The Haskell generator modules, tests and registrations pass all 107 helper tests and are included in the committed stopping checkpoint. Resume with the live generator and Nix layer. EP-17 legacy consumers remain unfinished. Pause further implementation for the day; no new authorization is needed to resume the previously approved scope.
@@ -447,6 +437,8 @@ Review outcome (2026-10-04): the initial review retained eight children in four 
 
 
 ## Revision Notes
+
+- 2026-10-15: Refreshed against current children and selected lock records; replaced duplicated child checklists with a coordination snapshot, made post-freeze channel drift explicit, and linked MP-4's consuming work without changing dependencies or ownership.
 
 - 2026-10-04 (discussion): Recorded the user's confirmation that Keiki is essential to the proposed Keiro runtime set; made its inclusion explicit in scope and plan 8's inventory/acceptance. Runtime-set implementation remains a proposal.
 

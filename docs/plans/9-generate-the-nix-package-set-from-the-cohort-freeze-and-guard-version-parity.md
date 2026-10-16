@@ -27,6 +27,11 @@ provenance:
       at: 2026-10-07T00:41:12Z
       mode: "implement"
       note: "Independent format guard and parser/generator preparation; activation remains gated on EP8 acceptance"
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-16T05:03:12Z
+      mode: "update"
+      note: "Add resume handoff to reconcile later selected snapshots before live cohort generation."
   reviews:
     - model: "gpt-6.1-sol"
       harness: "codex-cli"
@@ -99,6 +104,8 @@ Build and publish shared dependency outputs to the existing trusted cache before
 Acceptance fixtures include statically linked missing dependencies, wrong plus correct package instances, native homonyms, source/metadata changes without version changes, recursive/cyclic/missing follows paths, and stale import revisions. Cache readiness and shared identity evidence are gates distinct from version parity. Existing runtime-closure commands elsewhere below are diagnostic only.
 
 ## Progress
+
+Refresh handoff (2026-10-15): EP-8 is Complete at the October 6 checkpoint. Before live generation/layer activation, reuse its inventory, solve and report tools to reconcile the newer default selections in `packages/first-party-lock.json`: Keiro group 7, Kioku group 7 and Shikumi–Baikai group 8. The existing freeze still selects Keiro 0.19.0.1, Kioku 0.8.0.2 and Baikai 0.7.2.0, below current selected releases. Refresh floors, exact source records and consumer-cap evidence coherently, retaining upgrade-only and historical snapshots. Do not claim current parity from the earlier aggregate gate. Pure generation modules exist, but `Cohort.Cli` has no live generate command; live generation, layer wiring, manifest/comparison/resolver and cache acceptance remain open.
 
 - [ ] (2026-10-06, started) Independent preparation: add the format guard and fixture-based rich parser/generator modules while EP-8's aggregate acceptance runs. No generated layer activation or completion is claimed.
 
