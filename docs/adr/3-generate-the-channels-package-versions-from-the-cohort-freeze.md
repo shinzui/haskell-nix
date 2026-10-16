@@ -1,6 +1,6 @@
 # Generate the channels' package versions from the cohort freeze
 
-Status: Accepted for implementation; native compiler/channel and fresh-CI cache checks pass, while Linux acceptance remains pending.
+Status: Accepted for implementation; Darwin compiler/channel checks and fresh-CI cache substitution on both systems pass, while Linux aggregate build acceptance remains pending.
 
 Date: 2026-10-16
 
@@ -80,5 +80,5 @@ comparison fixtures, compiler/channel builds and cache receipts. Fixtures reject
 static edges, duplicate conflicting instances, unowned source/configuration differences,
 wrong compiler-tool providers and unrecorded derivation overrides. Real pg-migrate-cli and
 Dhall JSON manifests exercise the shared comparison path, including pinned sources and the
-owned TLS difference. Full platform/CI acceptance and downstream adoption remain governed by
+owned TLS difference. Retained receipts in `cabal/cohort-cache/` and [fresh hosted run 38967850038](https://github.com/shinzui/haskell-nix/actions/runs/38967850038) prove substitution of 556 Darwin and 561 Linux paths into empty stores with zero builds. Linux aggregate compiler/channel acceptance remains pending. Full platform/CI acceptance and downstream adoption remain governed by
 MasterPlan 3; this record does not mark those gates complete.
