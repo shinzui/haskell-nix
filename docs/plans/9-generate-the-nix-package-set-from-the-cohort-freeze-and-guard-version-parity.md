@@ -161,8 +161,7 @@ Refresh handoff (2026-10-15): EP-8 is Complete at the October 6 checkpoint. Befo
 - [x] (2026-10-16) Milestone 4 layer: generated recipes are active through all constructors; composed GHC 9.12.4 scopes report zero mismatches in both channels, and the actual `cohort-versions` build guard passes. Receipt: `/tmp/mp3-ep9-composed-parity-check-20261016.log`.
 - [x] (2026-10-16) Milestone 4 pin retirement: every audited Hackage pin is represented in the expanded cohort; fetching patches are deleted or converted to policy. Registry lint, including rejection of a reintroduced pin, passes. Reader documentation and strict OKF validation pass. Full native build/matrix acceptance remains open.
 - [ ] Milestone 4: add the `registry-policy-only` lint check; `nix flake check` passes.
-- [ ] Milestone 5: add `scripts/cohort-compare.sh`, the `cohort-compare` flake app and its
-  fixture check; run it against Rei's `plan.json` and Rei's deployed closure.
+- [x] (2026-10-16) Milestone 5: the shared comparator, manifest helper and import/lock verification are implemented. All 144 updater tests and 32 graph/source/configuration fixtures on each compiler pass. Real pg-migrate-cli and Dhall JSON graphs verify 78 and 120 frozen Haskell instances. Packaged CLI modes and identity comparison pass. A fresh pre-adoption plan from mori://shinzui/rei, with tests and benchmarks enabled and an isolated build directory, solves and the public comparator returns 1 with real version/source drift (`/tmp/mp3-ep9-rei-pre-adoption-comparison.log`). Rei’s project files and Git tree remain unchanged; adoption and exact-binary rehearsals remain with plans 11–14.
 - [ ] Milestone 6: the 462-package `cohort-closure` builds on aarch64-darwin (2026-10-16). The complete compiler/channel matrix, Linux builder acceptance, full-cohort cache/fresh-CI proof and final before/after table remain required.
 - [ ] Milestone 6: write `docs/adr/3-generate-the-channels-package-versions-from-the-cohort-freeze.md`,
   update `docs/user/adding-patches.md` and `docs/user/package-sets.md`, mark IR-2 completed, and
@@ -549,7 +548,7 @@ Relevant ADRs:
   (the original local composition ADR; ADR 5 now adds update isolation). The rules this plan must keep:
   - one nixpkgs fixed point with one version per package name;
   - immutable first-party snapshots;
-  - no dependency solver in this repository;
+  - no dependency solver during ordinary Nix evaluation; explicit maintenance solving follows ADR 2;
   - cache reuse only when transitive inputs are equal;
   - every flake check is a derivation, with diagnostics in `passthru.results`.
 
@@ -780,28 +779,7 @@ Scope: the change that moves versions. At the end, the composed channel's versio
 freeze, `cohort-versions` passes, and no file under `overlays/` or `patches/` fetches a Hackage
 release.
 
-Add `lib/mkCohortVersionLayer.nix`:
-
-```nix
-# mkCohortVersionLayer :: { lib } -> CohortVersions -> HaskellLib -> Pkgs -> HaskellExtension
-# Replaces every package named in generated/cohort-versions.nix with its frozen Hackage release.
-# Attribute NAMES come only from the generated file, never from hsuper, so the attrset structure
-# cannot force the fixed point (see fixPackageByVersion.nix).
-{ lib }:
-cohort: haskellLib: _pkgs:
-hself: hsuper:
-lib.mapAttrs
-  (name: entry:
-    # A GHC boot package in this compiler (null in nixpkgs) is GHC's own copy; never replace it.
-    if builtins.hasAttr name hsuper && hsuper.${name} == null then null
-    else haskellLib.dontCheck (hself.callHackageDirect
-      ({ pkg = name; ver = entry.version; sha256 = entry.sha256; }
-        // lib.optionalAttrs (entry.revision != null) {
-        rev = { revision = entry.revision.number; sha256 = entry.revision.sha256; };
-      })
-      { }))
-  cohort.packages
-```
+The implemented `lib/mkCohortVersionLayer.nix` derives attribute names only from the retained generated record, preserving a compiler-provided `null` package. It passes explicit arguments from `overlays/cohort-arguments.nix` to `lib/callCohortHackage.nix` and disables third-party tests. The helper accepts `{ hself; haskellLib; pkgs; name; entry; arguments; }`. An entry without a revision uses the original Hackage tarball. An entry with a revision fetches its exact metadata hash, supplies that Cabal file to `callCabal2nixWithOptions` through `srcModifier`, then sets the same `revision` and `editedCabalFile` on the resulting build. Using `callHackageDirect` with `rev` alone is insufficient because it translates the original metadata. The layer also normalizes the pinned translator's Apple architecture argument, as recorded in Surprises.
 
 Composition changes:
 
@@ -820,9 +798,8 @@ Composition changes:
 The unit-test factory in `checks/unit.nix` keeps the empty default. Add nix-unit tests for:
 - the layer leaves a `null` (boot) attribute `null`;
 - the layer adds an absent package;
-- the layer passes `rev` only when a revision exists (stub `hself.callHackageDirect` to return its
-  arguments, and `haskellLib.dontCheck` to the identity, the way the existing okf test stubs
-  `callCabal2nix`);
+- the selected metadata reaches translation and the same revision/hash reaches the build, while an unrevised entry does not invent a revision-zero override;
+- Apple architecture conditions are evaluated as aarch64; native zlib resolves outside the Haskell scope and forcing a disabled-test-only missing dependency fails;
 - the factory rejects an overlap with a first-party name.
 
 Retire the pins, in `overlays/registry.nix` and `patches/`. For each pin, first confirm its
@@ -966,11 +943,9 @@ the cache-identity checks. If a `ghc9141` cell fails because of a generated vers
 Decision Log's fallback (guard the layer on `hsuper.ghc.version` inside the attribute value),
 record it, and rerun.
 
-**The versions table.** Evaluate the before table at `4cabd10` (the values are already in
+**The versions table.** Evaluate the final-cohort before table at immutable pre-activation `5673994` (the values are already in
 Surprises) and the after table at the new commit with the same expression (Concrete Steps). Paste
-both into Outcomes. Also run `cohort-compare --closure` on a freshly built
-`pkgsGithub.haskell.packages.ghc9124.shibuya-pgmq-adapter` closure, to show a Nix closure that is
-entirely `ok`.
+both into Outcomes. Run `cohort-compare --nix-manifest` on actual channel-owned pg-migrate-cli and Dhall JSON build evidence, exercising source pins, owned flags and static dependency edges. Consumer-specific manifests and exact deployed-binary rehearsals follow in plans 11–14; runtime path listings alone are diagnostic.
 
 **ADR.** Write `docs/adr/3-generate-the-channels-package-versions-from-the-cohort-freeze.md` in
 ADR 1's format (Status: Accepted, Date).
@@ -1103,15 +1078,13 @@ Milestone 5:
 
 ```bash
 nix run .#cohort-compare -- --freeze cabal/cohort.freeze \
-  --plan-json /Users/shinzui/Keikaku/bokuno/rei-project/rei/dist-newstyle/cache/plan.json
+  --plan-json /private/tmp/mp3-ep9-rei-pre-adoption/cache/plan.json
+nix build .#cohort-manifest --out-link result-cohort-manifest
 nix run .#cohort-compare -- --freeze cabal/cohort.freeze \
-  --closure /nix/store/p1c3d7z5x1nrvzhnicdpp08h0hn2pii0-rei-cli-6.0.0.0
+  --nix-manifest result-cohort-manifest
 ```
 
-The second path is Rei's deployed `rei-cli` as of 2026-09-26. If it has been garbage-collected,
-use `nix path-info` on dotfiles' `.#darwinConfigurations.SungkyungM1X.pkgs.rei` instead. Expected:
-both exit 1 today, listing the packages where Rei has not yet adopted the freeze (for example
-`mismatch hasql 1.10.3.7 1.10.2.4` for the closure). This is correct: plan 11 fixes Rei.
+Resolve Rei's checkout with `mori path mori://shinzui/rei`. In the stock `cohort-inventory` shell, clear GHC_PACKAGE_PATH/GHC_ENVIRONMENT and run `cabal build all --dry-run --enable-tests --enable-benchmarks --builddir=/private/tmp/mp3-ep9-rei-pre-adoption` there, passing `--with-compiler=$COHORT_GHC --with-hc-pkg=$COHORT_GHC_PKG`. This creates the first command's real pre-adoption plan without changing project files. Expect its frozen comparison to return 1 where the application has not adopted the cohort. The channel-owned manifest comparison returns 0. Exact deployed-binary evidence belongs to consumer adoption; a runtime path listing is insufficient for static dependencies.
 
 Milestone 6. Run long builds in the background and log to a scratch file:
 
@@ -1268,3 +1241,5 @@ Nothing in this plan requires a new flake input.
 - 2026-10-04 (runtime workstream): Added EP-16 integration, ownership and applicable acceptance; consumer adoption now requires the retained runtime set and composes application selections/packages onto it. Shared-tool preparation remains acyclic and the fleet advisory policy is preserved.
 
 - 2026-10-16 (implementation): Reconciled published Kioku/Shikumi inputs and accepted the refreshed solve; documented the live owned-policy schema and conservative base classification required by the existing source/configuration review contract.
+
+- 2026-10-16 (living implementation instructions): Replace the obsolete post-translation metadata recipe and runtime-closure acceptance example with the implemented selected-metadata helper and derivation manifests. Preserve the required real pre-adoption Rei comparison; it now passes as an expected drift failure on a fresh isolated plan.
