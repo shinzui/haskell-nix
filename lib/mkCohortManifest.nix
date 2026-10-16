@@ -32,6 +32,8 @@ let
         then haskellLib.overrideCabal expose package
         else package.override expose;
     in
+    assert lib.assertMsg (package.drvPath == (scope.mkDerivation captured.cohortManifestArguments).drvPath)
+      "mkCohortManifest: captured inputs do not reconstruct ${package.pname}; express recipe changes through overrideCabal";
     captured.cohortManifestArguments;
   sourceRecord = source:
     if source == null then null else {

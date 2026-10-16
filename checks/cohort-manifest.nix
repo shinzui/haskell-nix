@@ -14,11 +14,19 @@ let
     inherit pkgs scope root;
     context = { fixture = true; };
   };
+  unrecorded = (import ../lib/mkCohortManifest.nix { inherit lib; }) {
+    inherit pkgs scope;
+    root = root.overrideAttrs (_: { postPatch = "echo unrecorded-source-edit"; });
+    context = { fixture = true; };
+  };
 in
 pkgs.runCommand "cohort-manifest-fixtures"
 {
   nativeBuildInputs = [ pkgs.python3 cohortCompare ];
   manifestFile = manifest;
+  rejectsUnrecordedOverride =
+    if (builtins.tryEval ((builtins.head unrecorded.declaration.packages).metadata.hash)).success
+    then "no" else "yes";
 }
   ''
     python3 - <<'PY'
@@ -66,6 +74,8 @@ pkgs.runCommand "cohort-manifest-fixtures"
             self.assertEqual(actual['packages'][0]['role'], 'local')
             self.assertEqual(actual['packages'][0]['flags'], {'automatic': True, 'retained': False})
             self.assertEqual(actual['packages'][0]['flagsEvidence']['method'], 'exact-configure-replay')
+        def test_actual_unrecorded_derivation_override_fails(self):
+            self.assertEqual(os.environ['rejectsUnrecordedOverride'], 'yes')
         def test_static_library_is_proven_by_derivation(self):
             declaration, graph = self.fixture()
             self.assertTrue(tool.construct(declaration, graph)['graphVerified'])
@@ -196,6 +206,20 @@ pkgs.runCommand "cohort-manifest-fixtures"
         def test_frozen_undeclared_configure_source_edit_fails(self):
             expected, manifest, policy = self.frozen_fixture()
             manifest['packages'][1]['configuration']['hooks'] = {'preConfigure': 'alter-source'}
+            with self.assertRaisesRegex(ValueError, 'missing owned build-patch policy'):
+                tool.compare_freeze(expected, manifest, policy)
+        def owned_patch_fixture(self):
+            expected, manifest, policy = self.frozen_fixture()
+            package = manifest['packages'][1]
+            package['configuration']['postPatch'] = 'verified-bound-repair'
+            policy['packages']['lib'] = {'owner': 'mori://shinzui/haskell-nix', 'reason': 'Verified compatibility repair', 'codeHash': tool.code_hash(package)}
+            manifest['context']['configurationPolicy'] = copy.deepcopy(policy)
+            return expected, manifest, policy
+        def test_frozen_owned_patch_passes(self):
+            self.assertIn('matches 1', tool.compare_freeze(*self.owned_patch_fixture()))
+        def test_frozen_changed_owned_patch_fails(self):
+            expected, manifest, policy = self.owned_patch_fixture()
+            manifest['packages'][1]['configuration']['postPatch'] += '-changed'
             with self.assertRaisesRegex(ValueError, 'missing owned build-patch policy'):
                 tool.compare_freeze(expected, manifest, policy)
         def compiler_tool_fixture(self):

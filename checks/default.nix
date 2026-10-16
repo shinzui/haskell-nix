@@ -19,6 +19,21 @@
 , auditConsumerOverlay
 }:
 let
+  frozenParity = name: manifest: pkgsPlain.runCommand name
+    { nativeBuildInputs = [ cohortCompare ]; manifestFile = manifest; }
+    ''
+      cohort-compare --freeze ${../cabal/cohort.freeze} \
+        --sources ${../cabal/cohort-sources.json} --contributors ${../cabal/contributors.json} \
+        --nix-policy ${../cabal/cohort-nix-policy.json} --nix-manifest "$manifestFile"
+      touch "$out"
+    '';
+  dhallManifest = (import ../lib/mkCohortManifest.nix { inherit lib; }) {
+    pkgs = pkgsPlain;
+    scope = pkgsGithub.haskell.packages.${defaultGhc};
+    root = pkgsGithub.haskell.packages.${defaultGhc}.dhall-json;
+    localPackages = [ ];
+    context = cohortManifest.declaration.context;
+  };
   fixture = import ./first-party-registry.nix {
     inherit lib firstPartyRegistries supportedGhcs;
     pkgs = pkgsGithub;
@@ -90,14 +105,8 @@ let
       firstPartyPackageSets);
 in
 {
-  cohort-pg-migrate-parity = pkgsPlain.runCommand "cohort-pg-migrate-parity"
-    { nativeBuildInputs = [ cohortCompare ]; manifestFile = cohortManifest; }
-    ''
-      cohort-compare --freeze ${../cabal/cohort.freeze} \
-        --sources ${../cabal/cohort-sources.json} --contributors ${../cabal/contributors.json} \
-        --nix-policy ${../cabal/cohort-nix-policy.json} --nix-manifest "$manifestFile"
-      touch "$out"
-    '';
+  cohort-pg-migrate-parity = frozenParity "cohort-pg-migrate-parity" cohortManifest;
+  cohort-dhall-parity = frozenParity "cohort-dhall-parity" dhallManifest;
   cohort-cache = import ./cohort-cache.nix { pkgs = pkgsPlain; };
   cohort-manifest = import ./cohort-manifest.nix {
     inherit lib cohortCompare;

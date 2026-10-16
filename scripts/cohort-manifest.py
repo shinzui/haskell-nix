@@ -169,6 +169,8 @@ def compare_freeze(expected, manifest, policy):
             raise ValueError("unowned or unknown Nix difference policy: " + name)
         if "compilerTool" in entry and (name != "hsc2hs" or entry["compilerTool"] is not True):
             raise ValueError("unknown compiler tool difference: " + name)
+        if "codeHash" in entry and not re.fullmatch(r"[0-9a-f]{64}", str(entry["codeHash"])):
+            raise ValueError("invalid build-patch policy digest: " + name)
         variants = [identity.get("flags", {}) for identity in sources[name]["identities"]]
         for flag, enabled in entry.get("flags", {}).items():
             if not isinstance(enabled, bool) or not variants or any(flag not in variant for variant in variants):

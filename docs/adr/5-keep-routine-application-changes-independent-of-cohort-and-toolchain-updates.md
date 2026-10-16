@@ -45,6 +45,10 @@ can retain stale dependency edges. Evaluate platform conditions using Cabal's
 architecture spelling: Apple's `arm64` must become `aarch64` for the pinned
 cabal2nix parser. These translation inputs are part of dependency identity.
 
+Require captured generic-builder arguments to reconstruct the exact actual derivation.
+Reject lower-level recipe overrides whose source, hooks or other build inputs cannot be
+represented by those arguments; use `overrideCabal` for supported recipe changes.
+
 Record resolved Cabal flags from the actual recipe's configure replay, including
 automatic/default decisions, rather than treating command-line flags as complete.
 Record original and patched metadata digests, and require owned policy for source-altering
