@@ -94,6 +94,11 @@ in
     max = "0.2.10.1";
     patch = import ../patches/cborg/0.2.10-ghc914.nix;
   }];
+  serialise = [{
+    min = "0.2.6.1";
+    max = "0.2.6.2";
+    patch = import ../patches/serialise/0.2.6-ghc914.nix;
+  }];
   dec = [{
     min = "0.0.6";
     max = "0.0.7";

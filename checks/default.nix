@@ -108,6 +108,14 @@ in
   cohort-pg-migrate-parity = frozenParity "cohort-pg-migrate-parity" cohortManifest;
   cohort-dhall-parity = frozenParity "cohort-dhall-parity" dhallManifest;
   cohort-cache = import ./cohort-cache.nix { pkgs = pkgsPlain; };
+  cohort-serialise-ghc912 = import ./serialise-compatibility.nix {
+    pkgs = pkgsPlain;
+    scope = pkgsGithub.haskell.packages.${defaultGhc};
+  };
+  cohort-serialise-ghc914 = import ./serialise-compatibility.nix {
+    pkgs = pkgsPlain;
+    scope = pkgsGithub.haskell.packages.ghc9141;
+  };
   cohort-manifest = import ./cohort-manifest.nix {
     inherit lib cohortCompare;
     pkgs = pkgsPlain;
