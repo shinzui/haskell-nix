@@ -43,6 +43,13 @@ and caller shells. Preserve all four dependency classes and hooks once. Forward 
 scoped `NIX_GHC*` and locale archive explicitly because `inputsFrom` omits arbitrary
 environment variables. Add compatible Cabal/pkg-config/HLS tools and preserve the
 legacy locale default. Keep libraries in build inputs and tools in native inputs.
+A real HLS-enabled consumer exposed a transitive bare GHC earlier on PATH. After
+inherited hooks, remove the selected bare compiler's bin entry and any duplicate
+scoped-wrapper bin entry, then prepend the scoped wrapper before the caller hook.
+This keeps the independent HLS closure intact and makes ordinary `ghc`/`ghc-pkg`
+use the selected package database. The two-system native fixture now enables HLS
+and asserts compiler resolution and absence of the bare compiler bin.
+[Regression evidence](../evidence/ep20/hls-enabled-shell-entry.json) records the case.
 
 Attach selection, fingerprint and actual dependency identities in passthru.
 Discard Nix output string contexts in diagnostic JSON: exporting a derivation path

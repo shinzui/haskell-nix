@@ -75,6 +75,8 @@ This standalone plan requires [plan 16](16-create-the-keiro-runtime-package-set-
 
 ## Surprises & Discoveries
 
+2026-10-17 real-consumer follow-up: HLS-enabled Mori entry found a transitive bare GHC before the scoped wrapper. The wrapper database contained retained libraries, but ordinary `ghc-pkg` selected the bare database. Normalize PATH after inherited hooks and before the caller hook while keeping HLS/compiler recipes unchanged. The public native fixture now defaults to available HLS and asserts ordinary compiler/database resolution and no bare compiler bin; it passes on Apple Silicon and the translated Linux guest, alongside all 25/295 contracts and retained identity checks. [Regression receipt](../evidence/ep20/hls-enabled-shell-entry.json). This corrects a case the original HLS-disabled M2 native fixture did not exercise.
+
 2026-10-17 constructor delivery: equal Nixpkgs revision/NAR inputs can have different materialized path aliases. Verify declared package-set version/system plus operative native/compiler/tool identities rather than rejecting equivalent inputs by path strings. Nix derivation-path observations carry output contexts; strip contexts from diagnostic JSON so an identity-only check does not build the observed production/runtime packages. The real retained check now has only its shell builder as direct build input. Old toolchain pins lack the additive API, so local integration checks are conditional on its presence and are exercised with an explicit override; default consumers retain their current locks and outputs.
 
 

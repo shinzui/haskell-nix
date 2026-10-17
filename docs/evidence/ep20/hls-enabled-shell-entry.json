@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-10-17T16:18:25.961727+00:00",
+  "scope": "EP-20 follow-up: HLS-enabled project-shell compiler precedence",
+  "status": "passed",
+  "discovery": {
+    "consumer": "mori://shinzui/mori",
+    "revision": "05f1e808fd35ace2816b19e920b92753fa625547",
+    "conditions": "isolated unmanaged optional runtime shell with local channel/toolchain input overrides",
+    "before": "A transitive tool input placed the exact bare GHC before the scope wrapper. NIX_GHCPKG found retained dependencies, while ordinary ghc-pkg did not.",
+    "originalObservationLogSha256": "f7389f2063c20ebba077ad3485b2b84dd9e4e8a82cf115ecac6053170934459c"
+  },
+  "change": "After inherited hooks, remove the selected bare compiler and duplicate scoped-wrapper bin entries from PATH, prepend the scoped wrapper, then run the caller hook. Preserve all existing compiler/HLS derivations.",
+  "codeSha256": {
+    "mori://shinzui/haskell-nix-dev": {
+      "lib/mkProjectShell.nix": "5af8322c2904a1c3180e9e78190f57ec5c035e4154c3b7b409db3e40233adc21"
+    },
+    "mori://shinzui/haskell-nix": {
+      "checks/project-shell.nix": "b644210efe990909ef4c91ad0768b7f03cf4e783cea916d8bfffa122a7525dbe"
+    }
+  },
+  "aarch64-darwin": {
+    "nativeFixtureDerivation": "/nix/store/qr996rp2ngn9hcqs3830xcm6gfl8yhf6-project-shell.drv",
+    "hlsIsDirectFixtureInput": true,
+    "hlsDerivation": "/nix/store/w52k49pwsjaiky4pd3as9ig52g7pncdk-haskell-language-server-2.13.0.0.drv",
+    "nativeFixtureLogSha256": "abc1e342b19e0033f63ab2157d161a433ba66b6e2b71e20d930a8580387a3fae",
+    "genericContractLogSha256": "67243397be13e0e75238137974010934a4c1854a73203014b64435a21e8c006a",
+    "realConsumerEntryLogSha256": "03311e28dc84645477b3a15757534df9f528f9aa145e2a33887a185733c7c7df",
+    "observed": [
+      "ghc 9.12.4",
+      "keiki-0.9.1.0",
+      "kiroku-store-0.11.0.0",
+      "libpq 18.6",
+      "openssl 3.6.3",
+      "rdkafka 2.15.0"
+    ]
+  },
+  "x86_64-linux": {
+    "executor": "user-selected Apple Containers amd64 mp3-linux-builder; translated execution",
+    "qualification": "independent guest store; sandbox=false; filter-syscalls=false; max-jobs=1; cores=8",
+    "snapshots": {
+      "status": "passed",
+      "elapsedSeconds": 43.121930541994516,
+      "channel": {
+        "path": "/tmp/ep20-m2-channel-b469ce5fd5077097",
+        "archiveSha256": "b469ce5fd5077097f8d546583c1142bda98d7443a935e429fd9196fca91bb2f4"
+      },
+      "toolchain": {
+        "path": "/tmp/ep20-m2-toolchain-8e5a3e06be5857bd",
+        "archiveSha256": "8e5a3e06be5857bd6e5efe924795b94130a070d41376259ae36a4a66a1c20b1e"
+      }
+    },
+    "checks": [
+      {
+        "drvPath": "/nix/store/3rwh76dvln5k88gvmbxaly4y5rr9n2q5-project-shell.drv",
+        "outputs": {
+          "out": "/nix/store/5i81nihz8p8n4l4fzki7qi7xbn6l07pb-project-shell"
+        }
+      },
+      {
+        "drvPath": "/nix/store/8704alql3h84v4fs55k0khw1hq2b80jp-project-shell-identity.drv",
+        "outputs": {
+          "out": "/nix/store/zjpwvr2nv0s6kd9zzwxfw62dbhj2pycg-project-shell-identity"
+        }
+      },
+      {
+        "drvPath": "/nix/store/aha4lz1kbkx36spf3mxhjxkl02sb6qp4-nix-unit-tests.drv",
+        "outputs": {
+          "out": "/nix/store/ka79861mjbgz4za3myjmyxvs8qpwbpz8-nix-unit-tests"
+        }
+      }
+    ],
+    "nativeFixtureLogSha256": "a1fe2e78fe5008f0ad1547f5654e0711dee0a78ff5d9b18ce136bdb67d5073a9",
+    "genericContractLogSha256": "9464a53e4daf37cd0daaaeb42f50edc10a5da3ffac6c4f240981125db29d14e8"
+  },
+  "assertions": [
+    "public helper defaults to available HLS in the native fixture",
+    "ordinary ghc and ghc-pkg resolve to NIX_GHC and NIX_GHCPKG",
+    "bare compiler bin is absent from the final fixture PATH",
+    "selected dependency prints 42, wrong dependency prints 9000, native zlib succeeds, offline Cabal prints 42",
+    "all 25 generic and 295 channel contracts pass; real retained identity checks pass"
+  ],
+  "limitations": [
+    "M3 real consumer Linux entry and full two-system consumer matrix remain in progress.",
+    "No fresh-worker, HLS protocol or physical-x86 performance claim."
+  ]
+}

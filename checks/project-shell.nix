@@ -1,5 +1,5 @@
-# Independent prototype only. Production helper activation remains gated by the
-# native toolchain capability contract in mori://shinzui/haskell-nix-dev.
+# Exercise the public helper when available; retain the original prototype for
+# consumers pinned before mori://shinzui/haskell-nix-dev exports that API.
 { pkgs, scope, mkProjectShell ? null }:
 let
   hlib = pkgs.haskell.lib.compose;
@@ -68,7 +68,7 @@ let
             shellFor = args: selected.shellFor (args // { shellHook = ''printf 'scope\n' >> "$PWD/hooks"''; });
           };
           packages = packages: [ packages.project-shell-app ];
-          withHls = false;
+          withHls = null;
           extraNativeBuildInputs = [ pkgs.pkg-config ];
           extraBuildInputs = [ pkgs.zlib ];
           inputsFrom = [ inherited ];
@@ -114,6 +114,11 @@ let
       test "$NIX_GHC" = '${environment.NIX_GHC}'
       ghc --print-libdir | tee compiler-libdir
       test "$(cat compiler-version)" = '${scope.ghc.version}'
+      test "$(command -v ghc)" = "$NIX_GHC"
+      test "$(command -v ghc-pkg)" = "$NIX_GHCPKG"
+      case ":$PATH:" in
+        *":${scope.ghc}/bin:"*) echo "bare compiler leaked onto PATH" >&2; exit 1 ;;
+      esac
       ghc-pkg field project-shell-dependency version | grep -F 'version: 1.0'
       pkg-config --exists zlib libffi
       cp ${applicationSource}/Main.hs Main.hs
