@@ -33,6 +33,11 @@ provenance:
       at: 2026-10-17T06:50:58Z
       mode: "implement"
       note: "Prototype selected-scope project shells and native-library fixtures while preserving the DEV-4 production gate."
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-17T15:27:45Z
+      mode: "implement"
+      note: "Reconcile accepted DEV-4 capability prerequisite and qualified Apple Linux executor before production shell implementation."
   reviews:
     - model: "gpt-6-astra"
       harness: "codex-cli"
@@ -55,6 +60,8 @@ The existing bare toolchain shell remains available. This plan is an additive pr
 This standalone plan requires [plan 16](16-create-the-keiro-runtime-package-set-and-compose-applications-on-it.md)'s retained runtime composition contract and the capability contract in `mori://shinzui/haskell-nix-dev/plans/4-publish-compiler-capabilities-and-an-explicit-platform-support-matrix` for production activation. Native fixtures and generic helper prototyping can start before those contracts are delivered. The full recipe-generation follow-on, [plan 19](19-pre-generate-complete-locked-nix-haskell-dependency-recipes.md), and behavioral toolchain plan are independent, not hard dependencies for this shell API.
 
 ## Progress
+
+2026-10-17 prerequisite handoff: DEV-4 is Complete in `mori://shinzui/haskell-nix-dev` at revision `0bd206a`, with 25 passing Linux policy fixtures, unchanged exact tool/bundle identities and preserved legacy/channel consumers. The user-selected Apple Linux guest supplies qualified translated target execution, with guest sandbox/syscall-filter settings recorded in that project's `docs/evidence/toolchain-capability-linux.json` (artifact-level URI pending). The whole-child production gate is satisfied; proceed to M2's generic helper and checked retained-runtime wrapper without changing pins. Runtime smoke and fresh-worker cache claims remain owned by DEV-5.
 
 2026-10-17 M1 accepted on native Apple Silicon: the selected-scope compiler, direct executable, Nix production package and offline Cabal all resolve dependency 1.0 and print `42:1.3.2`. The deliberately wrong dependency prints `9000:1.3.2`. All four inherited input classes, three hooks exactly once, scoped compiler variables and shell-only identity changes pass. [Receipt](../evidence/ep20/project-shell-prototype.json). DEV-4 native Linux acceptance remains blocked; production helper/adoption work remains gated.
 
@@ -88,7 +95,7 @@ The native prototype passes. The pinned stdenv flattens `env` variables into der
 ## Outcomes & Retrospective
 
 
-M1 is accepted on native Apple Silicon. Production shell constructors, retained runtime integration, real-consumer native matrix and adoption documentation remain pending behind DEV-4 acceptance.
+M1 is accepted on native Apple Silicon. DEV-4 acceptance now satisfies the production prerequisite. Production shell constructors, retained runtime integration, the qualified real-consumer execution matrix and adoption documentation remain pending.
 
 ## Context and Orientation
 
