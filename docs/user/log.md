@@ -1,6 +1,7 @@
 # Bundle Update Log
 
 ## 2026-10-17
+* **Update**: Document optional cohort generation-context export, staged publication, concurrent-input rejection, and pending complete recipe tooling.
 * **Update**: Preserve retained report contexts and catalog semantics across live metadata retirement.
 * **Update**: Document reviewed live retirement while preserving captured catalog bindings and historical evidence.
 * **Update**: Document the four-context servant-docs retirement, immutable historical probe replay and separate cold/warm maintenance costs.

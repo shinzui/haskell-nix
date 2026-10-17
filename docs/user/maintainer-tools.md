@@ -4,10 +4,10 @@ title: Maintainer tools
 description: Find repository formatting, test, derivation-diff, and validation commands.
 docId: DOC-6
 tags: [maintainers, testing, nix]
-timestamp: 2026-10-17T22:40:28Z
+timestamp: 2026-10-17T23:14:36Z
 generated:
   by: process:codex
-  at: 2026-10-17T22:40:28Z
+  at: 2026-10-17T23:14:36Z
 ---
 
 # Maintainer tools
@@ -17,6 +17,31 @@ overlay logic stays in `lib/`; existing build checks live in `checks/default.nix
 checks live in `nix/tooling.nix`. Both flake-parts and treefmt-nix follow the existing inputs
 of `mori://shinzui/haskell-nix-dev`. Nix-unit and nix-diff come from the same pinned Nixpkgs
 as the development shell. Tool adoption does not update family sources or the compiler pin.
+
+## Exporting cohort generation inputs
+
+The existing `cohort generate` command can export its validated generation context
+alongside the version and compiler-boot tables:
+
+```bash
+nix run .#haskell-nix-update -- cohort generate \
+  --output /tmp/cohort-context/cohort-versions.nix \
+  --boot-output /tmp/cohort-context/ghc-boot-packages.nix \
+  --context-output /tmp/cohort-context/generation-context.json
+```
+
+The versioned JSON preserves the frozen versions, flags and index-state, complete
+solved source/component identities, shipped compiler packages, first-party and
+source-policy ownership, and available base/policy comparison inputs. Its reader
+uses the existing freeze parser and classifier. Paths, generation labels and
+creation timestamps are absent from the context. A retained runtime caller can
+serialize its own explicit `GenerationContext` through the same library interface.
+
+Repeat with `--check` to compare all three outputs without rewriting them. The
+existing generator still resolves metadata and source inputs through its normal
+workflow. All selected outputs are staged before publication, and a changed
+freeze, source manifest, ownership policy or lock rejects publication. Complete
+recipe-artifact generation and offline checking are subsequent EP-19 work.
 
 ## Compatibility declaration reports
 

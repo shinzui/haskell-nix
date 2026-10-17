@@ -2,7 +2,10 @@
 
 module CohortGenerateTest (tests) where
 
-import Data.Aeson (Value (..), object, (.=))
+import Data.Aeson (Value (..), encode, object, (.=))
+import Data.Aeson.KeyMap qualified as KeyMap
+import Data.ByteString.Lazy qualified as LBS
+import HaskellNix.Update.Cohort.Context
 import Data.Map.Strict qualified as Map
 import Data.Text (Text)
 import Data.Text qualified as Text
@@ -24,7 +27,24 @@ tests :: TestTree
 tests =
     testGroup
         "cohort generation"
-        [ testCase "shared valid fixture preserves flags and repository cutoff" $ do
+        [ testCase "portable generation context preserves all classification inputs" $ do
+            let contexts = [context, sameBase, context{policy = GenerationPolicy (Map.singleton "example" owner) Map.empty}]
+            mapM_ (\ctx -> do
+                value <- right (generationContextValue ctx)
+                decoded <- right (decodeGenerationContext (LBS.toStrict (encode value)))
+                decoded @?= ctx
+                classifyCohort decoded @?= classifyCohort ctx
+                generationContextValue decoded @?= Right value) contexts
+        , testCase "context schema and unknown fields fail without dropping identity" $ do
+            value <- right (generationContextValue context)
+            case value of
+                Object fields -> mapM_ (assertLeft . decodeGenerationContext . LBS.toStrict . encode . Object)
+                    [KeyMap.insert "schemaVersion" (Number 2) fields, KeyMap.insert "ignored" Null fields, KeyMap.delete "sources" fields]
+                _ -> assertFailure "expected context object"
+        , testCase "portable context validates source coverage and freeze cutoff" $ do
+            assertLeft (generationContextValue context{sources = Map.empty})
+            assertLeft (generationContextValue context{document = context.document{freezeIndexState = "invalid"}})
+        , testCase "shared valid fixture preserves flags and repository cutoff" $ do
             parsed <- fixture "valid" >>= right . parseFreezeDocument
             Map.keys parsed.freezeVersions @?= ["aeson", "blake3"]
             parsed.freezeFlags @?= Map.singleton "blake3" (Map.fromList [("portable", True), ("avx2", False)])

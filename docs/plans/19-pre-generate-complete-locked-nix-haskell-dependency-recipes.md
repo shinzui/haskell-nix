@@ -33,6 +33,11 @@ provenance:
       at: 2026-10-17T05:27:34Z
       mode: "implement"
       note: "Prototype exact-metadata conversion with the pinned cabal2nix tool and scoped no-IFD fixtures."
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-17T23:16:39Z
+      mode: "implement"
+      note: "Export the accepted generation context with deterministic serialization, guarded staged publication, and native tests; keep complete recipe generation and performance adoption pending."
   reviews:
     - model: "gpt-6-astra"
       harness: "codex-cli"
@@ -55,6 +60,8 @@ Import-from-derivation (IFD) means Nix builds an output and imports the Nix expr
 This is a standalone follow-on to [plan 9](9-generate-the-nix-package-set-from-the-cohort-freeze-and-guard-version-parity.md). It neither repeats its solver/version-generation work nor becomes an adoption gate for its existing consumers. Real-runtime rollout also integrates with [plan 16](16-create-the-keiro-runtime-package-set-and-compose-applications-on-it.md). Plans 9 and 16 are Complete locally as of 2026-10-16; their explicit generation inputs, checked runtime constructor and retained configurations are available. New recipe artifacts and real-consumer adoption still require this plan's acceptance.
 
 ## Progress
+
+2026-10-17 M2 context handoff: `cohort generate --context-output FILE` exports every field of the accepted `GenerationContext` through a versioned reader that reuses the freeze parser and classifier. Selected version/boot/context files stage together; `--check` compares without rewriting; concurrent freeze/source/policy/lock changes reject promotion. An explicit `--repository` (default current directory) aligns lock capture and compiler selection. All 213 updater tests pass, including deterministic repeat, classification-preserving round trips, malformed contexts and guarded publication. [Receipt](../evidence/ep19/generation-context-export.json). This is the source-context prerequisite only: complete recipe artifacts, offline artifact checking and converter/configuration bindings remain open, as do M3/M4 and performance adoption.
 
 2026-10-17 bounded follow-up: all five actually used closed dependency roots preserve retained/generated/checked-constructor derivations, regenerate byte-identically and evaluate with IFD disabled. They include C sources and Custom Setup. Two redundant default-false flag spellings require explicit metadata-hash-guarded normalization after conversion; converter output files remain untouched. Five alternating scoped pairs measure 1.3501 → 1.1647 s (13.73%), below the predeclared 20% threshold. Whole-consumer pairs are diagnostic because brief producer commit hooks overlap that interval; no fine improvement claim or production promotion is accepted. [Receipt](../evidence/ep19/generated-recipe-five-root-followup.json). Package-set-wide expansion is not justified by these measurements.
 

@@ -53,6 +53,7 @@ library
     HaskellNix.Update.Cohort.Report
     HaskellNix.Update.Cohort.Freeze
     HaskellNix.Update.Cohort.Generate
+    HaskellNix.Update.Cohort.Context
     HaskellNix.Update.Cohort.GenerateIO
     HaskellNix.Update.Cohort.GenerationTypes
     HaskellNix.Update.Cohort.Revision

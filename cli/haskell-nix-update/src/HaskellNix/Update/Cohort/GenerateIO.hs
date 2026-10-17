@@ -8,17 +8,22 @@ module HaskellNix.Update.Cohort.GenerateIO (
 import Control.Exception (onException)
 import Control.Concurrent (threadDelay)
 import Control.Monad (unless)
+import Data.List (nub)
+import Data.Maybe (maybeToList)
 import Control.Monad.Trans.Class (lift)
 import Control.Monad.Trans.Except (ExceptT (..), runExceptT)
 import Data.Aeson (FromJSON, Value (..), eitherDecodeStrict', withObject, (.:))
 import Data.Aeson.KeyMap qualified as KeyMap
+import Data.Aeson.Encode.Pretty (encodePretty)
+import Data.ByteString.Lazy qualified as LBS
 import Data.Aeson.Types (Parser, parseEither)
 import Data.ByteString qualified as BS
 import Data.Map.Strict (Map)
 import Data.Map.Strict qualified as Map
 import Data.Text (Text)
 import Data.Text qualified as Text
-import Data.Text.Encoding (encodeUtf8)
+import Data.Text.Encoding (encodeUtf8, decodeUtf8, decodeUtf8')
+import HaskellNix.Update.Cohort.Context (generationContextValue)
 import Data.Text.IO qualified as TextIO
 import Data.Time (UTCTime, defaultTimeLocale, parseTimeM)
 import Distribution.Pretty (prettyShow)
@@ -42,6 +47,7 @@ import System.IO.Temp (withTempFile)
 data GenerateOptions = GenerateOptions
     { freezePath :: !FilePath, policyPath :: !FilePath, outputPath :: !FilePath
     , bootOutputPath :: !FilePath, checkOnly :: !Bool
+    , contextOutputPath :: !(Maybe FilePath), repositoryRoot :: !FilePath
     } deriving stock (Eq, Show)
 
 decodeGenerationPolicy :: BS.ByteString -> Either Text GenerationPolicy
@@ -92,18 +98,24 @@ resolveGeneratedEntries runner client cutoff classified cached = runExceptT $
 
 runGenerate :: ProcessRunner -> HttpClient -> Map Text Version -> GenerateOptions -> IO (Either UpdateError Text)
 runGenerate runner client firstParty options = runExceptT $ do
-    targets <- lift (traverse (fmap normalise . makeAbsolute) [options.outputPath, options.bootOutputPath])
-    protected <- lift (traverse (fmap normalise . makeAbsolute) [options.freezePath, options.policyPath, takeDirectory options.freezePath </> "cohort-sources.json", "flake.lock"])
-    unless (head targets /= last targets && all (`notElem` protected) targets) (failText "cohort output paths must differ and cannot overwrite solve inputs")
-    contents <- lift (TextIO.readFile options.freezePath)
+    root <- lift (makeAbsolute options.repositoryRoot)
+    let lockPath = root </> "flake.lock"
+    targets <- lift (traverse (fmap normalise . makeAbsolute) ([options.outputPath, options.bootOutputPath] <> maybeToList options.contextOutputPath))
+    protected <- lift (traverse (fmap normalise . makeAbsolute) [options.freezePath, options.policyPath, takeDirectory options.freezePath </> "cohort-sources.json", lockPath])
+    unless (length (nub targets) == length targets && all (`notElem` protected) targets) (failText "cohort output paths must differ and cannot overwrite solve inputs")
+    let sourcePath = takeDirectory options.freezePath </> "cohort-sources.json"
+    inputs <- lift (traverse (\path -> (path,) <$> BS.readFile path)
+        [options.freezePath, sourcePath, options.policyPath, lockPath])
+    let snapshot path = maybe (Left "missing captured generation input") Right (lookup path inputs)
+    contents <- fromText (snapshot options.freezePath >>= either (Left . Text.pack . show) Right . decodeUtf8')
     document <- fromText (parseFreezeDocument contents)
-    sources <- readJSON (takeDirectory options.freezePath </> "cohort-sources.json")
-    policy <- lift (BS.readFile options.policyPath) >>= fromText . decodeGenerationPolicy
+    sources <- fromText (snapshot sourcePath >>= decodeJSON)
+    policy <- fromText (snapshot options.policyPath >>= decodeGenerationPolicy)
     cutoff <- fromText (maybe (Left "invalid cohort cutoff") Right (parseTimeM True defaultTimeLocale "%Y-%m-%dT%H:%M:%SZ" (Text.unpack document.freezeIndexState)))
     compiler <- case [Text.strip value | line <- Text.lines contents, Just value <- [Text.stripPrefix "-- Compiler:" line]] of
         ["ghc-9.12.4"] -> pure "9.12.4"
         _ -> failText "cohort generation currently requires the recorded ghc-9.12.4 compiler"
-    compilerRoot <- command "nix" ["build", "--no-link", "--print-out-paths", "--impure", "--expr", "let f = builtins.getFlake (toString ./.); in (import f.inputs.nixpkgs {}).haskell.compiler.ghc9124"]
+    compilerRoot <- command "nix" ["build", "--no-link", "--print-out-paths", "--impure", "--expr", "let f = builtins.getFlake " <> nixString (Text.pack root) <> "; in (import f.inputs.nixpkgs {}).haskell.compiler.ghc9124"]
     shipped <- command (Text.unpack (Text.strip compilerRoot) </> "bin/ghc-pkg") ["list", "--global", "--simple-output"]
     boot <- fromText (Map.fromList <$> traverse bootEntry (Text.words shipped))
     let context = GenerationContext document sources boot firstParty policy Map.empty Map.empty Map.empty
@@ -114,16 +126,21 @@ runGenerate runner client firstParty options = runExceptT $ do
     entries <- ExceptT (resolveGeneratedEntries runner client cutoff classified cached)
     absoluteFreeze <- lift (makeAbsolute options.freezePath)
     hash <- Text.strip <$> command "nix" ["eval", "--impure", "--raw", "--expr", "builtins.hashFile \"sha256\" " <> nixString (Text.pack absoluteFreeze)]
-    lock <- lift (BS.readFile "flake.lock")
+    lock <- fromText (snapshot lockPath)
     GitRevision nixpkgs <- ExceptT (pure (decodeChannelRevision "nixpkgs" lock))
     rendered <- fromText (renderCohortVersions (GenerationMetadata hash document.freezeIndexState compiler nixpkgs) document classified entries)
+    contextValue <- fromText (generationContextValue context)
     let renderedBoot = renderBootPackages compiler boot
+        renderedContext = decodeUtf8 (LBS.toStrict (encodePretty contextValue)) <> "\n"
+        outputs = [(options.outputPath, rendered), (options.bootOutputPath, renderedBoot)]
+            <> [(path, renderedContext) | path <- maybeToList options.contextOutputPath]
+    unchanged <- lift (traverse (\(path, captured) -> (== captured) <$> BS.readFile path) inputs)
+    unless (and unchanged) (failText "cohort generation inputs changed concurrently; no files promoted, retry from a stable freeze/source/policy/lock")
     if options.checkOnly
         then do
-            current <- lift (readOptional options.outputPath)
-            currentBoot <- lift (readOptional options.bootOutputPath)
-            unless (current == Just rendered && currentBoot == Just renderedBoot) (failText "generated cohort files are stale; run cohort generate")
-        else lift (publishPair options.outputPath rendered options.bootOutputPath renderedBoot)
+            agreement <- lift (traverse (\(path, expected) -> (== Just expected) <$> readOptional path) outputs)
+            unless (and agreement) (failText "generated cohort files or exported context are stale; run cohort generate")
+        else lift (publishFiles outputs)
     pure ("Cohort: " <> Text.pack (show (Map.size classified)) <> " recorded packages, " <> Text.pack (show (Map.size entries)) <> " generated Hackage recipes")
   where
     command executable arguments = (.standardOutput) <$> ExceptT (runChecked runner (ProcessSpec executable arguments Nothing []))
@@ -146,35 +163,29 @@ readCachedHashes runner path = do
             hash <- p .: "sha256"
             pure (parsed, SriHash hash)) packages
 
--- Stage both files before replacing either, and restore the previous pair if a
--- rename fails. Network/metadata failures occur before this publication step.
-publishPair :: FilePath -> Text -> FilePath -> Text -> IO ()
-publishPair target contents bootTarget bootContents = do
-    old <- readOptional target
-    oldBoot <- readOptional bootTarget
-    createDirectoryIfMissing True (takeDirectory target)
-    createDirectoryIfMissing True (takeDirectory bootTarget)
-    withTempFile (takeDirectory target) ".cohort-versions" $ \temporary handle ->
-        withTempFile (takeDirectory bootTarget) ".cohort-boot" $ \bootTemporary bootHandle -> do
-            TextIO.hPutStr handle contents
-            TextIO.hPutStr bootHandle bootContents
-            hClose handle
-            hClose bootHandle
-            (renameFile temporary target >> renameFile bootTemporary bootTarget)
-                `onException` (restore target old >> restore bootTarget oldBoot)
+-- Stage the complete selected publication before replacing any file. Retain
+-- the original bytes so a rename failure restores the previous publication.
+publishFiles :: [(FilePath, Text)] -> IO ()
+publishFiles outputs = do
+    old <- traverse (\(path, _) -> (path,) <$> readOptional path) outputs
+    stage outputs [] (\staged -> mapM_ (uncurry renameFile) staged `onException` mapM_ restore old)
   where
-    restore path Nothing = do
+    stage [] staged publish = publish (reverse staged)
+    stage ((target, contents) : rest) staged publish = do
+        createDirectoryIfMissing True (takeDirectory target)
+        withTempFile (takeDirectory target) ".cohort-generation" $ \temporary handle -> do
+            TextIO.hPutStr handle contents
+            hClose handle
+            stage rest ((temporary, target) : staged) publish
+    restore (path, Nothing) = do
         exists <- doesFileExist path
         if exists then removeFile path else pure ()
-    restore path (Just value) = TextIO.writeFile path value
+    restore (path, Just value) = TextIO.writeFile path value
 
 readOptional :: FilePath -> IO (Maybe Text)
 readOptional path = do
     exists <- doesFileExist path
     if exists then Just <$> TextIO.readFile path else pure Nothing
-
-readJSON :: FromJSON a => FilePath -> ExceptT UpdateError IO a
-readJSON path = lift (BS.readFile path) >>= fromText . decodeJSON
 
 decodeJSON :: FromJSON a => BS.ByteString -> Either Text a
 decodeJSON = either (Left . Text.pack) Right . eitherDecodeStrict'

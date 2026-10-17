@@ -3,7 +3,12 @@
 module CohortGenerateIOTest (tests) where
 
 import Data.Aeson (encode, object, (.=))
+import Control.Exception (IOException, try)
+import System.Directory (createDirectory)
 import Data.ByteString (ByteString)
+import Data.ByteString qualified as BS
+import HaskellNix.Update.Cohort.Context (decodeGenerationContext)
+import HaskellNix.Update.Cohort.Generate (classifyCohort)
 import Data.ByteString.Lazy qualified as LBS
 import Distribution.Version (Version)
 import Data.IORef
@@ -73,15 +78,66 @@ tests = testGroup "live cohort generation"
         readIORef attempts >>= (@?= 2)
     , testCase "output aliases cannot overwrite a solve input" $ do
         calls <- newIORef []
-        result <- runGenerate (recording calls) revisions Map.empty (GenerateOptions "input.freeze" "policy.json" "./input.freeze" "boot.nix" False)
+        result <- runGenerate (recording calls) revisions Map.empty (GenerateOptions "input.freeze" "policy.json" "./input.freeze" "boot.nix" False Nothing ".")
         assertLeft result
         readIORef calls >>= (@?= [])
+    , testCase "exported generation context repeats exactly and check never rewrites drift" $
+        withSystemTempDirectory "cohort-context-export" $ \root -> do
+            let freeze = root </> "cohort.freeze"
+                out = root </> "versions.nix"
+                boot = root </> "boot.nix"
+                contextFile = root </> "context.json"
+                policyFile = root </> "policy.json"
+                options = GenerateOptions freeze policyFile out boot False (Just contextFile) root
+                runner = ProcessRunner $ \spec -> pure $ Right (ProcessResult ExitSuccess (case spec.arguments of
+                    "build" : _ -> "/mock/compiler\n"
+                    ["list", "--global", "--simple-output"] -> "base-4.21.2.0\n"
+                    ["eval", "--json", "--file", _] -> "{\"packages\":{}}"
+                    "eval" : _ -> hashA
+                    _ -> "unexpected") "")
+                blocked = HttpClient (\_ -> assertFailure "unexpected download for first-party ownership" >> pure (Left (UpdateError "unexpected")))
+                generate opts = runGenerate runner blocked (Map.singleton "example" (sampleVersion "1")) opts
+            BS.writeFile (root </> "flake.lock") lockBytes
+            TextIO.writeFile freeze "-- Compiler: ghc-9.12.4\nindex-state: 2026-10-16T00:00:00Z\nconstraints: any.example ==1\n"
+            LBS.writeFile (root </> "cohort-sources.json") (encode (Map.map (.selectedPackage) (classified "1" hashB)))
+            BS.writeFile policyFile policyBytes
+            _ <- generate options >>= right
+            first <- traverse BS.readFile [out, boot, contextFile]
+            context <- BS.readFile contextFile >>= right . decodeGenerationContext
+            classifications <- right (classifyCohort context)
+            (classifications Map.! "example").packageClassification @?= CohortFirstParty
+            _ <- generate options >>= right
+            traverse BS.readFile [out, boot, contextFile] >>= (@?= first)
+            _ <- generate options{checkOnly = True} >>= right
+            let blockedOutput = root </> "blocked-output"
+            createDirectory blockedOutput
+            TextIO.writeFile (blockedOutput </> "sentinel") "preserve directory\n"
+            failed <- try (generate options{bootOutputPath = blockedOutput})
+            case failed of
+                Left (_ :: IOException) -> pure ()
+                Right result -> assertFailure ("expected publication rename failure: " <> show result)
+            traverse BS.readFile [out, boot, contextFile] >>= (@?= first)
+            TextIO.readFile (blockedOutput </> "sentinel") >>= (@?= "preserve directory\n")
+            originalFreeze <- BS.readFile freeze
+            let concurrent = ProcessRunner $ \spec -> do
+                    case spec.arguments of
+                        "build" : _ -> BS.appendFile freeze "-- concurrent writer\n"
+                        _ -> pure ()
+                    runner.runProcess spec
+            runGenerate concurrent blocked (Map.singleton "example" (sampleVersion "1")) options >>= assertLeft
+            traverse BS.readFile [out, boot, contextFile] >>= (@?= first)
+            BS.writeFile freeze originalFreeze
+            TextIO.writeFile contextFile "stale context\n"
+            generate options{checkOnly = True} >>= assertLeft
+            TextIO.readFile contextFile >>= (@?= "stale context\n")
+            traverse BS.readFile [out, boot] >>= (@?= take 2 first)
     , testCase "failed live metadata lookup preserves both published files" $
         withSystemTempDirectory "cohort-generation" $ \root -> do
             let freeze = root </> "cohort.freeze"
                 out = root </> "versions.nix"
                 boot = root </> "boot.nix"
                 policyFile = root </> "policy.json"
+            BS.writeFile (root </> "flake.lock") lockBytes
             TextIO.writeFile freeze "-- Compiler: ghc-9.12.4\nindex-state: 2026-10-16T00:00:00Z\nconstraints: any.example ==1\n"
             LBS.writeFile (root </> "cohort-sources.json") (encode (Map.map (.selectedPackage) (classified "1" hashB)))
             LBS.writeFile policyFile (LBS.fromStrict policyBytes)
@@ -92,8 +148,10 @@ tests = testGroup "live cohort generation"
                     ["list", "--global", "--simple-output"] -> "base-4.21.2.0\n"
                     ["eval", "--json", "--file", _] -> "{\"packages\":{}}"
                     _ -> "unexpected") "")
-            result <- runGenerate runner (HttpClient (\_ -> pure (Right (HttpResponse 404 "missing")))) Map.empty (GenerateOptions freeze policyFile out boot False)
+            TextIO.writeFile (root </> "context.json") "previous context\n"
+            result <- runGenerate runner (HttpClient (\_ -> pure (Right (HttpResponse 404 "missing")))) Map.empty (GenerateOptions freeze policyFile out boot False (Just (root </> "context.json")) root)
             assertLeft result
+            TextIO.readFile (root </> "context.json") >>= (@?= "previous context\n")
             TextIO.readFile out >>= (@?= "{ packages = {}; }\n")
             TextIO.readFile boot >>= (@?= "{ ghc = \"previous\"; }\n")
     ]
@@ -133,3 +191,6 @@ assertLeft :: (Show a) => Either e a -> IO ()
 assertLeft value = case value of
     Left _ -> pure ()
     Right found -> assertFailure (show found)
+
+lockBytes :: ByteString
+lockBytes = "{\"root\":\"root\",\"nodes\":{\"root\":{\"inputs\":{\"nixpkgs\":\"nixpkgs\"}},\"nixpkgs\":{\"locked\":{\"rev\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"}}}}"

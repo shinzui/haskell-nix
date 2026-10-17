@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "status": "accepted generation-context serialization and CLI export; EP19 M2 artifact generation remains in progress",
+  "system": "aarch64-darwin",
+  "command": [
+    "nix",
+    "develop",
+    "--builders",
+    "",
+    "-c",
+    "cabal",
+    "test",
+    "all",
+    "--test-show-details=direct"
+  ],
+  "results": {
+    "exit_code": 0,
+    "updater_tests": 213,
+    "new_tests": 4,
+    "context_round_trip": "all GenerationContext fields preserved; classifyCohort unchanged",
+    "invalid_inputs": "unknown schema/fields, incomplete source coverage, invalid cutoff rejected",
+    "publication": "Rename failure induced by an existing directory preserves its sentinel and restores all previously published version/boot/context bytes.",
+    "repeat_export": "byte-identical",
+    "check_only_drift": "rejected without rewriting any output",
+    "concurrent_input_mutation": "rejected with existing outputs unchanged",
+    "first_attempt": "211/213 pass; early explicit lock snapshot exposed implicit working-directory assumption. Repository root now explicit and used for both lock and compiler selection."
+  },
+  "scope": {
+    "cli": "cohort generate --context-output FILE [--repository DIR] [--check]",
+    "default_repository": ".",
+    "configuration": "Existing ghc-9.12.4 generation path; retained callers can serialize their explicit GenerationContext through the shared library.",
+    "excluded_derivation_inputs": [
+      "creation timestamp",
+      "generation label",
+      "output path"
+    ],
+    "remaining": "Complete recipe manifest/extension/package generation/check, offline artifact checking, converter/configuration bindings, retained opt-in integration, native matrix, performance and total-cost adoption. Existing generation metadata resolution still uses its established network workflow."
+  },
+  "raw_archive": {
+    "path": "docs/evidence/ep19/generation-context-export.raw.tar.gz",
+    "sha256": "606cadb207e3ef1f56243361f5fe48f129b0f269a000a783f2596b41e255efcb",
+    "members": {
+      "code/cli/haskell-nix-update/haskell-nix-update.cabal": "1e8a635675f43e855c03ed4e96a6b7e7d929fca6cd39c3e0c51237eb3a6ac10a",
+      "code/cli/haskell-nix-update/src/HaskellNix/Update/Cohort/Cli.hs": "420629163c01d002260fd5e6e9a5da144ada5a16ae06356103d99f099f484669",
+      "code/cli/haskell-nix-update/src/HaskellNix/Update/Cohort/Context.hs": "df4a33bc859e20076f1b54b6eadcb12b86176139e16132f821049fc2857f9c05",
+      "code/cli/haskell-nix-update/src/HaskellNix/Update/Cohort/GenerateIO.hs": "6f9de8d1e600df4eb298384f640586f2f5aedaf0ab29cd3af90661d492d7ab07",
+      "code/cli/haskell-nix-update/test/CohortGenerateIOTest.hs": "feb576c78cbc365015b608348a0f01c6f354fa172ea870382ed3ab8091b8c9df",
+      "code/cli/haskell-nix-update/test/CohortGenerateTest.hs": "8645338c6e8c63412ff288601242c4e13d3196777d669cde29d43f86104206a1",
+      "host/ep19-generation-context-tests-v2.log": "3209a03b6a862c85d772b7a1f4a66ec941919962c2ad9c178d8910a2d351e9d3",
+      "host/ep19-generation-context-tests-v3.log": "3db35b43a0c4a1aad21d1b4ab11fa05acb53a3839d015a402dcf7b4f19e597b6",
+      "host/ep19-generation-context-tests.log": "4bf91d35acb30d6581d4549fc15803dc50d193b6a864c1b6808b42710c499513"
+    }
+  }
+}
