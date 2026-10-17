@@ -102,20 +102,20 @@ Export the Rei library extension into the consumer's single Haskell scope. Prove
 
 - [ ] Prerequisite: EP-16 delivers a tested exact runtime generation and composition API; adopt it atomically with Cabal/Nix selectors and prove used runtime dependency identities
 
-- [ ] Documentation/CLI-only edits preserve unchanged library and shared dependency identities
+- [x] (2026-10-17) Documentation/CLI-only edits preserve unchanged library and shared dependency identities; measured executable manifests and retained receipts prove the boundary.
 
 - [x] (2026-10-16) Prerequisites: plans 9, 10 and 16 are Complete and pushed (and therefore plans 8 and 15, which plan 9 depends on); record the haskell-nix revision `R`, plan 15's released versions of keiro, keiro-ops, keiro-pgmq, keiro-test-support and kioku-core, and plan 8's upgrade report entries for rei, mori-app and mori-rei-app in Surprises & Discoveries.
 - [x] (2026-10-16) Milestone 1 (rei, Cabal): baseline `plan.json` captured before selector edits at `/tmp/mp3-ep11-rei-baseline/plan.json`; source/configuration copies and successful solve log retained there.
-- [ ] Milestone 1: `import:` of the freeze at `R` added; `index-state`, `constraints:` and `allow-newer:` reconciled.
-- [ ] Milestone 1: capping bounds lifted (expected `brick`, `vty` in `rei-cli/rei-cli.cabal`, and the keiro/kioku bounds if plan 15 released a new major); source fixed until `cabal build all` passes.
-- [ ] Milestone 1: rei's effectful 2.7 breaks fixed, including the vendored `rei-core/src/Rei/Infrastructure/Hasql/` modules and `rei-core/src/Rei/Infrastructure/Trace.hs`; `plan.json` shows `effectful` >= 2.7.1.0 / `effectful-core` >= 2.7.1.1.
-- [ ] Milestone 1: `cabal test all`, `just openapi-check`, `just keiro-check`, `just dependency-closure-audit` pass; plan-json parity reports zero differences; committed.
-- [ ] Milestone 2 (rei, Nix): `flake.nix` haskell-nix pin moved to `R`; `typeid-hs-src` input deleted (the channel carries `typeid-hs-*`); `nix/haskell-overlay.nix` reduced per plan 10's deletion list.
-- [ ] Milestone 2: `flake.lib.haskellExtension` and `packages.rei-core` exported from `flake.module.nix`; rei's own build uses the exported extension.
-- [ ] Milestone 2: `nix build .#rei`, `.#rei-api`, `.#rei-core` succeed; closure parity reports zero differences; `nix flake check` passes; committed.
-- [ ] Milestone 3 (rei, ADR): new ADR (allocated with `okf id next`, expected ADR-49) written; ADR-18 amended; `just adr-validate` and strict validation pass; committed. Record rei commit `C`.
-- [ ] Milestone 3: user approves; rei pushed so `github:shinzui/rei/C` resolves.
-- [ ] Milestone 4 (mori-app): freeze imported at `R`; bounds lifted (expected `ephemeral-pg`, and `effectful`/`effectful-core ^>=2.6` to `^>=2.7`); compiles against effectful 2.7; `cabal test all` passes; parity zero; committed; user approves push. Record mori-app commit `A`.
+- [x] (2026-10-17) Milestone 1: `import:` of the freeze at `R` added; `index-state`, `constraints:` and `allow-newer:` reconciled.
+- [x] (2026-10-17) Milestone 1: capping bounds lifted (expected `brick`, `vty` in `rei-cli/rei-cli.cabal`, and the keiro/kioku bounds if plan 15 released a new major); source fixed until `cabal build all` passes.
+- [x] (2026-10-17) Milestone 1: Rei's Effectful 2.7 compatibility verified, including its vendored Hasql handlers and Trace implementation. The current captured baseline already selected 2.7.1.0/core 2.7.1.2; unchanged source compiles and all tests pass, so no unnecessary handler port or bound exception was introduced.
+- [x] (2026-10-17) Milestone 1: `cabal test all`, `just openapi-check`, `just keiro-check`, `just dependency-closure-audit` pass; plan-json parity reports zero differences; committed.
+- [x] (2026-10-17) Milestone 2 (rei, Nix): `flake.nix` haskell-nix pin moved to `R`; `typeid-hs-src` input deleted (the channel carries `typeid-hs-*`); `nix/haskell-overlay.nix` reduced per plan 10's deletion list.
+- [x] (2026-10-17) Milestone 2: `flake.lib.haskellExtension` and `packages.rei-core` exported from `flake.module.nix`; rei's own build uses the exported extension.
+- [x] (2026-10-17) Milestone 2: `nix build .#rei`, `.#rei-api`, `.#rei-core` succeed; closure parity reports zero differences; `nix flake check` passes; committed.
+- [x] (2026-10-17) Milestone 3 (rei, ADR): new ADR (allocated with `okf id next`, expected ADR-49) written; ADR-18 amended; `just adr-validate` and strict validation pass; committed. Record rei commit `C` = `e5f26a5e07a2472e0e695607482198865ccc1581` (published as an ancestor of merge `99b882ee`, preserving four newer remote commits).
+- [x] (2026-10-17) Milestone 3: user approved publication of `C`; remote master had four newer commits, cleanly merged at `99b882ee`. Combined full Cabal build, all suites, OpenAPI and flake checks pass, and the merge is pushed. The immutable approved `C` is now reachable publicly.
+- [x] (2026-10-17) Milestone 4 (mori-app): freeze/runtime source policy imported at `R`; Effectful/core and ephemeral-pg bounds updated; build and all seven tests pass; source-aware parity zero. Commit `A` = `258bfa45b0817e9b72fd9838c976128761ba02f5` approved by the user and published; remote master verified at this exact revision.
 - [ ] Milestone 5 (mori-rei-app, Cabal): freeze imported at `R`; `rei-core` pin moved to `C`, `mori-app` pin moved to `A`; `effectful`/`effectful-core ^>=2.6` lifted to `^>=2.7` (and keiro bounds if plan 15 released a new major); redundant entries removed; `cabal test all` passes against Rei's repo-local dev database; parity zero.
 - [ ] Milestone 5 (mori-rei-app, Nix): `rei` flake input added; `haskell-nix`, `haskell-nix-dev` and toolchain inputs follow rei; `rei-src` and `typeid-hs-src` removed; overlay reduced; `nix build` passes; closure parity zero; `rei-core` store path equals rei's.
 - [ ] Milestone 5: dependency-closure audit updated and passing; ADR-1 amended; committed; user approves push. Record mori-rei-app commit `M`.
@@ -129,9 +129,17 @@ Export the Rei library extension into the consumer's single Haskell scope. Prove
 
 ## Surprises & Discoveries
 
-Implementation started 2026-10-16. Plans 9, 10 and 16 are Complete and pushed. The exact adoption revision `R` is `20f943dc658c0de666588e12ae8509983d683cc1`, runtime generation 1 (fingerprint `da00319eb1423b4372a0a0b050911b7719d1de0867a3e32160dbd327a2762e81`), GitHub channel, profiling/Haddock disabled. Its application complement is recorded in `nix/runtime-selection.json` in the channel. Keiro is 0.21.0.0 and Kioku 0.9.0.2; current application bounds already admit those lines. The current upgrade report requires Rei Baikai 0.8, Brick 3.0, Megaparsec 9.8.3 and Vty 6.6; mori-app also needs Effectful 2.7 and ephemeral-pg 0.3, and mori-rei-app needs Effectful 2.7 and Baikai 0.8. Historical drafting observations below require re-verification.
+Publication and consumer checkpoint (2026-10-17): the user approved both `C` and `A`. Mori App's remote master is exactly `A`. Rei's remote advanced by four independent commits; clean merge `99b882ee` preserves them and is published after the combined full Cabal build, all eight suites (including 581 API tests), OpenAPI and flake checks pass. The original approved `C` remains the immutable library pin. Mori Rei App resolves the public inputs and its real Nix app/core/manifest/overlay build passes. Its core drv is exactly Rei's `jgq8lzzx5hx2a89azqgnxj730f2mawz7-rei-core-7.1.0.0.drv`. Fresh source-aware Cabal parity passes. Sibling source hashes are independently reproduced using Cabal sdist from the exact committed trees; their hashes match the fresh consumer plan. Full Cabal compilation and private disposable operational-database testing remain pending. No deployment or production mutation has occurred.
 
-Baseline source/configuration copies and the successful pre-edit Cabal plan are retained at `/tmp/mp3-ep11-rei-baseline`. The host lacks GHC and plain `nix shell` does not establish development pkg-config paths; a minimal `mkShell` using the pinned toolchain/native inputs solves the adopted project with tests and benchmarks enabled. The actual checked Rei scope evaluates successfully, exporting all five packages and its runtime executable manifest; Cabal and Nix builds are running. Adoption selectors remain uncommitted until both paths and required gates pass. The first real comparison exposed that GitHub runtime plans need the retained source projection, not the Hackage-shaped global source inventory. The shared runtime importer now materializes that hash-checked projection and a merged complete comparison manifest (eight tests pass); the existing shared parser remains authoritative. It also caught Rei selecting Hackage CMark instead of the declared maintained cohort fork; the source selector is corrected. Mori-app then exposed the intentionally excluded contributor library `mori-types`: the shared importer now admits an explicit owner/reason/immutable source policy for declared contributor packages outside the shared cohort, and the existing Haskell parser checks every corresponding instance. Frozen/runtime names cannot be replaced. All 165 updater tests and 11 importer tests pass, and mori-app passes the real source-aware parity check. Mori-app builds and all seven ephemeral PostgreSQL tests pass without source API changes; its macOS audit needed `grep -c` rather than recursive filename-prefixed `grep -rc` for one explicitly named file. Rei's Nix core/CLI/API builds, overlay audit, dependency audit, ADR validation and Keiro checks pass. Cabal compilation and source-boundary checks remain in progress. The consumer tooling revision is `ebbd5e1b4732e3df83eb8dd70f9380940bca70e6` after the first transport fix; the sibling-policy fix will be published before final adoption.
+Acceptance checkpoint (2026-10-17 UTC): Rei's full Cabal build, eight test suites, OpenAPI artifact check, Keiro check, dependency audit, all three Nix builds and 350-instance Nix parity pass. Tests include 3,383 core, 188 CLI, 567 API, 53 contract, 30 client, seven live Hurl and eight live client cases plus generated conformance. The first unrestricted parallel run exhausted the shared disposable PostgreSQL connection limit; the complete retry with `TASTY_NUM_THREADS=2`, explicit candidate API binary and Mori OpenAPI artifact passes. Source is unchanged for Effectful compatibility: the captured current baseline already selected Effectful 2.7.1.0/core 2.7.1.2, and all vendored handlers compile and pass on it. No Effectful bound exception is used.
+
+Rei's four real executable manifest proofs pass: documentation changes retain every identity; a CLI edit changes only `rei-cli`; adding an exported core symbol changes exactly `rei-core` and its CLI dependent. The portable harness and compact receipts are in `mori://shinzui/rei`, project-relative paths `scripts/prove-library-build-identity.py` and `cabal/cohort-evidence/library-build-identity.json` (artifact-level URIs pending). `cabal/cohort-evidence/adoption-version-diff.json` records all 23 version movements and same-version source/configuration changes from the pre-edit baseline. Removing redundant local version/Dhall constraints and the runtime-supplied Kiroku CLI exception leaves the complete resolved plan identical. The negative solve proves Baikai Kit 0.4.0.1 still requires its scoped Crypton exception; its retained comment is corrected to that version. Rei's new ADR is ADR-68, allocated by OKF and strictly validated, rather than the historical anticipated ADR-49. Shipping-binary clone/deployment evidence remains pending.
+
+Receipts: `/tmp/mp3-ep11-rei-cabal-build-final-2.log`, `/tmp/mp3-ep11-rei-cabal-tests-2.log`, `/tmp/mp3-ep11-rei-openapi-check.log`, `/tmp/mp3-ep11-rei-keiro-check.log`, `/tmp/mp3-ep11-rei-nix-build.log`, `/tmp/mp3-ep11-rei-nix-parity.log`, `/tmp/mp3-ep11-rei-final-boundary-proof.log`, `/tmp/mp3-ep11-rei-adr-final.log`, `/tmp/mp3-ep11-mori-app-final-tests.log` and `/tmp/mp3-ep11-mori-app-final-parity-2.log`.
+
+Implementation started 2026-10-16. Plans 9, 10 and 16 are Complete and pushed. The initially accepted runtime channel was `20f943dc658c0de666588e12ae8509983d683cc1`; the final adoption revision `R` is `f125d7666b8ac7c34c532766dfd0eac5a1ec102d`, runtime generation 1 (fingerprint `da00319eb1423b4372a0a0b050911b7719d1de0867a3e32160dbd327a2762e81`), GitHub channel, profiling/Haddock disabled. Its application complement is recorded in `nix/runtime-selection.json` in the channel. Keiro is 0.21.0.0 and Kioku 0.9.0.2; current application bounds already admit those lines. The current upgrade report requires Rei Baikai 0.8, Brick 3.0, Megaparsec 9.8.3 and Vty 6.6; mori-app also needs Effectful 2.7 and ephemeral-pg 0.3, and mori-rei-app needs Effectful 2.7 and Baikai 0.8. Historical drafting observations below require re-verification.
+
+Baseline source/configuration copies and the successful pre-edit Cabal plan are retained at `/tmp/mp3-ep11-rei-baseline`. The host lacks GHC and plain `nix shell` does not establish development pkg-config paths; a minimal `mkShell` using the pinned toolchain/native inputs solves the adopted project with tests and benchmarks enabled. The actual checked Rei scope evaluates successfully, exporting all five packages and its runtime executable manifest; Cabal and Nix builds are running. Adoption selectors remain uncommitted until both paths and required gates pass. The first real comparison exposed that GitHub runtime plans need the retained source projection, not the Hackage-shaped global source inventory. The shared runtime importer now materializes that hash-checked projection and a merged complete comparison manifest (eight tests pass); the existing shared parser remains authoritative. It also caught Rei selecting Hackage CMark instead of the declared maintained cohort fork; the source selector is corrected. Mori-app then exposed the intentionally excluded contributor library `mori-types`: the shared importer now admits an explicit owner/reason/immutable source policy for declared contributor packages outside the shared cohort, and the existing Haskell parser checks every corresponding instance. Frozen/runtime names cannot be replaced. All 165 updater tests and 11 importer tests pass, and mori-app passes the real source-aware parity check. Mori-app builds and all seven ephemeral PostgreSQL tests pass without source API changes; its macOS audit needed `grep -c` rather than recursive filename-prefixed `grep -rc` for one explicitly named file. Rei's Nix core/CLI/API builds, overlay audit, dependency audit, ADR validation and Keiro checks pass. Cabal compilation and source-boundary checks remain in progress. The final adoption revision `R` is `f125d7666b8ac7c34c532766dfd0eac5a1ec102d`, published after both consumer-tool fixes; retained runtime generation 1 and its recipe identities are unchanged. Mori-app is committed locally at `258bfa45b0817e9b72fd9838c976128761ba02f5` (`A`), with publication explicitly approved and the remote master verified at that exact revision.
 
 - Observation: Rei's Cabal plan is already at or above the Nix versions for almost everything the
   73-package gap names (hasql 1.10.3.7, aeson 2.2.5.1, tls 2.4.6, sbv 14.8, warp 3.4.16). Rei's
@@ -649,8 +657,8 @@ deletions: `link-canonical`, `openapi-hs`, `servant-openapi-hs`, `servant-health
 `hs-opentelemetry-*` entries, the four `relay-pagination*` entries, `kioku-core`'s
 `disableLibraryProfiling`, and `typeid-hs-sql`/`typeid-hs-pg-migrate`. Delete their comments too,
 replacing them with one short paragraph saying shared packages come from the channel per
-`mori://shinzui/mori/okf/adrs/concepts/ADR-24` as extended by plan 10. What remains is Rei's own
-`rei-core`, `rei-api` and `rei-cli`. Change the file's argument set to `{ pkgs, gitRev }`.
+`mori://shinzui/mori/okf/adrs/concepts/ADR-24` as extended by plan 10. What remains is Rei's five owned packages: `rei-core`, `rei-api-contract`,
+`rei-api-client`, `rei-api` and `rei-cli`. Change the file's argument set to `{ pkgs, gitRev }`.
 
 In `flake.module.nix`, define the extension once at the top level and export it, and build Rei
 from it:
@@ -1138,7 +1146,7 @@ The plan is accepted when all of the following are observed and recorded in Outc
 
 1. In rei, mori-app and mori-rei-app, `cabal build all` and `cabal test all` pass with the freeze
    imported at `R`, and the parity script reports zero differences for each `plan.json`. Each
-   `plan.json` selects `effectful` and `effectful-core` at the frozen 2.7.1.1-or-later version,
+   `plan.json` selects the frozen `effectful` 2.7.1.0 and `effectful-core` 2.7.1.2,
    and no `cabal.project` among the three has an `allow-newer` entry naming `effectful` or
    `effectful-core`.
 2. In rei, `jq -r '.nodes["haskell-nix"].locked.rev' flake.lock` and the `import:` line name the
@@ -1184,17 +1192,14 @@ If a Nix dependency fails to build, fix it in the channel (plans 9 and 10) and m
 a local override back. If `nix flake lock` in mori-rei-app reports "follows a non-existent
 input", the `rei` revision in the URL is wrong or not pushed; correct the URL.
 
-Before Milestone 6's activation nothing in production has changed; abandoning is `git checkout
-flake.lock` in dotfiles. After activation, both programs are Kiroku 0.9 on a database that already
-had `0012`, and no migration ran, so rolling back is re-locking dotfiles' `rei` and `mori-rei-app`
-to `880093cc` and `2acd4ed4`, rebuilding, and having the user activate again; no database restore
-is involved and none may be done after new writes (restoring would discard them). If the clone
-rehearsal shows `pending>0`, this plan stops and the deploy becomes a stop-writers cutover per
-the MasterPlan (stop writers, back up with `just backup "$REI_RELEASE_URL"`, `up`, `VACUUM
-(ANALYZE) kiroku.stream_events`, start only new builds), which needs its own go-ahead.
-
-Never delete or recreate the global `rei`, `mori` or `mori_rei_app` databases. Scratch database
-names must be unique; `validate-on-clone.sh` refuses protected names.
+Before activation, production remains unchanged. Retain the original dotfiles pins and
+identified running output paths as the rollback baseline. The September draft's Kiroku 0.9
+revisions are historical and must not be substituted for the current Kiroku 0.11 deployment.
+After activation, roll back only to those recorded pre-adoption outputs and only with the
+clone-proven schema compatibility. Never restore a production database after new writes.
+If the fresh clone reports pending migrations, stop before production writes and prepare
+an explicit stop-writers cutover for approval; do not assume the old drafting observation
+that every adoption is a migration-free lock change. The user performs privileged activation.
 
 
 ## Interfaces and Dependencies
@@ -1220,7 +1225,7 @@ of its own pinned revision.
 Interfaces that must exist at the end:
 
 - rei `flake.nix` output `lib.haskellExtension :: haskellLib -> pkgs -> (final -> prev -> attrset)`,
-  defining exactly `rei-core`, `rei-api`, `rei-cli` (`typeid-hs-*` come from the channel);
+  defining exactly `rei-core`, `rei-api-contract`, `rei-api-client`, `rei-api`, and `rei-cli` (`typeid-hs-*` come from the channel);
   intended to be composed after
   `selectedRuntime.haskellExtension pkgs.haskell.lib.compose pkgs` in a
   `pkgs.haskell.packages.ghc9124.override`, using the committed runtime selector.
