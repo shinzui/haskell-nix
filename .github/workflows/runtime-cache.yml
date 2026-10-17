@@ -2,6 +2,13 @@ name: Retained runtime cache substitution
 
 on:
   workflow_dispatch:
+    inputs:
+      generation:
+        description: Retained runtime generation to verify
+        required: true
+        default: '1'
+        type: choice
+        options: ['1', '2']
 
 permissions:
   contents: read
@@ -50,19 +57,20 @@ jobs:
         env:
           COHORT_SYSTEM: ${{ matrix.system }}
           RUNTIME_CHANNEL: ${{ matrix.channel }}
+          RUNTIME_GENERATION: ${{ inputs.generation }}
         run: |
           set -euo pipefail
           python3 - <<'PY'
           import hashlib, json, os
           from pathlib import Path
-          receipt = json.loads(Path('cabal/runtime-cache/keiro-runtime/1', os.environ['COHORT_SYSTEM'] + '-' + os.environ['RUNTIME_CHANNEL'] + '.json').read_text())
-          record = json.loads(Path('packages/runtime-lock.json').read_text())['runtimes']['keiro-runtime'][0]
+          receipt = json.loads(Path('cabal/runtime-cache/keiro-runtime', os.environ['RUNTIME_GENERATION'], os.environ['COHORT_SYSTEM'] + '-' + os.environ['RUNTIME_CHANNEL'] + '.json').read_text())
+          record = next(r for r in json.loads(Path('packages/runtime-lock.json').read_text())['runtimes']['keiro-runtime'] if r['generation'] == int(os.environ['RUNTIME_GENERATION']))
           assert receipt['context']['runtimeFingerprint'] == record['fingerprint'], 'wrong runtime publication receipt'
           assert receipt['context']['channel'] == os.environ['RUNTIME_CHANNEL'], 'wrong source channel'
           PY
           worker_root="$(python3 -c 'import pathlib,tempfile; print(pathlib.Path(tempfile.mkdtemp(prefix="cohort-cache-")).resolve())')"
           python3 scripts/cohort-cache.py verify \
-            --receipt "cabal/runtime-cache/keiro-runtime/1/$COHORT_SYSTEM-$RUNTIME_CHANNEL.json" \
+            --receipt "cabal/runtime-cache/keiro-runtime/$RUNTIME_GENERATION/$COHORT_SYSTEM-$RUNTIME_CHANNEL.json" \
             --store "local?root=$worker_root" \
             --evidence cohort-cache-substitution.json
 

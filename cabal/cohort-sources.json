@@ -3692,6 +3692,7 @@
             "hashable",
             "haskeline",
             "http-client",
+            "http-client-tls",
             "http-types",
             "indexed-traversable",
             "megaparsec",
@@ -3727,7 +3728,7 @@
                 "flags": {
                     "cross": false,
                     "network-tests": true,
-                    "use-http-client-tls": false,
+                    "use-http-client-tls": true,
                     "with-http": true
                 },
                 "pkg-name": "dhall",
@@ -3749,7 +3750,7 @@
                 "flags": {
                     "cross": false,
                     "network-tests": true,
-                    "use-http-client-tls": false,
+                    "use-http-client-tls": true,
                     "with-http": true
                 },
                 "pkg-name": "dhall",

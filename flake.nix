@@ -266,15 +266,14 @@
             runtimeInputs = [ pkgsPlain.python3 pkgsPlain.nix pkgsPlain.cachix ];
             text = ''exec python3 ${./scripts/cohort-cache.py} "$@"'';
           };
-          runtimeOutputs = lib.genAttrs [ "github" "hackage" ] (channel:
+          runtimeOutputsFor = generation: lib.genAttrs [ "github" "hackage" ] (channel:
             (import ./lib/mkRuntimeOutputs.nix {
               inherit lib mkRuntimePackageSet;
               pkgs = pkgsPlain;
               mkCohortManifest = import ./lib/mkCohortManifest.nix { inherit lib; };
             }) {
               runtime = "keiro-runtime";
-              generation = 1;
-              inherit channel;
+              inherit generation channel;
               applicationSelections = {
                 kioku = 8;
                 okf = 5;
@@ -284,6 +283,8 @@
                 shikumi-baikai = 9;
               };
             });
+          runtimeOutputs = runtimeOutputsFor 1;
+          runtimeOutputs2 = runtimeOutputsFor 2;
           runtimeImport = pkgsPlain.writeShellApplication {
             name = "runtime-import";
             runtimeInputs = [ pkgsPlain.python3 ];
@@ -344,6 +345,26 @@
             keiro-runtime-manifest = runtimeOutputs.github.manifest;
             keiro-runtime-hackage-manifest = runtimeOutputs.hackage.manifest;
             keiro-runtime-proof = runtimeOutputs.github.proof;
+            keiro-runtime-2-verifier = import ./checks/runtime-verifier.nix {
+              inherit lib mkRuntimePackageSet;
+              generation = 2;
+              channelRevision = inputs.self.rev or inputs.self.dirtyRev or "uncommitted";
+              pkgs = pkgsPlain;
+            };
+            keiro-runtime-2-hackage-verifier = import ./checks/runtime-verifier.nix {
+              inherit lib mkRuntimePackageSet;
+              generation = 2;
+              channel = "hackage";
+              channelRevision = inputs.self.rev or inputs.self.dirtyRev or "uncommitted";
+              pkgs = pkgsPlain;
+            };
+            keiro-runtime-2 = runtimeOutputs2.github.roots;
+            keiro-runtime-2-hackage = runtimeOutputs2.hackage.roots;
+            keiro-runtime-2-closure = runtimeOutputs2.github.closure;
+            keiro-runtime-2-hackage-closure = runtimeOutputs2.hackage.closure;
+            keiro-runtime-2-manifest = runtimeOutputs2.github.manifest;
+            keiro-runtime-2-hackage-manifest = runtimeOutputs2.hackage.manifest;
+            keiro-runtime-2-proof = runtimeOutputs2.github.proof;
             cohort-manifest = cohortManifest;
             cohort-closure = cohortFarm "cohort-closure" cohortNames;
             cohort-roots = cohortFarm "cohort-roots" [
@@ -436,6 +457,18 @@
               pkgs = pkgsPlain;
               manifest = runtimeOutputs.hackage.manifest;
               record = runtimeOutputs.hackage.selected.metadata;
+            };
+            runtime-2-github-parity = import ./checks/runtime-parity.nix {
+              inherit lib updater;
+              pkgs = pkgsPlain;
+              manifest = runtimeOutputs2.github.manifest;
+              record = runtimeOutputs2.github.selected.metadata;
+            };
+            runtime-2-hackage-parity = import ./checks/runtime-parity.nix {
+              inherit lib updater;
+              pkgs = pkgsPlain;
+              manifest = runtimeOutputs2.hackage.manifest;
+              record = runtimeOutputs2.hackage.selected.metadata;
             };
             runtime-import = pkgsPlain.runCommand "runtime-import-fixtures"
               {

@@ -1,0 +1,247 @@
+{
+    "configurations": [
+        {
+            "channel": "github",
+            "compiler": "ghc9124",
+            "disableHaddock": true,
+            "disableProfiling": true,
+            "system": "aarch64-darwin"
+        },
+        {
+            "channel": "hackage",
+            "compiler": "ghc9124",
+            "disableHaddock": true,
+            "disableProfiling": true,
+            "system": "aarch64-darwin"
+        },
+        {
+            "channel": "github",
+            "compiler": "ghc9124",
+            "disableHaddock": true,
+            "disableProfiling": true,
+            "system": "x86_64-linux"
+        },
+        {
+            "channel": "hackage",
+            "compiler": "ghc9124",
+            "disableHaddock": true,
+            "disableProfiling": true,
+            "system": "x86_64-linux"
+        }
+    ],
+    "definition": {
+        "groups": [
+            "keiki",
+            "keiro",
+            "kiroku",
+            "pg-migrate",
+            "pgmq-hs",
+            "settei",
+            "shibuya"
+        ],
+        "projects": [
+            "mori://shinzui/keiki",
+            "mori://shinzui/keiro",
+            "mori://shinzui/kiroku",
+            "mori://shinzui/shibuya",
+            "mori://shinzui/pgmq-hs",
+            "mori://shinzui/settei",
+            "mori://shinzui/pg-migrate",
+            "mori://shinzui/hw-kafka-client"
+        ],
+        "roots": {
+            "hw-kafka-client": {
+                "capability": "kafka",
+                "project": "mori://shinzui/hw-kafka-client",
+                "role": "library"
+            },
+            "hw-kafka-streamly": {
+                "capability": "kafka",
+                "project": "mori://shinzui/hw-kafka-streamly",
+                "role": "library"
+            },
+            "kafka-effectful": {
+                "capability": "kafka",
+                "project": "mori://shinzui/kafka-effectful",
+                "role": "library"
+            },
+            "keiki": {
+                "capability": "core",
+                "project": "mori://shinzui/keiki",
+                "role": "library"
+            },
+            "keiki-codec-json": {
+                "capability": "core",
+                "project": "mori://shinzui/keiki",
+                "role": "library"
+            },
+            "keiro": {
+                "capability": "core",
+                "project": "mori://shinzui/keiro",
+                "role": "library"
+            },
+            "keiro-core": {
+                "capability": "core",
+                "project": "mori://shinzui/keiro",
+                "role": "library"
+            },
+            "keiro-dsl": {
+                "capability": "core",
+                "project": "mori://shinzui/keiro",
+                "role": "library"
+            },
+            "keiro-migrations": {
+                "capability": "core",
+                "project": "mori://shinzui/keiro",
+                "role": "library"
+            },
+            "keiro-ops": {
+                "capability": "core",
+                "project": "mori://shinzui/keiro",
+                "role": "library"
+            },
+            "keiro-pgmq": {
+                "capability": "pgmq",
+                "project": "mori://shinzui/keiro",
+                "role": "library"
+            },
+            "keiro-test-support": {
+                "capability": "core",
+                "project": "mori://shinzui/keiro",
+                "role": "test"
+            },
+            "kiroku-cli": {
+                "capability": "core",
+                "project": "mori://shinzui/kiroku",
+                "role": "library"
+            },
+            "kiroku-metrics": {
+                "capability": "core",
+                "project": "mori://shinzui/kiroku",
+                "role": "library"
+            },
+            "kiroku-otel": {
+                "capability": "core",
+                "project": "mori://shinzui/kiroku",
+                "role": "library"
+            },
+            "kiroku-store": {
+                "capability": "core",
+                "project": "mori://shinzui/kiroku",
+                "role": "library"
+            },
+            "kiroku-store-migrations": {
+                "capability": "core",
+                "project": "mori://shinzui/kiroku",
+                "role": "library"
+            },
+            "pg-migrate": {
+                "capability": "core",
+                "project": "mori://shinzui/pg-migrate",
+                "role": "library"
+            },
+            "pg-migrate-cli": {
+                "capability": "core",
+                "project": "mori://shinzui/pg-migrate",
+                "role": "library"
+            },
+            "pg-migrate-embed": {
+                "capability": "core",
+                "project": "mori://shinzui/pg-migrate",
+                "role": "library"
+            },
+            "pg-migrate-import-codd": {
+                "capability": "core",
+                "project": "mori://shinzui/pg-migrate",
+                "role": "library"
+            },
+            "pg-migrate-import-hasql-migration": {
+                "capability": "core",
+                "project": "mori://shinzui/pg-migrate",
+                "role": "library"
+            },
+            "pgmq-config": {
+                "capability": "pgmq",
+                "project": "mori://shinzui/pgmq-hs",
+                "role": "library"
+            },
+            "pgmq-core": {
+                "capability": "pgmq",
+                "project": "mori://shinzui/pgmq-hs",
+                "role": "library"
+            },
+            "pgmq-effectful": {
+                "capability": "pgmq",
+                "project": "mori://shinzui/pgmq-hs",
+                "role": "library"
+            },
+            "pgmq-hasql": {
+                "capability": "pgmq",
+                "project": "mori://shinzui/pgmq-hs",
+                "role": "library"
+            },
+            "pgmq-migration": {
+                "capability": "pgmq",
+                "project": "mori://shinzui/pgmq-hs",
+                "role": "library"
+            },
+            "settei": {
+                "capability": "core",
+                "project": "mori://shinzui/settei",
+                "role": "library"
+            },
+            "settei-dhall": {
+                "capability": "core",
+                "project": "mori://shinzui/settei",
+                "role": "library"
+            },
+            "settei-env": {
+                "capability": "core",
+                "project": "mori://shinzui/settei",
+                "role": "library"
+            },
+            "settei-optparse-applicative": {
+                "capability": "core",
+                "project": "mori://shinzui/settei",
+                "role": "library"
+            },
+            "shibuya-core": {
+                "capability": "core",
+                "project": "mori://shinzui/shibuya",
+                "role": "library"
+            },
+            "shibuya-kafka-adapter": {
+                "capability": "kafka",
+                "project": "mori://shinzui/shibuya-kafka-adapter",
+                "role": "library"
+            },
+            "shibuya-kiroku-adapter": {
+                "capability": "core",
+                "project": "mori://shinzui/kiroku",
+                "role": "library"
+            },
+            "shibuya-pgmq-adapter": {
+                "capability": "pgmq",
+                "project": "mori://shinzui/shibuya-pgmq-adapter",
+                "role": "library"
+            }
+        },
+        "sourceProjects": {
+            "dhall": "mori://dhall-lang/dhall-haskell",
+            "typeid-hs-pg-migrate": "mori://shinzui/typeid-hs",
+            "typeid-hs-sql": "mori://shinzui/typeid-hs"
+        }
+    },
+    "indexState": "2026-10-16T12:29:59Z",
+    "nixpkgsRevision": "d5dfd8e6716dde34398bc14bc87c10dece9c8c68",
+    "selections": {
+        "keiki": 3,
+        "keiro": 7,
+        "kiroku": 3,
+        "pg-migrate": 2,
+        "pgmq-hs": 3,
+        "settei": 1,
+        "shibuya": 3
+    },
+    "toolchainRevision": "206ecd25bcb4a07581210bdae3e6f43c8fd179d8"
+}

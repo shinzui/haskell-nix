@@ -92,6 +92,18 @@ shared policy/auditing respectively. Application-adoption plans 11–13 depend o
 plan 14 consumes the resulting runtime identity in its existing deploy guard. Other runtime
 consumers can adopt the API independently.
 
+## Preserving Cabal HTTPS imports
+
+Mori requires Dhall remote HTTPS imports in its Cabal build. Generation 1's Cabal
+projection disables that flag, although its admitted Nix policy already enables it.
+Append generation 2 with the same versions, index and sources and Cabal TLS enabled;
+never rewrite generation 1 or override a runtime-owned flag in an application.
+The native comparison proves every one of the 273 non-Boot Nix derivations is unchanged.
+A newly built Cabal executable successfully evaluates a published remote profile with a
+fresh private cache. Generation 2 remains unverified until its declared support evidence
+is complete. Generation-qualified build outputs and a CI generation input let both
+retained configurations be checked independently without moving existing output aliases.
+
 ## Alternatives and consequences
 
 A complete named first-party set alone can select a compatible catalog combination, but

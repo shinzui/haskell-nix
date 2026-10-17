@@ -1,5 +1,5 @@
 # Reuse scenarios from mori://shinzui/keiro-runtime-kenshou (source URI pending).
-{ lib, pkgs, mkRuntimePackageSet, channelRevision, channel ? "github" }:
+{ lib, pkgs, mkRuntimePackageSet, channelRevision, channel ? "github", generation ? 1 }:
 let
   source = builtins.fetchTree {
     type = "github";
@@ -16,8 +16,7 @@ let
   };
   selected = mkRuntimePackageSet {
     runtime = "keiro-runtime";
-    generation = 1;
-    inherit channel;
+    inherit generation channel;
     applicationSelections = {
       kioku = 8;
       okf = 1;
@@ -73,7 +72,7 @@ let
           { };
       });
   };
-  profile = builtins.fromJSON (builtins.readFile (../cabal/runtimes/keiro-runtime/1 + "/${channel}-sources.json"));
+  profile = builtins.fromJSON (builtins.readFile (../cabal/runtimes/keiro-runtime + "/${toString generation}/${channel}-sources.json"));
   component = name:
     let
       package = profile.${name};
@@ -92,7 +91,7 @@ let
       packages = [ ({ inherit name; version = package.version; } // lib.optionalAttrs (pinned != null) { subdir = pinned.subdir or null; }) ];
     };
   descriptor = {
-    name = "keiro-runtime-1";
+    name = "keiro-runtime-${toString generation}";
     indexState = selected.metadata.indexState;
     components = map component (selected.metadata.roots ++ [ "dhall" ]);
   };
