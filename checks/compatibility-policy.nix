@@ -22,6 +22,17 @@ let
   apply = import ../lib/applyPackageBuildPolicy.nix;
   select = import ../lib/selectCompatibilityEntry.nix { inherit lib; };
   applies = import ../lib/compatibilityEntryApplies.nix { inherit lib; };
+  channelPredicate = channels: import ../lib/compatibilityEntryApplies.nix {
+    inherit lib;
+    catalog = policy.catalog // {
+      entries = map
+        (entry:
+          if entry.id == "legacy-kioku-core-v1" then
+            entry // { applicability = entry.applicability // { inherit channels; }; }
+          else entry)
+        policy.catalog.entries;
+    };
+  };
   validateEntries = import ../lib/validateCompatibilityEntries.nix { inherit lib; };
   haskellLib = {
     dontCheck = value: value ++ [ "skip-tests" ];
@@ -31,6 +42,20 @@ let
   };
 in
 {
+  testCompatibilityChannelOrderIsNotSemantic = {
+    expr = (channelPredicate [ "hackage" "github" ]) "legacy-kioku-core-v1" {
+      compiler = "9.14.1";
+      version = "0.8.0.2";
+    };
+    expected = true;
+  };
+  testCompatibilityRestrictedChannelRequiresExplicitSelection = {
+    expr = map
+      (facts: (channelPredicate [ "github" ]) "legacy-kioku-core-v1"
+        ({ compiler = "9.14.1"; version = "0.8.0.2"; } // facts))
+      [{ } { channel = "github"; } { channel = "hackage"; }];
+    expected = [ false true false ];
+  };
   testCompatibilityEmptySelectorsRemainLazy = {
     expr = validateEntries { empty = [ ]; };
     expected = true;

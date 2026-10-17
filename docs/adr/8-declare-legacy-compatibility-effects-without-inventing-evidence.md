@@ -29,6 +29,9 @@ source selection separately from temporary repair and durable build policy. Exac
 sources remain owned by the existing locks and constructors. Keep compiler/version,
 system and source assertions visible, including independent effects within one row:
 unicode-data's unconditional test suppression differs from its guarded metadata repair.
+Channel lists describe membership: reordering them must not change activation. Omitted
+channel facts are accepted only for an exception declared in both source channels;
+a restricted exception requires an explicit channel selection.
 
 Named legacy profiles preserve the exact order and semantics of existing wrappers.
 Their test/bounds modes and legacy construction semantics cannot change under the same immutable name. A legacy layer that historically changed only bounds must not accidentally re-enable tests suppressed by an earlier layer. Its mode labels are not final behavioral evidence. Complete profiles explicitly set both modes; strict validation must still construct them before any bounds rewrite. A stricter
