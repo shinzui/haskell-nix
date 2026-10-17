@@ -70,6 +70,12 @@ new accepted generation/configuration and cannot be hidden in an application ove
 
 ## Compare Cabal plans separately
 
+A new worker also needs a Cabal package index. Run `cabal update` in the selected
+project before its first solve if the index is absent. Its retained imports still
+pin the index state, versions, sources and flags; initializing this local cache
+does not change the project selection. Missing index data can make Cabal report
+installed dependencies as unusable when the project selects their source packages.
+
 A normal Cabal plan in this shell can reuse installed Nix packages. Such `pre-existing` plan
 rows omit trustworthy source/metadata hashes. The shared comparator correctly rejects them as
 source-parity evidence. Keep that diagnostic; never label these rows source-verified or invent
