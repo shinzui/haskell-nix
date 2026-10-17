@@ -37,6 +37,7 @@ class CompilerMemory:
         self.preexisting = []
         self.errors = []
         self.samples = 0
+        self.ready = threading.Event()
         self.thread = threading.Thread(target=self.sample, daemon=True)
 
     def sample(self):
@@ -45,6 +46,7 @@ class CompilerMemory:
             result = subprocess.run(["ps", "-axo", "pid=,rss=,comm="], capture_output=True, text=True)
             if result.returncode:
                 self.errors.append(result.stderr.strip())
+                self.ready.set()
                 return
             processes = []
             for line in result.stdout.splitlines():
@@ -59,6 +61,7 @@ class CompilerMemory:
                 first = False
             self.peak_kib = max(self.peak_kib, sum(p["rss_kib"] for p in processes))
             self.samples += 1
+            self.ready.set()
             self.stop.wait(0.25)
 
     def finish(self):
@@ -76,8 +79,20 @@ def run_trial(args, label, source, trial, stage):
                "--print-build-logs", "--max-jobs", "1", "--cores", str(args.cores)]
     # Time the first Nix invocation for this variant: pre-evaluation or dry-run
     # would warm IFD translation before the clock starts.
-    memory = CompilerMemory()
-    memory.thread.start()
+    idle_start = time.perf_counter()
+    observed_busy = []
+    while True:
+        memory = CompilerMemory()
+        memory.thread.start()
+        memory.ready.wait()
+        if not args.require_idle_compilers or (not memory.preexisting and not memory.errors):
+            break
+        memory.finish()
+        observed_busy = memory.preexisting
+        if memory.errors or time.perf_counter() - idle_start >= args.idle_wait_seconds:
+            raise ValueError(f"Compiler host is not idle: {memory.preexisting}; sampling errors: {memory.errors}; resume this campaign when idle")
+        time.sleep(0.5)
+    idle_wait = time.perf_counter() - idle_start
     start = time.perf_counter()
     with prefix.with_suffix(".log").open("w") as log, prefix.with_suffix(".build.json").open("w") as result:
         process = subprocess.Popen(command, stdout=result, stderr=subprocess.PIPE, text=True)
@@ -110,6 +125,8 @@ def run_trial(args, label, source, trial, stage):
         "build_result": json.loads(prefix.with_suffix(".build.json").read_text()) if code == 0 else None,
         "cache_state": "warm dependencies; initial build plan and actual compilations recorded in build log",
         "sampled_host_compiler_memory": memory_receipt,
+        "idle_wait_seconds": idle_wait,
+        "compilers_observed_before_wait": observed_busy,
         "log": prefix.with_suffix(".log").name,
         "phase_limits": "No separate linker, test or transfer instrumentation; memory is sampled host compiler RSS, not isolated builder accounting; phase events are builder log boundaries.",
     }
@@ -117,6 +134,11 @@ def run_trial(args, label, source, trial, stage):
     print(f"{stage} {trial} {label}: {elapsed:.2f}s; compiled {sum(modules.values())} modules", flush=True)
     if code:
         raise subprocess.CalledProcessError(code, command)
+    report = (identity or {}).get("compatibilityReport", {})
+    if label == "candidate" and report.get("enabled") and not report.get("accepted"):
+        raise ValueError(f"Candidate rejected its seed: {report.get('reason')}; this is a clean fallback, not a reuse measurement")
+    if stage == "paired" and args.replace and not sum(modules.values()):
+        raise ValueError("Source-edit target is already built; use a fresh declared replacement variant for this campaign")
     return receipt
 
 
@@ -134,6 +156,11 @@ def main():
     parser.add_argument("--trials", type=int, default=5)
     parser.add_argument("--cores", type=int, default=16)
     parser.add_argument("--minimum-saving", type=float, default=0.20)
+    parser.add_argument("--require-idle-compilers", action="store_true",
+                        help="Reject a trial when host compiler processes are already active before Nix starts")
+    parser.add_argument("--idle-wait-seconds", type=float, default=60,
+                        help="Wait at most this long for other host compilers before pausing; excluded from build timing")
+    parser.add_argument("--resume", action="store_true", help="Continue the same verified input context and completed trial prefix")
     args = parser.parse_args()
     if args.trials < 5 or args.cores < 1 or not 0 < args.minimum_saving < 1:
         parser.error("Use at least five pairs, positive cores and a saving fraction between zero and one")
@@ -149,7 +176,9 @@ def main():
         parser.error("--edit must not resolve through a symlink outside either source directory")
     if any(args.output_dir.resolve().is_relative_to(source) for source in sources.values()):
         parser.error("Keep receipts outside both source directories")
-    args.output_dir.mkdir(parents=True, exist_ok=False)
+    if args.idle_wait_seconds < 0 or args.idle_wait_seconds > 60:
+        parser.error("Idle waiting must be between zero and 60 seconds")
+    args.output_dir.mkdir(parents=True, exist_ok=args.resume)
     original = {label: (source / args.edit).read_bytes() for label, source in sources.items()}
     if len(set(original.values())) != 1:
         parser.error("Both sides must start with the same source bytes")
@@ -165,19 +194,55 @@ def main():
         "expression_sha256": digest(args.expression),
         "lock_sha256": {label: digest(source / "flake.lock") for label, source in sources.items()},
         "evaluation_cache": "Nix expression evaluation, fresh process per invocation; no flake output evaluation cache",
+        "require_idle_compilers": args.require_idle_compilers,
         "compiler_count_semantics": "GHC Compiling events, including Setup and repeated module names across components",
         "trials": [], "warmup": [],
     }
     summary = args.output_dir / "summary.json"
+    if args.resume:
+        previous = json.loads(summary.read_text())
+        fixed = ["project_uri", "source_revision", "platform", "nix_version", "workload", "replacement",
+                 "minimum_saving", "cores", "max_jobs", "expression_sha256", "lock_sha256",
+                 "evaluation_cache", "require_idle_compilers"]
+        if any(previous.get(key) != metadata.get(key) for key in fixed):
+            parser.error("Resume context differs; start a new campaign")
+        expected = [(trial, label) for trial in range(1, args.trials + 1)
+                    for label in (["baseline", "candidate"] if trial % 2 else ["candidate", "baseline"])]
+        actual = [(row["trial"], row["label"]) for row in previous["trials"]]
+        if actual != expected[:len(actual)] or len(previous["warmup"]) != 2:
+            parser.error("Resume requires two completed warmups and a complete ordered trial prefix")
+        if [row["label"] for row in previous["warmup"]] != ["baseline", "candidate"]:
+            parser.error("Resume warmup order is invalid")
+        for row in previous["warmup"]:
+            if row["exit_code"] or row["source_variant_sha256"] != digest(sources[row["label"]] / args.edit):
+                parser.error("Original disposable source differs from the completed warmup")
+            recorded_source = row["command"][row["command"].index("source") + 1]
+            if Path(recorded_source).resolve() != sources[row["label"]]:
+                parser.error("Resume source directory differs")
+            # Re-evaluate only the already completed original warmup, never a
+            # pending changed target. Its full identity binds all source,
+            # environment, compatibility and seed inputs, including other files.
+            current_identity = json.loads(subprocess.check_output([
+                "nix", "eval", "--json", "--impure", "--file", str(args.expression),
+                "--argstr", "source", str(sources[row["label"]]), "identity"]))
+            if current_identity != row["identity"]:
+                parser.error("Resume source, recipe or seed inputs changed")
+        if any(row["exit_code"] or not sum(row["compiled_modules"].values()) for row in previous["trials"]):
+            parser.error("Resume prefix contains a failed or already cached changed-code trial")
+        metadata = previous
+        metadata.setdefault("resumptions", []).append(datetime.now(timezone.utc).isoformat())
     summary.write_text(json.dumps(metadata, indent=2) + "\n")
     try:
         # Includes the one-time filter migration build; excluded from paired medians.
-        for label, source in sources.items():
-            metadata["warmup"].append(run_trial(args, label, source, 0, "warmup"))
-            summary.write_text(json.dumps(metadata, indent=2) + "\n")
+        if not args.resume:
+            for label, source in sources.items():
+                metadata["warmup"].append(run_trial(args, label, source, 0, "warmup"))
+                summary.write_text(json.dumps(metadata, indent=2) + "\n")
         for trial in range(1, args.trials + 1):
             order = ["baseline", "candidate"] if trial % 2 else ["candidate", "baseline"]
             for label in order:
+                if any(row["trial"] == trial and row["label"] == label for row in metadata["trials"]):
+                    continue
                 source = sources[label]
                 content = (original[label].replace(args.replace[0].encode(), args.replace[1].replace("{trial}", str(trial)).encode())
                            if args.replace else original[label] + f"\n<!-- paired rebuild trial {trial} -->\n".encode())
@@ -198,6 +263,12 @@ def main():
         migration = next(r["elapsed_seconds"] for r in metadata["warmup"] if r["label"] == "candidate")
         metadata["migration_cost_seconds"] = migration
         metadata["break_even_edits"] = math.ceil(migration / saving) if saving > 0 else None
+        metadata["cost_limits"] = (
+            "migration_cost_seconds is the candidate warmup only, retained for receipt compatibility. "
+            "Cached warmups cannot establish seed creation cost. Include independently measured seed creation, "
+            "source/recipe migration, final validation, transfer and retention before any adoption decision; "
+            "break_even_edits excludes those additional costs."
+        )
         summary.write_text(json.dumps(metadata, indent=2) + "\n")
     finally:
         for label, source in sources.items():

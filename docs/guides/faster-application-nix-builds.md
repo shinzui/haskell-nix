@@ -6,7 +6,7 @@ docId: DOC-7
 tags: [performance, consumers, nix, source-boundaries]
 generated:
   by: process:codex
-  at: 2026-10-17T04:45:02Z
+  at: 2026-10-17T06:22:46Z
 ---
 
 [Guides](README.md)
@@ -211,3 +211,84 @@ reading command arguments or store files. This can include unrelated concurrent 
 receipts identify processes already present at the first sample. Treat it as sampled host
 memory, not exact isolated builder accounting. Phase events still do not separate linker,
 network or test time. Keep all production settings fixed when comparing policies.
+
+
+## Use the application-owned opt-in outputs
+
+Both producing projects now expose `application-clean` as the ordinary build. When their
+channel input provides `lib.mkApplicationIncrementalPackage`, they additionally expose
+`application-incremental` and `application-seed-intermediates`, with the report under
+`legacyPackages.<system>.applicationIncremental.compatibilityReport`. Existing input pins
+are retained. During local integration, run from the owning application checkout:
+
+```bash
+nix build .#application-clean --no-link
+nix build .#application-incremental --no-link \
+  --override-input haskell-nix path:/path/to/haskell-nix --no-write-lock-file
+nix eval --json .#legacyPackages.aarch64-darwin.applicationIncremental.compatibilityReport \
+  --override-input haskell-nix path:/path/to/haskell-nix --no-write-lock-file
+nix build .#application-seed-intermediates --out-link /path/to/explicit-seed-root \
+  --override-input haskell-nix path:/path/to/haskell-nix --no-write-lock-file
+```
+
+The seed source is a fixed published application revision. Its clean recipe is constructed
+using the same reviewed owned overlay and retained dependency environment as the current
+candidate. A checkpoint has no predecessor. Changes to that environment request a new clean
+checkpoint derivation; an old store output cannot substitute for it. Root only the checkpoint
+you intend to retain. Runtime outputs do not retain intermediate products.
+
+The shared constructor takes `pkgs`, `mkScope`, `overlayFor`, `source`, `seedSource`,
+`packageName`, `revision` and `seedRevision`, plus optional `enabled` and `trackedDataFile`.
+`overlayFor` uses the supplied source and revision; `mkScope` is the actual retained-runtime
+constructor. Only the revision literal and root source are normalized in the recipe projection.
+All other recipe inputs remain intact. Cabal/Setup and every non-Haskell file are hashed unless
+explicitly declared to be audited GHC-tracked data. The two CLI pilots allow embedded Markdown
+under `help/`, whose embedding registers GHC dependencies. Native sources, generator scripts
+and untracked resources reject reuse by default. Source layout changes reject conservatively,
+even when an added file would be ignored by the package filter. A rejection returns the exact
+clean recipe; explicitly requesting the checkpoint output remains possible independently.
+
+The [native application checks](../evidence/ep18/application-native-guards.json) prove current
+embedded help, revision stamps and type-error rejection through the owned factory. The normal
+application pins and their cohort checks are tested separately from local channel overrides.
+Retained-runtime parity must compare the selected generation's captured freeze, rather than
+an unrelated newer channel default; the reference validator remains enabled.
+
+Use `--require-idle-compilers` for changed-code timing. It waits up to 60 seconds for other
+compiler processes, recording that wait separately from build latency. If interrupted before
+a trial, rerun the **same command** with `--resume`. Resume verifies tool/platform/settings,
+source directories, locks, expression and complete original warmup identities, then continues
+the ordered trial prefix. Changed source, recipe or seed inputs require a new campaign. A
+previously completed changed target is retained as historical evidence; a pending target that
+is already cached is rejected. Check memory receipts for overlapping host work during trials.
+A cached warmup cannot establish checkpoint cost; include fresh creation, migration, final
+validation, transfer and retention before adopting defaults.
+
+
+## Native CLI pilot results, 2026-10-17 UTC
+
+The [paired receipt](../evidence/ep18/application-intermediate-pilots.json) retains all five
+pairs, phases, waits, source/settings checks, graph proofs and storage metadata.
+
+| Application | Clean median | Seeded median | Saving | GHC events clean → seeded |
+|---|---:|---:|---:|---:|
+| Rei | 54.66 s | 42.84 s | 21.6% | 301 → 7 |
+| Mori | 50.92 s | 36.02 s | 29.3% | 92 → 5 |
+
+Rei ranges are 53.26–57.50 s and 41.26–43.54 s; Mori ranges are 50.02–51.94 s and
+33.36–37.45 s. No trial starts with other sampled compiler processes. Both CLI policies use
+the same complete filtered source, production build ways and unchanged non-CLI dependency
+graph. Earlier trials with concurrent compilers or cached targets are excluded.
+
+Fresh clean migration plus seeded first use costs 133.29 s for Rei and 125.04 s for Mori.
+Adding native validation replay (86.85/91.50 s) gives observed break-even of at least 19/15
+edits; initial validation work and transfers are additional. Both exceed the ten-edit budget,
+so the clean builds remain defaults. Retaining both the checkpoint and current intermediates
+adds about 4.59/3.55 GB of marginal NAR closure beyond the corresponding runtime closure;
+each individual intermediates output is about 1.92/1.57 GB. Runtime outputs retain neither
+intermediates nor the checkpoint executable, including first use.
+
+These timings belong to the explicit pilot expression. Native identities and source guards
+connect it to the owned factory, whose final evaluation latency and core-package rollout have
+separate acceptance. The original Mori 49.26 s archive baseline had an alias-sensitive README
+selection and a different core context; use the corrected canonical pilot evidence above.

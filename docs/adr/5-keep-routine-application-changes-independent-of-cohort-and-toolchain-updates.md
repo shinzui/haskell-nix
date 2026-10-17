@@ -110,7 +110,17 @@ content may be normalized. Invalid or mismatched records return the ordinary cle
 without evaluating an incompatible seed. Callers own truthful compatibility records; a
 reported package version alone cannot establish safety. Native fixtures now prove selective
 module reuse and error detection for the pinned GHC 9.12.4 builder, while real application
-latency, retention and rollout acceptance remain independent gates.
+latency, retention and rollout acceptance remain independent gates. Revision provenance
+belongs in its consuming source module instead of a package-wide compiler flag. Keep the
+normal clean build while the checkpoint budget is unmet. The application-owned constructor
+uses the same current recipe implementation for both explicit source selections, fingerprints
+all non-Haskell inputs except audited GHC-tracked data, and retains a separately requestable
+clean checkpoint. Its returned recursive scope contains the guarded package, so downstream
+owned packages consume it; the older source retains its own dependency context and is rejected
+when that context differs. Native CLI checks prove current embedded help and truthful changed stamps;
+they do not establish a default performance policy. Compare retained-runtime manifests against
+the selected generation's captured freeze, preserving its reference validation even when a
+newer channel default changes.
 
 ## Alternatives and consequences
 

@@ -46,7 +46,7 @@ in  AgentPlans.AgentPlansCatalog::{
       , AgentPlans.ExposedPlan::{
         , kind = AgentPlans.PlanKind.ExecPlan
         , file = "docs/plans/18-accelerate-application-code-compilation-in-nix-builds.md"
-        , status = AgentPlans.PlanStatus.NotStarted
+        , status = AgentPlans.PlanStatus.InProgress
         , owner = None Text
         , summary = None Text
         , dependencies =

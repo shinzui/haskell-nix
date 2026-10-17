@@ -83,7 +83,7 @@ The numeric rows below are local children, with repository-relative paths and `m
 | # | Title | Path | Hard Deps | Soft Deps | Status |
 |---|-------|------|-----------|-----------|--------|
 | 18 | Accelerate application code compilation in Nix builds | docs/plans/18-accelerate-application-code-compilation-in-nix-builds.md | Plans 9 and 16 (Complete locally; consumer rollout evidence still required) | None | In Progress |
-| 19 | Pre-generate complete locked Nix Haskell dependency recipes | docs/plans/19-pre-generate-complete-locked-nix-haskell-dependency-recipes.md | Plans 9 and 16 (Complete locally; consumer rollout evidence still required) | None | Not Started |
+| 19 | Pre-generate complete locked Nix Haskell dependency recipes | docs/plans/19-pre-generate-complete-locked-nix-haskell-dependency-recipes.md | Plans 9 and 16 (Complete locally; consumer rollout evidence still required) | None | In Progress |
 | 20 | Build project development shells from retained runtime package sets | docs/plans/20-build-project-development-shells-from-retained-runtime-package-sets.md | Plan 16 (Complete locally); DEV-4 (In Progress) | None | Not Started |
 | 21 | Manage compatibility exceptions and verify their continued necessity | docs/plans/21-manage-compatibility-exceptions-and-verify-their-continued-necessity.md | None | None | Not Started |
 
@@ -156,7 +156,7 @@ Shared edits to `flake.nix`, `checks/default.nix`, `lib/`, and updater modules r
 ## Progress
 
 
-EP-18 is In Progress under the full umbrella request. The native fixture and Rei paired application pilot pass correctness/reuse checks; Mori’s paired correctness checks pass, and its latency trial is being repeated because sampled receipts exposed concurrent host compilers. Source/stamp fixes are under validation; defaults remain clean. The earlier Rei documentation result remains accepted. EP-19/20/21 remain Not Started. External plans 9 and 16 are Complete locally. DEV-4 is In Progress with additive metadata and unchanged legacy identities; its native Linux gate is blocked by the configured builder’s missing key. DEV-5 remains Not Started under that whole-child dependency. The eight-document publication inventory has not been refreshed because Mori’s database is absent.
+EP-18 remains In Progress. M1 and source/stamp milestone M3 are accepted; both CLI pilots pass native correctness and 20% changed-code timing thresholds, but their combined startup/validation costs exceed the ten-edit budget, so defaults stay clean. Core pilots, tuning and production rollout remain open. EP-19 is In Progress with deterministic no-IFD/native parity fixtures and real retained-root identity proofs; baseline timing and later milestones remain open. EP-20/21 remain Not Started. DEV-4 passes 25 native Apple Silicon policy cases and preserves legacy identities; native Linux execution is blocked by the missing configured builder key. DEV-5 retains its whole-child prerequisite. Mori's absent database prevents catalog registration refresh.
 
 Remaining integration acceptance is the targeted-update/rollback rehearsal, compatible policy/compiler/recipe identities, phase-separated measurements that meet the declared performance budgets, and retained-history/cache proofs. The registry tracks child completion; each child retains its own milestone checklist.
 

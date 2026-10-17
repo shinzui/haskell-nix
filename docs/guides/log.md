@@ -1,6 +1,8 @@
 # Bundle Update Log
 
 ## 2026-10-17
+* **Update**: Retain five-pair CLI results and observed total-cost/storage limits; keep clean defaults.
+* **Update**: Document owned clean/seed outputs, conservative data guards, native behavior evidence and resumable idle-host measurement.
 * **Update**: Document native intermediate feasibility, compatibility guards and paired Haskell leaf experiments without claiming production acceptance.
 * **Addition**: Add the paired application-rebuild measurement workflow and scoped Rei source-boundary evidence.
 * **Update**: Document verified generation 2 for Cabal Dhall HTTPS imports while preserving generation 1 and native package identities.
