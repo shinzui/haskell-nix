@@ -4,9 +4,10 @@ title: Adding compatibility patches
 description: Add and verify shared compatibility patches for the GitHub and Hackage channels.
 docId: DOC-2
 tags: [patches, compatibility, maintainers]
+timestamp: 2026-10-17T21:10:00Z
 generated:
   by: process:codex
-  at: 2026-10-17T07:05:00Z
+  at: 2026-10-17T21:10:00Z
 ---
 
 [User guide](README.md)
@@ -61,8 +62,18 @@ waiver has a different ID from its GHC 9.14 metadata repair.
 a jailbreak. Legacy names have immutable modes and `construction: legacy-layer`: an absent legacy operation preserves inherited settings. Their mode labels cannot prove the final recipe has tests enabled or original bounds intact. `strict-v1` uses `construction: complete` and explicitly enables tests and disables the jailbreak flag. A stricter profile must be selected during
 recipe construction and verified separately; applying it afterward cannot undo previous
 metadata rewrites. New or widened waivers need an explicit scoped exception and native
-verification requirements. Selected-configuration CLI reports and removal receipts remain
-in development; catalog consistency alone is not their acceptance.
+verification requirements. Selected-configuration reports and explicit removal receipts
+are available; catalog consistency alone is not native acceptance.
+
+The current `verified-bytestring-lexing-ghc9124-v1` complete profile runs tests and
+explicitly enforces bounds. Its selection is owned by
+`config/cohort-build-policy-selections.json`, scoped to the exact 0.5.0.16 archive,
+metadata, GHC 9.12.4 and the declared Darwin/Linux configurations. The cohort remains
+the source authority. A source/metadata change in that scope fails with a revalidation
+request; unsupported contexts keep their declared legacy policy. Evidence and reasons
+do not affect recipe policy identity. The new selected-policy flake checks cover both
+source channels; final Linux selection and retained-generation acceptance are tracked
+separately from the earlier native strict pilot.
 
 Run the focused declaration checks after editing either file:
 

@@ -117,8 +117,10 @@ else
       (builtins.filter (entry: !lib.any (name: relevant entry name packages.${name}) (builtins.attrNames packages)) policy.catalog.entries);
     inputIdentity = builtins.hashString "sha256" (builtins.unsafeDiscardStringContext (builtins.toJSON identity));
     # This identity describes semantic policy only, excluding prose and timestamps.
-    policyIdentity = builtins.hashString "sha256" (builtins.toJSON {
+    policyIdentity = builtins.hashString "sha256" (builtins.toJSON ({
       profiles = policy.policies;
       entries = map (entry: { inherit (entry) id effects applicability binding; }) policy.catalog.entries;
-    });
+    } // lib.optionalAttrs (policy ? cohortBuildPolicySelections) {
+      cohortBuildPolicySelections = policy.cohortBuildPolicySelections;
+    }));
   }))

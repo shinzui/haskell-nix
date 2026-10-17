@@ -4,10 +4,10 @@ title: Maintainer tools
 description: Find repository formatting, test, derivation-diff, and validation commands.
 docId: DOC-6
 tags: [maintainers, testing, nix]
-timestamp: 2026-10-17T18:24:36Z
+timestamp: 2026-10-17T21:10:00Z
 generated:
-  by: human:nadeem
-  at: 2026-09-21T14:33:46Z
+  by: process:codex
+  at: 2026-10-17T21:10:00Z
 ---
 
 # Maintainer tools
@@ -196,11 +196,13 @@ Select `fixture.contexts.service` to exercise the provided-service path. Both
 strict suites contact a bounded, one-request loopback service; no external service
 is contacted. `fixture.contexts.needed` produces a failed removal receipt with the
 actual `EP21_REPAIR_REQUIRED` test failure. Missing service declarations block
-construction. Production narrowing/retirement and full matrix acceptance remain
-pending. Ordinary builds and shell entry do not run these probes.
+construction. The complete constructible migration matrix and native report interchange pass on both
+systems. Real policy selection/retained-history acceptance remains separate. Ordinary
+builds and shell entry do not run these removal probes.
 
-The real `bytestring-lexing` prototype uses the exact current cohort source and
-metadata with `strict-v1` selected before construction. Run it explicitly:
+The real `bytestring-lexing` checks compare the current named run/enforce selection
+with the independently constructed `strict-v1` recipe at the exact cohort source and
+metadata. `pilot.legacy` retains the former waived recipe for comparison. Run them explicitly:
 
 ```bash
 nix build --impure --no-link --print-build-logs --timeout 900 --expr '
@@ -211,10 +213,19 @@ nix build --impure --no-link --print-build-logs --timeout 900 --expr '
   in [ pilot.strict pilot.manifest pilot.behavior ]'
 ```
 
-This separately builds the complete `test-all` suite, checked dependency graph and
-parser/serializer behavior. It does not change production policy or retire a
-repair. Apple Silicon and the user-selected x86 Linux Apple guest pass 58 tests; a reviewed
-new retained policy selection remains required before adoption.
+This builds the complete `test-all` suite, checked dependency graph and parser/serializer
+behavior. No standalone repair is retired. The earlier strict pilot passes 58 tests on
+Apple Silicon and the user-selected translated Linux guest. The new named current
+selection also passes the actual channel-overlay suites on Apple Silicon; final Linux
+selection checks and new retained-generation acceptance remain pending.
+
+Use `checks.aarch64-darwin.bytestring-lexing-policy-github` and
+`checks.aarch64-darwin.bytestring-lexing-policy-hackage` for the normal channel-overlay
+checks, with `x86_64-linux` on the Linux worker. Factory-scope and channel-overlay
+receipts can have different test dependency identities; validate each declared context
+instead of rebinding a successful receipt. Query `pilot.context` to inspect the selected
+profile, previous/current recipe facts and exact graph. Current reports keep all native
+source/repair-necessity labels unverified until their own receipt checks succeed.
 
 The existing Apple guest can run the same Linux behavior checks:
 

@@ -12,6 +12,7 @@ let
     legacy-skip-enforce-v1 = [ "skip" "enforce" ];
     legacy-run-relax-v1 = [ "run" "relax" ];
     strict-v1 = [ "run" "enforce" ];
+    verified-bytestring-lexing-ghc9124-v1 = [ "run" "enforce" ];
   };
   expected = legacy.${profileName} or [ profile.tests.mode profile.bounds.mode ];
   complete = profile.construction == "complete";
@@ -22,7 +23,8 @@ in
 assert builtins.elem profile.tests.mode [ "run" "skip" ];
 assert builtins.elem profile.bounds.mode [ "enforce" "relax" ];
 assert builtins.elem profile.construction [ "complete" "legacy-layer" ];
-assert complete == (profileName == "strict-v1" || !(builtins.hasAttr profileName legacy));
+assert complete == (builtins.elem profileName [ "strict-v1" "verified-bytestring-lexing-ghc9124-v1" ]
+  || !(builtins.hasAttr profileName legacy));
 assert expected == [ profile.tests.mode profile.bounds.mode ];
 # A migrated layer that historically did not alter tests/bounds preserves that
 # inherited setting. Its declared mode is not a claim about the final recipe.

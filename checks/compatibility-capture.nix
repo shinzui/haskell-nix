@@ -9,7 +9,7 @@ let
   };
   ordinary = construct false;
   captured = construct true;
-  names = [ "base64-bytestring" "cborg-json" "kioku-core" "unicode-data" ];
+  names = [ "base64-bytestring" "bytestring-lexing" "cborg-json" "kioku-core" "unicode-data" ];
   identities = lib.genAttrs names (name: {
     ordinary = ordinary.${name}.drvPath;
     captured = captured.${name}.drvPath;
@@ -23,6 +23,14 @@ let
   kioku = lib.findFirst (entry: entry.id == "legacy-kioku-core-v1") null report.entries;
   metadata = lib.findFirst (entry: entry.id == "legacy-cborg-json-v1") null report.entries;
   ghc914 = captured.ghc.version == "9.14.1";
+  lexicalProfile =
+    if captured.ghc.version == "9.12.4"
+      && builtins.elem pkgs.stdenv.hostPlatform.system [ "aarch64-darwin" "x86_64-linux" ]
+    then "verified-bytestring-lexing-ghc9124-v1" else "legacy-skip-enforce-v1";
+  lexicalSource = lib.findFirst
+    (entry: entry.id == "legacy-cohort-source-v1" && entry.package == "bytestring-lexing")
+    null
+    report.entries;
 in
 assert lib.assertMsg (builtins.all (pair: pair.ordinary == pair.captured) (builtins.attrValues identities))
   "compatibility capture changed production derivations";
@@ -48,6 +56,12 @@ assert lib.assertMsg
       && !metadata.retirementCandidate
   ))
   "compatibility report lost the actual flag/bounds repair or inferred unsafe metadata retirement";
+assert lib.assertMsg
+  (builtins.any (event: event.profile == lexicalProfile) captured.bytestring-lexing.compatibilityObservations
+    && lexicalSource.construction.after.effective.testsEnabled == (lexicalProfile != "legacy-skip-enforce-v1")
+    && (lexicalProfile == "legacy-skip-enforce-v1"
+    || !lexicalSource.construction.after.effective.boundsRelaxed))
+  "compatibility report lost the selected bytestring-lexing test/bounds policy";
 {
   inherit report identities;
 }

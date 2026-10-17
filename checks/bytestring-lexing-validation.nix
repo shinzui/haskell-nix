@@ -1,13 +1,16 @@
-# Explicit real-policy narrowing pilot. This is not a removal probe: the selected
-# package has no standalone repair row, and production keeps its legacy waiver.
-{ channel, system ? "aarch64-darwin", sourceChannel ? "github" }:
+# Explicit real-policy validation. Old receipts bind their original immutable
+# source/context; the current selected policy is checked against the strict recipe.
+{ channel ? null
+, system ? "aarch64-darwin"
+, sourceChannel ? "github"
+, pkgs ? import channel.inputs.nixpkgs { inherit system; }
+, scope ? pkgs.haskell.packages.${channel.lib.defaultGhc}.override {
+    overrides = channel.lib.haskellExtensions.${sourceChannel} pkgs.haskell.lib.compose pkgs;
+  }
+}:
 let
-  pkgs = import channel.inputs.nixpkgs { inherit system; };
   lib = pkgs.lib;
   hl = pkgs.haskell.lib.compose;
-  scope = pkgs.haskell.packages.${channel.lib.defaultGhc}.override {
-    overrides = channel.lib.haskellExtensions.${sourceChannel} hl pkgs;
-  };
   cohort = import ../generated/cohort-versions.nix;
   entry = cohort.packages.bytestring-lexing;
   raw = (import ../lib/callCohortHackage.nix { inherit lib; }) {
@@ -18,6 +21,7 @@ let
     arguments = { };
   };
   strict = (import ../lib/applyPackageBuildPolicy.nix) "strict-v1" hl raw;
+  legacy = (import ../lib/applyPackageBuildPolicy.nix) "legacy-skip-enforce-v1" hl raw;
   production = scope.bytestring-lexing;
   facts = package: (import ../lib/packageRecipeFacts.nix { inherit lib; }) {
     haskellLib = hl;
@@ -49,8 +53,19 @@ let
   };
 in
 assert entry.version == "0.5.0.16" && entry.revision == null;
+assert scope.ghc.version == "9.12.4";
+assert production.cohortBuildPolicySelection == {
+  profile = "verified-bytestring-lexing-ghc9124-v1";
+  selectionId = "bytestring-lexing-ghc9124-native-v1";
+};
+assert production.drvPath == strict.drvPath && production.drvPath != legacy.drvPath;
 {
-  inherit strict production manifest behavior;
+  inherit strict production legacy manifest behavior;
+  check = pkgs.linkFarm "bytestring-lexing-selected-policy-${sourceChannel}" [
+    { name = "selected-package"; path = production; }
+    { name = "complete-test-input-graph"; path = manifest; }
+    { name = "parser-serializer-behavior"; path = behavior; }
+  ];
   context = builtins.fromJSON (builtins.unsafeDiscardStringContext (builtins.toJSON {
     schemaVersion = 1;
     kind = "real-policy-narrowing-pilot";
@@ -58,6 +73,8 @@ assert entry.version == "0.5.0.16" && entry.revision == null;
     compiler = scope.ghc.drvPath;
     exceptionId = "legacy-skip-enforce-v1-test-suppression";
     production = facts production;
+    previousProduction = facts legacy;
+    selectedPolicy = production.cohortBuildPolicySelection;
     candidate = facts strict;
     requiredSuites = [ "test-all" ];
     graph = { derivation = manifest.drvPath; inherit (manifest) declaration; };

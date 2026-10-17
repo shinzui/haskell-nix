@@ -4,10 +4,10 @@ title: Package sets
 description: Understand first-party package-set selection, retention, and cache behavior.
 docId: DOC-7
 tags: [package-sets, snapshots, cache]
-timestamp: 2026-10-17T16:03:26Z
+timestamp: 2026-10-17T21:10:00Z
 generated:
-  by: human:nadeem
-  at: 2026-10-17T00:04:00Z
+  by: process:codex
+  at: 2026-10-17T21:10:00Z
 ---
 
 [User guide](README.md)
@@ -299,6 +299,15 @@ Haddock disabled. The exported `support.status` is `verified` only when a suppor
 immutable fingerprint; new records without acceptance evidence remain `unverified`. Generation numbers and documentation
 labels do not enter library derivation inputs.
 
+
+Current cohort policy can select a narrower complete profile through
+`config/cohort-build-policy-selections.json`. The named bytestring-lexing selection
+changes tests/bounds policy for its exact declared source and GHC/platform/channel scope;
+it does not change the source pin. Generations 1 and 2 retain their original construction
+code and legacy policies. Capture an accepted policy in a new generation with the existing
+`runtime snapshot` workflow, then verify its actual recipe, test logs and support context.
+The selected-policy implementation does not automatically upgrade retained applications
+or mark a new runtime fingerprint verified.
 
 ## Project shells from retained scopes
 

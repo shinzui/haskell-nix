@@ -22,6 +22,7 @@ let
     legacy-skip-enforce-v1 = [ "skip" "enforce" ];
     legacy-run-relax-v1 = [ "run" "relax" ];
     strict-v1 = [ "run" "enforce" ];
+    verified-bytestring-lexing-ghc9124-v1 = [ "run" "enforce" ];
   };
   knownEffects = [ "source-replacement" "cabal-metadata" "source-patch" "source-assertion" "compiler-flags" "bound-relaxation" "test-suppression" "unbreaking" "native-input" "platform-policy" ];
   validBinding = binding:
@@ -61,7 +62,7 @@ let
     && builtins.elem profile.tests.mode [ "run" "skip" ] && strings profile.tests.services
     && builtins.elem profile.bounds.mode [ "enforce" "relax" ]
     && builtins.elem profile.construction [ "complete" "legacy-layer" ]
-    && (if name == "strict-v1" then profile.construction == "complete"
+    && (if builtins.elem name [ "strict-v1" "verified-bytestring-lexing-ghc9124-v1" ] then profile.construction == "complete"
     else if builtins.hasAttr name immutableModes then profile.construction == "legacy-layer"
     else profile.construction == "complete")
     && (immutableModes.${name} or [ profile.tests.mode profile.bounds.mode ]) == [ profile.tests.mode profile.bounds.mode ]

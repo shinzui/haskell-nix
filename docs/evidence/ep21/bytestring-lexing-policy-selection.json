@@ -1,0 +1,4095 @@
+{
+  "schema_version": 1,
+  "project_uri": "mori://shinzui/haskell-nix",
+  "implementation_base": "ce9376a",
+  "implementation_code_sha256": {
+    "checks/bytestring-lexing-validation.nix": "e5a299c86b95d5dba473ccb26185a886c2ae7407a9b16a1b4b4ac57ce5c9551f",
+    "checks/cohort-build-policy.nix": "1cc1976e159f9fa03341395eb54294b8e36d75d1780279fa451e2ed465ab3686",
+    "checks/compatibility-capture.nix": "66c33fb4c96a433f14f1d5e77d60e1d1e3452d6b0135284e07ec539638aee6a2",
+    "checks/compatibility-policy.nix": "807920e23bae45119f6e2c67015373c93d5421ab02e7f2616f78da452fdae4c6",
+    "checks/default.nix": "2a202d2b7f8cae3b3ab2517e9908d730340ee301fa3ef17f79ed71ae5df1e2ca",
+    "checks/unit.nix": "d66f0b22f9034958e79db919beac51717f4aaa1fd5d2eb0762e6df2ff5fe9d0c",
+    "cli/haskell-nix-update/test/fixtures/valid/compatibility-report.json": "365a8259bcb6d4dcdbffaa1520cfca406b68d4352f9d2d249c2739d24935c978",
+    "config/cohort-build-policy-selections.json": "c9798060fac36de918a92bfa48e05843fe6eb2fc6899008effcaf6e15c0be854",
+    "config/package-build-policies.json": "fd2f4d7738a6b74ca0c6dc22c93c94e4e56038e5ee8651eb7fa26b4fe7c42d23",
+    "lib/applyPackageBuildPolicy.nix": "53a6bd1112048d4aba236183a804b865fd6d2058b802f2626d648e86e064d627",
+    "lib/capturedCompatibilityReport.nix": "c9dc949032d0d11dc4397dcea99ed869212547c6f4b34d16d9c8a4334a3ccfa0",
+    "lib/compatibilityReport.nix": "22626ea3446a8814b2c8b468865ebbb3c6a6f8b8fea489bc88f87ac316ff2ebb",
+    "lib/mkCohortVersionLayer.nix": "426ad143e704304af17362370d6fd473d99b3f004696d04189b3181fa709e080",
+    "lib/mkCompatibilityPolicy.nix": "6245c7a3b5b2f6fad4c6a8010906c79f14adfa52e0531d703abd3492a173f956",
+    "lib/mkFirstPartyPackageSet.nix": "ece440c5cdc5adf9abbf78e116465df49af7767be82621f3eab4c60260b63d40",
+    "lib/selectCohortBuildPolicy.nix": "6c6532d4c1d5f4f343e11679555f1424ff9f29b61e82775c7900e3d4d68b0ae2",
+    "lib/validateCompatibilityPolicy.nix": "2a935727969a8c2f9001f1074cde9984f0eb34f5e05a1421d613a61b620125aa"
+  },
+  "selection": {
+    "schemaVersion": 1,
+    "selections": [
+      {
+        "id": "bytestring-lexing-ghc9124-native-v1",
+        "package": "bytestring-lexing",
+        "profile": "verified-bytestring-lexing-ghc9124-v1",
+        "owner": "mori://shinzui/haskell-nix",
+        "reason": "Run the complete test-all suite and enforce bounds for the exact source tested on native Apple Silicon and the user-selected translated x86 Linux guest. Other compiler/platform selections retain their explicit legacy policy.",
+        "evidence": [
+          "docs/evidence/ep21/bytestring-lexing-native-policy-pilot.json"
+        ],
+        "eligibility": {
+          "compilers": [
+            "9.12.4"
+          ],
+          "systems": [
+            "aarch64-darwin",
+            "x86_64-linux"
+          ],
+          "channels": [
+            "github",
+            "hackage"
+          ],
+          "version": "0.5.0.16",
+          "sha256": "sha256-Fi3+KzDIHA6y/WZ8SVdBQhi9tHhHfw8qEcT6nvW4YXs=",
+          "revision": null
+        }
+      }
+    ]
+  },
+  "status": "implementation and native Darwin accepted; final Linux/retained/retirement integration pending",
+  "public_channel_contexts": {
+    "github": {
+      "behavior": "/nix/store/zczyy8hya66vlmyi3rhl408pydvc82lq-bytestring-lexing-strict-behavior.drv",
+      "candidate": {
+        "derivation": "/nix/store/5fj441xg9m96xnd42c54ff2ascc27v2x-bytestring-lexing-0.5.0.16.drv",
+        "effective": {
+          "boundsRelaxed": false,
+          "buildFlags": [],
+          "configureFlags": [],
+          "dependencies": {
+            "buildDepends": [],
+            "buildTools": [],
+            "executableFrameworkDepends": [],
+            "executableHaskellDepends": [],
+            "executablePkgconfigDepends": [],
+            "executableSystemDepends": [],
+            "executableToolDepends": [],
+            "extraLibraries": [],
+            "libraryFrameworkDepends": [],
+            "libraryHaskellDepends": [
+              {
+                "kind": "null",
+                "resolution": "not-inferred"
+              },
+              {
+                "kind": "null",
+                "resolution": "not-inferred"
+              }
+            ],
+            "libraryPkgconfigDepends": [],
+            "librarySystemDepends": [],
+            "libraryToolDepends": [],
+            "pkg-configDepends": [],
+            "setupHaskellDepends": [],
+            "testDepends": [],
+            "testFrameworkDepends": [],
+            "testHaskellDepends": [
+              {
+                "kind": "null",
+                "resolution": "not-inferred"
+              },
+              {
+                "kind": "null",
+                "resolution": "not-inferred"
+              },
+              {
+                "derivation": "/nix/store/yz6brmq43xm1nnn9rs8cv05a0yq00sy8-tasty-1.5.4.drv",
+                "output": "out"
+              },
+              {
+                "derivation": "/nix/store/219jpcjvb4325dmmmzv6hrpj84hzi203-tasty-quickcheck-0.11.1.drv",
+                "output": "out"
+              },
+              {
+                "derivation": "/nix/store/hkbfk04qsfa7wmxciazc59ph1d18iiiz-tasty-smallcheck-0.8.2.drv",
+                "output": "out"
+              }
+            ],
+            "testPkgconfigDepends": [],
+            "testSystemDepends": [],
+            "testToolDepends": []
+          },
+          "editedCabalFile": null,
+          "hooks": {
+            "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "patches": [],
+          "revision": null,
+          "testDependencyInventory": "declared",
+          "testExecution": {
+            "customCheckPhase": false,
+            "flags": [],
+            "targets": [
+              ""
+            ]
+          },
+          "testsEnabled": true
+        },
+        "metadataIdentity": "149e5195836a05c699b2487dc4f672e87149cae2d3f3b8a3ff4a71edd434e8e7",
+        "sourceIdentity": "nix-source:/nix/store/2dzc86g6xsxvp0djrrkrv8zwl3mbz0q0-compatibility-source-identity.drv",
+        "version": "0.5.0.16"
+      },
+      "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+      "entry": {
+        "revision": null,
+        "sha256": "sha256-Fi3+KzDIHA6y/WZ8SVdBQhi9tHhHfw8qEcT6nvW4YXs=",
+        "version": "0.5.0.16"
+      },
+      "exceptionId": "legacy-skip-enforce-v1-test-suppression",
+      "graph": {
+        "declaration": {
+          "compiler": {
+            "drvPath": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+            "name": "ghc",
+            "outputPath": "/nix/store/g1qpr9sf56sr9znrqk05wxqrbgnnyanj-ghc-9.12.4",
+            "version": "9.12.4"
+          },
+          "context": {
+            "purpose": "bytestring-lexing test-policy narrowing",
+            "sourceChannel": "github"
+          },
+          "nativePackages": [],
+          "packages": [
+            {
+              "componentRoles": [
+                "root"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": true,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/84xra0hw2vvxz8xd6jmg7mmhh6753jrh-bytestring-lexing-0.5.0.16-cohort-configure",
+              "dependencies": [
+                "/nix/store/yz6brmq43xm1nnn9rs8cv05a0yq00sy8-tasty-1.5.4.drv",
+                "/nix/store/219jpcjvb4325dmmmzv6hrpj84hzi203-tasty-quickcheck-0.11.1.drv",
+                "/nix/store/hkbfk04qsfa7wmxciazc59ph1d18iiiz-tasty-smallcheck-0.8.2.drv"
+              ],
+              "drvPath": "/nix/store/5fj441xg9m96xnd42c54ff2ascc27v2x-bytestring-lexing-0.5.0.16.drv",
+              "metadata": {
+                "hash": null,
+                "revision": null
+              },
+              "name": "bytestring-lexing",
+              "outputPath": "/nix/store/gx2gds8zyjmii9y10kgbwdw1g2mhk3jz-bytestring-lexing-0.5.0.16",
+              "role": "local",
+              "source": {
+                "hash": "sha256-Fi3+KzDIHA6y/WZ8SVdBQhi9tHhHfw8qEcT6nvW4YXs=",
+                "hashMode": "recursive",
+                "path": "/nix/store/pr09l4w4qn7fikp2pk8izafr2jhq4hnp-source",
+                "revision": null,
+                "urls": [
+                  "mirror://hackage/bytestring-lexing-0.5.0.16/bytestring-lexing-0.5.0.16.tar.gz"
+                ]
+              },
+              "version": "0.5.0.16"
+            },
+            {
+              "componentRoles": [
+                "testHaskellDepends",
+                "libraryHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": false,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/yirhphw2y5j5ap7a4l7k29m3mpfgizl5-tasty-1.5.4-cohort-configure",
+              "dependencies": [
+                "/nix/store/76v29rdhzq0s2z3jakdk86763mrc1x4c-ansi-terminal-1.1.5.drv",
+                "/nix/store/bqs0vxw43yknfzr03cpyraqhx1r9slbx-optparse-applicative-0.19.0.0.drv",
+                "/nix/store/w9qsw3a0h7mhfbpfwa96zjsg3pvmqpr7-tagged-0.8.11.drv"
+              ],
+              "drvPath": "/nix/store/yz6brmq43xm1nnn9rs8cv05a0yq00sy8-tasty-1.5.4.drv",
+              "metadata": {
+                "hash": "2065ef38e061551c7e3a997c4a4eac1b68dbf0553cc6177f01c8f7982f4cd375",
+                "revision": "1"
+              },
+              "name": "tasty",
+              "outputPath": "/nix/store/fnaz5lyrqwkgzyxcsyfhcn290rpqkd8r-tasty-1.5.4",
+              "role": "haskell",
+              "source": {
+                "hash": "sha256-C6VyZuM+rcqllVlhk52snAKpw3sqrrzncz8Da1yE03Q=",
+                "hashMode": "recursive",
+                "path": "/nix/store/mk9c6p551r7vmw9l8cgqrc0k3phszvbi-source",
+                "revision": null,
+                "urls": [
+                  "mirror://hackage/tasty-1.5.4/tasty-1.5.4.tar.gz"
+                ]
+              },
+              "version": "1.5.4"
+            },
+            {
+              "componentRoles": [
+                "testHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": false,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/wlyyxlfi4pa1mb6lk7hcp4l2fxa5g6mi-tasty-quickcheck-0.11.1-cohort-configure",
+              "dependencies": [
+                "/nix/store/bqs0vxw43yknfzr03cpyraqhx1r9slbx-optparse-applicative-0.19.0.0.drv",
+                "/nix/store/wsij606m4xbw0zr5csvjyy7qk6m4vgm4-QuickCheck-2.18.0.0.drv",
+                "/nix/store/ly4zd71h5y4clfiyawqwfspm459fqp95-random-1.3.1.drv",
+                "/nix/store/w9qsw3a0h7mhfbpfwa96zjsg3pvmqpr7-tagged-0.8.11.drv",
+                "/nix/store/yz6brmq43xm1nnn9rs8cv05a0yq00sy8-tasty-1.5.4.drv"
+              ],
+              "drvPath": "/nix/store/219jpcjvb4325dmmmzv6hrpj84hzi203-tasty-quickcheck-0.11.1.drv",
+              "metadata": {
+                "hash": "1205icd0f94vvw40g72y4ij5a4sxzl84hg5ckav4dhfcxipnpshj",
+                "revision": "5"
+              },
+              "name": "tasty-quickcheck",
+              "outputPath": "/nix/store/ih2kmjmvh63680ygp4vmf2isa5078hqk-tasty-quickcheck-0.11.1",
+              "role": "haskell",
+              "source": null,
+              "version": "0.11.1"
+            },
+            {
+              "componentRoles": [
+                "testHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": true,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/li80ihl3q4h9bmczafkhksxjyp3f24lk-tasty-smallcheck-0.8.2-cohort-configure",
+              "dependencies": [
+                "/nix/store/bqs0vxw43yknfzr03cpyraqhx1r9slbx-optparse-applicative-0.19.0.0.drv",
+                "/nix/store/lw9qf0d23b487kbn3vnh3jak41k86pkr-smallcheck-1.2.1.1.drv",
+                "/nix/store/w9qsw3a0h7mhfbpfwa96zjsg3pvmqpr7-tagged-0.8.11.drv",
+                "/nix/store/yz6brmq43xm1nnn9rs8cv05a0yq00sy8-tasty-1.5.4.drv"
+              ],
+              "drvPath": "/nix/store/hkbfk04qsfa7wmxciazc59ph1d18iiiz-tasty-smallcheck-0.8.2.drv",
+              "metadata": {
+                "hash": "0033ha2w9rzc1rxpzh1dkfdrn256i5lvb41pqbdh2i6kli0v5vmh",
+                "revision": "1"
+              },
+              "name": "tasty-smallcheck",
+              "outputPath": "/nix/store/g0ibij4rz4z1jy1520m17wrcvcycyl96-tasty-smallcheck-0.8.2",
+              "role": "haskell",
+              "source": null,
+              "version": "0.8.2"
+            },
+            {
+              "componentRoles": [
+                "libraryHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": false,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/54iz8g3dv352sdjaqqc8djx9qq547jbg-ansi-terminal-1.1.5-cohort-configure",
+              "dependencies": [
+                "/nix/store/cbcxis3p736a8mwrmrwaa2rj1gi4cz3k-ansi-terminal-types-1.1.3.drv",
+                "/nix/store/2ifrch3x4wah7wp2axid8wlc92as8n25-colour-2.3.7.drv"
+              ],
+              "drvPath": "/nix/store/76v29rdhzq0s2z3jakdk86763mrc1x4c-ansi-terminal-1.1.5.drv",
+              "metadata": {
+                "hash": null,
+                "revision": null
+              },
+              "name": "ansi-terminal",
+              "outputPath": "/nix/store/l9r006s809xj2pyxylcbg45wwyw2hrg1-ansi-terminal-1.1.5",
+              "role": "haskell",
+              "source": {
+                "hash": "sha256-qPhK+JhT501NtbcUQGjgDlM//iUuJoVKIszNCUZKok4=",
+                "hashMode": "recursive",
+                "path": "/nix/store/llp43fhsfv6ncglpwl10rnp7h8dxc2dw-source",
+                "revision": null,
+                "urls": [
+                  "mirror://hackage/ansi-terminal-1.1.5/ansi-terminal-1.1.5.tar.gz"
+                ]
+              },
+              "version": "1.1.5"
+            },
+            {
+              "componentRoles": [
+                "libraryHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": false,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": true,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/na0blwbh9b4zy8kqn2imgp82bbn8j8q9-optparse-applicative-0.19.0.0-cohort-configure",
+              "dependencies": [
+                "/nix/store/5il9pl7zzkc77h8pk43cvzpc0my4cgra-prettyprinter-1.7.2.drv",
+                "/nix/store/95xa8wybv3hv9hhsn9mhjv7ca0m6ic55-prettyprinter-ansi-terminal-1.1.4.drv"
+              ],
+              "drvPath": "/nix/store/bqs0vxw43yknfzr03cpyraqhx1r9slbx-optparse-applicative-0.19.0.0.drv",
+              "metadata": {
+                "hash": "4c1dcbdbf2498f7cdd88826e876403db7f8d81931962060ec4c3a57a186c6cc3",
+                "revision": "1"
+              },
+              "name": "optparse-applicative",
+              "outputPath": "/nix/store/q3saqkw3zqswyiyzwssnwjn1x7dd18hn-optparse-applicative-0.19.0.0",
+              "role": "haskell",
+              "source": {
+                "hash": "sha256-dhqvRILfdbpYPMxC+WpAyO0KUfq2nLopGk1NdSN2SDM=",
+                "hashMode": "recursive",
+                "path": "/nix/store/l5z3gyf61qdyda9hmv5fqdq6svb2g7wh-source",
+                "revision": null,
+                "urls": [
+                  "mirror://hackage/optparse-applicative-0.19.0.0/optparse-applicative-0.19.0.0.tar.gz"
+                ]
+              },
+              "version": "0.19.0.0"
+            },
+            {
+              "componentRoles": [
+                "libraryHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": false,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/7rk0f6d3irkv59a5i8sy37sz6fy6i1pq-tagged-0.8.11-cohort-configure",
+              "dependencies": [],
+              "drvPath": "/nix/store/w9qsw3a0h7mhfbpfwa96zjsg3pvmqpr7-tagged-0.8.11.drv",
+              "metadata": {
+                "hash": null,
+                "revision": null
+              },
+              "name": "tagged",
+              "outputPath": "/nix/store/hp800cjpfs1rfm4nyvmzprbr45xrgh5n-tagged-0.8.11",
+              "role": "haskell",
+              "source": {
+                "hash": "sha256-WDAzwIhgMIOdcPWaZuvEMTMTrrPOt1jXUGxkkGYOvEg=",
+                "hashMode": "recursive",
+                "path": "/nix/store/ckyn72jqv09sf6s4dr9ivkfppi7rih11-source",
+                "revision": null,
+                "urls": [
+                  "mirror://hackage/tagged-0.8.11/tagged-0.8.11.tar.gz"
+                ]
+              },
+              "version": "0.8.11"
+            },
+            {
+              "componentRoles": [
+                "libraryHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": false,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/vj701l9469m138q8r6670jg82gxr945z-QuickCheck-2.18.0.0-cohort-configure",
+              "dependencies": [
+                "/nix/store/ly4zd71h5y4clfiyawqwfspm459fqp95-random-1.3.1.drv",
+                "/nix/store/w43x2qp4k8gqf17yjywddjlybrsb153l-splitmix-0.1.3.2.drv"
+              ],
+              "drvPath": "/nix/store/wsij606m4xbw0zr5csvjyy7qk6m4vgm4-QuickCheck-2.18.0.0.drv",
+              "metadata": {
+                "hash": null,
+                "revision": null
+              },
+              "name": "QuickCheck",
+              "outputPath": "/nix/store/3ffrxk86m2y44rmqd67akh1mn8bbw6kl-QuickCheck-2.18.0.0",
+              "role": "haskell",
+              "source": {
+                "hash": "sha256-mXsMx6gc7vhoT0b39roVNzj94H2gIti+zFy7pNT56jg=",
+                "hashMode": "recursive",
+                "path": "/nix/store/zd1pwqbwlhf92l368qdlm0ykx6409w9c-source",
+                "revision": null,
+                "urls": [
+                  "mirror://hackage/QuickCheck-2.18.0.0/QuickCheck-2.18.0.0.tar.gz"
+                ]
+              },
+              "version": "2.18.0.0"
+            },
+            {
+              "componentRoles": [
+                "libraryHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": false,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/f15r1iiic8ih0268xwinbidyj6q4k51j-random-1.3.1-cohort-configure",
+              "dependencies": [
+                "/nix/store/w43x2qp4k8gqf17yjywddjlybrsb153l-splitmix-0.1.3.2.drv"
+              ],
+              "drvPath": "/nix/store/ly4zd71h5y4clfiyawqwfspm459fqp95-random-1.3.1.drv",
+              "metadata": {
+                "hash": null,
+                "revision": null
+              },
+              "name": "random",
+              "outputPath": "/nix/store/g2sny0zrcml5ffbfi8ib9rnjzaypzqdh-random-1.3.1",
+              "role": "haskell",
+              "source": {
+                "hash": "sha256-M2xVhHMZ7Lqvx/F832mGirHULgzv7TjP/oNkQ4V6YLM=",
+                "hashMode": "recursive",
+                "path": "/nix/store/9a67b4nzz29zcxa6vvpaajq10q18fbr8-source",
+                "revision": null,
+                "urls": [
+                  "mirror://hackage/random-1.3.1/random-1.3.1.tar.gz"
+                ]
+              },
+              "version": "1.3.1"
+            },
+            {
+              "componentRoles": [
+                "libraryHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": true,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/00g7qm40cvxw6kynjswbrp1njw2ijnxn-smallcheck-1.2.1.1-cohort-configure",
+              "dependencies": [
+                "/nix/store/06v86f1wbwdhnbza5gyid7h6aljxp8lp-logict-0.8.2.0.drv"
+              ],
+              "drvPath": "/nix/store/lw9qf0d23b487kbn3vnh3jak41k86pkr-smallcheck-1.2.1.1.drv",
+              "metadata": {
+                "hash": null,
+                "revision": null
+              },
+              "name": "smallcheck",
+              "outputPath": "/nix/store/lrc775162hgl3gkqjbj0gm8cbaj7xify-smallcheck-1.2.1.1",
+              "role": "haskell",
+              "source": null,
+              "version": "1.2.1.1"
+            },
+            {
+              "componentRoles": [
+                "libraryHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": false,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/k8jv1jady4pdfyq8vybpy4rcyxnzg2k8-ansi-terminal-types-1.1.3-cohort-configure",
+              "dependencies": [
+                "/nix/store/2ifrch3x4wah7wp2axid8wlc92as8n25-colour-2.3.7.drv"
+              ],
+              "drvPath": "/nix/store/cbcxis3p736a8mwrmrwaa2rj1gi4cz3k-ansi-terminal-types-1.1.3.drv",
+              "metadata": {
+                "hash": null,
+                "revision": null
+              },
+              "name": "ansi-terminal-types",
+              "outputPath": "/nix/store/zi3n15qzxy62akq309djjymi97qqr0bf-ansi-terminal-types-1.1.3",
+              "role": "haskell",
+              "source": {
+                "hash": "sha256-4Vt0/uJgFpFUuZFy/7RWUmEUfXCR8lKIlJYjx2/XYrw=",
+                "hashMode": "recursive",
+                "path": "/nix/store/fkqcp9681b0mx9i93ijdg2xk0aqf6zfd-source",
+                "revision": null,
+                "urls": [
+                  "mirror://hackage/ansi-terminal-types-1.1.3/ansi-terminal-types-1.1.3.tar.gz"
+                ]
+              },
+              "version": "1.1.3"
+            },
+            {
+              "componentRoles": [
+                "libraryHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": false,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/xn5vh6q5vamcnvz7lvfj7gsjs3rnd24q-colour-2.3.7-cohort-configure",
+              "dependencies": [],
+              "drvPath": "/nix/store/2ifrch3x4wah7wp2axid8wlc92as8n25-colour-2.3.7.drv",
+              "metadata": {
+                "hash": null,
+                "revision": null
+              },
+              "name": "colour",
+              "outputPath": "/nix/store/bykwhf3aprcx87jhag0526frk26s1rkn-colour-2.3.7",
+              "role": "haskell",
+              "source": {
+                "hash": "sha256-NvAF43qCGqg+rmrmb39sStmvdvvjSYBz6U9rzdqdMVM=",
+                "hashMode": "recursive",
+                "path": "/nix/store/pp8xrdi45ihyyjvbkgk7h15lgb0h960q-source",
+                "revision": null,
+                "urls": [
+                  "mirror://hackage/colour-2.3.7/colour-2.3.7.tar.gz"
+                ]
+              },
+              "version": "2.3.7"
+            },
+            {
+              "componentRoles": [
+                "libraryHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": false,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/y57q1hqg6pi7q0lrzf1qsi3mlgp34z2l-prettyprinter-1.7.2-cohort-configure",
+              "dependencies": [],
+              "drvPath": "/nix/store/5il9pl7zzkc77h8pk43cvzpc0my4cgra-prettyprinter-1.7.2.drv",
+              "metadata": {
+                "hash": null,
+                "revision": null
+              },
+              "name": "prettyprinter",
+              "outputPath": "/nix/store/9nz1l6nzs4flrzvzb5zxndx7jc9a1hs3-prettyprinter-1.7.2",
+              "role": "haskell",
+              "source": {
+                "hash": "sha256-7xdzMCCP4nFnKbttfoNBMd4FhMMYrLTiO9LE7PAm56w=",
+                "hashMode": "recursive",
+                "path": "/nix/store/4yvy9gmshc9pfzkfhd83bbfz4ydb4pb8-source",
+                "revision": null,
+                "urls": [
+                  "mirror://hackage/prettyprinter-1.7.2/prettyprinter-1.7.2.tar.gz"
+                ]
+              },
+              "version": "1.7.2"
+            },
+            {
+              "componentRoles": [
+                "libraryHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": false,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/06dx86sak5v4l763wh153d6sfzxw2kr9-prettyprinter-ansi-terminal-1.1.4-cohort-configure",
+              "dependencies": [
+                "/nix/store/76v29rdhzq0s2z3jakdk86763mrc1x4c-ansi-terminal-1.1.5.drv",
+                "/nix/store/5il9pl7zzkc77h8pk43cvzpc0my4cgra-prettyprinter-1.7.2.drv"
+              ],
+              "drvPath": "/nix/store/95xa8wybv3hv9hhsn9mhjv7ca0m6ic55-prettyprinter-ansi-terminal-1.1.4.drv",
+              "metadata": {
+                "hash": null,
+                "revision": null
+              },
+              "name": "prettyprinter-ansi-terminal",
+              "outputPath": "/nix/store/w52ayi8nvd76v9wbm0ldccc4lqlclavs-prettyprinter-ansi-terminal-1.1.4",
+              "role": "haskell",
+              "source": {
+                "hash": "sha256-qPzcXwEZUo4LrtN+7iYG6P+wcY1cVOXimkLngdYh1E8=",
+                "hashMode": "recursive",
+                "path": "/nix/store/0yxfqp9l0mm8ir22b3qpzph66r3hwqa6-source",
+                "revision": null,
+                "urls": [
+                  "mirror://hackage/prettyprinter-ansi-terminal-1.1.4/prettyprinter-ansi-terminal-1.1.4.tar.gz"
+                ]
+              },
+              "version": "1.1.4"
+            },
+            {
+              "componentRoles": [
+                "libraryHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": false,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/k44qznfd42fzbnf7yay9i1vsa9fri172-splitmix-0.1.3.2-cohort-configure",
+              "dependencies": [],
+              "drvPath": "/nix/store/w43x2qp4k8gqf17yjywddjlybrsb153l-splitmix-0.1.3.2.drv",
+              "metadata": {
+                "hash": null,
+                "revision": null
+              },
+              "name": "splitmix",
+              "outputPath": "/nix/store/h9slg67fpk98nhx974fv3gj363k3xndg-splitmix-0.1.3.2",
+              "role": "haskell",
+              "source": {
+                "hash": "sha256-6Xh+O3NziT9qWucG1QhLscWgw9Gyzpgm4DOOdOyxrQw=",
+                "hashMode": "recursive",
+                "path": "/nix/store/kksdhjj5ydxxwniw6pk1adia2w6dj2ax-source",
+                "revision": null,
+                "urls": [
+                  "mirror://hackage/splitmix-0.1.3.2/splitmix-0.1.3.2.tar.gz"
+                ]
+              },
+              "version": "0.1.3.2"
+            },
+            {
+              "componentRoles": [
+                "libraryHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": true,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/bq5g2sx25zyz8qm8ndg2jrpnng108brq-logict-0.8.2.0-cohort-configure",
+              "dependencies": [
+                "/nix/store/yar57rpz5m4b39f0ahy6wnakxznljdrf-async-2.2.6.drv",
+                "/nix/store/yz6brmq43xm1nnn9rs8cv05a0yq00sy8-tasty-1.5.4.drv",
+                "/nix/store/kgpbzfrqyns96g8is2j90rndws9pm2jl-tasty-hunit-0.10.2.drv"
+              ],
+              "drvPath": "/nix/store/06v86f1wbwdhnbza5gyid7h6aljxp8lp-logict-0.8.2.0.drv",
+              "metadata": {
+                "hash": null,
+                "revision": null
+              },
+              "name": "logict",
+              "outputPath": "/nix/store/9c9b8awsjr429n83x0kwb343g5c2nd5a-logict-0.8.2.0",
+              "role": "haskell",
+              "source": null,
+              "version": "0.8.2.0"
+            },
+            {
+              "componentRoles": [
+                "testHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": false,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/lcip2l7szng4a75ff191jgflqxbs9zll-async-2.2.6-cohort-configure",
+              "dependencies": [
+                "/nix/store/24wa767qn5nvxfv7sjfh7mmdxx96k8ba-hashable-1.5.1.0.drv",
+                "/nix/store/nwf7lc3binwnpis5q011wp0j6b2nzwwd-unordered-containers-0.2.21.drv"
+              ],
+              "drvPath": "/nix/store/yar57rpz5m4b39f0ahy6wnakxznljdrf-async-2.2.6.drv",
+              "metadata": {
+                "hash": null,
+                "revision": null
+              },
+              "name": "async",
+              "outputPath": "/nix/store/zn416an1sf7gab40aw46gsa5y928z7j2-async-2.2.6",
+              "role": "haskell",
+              "source": {
+                "hash": "sha256-1jcK5ud/LBBGCFyueroqhhbU4SXjirPCM3jq6CK7YZw=",
+                "hashMode": "recursive",
+                "path": "/nix/store/gqjb7z6xhgknsx70z3vqfndrrb5s0igk-source",
+                "revision": null,
+                "urls": [
+                  "mirror://hackage/async-2.2.6/async-2.2.6.tar.gz"
+                ]
+              },
+              "version": "2.2.6"
+            },
+            {
+              "componentRoles": [
+                "testHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": false,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/2qyq5p6imzzywzncphglz2cfygnrlmjh-tasty-hunit-0.10.2-cohort-configure",
+              "dependencies": [
+                "/nix/store/hf9n3hqlis93ia9pbwvhwkd17x3r0yi5-call-stack-0.4.0.drv",
+                "/nix/store/yz6brmq43xm1nnn9rs8cv05a0yq00sy8-tasty-1.5.4.drv"
+              ],
+              "drvPath": "/nix/store/kgpbzfrqyns96g8is2j90rndws9pm2jl-tasty-hunit-0.10.2.drv",
+              "metadata": {
+                "hash": null,
+                "revision": null
+              },
+              "name": "tasty-hunit",
+              "outputPath": "/nix/store/wkr4w38xwv9bq7q80bnclhwm4l69jgkm-tasty-hunit-0.10.2",
+              "role": "haskell",
+              "source": {
+                "hash": "sha256-jMpvsbL6zKNjREfGVCyxOirqy2tM0LEOSaXI+XX5G6o=",
+                "hashMode": "recursive",
+                "path": "/nix/store/kcxnfski7vdyj1njihh070c7iv588adb-source",
+                "revision": null,
+                "urls": [
+                  "mirror://hackage/tasty-hunit-0.10.2/tasty-hunit-0.10.2.tar.gz"
+                ]
+              },
+              "version": "0.10.2"
+            },
+            {
+              "componentRoles": [
+                "libraryHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": false,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/sxmzildha7ny5pddjvx7p3jy9gdx5qz4-hashable-1.5.1.0-cohort-configure",
+              "dependencies": [],
+              "drvPath": "/nix/store/24wa767qn5nvxfv7sjfh7mmdxx96k8ba-hashable-1.5.1.0.drv",
+              "metadata": {
+                "hash": null,
+                "revision": null
+              },
+              "name": "hashable",
+              "outputPath": "/nix/store/nxpa6a8dv1bamzm0zdwq9arh78qgrdkh-hashable-1.5.1.0",
+              "role": "haskell",
+              "source": {
+                "hash": "sha256-q5lVm/VeHY8s7kWX7jcInzq3whBUHu0cDqFnPLsDswo=",
+                "hashMode": "recursive",
+                "path": "/nix/store/ivmf5qdhfzpzl7axrwlfi6if2mwf80dv-source",
+                "revision": null,
+                "urls": [
+                  "mirror://hackage/hashable-1.5.1.0/hashable-1.5.1.0.tar.gz"
+                ]
+              },
+              "version": "1.5.1.0"
+            },
+            {
+              "componentRoles": [
+                "libraryHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": false,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/f1plc1zw7icysm2ghcjc63b924fih7nr-unordered-containers-0.2.21-cohort-configure",
+              "dependencies": [
+                "/nix/store/24wa767qn5nvxfv7sjfh7mmdxx96k8ba-hashable-1.5.1.0.drv"
+              ],
+              "drvPath": "/nix/store/nwf7lc3binwnpis5q011wp0j6b2nzwwd-unordered-containers-0.2.21.drv",
+              "metadata": {
+                "hash": "c5de1fb3377ed3c5f4cd851a771d1acc5c37d2f6bef0a499295c0e8857da5605",
+                "revision": "2"
+              },
+              "name": "unordered-containers",
+              "outputPath": "/nix/store/i8cnnll28s90khb2j7m4jca40k9rrq6k-unordered-containers-0.2.21",
+              "role": "haskell",
+              "source": {
+                "hash": "sha256-YGklj5D14AvkiaVkJH44E7YjSb8wivPrHZz3vgsmSFk=",
+                "hashMode": "recursive",
+                "path": "/nix/store/ld4hwdryaajryhzbsrflbpnqvd0pj634-source",
+                "revision": null,
+                "urls": [
+                  "mirror://hackage/unordered-containers-0.2.21/unordered-containers-0.2.21.tar.gz"
+                ]
+              },
+              "version": "0.2.21"
+            },
+            {
+              "componentRoles": [
+                "libraryHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": false,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/1g82mxdvydc5vipx6ss2zfjh48i8r9k4-call-stack-0.4.0-cohort-configure",
+              "dependencies": [],
+              "drvPath": "/nix/store/hf9n3hqlis93ia9pbwvhwkd17x3r0yi5-call-stack-0.4.0.drv",
+              "metadata": {
+                "hash": null,
+                "revision": null
+              },
+              "name": "call-stack",
+              "outputPath": "/nix/store/jahxda3zx4wrkkgpsa7bxyxrdfa3iawz-call-stack-0.4.0",
+              "role": "haskell",
+              "source": {
+                "hash": "sha256-H9xQPHooQ3WxJqwbiPQRZGhm/+4X6bj0ear816q2zrk=",
+                "hashMode": "recursive",
+                "path": "/nix/store/sbz7hsn22ilhvw2p3xggsnjji6jqdr4x-source",
+                "revision": null,
+                "urls": [
+                  "mirror://hackage/call-stack-0.4.0/call-stack-0.4.0.tar.gz"
+                ]
+              },
+              "version": "0.4.0"
+            }
+          ],
+          "root": {
+            "drvPath": "/nix/store/5fj441xg9m96xnd42c54ff2ascc27v2x-bytestring-lexing-0.5.0.16.drv",
+            "name": "bytestring-lexing",
+            "outputPath": "/nix/store/gx2gds8zyjmii9y10kgbwdw1g2mhk3jz-bytestring-lexing-0.5.0.16"
+          },
+          "schemaVersion": 1,
+          "system": "aarch64-darwin"
+        },
+        "derivation": "/nix/store/7w6gfdjddzx9378ch09aack06l536lvp-bytestring-lexing-cohort-manifest.drv"
+      },
+      "kind": "real-policy-narrowing-pilot",
+      "previousProduction": {
+        "derivation": "/nix/store/08lhmyvm2mhcfn1japwxiv22y7vp9paa-bytestring-lexing-0.5.0.16.drv",
+        "effective": {
+          "boundsRelaxed": null,
+          "buildFlags": [],
+          "configureFlags": [],
+          "dependencies": {
+            "buildDepends": [],
+            "buildTools": [],
+            "executableFrameworkDepends": [],
+            "executableHaskellDepends": [],
+            "executablePkgconfigDepends": [],
+            "executableSystemDepends": [],
+            "executableToolDepends": [],
+            "extraLibraries": [],
+            "libraryFrameworkDepends": [],
+            "libraryHaskellDepends": [
+              {
+                "kind": "null",
+                "resolution": "not-inferred"
+              },
+              {
+                "kind": "null",
+                "resolution": "not-inferred"
+              }
+            ],
+            "libraryPkgconfigDepends": [],
+            "librarySystemDepends": [],
+            "libraryToolDepends": [],
+            "pkg-configDepends": [],
+            "setupHaskellDepends": [],
+            "testDepends": [],
+            "testFrameworkDepends": [],
+            "testHaskellDepends": [
+              {
+                "kind": "null",
+                "resolution": "not-inferred"
+              },
+              {
+                "kind": "null",
+                "resolution": "not-inferred"
+              },
+              {
+                "derivation": "/nix/store/yz6brmq43xm1nnn9rs8cv05a0yq00sy8-tasty-1.5.4.drv",
+                "output": "out"
+              },
+              {
+                "derivation": "/nix/store/219jpcjvb4325dmmmzv6hrpj84hzi203-tasty-quickcheck-0.11.1.drv",
+                "output": "out"
+              },
+              {
+                "derivation": "/nix/store/hkbfk04qsfa7wmxciazc59ph1d18iiiz-tasty-smallcheck-0.8.2.drv",
+                "output": "out"
+              }
+            ],
+            "testPkgconfigDepends": [],
+            "testSystemDepends": [],
+            "testToolDepends": []
+          },
+          "editedCabalFile": null,
+          "hooks": {
+            "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "patches": [],
+          "revision": null,
+          "testDependencyInventory": "declared",
+          "testExecution": {
+            "customCheckPhase": false,
+            "flags": [],
+            "targets": [
+              ""
+            ]
+          },
+          "testsEnabled": false
+        },
+        "metadataIdentity": "149e5195836a05c699b2487dc4f672e87149cae2d3f3b8a3ff4a71edd434e8e7",
+        "sourceIdentity": "nix-source:/nix/store/2dzc86g6xsxvp0djrrkrv8zwl3mbz0q0-compatibility-source-identity.drv",
+        "version": "0.5.0.16"
+      },
+      "production": {
+        "derivation": "/nix/store/5fj441xg9m96xnd42c54ff2ascc27v2x-bytestring-lexing-0.5.0.16.drv",
+        "effective": {
+          "boundsRelaxed": false,
+          "buildFlags": [],
+          "configureFlags": [],
+          "dependencies": {
+            "buildDepends": [],
+            "buildTools": [],
+            "executableFrameworkDepends": [],
+            "executableHaskellDepends": [],
+            "executablePkgconfigDepends": [],
+            "executableSystemDepends": [],
+            "executableToolDepends": [],
+            "extraLibraries": [],
+            "libraryFrameworkDepends": [],
+            "libraryHaskellDepends": [
+              {
+                "kind": "null",
+                "resolution": "not-inferred"
+              },
+              {
+                "kind": "null",
+                "resolution": "not-inferred"
+              }
+            ],
+            "libraryPkgconfigDepends": [],
+            "librarySystemDepends": [],
+            "libraryToolDepends": [],
+            "pkg-configDepends": [],
+            "setupHaskellDepends": [],
+            "testDepends": [],
+            "testFrameworkDepends": [],
+            "testHaskellDepends": [
+              {
+                "kind": "null",
+                "resolution": "not-inferred"
+              },
+              {
+                "kind": "null",
+                "resolution": "not-inferred"
+              },
+              {
+                "derivation": "/nix/store/yz6brmq43xm1nnn9rs8cv05a0yq00sy8-tasty-1.5.4.drv",
+                "output": "out"
+              },
+              {
+                "derivation": "/nix/store/219jpcjvb4325dmmmzv6hrpj84hzi203-tasty-quickcheck-0.11.1.drv",
+                "output": "out"
+              },
+              {
+                "derivation": "/nix/store/hkbfk04qsfa7wmxciazc59ph1d18iiiz-tasty-smallcheck-0.8.2.drv",
+                "output": "out"
+              }
+            ],
+            "testPkgconfigDepends": [],
+            "testSystemDepends": [],
+            "testToolDepends": []
+          },
+          "editedCabalFile": null,
+          "hooks": {
+            "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "patches": [],
+          "revision": null,
+          "testDependencyInventory": "declared",
+          "testExecution": {
+            "customCheckPhase": false,
+            "flags": [],
+            "targets": [
+              ""
+            ]
+          },
+          "testsEnabled": true
+        },
+        "metadataIdentity": "149e5195836a05c699b2487dc4f672e87149cae2d3f3b8a3ff4a71edd434e8e7",
+        "sourceIdentity": "nix-source:/nix/store/2dzc86g6xsxvp0djrrkrv8zwl3mbz0q0-compatibility-source-identity.drv",
+        "version": "0.5.0.16"
+      },
+      "requiredSuites": [
+        "test-all"
+      ],
+      "schemaVersion": 1,
+      "selectedPolicy": {
+        "profile": "verified-bytestring-lexing-ghc9124-v1",
+        "selectionId": "bytestring-lexing-ghc9124-native-v1"
+      },
+      "sourceChannel": "github",
+      "status": "unverified",
+      "system": "aarch64-darwin"
+    },
+    "hackage": {
+      "behavior": "/nix/store/zczyy8hya66vlmyi3rhl408pydvc82lq-bytestring-lexing-strict-behavior.drv",
+      "candidate": {
+        "derivation": "/nix/store/5fj441xg9m96xnd42c54ff2ascc27v2x-bytestring-lexing-0.5.0.16.drv",
+        "effective": {
+          "boundsRelaxed": false,
+          "buildFlags": [],
+          "configureFlags": [],
+          "dependencies": {
+            "buildDepends": [],
+            "buildTools": [],
+            "executableFrameworkDepends": [],
+            "executableHaskellDepends": [],
+            "executablePkgconfigDepends": [],
+            "executableSystemDepends": [],
+            "executableToolDepends": [],
+            "extraLibraries": [],
+            "libraryFrameworkDepends": [],
+            "libraryHaskellDepends": [
+              {
+                "kind": "null",
+                "resolution": "not-inferred"
+              },
+              {
+                "kind": "null",
+                "resolution": "not-inferred"
+              }
+            ],
+            "libraryPkgconfigDepends": [],
+            "librarySystemDepends": [],
+            "libraryToolDepends": [],
+            "pkg-configDepends": [],
+            "setupHaskellDepends": [],
+            "testDepends": [],
+            "testFrameworkDepends": [],
+            "testHaskellDepends": [
+              {
+                "kind": "null",
+                "resolution": "not-inferred"
+              },
+              {
+                "kind": "null",
+                "resolution": "not-inferred"
+              },
+              {
+                "derivation": "/nix/store/yz6brmq43xm1nnn9rs8cv05a0yq00sy8-tasty-1.5.4.drv",
+                "output": "out"
+              },
+              {
+                "derivation": "/nix/store/219jpcjvb4325dmmmzv6hrpj84hzi203-tasty-quickcheck-0.11.1.drv",
+                "output": "out"
+              },
+              {
+                "derivation": "/nix/store/hkbfk04qsfa7wmxciazc59ph1d18iiiz-tasty-smallcheck-0.8.2.drv",
+                "output": "out"
+              }
+            ],
+            "testPkgconfigDepends": [],
+            "testSystemDepends": [],
+            "testToolDepends": []
+          },
+          "editedCabalFile": null,
+          "hooks": {
+            "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "patches": [],
+          "revision": null,
+          "testDependencyInventory": "declared",
+          "testExecution": {
+            "customCheckPhase": false,
+            "flags": [],
+            "targets": [
+              ""
+            ]
+          },
+          "testsEnabled": true
+        },
+        "metadataIdentity": "149e5195836a05c699b2487dc4f672e87149cae2d3f3b8a3ff4a71edd434e8e7",
+        "sourceIdentity": "nix-source:/nix/store/2dzc86g6xsxvp0djrrkrv8zwl3mbz0q0-compatibility-source-identity.drv",
+        "version": "0.5.0.16"
+      },
+      "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+      "entry": {
+        "revision": null,
+        "sha256": "sha256-Fi3+KzDIHA6y/WZ8SVdBQhi9tHhHfw8qEcT6nvW4YXs=",
+        "version": "0.5.0.16"
+      },
+      "exceptionId": "legacy-skip-enforce-v1-test-suppression",
+      "graph": {
+        "declaration": {
+          "compiler": {
+            "drvPath": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+            "name": "ghc",
+            "outputPath": "/nix/store/g1qpr9sf56sr9znrqk05wxqrbgnnyanj-ghc-9.12.4",
+            "version": "9.12.4"
+          },
+          "context": {
+            "purpose": "bytestring-lexing test-policy narrowing",
+            "sourceChannel": "hackage"
+          },
+          "nativePackages": [],
+          "packages": [
+            {
+              "componentRoles": [
+                "root"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": true,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/84xra0hw2vvxz8xd6jmg7mmhh6753jrh-bytestring-lexing-0.5.0.16-cohort-configure",
+              "dependencies": [
+                "/nix/store/yz6brmq43xm1nnn9rs8cv05a0yq00sy8-tasty-1.5.4.drv",
+                "/nix/store/219jpcjvb4325dmmmzv6hrpj84hzi203-tasty-quickcheck-0.11.1.drv",
+                "/nix/store/hkbfk04qsfa7wmxciazc59ph1d18iiiz-tasty-smallcheck-0.8.2.drv"
+              ],
+              "drvPath": "/nix/store/5fj441xg9m96xnd42c54ff2ascc27v2x-bytestring-lexing-0.5.0.16.drv",
+              "metadata": {
+                "hash": null,
+                "revision": null
+              },
+              "name": "bytestring-lexing",
+              "outputPath": "/nix/store/gx2gds8zyjmii9y10kgbwdw1g2mhk3jz-bytestring-lexing-0.5.0.16",
+              "role": "local",
+              "source": {
+                "hash": "sha256-Fi3+KzDIHA6y/WZ8SVdBQhi9tHhHfw8qEcT6nvW4YXs=",
+                "hashMode": "recursive",
+                "path": "/nix/store/pr09l4w4qn7fikp2pk8izafr2jhq4hnp-source",
+                "revision": null,
+                "urls": [
+                  "mirror://hackage/bytestring-lexing-0.5.0.16/bytestring-lexing-0.5.0.16.tar.gz"
+                ]
+              },
+              "version": "0.5.0.16"
+            },
+            {
+              "componentRoles": [
+                "testHaskellDepends",
+                "libraryHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": false,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/yirhphw2y5j5ap7a4l7k29m3mpfgizl5-tasty-1.5.4-cohort-configure",
+              "dependencies": [
+                "/nix/store/76v29rdhzq0s2z3jakdk86763mrc1x4c-ansi-terminal-1.1.5.drv",
+                "/nix/store/bqs0vxw43yknfzr03cpyraqhx1r9slbx-optparse-applicative-0.19.0.0.drv",
+                "/nix/store/w9qsw3a0h7mhfbpfwa96zjsg3pvmqpr7-tagged-0.8.11.drv"
+              ],
+              "drvPath": "/nix/store/yz6brmq43xm1nnn9rs8cv05a0yq00sy8-tasty-1.5.4.drv",
+              "metadata": {
+                "hash": "2065ef38e061551c7e3a997c4a4eac1b68dbf0553cc6177f01c8f7982f4cd375",
+                "revision": "1"
+              },
+              "name": "tasty",
+              "outputPath": "/nix/store/fnaz5lyrqwkgzyxcsyfhcn290rpqkd8r-tasty-1.5.4",
+              "role": "haskell",
+              "source": {
+                "hash": "sha256-C6VyZuM+rcqllVlhk52snAKpw3sqrrzncz8Da1yE03Q=",
+                "hashMode": "recursive",
+                "path": "/nix/store/mk9c6p551r7vmw9l8cgqrc0k3phszvbi-source",
+                "revision": null,
+                "urls": [
+                  "mirror://hackage/tasty-1.5.4/tasty-1.5.4.tar.gz"
+                ]
+              },
+              "version": "1.5.4"
+            },
+            {
+              "componentRoles": [
+                "testHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": false,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/wlyyxlfi4pa1mb6lk7hcp4l2fxa5g6mi-tasty-quickcheck-0.11.1-cohort-configure",
+              "dependencies": [
+                "/nix/store/bqs0vxw43yknfzr03cpyraqhx1r9slbx-optparse-applicative-0.19.0.0.drv",
+                "/nix/store/wsij606m4xbw0zr5csvjyy7qk6m4vgm4-QuickCheck-2.18.0.0.drv",
+                "/nix/store/ly4zd71h5y4clfiyawqwfspm459fqp95-random-1.3.1.drv",
+                "/nix/store/w9qsw3a0h7mhfbpfwa96zjsg3pvmqpr7-tagged-0.8.11.drv",
+                "/nix/store/yz6brmq43xm1nnn9rs8cv05a0yq00sy8-tasty-1.5.4.drv"
+              ],
+              "drvPath": "/nix/store/219jpcjvb4325dmmmzv6hrpj84hzi203-tasty-quickcheck-0.11.1.drv",
+              "metadata": {
+                "hash": "1205icd0f94vvw40g72y4ij5a4sxzl84hg5ckav4dhfcxipnpshj",
+                "revision": "5"
+              },
+              "name": "tasty-quickcheck",
+              "outputPath": "/nix/store/ih2kmjmvh63680ygp4vmf2isa5078hqk-tasty-quickcheck-0.11.1",
+              "role": "haskell",
+              "source": null,
+              "version": "0.11.1"
+            },
+            {
+              "componentRoles": [
+                "testHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": true,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/li80ihl3q4h9bmczafkhksxjyp3f24lk-tasty-smallcheck-0.8.2-cohort-configure",
+              "dependencies": [
+                "/nix/store/bqs0vxw43yknfzr03cpyraqhx1r9slbx-optparse-applicative-0.19.0.0.drv",
+                "/nix/store/lw9qf0d23b487kbn3vnh3jak41k86pkr-smallcheck-1.2.1.1.drv",
+                "/nix/store/w9qsw3a0h7mhfbpfwa96zjsg3pvmqpr7-tagged-0.8.11.drv",
+                "/nix/store/yz6brmq43xm1nnn9rs8cv05a0yq00sy8-tasty-1.5.4.drv"
+              ],
+              "drvPath": "/nix/store/hkbfk04qsfa7wmxciazc59ph1d18iiiz-tasty-smallcheck-0.8.2.drv",
+              "metadata": {
+                "hash": "0033ha2w9rzc1rxpzh1dkfdrn256i5lvb41pqbdh2i6kli0v5vmh",
+                "revision": "1"
+              },
+              "name": "tasty-smallcheck",
+              "outputPath": "/nix/store/g0ibij4rz4z1jy1520m17wrcvcycyl96-tasty-smallcheck-0.8.2",
+              "role": "haskell",
+              "source": null,
+              "version": "0.8.2"
+            },
+            {
+              "componentRoles": [
+                "libraryHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": false,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/54iz8g3dv352sdjaqqc8djx9qq547jbg-ansi-terminal-1.1.5-cohort-configure",
+              "dependencies": [
+                "/nix/store/cbcxis3p736a8mwrmrwaa2rj1gi4cz3k-ansi-terminal-types-1.1.3.drv",
+                "/nix/store/2ifrch3x4wah7wp2axid8wlc92as8n25-colour-2.3.7.drv"
+              ],
+              "drvPath": "/nix/store/76v29rdhzq0s2z3jakdk86763mrc1x4c-ansi-terminal-1.1.5.drv",
+              "metadata": {
+                "hash": null,
+                "revision": null
+              },
+              "name": "ansi-terminal",
+              "outputPath": "/nix/store/l9r006s809xj2pyxylcbg45wwyw2hrg1-ansi-terminal-1.1.5",
+              "role": "haskell",
+              "source": {
+                "hash": "sha256-qPhK+JhT501NtbcUQGjgDlM//iUuJoVKIszNCUZKok4=",
+                "hashMode": "recursive",
+                "path": "/nix/store/llp43fhsfv6ncglpwl10rnp7h8dxc2dw-source",
+                "revision": null,
+                "urls": [
+                  "mirror://hackage/ansi-terminal-1.1.5/ansi-terminal-1.1.5.tar.gz"
+                ]
+              },
+              "version": "1.1.5"
+            },
+            {
+              "componentRoles": [
+                "libraryHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": false,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": true,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/na0blwbh9b4zy8kqn2imgp82bbn8j8q9-optparse-applicative-0.19.0.0-cohort-configure",
+              "dependencies": [
+                "/nix/store/5il9pl7zzkc77h8pk43cvzpc0my4cgra-prettyprinter-1.7.2.drv",
+                "/nix/store/95xa8wybv3hv9hhsn9mhjv7ca0m6ic55-prettyprinter-ansi-terminal-1.1.4.drv"
+              ],
+              "drvPath": "/nix/store/bqs0vxw43yknfzr03cpyraqhx1r9slbx-optparse-applicative-0.19.0.0.drv",
+              "metadata": {
+                "hash": "4c1dcbdbf2498f7cdd88826e876403db7f8d81931962060ec4c3a57a186c6cc3",
+                "revision": "1"
+              },
+              "name": "optparse-applicative",
+              "outputPath": "/nix/store/q3saqkw3zqswyiyzwssnwjn1x7dd18hn-optparse-applicative-0.19.0.0",
+              "role": "haskell",
+              "source": {
+                "hash": "sha256-dhqvRILfdbpYPMxC+WpAyO0KUfq2nLopGk1NdSN2SDM=",
+                "hashMode": "recursive",
+                "path": "/nix/store/l5z3gyf61qdyda9hmv5fqdq6svb2g7wh-source",
+                "revision": null,
+                "urls": [
+                  "mirror://hackage/optparse-applicative-0.19.0.0/optparse-applicative-0.19.0.0.tar.gz"
+                ]
+              },
+              "version": "0.19.0.0"
+            },
+            {
+              "componentRoles": [
+                "libraryHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": false,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/7rk0f6d3irkv59a5i8sy37sz6fy6i1pq-tagged-0.8.11-cohort-configure",
+              "dependencies": [],
+              "drvPath": "/nix/store/w9qsw3a0h7mhfbpfwa96zjsg3pvmqpr7-tagged-0.8.11.drv",
+              "metadata": {
+                "hash": null,
+                "revision": null
+              },
+              "name": "tagged",
+              "outputPath": "/nix/store/hp800cjpfs1rfm4nyvmzprbr45xrgh5n-tagged-0.8.11",
+              "role": "haskell",
+              "source": {
+                "hash": "sha256-WDAzwIhgMIOdcPWaZuvEMTMTrrPOt1jXUGxkkGYOvEg=",
+                "hashMode": "recursive",
+                "path": "/nix/store/ckyn72jqv09sf6s4dr9ivkfppi7rih11-source",
+                "revision": null,
+                "urls": [
+                  "mirror://hackage/tagged-0.8.11/tagged-0.8.11.tar.gz"
+                ]
+              },
+              "version": "0.8.11"
+            },
+            {
+              "componentRoles": [
+                "libraryHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": false,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/vj701l9469m138q8r6670jg82gxr945z-QuickCheck-2.18.0.0-cohort-configure",
+              "dependencies": [
+                "/nix/store/ly4zd71h5y4clfiyawqwfspm459fqp95-random-1.3.1.drv",
+                "/nix/store/w43x2qp4k8gqf17yjywddjlybrsb153l-splitmix-0.1.3.2.drv"
+              ],
+              "drvPath": "/nix/store/wsij606m4xbw0zr5csvjyy7qk6m4vgm4-QuickCheck-2.18.0.0.drv",
+              "metadata": {
+                "hash": null,
+                "revision": null
+              },
+              "name": "QuickCheck",
+              "outputPath": "/nix/store/3ffrxk86m2y44rmqd67akh1mn8bbw6kl-QuickCheck-2.18.0.0",
+              "role": "haskell",
+              "source": {
+                "hash": "sha256-mXsMx6gc7vhoT0b39roVNzj94H2gIti+zFy7pNT56jg=",
+                "hashMode": "recursive",
+                "path": "/nix/store/zd1pwqbwlhf92l368qdlm0ykx6409w9c-source",
+                "revision": null,
+                "urls": [
+                  "mirror://hackage/QuickCheck-2.18.0.0/QuickCheck-2.18.0.0.tar.gz"
+                ]
+              },
+              "version": "2.18.0.0"
+            },
+            {
+              "componentRoles": [
+                "libraryHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": false,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/f15r1iiic8ih0268xwinbidyj6q4k51j-random-1.3.1-cohort-configure",
+              "dependencies": [
+                "/nix/store/w43x2qp4k8gqf17yjywddjlybrsb153l-splitmix-0.1.3.2.drv"
+              ],
+              "drvPath": "/nix/store/ly4zd71h5y4clfiyawqwfspm459fqp95-random-1.3.1.drv",
+              "metadata": {
+                "hash": null,
+                "revision": null
+              },
+              "name": "random",
+              "outputPath": "/nix/store/g2sny0zrcml5ffbfi8ib9rnjzaypzqdh-random-1.3.1",
+              "role": "haskell",
+              "source": {
+                "hash": "sha256-M2xVhHMZ7Lqvx/F832mGirHULgzv7TjP/oNkQ4V6YLM=",
+                "hashMode": "recursive",
+                "path": "/nix/store/9a67b4nzz29zcxa6vvpaajq10q18fbr8-source",
+                "revision": null,
+                "urls": [
+                  "mirror://hackage/random-1.3.1/random-1.3.1.tar.gz"
+                ]
+              },
+              "version": "1.3.1"
+            },
+            {
+              "componentRoles": [
+                "libraryHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": true,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/00g7qm40cvxw6kynjswbrp1njw2ijnxn-smallcheck-1.2.1.1-cohort-configure",
+              "dependencies": [
+                "/nix/store/06v86f1wbwdhnbza5gyid7h6aljxp8lp-logict-0.8.2.0.drv"
+              ],
+              "drvPath": "/nix/store/lw9qf0d23b487kbn3vnh3jak41k86pkr-smallcheck-1.2.1.1.drv",
+              "metadata": {
+                "hash": null,
+                "revision": null
+              },
+              "name": "smallcheck",
+              "outputPath": "/nix/store/lrc775162hgl3gkqjbj0gm8cbaj7xify-smallcheck-1.2.1.1",
+              "role": "haskell",
+              "source": null,
+              "version": "1.2.1.1"
+            },
+            {
+              "componentRoles": [
+                "libraryHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": false,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/k8jv1jady4pdfyq8vybpy4rcyxnzg2k8-ansi-terminal-types-1.1.3-cohort-configure",
+              "dependencies": [
+                "/nix/store/2ifrch3x4wah7wp2axid8wlc92as8n25-colour-2.3.7.drv"
+              ],
+              "drvPath": "/nix/store/cbcxis3p736a8mwrmrwaa2rj1gi4cz3k-ansi-terminal-types-1.1.3.drv",
+              "metadata": {
+                "hash": null,
+                "revision": null
+              },
+              "name": "ansi-terminal-types",
+              "outputPath": "/nix/store/zi3n15qzxy62akq309djjymi97qqr0bf-ansi-terminal-types-1.1.3",
+              "role": "haskell",
+              "source": {
+                "hash": "sha256-4Vt0/uJgFpFUuZFy/7RWUmEUfXCR8lKIlJYjx2/XYrw=",
+                "hashMode": "recursive",
+                "path": "/nix/store/fkqcp9681b0mx9i93ijdg2xk0aqf6zfd-source",
+                "revision": null,
+                "urls": [
+                  "mirror://hackage/ansi-terminal-types-1.1.3/ansi-terminal-types-1.1.3.tar.gz"
+                ]
+              },
+              "version": "1.1.3"
+            },
+            {
+              "componentRoles": [
+                "libraryHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": false,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/xn5vh6q5vamcnvz7lvfj7gsjs3rnd24q-colour-2.3.7-cohort-configure",
+              "dependencies": [],
+              "drvPath": "/nix/store/2ifrch3x4wah7wp2axid8wlc92as8n25-colour-2.3.7.drv",
+              "metadata": {
+                "hash": null,
+                "revision": null
+              },
+              "name": "colour",
+              "outputPath": "/nix/store/bykwhf3aprcx87jhag0526frk26s1rkn-colour-2.3.7",
+              "role": "haskell",
+              "source": {
+                "hash": "sha256-NvAF43qCGqg+rmrmb39sStmvdvvjSYBz6U9rzdqdMVM=",
+                "hashMode": "recursive",
+                "path": "/nix/store/pp8xrdi45ihyyjvbkgk7h15lgb0h960q-source",
+                "revision": null,
+                "urls": [
+                  "mirror://hackage/colour-2.3.7/colour-2.3.7.tar.gz"
+                ]
+              },
+              "version": "2.3.7"
+            },
+            {
+              "componentRoles": [
+                "libraryHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": false,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/y57q1hqg6pi7q0lrzf1qsi3mlgp34z2l-prettyprinter-1.7.2-cohort-configure",
+              "dependencies": [],
+              "drvPath": "/nix/store/5il9pl7zzkc77h8pk43cvzpc0my4cgra-prettyprinter-1.7.2.drv",
+              "metadata": {
+                "hash": null,
+                "revision": null
+              },
+              "name": "prettyprinter",
+              "outputPath": "/nix/store/9nz1l6nzs4flrzvzb5zxndx7jc9a1hs3-prettyprinter-1.7.2",
+              "role": "haskell",
+              "source": {
+                "hash": "sha256-7xdzMCCP4nFnKbttfoNBMd4FhMMYrLTiO9LE7PAm56w=",
+                "hashMode": "recursive",
+                "path": "/nix/store/4yvy9gmshc9pfzkfhd83bbfz4ydb4pb8-source",
+                "revision": null,
+                "urls": [
+                  "mirror://hackage/prettyprinter-1.7.2/prettyprinter-1.7.2.tar.gz"
+                ]
+              },
+              "version": "1.7.2"
+            },
+            {
+              "componentRoles": [
+                "libraryHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": false,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/06dx86sak5v4l763wh153d6sfzxw2kr9-prettyprinter-ansi-terminal-1.1.4-cohort-configure",
+              "dependencies": [
+                "/nix/store/76v29rdhzq0s2z3jakdk86763mrc1x4c-ansi-terminal-1.1.5.drv",
+                "/nix/store/5il9pl7zzkc77h8pk43cvzpc0my4cgra-prettyprinter-1.7.2.drv"
+              ],
+              "drvPath": "/nix/store/95xa8wybv3hv9hhsn9mhjv7ca0m6ic55-prettyprinter-ansi-terminal-1.1.4.drv",
+              "metadata": {
+                "hash": null,
+                "revision": null
+              },
+              "name": "prettyprinter-ansi-terminal",
+              "outputPath": "/nix/store/w52ayi8nvd76v9wbm0ldccc4lqlclavs-prettyprinter-ansi-terminal-1.1.4",
+              "role": "haskell",
+              "source": {
+                "hash": "sha256-qPzcXwEZUo4LrtN+7iYG6P+wcY1cVOXimkLngdYh1E8=",
+                "hashMode": "recursive",
+                "path": "/nix/store/0yxfqp9l0mm8ir22b3qpzph66r3hwqa6-source",
+                "revision": null,
+                "urls": [
+                  "mirror://hackage/prettyprinter-ansi-terminal-1.1.4/prettyprinter-ansi-terminal-1.1.4.tar.gz"
+                ]
+              },
+              "version": "1.1.4"
+            },
+            {
+              "componentRoles": [
+                "libraryHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": false,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/k44qznfd42fzbnf7yay9i1vsa9fri172-splitmix-0.1.3.2-cohort-configure",
+              "dependencies": [],
+              "drvPath": "/nix/store/w43x2qp4k8gqf17yjywddjlybrsb153l-splitmix-0.1.3.2.drv",
+              "metadata": {
+                "hash": null,
+                "revision": null
+              },
+              "name": "splitmix",
+              "outputPath": "/nix/store/h9slg67fpk98nhx974fv3gj363k3xndg-splitmix-0.1.3.2",
+              "role": "haskell",
+              "source": {
+                "hash": "sha256-6Xh+O3NziT9qWucG1QhLscWgw9Gyzpgm4DOOdOyxrQw=",
+                "hashMode": "recursive",
+                "path": "/nix/store/kksdhjj5ydxxwniw6pk1adia2w6dj2ax-source",
+                "revision": null,
+                "urls": [
+                  "mirror://hackage/splitmix-0.1.3.2/splitmix-0.1.3.2.tar.gz"
+                ]
+              },
+              "version": "0.1.3.2"
+            },
+            {
+              "componentRoles": [
+                "libraryHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": true,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/bq5g2sx25zyz8qm8ndg2jrpnng108brq-logict-0.8.2.0-cohort-configure",
+              "dependencies": [
+                "/nix/store/yar57rpz5m4b39f0ahy6wnakxznljdrf-async-2.2.6.drv",
+                "/nix/store/yz6brmq43xm1nnn9rs8cv05a0yq00sy8-tasty-1.5.4.drv",
+                "/nix/store/kgpbzfrqyns96g8is2j90rndws9pm2jl-tasty-hunit-0.10.2.drv"
+              ],
+              "drvPath": "/nix/store/06v86f1wbwdhnbza5gyid7h6aljxp8lp-logict-0.8.2.0.drv",
+              "metadata": {
+                "hash": null,
+                "revision": null
+              },
+              "name": "logict",
+              "outputPath": "/nix/store/9c9b8awsjr429n83x0kwb343g5c2nd5a-logict-0.8.2.0",
+              "role": "haskell",
+              "source": null,
+              "version": "0.8.2.0"
+            },
+            {
+              "componentRoles": [
+                "testHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": false,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/lcip2l7szng4a75ff191jgflqxbs9zll-async-2.2.6-cohort-configure",
+              "dependencies": [
+                "/nix/store/24wa767qn5nvxfv7sjfh7mmdxx96k8ba-hashable-1.5.1.0.drv",
+                "/nix/store/nwf7lc3binwnpis5q011wp0j6b2nzwwd-unordered-containers-0.2.21.drv"
+              ],
+              "drvPath": "/nix/store/yar57rpz5m4b39f0ahy6wnakxznljdrf-async-2.2.6.drv",
+              "metadata": {
+                "hash": null,
+                "revision": null
+              },
+              "name": "async",
+              "outputPath": "/nix/store/zn416an1sf7gab40aw46gsa5y928z7j2-async-2.2.6",
+              "role": "haskell",
+              "source": {
+                "hash": "sha256-1jcK5ud/LBBGCFyueroqhhbU4SXjirPCM3jq6CK7YZw=",
+                "hashMode": "recursive",
+                "path": "/nix/store/gqjb7z6xhgknsx70z3vqfndrrb5s0igk-source",
+                "revision": null,
+                "urls": [
+                  "mirror://hackage/async-2.2.6/async-2.2.6.tar.gz"
+                ]
+              },
+              "version": "2.2.6"
+            },
+            {
+              "componentRoles": [
+                "testHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": false,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/2qyq5p6imzzywzncphglz2cfygnrlmjh-tasty-hunit-0.10.2-cohort-configure",
+              "dependencies": [
+                "/nix/store/hf9n3hqlis93ia9pbwvhwkd17x3r0yi5-call-stack-0.4.0.drv",
+                "/nix/store/yz6brmq43xm1nnn9rs8cv05a0yq00sy8-tasty-1.5.4.drv"
+              ],
+              "drvPath": "/nix/store/kgpbzfrqyns96g8is2j90rndws9pm2jl-tasty-hunit-0.10.2.drv",
+              "metadata": {
+                "hash": null,
+                "revision": null
+              },
+              "name": "tasty-hunit",
+              "outputPath": "/nix/store/wkr4w38xwv9bq7q80bnclhwm4l69jgkm-tasty-hunit-0.10.2",
+              "role": "haskell",
+              "source": {
+                "hash": "sha256-jMpvsbL6zKNjREfGVCyxOirqy2tM0LEOSaXI+XX5G6o=",
+                "hashMode": "recursive",
+                "path": "/nix/store/kcxnfski7vdyj1njihh070c7iv588adb-source",
+                "revision": null,
+                "urls": [
+                  "mirror://hackage/tasty-hunit-0.10.2/tasty-hunit-0.10.2.tar.gz"
+                ]
+              },
+              "version": "0.10.2"
+            },
+            {
+              "componentRoles": [
+                "libraryHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": false,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/sxmzildha7ny5pddjvx7p3jy9gdx5qz4-hashable-1.5.1.0-cohort-configure",
+              "dependencies": [],
+              "drvPath": "/nix/store/24wa767qn5nvxfv7sjfh7mmdxx96k8ba-hashable-1.5.1.0.drv",
+              "metadata": {
+                "hash": null,
+                "revision": null
+              },
+              "name": "hashable",
+              "outputPath": "/nix/store/nxpa6a8dv1bamzm0zdwq9arh78qgrdkh-hashable-1.5.1.0",
+              "role": "haskell",
+              "source": {
+                "hash": "sha256-q5lVm/VeHY8s7kWX7jcInzq3whBUHu0cDqFnPLsDswo=",
+                "hashMode": "recursive",
+                "path": "/nix/store/ivmf5qdhfzpzl7axrwlfi6if2mwf80dv-source",
+                "revision": null,
+                "urls": [
+                  "mirror://hackage/hashable-1.5.1.0/hashable-1.5.1.0.tar.gz"
+                ]
+              },
+              "version": "1.5.1.0"
+            },
+            {
+              "componentRoles": [
+                "libraryHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": false,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/f1plc1zw7icysm2ghcjc63b924fih7nr-unordered-containers-0.2.21-cohort-configure",
+              "dependencies": [
+                "/nix/store/24wa767qn5nvxfv7sjfh7mmdxx96k8ba-hashable-1.5.1.0.drv"
+              ],
+              "drvPath": "/nix/store/nwf7lc3binwnpis5q011wp0j6b2nzwwd-unordered-containers-0.2.21.drv",
+              "metadata": {
+                "hash": "c5de1fb3377ed3c5f4cd851a771d1acc5c37d2f6bef0a499295c0e8857da5605",
+                "revision": "2"
+              },
+              "name": "unordered-containers",
+              "outputPath": "/nix/store/i8cnnll28s90khb2j7m4jca40k9rrq6k-unordered-containers-0.2.21",
+              "role": "haskell",
+              "source": {
+                "hash": "sha256-YGklj5D14AvkiaVkJH44E7YjSb8wivPrHZz3vgsmSFk=",
+                "hashMode": "recursive",
+                "path": "/nix/store/ld4hwdryaajryhzbsrflbpnqvd0pj634-source",
+                "revision": null,
+                "urls": [
+                  "mirror://hackage/unordered-containers-0.2.21/unordered-containers-0.2.21.tar.gz"
+                ]
+              },
+              "version": "0.2.21"
+            },
+            {
+              "componentRoles": [
+                "libraryHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": false,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/1g82mxdvydc5vipx6ss2zfjh48i8r9k4-call-stack-0.4.0-cohort-configure",
+              "dependencies": [],
+              "drvPath": "/nix/store/hf9n3hqlis93ia9pbwvhwkd17x3r0yi5-call-stack-0.4.0.drv",
+              "metadata": {
+                "hash": null,
+                "revision": null
+              },
+              "name": "call-stack",
+              "outputPath": "/nix/store/jahxda3zx4wrkkgpsa7bxyxrdfa3iawz-call-stack-0.4.0",
+              "role": "haskell",
+              "source": {
+                "hash": "sha256-H9xQPHooQ3WxJqwbiPQRZGhm/+4X6bj0ear816q2zrk=",
+                "hashMode": "recursive",
+                "path": "/nix/store/sbz7hsn22ilhvw2p3xggsnjji6jqdr4x-source",
+                "revision": null,
+                "urls": [
+                  "mirror://hackage/call-stack-0.4.0/call-stack-0.4.0.tar.gz"
+                ]
+              },
+              "version": "0.4.0"
+            }
+          ],
+          "root": {
+            "drvPath": "/nix/store/5fj441xg9m96xnd42c54ff2ascc27v2x-bytestring-lexing-0.5.0.16.drv",
+            "name": "bytestring-lexing",
+            "outputPath": "/nix/store/gx2gds8zyjmii9y10kgbwdw1g2mhk3jz-bytestring-lexing-0.5.0.16"
+          },
+          "schemaVersion": 1,
+          "system": "aarch64-darwin"
+        },
+        "derivation": "/nix/store/9aal5ivnpqnzhwpa2igivh1vsip918ik-bytestring-lexing-cohort-manifest.drv"
+      },
+      "kind": "real-policy-narrowing-pilot",
+      "previousProduction": {
+        "derivation": "/nix/store/08lhmyvm2mhcfn1japwxiv22y7vp9paa-bytestring-lexing-0.5.0.16.drv",
+        "effective": {
+          "boundsRelaxed": null,
+          "buildFlags": [],
+          "configureFlags": [],
+          "dependencies": {
+            "buildDepends": [],
+            "buildTools": [],
+            "executableFrameworkDepends": [],
+            "executableHaskellDepends": [],
+            "executablePkgconfigDepends": [],
+            "executableSystemDepends": [],
+            "executableToolDepends": [],
+            "extraLibraries": [],
+            "libraryFrameworkDepends": [],
+            "libraryHaskellDepends": [
+              {
+                "kind": "null",
+                "resolution": "not-inferred"
+              },
+              {
+                "kind": "null",
+                "resolution": "not-inferred"
+              }
+            ],
+            "libraryPkgconfigDepends": [],
+            "librarySystemDepends": [],
+            "libraryToolDepends": [],
+            "pkg-configDepends": [],
+            "setupHaskellDepends": [],
+            "testDepends": [],
+            "testFrameworkDepends": [],
+            "testHaskellDepends": [
+              {
+                "kind": "null",
+                "resolution": "not-inferred"
+              },
+              {
+                "kind": "null",
+                "resolution": "not-inferred"
+              },
+              {
+                "derivation": "/nix/store/yz6brmq43xm1nnn9rs8cv05a0yq00sy8-tasty-1.5.4.drv",
+                "output": "out"
+              },
+              {
+                "derivation": "/nix/store/219jpcjvb4325dmmmzv6hrpj84hzi203-tasty-quickcheck-0.11.1.drv",
+                "output": "out"
+              },
+              {
+                "derivation": "/nix/store/hkbfk04qsfa7wmxciazc59ph1d18iiiz-tasty-smallcheck-0.8.2.drv",
+                "output": "out"
+              }
+            ],
+            "testPkgconfigDepends": [],
+            "testSystemDepends": [],
+            "testToolDepends": []
+          },
+          "editedCabalFile": null,
+          "hooks": {
+            "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "patches": [],
+          "revision": null,
+          "testDependencyInventory": "declared",
+          "testExecution": {
+            "customCheckPhase": false,
+            "flags": [],
+            "targets": [
+              ""
+            ]
+          },
+          "testsEnabled": false
+        },
+        "metadataIdentity": "149e5195836a05c699b2487dc4f672e87149cae2d3f3b8a3ff4a71edd434e8e7",
+        "sourceIdentity": "nix-source:/nix/store/2dzc86g6xsxvp0djrrkrv8zwl3mbz0q0-compatibility-source-identity.drv",
+        "version": "0.5.0.16"
+      },
+      "production": {
+        "derivation": "/nix/store/5fj441xg9m96xnd42c54ff2ascc27v2x-bytestring-lexing-0.5.0.16.drv",
+        "effective": {
+          "boundsRelaxed": false,
+          "buildFlags": [],
+          "configureFlags": [],
+          "dependencies": {
+            "buildDepends": [],
+            "buildTools": [],
+            "executableFrameworkDepends": [],
+            "executableHaskellDepends": [],
+            "executablePkgconfigDepends": [],
+            "executableSystemDepends": [],
+            "executableToolDepends": [],
+            "extraLibraries": [],
+            "libraryFrameworkDepends": [],
+            "libraryHaskellDepends": [
+              {
+                "kind": "null",
+                "resolution": "not-inferred"
+              },
+              {
+                "kind": "null",
+                "resolution": "not-inferred"
+              }
+            ],
+            "libraryPkgconfigDepends": [],
+            "librarySystemDepends": [],
+            "libraryToolDepends": [],
+            "pkg-configDepends": [],
+            "setupHaskellDepends": [],
+            "testDepends": [],
+            "testFrameworkDepends": [],
+            "testHaskellDepends": [
+              {
+                "kind": "null",
+                "resolution": "not-inferred"
+              },
+              {
+                "kind": "null",
+                "resolution": "not-inferred"
+              },
+              {
+                "derivation": "/nix/store/yz6brmq43xm1nnn9rs8cv05a0yq00sy8-tasty-1.5.4.drv",
+                "output": "out"
+              },
+              {
+                "derivation": "/nix/store/219jpcjvb4325dmmmzv6hrpj84hzi203-tasty-quickcheck-0.11.1.drv",
+                "output": "out"
+              },
+              {
+                "derivation": "/nix/store/hkbfk04qsfa7wmxciazc59ph1d18iiiz-tasty-smallcheck-0.8.2.drv",
+                "output": "out"
+              }
+            ],
+            "testPkgconfigDepends": [],
+            "testSystemDepends": [],
+            "testToolDepends": []
+          },
+          "editedCabalFile": null,
+          "hooks": {
+            "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "patches": [],
+          "revision": null,
+          "testDependencyInventory": "declared",
+          "testExecution": {
+            "customCheckPhase": false,
+            "flags": [],
+            "targets": [
+              ""
+            ]
+          },
+          "testsEnabled": true
+        },
+        "metadataIdentity": "149e5195836a05c699b2487dc4f672e87149cae2d3f3b8a3ff4a71edd434e8e7",
+        "sourceIdentity": "nix-source:/nix/store/2dzc86g6xsxvp0djrrkrv8zwl3mbz0q0-compatibility-source-identity.drv",
+        "version": "0.5.0.16"
+      },
+      "requiredSuites": [
+        "test-all"
+      ],
+      "schemaVersion": 1,
+      "selectedPolicy": {
+        "profile": "verified-bytestring-lexing-ghc9124-v1",
+        "selectionId": "bytestring-lexing-ghc9124-native-v1"
+      },
+      "sourceChannel": "hackage",
+      "status": "unverified",
+      "system": "aarch64-darwin"
+    }
+  },
+  "factory_scope": {
+    "context": {
+      "behavior": "/nix/store/hn269xzp8svj0p0zpc0i354v1p73zxqi-bytestring-lexing-strict-behavior.drv",
+      "candidate": {
+        "derivation": "/nix/store/j0qfrncifqsa45nc86q1hvxq8lggdirh-bytestring-lexing-0.5.0.16.drv",
+        "effective": {
+          "boundsRelaxed": false,
+          "buildFlags": [],
+          "configureFlags": [],
+          "dependencies": {
+            "buildDepends": [],
+            "buildTools": [],
+            "executableFrameworkDepends": [],
+            "executableHaskellDepends": [],
+            "executablePkgconfigDepends": [],
+            "executableSystemDepends": [],
+            "executableToolDepends": [],
+            "extraLibraries": [],
+            "libraryFrameworkDepends": [],
+            "libraryHaskellDepends": [
+              {
+                "kind": "null",
+                "resolution": "not-inferred"
+              },
+              {
+                "kind": "null",
+                "resolution": "not-inferred"
+              }
+            ],
+            "libraryPkgconfigDepends": [],
+            "librarySystemDepends": [],
+            "libraryToolDepends": [],
+            "pkg-configDepends": [],
+            "setupHaskellDepends": [],
+            "testDepends": [],
+            "testFrameworkDepends": [],
+            "testHaskellDepends": [
+              {
+                "kind": "null",
+                "resolution": "not-inferred"
+              },
+              {
+                "kind": "null",
+                "resolution": "not-inferred"
+              },
+              {
+                "derivation": "/nix/store/7h95y0mpsfmi50wrzb7dirsdzx7bz858-tasty-1.5.4.drv",
+                "output": "out"
+              },
+              {
+                "derivation": "/nix/store/pldgx4s6grh1sbrj7wi2xb15zq4bqjr9-tasty-quickcheck-0.11.1.drv",
+                "output": "out"
+              },
+              {
+                "derivation": "/nix/store/1lsd0zy6lzlxx319lavhvg3yisrvswnw-tasty-smallcheck-0.8.2.drv",
+                "output": "out"
+              }
+            ],
+            "testPkgconfigDepends": [],
+            "testSystemDepends": [],
+            "testToolDepends": []
+          },
+          "editedCabalFile": null,
+          "hooks": {
+            "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "patches": [],
+          "revision": null,
+          "testDependencyInventory": "declared",
+          "testExecution": {
+            "customCheckPhase": false,
+            "flags": [],
+            "targets": [
+              ""
+            ]
+          },
+          "testsEnabled": true
+        },
+        "metadataIdentity": "149e5195836a05c699b2487dc4f672e87149cae2d3f3b8a3ff4a71edd434e8e7",
+        "sourceIdentity": "nix-source:/nix/store/2dzc86g6xsxvp0djrrkrv8zwl3mbz0q0-compatibility-source-identity.drv",
+        "version": "0.5.0.16"
+      },
+      "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+      "entry": {
+        "revision": null,
+        "sha256": "sha256-Fi3+KzDIHA6y/WZ8SVdBQhi9tHhHfw8qEcT6nvW4YXs=",
+        "version": "0.5.0.16"
+      },
+      "exceptionId": "legacy-skip-enforce-v1-test-suppression",
+      "graph": {
+        "declaration": {
+          "compiler": {
+            "drvPath": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+            "name": "ghc",
+            "outputPath": "/nix/store/g1qpr9sf56sr9znrqk05wxqrbgnnyanj-ghc-9.12.4",
+            "version": "9.12.4"
+          },
+          "context": {
+            "purpose": "bytestring-lexing test-policy narrowing",
+            "sourceChannel": "github"
+          },
+          "nativePackages": [],
+          "packages": [
+            {
+              "componentRoles": [
+                "root"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": true,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/ym7w0ij4fm4aisqlkjng44qgp5vfkz97-bytestring-lexing-0.5.0.16-cohort-configure",
+              "dependencies": [
+                "/nix/store/7h95y0mpsfmi50wrzb7dirsdzx7bz858-tasty-1.5.4.drv",
+                "/nix/store/pldgx4s6grh1sbrj7wi2xb15zq4bqjr9-tasty-quickcheck-0.11.1.drv",
+                "/nix/store/1lsd0zy6lzlxx319lavhvg3yisrvswnw-tasty-smallcheck-0.8.2.drv"
+              ],
+              "drvPath": "/nix/store/j0qfrncifqsa45nc86q1hvxq8lggdirh-bytestring-lexing-0.5.0.16.drv",
+              "metadata": {
+                "hash": null,
+                "revision": null
+              },
+              "name": "bytestring-lexing",
+              "outputPath": "/nix/store/nivsdq7m4vkxfnpwvbacv58gdxxir0c5-bytestring-lexing-0.5.0.16",
+              "role": "local",
+              "source": {
+                "hash": "sha256-Fi3+KzDIHA6y/WZ8SVdBQhi9tHhHfw8qEcT6nvW4YXs=",
+                "hashMode": "recursive",
+                "path": "/nix/store/pr09l4w4qn7fikp2pk8izafr2jhq4hnp-source",
+                "revision": null,
+                "urls": [
+                  "mirror://hackage/bytestring-lexing-0.5.0.16/bytestring-lexing-0.5.0.16.tar.gz"
+                ]
+              },
+              "version": "0.5.0.16"
+            },
+            {
+              "componentRoles": [
+                "testHaskellDepends",
+                "libraryHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": false,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/06nhp7583yfa2c1ggqg8blm27bznkg59-tasty-1.5.4-cohort-configure",
+              "dependencies": [
+                "/nix/store/gjcvhl5rvqj4psh5wi1f7kb08pc55nzq-ansi-terminal-1.1.5.drv",
+                "/nix/store/wk9k69nc3c0x2ah8phd5dp5g27p07mzj-optparse-applicative-0.19.0.0.drv",
+                "/nix/store/43az0ppsgdym8d298jd659shj3iz85r5-tagged-0.8.11.drv"
+              ],
+              "drvPath": "/nix/store/7h95y0mpsfmi50wrzb7dirsdzx7bz858-tasty-1.5.4.drv",
+              "metadata": {
+                "hash": "2065ef38e061551c7e3a997c4a4eac1b68dbf0553cc6177f01c8f7982f4cd375",
+                "revision": "1"
+              },
+              "name": "tasty",
+              "outputPath": "/nix/store/41dzz5p8mfyvddir4r379hz54bbkb0mg-tasty-1.5.4",
+              "role": "haskell",
+              "source": {
+                "hash": "sha256-C6VyZuM+rcqllVlhk52snAKpw3sqrrzncz8Da1yE03Q=",
+                "hashMode": "recursive",
+                "path": "/nix/store/mk9c6p551r7vmw9l8cgqrc0k3phszvbi-source",
+                "revision": null,
+                "urls": [
+                  "mirror://hackage/tasty-1.5.4/tasty-1.5.4.tar.gz"
+                ]
+              },
+              "version": "1.5.4"
+            },
+            {
+              "componentRoles": [
+                "testHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": false,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/l3p2vycwdya0cc1l3whpgg2rljfidy7x-tasty-quickcheck-0.11.1-cohort-configure",
+              "dependencies": [
+                "/nix/store/wk9k69nc3c0x2ah8phd5dp5g27p07mzj-optparse-applicative-0.19.0.0.drv",
+                "/nix/store/ac1y2i17j7y9lmki293lnl7q5jxsrkw2-QuickCheck-2.18.0.0.drv",
+                "/nix/store/21xqkgjrya9gkdz26xkgsk25zv6n5mnx-random-1.3.1.drv",
+                "/nix/store/43az0ppsgdym8d298jd659shj3iz85r5-tagged-0.8.11.drv",
+                "/nix/store/7h95y0mpsfmi50wrzb7dirsdzx7bz858-tasty-1.5.4.drv"
+              ],
+              "drvPath": "/nix/store/pldgx4s6grh1sbrj7wi2xb15zq4bqjr9-tasty-quickcheck-0.11.1.drv",
+              "metadata": {
+                "hash": "1205icd0f94vvw40g72y4ij5a4sxzl84hg5ckav4dhfcxipnpshj",
+                "revision": "5"
+              },
+              "name": "tasty-quickcheck",
+              "outputPath": "/nix/store/gzm8jy0xxk435y5b75x653v34d5nl3jy-tasty-quickcheck-0.11.1",
+              "role": "haskell",
+              "source": null,
+              "version": "0.11.1"
+            },
+            {
+              "componentRoles": [
+                "testHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": true,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/dxpp6bd7lw4pcil009h894gl0mfgxx4a-tasty-smallcheck-0.8.2-cohort-configure",
+              "dependencies": [
+                "/nix/store/wk9k69nc3c0x2ah8phd5dp5g27p07mzj-optparse-applicative-0.19.0.0.drv",
+                "/nix/store/n7xh99yy1l654d46dbyf9vk2mkn38441-smallcheck-1.2.1.1.drv",
+                "/nix/store/43az0ppsgdym8d298jd659shj3iz85r5-tagged-0.8.11.drv",
+                "/nix/store/7h95y0mpsfmi50wrzb7dirsdzx7bz858-tasty-1.5.4.drv"
+              ],
+              "drvPath": "/nix/store/1lsd0zy6lzlxx319lavhvg3yisrvswnw-tasty-smallcheck-0.8.2.drv",
+              "metadata": {
+                "hash": "0033ha2w9rzc1rxpzh1dkfdrn256i5lvb41pqbdh2i6kli0v5vmh",
+                "revision": "1"
+              },
+              "name": "tasty-smallcheck",
+              "outputPath": "/nix/store/9wclqa197jkbxyc7jkdi3i09042m4hdr-tasty-smallcheck-0.8.2",
+              "role": "haskell",
+              "source": null,
+              "version": "0.8.2"
+            },
+            {
+              "componentRoles": [
+                "libraryHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": false,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/lh6gixrhskxfqkd5mnak2rafl30s3vlx-ansi-terminal-1.1.5-cohort-configure",
+              "dependencies": [
+                "/nix/store/0snq2j2vbr0f8n40sr07zpjy6aq3y0kz-ansi-terminal-types-1.1.3.drv",
+                "/nix/store/dcrdkkii8igqjwxb8pgcjpj2p1kxm0y2-colour-2.3.7.drv"
+              ],
+              "drvPath": "/nix/store/gjcvhl5rvqj4psh5wi1f7kb08pc55nzq-ansi-terminal-1.1.5.drv",
+              "metadata": {
+                "hash": null,
+                "revision": null
+              },
+              "name": "ansi-terminal",
+              "outputPath": "/nix/store/q0iacd5qg1z6dw9xi0fc72155j6gchjg-ansi-terminal-1.1.5",
+              "role": "haskell",
+              "source": {
+                "hash": "sha256-qPhK+JhT501NtbcUQGjgDlM//iUuJoVKIszNCUZKok4=",
+                "hashMode": "recursive",
+                "path": "/nix/store/llp43fhsfv6ncglpwl10rnp7h8dxc2dw-source",
+                "revision": null,
+                "urls": [
+                  "mirror://hackage/ansi-terminal-1.1.5/ansi-terminal-1.1.5.tar.gz"
+                ]
+              },
+              "version": "1.1.5"
+            },
+            {
+              "componentRoles": [
+                "libraryHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": false,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": true,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/b25isrwdr0jrl4fgi626gkb2ly6l5xm9-optparse-applicative-0.19.0.0-cohort-configure",
+              "dependencies": [
+                "/nix/store/9ihvdxc09pmxdfvjrrr96v5spy0hzrxr-prettyprinter-1.7.2.drv",
+                "/nix/store/vd97mbq6j493mx2k41r3c3539dk30c13-prettyprinter-ansi-terminal-1.1.4.drv"
+              ],
+              "drvPath": "/nix/store/wk9k69nc3c0x2ah8phd5dp5g27p07mzj-optparse-applicative-0.19.0.0.drv",
+              "metadata": {
+                "hash": "4c1dcbdbf2498f7cdd88826e876403db7f8d81931962060ec4c3a57a186c6cc3",
+                "revision": "1"
+              },
+              "name": "optparse-applicative",
+              "outputPath": "/nix/store/r0apa3492541j7amfnqmqx6nhzfzqqqf-optparse-applicative-0.19.0.0",
+              "role": "haskell",
+              "source": {
+                "hash": "sha256-dhqvRILfdbpYPMxC+WpAyO0KUfq2nLopGk1NdSN2SDM=",
+                "hashMode": "recursive",
+                "path": "/nix/store/l5z3gyf61qdyda9hmv5fqdq6svb2g7wh-source",
+                "revision": null,
+                "urls": [
+                  "mirror://hackage/optparse-applicative-0.19.0.0/optparse-applicative-0.19.0.0.tar.gz"
+                ]
+              },
+              "version": "0.19.0.0"
+            },
+            {
+              "componentRoles": [
+                "libraryHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": false,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/80pmb09qq07wrbzkqrj4d3jn0dfcp4gz-tagged-0.8.11-cohort-configure",
+              "dependencies": [],
+              "drvPath": "/nix/store/43az0ppsgdym8d298jd659shj3iz85r5-tagged-0.8.11.drv",
+              "metadata": {
+                "hash": null,
+                "revision": null
+              },
+              "name": "tagged",
+              "outputPath": "/nix/store/l1w4bwvjdz5lipb68pm98r29vg0ppjr7-tagged-0.8.11",
+              "role": "haskell",
+              "source": {
+                "hash": "sha256-WDAzwIhgMIOdcPWaZuvEMTMTrrPOt1jXUGxkkGYOvEg=",
+                "hashMode": "recursive",
+                "path": "/nix/store/ckyn72jqv09sf6s4dr9ivkfppi7rih11-source",
+                "revision": null,
+                "urls": [
+                  "mirror://hackage/tagged-0.8.11/tagged-0.8.11.tar.gz"
+                ]
+              },
+              "version": "0.8.11"
+            },
+            {
+              "componentRoles": [
+                "libraryHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": false,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/zkaw9ydzzdkfqkpjn3dq45hqc9fhsv5i-QuickCheck-2.18.0.0-cohort-configure",
+              "dependencies": [
+                "/nix/store/21xqkgjrya9gkdz26xkgsk25zv6n5mnx-random-1.3.1.drv",
+                "/nix/store/qbbjq067c01kr7bw9z987kaznk4dziv4-splitmix-0.1.3.2.drv"
+              ],
+              "drvPath": "/nix/store/ac1y2i17j7y9lmki293lnl7q5jxsrkw2-QuickCheck-2.18.0.0.drv",
+              "metadata": {
+                "hash": null,
+                "revision": null
+              },
+              "name": "QuickCheck",
+              "outputPath": "/nix/store/fh3y1vs3fdfbc4n2ccj5kygfqgk29az5-QuickCheck-2.18.0.0",
+              "role": "haskell",
+              "source": {
+                "hash": "sha256-mXsMx6gc7vhoT0b39roVNzj94H2gIti+zFy7pNT56jg=",
+                "hashMode": "recursive",
+                "path": "/nix/store/zd1pwqbwlhf92l368qdlm0ykx6409w9c-source",
+                "revision": null,
+                "urls": [
+                  "mirror://hackage/QuickCheck-2.18.0.0/QuickCheck-2.18.0.0.tar.gz"
+                ]
+              },
+              "version": "2.18.0.0"
+            },
+            {
+              "componentRoles": [
+                "libraryHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": false,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/y730izw0zz90pxnk7j5ck090g1mid463-random-1.3.1-cohort-configure",
+              "dependencies": [
+                "/nix/store/qbbjq067c01kr7bw9z987kaznk4dziv4-splitmix-0.1.3.2.drv"
+              ],
+              "drvPath": "/nix/store/21xqkgjrya9gkdz26xkgsk25zv6n5mnx-random-1.3.1.drv",
+              "metadata": {
+                "hash": null,
+                "revision": null
+              },
+              "name": "random",
+              "outputPath": "/nix/store/0fgzmg2wbkdxpnvb7dqdf68za7xp21pc-random-1.3.1",
+              "role": "haskell",
+              "source": {
+                "hash": "sha256-M2xVhHMZ7Lqvx/F832mGirHULgzv7TjP/oNkQ4V6YLM=",
+                "hashMode": "recursive",
+                "path": "/nix/store/9a67b4nzz29zcxa6vvpaajq10q18fbr8-source",
+                "revision": null,
+                "urls": [
+                  "mirror://hackage/random-1.3.1/random-1.3.1.tar.gz"
+                ]
+              },
+              "version": "1.3.1"
+            },
+            {
+              "componentRoles": [
+                "libraryHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": true,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/h6gv5c6w3ij8srdc7gazbylhd3y398nn-smallcheck-1.2.1.1-cohort-configure",
+              "dependencies": [
+                "/nix/store/yi3vxywbb0ysdhyrrj65zvl087spryzq-logict-0.8.2.0.drv"
+              ],
+              "drvPath": "/nix/store/n7xh99yy1l654d46dbyf9vk2mkn38441-smallcheck-1.2.1.1.drv",
+              "metadata": {
+                "hash": null,
+                "revision": null
+              },
+              "name": "smallcheck",
+              "outputPath": "/nix/store/379jb9nabp6w85fvnrym029xzg0mlan6-smallcheck-1.2.1.1",
+              "role": "haskell",
+              "source": null,
+              "version": "1.2.1.1"
+            },
+            {
+              "componentRoles": [
+                "libraryHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": false,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/frxvfcnrybyr7lr9ydk31hyr9cx58kpm-ansi-terminal-types-1.1.3-cohort-configure",
+              "dependencies": [
+                "/nix/store/dcrdkkii8igqjwxb8pgcjpj2p1kxm0y2-colour-2.3.7.drv"
+              ],
+              "drvPath": "/nix/store/0snq2j2vbr0f8n40sr07zpjy6aq3y0kz-ansi-terminal-types-1.1.3.drv",
+              "metadata": {
+                "hash": null,
+                "revision": null
+              },
+              "name": "ansi-terminal-types",
+              "outputPath": "/nix/store/zxivxy57ps1jsf7mc7g105zi731036cw-ansi-terminal-types-1.1.3",
+              "role": "haskell",
+              "source": {
+                "hash": "sha256-4Vt0/uJgFpFUuZFy/7RWUmEUfXCR8lKIlJYjx2/XYrw=",
+                "hashMode": "recursive",
+                "path": "/nix/store/fkqcp9681b0mx9i93ijdg2xk0aqf6zfd-source",
+                "revision": null,
+                "urls": [
+                  "mirror://hackage/ansi-terminal-types-1.1.3/ansi-terminal-types-1.1.3.tar.gz"
+                ]
+              },
+              "version": "1.1.3"
+            },
+            {
+              "componentRoles": [
+                "libraryHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": false,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/l5vjx0ji2x240f765qi60my9367i1zfv-colour-2.3.7-cohort-configure",
+              "dependencies": [],
+              "drvPath": "/nix/store/dcrdkkii8igqjwxb8pgcjpj2p1kxm0y2-colour-2.3.7.drv",
+              "metadata": {
+                "hash": null,
+                "revision": null
+              },
+              "name": "colour",
+              "outputPath": "/nix/store/l9gqpy08lv2g6mi2iphggjpdnkfcpvs7-colour-2.3.7",
+              "role": "haskell",
+              "source": {
+                "hash": "sha256-NvAF43qCGqg+rmrmb39sStmvdvvjSYBz6U9rzdqdMVM=",
+                "hashMode": "recursive",
+                "path": "/nix/store/pp8xrdi45ihyyjvbkgk7h15lgb0h960q-source",
+                "revision": null,
+                "urls": [
+                  "mirror://hackage/colour-2.3.7/colour-2.3.7.tar.gz"
+                ]
+              },
+              "version": "2.3.7"
+            },
+            {
+              "componentRoles": [
+                "libraryHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": false,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/pznbhjxlwm11ar5iag4b98crcpg6r439-prettyprinter-1.7.2-cohort-configure",
+              "dependencies": [],
+              "drvPath": "/nix/store/9ihvdxc09pmxdfvjrrr96v5spy0hzrxr-prettyprinter-1.7.2.drv",
+              "metadata": {
+                "hash": null,
+                "revision": null
+              },
+              "name": "prettyprinter",
+              "outputPath": "/nix/store/b1ymknsm0b97dj56nxm74spdfrvnbfs4-prettyprinter-1.7.2",
+              "role": "haskell",
+              "source": {
+                "hash": "sha256-7xdzMCCP4nFnKbttfoNBMd4FhMMYrLTiO9LE7PAm56w=",
+                "hashMode": "recursive",
+                "path": "/nix/store/4yvy9gmshc9pfzkfhd83bbfz4ydb4pb8-source",
+                "revision": null,
+                "urls": [
+                  "mirror://hackage/prettyprinter-1.7.2/prettyprinter-1.7.2.tar.gz"
+                ]
+              },
+              "version": "1.7.2"
+            },
+            {
+              "componentRoles": [
+                "libraryHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": false,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/0rrjhad1jzqzwh16rpsw105qqmq87vhm-prettyprinter-ansi-terminal-1.1.4-cohort-configure",
+              "dependencies": [
+                "/nix/store/gjcvhl5rvqj4psh5wi1f7kb08pc55nzq-ansi-terminal-1.1.5.drv",
+                "/nix/store/9ihvdxc09pmxdfvjrrr96v5spy0hzrxr-prettyprinter-1.7.2.drv"
+              ],
+              "drvPath": "/nix/store/vd97mbq6j493mx2k41r3c3539dk30c13-prettyprinter-ansi-terminal-1.1.4.drv",
+              "metadata": {
+                "hash": null,
+                "revision": null
+              },
+              "name": "prettyprinter-ansi-terminal",
+              "outputPath": "/nix/store/m770nskgfmhk45i8sycj7v900f31v5hq-prettyprinter-ansi-terminal-1.1.4",
+              "role": "haskell",
+              "source": {
+                "hash": "sha256-qPzcXwEZUo4LrtN+7iYG6P+wcY1cVOXimkLngdYh1E8=",
+                "hashMode": "recursive",
+                "path": "/nix/store/0yxfqp9l0mm8ir22b3qpzph66r3hwqa6-source",
+                "revision": null,
+                "urls": [
+                  "mirror://hackage/prettyprinter-ansi-terminal-1.1.4/prettyprinter-ansi-terminal-1.1.4.tar.gz"
+                ]
+              },
+              "version": "1.1.4"
+            },
+            {
+              "componentRoles": [
+                "libraryHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": false,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/k8c24d7njq7np9dx1pwhhsh5vy382b5m-splitmix-0.1.3.2-cohort-configure",
+              "dependencies": [],
+              "drvPath": "/nix/store/qbbjq067c01kr7bw9z987kaznk4dziv4-splitmix-0.1.3.2.drv",
+              "metadata": {
+                "hash": null,
+                "revision": null
+              },
+              "name": "splitmix",
+              "outputPath": "/nix/store/6ngjr477cc5x2lb01y8944nlf845p4gd-splitmix-0.1.3.2",
+              "role": "haskell",
+              "source": {
+                "hash": "sha256-6Xh+O3NziT9qWucG1QhLscWgw9Gyzpgm4DOOdOyxrQw=",
+                "hashMode": "recursive",
+                "path": "/nix/store/kksdhjj5ydxxwniw6pk1adia2w6dj2ax-source",
+                "revision": null,
+                "urls": [
+                  "mirror://hackage/splitmix-0.1.3.2/splitmix-0.1.3.2.tar.gz"
+                ]
+              },
+              "version": "0.1.3.2"
+            },
+            {
+              "componentRoles": [
+                "libraryHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": true,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/qx819gmg0br6q18qv6hr0chd88fnqqwj-logict-0.8.2.0-cohort-configure",
+              "dependencies": [
+                "/nix/store/z0hx2f63q7bb702lsq3n830g7756j23c-async-2.2.6.drv",
+                "/nix/store/7h95y0mpsfmi50wrzb7dirsdzx7bz858-tasty-1.5.4.drv",
+                "/nix/store/axfd9mj69990b23ar4lkg26j1idjwfbq-tasty-hunit-0.10.2.drv"
+              ],
+              "drvPath": "/nix/store/yi3vxywbb0ysdhyrrj65zvl087spryzq-logict-0.8.2.0.drv",
+              "metadata": {
+                "hash": null,
+                "revision": null
+              },
+              "name": "logict",
+              "outputPath": "/nix/store/ga0hdnjjvm176g3kqhvfjz0zslrl307b-logict-0.8.2.0",
+              "role": "haskell",
+              "source": null,
+              "version": "0.8.2.0"
+            },
+            {
+              "componentRoles": [
+                "testHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": false,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/z4q7rp83zhhv3dxg81q3fj8ax5s2y5sr-async-2.2.6-cohort-configure",
+              "dependencies": [
+                "/nix/store/hm91llg4aawkmzi3y7svdign2chvfk53-hashable-1.5.1.0.drv",
+                "/nix/store/zfj48z6ihpcs06m1zfrnwsirb904jdlz-unordered-containers-0.2.21.drv"
+              ],
+              "drvPath": "/nix/store/z0hx2f63q7bb702lsq3n830g7756j23c-async-2.2.6.drv",
+              "metadata": {
+                "hash": null,
+                "revision": null
+              },
+              "name": "async",
+              "outputPath": "/nix/store/k9h51ixb9gxnqwy9zwbivynn6hzhgwdq-async-2.2.6",
+              "role": "haskell",
+              "source": {
+                "hash": "sha256-1jcK5ud/LBBGCFyueroqhhbU4SXjirPCM3jq6CK7YZw=",
+                "hashMode": "recursive",
+                "path": "/nix/store/gqjb7z6xhgknsx70z3vqfndrrb5s0igk-source",
+                "revision": null,
+                "urls": [
+                  "mirror://hackage/async-2.2.6/async-2.2.6.tar.gz"
+                ]
+              },
+              "version": "2.2.6"
+            },
+            {
+              "componentRoles": [
+                "testHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": false,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/1yqixrs211fjiflmlnkkfqf64x1kxlpv-tasty-hunit-0.10.2-cohort-configure",
+              "dependencies": [
+                "/nix/store/y550wcl0701a1gmz7wnv3bcgypn2gckc-call-stack-0.4.0.drv",
+                "/nix/store/7h95y0mpsfmi50wrzb7dirsdzx7bz858-tasty-1.5.4.drv"
+              ],
+              "drvPath": "/nix/store/axfd9mj69990b23ar4lkg26j1idjwfbq-tasty-hunit-0.10.2.drv",
+              "metadata": {
+                "hash": null,
+                "revision": null
+              },
+              "name": "tasty-hunit",
+              "outputPath": "/nix/store/ayl6n5a8ky3j9ws2z0s0ss4r3n0r1d3y-tasty-hunit-0.10.2",
+              "role": "haskell",
+              "source": {
+                "hash": "sha256-jMpvsbL6zKNjREfGVCyxOirqy2tM0LEOSaXI+XX5G6o=",
+                "hashMode": "recursive",
+                "path": "/nix/store/kcxnfski7vdyj1njihh070c7iv588adb-source",
+                "revision": null,
+                "urls": [
+                  "mirror://hackage/tasty-hunit-0.10.2/tasty-hunit-0.10.2.tar.gz"
+                ]
+              },
+              "version": "0.10.2"
+            },
+            {
+              "componentRoles": [
+                "libraryHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": false,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/x9mvjxl1aqb5zrq9ndwmfs50spb4r2is-hashable-1.5.1.0-cohort-configure",
+              "dependencies": [],
+              "drvPath": "/nix/store/hm91llg4aawkmzi3y7svdign2chvfk53-hashable-1.5.1.0.drv",
+              "metadata": {
+                "hash": null,
+                "revision": null
+              },
+              "name": "hashable",
+              "outputPath": "/nix/store/mj5ipl83y1mw470dyhvqj1gi8s4wsy0z-hashable-1.5.1.0",
+              "role": "haskell",
+              "source": {
+                "hash": "sha256-q5lVm/VeHY8s7kWX7jcInzq3whBUHu0cDqFnPLsDswo=",
+                "hashMode": "recursive",
+                "path": "/nix/store/ivmf5qdhfzpzl7axrwlfi6if2mwf80dv-source",
+                "revision": null,
+                "urls": [
+                  "mirror://hackage/hashable-1.5.1.0/hashable-1.5.1.0.tar.gz"
+                ]
+              },
+              "version": "1.5.1.0"
+            },
+            {
+              "componentRoles": [
+                "libraryHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": false,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/fiqh5hn23ayqi1v31f3mb6yikpxz81jc-unordered-containers-0.2.21-cohort-configure",
+              "dependencies": [
+                "/nix/store/hm91llg4aawkmzi3y7svdign2chvfk53-hashable-1.5.1.0.drv"
+              ],
+              "drvPath": "/nix/store/zfj48z6ihpcs06m1zfrnwsirb904jdlz-unordered-containers-0.2.21.drv",
+              "metadata": {
+                "hash": "c5de1fb3377ed3c5f4cd851a771d1acc5c37d2f6bef0a499295c0e8857da5605",
+                "revision": "2"
+              },
+              "name": "unordered-containers",
+              "outputPath": "/nix/store/scpagn27hvlmg8hrd9gxx4rymsnzjq9b-unordered-containers-0.2.21",
+              "role": "haskell",
+              "source": {
+                "hash": "sha256-YGklj5D14AvkiaVkJH44E7YjSb8wivPrHZz3vgsmSFk=",
+                "hashMode": "recursive",
+                "path": "/nix/store/ld4hwdryaajryhzbsrflbpnqvd0pj634-source",
+                "revision": null,
+                "urls": [
+                  "mirror://hackage/unordered-containers-0.2.21/unordered-containers-0.2.21.tar.gz"
+                ]
+              },
+              "version": "0.2.21"
+            },
+            {
+              "componentRoles": [
+                "libraryHaskellDepends"
+              ],
+              "configuration": {
+                "configureFlags": [],
+                "doBenchmark": false,
+                "doCheck": false,
+                "doHaddock": false,
+                "enableLibraryProfiling": false,
+                "hooks": {
+                  "postBuild": "",
+                  "postConfigure": "",
+                  "postInstall": "",
+                  "postUnpack": "",
+                  "preBuild": "",
+                  "preConfigure": "",
+                  "preInstall": ""
+                },
+                "jailbreak": false,
+                "patches": [],
+                "postPatch": "",
+                "prePatch": ""
+              },
+              "configurationReplay": "/nix/store/had5darv5civ7xcg3pva19pka5i8ynlk-call-stack-0.4.0-cohort-configure",
+              "dependencies": [],
+              "drvPath": "/nix/store/y550wcl0701a1gmz7wnv3bcgypn2gckc-call-stack-0.4.0.drv",
+              "metadata": {
+                "hash": null,
+                "revision": null
+              },
+              "name": "call-stack",
+              "outputPath": "/nix/store/0l6d7w7q5sxl2v2017d80zrk818fc2zq-call-stack-0.4.0",
+              "role": "haskell",
+              "source": {
+                "hash": "sha256-H9xQPHooQ3WxJqwbiPQRZGhm/+4X6bj0ear816q2zrk=",
+                "hashMode": "recursive",
+                "path": "/nix/store/sbz7hsn22ilhvw2p3xggsnjji6jqdr4x-source",
+                "revision": null,
+                "urls": [
+                  "mirror://hackage/call-stack-0.4.0/call-stack-0.4.0.tar.gz"
+                ]
+              },
+              "version": "0.4.0"
+            }
+          ],
+          "root": {
+            "drvPath": "/nix/store/j0qfrncifqsa45nc86q1hvxq8lggdirh-bytestring-lexing-0.5.0.16.drv",
+            "name": "bytestring-lexing",
+            "outputPath": "/nix/store/nivsdq7m4vkxfnpwvbacv58gdxxir0c5-bytestring-lexing-0.5.0.16"
+          },
+          "schemaVersion": 1,
+          "system": "aarch64-darwin"
+        },
+        "derivation": "/nix/store/6n43az264cbgcmmbdpy0kis217wibz50-bytestring-lexing-cohort-manifest.drv"
+      },
+      "kind": "real-policy-narrowing-pilot",
+      "previousProduction": {
+        "derivation": "/nix/store/waczzralmzaw6np7zj93gslyfb6x4f4c-bytestring-lexing-0.5.0.16.drv",
+        "effective": {
+          "boundsRelaxed": null,
+          "buildFlags": [],
+          "configureFlags": [],
+          "dependencies": {
+            "buildDepends": [],
+            "buildTools": [],
+            "executableFrameworkDepends": [],
+            "executableHaskellDepends": [],
+            "executablePkgconfigDepends": [],
+            "executableSystemDepends": [],
+            "executableToolDepends": [],
+            "extraLibraries": [],
+            "libraryFrameworkDepends": [],
+            "libraryHaskellDepends": [
+              {
+                "kind": "null",
+                "resolution": "not-inferred"
+              },
+              {
+                "kind": "null",
+                "resolution": "not-inferred"
+              }
+            ],
+            "libraryPkgconfigDepends": [],
+            "librarySystemDepends": [],
+            "libraryToolDepends": [],
+            "pkg-configDepends": [],
+            "setupHaskellDepends": [],
+            "testDepends": [],
+            "testFrameworkDepends": [],
+            "testHaskellDepends": [
+              {
+                "kind": "null",
+                "resolution": "not-inferred"
+              },
+              {
+                "kind": "null",
+                "resolution": "not-inferred"
+              },
+              {
+                "derivation": "/nix/store/7h95y0mpsfmi50wrzb7dirsdzx7bz858-tasty-1.5.4.drv",
+                "output": "out"
+              },
+              {
+                "derivation": "/nix/store/pldgx4s6grh1sbrj7wi2xb15zq4bqjr9-tasty-quickcheck-0.11.1.drv",
+                "output": "out"
+              },
+              {
+                "derivation": "/nix/store/1lsd0zy6lzlxx319lavhvg3yisrvswnw-tasty-smallcheck-0.8.2.drv",
+                "output": "out"
+              }
+            ],
+            "testPkgconfigDepends": [],
+            "testSystemDepends": [],
+            "testToolDepends": []
+          },
+          "editedCabalFile": null,
+          "hooks": {
+            "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "patches": [],
+          "revision": null,
+          "testDependencyInventory": "declared",
+          "testExecution": {
+            "customCheckPhase": false,
+            "flags": [],
+            "targets": [
+              ""
+            ]
+          },
+          "testsEnabled": false
+        },
+        "metadataIdentity": "149e5195836a05c699b2487dc4f672e87149cae2d3f3b8a3ff4a71edd434e8e7",
+        "sourceIdentity": "nix-source:/nix/store/2dzc86g6xsxvp0djrrkrv8zwl3mbz0q0-compatibility-source-identity.drv",
+        "version": "0.5.0.16"
+      },
+      "production": {
+        "derivation": "/nix/store/j0qfrncifqsa45nc86q1hvxq8lggdirh-bytestring-lexing-0.5.0.16.drv",
+        "effective": {
+          "boundsRelaxed": false,
+          "buildFlags": [],
+          "configureFlags": [],
+          "dependencies": {
+            "buildDepends": [],
+            "buildTools": [],
+            "executableFrameworkDepends": [],
+            "executableHaskellDepends": [],
+            "executablePkgconfigDepends": [],
+            "executableSystemDepends": [],
+            "executableToolDepends": [],
+            "extraLibraries": [],
+            "libraryFrameworkDepends": [],
+            "libraryHaskellDepends": [
+              {
+                "kind": "null",
+                "resolution": "not-inferred"
+              },
+              {
+                "kind": "null",
+                "resolution": "not-inferred"
+              }
+            ],
+            "libraryPkgconfigDepends": [],
+            "librarySystemDepends": [],
+            "libraryToolDepends": [],
+            "pkg-configDepends": [],
+            "setupHaskellDepends": [],
+            "testDepends": [],
+            "testFrameworkDepends": [],
+            "testHaskellDepends": [
+              {
+                "kind": "null",
+                "resolution": "not-inferred"
+              },
+              {
+                "kind": "null",
+                "resolution": "not-inferred"
+              },
+              {
+                "derivation": "/nix/store/7h95y0mpsfmi50wrzb7dirsdzx7bz858-tasty-1.5.4.drv",
+                "output": "out"
+              },
+              {
+                "derivation": "/nix/store/pldgx4s6grh1sbrj7wi2xb15zq4bqjr9-tasty-quickcheck-0.11.1.drv",
+                "output": "out"
+              },
+              {
+                "derivation": "/nix/store/1lsd0zy6lzlxx319lavhvg3yisrvswnw-tasty-smallcheck-0.8.2.drv",
+                "output": "out"
+              }
+            ],
+            "testPkgconfigDepends": [],
+            "testSystemDepends": [],
+            "testToolDepends": []
+          },
+          "editedCabalFile": null,
+          "hooks": {
+            "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "patches": [],
+          "revision": null,
+          "testDependencyInventory": "declared",
+          "testExecution": {
+            "customCheckPhase": false,
+            "flags": [],
+            "targets": [
+              ""
+            ]
+          },
+          "testsEnabled": true
+        },
+        "metadataIdentity": "149e5195836a05c699b2487dc4f672e87149cae2d3f3b8a3ff4a71edd434e8e7",
+        "sourceIdentity": "nix-source:/nix/store/2dzc86g6xsxvp0djrrkrv8zwl3mbz0q0-compatibility-source-identity.drv",
+        "version": "0.5.0.16"
+      },
+      "requiredSuites": [
+        "test-all"
+      ],
+      "schemaVersion": 1,
+      "selectedPolicy": {
+        "profile": "verified-bytestring-lexing-ghc9124-v1",
+        "selectionId": "bytestring-lexing-ghc9124-native-v1"
+      },
+      "sourceChannel": "github",
+      "status": "unverified",
+      "system": "aarch64-darwin"
+    },
+    "matrix": {
+      "schema_version": 1,
+      "system": "aarch64-darwin",
+      "before_revision": "903c93ee40fc131b94f07506f290750d8ba376fc",
+      "after": "Staged named-policy implementation; bind exact final code before adoption",
+      "cells": [
+        {
+          "channel": "github",
+          "compiler": "ghc9124",
+          "command": [
+            "nix",
+            "eval",
+            "--impure",
+            "--json",
+            "--file",
+            "/tmp/ep21-migration-evidence-scripts/ep21-linux-cohort-identities.nix",
+            "current.aarch64-darwin.github.ghc9124",
+            "--max-jobs",
+            "0",
+            "--builders",
+            ""
+          ],
+          "elapsed_seconds": 1.0283083749818616,
+          "changed": [
+            "bytestring-lexing"
+          ],
+          "unchanged_count": 369
+        },
+        {
+          "channel": "github",
+          "compiler": "ghc9141",
+          "command": [
+            "nix",
+            "eval",
+            "--impure",
+            "--json",
+            "--file",
+            "/tmp/ep21-migration-evidence-scripts/ep21-linux-cohort-identities.nix",
+            "current.aarch64-darwin.github.ghc9141",
+            "--max-jobs",
+            "0",
+            "--builders",
+            ""
+          ],
+          "elapsed_seconds": 1.0160573750035837,
+          "changed": [],
+          "unchanged_count": 370
+        },
+        {
+          "channel": "hackage",
+          "compiler": "ghc9124",
+          "command": [
+            "nix",
+            "eval",
+            "--impure",
+            "--json",
+            "--file",
+            "/tmp/ep21-migration-evidence-scripts/ep21-linux-cohort-identities.nix",
+            "current.aarch64-darwin.hackage.ghc9124",
+            "--max-jobs",
+            "0",
+            "--builders",
+            ""
+          ],
+          "elapsed_seconds": 1.0453021250432357,
+          "changed": [
+            "bytestring-lexing"
+          ],
+          "unchanged_count": 369
+        },
+        {
+          "channel": "hackage",
+          "compiler": "ghc9141",
+          "command": [
+            "nix",
+            "eval",
+            "--impure",
+            "--json",
+            "--file",
+            "/tmp/ep21-migration-evidence-scripts/ep21-linux-cohort-identities.nix",
+            "current.aarch64-darwin.hackage.ghc9141",
+            "--max-jobs",
+            "0",
+            "--builders",
+            ""
+          ],
+          "elapsed_seconds": 1.275309000047855,
+          "changed": [],
+          "unchanged_count": 370
+        }
+      ]
+    },
+    "qualification": "Factory-scope exact strict recipe matches the earlier two-system pilot. Channel-overlay test dependencies have distinct identities and are validated separately."
+  },
+  "native_darwin": {
+    "pure_contracts": 313,
+    "updater_tests": 209,
+    "selected_package_suite": "test-all",
+    "selected_package_test_cases": 58,
+    "graph_haskell_instances": 21,
+    "behavior_cases": 3,
+    "channels": [
+      "github",
+      "hackage"
+    ],
+    "native_suite_execution": "Fresh actual channel-overlay strict package build, complete unfiltered suite. Both channel checks use that same actual package recipe; their graph context labels are retained separately.",
+    "checks": [
+      {
+        "drvPath": "/nix/store/22vfhjwm7dhbqvmn30ar0d11vwvvnhkd-bytestring-lexing-selected-policy-github.drv",
+        "outputs": {
+          "out": "/nix/store/ypc2hjyzvvibmx6vqfd73qha5ahrg22x-bytestring-lexing-selected-policy-github"
+        }
+      },
+      {
+        "drvPath": "/nix/store/i7lhhkppmky7z415l1b4fhrizsihbn8v-bytestring-lexing-selected-policy-hackage.drv",
+        "outputs": {
+          "out": "/nix/store/hi4gkiap7a49ap9813v118kynhz1frkn-bytestring-lexing-selected-policy-hackage"
+        }
+      },
+      {
+        "drvPath": "/nix/store/mgafzqpkn6yqbd2wyr4q2vx78g1lvfg3-compatibility-capture.drv",
+        "outputs": {
+          "out": "/nix/store/8frhn990bzfkb0xr32l735v5v97lgbpb-compatibility-capture"
+        }
+      },
+      {
+        "drvPath": "/nix/store/88fa32f650sn3l0h9c2ia4h90525pibk-compatibility-report.drv",
+        "outputs": {
+          "out": "/nix/store/p6x3z0mv65n6nnxdqbml6vvrb51m9ipa-compatibility-report"
+        }
+      },
+      {
+        "drvPath": "/nix/store/jgm80a6273xq4l7hkidprzwdzq7515jh-nix-unit-tests.drv",
+        "outputs": {
+          "out": "/nix/store/jz3dmfs17kxjf6zqhzh0ka17wvpv28wn-nix-unit-tests"
+        }
+      }
+    ]
+  },
+  "retirement_candidates": {
+    "retirement-scan/github-ghc9141.json": {
+      "entries": 453,
+      "candidates": [
+        {
+          "id": "legacy-dec-v1",
+          "package": "dec"
+        },
+        {
+          "id": "legacy-servant-client-core-v1",
+          "package": "servant-client-core"
+        },
+        {
+          "id": "legacy-servant-client-v1",
+          "package": "servant-client"
+        },
+        {
+          "id": "legacy-servant-docs-v1",
+          "package": "servant-docs"
+        },
+        {
+          "id": "legacy-servant-foreign-v1",
+          "package": "servant-foreign"
+        },
+        {
+          "id": "legacy-servant-v1",
+          "package": "servant"
+        },
+        {
+          "id": "legacy-singleton-bool-v1",
+          "package": "singleton-bool"
+        }
+      ],
+      "problems": []
+    },
+    "retirement-scan/hackage-ghc9141.json": {
+      "entries": 423,
+      "candidates": [
+        {
+          "id": "legacy-dec-v1",
+          "package": "dec"
+        },
+        {
+          "id": "legacy-servant-client-core-v1",
+          "package": "servant-client-core"
+        },
+        {
+          "id": "legacy-servant-client-v1",
+          "package": "servant-client"
+        },
+        {
+          "id": "legacy-servant-docs-v1",
+          "package": "servant-docs"
+        },
+        {
+          "id": "legacy-servant-foreign-v1",
+          "package": "servant-foreign"
+        },
+        {
+          "id": "legacy-servant-v1",
+          "package": "servant"
+        },
+        {
+          "id": "legacy-singleton-bool-v1",
+          "package": "singleton-bool"
+        }
+      ],
+      "problems": []
+    },
+    "retirement-scan/github-ghc9124.json": {
+      "entries": 453,
+      "candidates": [],
+      "problems": []
+    },
+    "retirement-scan/hackage-ghc9124.json": {
+      "entries": 423,
+      "candidates": [],
+      "problems": []
+    }
+  },
+  "remaining": [
+    "Qualified Linux selected-policy/check execution",
+    "Exact native no-entry validation of an admitting-metadata candidate before retirement",
+    "New immutable retained generation, support/evidence and historical identity replay",
+    "Final update-impact/evidence integration and complete flake checks"
+  ],
+  "retained_history": "Generations 1 and 2 and all legacy profile definitions are unchanged; their accepted pre-selection identity evidence is retained separately. No automatic application runtime upgrade or receipt rebinding.",
+  "artifact": {
+    "file": "bytestring-lexing-policy-selection-raw-evidence.tar.gz",
+    "sha256": "4925a3260f65a7f1af5a8eefd5b3e8ec4edc74c75a461b9e406b78ee850581e3",
+    "bytes": 165943,
+    "verified_members": 54
+  }
+}

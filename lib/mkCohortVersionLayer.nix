@@ -1,10 +1,12 @@
 # Names come from the retained record, never from the package fixed point.
-{ lib, captureCompatibility ? false }:
+{ lib, captureCompatibility ? false, channel ? "github" }:
 cohort: haskellLib: pkgs:
 hself: hsuper:
 let
   arguments = import ../overlays/cohort-arguments.nix { inherit pkgs; };
   call = import ./callCohortHackage.nix { inherit lib; };
+  policySelection = import ./selectCohortBuildPolicy.nix { inherit lib; };
+  profiles = (builtins.fromJSON (builtins.readFile ../config/package-build-policies.json)).profiles;
 in
 lib.mapAttrs
   (name: entry:
@@ -15,7 +17,15 @@ lib.mapAttrs
           inherit hself haskellLib pkgs name entry;
           arguments = arguments.${name} or { };
         };
-        package = (import ./applyPackageBuildPolicy.nix) "legacy-skip-enforce-v1" haskellLib raw;
+        selection = policySelection.select {
+          inherit name entry channel;
+          compiler = hself.ghc.version;
+          system = pkgs.stdenv.hostPlatform.system;
+        };
+        configured = (import ./applyPackageBuildPolicy.nix) selection.profile haskellLib raw;
+        package = if selection.selectionId == null then configured else
+        configured // { cohortBuildPolicySelection = selection; };
+        profile = profiles.${selection.profile};
       in
       if !captureCompatibility then package else
       (import ./captureCompatibility.nix { inherit lib; }) {
@@ -23,8 +33,9 @@ lib.mapAttrs
         before = null;
         after = package;
         entry = {
-          buildPolicyProfile = "legacy-skip-enforce-v1";
-          exceptionIds = [ "legacy-cohort-source-v1" "legacy-skip-enforce-v1-test-suppression" ];
+          buildPolicyProfile = selection.profile;
+          exceptionIds = [ "legacy-cohort-source-v1" ]
+          ++ profile.tests.exceptionIds ++ profile.bounds.exceptionIds;
         };
       })
   cohort.packages

@@ -1,6 +1,6 @@
 # Declare legacy compatibility effects without inventing evidence
 
-Status: Accepted design; migration identity verification is pending.
+Status: Accepted design; two-system migration/report verification passes. Stronger policy and retained-generation acceptance are scoped separately.
 
 Date: 2026-10-17
 
@@ -38,6 +38,22 @@ Their test/bounds modes and legacy construction semantics cannot change under th
 policy needs a new selected configuration and matching behavioral evidence. Apply
 policy during construction; a later flag change cannot undo an earlier metadata
 rewrite or prove that a dependency suite ran.
+
+A verified test-policy narrowing uses a new immutable complete profile and an explicit
+selection in `config/cohort-build-policy-selections.json`. That record owns eligibility,
+reason and evidence references, while the cohort still owns the selected archive and
+metadata. Match package/compiler/platform/channel explicitly; a changed source, version
+or metadata in the selected context requires revalidation instead of silently restoring
+the test waiver. Other contexts retain their named legacy policy. The selector accepts
+only complete run/enforce profiles without undeclared services or waivers. Routine builds
+construct the selected recipe; they do not run the separate removal/report matrix.
+
+Capture waiver-free profile names as well as exception IDs. Their modes still affect
+input/policy identities even though no waiver row applies. Keep selection prose/evidence
+observations outside semantic policy identity. A profile named verified does not promote
+future changed compiler/dependency contexts to native success: exact recipe/log receipts
+remain required. Introduce a new retained generation to capture an accepted selection;
+never edit older profile/recipe projections or rebind their receipts.
 
 Keep catalog prose, IDs, evidence pointers and observation times outside production
 derivation arguments. Source, metadata, flags, native inputs, compiler and effective

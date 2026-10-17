@@ -72,6 +72,18 @@
         "exceptionIds": []
       },
       "construction": "complete"
+    },
+    "verified-bytestring-lexing-ghc9124-v1": {
+      "tests": {
+        "mode": "run",
+        "services": [],
+        "exceptionIds": []
+      },
+      "bounds": {
+        "mode": "enforce",
+        "exceptionIds": []
+      },
+      "construction": "complete"
     }
   }
 }

@@ -19,7 +19,9 @@ let
       throw "compatibility capture: empty, duplicate or wrong-package observations for ${name}"
     else last.after // {
       selectedExceptionIds = ids;
-      profiles = lib.unique (map (binding: binding.name) (builtins.filter (binding: binding.kind == "profile") bindings));
+      profiles = lib.unique
+        (map (event: event.profile) (builtins.filter (event: (event.profile or null) != null) observations)
+          ++ map (binding: binding.name) (builtins.filter (binding: binding.kind == "profile") bindings));
       generated = lib.unique (map (binding: binding.kind) (builtins.filter (binding: builtins.elem binding.kind [ "generated-first-party" "generated-cohort" ]) bindings));
       inputsByException = lib.listToAttrs (map (pair: lib.nameValuePair pair.id (input pair.event)) pairs);
       construction = lib.listToAttrs (map

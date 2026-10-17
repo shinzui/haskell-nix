@@ -233,7 +233,7 @@ let
   extraOverrides =
     if channel == "hackage" then hackageDependencyOverrides
     else (_: _: { });
-  versionLayer = (import ./mkCohortVersionLayer.nix { inherit lib captureCompatibility; }) cohortVersions;
+  versionLayer = (import ./mkCohortVersionLayer.nix { inherit lib captureCompatibility channel; }) cohortVersions;
   cohortPackageConflicts = lib.intersectLists
     (builtins.attrNames cohortVersions.packages)
     selectedPackageNames;

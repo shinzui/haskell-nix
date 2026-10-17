@@ -6,7 +6,11 @@ let
       inherit catalog policies;
       recipeBindings = bindings;
     };
-  bindings = builtins.filter (binding: binding.kind != "profile" || binding.name != "strict-v1") policy.recipeBindings;
+  bindings = builtins.filter
+    (binding: binding.kind != "profile"
+      || policy.policies.profiles.${binding.name}.tests.exceptionIds
+      ++ policy.policies.profiles.${binding.name}.bounds.exceptionIds != [ ])
+    policy.recipeBindings;
   rejects = value: { expr = !(builtins.tryEval (builtins.deepSeq value true)).success; expected = true; };
   changeFirst = change: policy.catalog // {
     entries = [ (change (builtins.head policy.catalog.entries)) ] ++ builtins.tail policy.catalog.entries;

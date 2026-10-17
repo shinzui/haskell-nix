@@ -259,6 +259,20 @@ in
     scope = pkgsPlain.haskell.packages.${defaultGhc};
   }).check;
 
+  bytestring-lexing-policy-github = (import ./bytestring-lexing-validation.nix {
+    pkgs = pkgsGithub;
+    system = pkgsPlain.stdenv.hostPlatform.system;
+    sourceChannel = "github";
+    scope = pkgsGithub.haskell.packages.${defaultGhc};
+  }).check;
+
+  bytestring-lexing-policy-hackage = (import ./bytestring-lexing-validation.nix {
+    pkgs = pkgsHackage;
+    system = pkgsPlain.stdenv.hostPlatform.system;
+    sourceChannel = "hackage";
+    scope = pkgsHackage.haskell.packages.${defaultGhc};
+  }).check;
+
   shared-overrides = import ./shared-overrides.nix {
     inherit lib defaultGhc;
     pkgs = pkgsPlain;

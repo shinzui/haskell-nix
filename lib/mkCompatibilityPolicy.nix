@@ -4,6 +4,7 @@ registry:
 let
   catalog = builtins.fromJSON (builtins.readFile ../config/compatibility-exceptions.json);
   policies = builtins.fromJSON (builtins.readFile ../config/package-build-policies.json);
+  cohortBuildPolicySelections = (import ./selectCohortBuildPolicy.nix { inherit lib; }).semanticSelections;
   rowBinding = package: row: { kind = "registry-row"; inherit package row; };
   recipeBindings = lib.concatLists
     (lib.mapAttrsToList
@@ -40,7 +41,7 @@ let
     registry;
 in
 builtins.seq validated {
-  inherit catalog policies recipeBindings;
+  inherit catalog policies recipeBindings cohortBuildPolicySelections;
   generatedPolicyProfiles = {
     firstParty = "legacy-first-party-v1";
     cohort = "legacy-skip-enforce-v1";
