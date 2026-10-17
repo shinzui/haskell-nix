@@ -1,0 +1,1228 @@
+{
+  "schema_version": 1,
+  "project_uri": "mori://shinzui/rei",
+  "source_revision": "bad0388f722af9e29187c2adfef5ed97fd0ca92f",
+  "system": "aarch64-darwin",
+  "status": "Both campaigns interrupted for foreign build/test contention; no accepted timing or five-pair claim",
+  "exclusions": {
+    "v1": {
+      "command": [
+        "python3",
+        "scripts/measure-application-nix-builds.py",
+        "--expression",
+        "checks/fixtures/application-builds/split.nix",
+        "--baseline-source",
+        "/tmp/ep18-rei-resource-aware-split-v2/baseline",
+        "--candidate-source",
+        "/tmp/ep18-rei-resource-aware-split-v2/candidate",
+        "--edit",
+        "rei-cli/src/Rei/Cli/Commands/Help.hs",
+        "--replace",
+        "timeTopicContent = $(embedStringFile",
+        "timeTopicContent = \"MP4 paired leaf {trial} resource-aware-v1\\n\" <> $(embedStringFile",
+        "--project-uri",
+        "mori://shinzui/rei",
+        "--source-revision",
+        "bad0388f722af9e29187c2adfef5ed97fd0ca92f",
+        "--output-dir",
+        "/tmp/ep18-rei-resource-aware-paired-v1",
+        "--require-idle-compilers"
+      ],
+      "exit_code": -2,
+      "elapsed_seconds": 67.57966062502237,
+      "status": "interrupted diagnostic; excluded from performance acceptance",
+      "reason": "Unrelated actual Rei API test process and its PostgreSQL/CLI children started during first baseline build. Own driver interrupted with SIGINT; source restoration verified.",
+      "observed_foreign_processes": [
+        {
+          "pid": 91227,
+          "name": "cabal"
+        },
+        {
+          "pid": 93713,
+          "name": "rei-api-test"
+        }
+      ]
+    },
+    "v2": {
+      "command": [
+        "python3",
+        "scripts/measure-application-nix-builds.py",
+        "--expression",
+        "checks/fixtures/application-builds/split.nix",
+        "--baseline-source",
+        "/tmp/ep18-rei-resource-aware-split-v2/baseline",
+        "--candidate-source",
+        "/tmp/ep18-rei-resource-aware-split-v2/candidate",
+        "--edit",
+        "rei-cli/src/Rei/Cli/Commands/Help.hs",
+        "--replace",
+        "timeTopicContent = $(embedStringFile",
+        "timeTopicContent = \"MP4 paired leaf {trial} resource-aware-v2\\n\" <> $(embedStringFile",
+        "--project-uri",
+        "mori://shinzui/rei",
+        "--source-revision",
+        "bad0388f722af9e29187c2adfef5ed97fd0ca92f",
+        "--output-dir",
+        "/tmp/ep18-rei-resource-aware-paired-v2",
+        "--require-idle-compilers"
+      ],
+      "exit_code": -2,
+      "elapsed_seconds": 243.1156123339897,
+      "overlay_sha256": "aa030fe0ddcc4257105db83a018c6b44a9b460402404f8d8e286db081388e55d",
+      "overlay_unchanged_after": true,
+      "foreign_test_process_observations": [
+        {
+          "elapsed_seconds": 75.98349733400391,
+          "pid": 12238,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 76.52013550000265,
+          "pid": 12238,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 77.05577608401654,
+          "pid": 12238,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 77.59893491701223,
+          "pid": 12238,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 78.1449774170178,
+          "pid": 12238,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 78.68370400002459,
+          "pid": 12238,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 79.22639995900681,
+          "pid": 12238,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 79.7709022089839,
+          "pid": 12238,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 80.30981129198335,
+          "pid": 12238,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 80.85096000001067,
+          "pid": 12238,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 81.39418304199353,
+          "pid": 12238,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 81.93727483402472,
+          "pid": 12238,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 82.47992633399554,
+          "pid": 12238,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 105.3157689999789,
+          "pid": 15600,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 105.85725904197898,
+          "pid": 15600,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 106.40300562500488,
+          "pid": 15600,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 106.94638704200042,
+          "pid": 15600,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 123.31643787497887,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 123.85969900002237,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 124.39694545901148,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 124.94167149998248,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 125.48357066698372,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 126.02123795897933,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 126.56477654201444,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 127.10713750001742,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 127.65033766702982,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 128.19394666701555,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 128.7350298340316,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 129.28054058400448,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 129.81844383402495,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 130.36258991702925,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 130.90687466698,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 131.44376070902217,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 131.98648324998794,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 132.5294402919826,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 133.07111937500304,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 133.6170160420006,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 134.15880158398068,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 134.6979618750047,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 135.24190191697562,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 135.7845356669859,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 136.31709904200397,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 136.85951779200695,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 137.39433079201262,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 137.93663025001297,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 138.48004499997478,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 139.02021629200317,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 139.56469804199878,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 140.1078140839818,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 140.65223308402346,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 141.19358358398313,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 141.73647258401616,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 142.2716577919782,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 142.81328925001435,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 143.35334308398888,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 143.8936818339862,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 144.43849066703115,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 144.97233562503243,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 145.51237183401827,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 146.056565625011,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 146.6001687499811,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 147.13594354200177,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 147.67932054202538,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 148.22290391701972,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 148.7680364170228,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 149.3111596669769,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 149.8535506670014,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 150.39028749999125,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 150.9346636669943,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 151.4668045840226,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 152.0099977920181,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 152.54863049997948,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 153.0866699590115,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 153.629273833998,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 154.17291808401933,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 154.70793387497542,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 155.2505399590009,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 155.79160245897947,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 156.33499733399367,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 156.87710804201197,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 157.4202009169967,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 157.9559260000242,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 158.49946370901307,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 159.04169870901387,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 159.58417595899664,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 160.12737008399563,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 160.6696243340266,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 161.21322737500304,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 161.75132583401864,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 162.28787474997807,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 162.83115174999693,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 163.3787309170002,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 163.91192683402915,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 164.45482383400667,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 164.99815166700864,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 165.54284237499814,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 166.0780231669778,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 166.61903462500777,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 167.163754875015,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 167.70659241703106,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 168.24044537497684,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 168.79649095900822,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 168.79660829203203,
+          "pid": 22971,
+          "name": "rei-api-test"
+        },
+        {
+          "elapsed_seconds": 169.34310075000394,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 169.343218834023,
+          "pid": 22971,
+          "name": "rei-api-test"
+        },
+        {
+          "elapsed_seconds": 169.88345012499485,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 169.88355949998368,
+          "pid": 22971,
+          "name": "rei-api-test"
+        },
+        {
+          "elapsed_seconds": 170.4209259590134,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 170.42102866701316,
+          "pid": 22971,
+          "name": "rei-api-test"
+        },
+        {
+          "elapsed_seconds": 170.9610484589939,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 170.9611420839792,
+          "pid": 22971,
+          "name": "rei-api-test"
+        },
+        {
+          "elapsed_seconds": 171.5177219589823,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 171.51781091699377,
+          "pid": 22971,
+          "name": "rei-api-test"
+        },
+        {
+          "elapsed_seconds": 172.06161037500715,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 172.06169983401196,
+          "pid": 22971,
+          "name": "rei-api-test"
+        },
+        {
+          "elapsed_seconds": 172.5957909169956,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 172.5958775000181,
+          "pid": 22971,
+          "name": "rei-api-test"
+        },
+        {
+          "elapsed_seconds": 173.13362791697728,
+          "pid": 17270,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 173.1337142920238,
+          "pid": 22971,
+          "name": "rei-api-test"
+        },
+        {
+          "elapsed_seconds": 207.52449983399129,
+          "pid": 28574,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 208.07887145900168,
+          "pid": 28574,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 208.63353087502765,
+          "pid": 28574,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 209.18491625000024,
+          "pid": 28574,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 209.73344041698147,
+          "pid": 28574,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 210.28779291699175,
+          "pid": 28574,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 210.82921695901314,
+          "pid": 28574,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 211.38017291697906,
+          "pid": 28574,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 211.9404821670032,
+          "pid": 28574,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 212.49257987499004,
+          "pid": 28574,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 213.07129087502835,
+          "pid": 28574,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 213.62040529202204,
+          "pid": 28574,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 214.17209266702412,
+          "pid": 28574,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 214.7204972920008,
+          "pid": 28574,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 215.27182862500194,
+          "pid": 28574,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 215.82209204201354,
+          "pid": 30748,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 216.3690112089971,
+          "pid": 30748,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 216.91630212502787,
+          "pid": 30748,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 217.4611747090239,
+          "pid": 30748,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 218.00746200000867,
+          "pid": 31097,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 218.55050379200839,
+          "pid": 31097,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 219.1015247090254,
+          "pid": 31097,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 219.64799420902273,
+          "pid": 31097,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 220.19288404198596,
+          "pid": 31097,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 220.73613791703247,
+          "pid": 31097,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 221.28172491700388,
+          "pid": 31097,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 221.82534395897528,
+          "pid": 31097,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 222.3664500840241,
+          "pid": 31097,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 222.92927020898787,
+          "pid": 31097,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 223.4848627920146,
+          "pid": 31097,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 224.02633191697532,
+          "pid": 31097,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 224.56185029202607,
+          "pid": 31323,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 225.10471495898673,
+          "pid": 31323,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 225.65070283401292,
+          "pid": 31323,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 226.19386087497696,
+          "pid": 31358,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 226.72937137499684,
+          "pid": 31358,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 227.27354908402776,
+          "pid": 31358,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 227.80684550001752,
+          "pid": 31358,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 228.34779245901154,
+          "pid": 31358,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 228.3478240420227,
+          "pid": 31412,
+          "name": "rei-api-test"
+        },
+        {
+          "elapsed_seconds": 228.89032708399463,
+          "pid": 31358,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 228.89035858400166,
+          "pid": 31412,
+          "name": "rei-api-test"
+        },
+        {
+          "elapsed_seconds": 229.45107454201207,
+          "pid": 31358,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 229.45110470900545,
+          "pid": 31412,
+          "name": "rei-api-test"
+        },
+        {
+          "elapsed_seconds": 229.98602229199605,
+          "pid": 31358,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 229.98604362498736,
+          "pid": 31412,
+          "name": "rei-api-test"
+        },
+        {
+          "elapsed_seconds": 230.53578224999364,
+          "pid": 31358,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 230.5358038339764,
+          "pid": 31412,
+          "name": "rei-api-test"
+        },
+        {
+          "elapsed_seconds": 231.08303362497827,
+          "pid": 31358,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 231.0830566670047,
+          "pid": 31412,
+          "name": "rei-api-test"
+        },
+        {
+          "elapsed_seconds": 231.6269311250071,
+          "pid": 31358,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 231.62695254199207,
+          "pid": 31412,
+          "name": "rei-api-test"
+        },
+        {
+          "elapsed_seconds": 232.16929366701515,
+          "pid": 31358,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 232.16931491700234,
+          "pid": 31412,
+          "name": "rei-api-test"
+        },
+        {
+          "elapsed_seconds": 232.70988754200516,
+          "pid": 31358,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 232.7099033750128,
+          "pid": 31412,
+          "name": "rei-api-test"
+        },
+        {
+          "elapsed_seconds": 233.25991733401315,
+          "pid": 31358,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 233.25992629199754,
+          "pid": 31412,
+          "name": "rei-api-test"
+        },
+        {
+          "elapsed_seconds": 233.80836220900528,
+          "pid": 31358,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 233.80837229202734,
+          "pid": 31412,
+          "name": "rei-api-test"
+        },
+        {
+          "elapsed_seconds": 234.35232745902613,
+          "pid": 31358,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 234.35233604197856,
+          "pid": 31412,
+          "name": "rei-api-test"
+        },
+        {
+          "elapsed_seconds": 234.8930070840288,
+          "pid": 31358,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 234.89301570900716,
+          "pid": 31412,
+          "name": "rei-api-test"
+        },
+        {
+          "elapsed_seconds": 235.43530487501994,
+          "pid": 31358,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 235.43531404202804,
+          "pid": 31412,
+          "name": "rei-api-test"
+        },
+        {
+          "elapsed_seconds": 235.9852120000287,
+          "pid": 31358,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 235.98522108403267,
+          "pid": 31412,
+          "name": "rei-api-test"
+        },
+        {
+          "elapsed_seconds": 236.52749445900554,
+          "pid": 31358,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 236.52750437502982,
+          "pid": 31412,
+          "name": "rei-api-test"
+        },
+        {
+          "elapsed_seconds": 237.06850699998904,
+          "pid": 31358,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 237.06851574999746,
+          "pid": 31412,
+          "name": "rei-api-test"
+        },
+        {
+          "elapsed_seconds": 237.6142856249935,
+          "pid": 31358,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 237.61429541697726,
+          "pid": 31412,
+          "name": "rei-api-test"
+        },
+        {
+          "elapsed_seconds": 238.16205720900325,
+          "pid": 31358,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 238.16206599998986,
+          "pid": 31412,
+          "name": "rei-api-test"
+        },
+        {
+          "elapsed_seconds": 238.70086154202,
+          "pid": 31358,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 238.7008707500063,
+          "pid": 31412,
+          "name": "rei-api-test"
+        },
+        {
+          "elapsed_seconds": 239.246801375004,
+          "pid": 31358,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 239.2468119590194,
+          "pid": 31412,
+          "name": "rei-api-test"
+        },
+        {
+          "elapsed_seconds": 239.80259862501407,
+          "pid": 31358,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 239.80260941700544,
+          "pid": 31412,
+          "name": "rei-api-test"
+        },
+        {
+          "elapsed_seconds": 240.35955745901447,
+          "pid": 31358,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 240.35956666700076,
+          "pid": 31412,
+          "name": "rei-api-test"
+        },
+        {
+          "elapsed_seconds": 240.9081992499996,
+          "pid": 31358,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 240.908207667002,
+          "pid": 31412,
+          "name": "rei-api-test"
+        },
+        {
+          "elapsed_seconds": 241.45257349999156,
+          "pid": 31358,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 241.45258224999998,
+          "pid": 31412,
+          "name": "rei-api-test"
+        },
+        {
+          "elapsed_seconds": 241.99296225002035,
+          "pid": 31358,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 241.99297312501585,
+          "pid": 31412,
+          "name": "rei-api-test"
+        },
+        {
+          "elapsed_seconds": 242.53746258397587,
+          "pid": 31358,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 242.5374713750207,
+          "pid": 31412,
+          "name": "rei-api-test"
+        },
+        {
+          "elapsed_seconds": 243.08750791702187,
+          "pid": 31358,
+          "name": "cabal"
+        },
+        {
+          "elapsed_seconds": 243.0875176669797,
+          "pid": 31412,
+          "name": "rei-api-test"
+        }
+      ],
+      "status": "interrupted diagnostic; entire campaign excluded from performance acceptance",
+      "reason": "A foreign Cabal/GHC build started during pair 2. Preserve first-pair observations without a five-pair performance claim.",
+      "source_restoration_verified": true
+    }
+  },
+  "diagnostic_completed_rows": [
+    {
+      "trial": 1,
+      "label": "baseline",
+      "elapsed_seconds": 57.2639052500017,
+      "compiled_modules": {
+        "rei-cli": 301
+      }
+    },
+    {
+      "trial": 1,
+      "label": "candidate",
+      "elapsed_seconds": 40.518259416974615,
+      "compiled_modules": {
+        "rei-cli": 8
+      }
+    },
+    {
+      "trial": 2,
+      "label": "candidate",
+      "elapsed_seconds": 40.76226466597291,
+      "compiled_modules": {
+        "rei-cli": 8
+      }
+    }
+  ],
+  "cost": {
+    "interrupted_campaigns_elapsed_seconds": 310.6952729590121,
+    "prior_native_setup_validation_seconds": 1158.1742635000846,
+    "combined_observed_seconds": 1468.8695364590967,
+    "qualification": "Retained observed research/setup cost includes failed and interrupted attempts; no migration or edit-count acceptance inferred from incomplete timing pairs."
+  },
+  "resource_guard_validation": {
+    "changed_bytes_rejected": true,
+    "changed_modes_rejected": true,
+    "before_graph_queries": true,
+    "qualification": "Synthetic repeated rows only exercise early rejection, never performance acceptance. Candidate resource bytes and mode restored afterward."
+  },
+  "remaining": "Five fresh idle alternating pairs, full behavior/public-module/graph verification, producer workflow and ownership, transfer and total-cost gates. User coordination requested; unrelated producer processes and dirty source left untouched.",
+  "raw_archive": {
+    "path": "docs/evidence/ep18/rei-cli-resource-aware-timing-interruptions.raw.tar.gz",
+    "sha256": "b39642399127cd2fc1cc940683cd48c310ef054dedddb2f9b3276b039774ce30",
+    "members": {
+      "campaigns/v1/ep18-rei-resource-aware-paired-v1-driver-receipt.json": "bdc1ef5bc2ae6ef6fc725cac40bb00a5d1a78b744397bbfe316d19a57a09079d",
+      "campaigns/v1/ep18-rei-resource-aware-paired-v1-driver.log": "0866a9eae871045b193605a0c030139112816f39860ff60435ce49dd1b099cf9",
+      "campaigns/v1/ep18-rei-resource-aware-paired-v1-exclusion.json": "f1d362b70536b47e5db370a13f7daf5b10cb925455137569eb612af8f5386b03",
+      "campaigns/v1/paired-1-baseline.build.json": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "campaigns/v1/paired-1-baseline.log": "e60d1dfc60cdc8a2ea130e79061ebe4f84e799e89b90295f86dd9b7fe718290e",
+      "campaigns/v1/summary.json": "a213de016ad6813a2ca61fac7074dddd6f3769b38eee1e61ff5182fab47b7a31",
+      "campaigns/v1/warmup-0-baseline.build.json": "2d5963730c3bdfbed5967df1a81606b4c81ea6b463bdab61a793276f479191d9",
+      "campaigns/v1/warmup-0-baseline.log": "86cdaf7d5a5a0a0467e15a807b0da465e1b1c9d50e5f77e01f152f6b0a03b01d",
+      "campaigns/v1/warmup-0-baseline.receipt.json": "69bdf441d2c626a10ef3c27b7381580d22b65bae86a795bbae384d3391760b7a",
+      "campaigns/v1/warmup-0-candidate.build.json": "4e6cfe0db11c12bf26cbed7779ad4e936108f02041c16e7d9a4882d67eaafda3",
+      "campaigns/v1/warmup-0-candidate.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "campaigns/v1/warmup-0-candidate.receipt.json": "b9337a625974d5fd7fa870f7d5b5097128c6442fdc8c4408ee9b71d8a3159f7f",
+      "campaigns/v2/ep18-rei-resource-aware-paired-v2-driver-receipt.json": "f6b1725af2190dac02b4e232a0ffbeb8e0b11c10ad363d1ad5205b00a8caac3c",
+      "campaigns/v2/ep18-rei-resource-aware-paired-v2-driver.log": "59d795f634a2094aff2e394e55c35f5c8eeb7b137fab26ee79c7c06bd1f70f17",
+      "campaigns/v2/ep18-rei-resource-aware-paired-v2-exclusion.json": "a1e48483f785af52d4c7db2c619fa88a7661cb97718540cd08e5d065f4c20f5c",
+      "campaigns/v2/paired-1-baseline.build.json": "75f414c077a22140a00cf67051b7abda545d6c5bece717df0949c0e11ba18727",
+      "campaigns/v2/paired-1-baseline.log": "4128037b3f8e979f246004a2d73f73342cbf0c9cedc266c5cc29ac47942ef53e",
+      "campaigns/v2/paired-1-baseline.receipt.json": "77f1842900e7e7a35469a196457a9001bf6a8c01d2670801bef921d827c791ba",
+      "campaigns/v2/paired-1-candidate.build.json": "44320af06060c5a82804af21721f472abcc4ccf806b0fea7418d2bfd0c5f4314",
+      "campaigns/v2/paired-1-candidate.log": "4d34ea293226fd8540f6f1d83980f0051f83bc985fcaeaed3acd3170907bf465",
+      "campaigns/v2/paired-1-candidate.receipt.json": "9dd7a1dfb8746452ce497a4ed309c00d550d88d0ed177ab519a131a287c7a570",
+      "campaigns/v2/paired-2-baseline.build.json": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "campaigns/v2/paired-2-baseline.log": "2ff178d199668929aa6a018f95d51d774fdd3a5df283818b6dcf742cd5e684db",
+      "campaigns/v2/paired-2-candidate.build.json": "751ab5576ff82b84e306181bfa26a6ad7287631d3b45a68f6c5b7da8e132d53f",
+      "campaigns/v2/paired-2-candidate.log": "97bb09e2984d202c655cac40e72f8c6a1b9802a841ca02a7c2ce3dfe176310e6",
+      "campaigns/v2/paired-2-candidate.receipt.json": "3ada9c8610400cf2c1c5eff657ca5556807fdd783013947514696e1b9a6be167",
+      "campaigns/v2/summary.json": "52c96ac834511a9ace4272b3a300609ceb412d3c109cd01d7ab1f1a0e9f6604d",
+      "campaigns/v2/warmup-0-baseline.build.json": "2d5963730c3bdfbed5967df1a81606b4c81ea6b463bdab61a793276f479191d9",
+      "campaigns/v2/warmup-0-baseline.log": "86cdaf7d5a5a0a0467e15a807b0da465e1b1c9d50e5f77e01f152f6b0a03b01d",
+      "campaigns/v2/warmup-0-baseline.receipt.json": "a170951117242a366882f4e5a83c4234c3c46b344f3880e8c5037d15b9d94be3",
+      "campaigns/v2/warmup-0-candidate.build.json": "4e6cfe0db11c12bf26cbed7779ad4e936108f02041c16e7d9a4882d67eaafda3",
+      "campaigns/v2/warmup-0-candidate.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "campaigns/v2/warmup-0-candidate.receipt.json": "64201dadb8c9171352b23618a9977cc89fb8f378a3b791b152bf70ce4ea6a232",
+      "code/scripts/verify-application-build-pairs.py": "2815dee034a7205c381be819ca5ddf6d5808d19448c555637a2d0fd3ad39f4e9",
+      "negative-guards/changed-bytes.log": "2f0091555c0619efaf37cd49cec286934174c3587a543e7a56c226b46ae708c6",
+      "negative-guards/changed-mode.log": "12acdcd710ee6e8974b8187eb5eca16a88698afb0d9f90772280b13bd8abad02",
+      "negative-guards/receipt.json": "9103ffd835c61e1f366268538f369f004aa5f8cd8bc4146f795424656d78e2fb",
+      "negative-guards/synthetic-negative-only-summary.json": "4b15c75615f464d57818bf394990f60dec292975361506281b7aa4e219f1c5c2"
+    }
+  }
+}

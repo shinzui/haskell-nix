@@ -102,6 +102,20 @@ def main():
                 path = package / item["file"]
                 if not path.resolve().is_relative_to(package.resolve()) or digest(path.read_bytes()) != item["sha256"]:
                     raise ValueError("A moved module changed or escaped its declared package")
+            for relative, expected in manifest.get("reviewed_resources", {}).items():
+                resource = package / relative
+                if (Path(relative).is_absolute() or ".." in Path(relative).parts
+                        or resource.is_symlink() or not resource.is_file()
+                        or not resource.resolve().is_relative_to(package.resolve())
+                        or digest(resource.read_bytes()) != expected):
+                    raise ValueError("A reviewed compile-time resource changed or escaped its declared package")
+                # Compare with the original package, including executable bits;
+                # resource relocation must preserve more than file contents.
+                original_source = Path(rows[row["trial"], "baseline"]["command"][
+                    rows[row["trial"], "baseline"]["command"].index("source") + 1])
+                original_resource = original_source / boundary_package / relative
+                if resource.stat().st_mode & 0o7777 != original_resource.stat().st_mode & 0o7777:
+                    raise ValueError("A reviewed compile-time resource changed its file mode")
             if api_boundary:
                 candidate = row["label"] == "candidate"
                 if row["identity"].get("apiUsesFoundation") != candidate:
@@ -289,7 +303,8 @@ def main():
                 receipt.setdefault("foundation_validation", []).append({
                     "trial": trial, "derivation": foundation, "library_settings": foundation_settings,
                     "compiler_options": compiler_options(foundation_node),
-                    "source_sha256s_preserved": len(manifest["moved_modules"])})
+                    "source_sha256s_preserved": len(manifest["moved_modules"]),
+                    "reviewed_resource_bytes_and_modes_preserved": len(manifest.get("reviewed_resources", {}))})
                 normalized = {}
                 for label in ["baseline", "candidate"]:
                     node = root_nodes[label]
