@@ -1,10 +1,10 @@
 # Keep routine application changes independent of cohort and toolchain updates
 
-Status: Accepted for implementation; reuse and timing measurements are pending.
+Status: Accepted; Rei planning-prose source isolation is verified; wider reuse and changed-code timing gates remain pending.
 
 Date: 2026-10-04
 
-Revised: 2026-10-16
+Revised: 2026-10-17
 
 ## Context
 
@@ -26,6 +26,14 @@ An application update retains the channel, cohort, compiler, nixpkgs and toolcha
 Dependencies with unchanged transitive inputs retain their derivation and output identities.
 Package source boundaries include all required build inputs and exclude unrelated sibling
 sources and documentation. Git revision stamps affect only the outputs that use them.
+
+Audit source boundaries against every built Cabal component and compile-time file read.
+Disabling tests does not make an entire test directory irrelevant: public support libraries
+and installed utilities may still consume it. Exclude audited planning prose at its package
+directory boundary, preserving Markdown embedded as help, prompts and templates. Filters must
+also work when the checkout is reached through a symlink; uncanonicalized absolute-path
+comparisons can silently include the intended exclusion. Keep positive invalidation probes
+for source/resources alongside negative probes for irrelevant inputs.
 
 A targeted dependency update starts with the previous freeze and holds unrelated versions
 fixed. Report conflicts and the transitive unlocks required to solve them before widening
@@ -112,5 +120,9 @@ comparison and cache publication to plan 9; consumer adoption and source boundar
 11–13; and integration measurements to plan 14. Synthetic fixtures must reject missing static
 dependencies, wrong and correct instances of one package together, invalid/cyclic `follows`,
 stale Cabal imports and source metadata drift at unchanged versions. Positive experiments
-must preserve unchanged dependencies and show actual remote substitution. All implementation
-and timing evidence remains pending.
+must preserve unchanged dependencies and show actual remote substitution. Broader integration
+and changed-code timing evidence remain pending. The scoped EP-18 Rei source-boundary result
+and native acceptance are recorded in its plan and
+[measurement receipt](../evidence/ep18/rei-documentation-rebuild.json). The five-pair 97.8%
+saving applies to planning-prose edits at a fixed revision stamp; new commits still
+invalidate the CLI for provenance.

@@ -6,7 +6,7 @@ docId: DOC-1
 tags: [adoption, navigation, consumers]
 generated:
   by: process:codex
-  at: 2026-10-16T23:51:13Z
+  at: 2026-10-17T04:15:00Z
 ---
 
 # Guides
@@ -22,6 +22,8 @@ For changes in a **consumer repository**, start with the task that matches your 
 
 4. [Compose applications on the Keiro runtime](compose-on-the-keiro-runtime.md) to retain
    the shared dependency closure and add application recipes in one checked scope.
+
+For measured application build work, follow [Measure and remove avoidable application rebuilds](faster-application-nix-builds.md).
 
 For changes in **haskell-nix**, follow [Create a first-party package set](create-a-package-set.md)
 to clone a named selection, choose group generations, and validate its support level.

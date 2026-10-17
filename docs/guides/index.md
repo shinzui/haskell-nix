@@ -4,6 +4,8 @@ okf_version: "0.2"
 
 # Guide
 
+- [Measure and remove avoidable application rebuilds](faster-application-nix-builds.md) - Compare paired source variants and verify real dependency identities before adopting source filters.
+
 - [Compose applications on the Keiro runtime](compose-on-the-keiro-runtime.md) - Select a retained runtime generation, materialize its Cabal imports and compose application recipes in one checked Haskell scope.
 
 - [Create a first-party package set](create-a-package-set.md) - Clone a named set, choose retained group generations, and validate its support level.

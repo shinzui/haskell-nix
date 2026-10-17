@@ -3,6 +3,7 @@ id: 18
 slug: accelerate-application-code-compilation-in-nix-builds
 title: "Accelerate application code compilation in Nix builds"
 kind: exec-plan
+intention: "intention_01m4xq1t11ezha3http0erjxt2"
 created_at: 2026-10-07T13:54:28Z
 mori_publish: true
 master_plan: "docs/masterplans/4-coordinate-horizon-inspired-haskell-nix-performance-and-reliability-improvements.md"
@@ -32,6 +33,11 @@ provenance:
       at: 2026-10-17T03:25:59Z
       mode: "update"
       note: "Reconcile delivered prerequisites and strengthen maintenance, real-consumer integration, and measured total-cost acceptance."
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-17T04:03:08Z
+      mode: "implement"
+      note: "Begin scoped Rei rebuild measurement and audited source-boundary fix; inherit the explicitly invoked umbrella intention."
   reviews:
     - model: "gpt-6-astra"
       harness: "codex-cli"
@@ -59,6 +65,10 @@ This follows [MasterPlan 3](../masterplans/3-align-one-cabal-and-nix-package-set
 
 ## Progress
 
+2026-10-16 scoped implementation: measure Rei only and remove its largest observed avoidable package rebuild. The scoped M1 baseline and M3 source-boundary fix are accepted; the intermediate spike, second application and wider rollout remain outside this session. Before comparing candidates, require at least a 20% reduction in median end-to-end documentation-edit time over five alternating paired trials, unchanged production settings, exact shared dependency identities and matching database-free CLI behavior. Distinct prose variants must request fresh baseline recipes; a cached candidate is the intended outcome for irrelevant inputs, not a changed-code speedup. Record the source-filter migration build separately.
+
+
+- [x] (2026-10-17 UTC) User-requested scoped M1/M3 result: measure one application and remove its largest observed avoidable rebuild. Rei planning prose invalidated the entire owned core/CLI closure; five paired native trials fall from median 153.33 s to 3.38 s at a fixed revision stamp, with 1,194 GHC events avoided and all 2,048 shared graph nodes (474 Haskell instances) unchanged. [Receipt](../evidence/ep18/rei-documentation-rebuild.json), [workflow](../guides/faster-application-nix-builds.md). The full milestones below remain open.
 
 - [ ] M1: Establish compilation baselines and decide intermediate-reuse feasibility with a small native fixture.
 - [ ] M2: Pilot guarded Nix intermediate reuse in Rei and Mori and compare changed-code builds against clean builds.
@@ -69,6 +79,8 @@ This follows [MasterPlan 3](../masterplans/3-align-one-cabal-and-nix-package-set
 
 ## Surprises & Discoveries
 
+2026-10-17: The largest observed avoidable rebuild is the entire Rei owned closure after editing `mori://shinzui/rei`, project-relative `rei-core/docs/future-enhancements.md` (source-file URI pending): 893 core plus 301 CLI compilation events. The core build phase is larger (80.90 s in the first trial) than the CLI (29.22 s). Broadly excluding `test` would be incorrect: Rei builds a public test-support library and an installed utility from test directories even with Nix tests disabled. Absolute-path filter equality also missed `/tmp` versus `/private/tmp`; the final package-directory predicate and identity probe cover both. These lessons are distilled into ADR 5.
+
 
 The user's correction establishes that Nix output reuse between the project and dotfiles is already effective. The rejected proposal optimized a handoff that was not the reported bottleneck.
 
@@ -78,6 +90,8 @@ At the 2026-10-07 source inspection, `mori://shinzui/rei` had 1,068 Haskell file
 
 
 ## Decision Log
+
+2026-10-17: Accept only the audited Rei planning-prose exclusion within the user's one-application scope. Keep revision stamping and all shared inputs/policies unchanged. Report the fixed-stamp documentation workload separately from per-commit and changed-Haskell builds; do not expand into seed or package splitting. Inherit the umbrella Intention ID under the explicitly supplied implementation skill, superseding this child's earlier declined association for the current implementation.
 
 
 2026-10-16: Execute M1, then M3 invalidation fixes before expanding reuse. M2 depends on a successful M1 reuse proof; failed reuse takes the M4 package-boundary path. Measure total changed-build latency and seed amortization before default adoption. A failed experiment is a valid feasibility result, not completion of the faster-build outcome.
@@ -97,7 +111,11 @@ At the 2026-10-07 source inspection, `mori://shinzui/rei` had 1,068 Haskell file
 ## Outcomes & Retrospective
 
 
-(No implementation or timings yet. The initial artifact-handoff direction was rejected; this revision replaces it with a native Nix compilation experiment and measured adoption criteria.)
+The requested single-application slice is implemented in `mori://shinzui/rei`, revision `4f209d3f`, project-relative `nix/haskell-overlay.nix` (source-file URI pending). Audit found that planning prose under `rei-core/docs` was included despite having no Cabal/compile-time consumer. Excluding only that directory preserves all other sources and assets. The normal retained-runtime constructor remains in use, and no pins, shared policies, optimization or test settings change.
+
+Five distinct prose variants in alternating order have baseline times 157.36, 153.23, 151.07, 153.83 and 153.33 s; candidates take 3.37, 3.39, 3.38, 3.35 and 3.55 s. The 97.8% median saving exceeds the predeclared 20% threshold. Each baseline compiles 893 core and 301 CLI events; candidates reuse the same root with zero events. All five actual baseline graphs match the candidate's 2,048 shared nodes, including 474 Haskell dependency/build-tool instances. The migration costs 153.51 s and 1,303,069,896 NAR bytes across ordinary application outputs, repaid after two relevant edits; five edits save about 474 s net including final validation. There is no seed, refresh or additional dependency download. Builder peak RSS and separate linker/network instrumentation remain unmeasured; no tuning of those resources is adopted.
+
+Eleven identity probes preserve prose/sibling independence and invalidate true code, embedded help/prompt/template, migration, metadata and public test-support inputs. Symlink/canonical paths agree. Four database-free CLI commands match baseline exit status/stdout/stderr. The committed default build, consumer-overlay and cohort-parity checks pass in 122.68 s; the final executable reports `rei 7.1.0.0 (4f209d3)`, reuses the filtered core, and preserves every shared graph node. This validation raises the one-time cost to 276.19 s; two relevant edits still repay it. See the checked-in receipt and guide for exact identities, raw-log digests, phases, reproduction and limits. A fixed original revision stamp isolates this source-boundary result; actual new commits still rebuild the CLI for truthful provenance. No faster changed-Haskell, intermediate reuse, second-application, Linux or deployment result is claimed. The full M1–M5 contracts remain open.
 
 
 ## Context and Orientation
@@ -294,3 +312,5 @@ No dependency bounds or new pins are chosen during planning. Verify any required
 2026-10-14: Added umbrella membership and scoped Mori opt-in while preserving implementation boundaries and existing prerequisites.
 
 2026-10-16: Reconciled completed generator/runtime prerequisites, scheduled source/stamp fixes before reuse expansion, made failed reuse an explicit fallback decision, and added repeated total-latency, memory and seed-amortization gates.
+
+2026-10-17: Implemented the scoped Rei source-boundary result with native paired measurements, exact graph comparisons, positive resource invalidation and CLI behavior evidence. Full EP-18 remains In Progress.

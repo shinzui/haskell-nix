@@ -22,6 +22,11 @@ provenance:
       at: 2026-10-17T03:25:59Z
       mode: "update"
       note: "Reconcile delivered prerequisites and strengthen maintenance, real-consumer integration, and measured total-cost acceptance."
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-17T04:03:08Z
+      mode: "implement"
+      note: "Track the authorized one-application EP-18 measurement and source-invalidation implementation."
   reviews:
     - model: "gpt-6-astra"
       harness: "codex-cli"
@@ -43,7 +48,7 @@ The members are this repository's EP-18 (application compilation), EP-19 (pre-ge
 
 Only these six ExecPlans, this umbrella, and the toolchain sub-master opt into Mori publication. Existing cohort generation and retained runtime plans, application-adoption plans, older toolchain plans, and completed first-party snapshot plans remain outside this publication set. Dependencies may reference external plans without publishing their files. Hoogle/documentation tooling is outside the delivered scope.
 
-EP-18 is included because its seed compatibility, source invalidation, and application recipe measurements overlap the exact compiler/source/policy/dependency identities verified by EP-19 and EP-21. It owns changed application compilation; EP-19 owns evaluation-time recipe generation. Shared identity and measurement contracts justify coordination without making either optimization a hard prerequisite for the other. Preserve EP-18's earlier declined Intention association; umbrella membership does not add one.
+EP-18 is included because its seed compatibility, source invalidation, and application recipe measurements overlap the exact compiler/source/policy/dependency identities verified by EP-19 and EP-21. It owns changed application compilation; EP-19 owns evaluation-time recipe generation. Shared identity and measurement contracts justify coordination without making either optimization a hard prerequisite for the other. Umbrella membership initially preserved EP-18's declined Intention association. The explicitly invoked implementation skill now inherits this umbrella's authoritative Intention ID for the current work.
 
 ### Observable outcomes
 
@@ -72,7 +77,7 @@ The numeric rows below are local children, with repository-relative paths and `m
 
 | # | Title | Path | Hard Deps | Soft Deps | Status |
 |---|-------|------|-----------|-----------|--------|
-| 18 | Accelerate application code compilation in Nix builds | docs/plans/18-accelerate-application-code-compilation-in-nix-builds.md | Plans 9 and 16 (Complete locally; consumer rollout evidence still required) | None | Not Started |
+| 18 | Accelerate application code compilation in Nix builds | docs/plans/18-accelerate-application-code-compilation-in-nix-builds.md | Plans 9 and 16 (Complete locally; consumer rollout evidence still required) | None | In Progress |
 | 19 | Pre-generate complete locked Nix Haskell dependency recipes | docs/plans/19-pre-generate-complete-locked-nix-haskell-dependency-recipes.md | Plans 9 and 16 (Complete locally; consumer rollout evidence still required) | None | Not Started |
 | 20 | Build project development shells from retained runtime package sets | docs/plans/20-build-project-development-shells-from-retained-runtime-package-sets.md | Plan 16 (Complete locally); DEV-4 (unverified) | None | Not Started |
 | 21 | Manage compatibility exceptions and verify their continued necessity | docs/plans/21-manage-compatibility-exceptions-and-verify-their-continued-necessity.md | None | None | Not Started |
@@ -144,11 +149,13 @@ Shared edits to `flake.nix`, `checks/default.nix`, `lib/`, and updater modules r
 ## Progress
 
 
-The four local children remain Not Started; no performance implementation is claimed. External plans 9 and 16 are Complete locally. EP-18 baselines/source-boundary work, EP-19 conversion experiments and EP-21 policy migration are ready within their declared scope. EP-20 production and DEV-5 remain gated by the unverified DEV-4 contract. The two foreign member statuses and the eight-document publication inventory could not be refreshed during this review.
+EP-18 is In Progress for the user-requested single-application measurement and source-boundary fix in Rei; the other three local children remain Not Started. The scoped native documentation result is accepted: median 153.33 s to 3.38 s at fixed revision stamp, with shared identities and behavior preserved. Full EP-18 milestones remain open. External plans 9 and 16 are Complete locally. EP-18 baselines/source-boundary work, EP-19 conversion experiments and EP-21 policy migration are ready within their declared scope. EP-20 production and DEV-5 remain gated by the unverified DEV-4 contract. The two foreign member statuses and the eight-document publication inventory could not be refreshed during this review.
 
 Remaining integration acceptance is the targeted-update/rollback rehearsal, compatible policy/compiler/recipe identities, phase-separated measurements that meet the declared performance budgets, and retained-history/cache proofs. The registry tracks child completion; each child retains its own milestone checklist.
 
 ## Surprises & Discoveries
+
+2026-10-17 scoped EP-18 implementation: Rei planning prose invalidated both owned packages, while no shipped component consumed it. The audited source exclusion now preserves all 2,048 shared graph nodes, including 474 Haskell dependency/build-tool instances, through the existing retained-runtime constructor. No new runtime generation or shared recipe change is needed. Five paired fixed-stamp native measurements pass the predeclared 20% threshold (97.8% median reduction); the 153.51 s migration plus 122.68 s final native validation breaks even after two relevant edits. The committed default, overlay and cohort-parity checks pass with truthful version output. The CLI still rebuilds for real revision-stamp changes. [Retained evidence](../evidence/ep18/rei-documentation-rebuild.json) belongs to EP-18; EP-19/21 interfaces are unchanged. Mori discovery still fails because its database is absent, so catalog status is not refreshed.
 
 
 2026-10-16 review: the original umbrella and child context still described generator/runtime delivery as pending, while plans 9 and 16 and the current implementation now provide those contracts. `mkRuntimePackageSet` imports captured recipes and checks final application scope identities, so recipe optimization must be captured in a new retained configuration and tested through the real validator. The generation-2 identity receipt already records 273 unchanged non-Boot Nix derivations on each platform; reuse that as baseline evidence, not as an MP-4 speedup.
@@ -160,6 +167,8 @@ Source inspection of Mori's current plan model found that parent master-plan IDs
 Mori registration accepts references to unpublished external prerequisites, and its Hard DAG represents them as unresolved terminal nodes. This preserves the user's scoped publication instruction while exposing missing readiness evidence. Both repositories initially published no agent plans. Exact publication-set checks subsequently confirmed five rows for this project and three for the toolchain project; re-publication must preserve that set and all typed edges. No implementation completion or performance evidence is inferred from creating this coordination document.
 
 ## Decision Log
+
+2026-10-17: Follow the user-requested single-application boundary: EP-18 measures Rei and fixes the largest observed avoidable rebuild before seed work. This scoped result does not complete EP-18 or authorize rolling through the other children. The explicitly supplied implementation skill makes the existing umbrella Intention ID authoritative; EP-18 now inherits it, superseding its earlier declined association for this implementation.
 
 
 2026-10-16: Keep the six workstream boundaries and publication scope. Prioritize source-invalidation fixes and bounded conversion/reuse experiments; require a targeted-maintenance rehearsal and measured total-cost benefit before default adoption. Reconcile completed local prerequisites without weakening foreign gates or pretending an unavailable catalog is fresh. Extend ADR 5's existing measurement policy with amortization and maintenance evidence; no new solver or package authority is introduced.
@@ -175,7 +184,7 @@ Mori registration accepts references to unpublished external prerequisites, and 
 ## Outcomes & Retrospective
 
 
-Coordination and scoped registration were established on 2026-10-14. Initial registration recorded exactly eight effort documents: six member ExecPlans and two master plans. The recorded Hard graph had ten nodes (eight published members and two unresolved external prerequisites) and seven edges, with no cycles. All six implementation plans were Not Started at registration; the four local children still are, while current foreign status is unverified. At initial registration, ready-work queries returned HN-21 and DEV-4; each retains its independent fixture work and acceptance. The 2026-10-16 update corrects local prerequisite readiness and adds maintenance and performance acceptance; current foreign catalog status remains unverified. Completion requires the six independently verified outcomes, real native evidence on every claimed supported platform, compatible shared identity contracts, and ADR distillation in the owning repositories. Registry publication and a successful acyclic graph alone do not complete this initiative.
+Coordination and scoped registration were established on 2026-10-14. Initial registration recorded exactly eight effort documents: six member ExecPlans and two master plans. The recorded Hard graph had ten nodes (eight published members and two unresolved external prerequisites) and seven edges, with no cycles. All six implementation plans were Not Started at registration; EP-18 is now In Progress for the scoped Rei source-boundary work, while the other three local children and the unverified foreign status retain their earlier states. At initial registration, ready-work queries returned HN-21 and DEV-4; each retains its independent fixture work and acceptance. The 2026-10-16 update corrects local prerequisite readiness and adds maintenance and performance acceptance; current foreign catalog status remains unverified. Completion requires the six independently verified outcomes, real native evidence on every claimed supported platform, compatible shared identity contracts, and ADR distillation in the owning repositories. Registry publication and a successful acyclic graph alone do not complete this initiative.
 
 ## Tracking and Registration
 
@@ -212,3 +221,5 @@ The two lists must contain only five local publishing rows and three toolchain p
 2026-10-14: Created the cross-repository umbrella, included EP-18 based on verified overlap, preserved the existing toolchain sub-master, and scoped Mori publication to the eight effort documents. Coordination metadata does not change implementation ownership or completion status.
 
 2026-10-16: Reviewed the four available children against current source and retained evidence; corrected completed external prerequisites, prioritized invalidation and feasibility work, added targeted-update/rollback and amortized performance acceptance, and recorded the unavailable foreign-plan/registry verification. Cascaded contracts into EP-18–21 and ADR 5.
+
+2026-10-17: Delivered the explicitly scoped one-application EP-18 measurement and source-boundary fix, retained its evidence and ADR lesson, and left the broader child/master acceptance open.

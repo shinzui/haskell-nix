@@ -1,0 +1,2559 @@
+{
+  "schema_version": 1,
+  "project_uri": "mori://shinzui/rei",
+  "source_revision": "99b882ee6d9cdc77ee0e8dead8962736bd3c4d0a",
+  "started_at": "2026-10-17T04:05:21.217617+00:00",
+  "platform": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "nix_version": "nix (Determinate Nix 3.23.2) 2.35.3",
+  "workload": "documentation-only edit: rei-core/docs/future-enhancements.md",
+  "minimum_saving": 0.2,
+  "cores": 16,
+  "max_jobs": 1,
+  "expression_sha256": "e0cd43f7cea6017e044678ac098680c42cc0cfe80858b4aa9433025891605b5e",
+  "lock_sha256": {
+    "baseline": "2cf3f5081ea331e73a80a0ce32e5567381cd6ae0fd807ddca01f84b5e214886b",
+    "candidate": "2cf3f5081ea331e73a80a0ce32e5567381cd6ae0fd807ddca01f84b5e214886b"
+  },
+  "evaluation_cache": "Nix expression evaluation, fresh process per invocation; no flake output evaluation cache",
+  "trials": [
+    {
+      "trial": 1,
+      "stage": "paired",
+      "label": "baseline",
+      "command": [
+        "nix",
+        "build",
+        "--impure",
+        "--file",
+        "/private/tmp/mp4-rei-measurement/application.nix",
+        "--argstr",
+        "source",
+        "/private/tmp/mp4-rei-measurement/baseline",
+        "package",
+        "--no-link",
+        "--json",
+        "--print-build-logs",
+        "--max-jobs",
+        "1",
+        "--cores",
+        "16"
+      ],
+      "source_variant_sha256": "0a0b8dcc52866d3f76b0df9a0cdcad6b5c8dcc460764035522c8ac3d95f244f0",
+      "identity": {
+        "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+        "core": "/nix/store/fll3pw3whq86absmrxsb5q5gjj7pxm44-rei-core-7.1.0.0.drv",
+        "root": "/nix/store/g0g28lf81xbdcrqmpkdh8h0m5j98krh3-rei-cli-7.1.0.0.drv"
+      },
+      "elapsed_seconds": 157.36099650000688,
+      "exit_code": 0,
+      "compiled_modules": {
+        "rei-core": 893,
+        "rei-cli": 301
+      },
+      "phase_events": [
+        {
+          "elapsed_seconds": 6.665364124986809,
+          "message": "rei-core> Running phase: setupCompilerEnvironmentPhase"
+        },
+        {
+          "elapsed_seconds": 12.714918416982982,
+          "message": "rei-core> Running phase: unpackPhase"
+        },
+        {
+          "elapsed_seconds": 12.978220041986788,
+          "message": "rei-core> Running phase: patchPhase"
+        },
+        {
+          "elapsed_seconds": 12.992412833002163,
+          "message": "rei-core> Running phase: compileBuildDriverPhase"
+        },
+        {
+          "elapsed_seconds": 13.766180124977836,
+          "message": "rei-core> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+        },
+        {
+          "elapsed_seconds": 13.798148707981454,
+          "message": "rei-core> Running phase: configurePhase"
+        },
+        {
+          "elapsed_seconds": 16.480174124997575,
+          "message": "rei-core> Running phase: buildPhase"
+        },
+        {
+          "elapsed_seconds": 97.37683891699999,
+          "message": "rei-core> Running phase: haddockPhase"
+        },
+        {
+          "elapsed_seconds": 97.38684583298163,
+          "message": "rei-core> Running phase: installPhase"
+        },
+        {
+          "elapsed_seconds": 99.44492179199005,
+          "message": "rei-core> Running phase: fixupPhase"
+        },
+        {
+          "elapsed_seconds": 108.25341854197904,
+          "message": "rei-cli> Running phase: setupCompilerEnvironmentPhase"
+        },
+        {
+          "elapsed_seconds": 115.0983068329806,
+          "message": "rei-cli> Running phase: unpackPhase"
+        },
+        {
+          "elapsed_seconds": 115.1652507079998,
+          "message": "rei-cli> Running phase: patchPhase"
+        },
+        {
+          "elapsed_seconds": 115.18014658300672,
+          "message": "rei-cli> Running phase: compileBuildDriverPhase"
+        },
+        {
+          "elapsed_seconds": 115.92783999998937,
+          "message": "rei-cli> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+        },
+        {
+          "elapsed_seconds": 115.94581654199283,
+          "message": "rei-cli> Running phase: configurePhase"
+        },
+        {
+          "elapsed_seconds": 118.45466383299208,
+          "message": "rei-cli> Running phase: buildPhase"
+        },
+        {
+          "elapsed_seconds": 147.6756081249914,
+          "message": "rei-cli> Running phase: haddockPhase"
+        },
+        {
+          "elapsed_seconds": 147.68507295800373,
+          "message": "rei-cli> Running phase: installPhase"
+        },
+        {
+          "elapsed_seconds": 150.79274512498523,
+          "message": "rei-cli> Running phase: fixupPhase"
+        }
+      ],
+      "build_result": [
+        {
+          "drvPath": "/nix/store/g0g28lf81xbdcrqmpkdh8h0m5j98krh3-rei-cli-7.1.0.0.drv",
+          "outputs": {
+            "out": "/nix/store/khypzg1whj5scvvkhcn9b75hkdy1136g-rei-cli-7.1.0.0"
+          }
+        }
+      ],
+      "cache_state": "warm dependencies; initial build plan and actual compilations recorded in build log",
+      "log": "paired-1-baseline.log",
+      "phase_limits": "No separate linker, test, memory or transfer instrumentation; phase events are builder log boundaries.",
+      "order": 1,
+      "log_sha256": "45281aeeb86ef8998e7107c35d8f6f6ede390e5cbf9a32ca618c3c6e39253c02",
+      "log_bytes": 538554,
+      "phase_durations": [
+        {
+          "phase": "rei-core> Running phase: setupCompilerEnvironmentPhase",
+          "seconds": 6.049554291996174
+        },
+        {
+          "phase": "rei-core> Running phase: unpackPhase",
+          "seconds": 0.2633016250038054
+        },
+        {
+          "phase": "rei-core> Running phase: patchPhase",
+          "seconds": 0.014192791015375406
+        },
+        {
+          "phase": "rei-core> Running phase: compileBuildDriverPhase",
+          "seconds": 0.7737672919756733
+        },
+        {
+          "phase": "rei-core> Running phase: updateAutotoolsGnuConfigScriptsPhase",
+          "seconds": 0.03196858300361782
+        },
+        {
+          "phase": "rei-core> Running phase: configurePhase",
+          "seconds": 2.6820254170161206
+        },
+        {
+          "phase": "rei-core> Running phase: buildPhase",
+          "seconds": 80.89666479200241
+        },
+        {
+          "phase": "rei-core> Running phase: haddockPhase",
+          "seconds": 0.01000691598164849
+        },
+        {
+          "phase": "rei-core> Running phase: installPhase",
+          "seconds": 2.05807595900842
+        },
+        {
+          "phase": "rei-core> Running phase: fixupPhase",
+          "seconds": 8.80849674998899
+        },
+        {
+          "phase": "rei-cli> Running phase: setupCompilerEnvironmentPhase",
+          "seconds": 6.844888291001553
+        },
+        {
+          "phase": "rei-cli> Running phase: unpackPhase",
+          "seconds": 0.06694387501920573
+        },
+        {
+          "phase": "rei-cli> Running phase: patchPhase",
+          "seconds": 0.014895875006914139
+        },
+        {
+          "phase": "rei-cli> Running phase: compileBuildDriverPhase",
+          "seconds": 0.7476934169826563
+        },
+        {
+          "phase": "rei-cli> Running phase: updateAutotoolsGnuConfigScriptsPhase",
+          "seconds": 0.017976542003452778
+        },
+        {
+          "phase": "rei-cli> Running phase: configurePhase",
+          "seconds": 2.508847290999256
+        },
+        {
+          "phase": "rei-cli> Running phase: buildPhase",
+          "seconds": 29.22094429199933
+        },
+        {
+          "phase": "rei-cli> Running phase: haddockPhase",
+          "seconds": 0.009464833012316376
+        },
+        {
+          "phase": "rei-cli> Running phase: installPhase",
+          "seconds": 3.1076721669815015
+        },
+        {
+          "phase": "rei-cli> Running phase: fixupPhase",
+          "seconds": 6.568251375021646
+        }
+      ]
+    },
+    {
+      "trial": 1,
+      "stage": "paired",
+      "label": "candidate",
+      "command": [
+        "nix",
+        "build",
+        "--impure",
+        "--file",
+        "/private/tmp/mp4-rei-measurement/application.nix",
+        "--argstr",
+        "source",
+        "/private/tmp/mp4-rei-measurement/candidate",
+        "package",
+        "--no-link",
+        "--json",
+        "--print-build-logs",
+        "--max-jobs",
+        "1",
+        "--cores",
+        "16"
+      ],
+      "source_variant_sha256": "0a0b8dcc52866d3f76b0df9a0cdcad6b5c8dcc460764035522c8ac3d95f244f0",
+      "identity": {
+        "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+        "core": "/nix/store/q81gkiznk4n6hmya2d3ndqpnjg7pqcz5-rei-core-7.1.0.0.drv",
+        "root": "/nix/store/9n8vh6s8b3a9r0x0w1ffarb0nc9m5h5q-rei-cli-7.1.0.0.drv"
+      },
+      "elapsed_seconds": 3.365984042000491,
+      "exit_code": 0,
+      "compiled_modules": {},
+      "phase_events": [],
+      "build_result": [
+        {
+          "drvPath": "/nix/store/9n8vh6s8b3a9r0x0w1ffarb0nc9m5h5q-rei-cli-7.1.0.0.drv",
+          "outputs": {
+            "out": "/nix/store/hpfj57jgy42wrk1jl2rbmxy5b6pgqgag-rei-cli-7.1.0.0"
+          }
+        }
+      ],
+      "cache_state": "warm dependencies; initial build plan and actual compilations recorded in build log",
+      "log": "paired-1-candidate.log",
+      "phase_limits": "No separate linker, test, memory or transfer instrumentation; phase events are builder log boundaries.",
+      "order": 2,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "log_bytes": 0,
+      "phase_durations": []
+    },
+    {
+      "trial": 2,
+      "stage": "paired",
+      "label": "candidate",
+      "command": [
+        "nix",
+        "build",
+        "--impure",
+        "--file",
+        "/private/tmp/mp4-rei-measurement/application.nix",
+        "--argstr",
+        "source",
+        "/private/tmp/mp4-rei-measurement/candidate",
+        "package",
+        "--no-link",
+        "--json",
+        "--print-build-logs",
+        "--max-jobs",
+        "1",
+        "--cores",
+        "16"
+      ],
+      "source_variant_sha256": "0f76b7686f2502adcf6ffd0999eee40894b05c030221f3022f01439319471ad8",
+      "identity": {
+        "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+        "core": "/nix/store/q81gkiznk4n6hmya2d3ndqpnjg7pqcz5-rei-core-7.1.0.0.drv",
+        "root": "/nix/store/9n8vh6s8b3a9r0x0w1ffarb0nc9m5h5q-rei-cli-7.1.0.0.drv"
+      },
+      "elapsed_seconds": 3.391501790989423,
+      "exit_code": 0,
+      "compiled_modules": {},
+      "phase_events": [],
+      "build_result": [
+        {
+          "drvPath": "/nix/store/9n8vh6s8b3a9r0x0w1ffarb0nc9m5h5q-rei-cli-7.1.0.0.drv",
+          "outputs": {
+            "out": "/nix/store/hpfj57jgy42wrk1jl2rbmxy5b6pgqgag-rei-cli-7.1.0.0"
+          }
+        }
+      ],
+      "cache_state": "warm dependencies; initial build plan and actual compilations recorded in build log",
+      "log": "paired-2-candidate.log",
+      "phase_limits": "No separate linker, test, memory or transfer instrumentation; phase events are builder log boundaries.",
+      "order": 1,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "log_bytes": 0,
+      "phase_durations": []
+    },
+    {
+      "trial": 2,
+      "stage": "paired",
+      "label": "baseline",
+      "command": [
+        "nix",
+        "build",
+        "--impure",
+        "--file",
+        "/private/tmp/mp4-rei-measurement/application.nix",
+        "--argstr",
+        "source",
+        "/private/tmp/mp4-rei-measurement/baseline",
+        "package",
+        "--no-link",
+        "--json",
+        "--print-build-logs",
+        "--max-jobs",
+        "1",
+        "--cores",
+        "16"
+      ],
+      "source_variant_sha256": "0f76b7686f2502adcf6ffd0999eee40894b05c030221f3022f01439319471ad8",
+      "identity": {
+        "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+        "core": "/nix/store/x0sna9qzb4mp3gqmi5ang8z869pzahfh-rei-core-7.1.0.0.drv",
+        "root": "/nix/store/8s7vmvk7a3frwmn9hnqkhrpd8py0vbfv-rei-cli-7.1.0.0.drv"
+      },
+      "elapsed_seconds": 153.233897625003,
+      "exit_code": 0,
+      "compiled_modules": {
+        "rei-core": 893,
+        "rei-cli": 301
+      },
+      "phase_events": [
+        {
+          "elapsed_seconds": 6.763593375013443,
+          "message": "rei-core> Running phase: setupCompilerEnvironmentPhase"
+        },
+        {
+          "elapsed_seconds": 12.731335457996465,
+          "message": "rei-core> Running phase: unpackPhase"
+        },
+        {
+          "elapsed_seconds": 12.936793708009645,
+          "message": "rei-core> Running phase: patchPhase"
+        },
+        {
+          "elapsed_seconds": 12.94962141700671,
+          "message": "rei-core> Running phase: compileBuildDriverPhase"
+        },
+        {
+          "elapsed_seconds": 13.73135870799888,
+          "message": "rei-core> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+        },
+        {
+          "elapsed_seconds": 13.763809249998303,
+          "message": "rei-core> Running phase: configurePhase"
+        },
+        {
+          "elapsed_seconds": 16.102734167012386,
+          "message": "rei-core> Running phase: buildPhase"
+        },
+        {
+          "elapsed_seconds": 94.2306036670052,
+          "message": "rei-core> Running phase: haddockPhase"
+        },
+        {
+          "elapsed_seconds": 94.24036520801019,
+          "message": "rei-core> Running phase: installPhase"
+        },
+        {
+          "elapsed_seconds": 96.19520079198992,
+          "message": "rei-core> Running phase: fixupPhase"
+        },
+        {
+          "elapsed_seconds": 104.76164941699244,
+          "message": "rei-cli> Running phase: setupCompilerEnvironmentPhase"
+        },
+        {
+          "elapsed_seconds": 111.10722870801692,
+          "message": "rei-cli> Running phase: unpackPhase"
+        },
+        {
+          "elapsed_seconds": 111.17418458301108,
+          "message": "rei-cli> Running phase: patchPhase"
+        },
+        {
+          "elapsed_seconds": 111.18610408299719,
+          "message": "rei-cli> Running phase: compileBuildDriverPhase"
+        },
+        {
+          "elapsed_seconds": 111.94088754200493,
+          "message": "rei-cli> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+        },
+        {
+          "elapsed_seconds": 111.95777887501754,
+          "message": "rei-cli> Running phase: configurePhase"
+        },
+        {
+          "elapsed_seconds": 114.44405429199105,
+          "message": "rei-cli> Running phase: buildPhase"
+        },
+        {
+          "elapsed_seconds": 143.7681430419907,
+          "message": "rei-cli> Running phase: haddockPhase"
+        },
+        {
+          "elapsed_seconds": 143.7779604170064,
+          "message": "rei-cli> Running phase: installPhase"
+        },
+        {
+          "elapsed_seconds": 146.86869516700972,
+          "message": "rei-cli> Running phase: fixupPhase"
+        }
+      ],
+      "build_result": [
+        {
+          "drvPath": "/nix/store/8s7vmvk7a3frwmn9hnqkhrpd8py0vbfv-rei-cli-7.1.0.0.drv",
+          "outputs": {
+            "out": "/nix/store/a7hqk3vfdjql8byjfw7l0c8jikv4alwx-rei-cli-7.1.0.0"
+          }
+        }
+      ],
+      "cache_state": "warm dependencies; initial build plan and actual compilations recorded in build log",
+      "log": "paired-2-baseline.log",
+      "phase_limits": "No separate linker, test, memory or transfer instrumentation; phase events are builder log boundaries.",
+      "order": 2,
+      "log_sha256": "2562e8cb06dbe7aed0d166a6a225bab2cb856a302111648bb5517d61d62c5597",
+      "log_bytes": 538570,
+      "phase_durations": [
+        {
+          "phase": "rei-core> Running phase: setupCompilerEnvironmentPhase",
+          "seconds": 5.9677420829830226
+        },
+        {
+          "phase": "rei-core> Running phase: unpackPhase",
+          "seconds": 0.20545825001318008
+        },
+        {
+          "phase": "rei-core> Running phase: patchPhase",
+          "seconds": 0.012827708997065201
+        },
+        {
+          "phase": "rei-core> Running phase: compileBuildDriverPhase",
+          "seconds": 0.7817372909921687
+        },
+        {
+          "phase": "rei-core> Running phase: updateAutotoolsGnuConfigScriptsPhase",
+          "seconds": 0.032450541999423876
+        },
+        {
+          "phase": "rei-core> Running phase: configurePhase",
+          "seconds": 2.338924917014083
+        },
+        {
+          "phase": "rei-core> Running phase: buildPhase",
+          "seconds": 78.12786949999281
+        },
+        {
+          "phase": "rei-core> Running phase: haddockPhase",
+          "seconds": 0.009761541004991159
+        },
+        {
+          "phase": "rei-core> Running phase: installPhase",
+          "seconds": 1.9548355839797296
+        },
+        {
+          "phase": "rei-core> Running phase: fixupPhase",
+          "seconds": 8.566448625002522
+        },
+        {
+          "phase": "rei-cli> Running phase: setupCompilerEnvironmentPhase",
+          "seconds": 6.345579291024478
+        },
+        {
+          "phase": "rei-cli> Running phase: unpackPhase",
+          "seconds": 0.06695587499416433
+        },
+        {
+          "phase": "rei-cli> Running phase: patchPhase",
+          "seconds": 0.01191949998610653
+        },
+        {
+          "phase": "rei-cli> Running phase: compileBuildDriverPhase",
+          "seconds": 0.75478345900774
+        },
+        {
+          "phase": "rei-cli> Running phase: updateAutotoolsGnuConfigScriptsPhase",
+          "seconds": 0.01689133301260881
+        },
+        {
+          "phase": "rei-cli> Running phase: configurePhase",
+          "seconds": 2.4862754169735126
+        },
+        {
+          "phase": "rei-cli> Running phase: buildPhase",
+          "seconds": 29.324088749999646
+        },
+        {
+          "phase": "rei-cli> Running phase: haddockPhase",
+          "seconds": 0.009817375015700236
+        },
+        {
+          "phase": "rei-cli> Running phase: installPhase",
+          "seconds": 3.090734750003321
+        },
+        {
+          "phase": "rei-cli> Running phase: fixupPhase",
+          "seconds": 6.365202457993291
+        }
+      ]
+    },
+    {
+      "trial": 3,
+      "stage": "paired",
+      "label": "baseline",
+      "command": [
+        "nix",
+        "build",
+        "--impure",
+        "--file",
+        "/private/tmp/mp4-rei-measurement/application.nix",
+        "--argstr",
+        "source",
+        "/private/tmp/mp4-rei-measurement/baseline",
+        "package",
+        "--no-link",
+        "--json",
+        "--print-build-logs",
+        "--max-jobs",
+        "1",
+        "--cores",
+        "16"
+      ],
+      "source_variant_sha256": "abda668ab29b5a440f0bab13f0673fc7fe25d29fef157fce86f14eea2731fc6a",
+      "identity": {
+        "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+        "core": "/nix/store/n4g6g3y1w0nsmz9fawd0x86c0a5wixi7-rei-core-7.1.0.0.drv",
+        "root": "/nix/store/mfd936fabza7sfkkh623p6lx1j6zdmmv-rei-cli-7.1.0.0.drv"
+      },
+      "elapsed_seconds": 151.0689393329958,
+      "exit_code": 0,
+      "compiled_modules": {
+        "rei-core": 893,
+        "rei-cli": 301
+      },
+      "phase_events": [
+        {
+          "elapsed_seconds": 6.76538274998893,
+          "message": "rei-core> Running phase: setupCompilerEnvironmentPhase"
+        },
+        {
+          "elapsed_seconds": 12.443297999998322,
+          "message": "rei-core> Running phase: unpackPhase"
+        },
+        {
+          "elapsed_seconds": 12.7087212500046,
+          "message": "rei-core> Running phase: patchPhase"
+        },
+        {
+          "elapsed_seconds": 12.723341833014274,
+          "message": "rei-core> Running phase: compileBuildDriverPhase"
+        },
+        {
+          "elapsed_seconds": 13.485895249992609,
+          "message": "rei-core> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+        },
+        {
+          "elapsed_seconds": 13.517091165995225,
+          "message": "rei-core> Running phase: configurePhase"
+        },
+        {
+          "elapsed_seconds": 15.809862499998417,
+          "message": "rei-core> Running phase: buildPhase"
+        },
+        {
+          "elapsed_seconds": 92.82523758299067,
+          "message": "rei-core> Running phase: haddockPhase"
+        },
+        {
+          "elapsed_seconds": 92.83422170800623,
+          "message": "rei-core> Running phase: installPhase"
+        },
+        {
+          "elapsed_seconds": 94.80650674999924,
+          "message": "rei-core> Running phase: fixupPhase"
+        },
+        {
+          "elapsed_seconds": 103.33849245798774,
+          "message": "rei-cli> Running phase: setupCompilerEnvironmentPhase"
+        },
+        {
+          "elapsed_seconds": 109.73616062500514,
+          "message": "rei-cli> Running phase: unpackPhase"
+        },
+        {
+          "elapsed_seconds": 109.80141679098597,
+          "message": "rei-cli> Running phase: patchPhase"
+        },
+        {
+          "elapsed_seconds": 109.8155189579993,
+          "message": "rei-cli> Running phase: compileBuildDriverPhase"
+        },
+        {
+          "elapsed_seconds": 110.55449750000844,
+          "message": "rei-cli> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+        },
+        {
+          "elapsed_seconds": 110.57073245799984,
+          "message": "rei-cli> Running phase: configurePhase"
+        },
+        {
+          "elapsed_seconds": 113.07019583298825,
+          "message": "rei-cli> Running phase: buildPhase"
+        },
+        {
+          "elapsed_seconds": 141.70868316601263,
+          "message": "rei-cli> Running phase: haddockPhase"
+        },
+        {
+          "elapsed_seconds": 141.71763554099016,
+          "message": "rei-cli> Running phase: installPhase"
+        },
+        {
+          "elapsed_seconds": 144.7378080410126,
+          "message": "rei-cli> Running phase: fixupPhase"
+        }
+      ],
+      "build_result": [
+        {
+          "drvPath": "/nix/store/mfd936fabza7sfkkh623p6lx1j6zdmmv-rei-cli-7.1.0.0.drv",
+          "outputs": {
+            "out": "/nix/store/ljcqyv5xid0yqkikrvars854xmxqadhi-rei-cli-7.1.0.0"
+          }
+        }
+      ],
+      "cache_state": "warm dependencies; initial build plan and actual compilations recorded in build log",
+      "log": "paired-3-baseline.log",
+      "phase_limits": "No separate linker, test, memory or transfer instrumentation; phase events are builder log boundaries.",
+      "order": 1,
+      "log_sha256": "416a0788e9efd5ba380e4f75f58be5be01d8011a1a496e055cd6f7c565f02756",
+      "log_bytes": 538526,
+      "phase_durations": [
+        {
+          "phase": "rei-core> Running phase: setupCompilerEnvironmentPhase",
+          "seconds": 5.6779152500093915
+        },
+        {
+          "phase": "rei-core> Running phase: unpackPhase",
+          "seconds": 0.265423250006279
+        },
+        {
+          "phase": "rei-core> Running phase: patchPhase",
+          "seconds": 0.014620583009673283
+        },
+        {
+          "phase": "rei-core> Running phase: compileBuildDriverPhase",
+          "seconds": 0.762553416978335
+        },
+        {
+          "phase": "rei-core> Running phase: updateAutotoolsGnuConfigScriptsPhase",
+          "seconds": 0.031195916002616286
+        },
+        {
+          "phase": "rei-core> Running phase: configurePhase",
+          "seconds": 2.2927713340031914
+        },
+        {
+          "phase": "rei-core> Running phase: buildPhase",
+          "seconds": 77.01537508299225
+        },
+        {
+          "phase": "rei-core> Running phase: haddockPhase",
+          "seconds": 0.008984125015558675
+        },
+        {
+          "phase": "rei-core> Running phase: installPhase",
+          "seconds": 1.9722850419930182
+        },
+        {
+          "phase": "rei-core> Running phase: fixupPhase",
+          "seconds": 8.531985707988497
+        },
+        {
+          "phase": "rei-cli> Running phase: setupCompilerEnvironmentPhase",
+          "seconds": 6.3976681670174
+        },
+        {
+          "phase": "rei-cli> Running phase: unpackPhase",
+          "seconds": 0.06525616598082706
+        },
+        {
+          "phase": "rei-cli> Running phase: patchPhase",
+          "seconds": 0.01410216701333411
+        },
+        {
+          "phase": "rei-cli> Running phase: compileBuildDriverPhase",
+          "seconds": 0.7389785420091357
+        },
+        {
+          "phase": "rei-cli> Running phase: updateAutotoolsGnuConfigScriptsPhase",
+          "seconds": 0.016234957991400734
+        },
+        {
+          "phase": "rei-cli> Running phase: configurePhase",
+          "seconds": 2.4994633749884088
+        },
+        {
+          "phase": "rei-cli> Running phase: buildPhase",
+          "seconds": 28.638487333024386
+        },
+        {
+          "phase": "rei-cli> Running phase: haddockPhase",
+          "seconds": 0.008952374977525324
+        },
+        {
+          "phase": "rei-cli> Running phase: installPhase",
+          "seconds": 3.020172500022454
+        },
+        {
+          "phase": "rei-cli> Running phase: fixupPhase",
+          "seconds": 6.3311312919831835
+        }
+      ]
+    },
+    {
+      "trial": 3,
+      "stage": "paired",
+      "label": "candidate",
+      "command": [
+        "nix",
+        "build",
+        "--impure",
+        "--file",
+        "/private/tmp/mp4-rei-measurement/application.nix",
+        "--argstr",
+        "source",
+        "/private/tmp/mp4-rei-measurement/candidate",
+        "package",
+        "--no-link",
+        "--json",
+        "--print-build-logs",
+        "--max-jobs",
+        "1",
+        "--cores",
+        "16"
+      ],
+      "source_variant_sha256": "abda668ab29b5a440f0bab13f0673fc7fe25d29fef157fce86f14eea2731fc6a",
+      "identity": {
+        "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+        "core": "/nix/store/q81gkiznk4n6hmya2d3ndqpnjg7pqcz5-rei-core-7.1.0.0.drv",
+        "root": "/nix/store/9n8vh6s8b3a9r0x0w1ffarb0nc9m5h5q-rei-cli-7.1.0.0.drv"
+      },
+      "elapsed_seconds": 3.376215083990246,
+      "exit_code": 0,
+      "compiled_modules": {},
+      "phase_events": [],
+      "build_result": [
+        {
+          "drvPath": "/nix/store/9n8vh6s8b3a9r0x0w1ffarb0nc9m5h5q-rei-cli-7.1.0.0.drv",
+          "outputs": {
+            "out": "/nix/store/hpfj57jgy42wrk1jl2rbmxy5b6pgqgag-rei-cli-7.1.0.0"
+          }
+        }
+      ],
+      "cache_state": "warm dependencies; initial build plan and actual compilations recorded in build log",
+      "log": "paired-3-candidate.log",
+      "phase_limits": "No separate linker, test, memory or transfer instrumentation; phase events are builder log boundaries.",
+      "order": 2,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "log_bytes": 0,
+      "phase_durations": []
+    },
+    {
+      "trial": 4,
+      "stage": "paired",
+      "label": "candidate",
+      "command": [
+        "nix",
+        "build",
+        "--impure",
+        "--file",
+        "/private/tmp/mp4-rei-measurement/application.nix",
+        "--argstr",
+        "source",
+        "/private/tmp/mp4-rei-measurement/candidate",
+        "package",
+        "--no-link",
+        "--json",
+        "--print-build-logs",
+        "--max-jobs",
+        "1",
+        "--cores",
+        "16"
+      ],
+      "source_variant_sha256": "06b604c6aeb03d09859005906a938f2d1abab3a1a34ae7a9955a2c8a03ca3dac",
+      "identity": {
+        "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+        "core": "/nix/store/q81gkiznk4n6hmya2d3ndqpnjg7pqcz5-rei-core-7.1.0.0.drv",
+        "root": "/nix/store/9n8vh6s8b3a9r0x0w1ffarb0nc9m5h5q-rei-cli-7.1.0.0.drv"
+      },
+      "elapsed_seconds": 3.3507584589824546,
+      "exit_code": 0,
+      "compiled_modules": {},
+      "phase_events": [],
+      "build_result": [
+        {
+          "drvPath": "/nix/store/9n8vh6s8b3a9r0x0w1ffarb0nc9m5h5q-rei-cli-7.1.0.0.drv",
+          "outputs": {
+            "out": "/nix/store/hpfj57jgy42wrk1jl2rbmxy5b6pgqgag-rei-cli-7.1.0.0"
+          }
+        }
+      ],
+      "cache_state": "warm dependencies; initial build plan and actual compilations recorded in build log",
+      "log": "paired-4-candidate.log",
+      "phase_limits": "No separate linker, test, memory or transfer instrumentation; phase events are builder log boundaries.",
+      "order": 1,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "log_bytes": 0,
+      "phase_durations": []
+    },
+    {
+      "trial": 4,
+      "stage": "paired",
+      "label": "baseline",
+      "command": [
+        "nix",
+        "build",
+        "--impure",
+        "--file",
+        "/private/tmp/mp4-rei-measurement/application.nix",
+        "--argstr",
+        "source",
+        "/private/tmp/mp4-rei-measurement/baseline",
+        "package",
+        "--no-link",
+        "--json",
+        "--print-build-logs",
+        "--max-jobs",
+        "1",
+        "--cores",
+        "16"
+      ],
+      "source_variant_sha256": "06b604c6aeb03d09859005906a938f2d1abab3a1a34ae7a9955a2c8a03ca3dac",
+      "identity": {
+        "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+        "core": "/nix/store/xl7m0lkbarahyvkrc87jd7hwmj8vaiip-rei-core-7.1.0.0.drv",
+        "root": "/nix/store/qp0z5hw3sh1wlyv9f2grkhqchibrv9gk-rei-cli-7.1.0.0.drv"
+      },
+      "elapsed_seconds": 153.82651800001622,
+      "exit_code": 0,
+      "compiled_modules": {
+        "rei-core": 893,
+        "rei-cli": 301
+      },
+      "phase_events": [
+        {
+          "elapsed_seconds": 6.8536572080047335,
+          "message": "rei-core> Running phase: setupCompilerEnvironmentPhase"
+        },
+        {
+          "elapsed_seconds": 12.874558916024398,
+          "message": "rei-core> Running phase: unpackPhase"
+        },
+        {
+          "elapsed_seconds": 13.085339958022814,
+          "message": "rei-core> Running phase: patchPhase"
+        },
+        {
+          "elapsed_seconds": 13.099476458010031,
+          "message": "rei-core> Running phase: compileBuildDriverPhase"
+        },
+        {
+          "elapsed_seconds": 13.861956041015219,
+          "message": "rei-core> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+        },
+        {
+          "elapsed_seconds": 13.895597082999302,
+          "message": "rei-core> Running phase: configurePhase"
+        },
+        {
+          "elapsed_seconds": 16.499303290998796,
+          "message": "rei-core> Running phase: buildPhase"
+        },
+        {
+          "elapsed_seconds": 94.46747283299919,
+          "message": "rei-core> Running phase: haddockPhase"
+        },
+        {
+          "elapsed_seconds": 94.47796820799704,
+          "message": "rei-core> Running phase: installPhase"
+        },
+        {
+          "elapsed_seconds": 96.47604666600819,
+          "message": "rei-core> Running phase: fixupPhase"
+        },
+        {
+          "elapsed_seconds": 105.34832562500378,
+          "message": "rei-cli> Running phase: setupCompilerEnvironmentPhase"
+        },
+        {
+          "elapsed_seconds": 112.21236162501737,
+          "message": "rei-cli> Running phase: unpackPhase"
+        },
+        {
+          "elapsed_seconds": 112.28004620800493,
+          "message": "rei-cli> Running phase: patchPhase"
+        },
+        {
+          "elapsed_seconds": 112.29447562500718,
+          "message": "rei-cli> Running phase: compileBuildDriverPhase"
+        },
+        {
+          "elapsed_seconds": 113.05635125000845,
+          "message": "rei-cli> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+        },
+        {
+          "elapsed_seconds": 113.07292641600361,
+          "message": "rei-cli> Running phase: configurePhase"
+        },
+        {
+          "elapsed_seconds": 115.48426150000887,
+          "message": "rei-cli> Running phase: buildPhase"
+        },
+        {
+          "elapsed_seconds": 144.32740229100455,
+          "message": "rei-cli> Running phase: haddockPhase"
+        },
+        {
+          "elapsed_seconds": 144.33830579102505,
+          "message": "rei-cli> Running phase: installPhase"
+        },
+        {
+          "elapsed_seconds": 147.43654920801055,
+          "message": "rei-cli> Running phase: fixupPhase"
+        }
+      ],
+      "build_result": [
+        {
+          "drvPath": "/nix/store/qp0z5hw3sh1wlyv9f2grkhqchibrv9gk-rei-cli-7.1.0.0.drv",
+          "outputs": {
+            "out": "/nix/store/9v4l2vxncra8npcjhz6cwmdd0c8c302m-rei-cli-7.1.0.0"
+          }
+        }
+      ],
+      "cache_state": "warm dependencies; initial build plan and actual compilations recorded in build log",
+      "log": "paired-4-baseline.log",
+      "phase_limits": "No separate linker, test, memory or transfer instrumentation; phase events are builder log boundaries.",
+      "order": 2,
+      "log_sha256": "4c9305a5908ff053c4dd80e86b63d6a8600afd6ff63698b9c1dc87a45083f96f",
+      "log_bytes": 538526,
+      "phase_durations": [
+        {
+          "phase": "rei-core> Running phase: setupCompilerEnvironmentPhase",
+          "seconds": 6.0209017080196645
+        },
+        {
+          "phase": "rei-core> Running phase: unpackPhase",
+          "seconds": 0.21078104199841619
+        },
+        {
+          "phase": "rei-core> Running phase: patchPhase",
+          "seconds": 0.014136499987216666
+        },
+        {
+          "phase": "rei-core> Running phase: compileBuildDriverPhase",
+          "seconds": 0.762479583005188
+        },
+        {
+          "phase": "rei-core> Running phase: updateAutotoolsGnuConfigScriptsPhase",
+          "seconds": 0.03364104198408313
+        },
+        {
+          "phase": "rei-core> Running phase: configurePhase",
+          "seconds": 2.603706207999494
+        },
+        {
+          "phase": "rei-core> Running phase: buildPhase",
+          "seconds": 77.9681695420004
+        },
+        {
+          "phase": "rei-core> Running phase: haddockPhase",
+          "seconds": 0.01049537499784492
+        },
+        {
+          "phase": "rei-core> Running phase: installPhase",
+          "seconds": 1.9980784580111504
+        },
+        {
+          "phase": "rei-core> Running phase: fixupPhase",
+          "seconds": 8.872278958995594
+        },
+        {
+          "phase": "rei-cli> Running phase: setupCompilerEnvironmentPhase",
+          "seconds": 6.864036000013584
+        },
+        {
+          "phase": "rei-cli> Running phase: unpackPhase",
+          "seconds": 0.06768458298756741
+        },
+        {
+          "phase": "rei-cli> Running phase: patchPhase",
+          "seconds": 0.014429417002247646
+        },
+        {
+          "phase": "rei-cli> Running phase: compileBuildDriverPhase",
+          "seconds": 0.7618756250012666
+        },
+        {
+          "phase": "rei-cli> Running phase: updateAutotoolsGnuConfigScriptsPhase",
+          "seconds": 0.016575165995163843
+        },
+        {
+          "phase": "rei-cli> Running phase: configurePhase",
+          "seconds": 2.411335084005259
+        },
+        {
+          "phase": "rei-cli> Running phase: buildPhase",
+          "seconds": 28.843140790995676
+        },
+        {
+          "phase": "rei-cli> Running phase: haddockPhase",
+          "seconds": 0.010903500020503998
+        },
+        {
+          "phase": "rei-cli> Running phase: installPhase",
+          "seconds": 3.098243416985497
+        },
+        {
+          "phase": "rei-cli> Running phase: fixupPhase",
+          "seconds": 6.389968792005675
+        }
+      ]
+    },
+    {
+      "trial": 5,
+      "stage": "paired",
+      "label": "baseline",
+      "command": [
+        "nix",
+        "build",
+        "--impure",
+        "--file",
+        "/private/tmp/mp4-rei-measurement/application.nix",
+        "--argstr",
+        "source",
+        "/private/tmp/mp4-rei-measurement/baseline",
+        "package",
+        "--no-link",
+        "--json",
+        "--print-build-logs",
+        "--max-jobs",
+        "1",
+        "--cores",
+        "16"
+      ],
+      "source_variant_sha256": "10a1bda8408569538242576a9f39ea430c49955967326b4530acba03736018ad",
+      "identity": {
+        "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+        "core": "/nix/store/569z78irri5bnca74c7jivkcnyj3rnp8-rei-core-7.1.0.0.drv",
+        "root": "/nix/store/b4901f4q4gwdwj5bnzr6hxzaxm24hxbb-rei-cli-7.1.0.0.drv"
+      },
+      "elapsed_seconds": 153.33350395900197,
+      "exit_code": 0,
+      "compiled_modules": {
+        "rei-core": 893,
+        "rei-cli": 301
+      },
+      "phase_events": [
+        {
+          "elapsed_seconds": 6.553319375001593,
+          "message": "rei-core> Running phase: setupCompilerEnvironmentPhase"
+        },
+        {
+          "elapsed_seconds": 12.727291292016162,
+          "message": "rei-core> Running phase: unpackPhase"
+        },
+        {
+          "elapsed_seconds": 12.9458348750195,
+          "message": "rei-core> Running phase: patchPhase"
+        },
+        {
+          "elapsed_seconds": 12.959984834014904,
+          "message": "rei-core> Running phase: compileBuildDriverPhase"
+        },
+        {
+          "elapsed_seconds": 13.751717792009003,
+          "message": "rei-core> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+        },
+        {
+          "elapsed_seconds": 13.783500917023048,
+          "message": "rei-core> Running phase: configurePhase"
+        },
+        {
+          "elapsed_seconds": 16.194599167007254,
+          "message": "rei-core> Running phase: buildPhase"
+        },
+        {
+          "elapsed_seconds": 93.67122675001156,
+          "message": "rei-core> Running phase: haddockPhase"
+        },
+        {
+          "elapsed_seconds": 93.68669075000798,
+          "message": "rei-core> Running phase: installPhase"
+        },
+        {
+          "elapsed_seconds": 95.74112991700531,
+          "message": "rei-core> Running phase: fixupPhase"
+        },
+        {
+          "elapsed_seconds": 104.5166741250141,
+          "message": "rei-cli> Running phase: setupCompilerEnvironmentPhase"
+        },
+        {
+          "elapsed_seconds": 111.28419037500862,
+          "message": "rei-cli> Running phase: unpackPhase"
+        },
+        {
+          "elapsed_seconds": 111.34829158399953,
+          "message": "rei-cli> Running phase: patchPhase"
+        },
+        {
+          "elapsed_seconds": 111.36261775001185,
+          "message": "rei-cli> Running phase: compileBuildDriverPhase"
+        },
+        {
+          "elapsed_seconds": 112.12555537500884,
+          "message": "rei-cli> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+        },
+        {
+          "elapsed_seconds": 112.14393537500291,
+          "message": "rei-cli> Running phase: configurePhase"
+        },
+        {
+          "elapsed_seconds": 114.70701079201535,
+          "message": "rei-cli> Running phase: buildPhase"
+        },
+        {
+          "elapsed_seconds": 143.67561058400315,
+          "message": "rei-cli> Running phase: haddockPhase"
+        },
+        {
+          "elapsed_seconds": 143.6845983749954,
+          "message": "rei-cli> Running phase: installPhase"
+        },
+        {
+          "elapsed_seconds": 146.76971945900004,
+          "message": "rei-cli> Running phase: fixupPhase"
+        }
+      ],
+      "build_result": [
+        {
+          "drvPath": "/nix/store/b4901f4q4gwdwj5bnzr6hxzaxm24hxbb-rei-cli-7.1.0.0.drv",
+          "outputs": {
+            "out": "/nix/store/6a8wqyhy1mhpxfl53b019x3b6h4xby2a-rei-cli-7.1.0.0"
+          }
+        }
+      ],
+      "cache_state": "warm dependencies; initial build plan and actual compilations recorded in build log",
+      "log": "paired-5-baseline.log",
+      "phase_limits": "No separate linker, test, memory or transfer instrumentation; phase events are builder log boundaries.",
+      "order": 1,
+      "log_sha256": "fda286ecdedd7580dab0969c85e3708a4195611b4475b0a0ca52ea67517c8ed3",
+      "log_bytes": 538526,
+      "phase_durations": [
+        {
+          "phase": "rei-core> Running phase: setupCompilerEnvironmentPhase",
+          "seconds": 6.173971917014569
+        },
+        {
+          "phase": "rei-core> Running phase: unpackPhase",
+          "seconds": 0.21854358300333843
+        },
+        {
+          "phase": "rei-core> Running phase: patchPhase",
+          "seconds": 0.014149958995403722
+        },
+        {
+          "phase": "rei-core> Running phase: compileBuildDriverPhase",
+          "seconds": 0.7917329579940997
+        },
+        {
+          "phase": "rei-core> Running phase: updateAutotoolsGnuConfigScriptsPhase",
+          "seconds": 0.031783125014044344
+        },
+        {
+          "phase": "rei-core> Running phase: configurePhase",
+          "seconds": 2.4110982499842066
+        },
+        {
+          "phase": "rei-core> Running phase: buildPhase",
+          "seconds": 77.4766275830043
+        },
+        {
+          "phase": "rei-core> Running phase: haddockPhase",
+          "seconds": 0.015463999996427447
+        },
+        {
+          "phase": "rei-core> Running phase: installPhase",
+          "seconds": 2.0544391669973265
+        },
+        {
+          "phase": "rei-core> Running phase: fixupPhase",
+          "seconds": 8.775544208008796
+        },
+        {
+          "phase": "rei-cli> Running phase: setupCompilerEnvironmentPhase",
+          "seconds": 6.7675162499945145
+        },
+        {
+          "phase": "rei-cli> Running phase: unpackPhase",
+          "seconds": 0.06410120899090543
+        },
+        {
+          "phase": "rei-cli> Running phase: patchPhase",
+          "seconds": 0.014326166012324393
+        },
+        {
+          "phase": "rei-cli> Running phase: compileBuildDriverPhase",
+          "seconds": 0.7629376249969937
+        },
+        {
+          "phase": "rei-cli> Running phase: updateAutotoolsGnuConfigScriptsPhase",
+          "seconds": 0.018379999994067475
+        },
+        {
+          "phase": "rei-cli> Running phase: configurePhase",
+          "seconds": 2.563075417012442
+        },
+        {
+          "phase": "rei-cli> Running phase: buildPhase",
+          "seconds": 28.9685997919878
+        },
+        {
+          "phase": "rei-cli> Running phase: haddockPhase",
+          "seconds": 0.008987790992250666
+        },
+        {
+          "phase": "rei-cli> Running phase: installPhase",
+          "seconds": 3.0851210840046406
+        },
+        {
+          "phase": "rei-cli> Running phase: fixupPhase",
+          "seconds": 6.56378450000193
+        }
+      ]
+    },
+    {
+      "trial": 5,
+      "stage": "paired",
+      "label": "candidate",
+      "command": [
+        "nix",
+        "build",
+        "--impure",
+        "--file",
+        "/private/tmp/mp4-rei-measurement/application.nix",
+        "--argstr",
+        "source",
+        "/private/tmp/mp4-rei-measurement/candidate",
+        "package",
+        "--no-link",
+        "--json",
+        "--print-build-logs",
+        "--max-jobs",
+        "1",
+        "--cores",
+        "16"
+      ],
+      "source_variant_sha256": "10a1bda8408569538242576a9f39ea430c49955967326b4530acba03736018ad",
+      "identity": {
+        "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+        "core": "/nix/store/q81gkiznk4n6hmya2d3ndqpnjg7pqcz5-rei-core-7.1.0.0.drv",
+        "root": "/nix/store/9n8vh6s8b3a9r0x0w1ffarb0nc9m5h5q-rei-cli-7.1.0.0.drv"
+      },
+      "elapsed_seconds": 3.5483397920033894,
+      "exit_code": 0,
+      "compiled_modules": {},
+      "phase_events": [],
+      "build_result": [
+        {
+          "drvPath": "/nix/store/9n8vh6s8b3a9r0x0w1ffarb0nc9m5h5q-rei-cli-7.1.0.0.drv",
+          "outputs": {
+            "out": "/nix/store/hpfj57jgy42wrk1jl2rbmxy5b6pgqgag-rei-cli-7.1.0.0"
+          }
+        }
+      ],
+      "cache_state": "warm dependencies; initial build plan and actual compilations recorded in build log",
+      "log": "paired-5-candidate.log",
+      "phase_limits": "No separate linker, test, memory or transfer instrumentation; phase events are builder log boundaries.",
+      "order": 2,
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "log_bytes": 0,
+      "phase_durations": []
+    }
+  ],
+  "warmup": [
+    {
+      "trial": 0,
+      "stage": "warmup",
+      "label": "baseline",
+      "command": [
+        "nix",
+        "build",
+        "--impure",
+        "--file",
+        "/private/tmp/mp4-rei-measurement/application.nix",
+        "--argstr",
+        "source",
+        "/private/tmp/mp4-rei-measurement/baseline",
+        "package",
+        "--no-link",
+        "--json",
+        "--print-build-logs",
+        "--max-jobs",
+        "1",
+        "--cores",
+        "16"
+      ],
+      "source_variant_sha256": "41f04b1db1454f038d2838faecc8735d55d907a4109dca9b9c268a502745a30f",
+      "identity": {
+        "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+        "core": "/nix/store/jgq8lzzx5hx2a89azqgnxj730f2mawz7-rei-core-7.1.0.0.drv",
+        "root": "/nix/store/gq991kh2zli1jx86r95grgbzq9gm61lg-rei-cli-7.1.0.0.drv"
+      },
+      "elapsed_seconds": 4.006578291999176,
+      "exit_code": 0,
+      "compiled_modules": {},
+      "phase_events": [],
+      "build_result": [
+        {
+          "drvPath": "/nix/store/gq991kh2zli1jx86r95grgbzq9gm61lg-rei-cli-7.1.0.0.drv",
+          "outputs": {
+            "out": "/nix/store/s66zqnxy6j8ga4f1ivrzpkffg2ci3c1i-rei-cli-7.1.0.0"
+          }
+        }
+      ],
+      "cache_state": "warm dependencies; initial build plan and actual compilations recorded in build log",
+      "log": "warmup-0-baseline.log",
+      "phase_limits": "No separate linker, test, memory or transfer instrumentation; phase events are builder log boundaries.",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "log_bytes": 0,
+      "phase_durations": []
+    },
+    {
+      "trial": 0,
+      "stage": "warmup",
+      "label": "candidate",
+      "command": [
+        "nix",
+        "build",
+        "--impure",
+        "--file",
+        "/private/tmp/mp4-rei-measurement/application.nix",
+        "--argstr",
+        "source",
+        "/private/tmp/mp4-rei-measurement/candidate",
+        "package",
+        "--no-link",
+        "--json",
+        "--print-build-logs",
+        "--max-jobs",
+        "1",
+        "--cores",
+        "16"
+      ],
+      "source_variant_sha256": "41f04b1db1454f038d2838faecc8735d55d907a4109dca9b9c268a502745a30f",
+      "identity": {
+        "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+        "core": "/nix/store/q81gkiznk4n6hmya2d3ndqpnjg7pqcz5-rei-core-7.1.0.0.drv",
+        "root": "/nix/store/9n8vh6s8b3a9r0x0w1ffarb0nc9m5h5q-rei-cli-7.1.0.0.drv"
+      },
+      "elapsed_seconds": 153.51291583300917,
+      "exit_code": 0,
+      "compiled_modules": {
+        "rei-core": 893,
+        "rei-cli": 301
+      },
+      "phase_events": [
+        {
+          "elapsed_seconds": 4.182367417000933,
+          "message": "rei-core> Running phase: setupCompilerEnvironmentPhase"
+        },
+        {
+          "elapsed_seconds": 9.787550375011051,
+          "message": "rei-core> Running phase: unpackPhase"
+        },
+        {
+          "elapsed_seconds": 10.016808292013593,
+          "message": "rei-core> Running phase: patchPhase"
+        },
+        {
+          "elapsed_seconds": 10.030567208013963,
+          "message": "rei-core> Running phase: compileBuildDriverPhase"
+        },
+        {
+          "elapsed_seconds": 10.787011750013335,
+          "message": "rei-core> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+        },
+        {
+          "elapsed_seconds": 10.817637333006132,
+          "message": "rei-core> Running phase: configurePhase"
+        },
+        {
+          "elapsed_seconds": 13.131489375024103,
+          "message": "rei-core> Running phase: buildPhase"
+        },
+        {
+          "elapsed_seconds": 92.39845720800804,
+          "message": "rei-core> Running phase: haddockPhase"
+        },
+        {
+          "elapsed_seconds": 92.40781925001647,
+          "message": "rei-core> Running phase: installPhase"
+        },
+        {
+          "elapsed_seconds": 94.44945991699933,
+          "message": "rei-core> Running phase: fixupPhase"
+        },
+        {
+          "elapsed_seconds": 103.65344325001934,
+          "message": "rei-cli> Running phase: setupCompilerEnvironmentPhase"
+        },
+        {
+          "elapsed_seconds": 110.78747395801474,
+          "message": "rei-cli> Running phase: unpackPhase"
+        },
+        {
+          "elapsed_seconds": 110.85627945800661,
+          "message": "rei-cli> Running phase: patchPhase"
+        },
+        {
+          "elapsed_seconds": 110.87007145801908,
+          "message": "rei-cli> Running phase: compileBuildDriverPhase"
+        },
+        {
+          "elapsed_seconds": 111.61347445801948,
+          "message": "rei-cli> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+        },
+        {
+          "elapsed_seconds": 111.6304491670162,
+          "message": "rei-cli> Running phase: configurePhase"
+        },
+        {
+          "elapsed_seconds": 113.97078120801598,
+          "message": "rei-cli> Running phase: buildPhase"
+        },
+        {
+          "elapsed_seconds": 143.36903650002205,
+          "message": "rei-cli> Running phase: haddockPhase"
+        },
+        {
+          "elapsed_seconds": 143.37955179202254,
+          "message": "rei-cli> Running phase: installPhase"
+        },
+        {
+          "elapsed_seconds": 146.44026154201129,
+          "message": "rei-cli> Running phase: fixupPhase"
+        }
+      ],
+      "build_result": [
+        {
+          "drvPath": "/nix/store/9n8vh6s8b3a9r0x0w1ffarb0nc9m5h5q-rei-cli-7.1.0.0.drv",
+          "outputs": {
+            "out": "/nix/store/hpfj57jgy42wrk1jl2rbmxy5b6pgqgag-rei-cli-7.1.0.0"
+          }
+        }
+      ],
+      "cache_state": "warm dependencies; initial build plan and actual compilations recorded in build log",
+      "log": "warmup-0-candidate.log",
+      "phase_limits": "No separate linker, test, memory or transfer instrumentation; phase events are builder log boundaries.",
+      "log_sha256": "46d22c4827a87560156121d75f341164a1ba8b1094d482cc2c6b300ce75b9dee",
+      "log_bytes": 538445,
+      "phase_durations": [
+        {
+          "phase": "rei-core> Running phase: setupCompilerEnvironmentPhase",
+          "seconds": 5.6051829580101185
+        },
+        {
+          "phase": "rei-core> Running phase: unpackPhase",
+          "seconds": 0.22925791700254194
+        },
+        {
+          "phase": "rei-core> Running phase: patchPhase",
+          "seconds": 0.013758916000369936
+        },
+        {
+          "phase": "rei-core> Running phase: compileBuildDriverPhase",
+          "seconds": 0.7564445419993717
+        },
+        {
+          "phase": "rei-core> Running phase: updateAutotoolsGnuConfigScriptsPhase",
+          "seconds": 0.030625582992797717
+        },
+        {
+          "phase": "rei-core> Running phase: configurePhase",
+          "seconds": 2.3138520420179702
+        },
+        {
+          "phase": "rei-core> Running phase: buildPhase",
+          "seconds": 79.26696783298394
+        },
+        {
+          "phase": "rei-core> Running phase: haddockPhase",
+          "seconds": 0.009362042008433491
+        },
+        {
+          "phase": "rei-core> Running phase: installPhase",
+          "seconds": 2.0416406669828575
+        },
+        {
+          "phase": "rei-core> Running phase: fixupPhase",
+          "seconds": 9.203983333020005
+        },
+        {
+          "phase": "rei-cli> Running phase: setupCompilerEnvironmentPhase",
+          "seconds": 7.134030707995407
+        },
+        {
+          "phase": "rei-cli> Running phase: unpackPhase",
+          "seconds": 0.06880549999186769
+        },
+        {
+          "phase": "rei-cli> Running phase: patchPhase",
+          "seconds": 0.013792000012472272
+        },
+        {
+          "phase": "rei-cli> Running phase: compileBuildDriverPhase",
+          "seconds": 0.7434030000003986
+        },
+        {
+          "phase": "rei-cli> Running phase: updateAutotoolsGnuConfigScriptsPhase",
+          "seconds": 0.01697470899671316
+        },
+        {
+          "phase": "rei-cli> Running phase: configurePhase",
+          "seconds": 2.340332040999783
+        },
+        {
+          "phase": "rei-cli> Running phase: buildPhase",
+          "seconds": 29.39825529200607
+        },
+        {
+          "phase": "rei-cli> Running phase: haddockPhase",
+          "seconds": 0.010515292000491172
+        },
+        {
+          "phase": "rei-cli> Running phase: installPhase",
+          "seconds": 3.060709749988746
+        },
+        {
+          "phase": "rei-cli> Running phase: fixupPhase",
+          "seconds": 7.072654290997889
+        }
+      ]
+    }
+  ],
+  "timings": {
+    "baseline": {
+      "median_seconds": 153.33350395900197,
+      "min_seconds": 151.0689393329958,
+      "max_seconds": 157.36099650000688
+    },
+    "candidate": {
+      "median_seconds": 3.376215083990246,
+      "min_seconds": 3.3507584589824546,
+      "max_seconds": 3.5483397920033894
+    }
+  },
+  "saving_fraction": 0.9779812304759371,
+  "timing_threshold_passed": true,
+  "migration_cost_seconds": 153.51291583300917,
+  "break_even_edits": 2,
+  "compiler_count_semantics": "GHC Compiling events, including Setup and repeated module names across components; not unique source modules",
+  "memory": {
+    "hardware_bytes": 274877906944,
+    "logical_cpus": 36,
+    "model": "Mac17,15",
+    "builder_peak_rss": "not instrumented",
+    "configured_memory_limit": "none changed"
+  },
+  "scope": "Documentation-only source edits at a fixed original revision stamp; not a changed-Haskell or per-Git-commit speedup",
+  "fix": {
+    "project_uri": "mori://shinzui/rei",
+    "revision": "4f209d3f2bab381dfab7301bd04779f89a77009f",
+    "project_relative_path": "nix/haskell-overlay.nix",
+    "artifact_uri_status": "source-file URI pending"
+  },
+  "graph_validation": {
+    "before_after": {
+      "schema_version": 1,
+      "project_uri": "mori://shinzui/rei",
+      "shared_haskell_instances": 474,
+      "same_shared_haskell_derivations_and_outputs": true,
+      "all_graph_nodes_before": 2050,
+      "all_graph_nodes_after": 2050,
+      "removed": [
+        "gq991kh2zli1jx86r95grgbzq9gm61lg-rei-cli-7.1.0.0.drv",
+        "jgq8lzzx5hx2a89azqgnxj730f2mawz7-rei-core-7.1.0.0.drv"
+      ],
+      "added": [
+        "9n8vh6s8b3a9r0x0w1ffarb0nc9m5h5q-rei-cli-7.1.0.0.drv",
+        "q81gkiznk4n6hmya2d3ndqpnjg7pqcz5-rei-core-7.1.0.0.drv"
+      ],
+      "shared_haskell_derivations": [
+        "025ifl731gcai09zcaxwpis046my9sh4-hspec-2.11.17.drv",
+        "02riabqdj1divmsgz4h3zghlm1ivganv-keiro-pgmq-0.21.0.0.drv",
+        "04wvn8fv1iqp3cn3ji6vsjbkl0hc2x0h-regex-posix-0.96.0.2.drv",
+        "06vqhibqh4n6wj5ygvwaafhd3xz4nva1-heaps-0.4.1.drv",
+        "08y00ykkq206nkj440pp0jr7vlsjym7h-wai-3.2.5.drv",
+        "0b3hmpbn34fg0x9yqiz7fpky6in2387h-appar-0.1.8.drv",
+        "0cjndczbxlj3r1pvg4pyrjl999cfa64n-hs-opentelemetry-exporter-in-memory-1.0.0.0.drv",
+        "0f5vpkgna4lrx2c65pxi1cddkvqilqrf-data-fix-0.3.4.drv",
+        "0h4cfvraspidkmzn61q75jpbx2w17izq-jailbreak-cabal-1.4.1.drv",
+        "0lzy20lzj962yvjndgcgygzhjs29nxga-attoparsec-aeson-2.2.2.0.drv",
+        "0pxrlgcdbnpvl78bv740ak9r5jqq2mqw-settei-env-0.2.0.0.drv",
+        "0rcxpaa0jmik9yryjmzlff8m6z2m7cj0-http-api-data-0.7.drv",
+        "0snq2j2vbr0f8n40sr07zpjy6aq3y0kz-ansi-terminal-types-1.1.3.drv",
+        "0w2x1wkcwv5skhw21jsnbi2f3fqi1yp0-mime-types-0.1.2.2.drv",
+        "0wjjc9p1276a7656xky6warq9sdrkj2v-vector-stream-0.1.0.1.drv",
+        "0zfmwgy1ngsn0nkmy8cpriasvyjzfhd0-tasty-quickcheck-0.11.1.drv",
+        "0zzpk9dl3x2gy14rihk64mxk0vhmax7f-lens-5.3.6.drv",
+        "105jcfych76aw3xhqpx2l0mciza5xj0q-binary-orphans-1.0.6.drv",
+        "10m5yd0nzgkbdgkjk0vxba462vsbg9p6-generic-lens-core-2.3.0.0.drv",
+        "12iiyh8qc7ikih5593ljz4gwc48cw8hv-microlens-0.5.0.0.drv",
+        "12swqdniz8x84l29fi2crwfn277hc4kj-hs-opentelemetry-api-types-1.0.0.0.drv",
+        "133rvvgljgbqklaqx6bzhyldcf05xk3g-primitive-0.9.1.0.drv",
+        "13xail7sfkj22bd7pbn76ny3px1lkgn1-old-locale-1.0.0.7.drv",
+        "1872z75xxh5jpckr9zj3j6rmf7jn4931-text-short-0.1.6.1.drv",
+        "1d201kp2sdwdpv9pddac9m779zi53q6k-js-dgtable-0.5.2.drv",
+        "1g7ic6gfz095y7z6j4hppsnyn2ba9w9w-tls-2.4.6.drv",
+        "1jh0l433xk6khmprg3nxl8fjxksxqkdr-recv-0.1.2.drv",
+        "1r2bkprh69l0z55fd4js0ikl3fccnn96-prettyprinter-compat-ansi-wl-pprint-1.0.2.drv",
+        "1wcvzikyi2vvflql5cmkizh7l3hcaync-OneTuple-0.4.3.drv",
+        "1zrn2jcp7dx0s2dbwr1igbhgqiwdwxvp-text-builder-1.0.0.5.drv",
+        "20k7kp1409hymf3m6l9xrmy4ac5ami3h-cryptohash-sha256-0.11.102.1.drv",
+        "21xqkgjrya9gkdz26xkgsk25zv6n5mnx-random-1.3.1.drv",
+        "23c4fsp0c4m6dxj0i3zzxjhnf7fbj03b-distributive-0.6.3.drv",
+        "276mhy1yq96zp7jr0qb5mznvjlsazvax-happy-2.1.7.drv",
+        "291l79g7kchvdjmpk0jlzfsz91ri682g-crypton-1.1.5.drv",
+        "29dd4mj411d8vhpk3xg6s4wwdpb3k7b1-logict-0.8.2.0.drv",
+        "2bvp5ki9ws33jy5nns8wckan01naf1zl-simple-sendfile-0.2.32.drv",
+        "2f7h5iffi4ml2jqbjxsv77rarfibbsdk-ansi-terminal-types-1.1.3.drv",
+        "2fxcc6aq00hmyz9rg4r4xpa0n11dk4id-crypton-x509-system-1.9.0.drv",
+        "2ij3lk1z45ri0jgrdbjklrvlr5h1l2x0-link-canonical-0.1.0.0.drv",
+        "2nbbcf9yic90zmwvf893cg0s98sfrbnv-http-date-0.0.11.drv",
+        "2r8rgx1wjw7d0wfk5jqzlify6yh974jq-network-info-0.2.1.drv",
+        "2xbhp3yhcvc9105m4ip6cs28wzc5pq60-hspec-expectations-0.8.4.drv",
+        "2y0g0nf3l92bala7fr7s0fnd6pbqfi5h-pgmq-migration-0.6.1.1.drv",
+        "2y6smbp67ccpxwjyqii797hgm1b1p934-libyaml-0.1.4.drv",
+        "30fl18q1d9iql80fdq0741g1j8f0ydxk-js-flot-0.8.3.drv",
+        "33b5jq1dn62bk66fra9jmycsz4by0vbr-template-haskell-compat-v0208-0.1.9.6.drv",
+        "35l9sdw4xg938lyxknhx0jxp0kyrzhnx-config-ini-0.2.7.0.drv",
+        "36h7a4qs6iqhskxq81xl2b67pc1ijxjl-generics-sop-0.5.1.4.drv",
+        "36hxchqw50zh6z7kbmdrcmg1fl76yds1-QuickCheck-2.15.0.1.drv",
+        "3cp49cmni7vay20yiw4ivzxih8ip1d6v-baikai-0.8.0.0.drv",
+        "3gdlccywhx6f4rh1m6jffqgr14zral9h-vector-algorithms-0.9.1.0.drv",
+        "3gkyms6wcbmaqighns1vsgkx867gihzk-ghc-toolchain-9.12.4.drv",
+        "3j3528wh14z6wpvmz9jw8qh9hgb7kdaa-hasql-implicits-0.2.0.3.drv",
+        "3kx8k3rrhcxzbgawirlfbg2pag5ip22g-thread-utils-finalizers-0.1.1.0.drv",
+        "3qqqzp221fyrj6kpc357xhfrvxcxb52s-logging-facade-0.3.1.drv",
+        "3rqvnzpskcbg35g3j688qmrhxl9q8w45-doctest-0.24.3.drv",
+        "3yz1fkyqk07bjhiqr7d7d45znsiw6c2b-http2-5.4.8.drv",
+        "40yrv4kap3b0a7pc5l4f3y3lyvy1zb4c-base-orphans-0.9.4.drv",
+        "4175g857yqv5nwm0z1zbacxq1cn9chd3-pgmq-core-0.6.1.1.drv",
+        "43az0ppsgdym8d298jd659shj3iz85r5-tagged-0.8.11.drv",
+        "44cw44ac5zl8gdz7aslla57c409gbff9-vault-0.3.2.0.drv",
+        "456jjl15hwkja9yskrk0w7qfgyryz96h-th-compat-0.1.7.drv",
+        "4751cls8lq7h77gwq6cnqd4izhgp8l1c-unagi-chan-0.4.1.4.drv",
+        "4bnwbzfnbawrpbwabcpcqrm8v5ki8b09-kiroku-store-0.11.0.0.drv",
+        "4bvbvsdilaybs9idbcf0rjrwa2gmjad9-wai-websockets-3.0.1.2.drv",
+        "4d0i0i5rgai5qrj6hp7cndiqwrbfjpcb-fast-logger-3.2.8.drv",
+        "4dbw3c8q096x3hf1rg0lqx1v4ssqm4hj-effectful-core-2.7.1.2.drv",
+        "4dnaidzr23y18hfr65338ls7qjr99plv-os-string-2.0.10.drv",
+        "4gc6jii3zv7rbywi6ymzq8k9xam75pd3-bifunctors-5.6.3.drv",
+        "4hr0x7q7vdi12zcapwcgpg0700bn9adz-colour-2.3.7.drv",
+        "4l0xdq00665648qzjkgvscmhgkk1s9zs-servant-foreign-0.16.1.drv",
+        "4qqyxzwl3d0s9n6ii2a7r7wfil2jq028-yaml-0.11.11.2.drv",
+        "4qykb9kdbn0137r8ald2wv0qkhg80k28-splitmix-0.1.3.2.drv",
+        "4rbda9gas55vfh0rm70356l02zn6mx92-utf8-string-1.0.2.drv",
+        "4v9bli5ybaa7dqfsrh9znp986n3wdsa8-these-1.2.1.drv",
+        "4wiyaxhy4bv0k9bz5v2hlyv54vf2zxkn-text-iso8601-0.1.1.2.drv",
+        "4zldghs2h13lnw2i99n0m4ddz7z219wh-StateVar-1.2.2.drv",
+        "53436g6g7hffglj1a2w6yg73ijsgpisj-hostname-1.0.drv",
+        "55al82i3d03q7pn511s4i0cn6jigpbyk-shake-0.19.9.drv",
+        "56nc29m5impd7f8n5lha3hi5fwd2wy34-unordered-containers-0.2.20.1.drv",
+        "588znjhjas0dig8ipwzj5al95pr2w231-constraints-0.14.4.drv",
+        "5b3nh9nvfrjy5b809qdxkap0g9gk0a7m-happy-lib-2.1.7.drv",
+        "5cp0cqfhpx3dcxqnmz5l00pk5kd82v8n-aeson-2.2.5.1.drv",
+        "5g0bzmbjfwx67c18riarq7v4n7k9dz8x-shikumi-0.4.1.1.drv",
+        "5hd95fsgf4pi0qq4w01addyzfa9cvk53-blaze-builder-0.4.4.1.drv",
+        "5jjk6b1flx1byzd392krn66hggpfgkxm-time-compat-1.9.9.drv",
+        "5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+        "5ync8nk1xq2yx5b6b1qai3y3zmaqnqxk-word-wrap-0.5.drv",
+        "5yyqlbxjj88246rpx530imjwsjdxb96n-extra-1.8.1.drv",
+        "5yz84jhk4m27zk1sdi1lnycwqcbhkcj1-filepattern-0.1.3.drv",
+        "5zgw4hyg27s3485vnisnr6s222r47q45-hs-opentelemetry-propagator-jaeger-1.0.0.0.drv",
+        "616j2psrfc9niwgh9d9iqz8n743f6xda-math-functions-0.3.4.4.drv",
+        "618mpp8icqiaxmazlrrshnlk3fv4v31r-call-stack-0.4.0.drv",
+        "61w1x96rhxriiydrp093hmqc8z2n9fnr-baikai-claude-0.7.1.1.drv",
+        "62jhld2xxidx9kjr23lgrms2x166z551-syb-0.7.4.drv",
+        "62jq8nbaa6j1zb7h3gl38h1z1mn1j86a-ansi-wl-pprint-1.0.2.drv",
+        "64xn11ahwgxzza1lbn1pkqfc55dw75lq-cmdargs-0.10.22.drv",
+        "68d5bfzc1ilj16b2y6qsjaj1v5lszcii-kiroku-store-migrations-0.7.1.0.drv",
+        "6a2bj7b2651clzjsy91iln18jiljigy2-charset-0.3.12.drv",
+        "6b45rqf866anp3d75fy4wa1hx425x7w3-Cabal-syntax-3.14.2.0.drv",
+        "6g59shjak6y05yf0lf2dpj0qpx5nynww-ephemeral-pg-0.3.1.0.drv",
+        "6g7x5ix28h8qqi5jglcj6mdb9iijqvpk-pgmq-hasql-0.6.1.1.drv",
+        "6gidi7lasznvjrd3i0xf6irf6sd7bqb0-baikai-kit-0.4.0.1.drv",
+        "6h2b2awnmnmrdhqkxzi50pf97f3j341j-cradle-0.0.0.0.drv",
+        "6hq1dzhz09mjxh3jvchcwarv3wq2bvl4-semialign-1.4.drv",
+        "6n342z21nak610hc0y1fahwi7sdchvbq-nothunks-0.3.1.drv",
+        "6w5l264ld99flngmxgf0ldil6xa14fjr-fusion-plugin-types-0.1.0.drv",
+        "6wpspi7g6cm948xfkahj5n73ag111si6-cryptohash-sha256-0.11.102.1.drv",
+        "6z9rv3pl5hyjs5gpvni6smk71a3m9i4w-wai-logger-2.5.0.drv",
+        "70r7rsjvl09m4fxhb460bdgiy5y9zja5-baikai-effectful-0.4.0.3.drv",
+        "714dym77hd6ygn2grja0p0lf045gx43w-text-zipper-0.13.drv",
+        "7229fv5ksm8bsa4zaa3nv2yv7psx296r-temporary-1.3.drv",
+        "77n4vsx8qin5fy9wkydskxfygfkr2wjd-hs-opentelemetry-semantic-conventions-1.40.0.0.drv",
+        "7gdd2kcvni6qrwvkv85kqjkcnfb51dr8-libyaml-clib-0.2.5.drv",
+        "7gz9x2n1i8y6l3n8gcjp17zfcwhddian-hspec-core-2.11.17.drv",
+        "7h95y0mpsfmi50wrzb7dirsdzx7bz858-tasty-1.5.4.drv",
+        "7i4dkha65vg5qcpa68x73chcas4vnjqp-crypton-x509-1.9.1.drv",
+        "7nc6iwiia44r0zqh382xfx1v9fjd05a1-prettyprinter-1.7.1.drv",
+        "7ss8vpcqgxi2v0bafnd1z13bqa8jplv5-kiroku-otel-0.2.0.12.drv",
+        "7v1174g5apk10ljd84zn6d887a84xci4-hspec-discover-2.11.17.drv",
+        "7vargm3szq2x59v0f5hvkgaz0cya6wm6-vector-binary-instances-0.2.5.2.drv",
+        "7w7mdwashzb3bhh653qasy70s1q7nddm-hscolour-1.25.drv",
+        "80zp0xdzj5rklprxfaj0qqp8fsns2q9a-indexed-profunctors-0.1.1.1.drv",
+        "840nr8lzn7alwjlgyfq1nrf28rrbqdgn-witherable-0.5.drv",
+        "887rs7nfxbr6pj67n49x597ppg9kwdnd-these-1.2.1.drv",
+        "88b3rs7vby5yrkwc0fxapr0v9s3w8ksi-assoc-1.1.1.drv",
+        "89jjs4159imw7ymyk9f393kdg5yb7wih-th-abstraction-0.7.2.0.drv",
+        "8g8p4i5gkm1hxjxsbk0icbr3g73fjl77-contravariant-1.5.6.drv",
+        "8hfrd5pmb72478zx6c79a603pcf0kl5v-base-orphans-0.9.4.drv",
+        "8hldjxzi4y0k9kp9gi9bajhmrsimnx3p-cryptohash-sha512-0.11.103.0.drv",
+        "8hnz9l19hr3bbywirzrp34n2d6hiwgp2-statistics-0.16.5.0.drv",
+        "8javsswzhs3zqvn8b6l7j13jjlsxrir2-random-1.2.1.3.drv",
+        "8q8pdr0g379l4b8vl5n2pdcfdn33x6i9-alex-3.5.4.2.drv",
+        "8rvkdzgjsw06mlpsmw3vq1x02gariian-serialise-0.2.6.1.drv",
+        "8vhfx6l77vdlyk4m7pdwsabh2qmp1692-binary-parser-0.5.7.7.drv",
+        "8w3dqdxvykzq606g80d9v4670mgz04q2-keiki-0.9.1.0.drv",
+        "8xp3v9lcj533809xbx3xwgr6ahn4qw6f-servant-client-0.20.3.0.drv",
+        "8zmy8jsm9qz3pzf3bsnwirr6k7sjc746-base64-2.0.drv",
+        "9006svhj9isbvjrrgnhvnlfdi4w2mlgk-clock-0.8.4.drv",
+        "95kfnamzwqw7k5l9k4bqsfrjb9wpms8i-hscolour-1.25.drv",
+        "95ylgnp2w568d8yaczg6wd345hplws7l-shibuya-pgmq-adapter-0.16.1.0.drv",
+        "960a45kacsyl0fa8gdr28wicb9lf5656-proto-lens-0.7.1.7.drv",
+        "96c42g05xdif7bg1dj8yalh37m84pij1-brick-3.0.drv",
+        "98x6bc6l6d6mf2k4bgrfd9zya7vd8h3w-servant-client-core-0.20.3.0.drv",
+        "99yn2bvbbpwm48lva7cbys4ng1dr2c92-tasty-hunit-0.10.2.drv",
+        "9acfln4hkvl9flqg7kdm9igwhxmph4sr-hasql-pool-1.4.2.3.drv",
+        "9as2q328fvanh0y5m7i8x97nzf8h1xvg-unliftio-0.2.25.1.drv",
+        "9dw3rjwnil3k9na0lbbagp1f2byh54y8-inspection-testing-0.6.3.drv",
+        "9fgpjjgz1wqsm35sfy6z0yfyx4pyq790-primitive-0.9.1.0.drv",
+        "9g573p4y679zh7m3ss5ig7idrh6jy21z-abstract-deque-0.3.drv",
+        "9g7vzj3h16ghjn41ypi1mv8zv82clqja-http-semantics-0.4.1.drv",
+        "9ihvdxc09pmxdfvjrrr96v5spy0hzrxr-prettyprinter-1.7.2.drv",
+        "9q7b04ai7fb6f60w5sl6v6qgmqqg6zmj-hashable-1.5.1.0.drv",
+        "9qsl71vlh2s9w53z47lihw0brhk97yr0-haskell-lexer-1.2.1.drv",
+        "9rxp8v6cmqfg0q8p9126pa8aqha0kaf1-parser-combinators-1.3.1.drv",
+        "9rzp9fzfmj309br2wib3vivv3x4hgcnq-ghc-settings-edit-0.1.0.drv",
+        "9sia2i9alhhmamxysf4vai595zyg6xc2-th-reify-many-0.1.10.drv",
+        "9xncfy1ry3kf2rvcqdhl1bpmh28mfjy7-libBF-0.6.9.drv",
+        "9yhd4gba0wq48pg3mabavsvycdapjkrs-test-framework-hunit-0.3.0.3.drv",
+        "a0gczi42qv03b67nlf329gckm9911q67-hasql-1.10.3.7.drv",
+        "a3yil5vskiafrv0a0y2k83g1kijjm4vp-proto-lens-runtime-0.7.0.8.drv",
+        "a7dqgc0539q7a2kq4mnap1rn7g0p6hd3-fuzzyfind-3.0.2.drv",
+        "aadksnw4d6l57fj0qyj61g6v2y9v4b06-Glob-0.10.2.drv",
+        "abjz6f8p56g3wjam22p9vd7clv9lv0qa-blaze-markup-0.8.3.0.drv",
+        "ac1y2i17j7y9lmki293lnl7q5jxsrkw2-QuickCheck-2.18.0.0.drv",
+        "ac4aif75b6xnxj689lkicrgd619pzd51-mmzk-typeid-0.7.1.2.drv",
+        "ag536n12jcf0d26c40kcz15ynjhqgms5-transformers-base-0.4.6.1.drv",
+        "agqbm1pyqczlphypqw9j6pak6fvhxp0j-quickcheck-io-0.2.0.drv",
+        "ajq6aiicim5y50p3cy3bq6dyw8kw53l3-mmorph-1.2.2.drv",
+        "al94mnzjsfc369br63l4dh8vl841x0w3-microlens-ghc-0.4.15.2.drv",
+        "amk6311v65lizqslbiv1d7x0wq0vk85y-text-builder-core-0.1.1.3.drv",
+        "aq14bhy20svzz78wv4jslk95pyr2gm94-assoc-1.1.1.drv",
+        "awcyziv982jbqwz19faixhbyfs72fj36-base-compat-0.15.0.drv",
+        "axfd9mj69990b23ar4lkg26j1idjwfbq-tasty-hunit-0.10.2.drv",
+        "ayhcr2dhkigpk7p9d50f5mx4kz1hrvyq-alex-3.5.4.2.drv",
+        "b28ixp4xyrckscl5zhsk77h06x80sk2x-vector-0.13.2.0.drv",
+        "b7f3dsshxnxdny0b47zimilh3glysfv6-unicode-data-0.9.0.drv",
+        "bhpisjkh0ywvfnrm12z5cz9jwvzdb4jl-postgresql-connection-string-0.1.0.6.drv",
+        "bhvy00zbc3c8y3r6di2s4610h12jjn3v-crypton-asn1-types-0.4.1.drv",
+        "bn0sl6r5shpjwmp2pzp5b4fiqx2fzyf2-universe-base-1.1.4.drv",
+        "bp4iiidxzmiszns445lpgp9zamvb25kv-syb-0.7.2.4.drv",
+        "bs12vdyr4qnmr0zfvnfrxijai6f729hi-happy-2.1.7.drv",
+        "bsn445rc0yhip3v5fqa7zw5xkd1i5jmw-primitive-0.9.1.0.drv",
+        "bv6fr0zk74maq2j6p8z5dikbzsjbjic9-alex-3.5.4.2.drv",
+        "bvvzvi13skr7dhld3m1fjc5cx6ydphpm-SHA-1.6.4.4.drv",
+        "bwf6dc48l0pbap822sz5knp9jhirm7fc-vector-builder-0.3.8.7.drv",
+        "bx57fxfkryq5cz5vckn8b72pc7k48r6f-HUnit-1.6.2.0.drv",
+        "bxsriq9jdcl6r1452ryjjyxgg7nz7mi5-test-framework-0.8.2.3.drv",
+        "bxyvc3q8llxla842pv8ga4r3ld1ci5rp-zlib-0.7.1.1.drv",
+        "bzzykjmc94zaw15mi0cz0bk7w2kzq3hn-psqueues-0.2.8.3.drv",
+        "c3iimybb3v0bk6nv78razcpi4z9cd2d5-uuid-types-1.0.6.1.drv",
+        "c66lshy5ffxxlpdiksffd03yfs322maz-cookie-0.5.1.drv",
+        "c6i1fplzpn33vzs36s7p0p0n8vi4i3il-aeson-casing-0.2.0.0.drv",
+        "c7cb3a9mpbd85sv5nx46hy1yfgjnapjn-string-conversions-0.4.0.1.drv",
+        "c94nbs3jq24r37mxbh0c7mhgbn9ynrqq-jailbreak-cabal-1.4.1.drv",
+        "cab7vhfg81gqqi1dghcbg3pvr4snls4g-ghc-settings-edit-0.1.0.drv",
+        "caic75rhwdm2jl26rjvvm3qar2a72583-easy-file-0.2.5.drv",
+        "ccji5b1qdpjcadn8bj160jsw6vp6fvl0-Cabal-3.14.2.0.drv",
+        "cfx70k080d751q539dyfph8ldp8zvivx-happy-lib-2.1.7.drv",
+        "cgmlmflvv6gn787kzxx0aixd23ii8dpn-network-byte-order-0.1.8.drv",
+        "cq926ff542h37q10symgd7gcnlg9sqds-vector-0.13.2.0.drv",
+        "cszrlr28ralibmsc7i923ic6vi3vjysd-hscolour-1.25.drv",
+        "cyr5pkfr8x0ga740wnb5xxg7rwrb38jq-pgmq-config-0.6.1.1.drv",
+        "d1rvsqa671zw3x561db9bkcygqlmq3py-ghc-platform-9.12.4.drv",
+        "d2y5i279957nf44mgc10f1vh5lbrb4vh-transformers-compat-0.8.drv",
+        "d3vb7xcx7rarrf65s0jjpcnamfcs5syb-cmark-gfm-0.2.6.drv",
+        "dbfc77dahpi36afgdc3mcivl79wfm9s0-websockets-0.13.0.0.drv",
+        "dbj2gjiqlx9j42nidypnq017llyd37zh-servant-multipart-api-0.13.0.drv",
+        "dcrdkkii8igqjwxb8pgcjpj2p1kxm0y2-colour-2.3.7.drv",
+        "dd7kd9m2qayiv7f0zmf92mqf0vzw423l-time-compat-1.9.9.drv",
+        "di748f5gb7hl6f3y3ky3kmnd0yngw6n5-some-1.1.drv",
+        "dlnf76ma5l9sy0glkggvm01l57y1wlvp-th-expand-syns-0.4.12.0.drv",
+        "dsasz3iwskqdfj1zzs8bfnyqkx6qqw06-vector-stream-0.1.0.1.drv",
+        "dvdfcw8999ygm2xnm8bxzlfw9xx8x7ss-mono-traversable-1.0.21.0.drv",
+        "f29xc482ckrgbr0xf5z5vpqw1ksac71d-crypton-pem-0.3.0.drv",
+        "f44jihgh498xilq2kv36830nnx6gcqjh-contravariant-extras-0.3.5.4.drv",
+        "f51rlix9q4cv039nk09s7f338bhlrx83-tasty-1.5.4.drv",
+        "f6q2jns4rp3nhc3avx42fcf0qld25zv1-typeid-hs-pg-migrate-0.1.0.0.drv",
+        "f783173wk66h1rdrivjca3l0l5svqsqf-hadrian-9.12.4.drv",
+        "fg2x907nihi8n77b6ym4k9qpnx79dias-time-manager-0.3.2.drv",
+        "fi5m4mqj2cqz1hajjl7j2j4pi22z29y8-sbv-14.8.drv",
+        "fl6i26hf628pmy3wasa4a51cs800pg1i-th-orphans-0.13.17.drv",
+        "fmx82z1vknil1bjlkk6n5m4g5rnlwcjd-postgresql-libpq-configure-0.11.drv",
+        "fqnz5jw1a3fbwdzi7hhsjwyavcqy4542-heaps-0.4.1.drv",
+        "fsdkcmylfc2v7qasziyyw2sswqlzhqmh-streamly-core-0.3.1.drv",
+        "fyl959hcch5rn1ni82ajii5pblyackxf-hpke-0.2.0.drv",
+        "g00m8jclgqjmkchf74fq4q5997yg7kb8-kioku-core-0.9.0.2.drv",
+        "g03mvw7zfg6qb8gsgkd7gzyimvhwqpwp-OneTuple-0.4.2.1.drv",
+        "g13igiabm1n0bna1d19csx8iz2bwckyq-ech-config-0.0.1.drv",
+        "g3hzgk22j01brwbmf6228df7ak1phcw6-kan-extensions-5.2.8.drv",
+        "g4ggal56bxdknkvrqs25gr1gdbvgvza3-blake3-0.3.1.drv",
+        "g6yspqxzffd98jfybjb3kg41rv7jazmb-semigroupoids-6.0.2.drv",
+        "gaa6sc8m594a4mkb16b459brm37ka8fy-unix-time-0.5.0.drv",
+        "ggi3fiddmp067gvvxww197i9s9hg20fn-profunctors-5.6.3.drv",
+        "ggvcrwcxki668blmbnwb7s56vcjkxpla-hadrian-9.10.3.drv",
+        "ghh16awabm6sl96lm2d1a0h0vq021vlx-crypton-socks-0.6.2.drv",
+        "ghsjynkjhb0plvbhwy15bjqjrvwcjx9m-thread-utils-context-0.4.1.1.drv",
+        "gicf93qlj47915ygmp68q0jgapfl0jd2-hs-opentelemetry-otlp-1.0.0.0.drv",
+        "gigc9b144wi1p99bqlnljll132axivnp-wherefrom-compat-0.2.0.0.drv",
+        "gjcvhl5rvqj4psh5wi1f7kb08pc55nzq-ansi-terminal-1.1.5.drv",
+        "gm46n5d5b3409p2j3rc9b28cj14ihhha-microlens-platform-0.4.4.2.drv",
+        "gpf1cywaky6xb294chssj2l6p8i2ak4x-pgmq-effectful-0.6.1.1.drv",
+        "gs9h1ms56h1yxlhv1ghjzm9qciskw03s-ram-0.22.1.drv",
+        "gvwa1qar6li6yhwfxcr8jaa4fq39jkqj-servant-0.20.3.0.drv",
+        "gzx2csb0a5zx7akgw2ay9v4zzpj4m938-shibuya-kiroku-adapter-0.6.0.1.drv",
+        "h0q1aydhcisf3vap3zhq9hzjl2vmd9zd-safe-exceptions-0.1.7.4.drv",
+        "h4finzkp66lhjspskcf7ky3s325rm8xm-data-fix-0.3.4.drv",
+        "h7vp8i5i5nk2zcjyxsjz0pqlwjlvg99w-http-client-0.7.19.drv",
+        "ha9z9zlcrimkxzrkdc86500rbggqdyf1-cryptohash-md5-0.11.101.0.drv",
+        "hafx1mjalm6ljj2h8iw4my3fhpxb1k5i-pg-migrate-1.2.0.0.drv",
+        "hbxqgnqiz64hl5gwmkksivw4kb1cxrly-conduit-extra-1.3.8.drv",
+        "hc3qkhp1jx6lvc0wlyp9447invx8q6ml-clock-0.8.4.drv",
+        "hd0pimf9dak5lz1c85gcfzc8wnhabmp7-half-0.3.3.drv",
+        "hlzhrcwpbcd46q8srb2vm49gi62s387s-network-control-0.1.7.drv",
+        "hm91llg4aawkmzi3y7svdign2chvfk53-hashable-1.5.1.0.drv",
+        "hms9q64adjxm8lj9gzvcxn9sy4q7zpzs-strict-0.5.1.drv",
+        "hqqw08qdx303xp5rbij9ihg91b1n7q0x-hscolour-1.25.drv",
+        "hr5j5y6md4cqy2yzg79pz57xrgghx0f7-uniplate-1.6.13.drv",
+        "hr5wjwsyli1i4y969n5xw9cz4cx7aj6i-warp-3.4.16.drv",
+        "hsmbphiigccphl2lk4qj5hipjfyzab7q-tzdata-0.2.20260911.0.drv",
+        "i09fa208naqcq700gkvqhc2qlmh0aqkv-bitvec-1.1.6.0.drv",
+        "i0vasx7jyvnqykysy8jvpv9lvnzgkvvk-modern-uri-0.3.6.1.drv",
+        "i2k5q9nys87p5759wipkisdxysr91jav-dlist-1.0.drv",
+        "i6rhq2yfxfw6hfkv5vhqhh864n959an1-attoparsec-0.14.4.drv",
+        "i8as883m1a5189zw1yf1dgf4p77z6pnz-case-insensitive-1.2.1.0.drv",
+        "i9hjz2bq1mfabnrsa5rmh02hpaw1jxms-granite-0.7.4.0.drv",
+        "ic0bs2daw5c3dg9zpz5idkkyd6gqgnhj-stringbuilder-0.5.1.drv",
+        "ichw2c6yhr91bmhmqzfidk06cgjpcbff-ansi-terminal-1.1.5.drv",
+        "if20ma3ff01hmhgm2pvq9111d3svd9qn-openai-2.5.4.drv",
+        "ifrmk5vy0a6fp735mi2wbw7llwawqmlx-mockery-0.3.5.drv",
+        "ifsajsad5zzn2wlspq6hv0mz4fmqm465-dec-0.0.6.drv",
+        "ik4kn7k3r2wc6iix8dj6y6i2wgh4hz42-tz-0.1.3.6.drv",
+        "im8nib8ihpwvk8l0n6r02i9c7xky9dxv-microstache-1.0.3.1.drv",
+        "inr84s5zik2j9hxrbh6l1865dv0af50z-reflection-2.1.9.drv",
+        "ix5mvci58v6shycq9bhpdns7gx8qm2n7-free-5.2.drv",
+        "ix6zx0h0k69lc352hwnkxz9kry1qq6z3-servant-multipart-0.13.0.drv",
+        "ixjb6n50a14m15hgxk4pq24nfnx3d516-HUnit-1.6.2.0.drv",
+        "iyrscpc758bf93kanb382i1p6pxiq32h-network-bsd-2.8.1.0.drv",
+        "j0lqdlb4iymd3cn2cicg85vvw2z1x38z-strict-0.5.1.drv",
+        "j9jsk8qi95avhc295c02vc54wgnkz05p-hs-opentelemetry-exporter-handle-1.0.0.0.drv",
+        "j9qpsyz99ksx2knibcygyc7h70biskj1-data-clist-0.2.drv",
+        "jb5v5yzlj5hsg3rpjmcja5k8hj1z0lvn-optparse-applicative-0.18.1.0.drv",
+        "jbnvl47rjcj2d2rmkqq64g07z6d2aj7q-postgresql-binary-0.15.0.1.drv",
+        "jc8d041ljx4njwzwr06ip2s8v4a3dkvw-comonad-5.0.10.drv",
+        "jdi6svsbdx9gpwnkfbcbwh34v0yn3iyh-bimap-0.5.0.drv",
+        "jfcs3zf7iasfqgm42gjkickgqhz05yi8-code-page-0.2.1.drv",
+        "jgdl1n03cr0w95ba2bjfv9rblswq7prk-hs-opentelemetry-sdk-1.0.0.0.drv",
+        "jhfx62pj02hmd1vvrj2ad6dgnf44hqxv-unordered-containers-0.2.20.1.drv",
+        "jicb65grygj6kgm6znqzl8kpls5n04aw-keiro-test-support-0.21.0.0.drv",
+        "jn8w4w44k4bcjxgk48mxf24iv1i7l1nw-blaze-html-0.9.2.0.drv",
+        "jnymwzglkpnlqnkzyir89rhrrxvsw4j7-happy-2.2.drv",
+        "jw23p7574ivic8sxbdq3f53g6sp1gaa6-test-framework-quickcheck2-0.3.0.7.drv",
+        "jxxkbgv9sfg75siridkzdi50403m652q-nqe-0.6.6.drv",
+        "jyn24d4r8lkhi5x6bxqlilyv82r73s95-bytestring-tree-builder-0.2.7.13.drv",
+        "jzgbpvdjzvgpk46xbsfmzz3shpg02vih-http-conduit-2.3.9.1.drv",
+        "k0mmr3an717aqwjb0c1c7a1dyyy7ppvp-filepattern-0.1.3.drv",
+        "k1wrca8a702b2xayrikr7phzvm7vdwz4-effectful-2.7.1.0.drv",
+        "k7l6awgisdyg7y8cl0rizf1969nw1sgc-aeson-pretty-0.8.11.drv",
+        "k9mjmifba0zry9fs5vashvga5bdgnk5c-nanospec-0.2.2.drv",
+        "ka10jsy04818jpwvk7qhyzavn7hg76xs-lens-family-2.1.3.drv",
+        "kb4m99qglkp56zxcfhhkq45qvfq1r5vq-base16-bytestring-1.0.2.0.drv",
+        "kf6ican6rv3bl5pxcmcf45di72arqdyf-nothunks-0.3.2.drv",
+        "kfjqds83nf4d6brdgbpnm8rmymksmvqi-integer-conversion-0.1.1.drv",
+        "kfsax0nbl5glhc5dxkbmh0b5jz50wcxm-random-1.2.1.3.drv",
+        "khch688fhghyibp5y7bhiqf0z8x3515d-massiv-1.0.5.0.drv",
+        "kibsjf84084qjgf1s8228n9d87n9r2gf-kiroku-cli-0.2.0.10.drv",
+        "km9al9dij9x3ms0nvxcc6njfb2farvlc-base-compat-batteries-0.15.0.drv",
+        "knshj4l3k9r23nsd79g2nv7sn9pklpj8-lockfree-queue-0.2.4.drv",
+        "kr8qxr16pn21bs7a5k6ck063anyliwq1-bytestring-strict-builder-0.4.5.8.drv",
+        "ks5qgi2srz2ahk81sbaf2xkaj2mcc52w-hs-opentelemetry-propagator-w3c-1.0.0.0.drv",
+        "ksbrrw8fx5ypxrdq1qw61caan3wznni4-utf8-string-1.0.2.drv",
+        "ksilf87vi0wn6q2l9hg6qngd3kkc7jf9-Only-0.1.drv",
+        "kv2i9k0hgm0gidhf84r7y87zw93krn6j-code-page-0.2.1.drv",
+        "kwqf44yb36013ipacsmhrhk851pqk85h-data-default-class-0.2.0.0.drv",
+        "ky19r6ih5igq85zj88h570vcq6hfxjs5-case-insensitive-1.2.1.0.drv",
+        "l9kkb223xnxrw1ribprb2ccdv285i6by-shikumi-cache-0.2.0.2.drv",
+        "lawi5r9ql1020z82rrvgg7b4ai4yq6gc-kioku-migrations-0.9.0.2.drv",
+        "lbd17f7qq70dg4vq2bs8rxgrn4qjd4jd-crypton-x509-validation-1.9.1.drv",
+        "lc28fm6jgipri4677slxbwr5c14v7m82-js-jquery-3.7.1.drv",
+        "lcj69f5z8kx61bnyacw8jnld30aa94z8-pg-migrate-import-codd-1.2.0.0.drv",
+        "lgyzdv2b7ijr9yxsxybz8nym75ip9s46-utf8-string-1.0.2.drv",
+        "ljhr1ywwarbismkzwlpy5wvrij6ycxh5-invariant-0.6.5.drv",
+        "lmayny5afp5cv4mvk5cv9s9712b56sb0-temporary-1.3.drv",
+        "lsv5f0lbsmwv8y0lacpi8b1mw8pggcwf-cryptohash-sha256-0.11.102.1.drv",
+        "lw5v6gzpzny0gs6lz93ghp8wjc4fjzs8-text-short-0.1.6.1.drv",
+        "lx1x0if573xnq0n4nhr3bkg14rvw0c4z-th-lift-0.8.7.drv",
+        "lxykza4ramiq7cwyjhgrcy3kwd9bb4j6-integer-logarithms-1.0.5.drv",
+        "m0zp80ik4wc5kmqln0lp0cgq8kc1hpjj-ChasingBottoms-1.3.1.17.drv",
+        "m3axygl4bks2257jpm97y4zn87bjgmpl-criterion-1.6.5.0.drv",
+        "m7j7ym9zr1czw860yj470n258mcpyk6j-keiki-codec-json-0.9.1.0.drv",
+        "m8l26v6hdxzkdrx7ch2rngm4cwgswy1g-hspec-meta-2.11.17.drv",
+        "mc2fjl6bli6gzjxd53p793j4gb69hvyq-shibuya-core-0.10.0.1.drv",
+        "mdmllmmpy1zyigzplgmddaazy1l49jdf-tasty-smallcheck-0.8.2.drv",
+        "mihgrij1dk4kgyjirxr07vvjlza8rnji-haskell-src-meta-0.8.16.drv",
+        "mm0wnd13rxwilnlxjga2fmp1fmfgn0sd-http-types-0.12.6.drv",
+        "mnfn839pm4c4yfmz2jpbpd00lyspvd7m-unliftio-core-0.2.1.0.drv",
+        "mpkdxjd4zm8a66037qvlg467z6vgxnya-scheduler-2.0.1.0.drv",
+        "mshg7f9asz2jlfi70vcg77kba1g2vsjv-heaps-0.4.1.drv",
+        "mv87h7wsbva2ly9l5pb9774pf3dkaj4r-hs-opentelemetry-exporter-otlp-1.0.0.0.drv",
+        "mvawmwz6hiiwh097xq77qwc3jz4jrnvv-microlens-mtl-0.2.1.1.drv",
+        "mvq0hhl90p0vvzkzjl5mhs6a3mrd3x1c-cassava-0.5.4.1.drv",
+        "mvx5v3ln60rha1j5wvi27gxdifprqlvg-transformers-compat-0.7.2.drv",
+        "mw0bc3l0mv904b68nwcxmmigq8xr0pfj-direct-sqlite-2.3.29.drv",
+        "mwq1vf67zwswx50cvwxsvcvacz6ydvk1-base16-bytestring-1.0.2.0.drv",
+        "mx4ljqgrj0q7jj6nmmd0szb9q5lg8xjb-unique-0.0.2.drv",
+        "n4vl1p4n590vncnsr3i62gsyx8844z2c-hs-opentelemetry-propagator-datadog-1.0.0.0.drv",
+        "n75ma9q2k7xdnfy3bc46lykd48ngyqnz-keiro-0.21.0.0.drv",
+        "n7aj73c6xwzva343av0iqlkhfrl6qs9h-entropy-0.4.1.11.drv",
+        "nbp7zyig4z8l7lnw87w0avk1y64bf0zx-hs-opentelemetry-propagator-b3-1.0.0.0.drv",
+        "nbps464jrqq8q323c1hwslshz8zvzibh-old-time-1.1.1.0.drv",
+        "nbrj7q9c7gwwah5w2x5gyhkkq7g31fw2-parallel-3.3.0.0.drv",
+        "njmxgazg92jrrx8jd9h964qln4vbqrnb-relay-pagination-hasql-0.1.1.2.drv",
+        "njvcx07m57cvlj1z51by3ddp8c6b3d8b-baikai-openai-0.7.1.1.drv",
+        "nmjw0wv71bgfmxgk8s3pzdx6l0bzz7rd-megaparsec-9.8.3.drv",
+        "nqk5wpb0jhsf86wl3k41bb939pqppiyy-claude-1.5.0.drv",
+        "nvk19358nypqk2a53xicx8y77fqhi6nq-hasql-notifications-0.2.5.0.drv",
+        "nzr71qa57xi0f118bg6lh2hfs3f7s092-base16-bytestring-1.0.2.0.drv",
+        "p3n321d8rq9vs4yvxawvibmzilm518zg-hs-opentelemetry-propagator-xray-1.0.0.0.drv",
+        "p3x3p45z9xj09cn5r2m6r4kp9pkcj28h-cborg-0.2.10.0.drv",
+        "p4qxm25rgjwbvs873p0ysd2v2g48blk6-iproute-1.7.15.drv",
+        "p6bwc12d2ql1skwzr733h9gac3hqwr68-keiro-ops-0.21.0.0.drv",
+        "p6rjp1m66iijksa9826mcv1a4f7ykk4q-network-uri-2.6.4.2.drv",
+        "palk09l81915la05bl30zq53q42qim7q-kiroku-metrics-0.3.0.0.drv",
+        "pd7n6ibk9zsv2r9nyr0sk6dxn0ab6jjk-adjunctions-4.4.4.drv",
+        "pdcail82zf5d3kjdpsw2rh6hyblmj6wi-byteorder-1.0.4.drv",
+        "pdlmfg2aq2bjikn9vbbxh1jyn8m03jrf-network-3.2.9.0.drv",
+        "pgsc3rq3y4jm9l0j8kw1p9ja4acwf0dc-hscolour-1.25.drv",
+        "pw03yajb3234gdrw465yapg5692wgbsf-indexed-traversable-0.1.5.drv",
+        "pz8y069xdmc6grz6zpcd4ckydwpmm7qc-servant-server-0.20.3.0.drv",
+        "q712gxcky1hrnzqpb6fd595b4ma51442-old-locale-1.0.0.7.drv",
+        "q7rnyahk107v45navs5vn30rdq9r38xa-atomic-primops-0.8.8.drv",
+        "q8niwawgfn85r1d938hr4389ha686303-kioku-api-0.9.0.2.drv",
+        "q8x3qf5yqkzvziv4l5w6z978vllpwzh0-extra-1.8.1.drv",
+        "qahcbwc4pv3c4g3mi6b2mxf8cvk4wpyg-crypton-x509-store-1.9.0.drv",
+        "qazn5gab0hv9w38hbn0c88nhknm9gk55-mwc-random-0.15.3.0.drv",
+        "qbbjq067c01kr7bw9z987kaznk4dziv4-splitmix-0.1.3.2.drv",
+        "qgc2lk25yxifzxqiqhw5lwsq4fh57c32-base16-1.0.drv",
+        "qgia6ml69mwzzz0gdvdwhf2kc6s1n4qi-async-2.2.6.drv",
+        "qgwvdnhwcqdc24q1r76nd8wkk5dy9xn2-safe-0.3.21.drv",
+        "qin378012lbs8fkpg2csyhnf496ip5q0-wai-app-static-3.2.1.drv",
+        "qja3yk06nvpi2q2vq9w3pd8sdnjcni5v-time-hourglass-0.3.0.drv",
+        "qqn56yas1byh9diwmsif0fkyzgjx6az3-boring-0.2.2.1.drv",
+        "qqsr6iq0hn0w99sz2xjb18k8mr1ssn6r-ghc-paths-0.1.0.12.drv",
+        "qx095mgh7zvakp6v8nw7vi3012j5mzrr-mlkem-0.2.3.0.drv",
+        "r7b5w8808nl046yn6c8g7ay4jv8fhdy9-quickcheck-instances-0.3.33.drv",
+        "r8gj3bkj9cxlzan2b8rbnjh3dhj283lr-cereal-0.5.8.3.drv",
+        "r9kg12gi5qk8kf2g2v1z1h23gc3ppha5-http-client-tls-0.4.0.drv",
+        "ra6ll4dbimx73xapk8yfyv8pnaixjf2k-pg-migrate-import-hasql-migration-1.2.0.0.drv",
+        "rbghqkd9dxw0idmvjhmbwlvkza7xdxsf-crypton-connection-0.4.6.drv",
+        "rcjd3k4s31cwq55qdfzxamajk3ikf5by-unix-compat-0.7.4.1.drv",
+        "rgmzc63671pchm9phk1n5aqvk1ymv8nk-hashable-1.5.1.0.drv",
+        "rkcyswbscqn1sn10p15yliwds9rdqsl3-keiro-core-0.21.0.0.drv",
+        "rs0pd66bqdjrkvipic10j3z1n01r85f3-auto-update-0.2.8.drv",
+        "rxxjdfwy9lkkqg3qd2zxq05cqac8xmmi-monad-control-1.0.3.1.drv",
+        "rxybs2sfy83rd83x9w1z84bl9fwprlx9-SHA-1.6.4.4.drv",
+        "ry5xdc0j5wx2z7q34w9ppms8w3i7r8zq-wherefrom-compat-0.1.1.1.drv",
+        "s6zds95vk0ai47mjlvzny6l6mrjqbk0l-resourcet-1.3.0.drv",
+        "s7yjpagwfigdjgv1r1c1v71xqzizzdna-crypton-asn1-encoding-0.10.0.drv",
+        "s8bj413gwaiwajggpxfkqy5x3x1cfw51-lens-family-core-2.1.3.drv",
+        "s8hjgj9ng7hicvv56f494nvsf2mcybg4-shikumi-trace-0.3.0.2.drv",
+        "s8yq740vzzx4lcfpj7w30b9bqi08gysj-typed-process-0.2.13.0.drv",
+        "s9fw6nkab5d511rvg6k3vrylsw92wp1b-filelock-0.1.1.9.drv",
+        "s9n8gsdk4684agvlh26f7hzr0hkv64sf-cryptohash-sha1-0.11.101.0.drv",
+        "sdbsldanlxxmns6asdrwfdi2gsn1y66d-indexed-traversable-instances-0.1.2.1.drv",
+        "sds85llxy7djs259rjz4mm73y958nsyq-generic-lens-2.3.0.0.drv",
+        "shcpxhil2xk9dp6kkwwk2j53q4pk2d8z-settei-0.2.0.0.drv",
+        "sk3mxhhwq9r5n4r75h07rmy30ll6c2zj-hasql-dynamic-statements-0.5.1.2.drv",
+        "slygcs0k9jz37yr3ini995f7dqv8gaa9-githash-0.1.7.0.drv",
+        "svmir9g22zmprcvaz6nwwz6jkh7qyjjl-relay-pagination-0.1.1.2.drv",
+        "vd97mbq6j493mx2k41r3c3539dk30c13-prettyprinter-ansi-terminal-1.1.4.drv",
+        "vgzrb0325nrgbckbxdp51ghxg348k48y-tree-view-0.5.1.drv",
+        "vhqz47k73r2gijyqqlc53zn7kmjq2pyk-file-embed-0.0.16.0.drv",
+        "vi6xxd734ibyh2p4lar06b1wxg5kx77v-tasty-inspection-testing-0.2.1.drv",
+        "vj7jq7py1a9dkxcs4q7v5lsxgklffqgf-pg-migrate-cli-1.2.0.0.drv",
+        "vl38adxs8zq37wiy7dkaww36fcg4l08v-character-ps-0.1.drv",
+        "vp8j5qqwjkklw8h0n5n5i1bddhzihb2m-xml-1.3.14.drv",
+        "vqsanym5g5vdsbvrzz12hvhz6wbrvic4-servant-docs-0.13.1.drv",
+        "w5fx2kcjamd36l84qy022qfkgh765hs0-ghc-platform-9.10.3.drv",
+        "w64cnv158dvcy7ma6hfzggl2393j5ica-pvar-1.0.0.0.drv",
+        "w8f15siaqgpl7l8mii8v297b02gb3krx-silently-1.2.5.4.drv",
+        "wc7vky23wlgyi55hkm98k17qgmz569ws-dense-linear-algebra-0.1.0.0.drv",
+        "wh3p1qcakm3k8xv2fnb2g4l1097rg0q4-http-media-0.8.1.1.drv",
+        "wk9k69nc3c0x2ah8phd5dp5g27p07mzj-optparse-applicative-0.19.0.0.drv",
+        "wp1q5w4jnqvqiqip9pfxm8yimqf5vp9q-uuid-types-1.0.6.1.drv",
+        "wwk2n2vmhxmds43hnnhg8ql7i0mxcxbw-js-dgtable-0.5.2.drv",
+        "wxfahlkwskzkvkhrlzh5jgpn6rdw8jqp-servant-multipart-client-0.13.0.drv",
+        "wz5fqb18hbps80jdhwgqz07mymg28i8n-js-flot-0.8.3.drv",
+        "x1qsba828c17bnm16rbbfhb7gbjzb8qf-clock-0.8.4.drv",
+        "x3hdk2w806zzc487r7j9z1vg83rq2rfj-bsb-http-chunked-0.0.0.4.drv",
+        "x3ri4dwawid8x6796z703fazp7j64fjd-word8-0.1.3.drv",
+        "x5q1iwqam8l0fqkyypnpprh5jb780jgq-streamly-0.11.1.drv",
+        "x6xdw7bh4slgbd3qkcr8zab1jk60n52a-vty-6.6.drv",
+        "x7c5a78s4r9yz2pwyg0m7ykhi73w2qj4-strict-mutable-base-2.0.0.0.drv",
+        "xbv257gw1fqcc7fqsfvjfxybpj1d4nll-tagged-0.8.9.drv",
+        "xc04angm469jqc3x5ipxcgk9s6pxcy62-vty-unix-0.5.0.0.drv",
+        "xf122zwdb0ms4i8r974pd0ac9r2230rx-js-jquery-3.7.1.drv",
+        "xi2r8b4bzarzdwl920b45hw13v19fs6f-sop-core-0.5.0.2.drv",
+        "xic6jh096fdlncrkiggjnv3l5ws9k8m1-js-chart-2.9.4.1.drv",
+        "xj9f3y3ly3gqd23sdn4cbxv3lziv2c9q-postgresql-libpq-0.11.0.0.drv",
+        "xk6pa9mdk72r85rmccbqpd1gqm2vwmd8-crypton-asn1-parse-0.10.0.drv",
+        "xmp5gxwkkpha9sy486pfg6jgxi6wqys1-keiro-migrations-0.21.0.0.drv",
+        "xnarr9n07x1xblyq6va88rsk465ll62g-vector-th-unbox-0.2.2.drv",
+        "xrgyvlx4n550a3gmvj6gkx546c114xmw-hs-opentelemetry-api-1.0.0.0.drv",
+        "xrn9cp9qi45ylkmmy9px7pa172d58dfw-scientific-0.3.8.1.drv",
+        "xrx3qizz0iqsimvi5qx67m2lps6cchbf-pg-migrate-embed-1.2.0.0.drv",
+        "xy9xz874rkhyiy2a5vi69cl2mqdsw748-toml-parser-2.0.2.0.drv",
+        "xyqmsrw7a14cwbj8087rwxv6giagns03-haskell-src-exts-1.24.0.drv",
+        "xzvy9q8l6z33pfb7xq3fxdixhlxmbjpd-vty-crossplatform-0.5.0.0.drv",
+        "y161aciiq90gylapg3q89wl0p7wpzkfr-splitmix-0.1.3.2.drv",
+        "y3aka21i39q1hqnwq63gbgxvy6cz2352-data-default-0.8.0.2.drv",
+        "y550wcl0701a1gmz7wnv3bcgypn2gckc-call-stack-0.4.0.drv",
+        "y8gmjdnnb4d9j5jwdcswazqr8mlds5gr-microlens-th-0.4.3.18.drv",
+        "y8xxmcapnymdkjn8m66f9x0r662q687g-prettyprinter-ansi-terminal-1.1.3.drv",
+        "yc96am4plmmq3z5hcl1i02xzql50j5ph-streaming-commons-0.2.3.1.drv",
+        "yf3nzb51h063fpnf16dhr9sid7q89cjs-ghc-toolchain-9.10.3.drv",
+        "yh9f0jg0kz0syh0g21dbp3ckiwrk4yhb-smallcheck-1.2.1.1.drv",
+        "ymm6iwii5g5avlfkys3pjhg56knnj0dj-scientific-0.3.9.0.drv",
+        "ymww36whj6rjbg0jgjpcjkvl2viqy6vl-base-compat-0.14.1.drv",
+        "yn20pmzwwymk0ja3gp9q3imd6g97yhsl-shake-0.19.9.drv",
+        "yqs3260d7dpnd8qpjb3gmcphvm4l22rf-conduit-1.3.6.1.drv",
+        "ysn8zmjjpzjfr78faq4zm6dnkl26n19s-integer-logarithms-1.0.5.drv",
+        "yy9bpf9x500nzd9fhqlnyppgsygv1arp-criterion-measurement-0.2.5.0.drv",
+        "yz3xq43pdja37kx3ax3jj7p3v29l6sqk-happy-lib-2.2.drv",
+        "z0hx2f63q7bb702lsq3n830g7756j23c-async-2.2.6.drv",
+        "z34pkcgqjd8qqg4i6f1bl5v59yfdaf60-singleton-bool-0.1.8.drv",
+        "z5d42rr8614rsb12l6q6xb1swxcaj280-selective-0.7.0.1.drv",
+        "zavmbm0hz8sv9dc4l0avv9h9qn27vdvp-regex-base-0.94.0.3.drv",
+        "zfj48z6ihpcs06m1zfrnwsirb904jdlz-unordered-containers-0.2.21.drv",
+        "ziminkl17lq4pkhansh0gbqn3bl2fzdc-hasql-transaction-1.2.3.1.drv",
+        "zlmymkwms700702bsa9kkz4pj7zi2icc-uuid-1.3.16.1.drv",
+        "zm02q4q0gg83ph8j4lh6w07g0wkmvsmm-wai-extra-3.1.18.drv",
+        "zmi5gch7gyczfvxxivrzdvzwh3pq8rlj-typeid-hs-sql-0.1.0.0.drv",
+        "zsb47ris2cngfpkswjav7nh000i635vq-split-0.2.5.1.drv"
+      ]
+    },
+    "all_paired_baselines": [
+      {
+        "trial": 1,
+        "shared_graph_nodes_unchanged": 2048,
+        "graph_sha256": "7eefc9a7b69fcb6412c48a66840f19cec38b823f6b052542e81854aad89e527a"
+      },
+      {
+        "trial": 2,
+        "shared_graph_nodes_unchanged": 2048,
+        "graph_sha256": "9a8bbcf6c674aabee75a6c3cd4f2cf96ce0b5733adc5ef96285a9c906985f837"
+      },
+      {
+        "trial": 3,
+        "shared_graph_nodes_unchanged": 2048,
+        "graph_sha256": "7503701fbdf1dd0d4767d9af7da3f64e2bb92b032033bcaffd6c16c67a00bd1a"
+      },
+      {
+        "trial": 4,
+        "shared_graph_nodes_unchanged": 2048,
+        "graph_sha256": "eaf194dc0f9542cfc335de726564cfb94e778340609d0943c82a942e4f046a92"
+      },
+      {
+        "trial": 5,
+        "shared_graph_nodes_unchanged": 2048,
+        "graph_sha256": "ed0a38dec8829b1e9bf339a3b2af55eaaca6a3cc1c942bb7db58de2e1cea461c"
+      }
+    ],
+    "environment_changes": {
+      "rei-core": {
+        "out": {
+          "baseline": "/nix/store/2svwl532r6d3xyzlpnncf9xj93wwbsxb-rei-core-7.1.0.0",
+          "candidate": "/nix/store/xnb5insvyfp21aj6agmzjljljh30y2jb-rei-core-7.1.0.0"
+        },
+        "src": {
+          "baseline": "/nix/store/cbj9zccx13rs41n37hz9sk7hc7h1g5j2-rei-core-source",
+          "candidate": "/nix/store/ql5zkbrd04niwb9r6a8qch98mm9jn3fj-rei-core-source"
+        }
+      },
+      "rei-cli": {
+        "propagatedBuildInputs": {
+          "baseline": "/nix/store/d037izn72hcs622j2lvhl7lhj19yr0hr-aeson-2.2.5.1 /nix/store/lprq51dyhbzblmiypnv8jpnq9hkv00v8-aeson-pretty-0.8.11 /nix/store/q0iacd5qg1z6dw9xi0fc72155j6gchjg-ansi-terminal-1.1.5 /nix/store/6cyxsr51kwjkpl5ynz4axa3n2alpjplc-baikai-0.8.0.0 /nix/store/15cm3gdi22ndrsl566pxrcndk316jbf3-baikai-kit-0.4.0.1  /nix/store/vn2jlpdxf59kppxsq43sf2lygi7bjmxy-brick-3.0    /nix/store/qbm3asj0gn3ggffngki2xsyy4ijr22vv-effectful-core-2.7.1.2 /nix/store/q7is9psxjzlrcakhjjflg0vh89qw38fs-file-embed-0.0.16.0  /nix/store/q0gf7jfxi8sbwry3bwl2f68gqbs03kgv-fuzzyfind-3.0.2 /nix/store/n13f558lya19fy16sz8p36rqkf1y6ylp-generic-lens-2.3.0.0 /nix/store/759m6w0clm64s763qasjs0q7ga2dp4ih-githash-0.1.7.0 /nix/store/fbqnsz8827wdnia7j8wkds1074sik37x-granite-0.7.4.0 /nix/store/7ch0iy2gyfbv91n5grnlx59sw4jzwpgg-hasql-1.10.3.7 /nix/store/hrlpqk28fw8gvh3mgv69pl0aszlc9x3z-hasql-pool-1.4.2.3 /nix/store/zmpdjzfjrknpqw74pr26bzgkg67s770y-hs-opentelemetry-api-1.0.0.0 /nix/store/zlm0fxd4ghk5s3y415165ndhmswjqvsm-keiro-0.21.0.0 /nix/store/bgpwn0hfddmv9sbcnkc23331xc2bxdng-keiro-migrations-0.21.0.0 /nix/store/d9ij6f6ngm1ysn65jllvc4yazd0j2cln-keiro-ops-0.21.0.0 /nix/store/xvvli93ivwynj8m6kh0r1jyn0wv5sjj2-keiro-pgmq-0.21.0.0 /nix/store/s781c61sx37wxlr92j7d2mqfy293hghm-kiroku-cli-0.2.0.10 /nix/store/bprwvj17dxhichjj54axc0d7qhgss3z4-kiroku-metrics-0.3.0.0 /nix/store/lphkrjf3wzrh8nvfqnkqxs4fx3z23n32-kiroku-store-0.11.0.0 /nix/store/1n96fpad775ak7fr6763qzs30kapb0ih-lens-5.3.6 /nix/store/nppgvpycf1kk7i4ngnccpkxzl3j9hkzv-mmzk-typeid-0.7.1.2 /nix/store/r0apa3492541j7amfnqmqx6nhzfzqqqf-optparse-applicative-0.19.0.0 /nix/store/byk986883iqwm7rxfkrql15zm5knpr7v-pgmq-effectful-0.6.1.1  /nix/store/2svwl532r6d3xyzlpnncf9xj93wwbsxb-rei-core-7.1.0.0 /nix/store/9q96jl86l886nj87608yq2p4qsm83hfi-relay-pagination-0.1.1.2 /nix/store/jys4lgadzwd27vy6hx8a2c978iarampx-settei-0.2.0.0 /nix/store/35djb812x3f00w59hi8lh7fxg9614w8j-shibuya-core-0.10.0.1 /nix/store/m0gr4804g9ms34l0q06s2c3i2gwfjvm9-shibuya-pgmq-adapter-0.16.1.0    /nix/store/2af3cj9xmj1c1pyxxz3821n7nfijdj00-vector-0.13.2.0 /nix/store/42vyfr6i3cb38khf5r25lvfi4shnmi43-vty-6.6 /nix/store/803yh5ybljxpwyd829470lkjgd2ybj06-yaml-0.11.11.2 /nix/store/d037izn72hcs622j2lvhl7lhj19yr0hr-aeson-2.2.5.1  ",
+          "candidate": "/nix/store/d037izn72hcs622j2lvhl7lhj19yr0hr-aeson-2.2.5.1 /nix/store/lprq51dyhbzblmiypnv8jpnq9hkv00v8-aeson-pretty-0.8.11 /nix/store/q0iacd5qg1z6dw9xi0fc72155j6gchjg-ansi-terminal-1.1.5 /nix/store/6cyxsr51kwjkpl5ynz4axa3n2alpjplc-baikai-0.8.0.0 /nix/store/15cm3gdi22ndrsl566pxrcndk316jbf3-baikai-kit-0.4.0.1  /nix/store/vn2jlpdxf59kppxsq43sf2lygi7bjmxy-brick-3.0    /nix/store/qbm3asj0gn3ggffngki2xsyy4ijr22vv-effectful-core-2.7.1.2 /nix/store/q7is9psxjzlrcakhjjflg0vh89qw38fs-file-embed-0.0.16.0  /nix/store/q0gf7jfxi8sbwry3bwl2f68gqbs03kgv-fuzzyfind-3.0.2 /nix/store/n13f558lya19fy16sz8p36rqkf1y6ylp-generic-lens-2.3.0.0 /nix/store/759m6w0clm64s763qasjs0q7ga2dp4ih-githash-0.1.7.0 /nix/store/fbqnsz8827wdnia7j8wkds1074sik37x-granite-0.7.4.0 /nix/store/7ch0iy2gyfbv91n5grnlx59sw4jzwpgg-hasql-1.10.3.7 /nix/store/hrlpqk28fw8gvh3mgv69pl0aszlc9x3z-hasql-pool-1.4.2.3 /nix/store/zmpdjzfjrknpqw74pr26bzgkg67s770y-hs-opentelemetry-api-1.0.0.0 /nix/store/zlm0fxd4ghk5s3y415165ndhmswjqvsm-keiro-0.21.0.0 /nix/store/bgpwn0hfddmv9sbcnkc23331xc2bxdng-keiro-migrations-0.21.0.0 /nix/store/d9ij6f6ngm1ysn65jllvc4yazd0j2cln-keiro-ops-0.21.0.0 /nix/store/xvvli93ivwynj8m6kh0r1jyn0wv5sjj2-keiro-pgmq-0.21.0.0 /nix/store/s781c61sx37wxlr92j7d2mqfy293hghm-kiroku-cli-0.2.0.10 /nix/store/bprwvj17dxhichjj54axc0d7qhgss3z4-kiroku-metrics-0.3.0.0 /nix/store/lphkrjf3wzrh8nvfqnkqxs4fx3z23n32-kiroku-store-0.11.0.0 /nix/store/1n96fpad775ak7fr6763qzs30kapb0ih-lens-5.3.6 /nix/store/nppgvpycf1kk7i4ngnccpkxzl3j9hkzv-mmzk-typeid-0.7.1.2 /nix/store/r0apa3492541j7amfnqmqx6nhzfzqqqf-optparse-applicative-0.19.0.0 /nix/store/byk986883iqwm7rxfkrql15zm5knpr7v-pgmq-effectful-0.6.1.1  /nix/store/xnb5insvyfp21aj6agmzjljljh30y2jb-rei-core-7.1.0.0 /nix/store/9q96jl86l886nj87608yq2p4qsm83hfi-relay-pagination-0.1.1.2 /nix/store/jys4lgadzwd27vy6hx8a2c978iarampx-settei-0.2.0.0 /nix/store/35djb812x3f00w59hi8lh7fxg9614w8j-shibuya-core-0.10.0.1 /nix/store/m0gr4804g9ms34l0q06s2c3i2gwfjvm9-shibuya-pgmq-adapter-0.16.1.0    /nix/store/2af3cj9xmj1c1pyxxz3821n7nfijdj00-vector-0.13.2.0 /nix/store/42vyfr6i3cb38khf5r25lvfi4shnmi43-vty-6.6 /nix/store/803yh5ybljxpwyd829470lkjgd2ybj06-yaml-0.11.11.2 /nix/store/d037izn72hcs622j2lvhl7lhj19yr0hr-aeson-2.2.5.1  "
+        },
+        "out": {
+          "baseline": "/nix/store/s66zqnxy6j8ga4f1ivrzpkffg2ci3c1i-rei-cli-7.1.0.0",
+          "candidate": "/nix/store/hpfj57jgy42wrk1jl2rbmxy5b6pgqgag-rei-cli-7.1.0.0"
+        }
+      }
+    }
+  },
+  "boundary_validation": {
+    "reference": {
+      "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+      "core": "/nix/store/q81gkiznk4n6hmya2d3ndqpnjg7pqcz5-rei-core-7.1.0.0.drv",
+      "root": "/nix/store/9n8vh6s8b3a9r0x0w1ffarb0nc9m5h5q-rei-cli-7.1.0.0.drv"
+    },
+    "cases": [
+      {
+        "case": "prose",
+        "file": "rei-core/docs/future-enhancements.md",
+        "sha256_before": "41f04b1db1454f038d2838faecc8735d55d907a4109dca9b9c268a502745a30f",
+        "sha256_after": "faf9fa5d51204bdd9a6efad8fb0f45af22f79b37b355ea6032e5199b0b9a121a",
+        "identity": {
+          "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+          "core": "/nix/store/q81gkiznk4n6hmya2d3ndqpnjg7pqcz5-rei-core-7.1.0.0.drv",
+          "root": "/nix/store/9n8vh6s8b3a9r0x0w1ffarb0nc9m5h5q-rei-cli-7.1.0.0.drv"
+        },
+        "expected_core_change": false,
+        "expected_root_change": false,
+        "checks": {
+          "core": true,
+          "root": true,
+          "compiler": true
+        }
+      },
+      {
+        "case": "core-leaf",
+        "file": "rei-core/src/Rei/Prelude.hs",
+        "sha256_before": "08ad5df29484ae53d4df4b17cebcf0eb630d59ad983f05ed6f81e2259e534028",
+        "sha256_after": "780b67626f64bdf478bf392cb523b18398792d9ac4267d614cab705abb9667a9",
+        "identity": {
+          "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+          "core": "/nix/store/fqrnvw47h32xz45kgl93ghgg3v5ax14h-rei-core-7.1.0.0.drv",
+          "root": "/nix/store/y4gjfqw14bd55xz4xj7y2wlch6jqg877-rei-cli-7.1.0.0.drv"
+        },
+        "expected_core_change": true,
+        "expected_root_change": true,
+        "checks": {
+          "core": true,
+          "root": true,
+          "compiler": true
+        }
+      },
+      {
+        "case": "embedded-prompt",
+        "file": "rei-core/src/Rei/Modules/Agent/prompts/coach.md",
+        "sha256_before": "db9fe48000ff2083fc4fde18a1731eb7e867d8a5f3fdc3758f385b5bbfa18a09",
+        "sha256_after": "f4e286e42347f6d19f3096705449f31fc57cc2fe4bd3b50a43cd8051b4d6508f",
+        "identity": {
+          "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+          "core": "/nix/store/br3gswri7dz7gx3y9k5scfc0mn9b2jid-rei-core-7.1.0.0.drv",
+          "root": "/nix/store/mw3c176gy1np0rxyxcm81fg13w21a496-rei-cli-7.1.0.0.drv"
+        },
+        "expected_core_change": true,
+        "expected_root_change": true,
+        "checks": {
+          "core": true,
+          "root": true,
+          "compiler": true
+        }
+      },
+      {
+        "case": "embedded-template",
+        "file": "rei-core/src/Rei/Template/defaults/notes/default.md",
+        "sha256_before": "b0fab993569419cdf7f39ee433779e28f035814dc3bbf8380d40bf3ac50dddc6",
+        "sha256_after": "1a1e27081e0ab712af06473dc7b8a2a274ad7c746443f3c29d00d88632104257",
+        "identity": {
+          "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+          "core": "/nix/store/6269jc4mar681ik5fvknn3172k2nvqaf-rei-core-7.1.0.0.drv",
+          "root": "/nix/store/i36rfsy30w4lgb80i25s9n14mdvgffcv-rei-cli-7.1.0.0.drv"
+        },
+        "expected_core_change": true,
+        "expected_root_change": true,
+        "checks": {
+          "core": true,
+          "root": true,
+          "compiler": true
+        }
+      },
+      {
+        "case": "public-test-support",
+        "file": "rei-core/test/Rei/TestSupport/MoriServer.hs",
+        "sha256_before": "d635c90be5d78624fc3dacd0594a334b70de339eab358ba476fa2d6be2563137",
+        "sha256_after": "c3d16c7635377664f4316be5429c37178659485301a7ed920952df3814561f8a",
+        "identity": {
+          "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+          "core": "/nix/store/8n1i4mql2i929j4llb8p6q8gg2vfa8lb-rei-core-7.1.0.0.drv",
+          "root": "/nix/store/j1ivfk11r8cq8x4x8j7ab9hy1rjqq7hj-rei-cli-7.1.0.0.drv"
+        },
+        "expected_core_change": true,
+        "expected_root_change": true,
+        "checks": {
+          "core": true,
+          "root": true,
+          "compiler": true
+        }
+      },
+      {
+        "case": "embedded-help",
+        "file": "rei-cli/help/time.md",
+        "sha256_before": "066d48579a8d9493367879aa6cbfe88d867e96a7c3ab274b95766c1894a74b0f",
+        "sha256_after": "c3a7d50b49f1a2c610fb08589a8e9c7e8418188d4463caf38d1de898325e6ad0",
+        "identity": {
+          "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+          "core": "/nix/store/q81gkiznk4n6hmya2d3ndqpnjg7pqcz5-rei-core-7.1.0.0.drv",
+          "root": "/nix/store/ibb1kf0h3n3nkn11qhcci1dxys4kqlhd-rei-cli-7.1.0.0.drv"
+        },
+        "expected_core_change": false,
+        "expected_root_change": true,
+        "checks": {
+          "core": true,
+          "root": true,
+          "compiler": true
+        }
+      },
+      {
+        "case": "cli-leaf",
+        "file": "rei-cli/src/Rei/Cli/Commands/Info.hs",
+        "sha256_before": "40e3067376130cf552c929d279ba12ca8688fe91b6ef202aab0fac89613a4eae",
+        "sha256_after": "1aa74b73990ccb8a0db5b8c0fd64111c1a6118f8d50008ad9708fc38c8886108",
+        "identity": {
+          "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+          "core": "/nix/store/q81gkiznk4n6hmya2d3ndqpnjg7pqcz5-rei-core-7.1.0.0.drv",
+          "root": "/nix/store/7wcd1snlp90fcfm7350nbry5f7nw0lxq-rei-cli-7.1.0.0.drv"
+        },
+        "expected_core_change": false,
+        "expected_root_change": true,
+        "checks": {
+          "core": true,
+          "root": true,
+          "compiler": true
+        }
+      },
+      {
+        "case": "sibling-api",
+        "file": "rei-api/test-client/Main.hs",
+        "sha256_before": "8acad40cc72243d26a1ed559a90820cd9a96f13062d55f4f16c2e13c683446ad",
+        "sha256_after": "4673bfbe60e8bd6a9df3ac444318faaea46515eec31e798e64a1ae2275bee769",
+        "identity": {
+          "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+          "core": "/nix/store/q81gkiznk4n6hmya2d3ndqpnjg7pqcz5-rei-core-7.1.0.0.drv",
+          "root": "/nix/store/9n8vh6s8b3a9r0x0w1ffarb0nc9m5h5q-rei-cli-7.1.0.0.drv"
+        },
+        "expected_core_change": false,
+        "expected_root_change": false,
+        "checks": {
+          "core": true,
+          "root": true,
+          "compiler": true
+        }
+      },
+      {
+        "case": "migration",
+        "file": "rei-core/migrations/rei/20251231165339_cycles.sql",
+        "sha256_before": "33b7db9c81aceea72123451846e5aaa39c6cfd4d4f37d26c816bcf018ae45959",
+        "sha256_after": "e55f28bf1688cb2e691d066a5a605da65d4f6639ecf2b445da697fde5fa45455",
+        "identity": {
+          "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+          "core": "/nix/store/j9r1hg1w5idwvg2536fn6igqg95qi4gj-rei-core-7.1.0.0.drv",
+          "root": "/nix/store/0qzddcg3brb2lbhm78swn3lfqswdx6y8-rei-cli-7.1.0.0.drv"
+        },
+        "expected_core_change": true,
+        "expected_root_change": true,
+        "checks": {
+          "core": true,
+          "root": true,
+          "compiler": true
+        }
+      },
+      {
+        "case": "cabal-metadata",
+        "file": "rei-core/rei-core.cabal",
+        "sha256_before": "3fb6b87e4e1a67a38f9ffa7db005c78f039a084b8a4882c11c21d8c359124f86",
+        "sha256_after": "98fea0b5a7d23600d3e8ebad170fece2e448608b3b1569ee39616e4081a49fae",
+        "identity": {
+          "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+          "core": "/nix/store/l05dxw02ala9avm8d52n78b2239zcjl6-rei-core-7.1.0.0.drv",
+          "root": "/nix/store/8r68gbwdxzlirmla7gx1rpsc5hi0csxq-rei-cli-7.1.0.0.drv"
+        },
+        "expected_core_change": true,
+        "expected_root_change": true,
+        "checks": {
+          "core": true,
+          "root": true,
+          "compiler": true
+        }
+      },
+      {
+        "case": "revision-stamp",
+        "identity": {
+          "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+          "core": "/nix/store/q81gkiznk4n6hmya2d3ndqpnjg7pqcz5-rei-core-7.1.0.0.drv",
+          "root": "/nix/store/1qiva5bvp1ph3x8fz98bl6n8yq0s6bz8-rei-cli-7.1.0.0.drv"
+        },
+        "core_unchanged": true,
+        "cli_changed": true
+      }
+    ],
+    "all_passed": true,
+    "symlink_path_validation": {
+      "same_identity_for_tmp_and_private_tmp": true,
+      "identity": {
+        "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+        "core": "/nix/store/q81gkiznk4n6hmya2d3ndqpnjg7pqcz5-rei-core-7.1.0.0.drv",
+        "root": "/nix/store/9n8vh6s8b3a9r0x0w1ffarb0nc9m5h5q-rei-cli-7.1.0.0.drv"
+      }
+    }
+  },
+  "behavior_validation": {
+    "all_passed": true,
+    "same_exit_code_stdout_stderr": true,
+    "commands": [
+      {
+        "argv": [
+          "rei",
+          "--version"
+        ],
+        "exit_code": 0,
+        "stdout_sha256": "397869013acf036b0931c4f1b4f31d97d28f93da346fb640e3aad52544f196eb",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 22,
+        "stderr_bytes": 0
+      },
+      {
+        "argv": [
+          "rei",
+          "--help"
+        ],
+        "exit_code": 0,
+        "stdout_sha256": "0eafee80c6251dfd461391c7fcc802148d5ff912cdebcc6cebf661b27a16f048",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 3759,
+        "stderr_bytes": 0
+      },
+      {
+        "argv": [
+          "rei",
+          "help",
+          "time"
+        ],
+        "exit_code": 0,
+        "stdout_sha256": "b6cc04edc06c5cdca856f452bcd3acc4ebc546b8eee465693dee6a68ece15348",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 1833,
+        "stderr_bytes": 0
+      },
+      {
+        "argv": [
+          "rei",
+          "completions",
+          "zsh"
+        ],
+        "exit_code": 0,
+        "stdout_sha256": "7d29b1b4c71dc94a15d6405e6e44314bcf72aacf1f7b4b1673fe680fd61a1ca2",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stdout_bytes": 4536,
+        "stderr_bytes": 0
+      }
+    ]
+  },
+  "retained_output_metadata": {
+    "/nix/store/0l2y6ah6690qjgg4a0zrci762q50gnx1-rei-core-7.1.0.0": {
+      "narSize": 553442112,
+      "narHash": "sha256-oawMaubuORwaWM1XsfotmfixVLSBau6qs9/atwLKrCo=",
+      "deriver": "/nix/store/n4g6g3y1w0nsmz9fawd0x86c0a5wixi7-rei-core-7.1.0.0.drv"
+    },
+    "/nix/store/0vnnvjwivvvl520gnn0g6dqaibwvks8r-rei-core-7.1.0.0": {
+      "narSize": 553442096,
+      "narHash": "sha256-0ILVzLewiCCBaPBc5SHcY07B4MajYTmvv6EeMg5d73A=",
+      "deriver": "/nix/store/fll3pw3whq86absmrxsb5q5gjj7pxm44-rei-core-7.1.0.0.drv"
+    },
+    "/nix/store/523inkrmgyxaxc0nzc7r20himv48z3y3-rei-core-7.1.0.0": {
+      "narSize": 553442120,
+      "narHash": "sha256-caQy5usAG10eEmUeUlPevw8/N/i/C/lKsZsTamp0oIw=",
+      "deriver": "/nix/store/xl7m0lkbarahyvkrc87jd7hwmj8vaiip-rei-core-7.1.0.0.drv"
+    },
+    "/nix/store/6a8wqyhy1mhpxfl53b019x3b6h4xby2a-rei-cli-7.1.0.0": {
+      "narSize": 749627768,
+      "narHash": "sha256-jUMzLbTlegd4xIv2hBUNiuLfvWQeIDBSYgXhkpvQrcA=",
+      "deriver": "/nix/store/b4901f4q4gwdwj5bnzr6hxzaxm24hxbb-rei-cli-7.1.0.0.drv"
+    },
+    "/nix/store/9v4l2vxncra8npcjhz6cwmdd0c8c302m-rei-cli-7.1.0.0": {
+      "narSize": 749627816,
+      "narHash": "sha256-b1zOg13zNKtXuN6r/wCx5jeCvk+yjSNzmrzdbbbykkU=",
+      "deriver": "/nix/store/qp0z5hw3sh1wlyv9f2grkhqchibrv9gk-rei-cli-7.1.0.0.drv"
+    },
+    "/nix/store/a7hqk3vfdjql8byjfw7l0c8jikv4alwx-rei-cli-7.1.0.0": {
+      "narSize": 749627792,
+      "narHash": "sha256-FQfrmm9MjjWRBlgM/BHJ6qfnbaF0VlfrTNSIwpvQr6w=",
+      "deriver": "/nix/store/8s7vmvk7a3frwmn9hnqkhrpd8py0vbfv-rei-cli-7.1.0.0.drv"
+    },
+    "/nix/store/hpfj57jgy42wrk1jl2rbmxy5b6pgqgag-rei-cli-7.1.0.0": {
+      "narSize": 749627792,
+      "narHash": "sha256-stC2dbLmQGIkjx4ZHYRW4Q0IIoNy2tQW4gEPEdxC+Bg=",
+      "deriver": "/nix/store/9n8vh6s8b3a9r0x0w1ffarb0nc9m5h5q-rei-cli-7.1.0.0.drv"
+    },
+    "/nix/store/khypzg1whj5scvvkhcn9b75hkdy1136g-rei-cli-7.1.0.0": {
+      "narSize": 749627792,
+      "narHash": "sha256-k2rda+zW+Etc6mu5ry4qdUL6NyuSre/j2vhkbWtztQk=",
+      "deriver": "/nix/store/g0g28lf81xbdcrqmpkdh8h0m5j98krh3-rei-cli-7.1.0.0.drv"
+    },
+    "/nix/store/ljcqyv5xid0yqkikrvars854xmxqadhi-rei-cli-7.1.0.0": {
+      "narSize": 749627800,
+      "narHash": "sha256-IoRUEP6vhRZN3hsaIIujdYWFeqobvpoT7ogb6YVytj8=",
+      "deriver": "/nix/store/mfd936fabza7sfkkh623p6lx1j6zdmmv-rei-cli-7.1.0.0.drv"
+    },
+    "/nix/store/ng3ykxjbs6z6kkfd720jl68kdyizrvj6-rei-core-7.1.0.0": {
+      "narSize": 553442096,
+      "narHash": "sha256-miPgYzpgtOJtUTCDK2WMZhhn8V/a3NWrP+zXTJfrf6A=",
+      "deriver": "/nix/store/569z78irri5bnca74c7jivkcnyj3rnp8-rei-core-7.1.0.0.drv"
+    },
+    "/nix/store/wrh4mqdn9jyjly03c7l7grvqa9j4jysb-rei-core-7.1.0.0": {
+      "narSize": 553442088,
+      "narHash": "sha256-Y8FMj6CfeODiJSYMdd/+IdsHydJ+NWGnMCDccdXzA70=",
+      "deriver": "/nix/store/x0sna9qzb4mp3gqmi5ang8z869pzahfh-rei-core-7.1.0.0.drv"
+    },
+    "/nix/store/xnb5insvyfp21aj6agmzjljljh30y2jb-rei-core-7.1.0.0": {
+      "narSize": 553442104,
+      "narHash": "sha256-UIXuLqGe8VS1Kzyl5uGCl2W30H2qea+/+f21nF6QvFw=",
+      "deriver": "/nix/store/q81gkiznk4n6hmya2d3ndqpnjg7pqcz5-rei-core-7.1.0.0.drv"
+    }
+  },
+  "transfers": {
+    "candidate_downloads": 0,
+    "evidence": "No copying path events in timed logs; dependencies were warm",
+    "transfer_bytes": "not separately instrumented"
+  },
+  "expected_workflow": {
+    "relevant_documentation_edits": 5,
+    "per_edit_median_saving_seconds": 149.95728887501173,
+    "net_seconds_after_migration": 596.2735285420495,
+    "seed_cost_seconds": 0,
+    "seed_refresh_frequency": "none; no seed",
+    "net_seconds_after_migration_and_validation": 473.59353212604765,
+    "break_even_with_validation_edits": 2
+  },
+  "experiment_build_invocation_seconds": 943.3761487099982,
+  "raw_receipt_directory": "/private/tmp/mp4-rei-measurement/accepted-results",
+  "notes": [
+    "Final shared graph equality covers all build inputs, including 474 Haskell dependency/build-tool instances.",
+    "Tests remain disabled exactly as in the original Nix recipe; validation runs four database-free CLI behavior comparisons and eleven identity probes.",
+    "Linking remains included in builder buildPhase; peak builder memory is unmeasured. No compiler or parallelism tuning was adopted.",
+    "An initial measurement-harness run was interrupted during migration to include evaluation/IFD in timed invocations. None of its timings enters this receipt.",
+    "Initial trial source filtering used the equivalent absolute-path predicate on resolved temporary paths; final filter also works through symlinked paths. Final recipe identity was verified equal."
+  ],
+  "final_acceptance": {
+    "command": [
+      "nix",
+      "build",
+      ".#default",
+      ".#checks.aarch64-darwin.consumer-overlay",
+      ".#checks.aarch64-darwin.cohort-parity",
+      "--no-link",
+      "--json",
+      "--print-build-logs",
+      "--max-jobs",
+      "1",
+      "--cores",
+      "16"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 122.67999641600181,
+    "version_stdout": "rei 7.1.0.0 (4f209d3)",
+    "all_shared_graph_nodes_unchanged": true,
+    "core_derivation_unchanged": "q81gkiznk4n6hmya2d3ndqpnjg7pqcz5-rei-core-7.1.0.0.drv",
+    "root_derivation": "7qwknx1qlsx4f17m28synb782zc86w1x-rei-cli-7.1.0.0.drv",
+    "log_sha256": "a40c2152f13d34edd0ab835cbdf0e7ab492674701d3f2c3f5c956f5a6931bc26",
+    "build_result": [
+      {
+        "drvPath": "/nix/store/7qwknx1qlsx4f17m28synb782zc86w1x-rei-cli-7.1.0.0.drv",
+        "outputs": {
+          "out": "/nix/store/8maww9x38q9n3lbj3wqkcn8wfdmls3f9-rei-cli-7.1.0.0"
+        }
+      },
+      {
+        "drvPath": "/nix/store/fbpl21y5n7aysm6ilgslb8bpb3q69jx7-consumer-overlay-audit.drv",
+        "outputs": {
+          "out": "/nix/store/f9smm2v01kkys38pf5nnds5cqyildqxx-consumer-overlay-audit"
+        }
+      },
+      {
+        "drvPath": "/nix/store/z2iikda7fdpsvml48cmpcq88ncw7hj49-rei-cohort-parity.drv",
+        "outputs": {
+          "out": "/nix/store/cygwlf9g59wlrln3ikm57ws02h86qfx4-rei-cohort-parity"
+        }
+      }
+    ]
+  },
+  "one_time_migration_and_validation_seconds": 276.192912249011,
+  "reproduction_expression": {
+    "path": "checks/fixtures/application-builds/rei.nix",
+    "sha256": "99e0400bff96872a6ef5e31af79a17a7dbf29ac1020ac543fa18f4e6c34f4b41",
+    "candidate_identity_verified_equal_to_measured_expression": true
+  },
+  "reproduction_script": {
+    "path": "scripts/measure-application-nix-builds.py",
+    "sha256": "9c7c19939ce77046fc3a46d2ef4a531fa4eecc0ce1f38736a1d46ce93e874149",
+    "note": "Final runner includes post-start receipt and interruption-handling improvements; measured build commands and timing boundaries are unchanged."
+  }
+}

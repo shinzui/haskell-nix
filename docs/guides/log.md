@@ -1,6 +1,7 @@
 # Bundle Update Log
 
 ## 2026-10-17
+* **Addition**: Add the paired application-rebuild measurement workflow and scoped Rei source-boundary evidence.
 * **Update**: Document verified generation 2 for Cabal Dhall HTTPS imports while preserving generation 1 and native package identities.
 * **Update**: Document explicit immutable source policy for contributor-owned sibling libraries, with shared/runtime override rejection.
 * **Update**: Materialize the selected source policy for shared Cabal plan comparison, preserving the complete complementary cohort.
