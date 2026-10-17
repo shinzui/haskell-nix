@@ -43,6 +43,11 @@ provenance:
       at: 2026-10-17T04:34:19Z
       mode: "implement"
       note: "Resume umbrella implementation with native intermediate reuse and correctness fixtures."
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-17T17:29:21Z
+      mode: "implement"
+      note: "Test consume-only current builds to avoid redundant multi-gigabyte intermediate exports while preserving fixed checkpoint validation and unchanged production defaults."
   reviews:
     - model: "gpt-6-astra"
       harness: "codex-cli"
@@ -69,6 +74,8 @@ This follows [MasterPlan 3](../masterplans/3-align-one-cabal-and-nix-package-set
 
 
 ## Progress
+
+2026-10-17 consume-only continuation: metadata shows each old core candidate exports another unused 2.17–2.33 GB intermediate output alongside the fixed clean checkpoint. The additive `retainCurrentIntermediates = false` experiment consumes the existing checkpoint without exporting current intermediates; the default stays true and all production defaults stay unchanged. Native Apple Silicon and qualified translated Linux public fixtures each pass 12 behavior/reuse cases and six expected source failures: unchanged/leaf/type/data library counts remain 0/2/2/1. All 295 pure contracts pass. [Fixture receipt](../evidence/ep18/consume-only-intermediates-fixture.json). The real isolated Mori core/CLI/probe build passes under its exact existing checkpoint declaration: four core compilation events, a changed-value probe linked to that core, only the ordinary `out` output, and no checkpoint output in the CLI runtime closure. Its source/logs are under `/tmp/ep18-mori-consume-only-integration`. This is integration feasibility, not a paired latency or completed budget claim. Existing default/pin decisions and the unfinished M2/M5 gates remain unchanged.
 
 2026-10-17 M4 completed feasibility: the separate-package candidate preserves all shared inputs and production settings, unchanged moved source bytes, all 91 public module imports through the original package, executable behavior and a constant foundation across five fresh alternating pairs. Median 56.398 → 51.843 s (8.08%) falls below 20%, despite 301 → 210 current CLI compilation events. Gross/differential observed startup plus validation requires 45/20 edits; the budget is ten. Keep production layouts unchanged and retain the disposable pilot. [Receipt](../evidence/ep18/rei-cli-package-split-pilot.json).
 
@@ -97,6 +104,8 @@ This follows [MasterPlan 3](../masterplans/3-align-one-cabal-and-nix-package-set
 
 
 ## Surprises & Discoveries
+
+2026-10-17: `previousIntermediates` is independent of the builder's export switches. The fixed-checkpoint workflow does not consume each edited build's newly exported intermediate output. Raw and public fixtures prove unchanged selective reuse and source-error detection with both current export switches false, including Darwin's ordinary linker-directory path. Keep this as an explicit experiment until real application dependency/TH behavior and complete costs are verified.
 
 2026-10-17: The application-owned constructor used the current dependency scope to reconstruct the older source. Equal records computed in that same new scope do not establish an old checkpoint’s origin: a dependency update can remove an API used only by the old source. Bind opt-in reuse to an explicit successfully built checkpoint declaration containing its exact derivation and compatibility record. Reject a changed current context before forcing the old package; reject a replaced source even when its projected recipe still matches. The native same-version dependency/API-change fixture passes, including an explicit failed unsafe reconstruction and proof that its derivation is absent from the clean current graph. Ten lazy-origin diagnostics and two channel-membership regressions extend the aggregate pure suite to 210 expectations. Raw old-source metadata is checked before package construction; an invalid replaced Cabal file cannot force the old constructor. Four exact CLI/core checkpoints were built and bound in their producing projects. [Receipt](../evidence/ep18/application-checkpoint-binding.json).
 
@@ -333,7 +342,7 @@ Use disposable checkouts and preserve foreign changes. In particular, the workin
 ## Interfaces and Dependencies
 
 
-`lib/mkApplicationIncrementalBuild.nix` accepts `{ pkgs, package, seedPackage, currentCompatibility, seedCompatibility, enabled ? true }` and returns `{ package, seed, compatibilityReport }`. It uses the pinned Nixpkgs Haskell builder's intermediate options after M1 validation. The returned package is a normal source-built Haskell derivation; the report names accepted/rejected compatibility conditions. The seed recipe must not depend on the returned package or another incremental predecessor.
+`lib/mkApplicationIncrementalBuild.nix` accepts `{ pkgs, package, seedPackage, currentCompatibility, seedCompatibility, enabled ? true }` and returns `{ package, seed, compatibilityReport }`. It uses the pinned Nixpkgs Haskell builder's intermediate options after M1 validation. An optional `retainCurrentIntermediates ? true` preserves the original behavior by default; the false experiment consumes the fixed checkpoint without exporting a current checkpoint. The application-owned constructor forwards that option without changing checkpoint declarations or compatibility rules. The returned package is a normal source-built Haskell derivation; the report names accepted/rejected compatibility conditions. The seed recipe must not depend on the returned package or another incremental predecessor.
 
 Application exports initially include `application-incremental`, `application-clean`, and the explicit seed intermediate output. Real applications may additionally expose package-specific outputs for core/CLI/API experiments. Application metadata, recipes, and compatibility computation are owned in their project; common validation/fixture machinery lives here. Source filters and provenance changes coordinate with MP-3 plans 11–13. Cohort/runtime/manifests still use MP-3's shared interfaces.
 

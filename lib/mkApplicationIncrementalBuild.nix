@@ -5,6 +5,7 @@
 , currentCompatibility
 , seedCompatibility
 , enabled ? true
+, retainCurrentIntermediates ? true
 }:
 let
   # recipeIdentity is the actual recipe projected onto a fixed dummy source.
@@ -53,13 +54,14 @@ let
     else if !identitiesValid then "record does not match package/compiler identity"
     else "compatible explicit seed";
 in
+assert lib.assertMsg (builtins.isBool retainCurrentIntermediates) "mkApplicationIncrementalBuild: retainCurrentIntermediates must be a boolean";
 {
   package = builtins.trace "application-incremental ${package.pname}: ${reason}" (
     if accepted then
       overrideCabal
         (_: {
-          doInstallIntermediates = true;
-          enableSeparateIntermediatesOutput = true;
+          doInstallIntermediates = retainCurrentIntermediates;
+          enableSeparateIntermediatesOutput = retainCurrentIntermediates;
           previousIntermediates = seed.intermediates;
         })
         package else package

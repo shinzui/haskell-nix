@@ -11,6 +11,7 @@
 , seedRevision
 , validatedCheckpoint ? null
 , enabled ? true
+, retainCurrentIntermediates ? true
 , trackedDataFile ? (_: false)
 }:
 let
@@ -107,7 +108,7 @@ let
           };
         } else
           (import ./mkApplicationIncrementalBuild.nix { inherit lib; }) {
-            inherit pkgs enabled currentCompatibility seedCompatibility;
+            inherit pkgs enabled currentCompatibility seedCompatibility retainCurrentIntermediates;
             package = clean;
             seedPackage = previousPackage;
           };

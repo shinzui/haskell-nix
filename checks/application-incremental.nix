@@ -47,6 +47,14 @@ let
   variants = [ "unchanged" "leaf" "interface" "data" ];
   clean = lib.genAttrs variants (variant: recipe variant null);
   seeded = lib.genAttrs variants (variant: recipe variant seed.intermediates);
+  consumeOnly = pkgs.lib.mapAttrs
+    (_: package: pkgs.haskell.lib.compose.overrideCabal
+      (_: {
+        doInstallIntermediates = false;
+        enableSeparateIntermediatesOutput = false;
+      })
+      package)
+    seeded;
   expected = {
     unchanged = "42:seed-data";
     leaf = "43:seed-data";
@@ -73,6 +81,7 @@ let
   } // extra);
 in
 assert (guarded { }).package.drvPath == seeded.leaf.drvPath;
+assert (guarded { retainCurrentIntermediates = false; }).package.drvPath == consumeOnly.leaf.drvPath;
 assert (guarded { enabled = false; }).package.drvPath == clean.leaf.drvPath;
 assert (guarded {
   seedCompatibility = compatibility // { recipeIdentity = "different effective flags or dependencies"; };
@@ -80,18 +89,25 @@ assert (guarded {
 pkgs.runCommand "application-incremental-correctness"
 {
   passthru = {
-    inherit seed clean seeded;
+    inherit seed clean seeded consumeOnly;
     # Build these explicitly: both policies must fail, rather than silently
     # accepting a stale interface or the removed module from a seed.
     negative = lib.genAttrs [ "invalid-interface" "removed" ] (variant: {
       clean = recipe variant null;
       seeded = recipe variant seed.intermediates;
+      consumeOnly = pkgs.haskell.lib.compose.overrideCabal
+        (_: {
+          doInstallIntermediates = false;
+          enableSeparateIntermediatesOutput = false;
+        })
+        (recipe variant seed.intermediates);
     });
     identity = {
       compiler = scope.ghc.drvPath;
       seed = seed.drvPath;
       clean = lib.mapAttrs (_: package: package.drvPath) clean;
       seeded = lib.mapAttrs (_: package: package.drvPath) seeded;
+      consumeOnly = lib.mapAttrs (_: package: package.drvPath) consumeOnly;
     };
   };
 }
@@ -99,9 +115,11 @@ pkgs.runCommand "application-incremental-correctness"
     (variant: ''
       clean="$(${clean.${variant}}/bin/application-incremental)"
       seeded="$(${seeded.${variant}}/bin/application-incremental)"
+      consume_only="$(${consumeOnly.${variant}}/bin/application-incremental)"
       test "$clean" = '${expected.${variant}}'
       test "$seeded" = "$clean"
-      echo '${variant}: clean and seeded agree'
+      test "$consume_only" = "$clean"
+      echo '${variant}: clean, seeded and consume-only agree'
     '')
     variants + ''
     touch "$out"

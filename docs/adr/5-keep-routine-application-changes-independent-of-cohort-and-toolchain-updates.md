@@ -128,6 +128,14 @@ they do not establish a default performance policy. Compare retained-runtime man
 the selected generation's captured freeze, preserving its reference validation even when a
 newer channel default changes.
 
+A fixed-checkpoint experiment may consume previous compiler products without exporting
+another current checkpoint. Keep the clean seed export and exact origin/compatibility
+guards. The additive `retainCurrentIntermediates` option defaults to the original
+behavior; its false mode passes native Apple Silicon and translated Linux selective
+reuse/source-error fixtures and real native Mori changed-value/closure checks. This
+bounds per-edit intermediate retention, but does not itself establish a latency or
+checkpoint-budget win. Preserve defaults until the complete measured workflow passes.
+
 ## Alternatives and consequences
 
 Version checks alone are cheaper to implement but can declare success while duplicate builds

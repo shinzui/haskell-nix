@@ -65,7 +65,7 @@ def main():
     receipt["identity"] = evaluate("identity")
     library = {"Stable", "Leaf", "Combined", "Embedded"}
     logs = {}
-    for policy in ["clean", "seeded"]:
+    for policy in ["clean", "seeded", "consumeOnly"]:
         for variant in ["unchanged", "leaf", "interface", "data"]:
             drv = receipt["identity"][policy][variant]
             log = run(["nix", "log", drv])
@@ -86,15 +86,16 @@ def main():
         "unchanged": set(), "leaf": {"Leaf", "Combined"},
         "interface": {"Leaf", "Combined"}, "data": {"Embedded"},
     }
-    for variant, modules in expected.items():
-        if logs["seeded", variant] != modules:
-            raise RuntimeError(f"Unexpected compiler work for seeded {variant}: {logs['seeded', variant]}")
+    for policy in ["seeded", "consumeOnly"]:
+        for variant, modules in expected.items():
+            if logs[policy, variant] != modules:
+                raise RuntimeError(f"Unexpected compiler work for {policy}/{variant}: {logs[policy, variant]}")
 
     for variant, cause in [
         ("invalid-interface", r"Couldn['’]t match"),
         ("removed", r"can['’]t find source for Leaf|Could not find module [‘']Leaf"),
     ]:
-        for policy in ["clean", "seeded"]:
+        for policy in ["clean", "seeded", "consumeOnly"]:
             attribute = f"negative.{variant}.{policy}"
             drv = evaluate(f"{attribute}.drvPath")
             build = run(["nix", "build", f"{target}.{attribute}", "--no-link", "--print-build-logs", *common])

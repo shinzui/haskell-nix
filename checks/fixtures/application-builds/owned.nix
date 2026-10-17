@@ -10,6 +10,7 @@
 , validatedCheckpoint ? if validatedCheckpointFile == null then null
   else builtins.fromJSON (builtins.readFile (builtins.toPath validatedCheckpointFile))
 , component ? "cli"
+, retainCurrentIntermediates ? true
 , policy ? "incremental"
 , system ? "aarch64-darwin"
 }:
@@ -20,7 +21,7 @@ let
   runtime = app.inputs.haskell-nix.lib.mkRuntimePackageSet
     (builtins.fromJSON (builtins.readFile (builtins.toPath source + "/nix/runtime-selection.json")));
   result = (import ../../../lib/mkApplicationIncrementalPackage.nix { inherit (pkgs) lib; }) {
-    inherit pkgs revision seedRevision validatedCheckpoint;
+    inherit pkgs revision seedRevision validatedCheckpoint retainCurrentIntermediates;
     source = builtins.toPath source;
     seedSource = builtins.toPath seedSource;
     packageName = "${application}-${component}";
@@ -97,7 +98,7 @@ assert component != "cli" || package.drvPath == result.package.drvPath;
   identity = {
     root = package.drvPath;
     behaviorProbe = if component == "core" then probe.drvPath else null;
-    inherit component;
+    inherit component retainCurrentIntermediates;
     core = result.scope.${application + "-core"}.drvPath;
     compiler = result.scope.ghc.drvPath;
     inherit (result) compatibilityReport currentCompatibility seedCompatibility;
