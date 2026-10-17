@@ -9,7 +9,7 @@ in  AgentPlans.AgentPlansCatalog::{
       [ AgentPlans.ExposedPlan::{
         , kind = AgentPlans.PlanKind.MasterPlan
         , file = "docs/masterplans/4-coordinate-horizon-inspired-haskell-nix-performance-and-reliability-improvements.md"
-        , status = AgentPlans.PlanStatus.NotStarted
+        , status = AgentPlans.PlanStatus.InProgress
         , owner = None Text
         , summary = None Text
         , dependencies =
@@ -71,7 +71,7 @@ in  AgentPlans.AgentPlansCatalog::{
       , AgentPlans.ExposedPlan::{
         , kind = AgentPlans.PlanKind.ExecPlan
         , file = "docs/plans/19-pre-generate-complete-locked-nix-haskell-dependency-recipes.md"
-        , status = AgentPlans.PlanStatus.NotStarted
+        , status = AgentPlans.PlanStatus.InProgress
         , owner = None Text
         , summary = None Text
         , dependencies =
@@ -92,7 +92,7 @@ in  AgentPlans.AgentPlansCatalog::{
       , AgentPlans.ExposedPlan::{
         , kind = AgentPlans.PlanKind.ExecPlan
         , file = "docs/plans/20-build-project-development-shells-from-retained-runtime-package-sets.md"
-        , status = AgentPlans.PlanStatus.NotStarted
+        , status = AgentPlans.PlanStatus.InProgress
         , owner = None Text
         , summary = None Text
         , dependencies =
@@ -113,7 +113,7 @@ in  AgentPlans.AgentPlansCatalog::{
       , AgentPlans.ExposedPlan::{
         , kind = AgentPlans.PlanKind.ExecPlan
         , file = "docs/plans/21-manage-compatibility-exceptions-and-verify-their-continued-necessity.md"
-        , status = AgentPlans.PlanStatus.NotStarted
+        , status = AgentPlans.PlanStatus.InProgress
         , owner = None Text
         , summary = None Text
         , dependencies =

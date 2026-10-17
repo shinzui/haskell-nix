@@ -1,0 +1,218 @@
+{
+  "schema_version": 1,
+  "implementation_revision": "950d55a4a5b2486b93c6d0f59ba5fad80ca5fcd7",
+  "published_members": {
+    "mori://shinzui/haskell-nix/masterplans/4-coordinate-horizon-inspired-haskell-nix-performance-and-reliability-improvements": "InProgress",
+    "mori://shinzui/haskell-nix/plans/18-accelerate-application-code-compilation-in-nix-builds": "InProgress",
+    "mori://shinzui/haskell-nix/plans/19-pre-generate-complete-locked-nix-haskell-dependency-recipes": "InProgress",
+    "mori://shinzui/haskell-nix/plans/20-build-project-development-shells-from-retained-runtime-package-sets": "InProgress",
+    "mori://shinzui/haskell-nix/plans/21-manage-compatibility-exceptions-and-verify-their-continued-necessity": "InProgress",
+    "mori://shinzui/haskell-nix-dev/masterplans/2-publish-verified-haskell-toolchain-capabilities-and-support-evidence": "InProgress",
+    "mori://shinzui/haskell-nix-dev/plans/4-publish-compiler-capabilities-and-an-explicit-platform-support-matrix": "InProgress",
+    "mori://shinzui/haskell-nix-dev/plans/5-exercise-ghc-cabal-and-hls-in-toolchain-compatibility-checks": "NotStarted"
+  },
+  "catalogs": [
+    {
+      "project_uri": "mori://shinzui/haskell-nix",
+      "published_count": 5,
+      "catalog": {
+        "plans": [
+          {
+            "dependencies": [
+              {
+                "kind": "Integration",
+                "target": "mori://shinzui/haskell-nix/plans/18-accelerate-application-code-compilation-in-nix-builds"
+              },
+              {
+                "kind": "Integration",
+                "target": "mori://shinzui/haskell-nix/plans/19-pre-generate-complete-locked-nix-haskell-dependency-recipes"
+              },
+              {
+                "kind": "Integration",
+                "target": "mori://shinzui/haskell-nix/plans/20-build-project-development-shells-from-retained-runtime-package-sets"
+              },
+              {
+                "kind": "Integration",
+                "target": "mori://shinzui/haskell-nix/plans/21-manage-compatibility-exceptions-and-verify-their-continued-necessity"
+              },
+              {
+                "kind": "Integration",
+                "target": "mori://shinzui/haskell-nix-dev/masterplans/2-publish-verified-haskell-toolchain-capabilities-and-support-evidence"
+              },
+              {
+                "kind": "Integration",
+                "target": "mori://shinzui/haskell-nix-dev/plans/4-publish-compiler-capabilities-and-an-explicit-platform-support-matrix"
+              },
+              {
+                "kind": "Integration",
+                "target": "mori://shinzui/haskell-nix-dev/plans/5-exercise-ghc-cabal-and-hls-in-toolchain-compatibility-checks"
+              }
+            ],
+            "file": "docs/masterplans/4-coordinate-horizon-inspired-haskell-nix-performance-and-reliability-improvements.md",
+            "kind": "MasterPlan",
+            "status": "InProgress"
+          },
+          {
+            "dependencies": [
+              {
+                "kind": "Hard",
+                "target": "mori://shinzui/haskell-nix/plans/9-generate-the-nix-package-set-from-the-cohort-freeze-and-guard-version-parity"
+              },
+              {
+                "kind": "Hard",
+                "target": "mori://shinzui/haskell-nix/plans/16-create-the-keiro-runtime-package-set-and-compose-applications-on-it"
+              },
+              {
+                "kind": "Integration",
+                "target": "mori://shinzui/haskell-nix/plans/19-pre-generate-complete-locked-nix-haskell-dependency-recipes"
+              },
+              {
+                "kind": "Integration",
+                "target": "mori://shinzui/haskell-nix/plans/21-manage-compatibility-exceptions-and-verify-their-continued-necessity"
+              }
+            ],
+            "file": "docs/plans/18-accelerate-application-code-compilation-in-nix-builds.md",
+            "kind": "ExecPlan",
+            "status": "InProgress"
+          },
+          {
+            "dependencies": [
+              {
+                "kind": "Hard",
+                "target": "mori://shinzui/haskell-nix/plans/9-generate-the-nix-package-set-from-the-cohort-freeze-and-guard-version-parity"
+              },
+              {
+                "kind": "Hard",
+                "target": "mori://shinzui/haskell-nix/plans/16-create-the-keiro-runtime-package-set-and-compose-applications-on-it"
+              },
+              {
+                "kind": "Integration",
+                "target": "mori://shinzui/haskell-nix/plans/21-manage-compatibility-exceptions-and-verify-their-continued-necessity"
+              }
+            ],
+            "file": "docs/plans/19-pre-generate-complete-locked-nix-haskell-dependency-recipes.md",
+            "kind": "ExecPlan",
+            "status": "InProgress"
+          },
+          {
+            "dependencies": [
+              {
+                "kind": "Hard",
+                "target": "mori://shinzui/haskell-nix/plans/16-create-the-keiro-runtime-package-set-and-compose-applications-on-it"
+              },
+              {
+                "kind": "Hard",
+                "target": "mori://shinzui/haskell-nix-dev/plans/4-publish-compiler-capabilities-and-an-explicit-platform-support-matrix"
+              },
+              {
+                "kind": "Integration",
+                "target": "mori://shinzui/haskell-nix/plans/21-manage-compatibility-exceptions-and-verify-their-continued-necessity"
+              }
+            ],
+            "file": "docs/plans/20-build-project-development-shells-from-retained-runtime-package-sets.md",
+            "kind": "ExecPlan",
+            "status": "InProgress"
+          },
+          {
+            "dependencies": [
+              {
+                "kind": "Integration",
+                "target": "mori://shinzui/haskell-nix/plans/9-generate-the-nix-package-set-from-the-cohort-freeze-and-guard-version-parity"
+              },
+              {
+                "kind": "Integration",
+                "target": "mori://shinzui/haskell-nix/plans/16-create-the-keiro-runtime-package-set-and-compose-applications-on-it"
+              },
+              {
+                "kind": "Integration",
+                "target": "mori://shinzui/haskell-nix/plans/19-pre-generate-complete-locked-nix-haskell-dependency-recipes"
+              },
+              {
+                "kind": "Integration",
+                "target": "mori://shinzui/haskell-nix-dev/masterplans/2-publish-verified-haskell-toolchain-capabilities-and-support-evidence"
+              }
+            ],
+            "file": "docs/plans/21-manage-compatibility-exceptions-and-verify-their-continued-necessity.md",
+            "kind": "ExecPlan",
+            "status": "InProgress"
+          }
+        ]
+      }
+    },
+    {
+      "project_uri": "mori://shinzui/haskell-nix-dev",
+      "published_count": 3,
+      "catalog": {
+        "plans": [
+          {
+            "dependencies": [
+              {
+                "kind": "Integration",
+                "target": "mori://shinzui/haskell-nix-dev/plans/4-publish-compiler-capabilities-and-an-explicit-platform-support-matrix"
+              },
+              {
+                "kind": "Integration",
+                "target": "mori://shinzui/haskell-nix-dev/plans/5-exercise-ghc-cabal-and-hls-in-toolchain-compatibility-checks"
+              },
+              {
+                "kind": "Integration",
+                "target": "mori://shinzui/haskell-nix/masterplans/4-coordinate-horizon-inspired-haskell-nix-performance-and-reliability-improvements"
+              }
+            ],
+            "file": "docs/masterplans/2-publish-verified-haskell-toolchain-capabilities-and-support-evidence.md",
+            "kind": "MasterPlan",
+            "status": "InProgress"
+          },
+          {
+            "dependencies": [],
+            "file": "docs/plans/4-publish-compiler-capabilities-and-an-explicit-platform-support-matrix.md",
+            "kind": "ExecPlan",
+            "status": "InProgress"
+          },
+          {
+            "dependencies": [
+              {
+                "kind": "Hard",
+                "target": "mori://shinzui/haskell-nix-dev/plans/4-publish-compiler-capabilities-and-an-explicit-platform-support-matrix"
+              }
+            ],
+            "file": "docs/plans/5-exercise-ghc-cabal-and-hls-in-toolchain-compatibility-checks.md",
+            "kind": "ExecPlan",
+            "status": "NotStarted"
+          }
+        ]
+      }
+    }
+  ],
+  "hard_graph": {
+    "nodes": 10,
+    "edges": 7,
+    "acyclic": true,
+    "external_prerequisites": [
+      "mori://shinzui/haskell-nix/plans/16-create-the-keiro-runtime-package-set-and-compose-applications-on-it",
+      "mori://shinzui/haskell-nix/plans/9-generate-the-nix-package-set-from-the-cohort-freeze-and-guard-version-parity"
+    ]
+  },
+  "validation": {
+    "nix_pure_expectations": 210,
+    "updater_tests": 174,
+    "strict_documentation": "passed",
+    "format": "passed",
+    "native_apple_silicon_origin_shell_and_compatibility_fixtures": "passed",
+    "native_producer_dotfiles_and_darwin_system_build": "passed without activation"
+  },
+  "registration": {
+    "attempted_projects": [
+      "mori://shinzui/haskell-nix",
+      "mori://shinzui/haskell-nix-dev"
+    ],
+    "result": "blocked: local PostgreSQL database mori is absent; no database provisioning attempted"
+  },
+  "remaining_gates": [
+    "Native Linux DEV-4 validation requires the configured missing builder SSH key; DEV-5 and production project shells retain their whole-child prerequisite.",
+    "Generated recipe expansion and application default promotion lack accepted practical performance/total-cost evidence.",
+    "Compatibility migration retains blocked retrie/current Linux entries and unverified strict/removal evidence.",
+    "Source/cache publication, retained update/rollback rehearsals and fresh-worker integration remain unaccepted."
+  ],
+  "scope": "Exactly six member ExecPlans and two coordination MasterPlans; no other historical plans opted in. Local status and evidence do not imply full MasterPlan completion."
+}
