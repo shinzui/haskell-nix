@@ -253,6 +253,12 @@ in
       cp ${identities} "$out/identities.json"
     '';
 
+  package-validation = (import ./package-validation.nix {
+    inherit lib;
+    pkgs = pkgsPlain;
+    scope = pkgsPlain.haskell.packages.${defaultGhc};
+  }).check;
+
   shared-overrides = import ./shared-overrides.nix {
     inherit lib defaultGhc;
     pkgs = pkgsPlain;

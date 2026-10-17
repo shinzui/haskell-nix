@@ -4,7 +4,7 @@ title: Maintainer tools
 description: Find repository formatting, test, derivation-diff, and validation commands.
 docId: DOC-6
 tags: [maintainers, testing, nix]
-timestamp: 2026-10-17T14:16:28Z
+timestamp: 2026-10-17T14:42:51Z
 generated:
   by: human:nadeem
   at: 2026-09-21T14:33:46Z
@@ -89,6 +89,44 @@ It also rejects omitted diagnostics for captured test/bounds policy mismatches. 
 Nix selection from JSON, validate arbitrary patch-function effects or authenticate
 caller-supplied input facts. Invalid command arguments exit 2; malformed contexts
 and unmet evidence exit 1. Reports and checks do not change locks or recipes.
+
+## Isolated package validation fixtures
+
+`lib.mkPackageValidation` stages a baseline and a one-entry removal candidate using
+the same explicit recipe constructor. Its `mkRecipe` callback receives
+`policyProfile = "strict-v1"`, `disabledEntryIds`, and declared service probes.
+Apply that profile before applying compatibility entries, and omit exactly the
+requested entry during construction. Selecting a stricter flag afterward cannot
+undo a prior metadata/bounds rewrite.
+
+The constructor checks actual consumed Cabal arguments: both packages must enable
+the standard complete test run and disable jailbreak. Custom check phases, narrowed
+test targets and test-filter flags are rejected by this initial helper. Selected
+source, metadata, compiler and declared production/test dependency instances must
+match. Missing declared service probes return a blocked request before either
+recipe is constructed. A declared service probe alone remains unverified.
+
+Run the controlled native fixtures explicitly:
+
+```bash
+nix build --no-link .#checks.aarch64-darwin.package-validation
+python3 scripts/check-package-validation.py --output-dir /tmp/package-validation-evidence
+```
+
+Choose a fresh evidence directory for each run. The first fixture needs a CPP
+repair: its strict baseline passes, and removing the repair must fail in the actual
+Cabal test phase with the expected cause. A fixed source passes the same suite and
+executable behavior without the repair. Passing graphs go through the existing
+`mkCohortManifest` producer, including compiler-package and exported derivation
+graph checks. The script uses Nix build/log APIs and records cache conditions and
+elapsed fixture-validation time; it makes no performance claim.
+
+These are staged fixture receipts. Constructor requests remain unverified until
+their required execution and graph evidence exists. Null Cabal dependency values
+are explicitly unresolved; they can denote compiler-provided packages and do not
+by themselves prove missing dependencies. Production necessity/retirement, a native
+provided-service probe, general receipt validation and updater `compatibility verify`
+commands remain pending. Ordinary builds and shell entry do not run these probes.
 
 ## Formatting
 

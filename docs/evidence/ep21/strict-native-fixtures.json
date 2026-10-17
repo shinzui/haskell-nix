@@ -1,0 +1,529 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-10-17T14:38:29.091071+00:00",
+  "elapsedSeconds": 18.422753707971424,
+  "cacheState": "Uncontrolled; existing outputs and their original native logs are allowed; no speedup claim",
+  "scope": "Controlled native Haskell fixtures with standard Cabal suites and executable probes",
+  "status": "unverified",
+  "nativeFixtureOutcome": "passed",
+  "contexts": {
+    "needed": {
+      "baseline": {
+        "derivation": "/nix/store/2ak29h5c96bzxxw15mllm114jgzpkps7-package-validation-fixture-0.1.0.drv",
+        "effective": {
+          "boundsRelaxed": false,
+          "buildFlags": [],
+          "configureFlags": [
+            "-fcompatibility-repair"
+          ],
+          "dependencies": {
+            "buildDepends": [],
+            "buildTools": [],
+            "executableFrameworkDepends": [],
+            "executableHaskellDepends": [
+              {
+                "kind": "null",
+                "resolution": "not-inferred"
+              }
+            ],
+            "executablePkgconfigDepends": [],
+            "executableSystemDepends": [],
+            "executableToolDepends": [],
+            "extraLibraries": [],
+            "libraryFrameworkDepends": [],
+            "libraryHaskellDepends": [
+              {
+                "kind": "null",
+                "resolution": "not-inferred"
+              }
+            ],
+            "libraryPkgconfigDepends": [],
+            "librarySystemDepends": [],
+            "libraryToolDepends": [],
+            "pkg-configDepends": [],
+            "setupHaskellDepends": [],
+            "testDepends": [],
+            "testFrameworkDepends": [],
+            "testHaskellDepends": [
+              {
+                "kind": "null",
+                "resolution": "not-inferred"
+              }
+            ],
+            "testPkgconfigDepends": [],
+            "testSystemDepends": [],
+            "testToolDepends": []
+          },
+          "editedCabalFile": null,
+          "hooks": {
+            "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "patches": [],
+          "revision": null,
+          "testDependencyInventory": "declared",
+          "testExecution": {
+            "customCheckPhase": false,
+            "flags": [],
+            "targets": [
+              ""
+            ]
+          },
+          "testsEnabled": true
+        },
+        "metadataIdentity": "2ad3c136ecb72f3d5899d8beca47b9f1039f7c5d9320ea3c801b23e5e6ab1d6a",
+        "sourceIdentity": "nix-source:/nix/store/z8iblsyl83h4smyjn6prdgfdfzlnhqid-compatibility-source-identity.drv",
+        "version": "0.1.0"
+      },
+      "bounds": "enforce",
+      "candidate": {
+        "derivation": "/nix/store/ygiarb6nvlm8c8dc8ppn85q7m8izsica-package-validation-fixture-0.1.0.drv",
+        "effective": {
+          "boundsRelaxed": false,
+          "buildFlags": [],
+          "configureFlags": [
+            "-f-compatibility-repair"
+          ],
+          "dependencies": {
+            "buildDepends": [],
+            "buildTools": [],
+            "executableFrameworkDepends": [],
+            "executableHaskellDepends": [
+              {
+                "kind": "null",
+                "resolution": "not-inferred"
+              }
+            ],
+            "executablePkgconfigDepends": [],
+            "executableSystemDepends": [],
+            "executableToolDepends": [],
+            "extraLibraries": [],
+            "libraryFrameworkDepends": [],
+            "libraryHaskellDepends": [
+              {
+                "kind": "null",
+                "resolution": "not-inferred"
+              }
+            ],
+            "libraryPkgconfigDepends": [],
+            "librarySystemDepends": [],
+            "libraryToolDepends": [],
+            "pkg-configDepends": [],
+            "setupHaskellDepends": [],
+            "testDepends": [],
+            "testFrameworkDepends": [],
+            "testHaskellDepends": [
+              {
+                "kind": "null",
+                "resolution": "not-inferred"
+              }
+            ],
+            "testPkgconfigDepends": [],
+            "testSystemDepends": [],
+            "testToolDepends": []
+          },
+          "editedCabalFile": null,
+          "hooks": {
+            "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "patches": [],
+          "revision": null,
+          "testDependencyInventory": "declared",
+          "testExecution": {
+            "customCheckPhase": false,
+            "flags": [],
+            "targets": [
+              ""
+            ]
+          },
+          "testsEnabled": true
+        },
+        "metadataIdentity": "2ad3c136ecb72f3d5899d8beca47b9f1039f7c5d9320ea3c801b23e5e6ab1d6a",
+        "sourceIdentity": "nix-source:/nix/store/z8iblsyl83h4smyjn6prdgfdfzlnhqid-compatibility-source-identity.drv",
+        "version": "0.1.0"
+      },
+      "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+      "entryId": "fixture-compatibility-repair",
+      "graphStatus": "unverified",
+      "inputIdentity": "0f206fc2b76f272a5d0308e6c700be5425f0417000183fe8c4edf98d5fc27199",
+      "missingServices": [],
+      "policyProfile": "strict-v1",
+      "providedServiceProbes": {},
+      "requiredServices": [],
+      "schemaVersion": 1,
+      "status": "unverified",
+      "system": "aarch64-darwin",
+      "tests": "run"
+    },
+    "fixed": {
+      "baseline": {
+        "derivation": "/nix/store/zggsgn274k269hcs0wi4p3hzvr8hnznf-package-validation-fixture-0.2.0.drv",
+        "effective": {
+          "boundsRelaxed": false,
+          "buildFlags": [],
+          "configureFlags": [
+            "-fcompatibility-repair"
+          ],
+          "dependencies": {
+            "buildDepends": [],
+            "buildTools": [],
+            "executableFrameworkDepends": [],
+            "executableHaskellDepends": [
+              {
+                "kind": "null",
+                "resolution": "not-inferred"
+              }
+            ],
+            "executablePkgconfigDepends": [],
+            "executableSystemDepends": [],
+            "executableToolDepends": [],
+            "extraLibraries": [],
+            "libraryFrameworkDepends": [],
+            "libraryHaskellDepends": [
+              {
+                "kind": "null",
+                "resolution": "not-inferred"
+              }
+            ],
+            "libraryPkgconfigDepends": [],
+            "librarySystemDepends": [],
+            "libraryToolDepends": [],
+            "pkg-configDepends": [],
+            "setupHaskellDepends": [],
+            "testDepends": [],
+            "testFrameworkDepends": [],
+            "testHaskellDepends": [
+              {
+                "kind": "null",
+                "resolution": "not-inferred"
+              }
+            ],
+            "testPkgconfigDepends": [],
+            "testSystemDepends": [],
+            "testToolDepends": []
+          },
+          "editedCabalFile": null,
+          "hooks": {
+            "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "patches": [],
+          "revision": null,
+          "testDependencyInventory": "declared",
+          "testExecution": {
+            "customCheckPhase": false,
+            "flags": [],
+            "targets": [
+              ""
+            ]
+          },
+          "testsEnabled": true
+        },
+        "metadataIdentity": "fb73e36c4c9731a10ca29300924595bee964e36dbea1e993564f7b19329d556b",
+        "sourceIdentity": "nix-source:/nix/store/j2pm32pn2d6hb9vkh7w6b2z464xqh7g5-compatibility-source-identity.drv",
+        "version": "0.2.0"
+      },
+      "bounds": "enforce",
+      "candidate": {
+        "derivation": "/nix/store/3f7891js9al5vpdlchfkj4cs6x0wxsyp-package-validation-fixture-0.2.0.drv",
+        "effective": {
+          "boundsRelaxed": false,
+          "buildFlags": [],
+          "configureFlags": [
+            "-f-compatibility-repair"
+          ],
+          "dependencies": {
+            "buildDepends": [],
+            "buildTools": [],
+            "executableFrameworkDepends": [],
+            "executableHaskellDepends": [
+              {
+                "kind": "null",
+                "resolution": "not-inferred"
+              }
+            ],
+            "executablePkgconfigDepends": [],
+            "executableSystemDepends": [],
+            "executableToolDepends": [],
+            "extraLibraries": [],
+            "libraryFrameworkDepends": [],
+            "libraryHaskellDepends": [
+              {
+                "kind": "null",
+                "resolution": "not-inferred"
+              }
+            ],
+            "libraryPkgconfigDepends": [],
+            "librarySystemDepends": [],
+            "libraryToolDepends": [],
+            "pkg-configDepends": [],
+            "setupHaskellDepends": [],
+            "testDepends": [],
+            "testFrameworkDepends": [],
+            "testHaskellDepends": [
+              {
+                "kind": "null",
+                "resolution": "not-inferred"
+              }
+            ],
+            "testPkgconfigDepends": [],
+            "testSystemDepends": [],
+            "testToolDepends": []
+          },
+          "editedCabalFile": null,
+          "hooks": {
+            "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "patches": [],
+          "revision": null,
+          "testDependencyInventory": "declared",
+          "testExecution": {
+            "customCheckPhase": false,
+            "flags": [],
+            "targets": [
+              ""
+            ]
+          },
+          "testsEnabled": true
+        },
+        "metadataIdentity": "fb73e36c4c9731a10ca29300924595bee964e36dbea1e993564f7b19329d556b",
+        "sourceIdentity": "nix-source:/nix/store/j2pm32pn2d6hb9vkh7w6b2z464xqh7g5-compatibility-source-identity.drv",
+        "version": "0.2.0"
+      },
+      "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+      "entryId": "fixture-compatibility-repair",
+      "graphStatus": "unverified",
+      "inputIdentity": "985c632f34ec5ceeccc3f6d879684666b67b2df76da17685c668e048c83ba0f0",
+      "missingServices": [],
+      "policyProfile": "strict-v1",
+      "providedServiceProbes": {},
+      "requiredServices": [],
+      "schemaVersion": 1,
+      "status": "unverified",
+      "system": "aarch64-darwin",
+      "tests": "run"
+    },
+    "blocked": {
+      "entryId": "fixture-compatibility-repair",
+      "missingServices": [
+        "fixture-service"
+      ],
+      "policyProfile": "strict-v1",
+      "schemaVersion": 1,
+      "status": "blocked"
+    }
+  },
+  "probes": [
+    {
+      "fixture": "needed",
+      "phase": "baseline",
+      "nativeOutcome": "passed",
+      "derivation": "/nix/store/2ak29h5c96bzxxw15mllm114jgzpkps7-package-validation-fixture-0.1.0.drv",
+      "buildExitCode": 0,
+      "logSha256": "51e2ace90a1aea1443cd1d5df709cc754af41c7878f932974eebcdfe4c77dfa3",
+      "graph": {
+        "status": "passed",
+        "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+        "derivation": "/nix/store/ibh7w7pf5dlnjfm90rqf1y5pfp5igvij-package-validation-fixture-cohort-manifest.drv",
+        "root": "/nix/store/2ak29h5c96bzxxw15mllm114jgzpkps7-package-validation-fixture-0.1.0.drv"
+      },
+      "expectedSuccess": true,
+      "behavior": {
+        "status": "passed",
+        "command": [
+          "/nix/store/xyhiy6kj8r6rkcgmvsqcwwlzpqxykwd4-package-validation-fixture-0.1.0/bin/validation-probe"
+        ],
+        "exitCode": 0,
+        "stdoutSha256": "084c799cd551dd1d8d5c5f9a5d593b2e931f5e36122ee5c793c1d08a19839cc0"
+      },
+      "elapsedSeconds": 2.9376957080094144,
+      "command": [
+        "nix",
+        "build",
+        "--impure",
+        "--json",
+        "--no-link",
+        "--print-build-logs",
+        "--expr",
+        "let f = builtins.getFlake \"/Users/shinzui/Keikaku/bokuno/haskell-nix\"; p = import f.inputs.nixpkgs { system = builtins.currentSystem; }; fixture = import \"/Users/shinzui/Keikaku/bokuno/haskell-nix/checks/package-validation.nix\" { lib = p.lib; pkgs = p; scope = p.haskell.packages.${f.lib.defaultGhc}; }; in fixture.needed.baseline"
+      ]
+    },
+    {
+      "fixture": "needed",
+      "phase": "candidate",
+      "nativeOutcome": "failed",
+      "derivation": "/nix/store/ygiarb6nvlm8c8dc8ppn85q7m8izsica-package-validation-fixture-0.1.0.drv",
+      "buildExitCode": 1,
+      "logSha256": "fc1d149493f29f56cb4cf17199582140e58740c19930349d4cc2e57f235853d4",
+      "graph": {
+        "status": "unverified",
+        "reason": "candidate package tests failed"
+      },
+      "expectedSuccess": false,
+      "behavior": {
+        "status": "blocked",
+        "reason": "candidate package tests failed"
+      },
+      "elapsedSeconds": 7.091743124998175,
+      "command": [
+        "nix",
+        "build",
+        "--impure",
+        "--json",
+        "--no-link",
+        "--print-build-logs",
+        "--expr",
+        "let f = builtins.getFlake \"/Users/shinzui/Keikaku/bokuno/haskell-nix\"; p = import f.inputs.nixpkgs { system = builtins.currentSystem; }; fixture = import \"/Users/shinzui/Keikaku/bokuno/haskell-nix/checks/package-validation.nix\" { lib = p.lib; pkgs = p; scope = p.haskell.packages.${f.lib.defaultGhc}; }; in fixture.needed.candidate"
+      ]
+    },
+    {
+      "fixture": "fixed",
+      "phase": "baseline",
+      "nativeOutcome": "passed",
+      "derivation": "/nix/store/zggsgn274k269hcs0wi4p3hzvr8hnznf-package-validation-fixture-0.2.0.drv",
+      "buildExitCode": 0,
+      "logSha256": "e2f246971537cb8423814cdf661740e6910ba402a00b3401368bf4732f3d2e7c",
+      "graph": {
+        "status": "passed",
+        "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+        "derivation": "/nix/store/351s2bp78syjwsdcvyvvzshh8zpk1myh-package-validation-fixture-cohort-manifest.drv",
+        "root": "/nix/store/zggsgn274k269hcs0wi4p3hzvr8hnznf-package-validation-fixture-0.2.0.drv"
+      },
+      "expectedSuccess": true,
+      "behavior": {
+        "status": "passed",
+        "command": [
+          "/nix/store/jywshqkv0003agnw1pcbz022y3a30zsb-package-validation-fixture-0.2.0/bin/validation-probe"
+        ],
+        "exitCode": 0,
+        "stdoutSha256": "084c799cd551dd1d8d5c5f9a5d593b2e931f5e36122ee5c793c1d08a19839cc0"
+      },
+      "elapsedSeconds": 2.9545483749825507,
+      "command": [
+        "nix",
+        "build",
+        "--impure",
+        "--json",
+        "--no-link",
+        "--print-build-logs",
+        "--expr",
+        "let f = builtins.getFlake \"/Users/shinzui/Keikaku/bokuno/haskell-nix\"; p = import f.inputs.nixpkgs { system = builtins.currentSystem; }; fixture = import \"/Users/shinzui/Keikaku/bokuno/haskell-nix/checks/package-validation.nix\" { lib = p.lib; pkgs = p; scope = p.haskell.packages.${f.lib.defaultGhc}; }; in fixture.fixed.baseline"
+      ]
+    },
+    {
+      "fixture": "fixed",
+      "phase": "candidate",
+      "nativeOutcome": "passed",
+      "derivation": "/nix/store/3f7891js9al5vpdlchfkj4cs6x0wxsyp-package-validation-fixture-0.2.0.drv",
+      "buildExitCode": 0,
+      "logSha256": "5c6592a25d94c5cca23714c5a971d10cfc171e4d8ad5a0bd22f71da9847b3b8c",
+      "graph": {
+        "status": "passed",
+        "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+        "derivation": "/nix/store/29bhqsmd1dqkgg8m7ny9paq59189jx46-package-validation-fixture-cohort-manifest.drv",
+        "root": "/nix/store/3f7891js9al5vpdlchfkj4cs6x0wxsyp-package-validation-fixture-0.2.0.drv"
+      },
+      "expectedSuccess": true,
+      "behavior": {
+        "status": "passed",
+        "command": [
+          "/nix/store/8y1w88gx01w8h43giwh0jbsfylq5k3n4-package-validation-fixture-0.2.0/bin/validation-probe"
+        ],
+        "exitCode": 0,
+        "stdoutSha256": "084c799cd551dd1d8d5c5f9a5d593b2e931f5e36122ee5c793c1d08a19839cc0"
+      },
+      "elapsedSeconds": 2.948292958957609,
+      "command": [
+        "nix",
+        "build",
+        "--impure",
+        "--json",
+        "--no-link",
+        "--print-build-logs",
+        "--expr",
+        "let f = builtins.getFlake \"/Users/shinzui/Keikaku/bokuno/haskell-nix\"; p = import f.inputs.nixpkgs { system = builtins.currentSystem; }; fixture = import \"/Users/shinzui/Keikaku/bokuno/haskell-nix/checks/package-validation.nix\" { lib = p.lib; pkgs = p; scope = p.haskell.packages.${f.lib.defaultGhc}; }; in fixture.fixed.candidate"
+      ]
+    }
+  ],
+  "limitations": [
+    "No production exception is retired",
+    "Graph acceptance is limited to these controlled fixtures",
+    "No provided-service native probe",
+    "No receipt verifier or updater verify command yet"
+  ],
+  "contextsRepeatIdentically": true,
+  "pureContracts": {
+    "count": 261,
+    "failures": []
+  },
+  "dependencyVerification": {
+    "project": "mori://ghc/ghc",
+    "registry": "https://hackage-content.haskell.org/package/base.json",
+    "latestReleasedBase": "4.22.0.0",
+    "fixtureBounds": "base >=4.20 && <5",
+    "upstreamTags": [
+      {
+        "project": "mori://ghc/ghc",
+        "projectRelativeRef": "refs/tags/ghc-9.12.4-release",
+        "artifactUriPending": true,
+        "tagObject": "1b7c33460847bb8017142407b853811fd8d04bff"
+      },
+      {
+        "project": "mori://ghc/ghc",
+        "projectRelativeRef": "refs/tags/ghc-9.14.1-release",
+        "artifactUriPending": true,
+        "tagObject": "961b2ffcc02ea6c93df649fc8367458378fa7aa5"
+      }
+    ],
+    "releaseNotes": [
+      "https://downloads.haskell.org/ghc/9.12.4/docs/users_guide/9.12.4-notes.html",
+      "https://downloads.haskell.org/ghc/9.14.1/docs/users_guide/9.14.1-notes.html"
+    ],
+    "declaredBundledBase": {
+      "ghc-9.12.4": "4.21.2.0",
+      "ghc-9.14.1": "4.22.0.0"
+    },
+    "discovery": "Mori registry lookup attempted; database missing. Authoritative Hackage registry and upstream release tags checked. No compiler pin changed."
+  },
+  "sourceSha256": {
+    "lib/mkPackageValidation.nix": "6c4c2b8486ed6fc50fd9631acf6a0c72e702eaaaf219679606b5f593f8c2ecf6",
+    "lib/packageRecipeFacts.nix": "0b15da394b4ab812266478efcccefdf722706928047ea306b84e39e59ec5c02d",
+    "checks/package-validation.nix": "89a6e3b85066d295ad8fc4a59e6507da3713669c4dd3c44d670121caea917f21",
+    "checks/package-validation-contract.nix": "874d1d257f285a07f68bad8d1d6377c425a31b35c0e69c1e8b2bd5c19ea83e23",
+    "scripts/check-package-validation.py": "7cd569ab41123dacb6ed300f08d5c2b88288f494631394f415bd045cc4c3ddaa",
+    "checks/fixtures/package-validation/fixed/app/Main.hs": "8ab45ee893f51e09942b900504e66a7484b1576749f683ba49e362203dc51485",
+    "checks/fixtures/package-validation/fixed/package-validation-fixture.cabal": "674e15a2e03d743905d7fba5e75680d088833c7ea486c106126e8cd782f24e1f",
+    "checks/fixtures/package-validation/fixed/src/ValidationFixture.hs": "dc7fbf590f2aa26b3c7518e5b024e30eda510932767c8a1448bb05ec7100e452",
+    "checks/fixtures/package-validation/fixed/test/Main.hs": "40121c91e928ba7007613055e241c1d230551a336fc5e5629488dc3a5e2f7faa",
+    "checks/fixtures/package-validation/needs-repair/app/Main.hs": "8ab45ee893f51e09942b900504e66a7484b1576749f683ba49e362203dc51485",
+    "checks/fixtures/package-validation/needs-repair/package-validation-fixture.cabal": "96383538e5bb2271a2f242872ecab134b718f8bba72e9710a5abdc7b435f7932",
+    "checks/fixtures/package-validation/needs-repair/src/ValidationFixture.hs": "36f0bbc64c0bb20c7817cc7d78f9add6fdb1c12601efb27ae1087c4f2d136028",
+    "checks/fixtures/package-validation/needs-repair/test/Main.hs": "40121c91e928ba7007613055e241c1d230551a336fc5e5629488dc3a5e2f7faa"
+  }
+}

@@ -82,6 +82,19 @@ metadata identity. The cborg-json repair demonstrates why: identical revised met
 can still require an additional guarded Cabal-bound rewrite in `postPatch`. Neither
 metadata equality nor a matching declaration establishes successful native retirement.
 
+Strict probe construction requests the immutable strict profile before compatibility
+entries are applied and suppresses one requested entry during construction. Require
+enabled standard Cabal suites, disabled jailbreak and matching selected source,
+metadata, compiler and declared dependency instances. Reject custom/filtered test
+execution until its coverage has an explicit probe contract. Missing service probes
+block before constructing packages; supplied service metadata is not native evidence.
+Staged requests stay unverified, with actual suite logs, executable checks and the
+existing cohort graph producer supplying separate execution evidence.
+
+A null Cabal dependency value is unresolved, not necessarily missing: compiler-provided
+libraries can be represented that way. Resolve coverage against compiler-package and
+graph evidence rather than inventing a missing package or silently solving a new one.
+
 Migration acceptance additionally compares actual production derivations before and
 after the refactor. Native test/bounds claims require separately scoped receipts;
 blocked services and unavailable platforms remain visibly unverified.
