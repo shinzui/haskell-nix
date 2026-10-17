@@ -72,8 +72,8 @@ metadata, GHC 9.12.4 and the declared Darwin/Linux configurations. The cohort re
 the source authority. A source/metadata change in that scope fails with a revalidation
 request; unsupported contexts keep their declared legacy policy. Evidence and reasons
 do not affect recipe policy identity. The new selected-policy flake checks cover both
-source channels; final Linux selection and retained-generation acceptance are tracked
-separately from the earlier native strict pilot.
+source channels on both declared systems. Generation 3 captures the selection with
+separate retained checks; its broad runtime support remains explicitly unverified.
 
 Run the focused declaration checks after editing either file:
 

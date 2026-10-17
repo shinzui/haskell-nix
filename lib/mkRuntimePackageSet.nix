@@ -8,6 +8,7 @@
 , disableHaddock ? true
 , applicationCohort ? null
 , applicationRegistry ? { }
+, captureCompatibility ? false
 }:
 let
   read = path: builtins.fromJSON (builtins.readFile (root + "/${path}"));
@@ -66,6 +67,12 @@ let
     mkHaskellOverlay = mk "mkHaskellOverlay.nix";
   };
   profiles = import (recipes + "/overlays/compatibility-profiles.nix");
+  retainedRegistry = import (recipes + "/overlays/registry.nix");
+  captureSupported = builtins.pathExists (recipes + "/lib/capturedCompatibilityReport.nix");
+  retainedPolicy =
+    if !captureSupported then
+      throw "mkRuntimePackageSet: retained generation predates compatibility capture"
+    else (import (recipes + "/lib/mkCompatibilityPolicy.nix") { lib = retainedLib; }) retainedRegistry;
   applicationGroups = lib.subtractLists (builtins.attrNames record.selections) groups;
   applicationSnapshots = lib.concatMap
     (group:
@@ -93,11 +100,12 @@ let
       inherit config;
       lock = liveLock;
       cohortVersions = candidate;
-      commonRegistry = (import (recipes + "/overlays/registry.nix")) // applicationRegistry;
+      commonRegistry = (if captureCompatibility then retainedPolicy.registry else retainedRegistry) // applicationRegistry;
       compatibilityProfiles = import (recipes + "/overlays/compatibility-profiles.nix");
       supportedGhcs = [ "ghc9124" ];
     }
-    { inherit selections channel disableProfiling disableHaddock; };
+    ({ inherit selections channel disableProfiling disableHaddock; }
+      // lib.optionalAttrs captureCompatibility { captureCompatibility = true; });
   configuration = system: {
     inherit system channel disableProfiling disableHaddock;
     compiler = "ghc9124";
@@ -115,7 +123,9 @@ let
       throw "mkRuntimePackageSet: nixpkgs does not match the retained runtime toolchain"
     else true;
   validation =
-    if changedGroups != [ ] || changedFamilies != [ ] then
+    if captureCompatibility && !captureSupported then
+      throw "mkRuntimePackageSet: retained generation predates compatibility capture"
+    else if changedGroups != [ ] || changedFamilies != [ ] then
       throw "mkRuntimePackageSet: retained runtime family history was rewritten"
     else if changedPackages != [ ] then throw "mkRuntimePackageSet: application changes runtime packages: ${lib.concatStringsSep ", " changedPackages}"
     else if profileConflicts != [ ] then throw "mkRuntimePackageSet: application compatibility policy changes runtime packages: ${lib.concatStringsSep ", " profileConflicts}"
@@ -162,6 +172,22 @@ builtins.seq validation (selected // rec {
     (import ./mkCohortManifest.nix { inherit lib; }) {
       inherit pkgs scope root localPackages;
       context = comparisonContext;
+    };
+  compatibilityReport = { pkgs, scope, names, requiredEvidence ? [ ] }:
+    if !captureCompatibility then
+      throw "mkRuntimePackageSet: enable captureCompatibility for a retained report"
+    else assert validateApplicationScope pkgs scope;
+    (import (recipes + "/lib/capturedCompatibilityReport.nix") {
+      lib = retainedLib;
+      policy = retainedPolicy;
+    }) {
+      inherit scope names channel requiredEvidence;
+      packageSet = "${runtime}#${toString generation}";
+      system = pkgs.stdenv.hostPlatform.system;
+      runtimeConfiguration = {
+        inherit runtime generation disableProfiling disableHaddock;
+        inherit (record) fingerprint;
+      };
     };
   comparisonContext = {
     versions = candidate;

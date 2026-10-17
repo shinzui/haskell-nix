@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "project_uri": "mori://shinzui/haskell-nix",
+  "implementation_base": "ce51b8a504670d2847bce731d6c2d6ce71e02ca9",
+  "status": "Darwin retained capture/CLI accepted; Linux capture and final gates pending",
+  "retained_capture": {
+    "generation": 3,
+    "fingerprint": "1454decc0402e63a9c07a86e00fa0bcb0967d666b79a51123aedb7d7dacfee45",
+    "catalog": "retained generation-3 recipe bundle, independent of live catalog edits",
+    "report_entries_per_channel": 12,
+    "channels": [
+      "github",
+      "hackage"
+    ],
+    "declarations": "unverified",
+    "support": "unverified",
+    "ordinary_derivations": "unchanged; exhaustive checked owned scope plus representative diagnostic identity comparisons",
+    "negative_guards": [
+      "generations 1/2 reject unavailable historical capture",
+      "ordinary scopes reject report requests without capture"
+    ]
+  },
+  "historical_linux_identity_matrix": {
+    "generations": [
+      1,
+      2,
+      3
+    ],
+    "channels": [
+      "github",
+      "hackage"
+    ],
+    "owned_entries": 311,
+    "evaluated": 274,
+    "explicit_absences": 37,
+    "compiler_unchanged": true,
+    "owned_recipes_unchanged": true,
+    "bytestring_lexing": "generation 3 selects verified-bytestring-lexing-ghc9124-v1; generations 1/2 remain legacy",
+    "transport": "Initial large stdout transport was cancelled; completed query persisted guest JSON and completed log, then transferred bounded compressed chunks."
+  },
+  "actual_policy_impact": {
+    "before": "ce9376a75398f2ca403145fec6394b632a075dff",
+    "after": "3a2f5e462e5e1d55d34255e031bc7dbd0ac35a38",
+    "channels": [
+      "github",
+      "hackage"
+    ],
+    "affected_per_channel": 2,
+    "unchanged_per_channel": 13,
+    "affected_package": "bytestring-lexing",
+    "native_evidence_status": "unverified; report identifies required revalidation and never rebinds native receipts",
+    "timings": "Recorded separately as maintenance diagnostics under concurrent checks, not production latency or a performance comparison"
+  },
+  "darwin_hackage_removal": "passed spec (20 tests), 88-package graph, shipped behavior and exact receipt replay; same physical package recipe as GitHub; no duplicate cold-build claim; no retirement yet",
+  "raw_archive": {
+    "path": "docs/evidence/ep21/retained-policy-capture.raw.tar.gz",
+    "sha256": "2f3b7638932cd68808f7d97b713206ad1fa6ebda4fc67d62bbbe74148eeea248",
+    "members": {
+      "code/checks/runtime-compatibility.nix": "8d1336186dcfad261ef2c21b004d5086c6aad425343bf1353552aa521c8f92e3",
+      "code/flake.nix": "264167bf14e86474a739d06587efc26a4a637cb9e5875173645af7140a80bcd7",
+      "code/lib/mkRuntimePackageSet.nix": "3c39f71721a1b42b7d40672181dc37ff47b384d29260977033806abce467ddf6",
+      "darwin-hackage-probe/baseline-behavior-example.log": "ff21d13e29cf54ad7f1a651db054adfabda05f7aa9fc01572fa8a898179446f8",
+      "darwin-hackage-probe/baseline-graph.log": "6bafb80277eff4d202483b6da2652a8951d735087f0c5d8b7ebfc11cefb16db9",
+      "darwin-hackage-probe/baseline-package.log": "42bdbaf678a6de2d39cf5cf7a327c9e317679ccdf016c5da2c6dcd6b5a4af770",
+      "darwin-hackage-probe/baseline-suite.log": "cc1473498341a7af4fa12a7b90309564700f96de89641cf5852c0a70a25f4e3f",
+      "darwin-hackage-probe/candidate-behavior-example.log": "ff21d13e29cf54ad7f1a651db054adfabda05f7aa9fc01572fa8a898179446f8",
+      "darwin-hackage-probe/candidate-graph.log": "34c36a1f2dedc937d35c8e871515da4e1cf7d6d55c42acb39704edc085fae744",
+      "darwin-hackage-probe/candidate-package.log": "42bdbaf678a6de2d39cf5cf7a327c9e317679ccdf016c5da2c6dcd6b5a4af770",
+      "darwin-hackage-probe/candidate-suite.log": "cc1473498341a7af4fa12a7b90309564700f96de89641cf5852c0a70a25f4e3f",
+      "darwin-hackage-probe/receipt.json": "257bf409413dc7c3d234e384f3f6c3760d6c74066545384120233555c8bf6d4e",
+      "host/ep21-runtime-3-capture-native.json": "598f6bc8c9ce2c6296c394eb65c0f06d55447b532245922ad72f5c04df03157f",
+      "host/ep21-runtime-3-capture-native.log": "18edc201ee1c8e4599ad016d81cdbbc73b3b2b7630e0551cda36af04510ec06a",
+      "host/ep21-runtime-3-darwin-reports.json": "392bddfdf3642398779f2186b7598c82ca16ee7e2362b963394863373a25f1f7",
+      "host/ep21-runtime-3-darwin-reports.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "host/ep21-runtime-3-linux-identities-completed.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "host/ep21-runtime-3-linux-identities.json": "e071bb555e42224dbc79278ab6407e069183a4f87741209155f06ed43cb78b31",
+      "host/ep21-runtime-3-linux-identities.log": "43cfb778ee9c5eefc85d8d9355900469e078d49e8cae766be26a799b28889dab",
+      "host/ep21-runtime-3-reports.nix": "49895309987099f473a6638baea5ede9f225688a06c2370dfdd07e3aa67b7f81",
+      "host/ep21-runtime-capture-docs.log": "e5693edd8f8f99f583a4cb6fa6bb29851608f11e68598aae106822672a032b38",
+      "host/ep21-runtime-capture-format-check.log": "4a6bdd83bbea4bf76d880e9872f32deab74d07afc531e45effba8d4d1713ddc0",
+      "host/ep21-servant-docs-retirement-darwin-hackage-replay.log": "a633f0f323841ade82251e264b6cb9f32ce3b6dc0696819c52cb146c17e6689c",
+      "real-policy-impact/github-after.json": "1b5c2c32c4c7a3bf7156303d33430468e1632c6c258a27b50b2e521af2b016f1",
+      "real-policy-impact/github-after.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "real-policy-impact/github-before.json": "8779c09c7ab8a6af01a47629e6b6e3817018d1c3f63979bcb349cf5e4471a197",
+      "real-policy-impact/github-before.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "real-policy-impact/github-impact.json": "77fe37c1c4531330aefabc779f8a2a8f82caf31a68052e431ce0964b5267d630",
+      "real-policy-impact/github-impact.log": "0b730762257cda883bac2ecc893ea14eebfe79188da477d1aeca69c39215f9df",
+      "real-policy-impact/hackage-after.json": "44add652683b79af9036929b1220544786d946bb121850c05bd81e33098c44b3",
+      "real-policy-impact/hackage-after.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "real-policy-impact/hackage-before.json": "7a8767e970ef56495d668b0bbd9256bee64e6605cbef28bc4661852df344320f",
+      "real-policy-impact/hackage-before.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "real-policy-impact/hackage-impact.json": "c65ebe6739f18810868e0b28bd4ff620c3b29d4f8fbd973cf48e4e5b224b7877",
+      "real-policy-impact/hackage-impact.log": "0b730762257cda883bac2ecc893ea14eebfe79188da477d1aeca69c39215f9df",
+      "real-policy-impact/receipt.json": "56c772f634ce71db091af6da1b95b3ff7f10f98c49fedc2755437a109aa16d02"
+    }
+  }
+}

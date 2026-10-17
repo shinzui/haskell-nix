@@ -1,6 +1,7 @@
 # Bundle Update Log
 
 ## 2026-10-17
+* **Update**: Document generation-3 retained compatibility capture, historical rejection and separate native/support evidence.
 * **Update**: Keep accepted cohort policy selections separate from immutable retained generations and fingerprint-bound support.
 * **Update**: Document named bytestring-lexing selection checks, previous/strict recipes and distinct factory/channel-overlay evidence contexts.
 * **Update**: Describe scoped complete cohort test-policy selections, exact source eligibility and separate native/retained acceptance.

@@ -4,10 +4,10 @@ title: Package sets
 description: Understand first-party package-set selection, retention, and cache behavior.
 docId: DOC-7
 tags: [package-sets, snapshots, cache]
-timestamp: 2026-10-17T21:10:00Z
+timestamp: 2026-10-17T21:53:11Z
 generated:
   by: process:codex
-  at: 2026-10-17T21:10:00Z
+  at: 2026-10-17T21:53:11Z
 ---
 
 [User guide](README.md)
@@ -308,6 +308,20 @@ code and legacy policies. Capture an accepted policy in a new generation with th
 `runtime snapshot` workflow, then verify its actual recipe, test logs and support context.
 The selected-policy implementation does not automatically upgrade retained applications
 or mark a new runtime fingerprint verified.
+
+Generation 3 captures this selection without changing the 311 owned package entries.
+Its broad runtime support remains `unverified`; older support receipts are never copied
+to a new fingerprint. Use its explicit `keiro-runtime-3*` outputs or select generation 3
+through the runtime constructor when validating that configuration.
+
+For retained diagnostic reports, pass `captureCompatibility = true` to
+`lib.mkRuntimePackageSet`, construct the checked scope with `mkApplicationScope`, then
+call `selected.compatibilityReport { inherit pkgs scope; names = [ "bytestring-lexing" ]; }`.
+This uses that generation's captured catalog, policies and observation adapters, including
+the recorded runtime fingerprint. Generation 3 contains those hooks. Generations 1/2
+reject capture instead of being reinterpreted through current policy. Capture preserves
+ordinary derivations and remains declaration evidence; native success still requires
+exact package, graph, suite and behavior receipts.
 
 ## Project shells from retained scopes
 

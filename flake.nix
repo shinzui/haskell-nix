@@ -572,6 +572,16 @@
               sourceChannel = "hackage";
               scope = runtimeOutputs3.hackage.scope;
             }).check;
+            runtime-3-compatibility-github = (import ./checks/runtime-compatibility.nix {
+              inherit lib updater mkRuntimePackageSet;
+              pkgs = pkgsPlain;
+              channel = "github";
+            }).check;
+            runtime-3-compatibility-hackage = (import ./checks/runtime-compatibility.nix {
+              inherit lib updater mkRuntimePackageSet;
+              pkgs = pkgsPlain;
+              channel = "hackage";
+            }).check;
             runtime-composition = import ./checks/runtime-composition.nix {
               inherit lib mkRuntimePackageSet;
               pkgs = pkgsPlain;

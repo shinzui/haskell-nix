@@ -215,9 +215,9 @@ nix build --impure --no-link --print-build-logs --timeout 900 --expr '
 
 This builds the complete `test-all` suite, checked dependency graph and parser/serializer
 behavior. No standalone repair is retired. The earlier strict pilot passes 58 tests on
-Apple Silicon and the user-selected translated Linux guest. The new named current
-selection also passes the actual channel-overlay suites on Apple Silicon; final Linux
-selection checks and new retained-generation acceptance remain pending.
+Apple Silicon and the user-selected translated Linux guest. The named current selection passes the actual channel-overlay suites on Apple Silicon
+and the user-selected Linux guest. Generation 3 captures it separately; its focused
+checks and broad runtime support have distinct acceptance evidence.
 
 Use `checks.aarch64-darwin.bytestring-lexing-policy-github` and
 `checks.aarch64-darwin.bytestring-lexing-policy-hackage` for the normal channel-overlay
