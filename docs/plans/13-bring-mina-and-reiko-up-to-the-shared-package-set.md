@@ -105,19 +105,21 @@ The mori global database is already on `0012` and Kiroku 0.9; do not add its com
 - [x] (2026-10-17) M1: reiko `cabal.project` imports the freeze at `<CHANNEL_REV>` and no longer carries its own `index-state`.
 - [x] (2026-10-17) M1: reiko compiles (including against `effectful` 2.7 if its plan reaches effectful), its tests match the baseline, and `just cohort-check` reports no difference.
 - [x] (2026-10-17) M1: reiko `nix build .#reiko` succeeds and its closure matches the freeze; commit.
-- [ ] M2: mina `cabal.project` gains `with-compiler` and the freeze import; streamly source pins and the `baikai-trace-otel:streamly-core` allow-newer removed (user decision: streamly from Hackage).
-- [ ] M2: mina bounds moved to baikai 0.7, baikai-trace-otel 0.4.0.1, and plan 15's shikumi and shikumi-trace releases (shikumi-trace-otel to whatever the freeze selects).
-- [ ] M2: mina source breaks fixed (`LLMConfig` literal, provider-error text heuristic, effectful 2.7 sites such as the `interpose` in `withThinking`, any compiler-named sites); `cabal build all` succeeds with `effectful` >= 2.7.1.0 / `effectful-core` >= 2.7.1.1 in `plan.json`.
-- [ ] M2: mina `cabal test all` matches the baseline and `just cohort-check` reports no difference; commit.
-- [ ] M3: mina `flake.nix` moves `haskell-nix` from b88d3173 to `<CHANNEL_REV>` and drops the `okf-src` input; overlay drops `generic-lens`, `generic-lens-core` and `kdl-hs`.
-- [ ] M3: mina `nix build .#mina-cli` and `nix flake check` succeed, closure matches the freeze; commit.
-- [ ] M4: With the user's go-ahead, push mina and reiko.
+- [x] (2026-10-17) M2: mina `cabal.project` gains `with-compiler` and the freeze import; streamly source pins and the `baikai-trace-otel:streamly-core` allow-newer removed (user decision: streamly from Hackage).
+- [x] (2026-10-17) M2: Mina bounds admit the accepted freeze: Baikai 0.8, KDL 1.2, OKF 0.10; retained Shikumi bounds already admit the accepted releases. Baseline was newer than the draft's Baikai 0.6 assumption.
+- [x] (2026-10-17) M2: mina source breaks fixed (`LLMConfig` literal, provider-error text heuristic, effectful 2.7 sites such as the `interpose` in `withThinking`, any compiler-named sites); `cabal build all` succeeds with `effectful` >= 2.7.1.0 / `effectful-core` >= 2.7.1.1 in `plan.json`.
+- [x] (2026-10-17) M2: mina `cabal test all` matches the baseline and `just cohort-check` reports no difference; commit.
+- [x] (2026-10-17) M3: mina `flake.nix` moves `haskell-nix` from b88d3173 to `<CHANNEL_REV>` and drops the `okf-src` input; overlay drops `generic-lens`, `generic-lens-core` and `kdl-hs`.
+- [x] (2026-10-17) M3: mina `nix build .#mina-cli` and `nix flake check` succeed, closure matches the freeze; commit.
+- [x] (2026-10-17) M4: User authorized all necessary source pushes. Tested Reiko Q and Mina `b9861dc09a2aed2f7325265bb1ab716ac124b70b` are public; both clean committed builds/parity pass and version output identifies the exact candidate.
 - [ ] M4: In dotfiles, `nix flake update mina reiko` only; lock diff limited to mina and reiko; `./bin/build.sh` succeeds; commit.
 - [ ] M4: User activates; mina-web and reiko-web answer health, rei and mori endpoints; `mina ci --json` works against the global Rei database; mina-web's `mori` Kiroku version is consistent with the mori database ledger.
 - [ ] Close-out: Outcomes & Retrospective written, ADR distillation done, MasterPlan 3 registry and progress updated.
 
 
 Reiko source acceptance: published `0b5da1f221a5ceac50eb35eb0d165b7f6db20c8d` in `mori://shinzui/reiko` (source artifact URI pending), verified generation 2 at R. Both builds, all 108 tests, source-aware parity and full flake checks pass; clean committed executable reports its exact revision. Mina builds and all baseline-count suites pass after recognizing maintained CMark TASKLIST nodes; final checks and structured provider-error negative control are running. Both baseline plans and tests are retained in their `/tmp/mp3-ep13-*-baseline/` directories; historical launchd labels were not loaded, so deployment state still requires fresh target discovery.
+
+Mina source acceptance: clean candidate `b9861dc09a2aed2f7325265bb1ab716ac124b70b` in `mori://shinzui/mina` (source artifact URI pending). Both build paths, all 1,710 core and 1,009 CLI examples (two existing pending), golden tests, source-aware parity, strict 36-ADR validation and all flake checks pass. All 44 Markdown regression cases pass after TASKLIST recognition. Required provider-error negative control fails one exact example after removing structured recognition and passes after byte-exact restoration; committed receipt records the source hash. Existing provider-error/LLMConfig compatibility was already present, so no redundant port or weakened assertion was introduced. The immutable committed Nix rebuild and parity pass, and the source is published; core-owned version metadata intentionally rebuilds only Mina packages.
 
 ## Surprises & Discoveries
 
