@@ -86,12 +86,71 @@ tests = testGroup "compatibility declaration report"
         case execParserPure defaultPrefs parserInfo ["compatibility", "check"] of
             Failure failure -> snd (renderFailure failure "haskell-nix-update") @?= ExitFailure 2
             other -> assertFailure (show other)
+    , testCase "impact compares inputs without promoting unverified declarations" $ do
+        before <- fixture >>= right . decodeCompatibilityContext
+        changed <- fixtureValue >>= mapRows (\row ->
+            if field "package" row == Just (String "cborg-json") then
+                set "inputs" (case field "inputs" row of Just inputs -> set "sourceIdentity" (String "updated-source") inputs; _ -> Null) row
+            else row)
+        after <- right (decodeCompatibilityContext (LBS.toStrict (encode changed)))
+        rows <- impactRows before after
+        let affected = filter (\row -> field "package" row == Just (String "cborg-json")) rows
+            unaffected = filter (\row -> field "package" row == Just (String "kioku-core")) rows
+        assertBool "changed source invalidates only the affected package" (all (\row -> field "declarationInputsUnchanged" row == Just (Bool False)) affected)
+        assertBool "unaffected contexts remain unchanged" (all (\row -> field "declarationInputsUnchanged" row == Just (Bool True)) unaffected)
+        assertBool "declarations never become native passes" (all (\row -> field "evidenceStatus" row == Just (String "unverified")) rows)
+        assertBool "affected selected entry names its native probe" (all (\row -> field "nextProbe" row /= Just Null) affected)
+    , testCase "impact excludes prose but invalidates a changed compiler" $ do
+        before <- fixture >>= right . decodeCompatibilityContext
+        prose <- fixtureValue >>= mapRows (set "reason" (String "reworded reason"))
+        after <- right (decodeCompatibilityContext (LBS.toStrict (encode prose)))
+        rows <- impactRows before after
+        assertBool "prose does not invalidate evidence inputs" (all (\row -> field "declarationInputsUnchanged" row == Just (Bool True)) rows)
+        value <- fixtureValue
+        let changed = set "configuration" (case field "configuration" value of
+                Just configuration -> set "ghc" (object ["version" .= ("9.12.4" :: Text), "derivation" .= ("other-compiler" :: Text)]) configuration
+                _ -> Null) value
+        compilerAfter <- right (decodeCompatibilityContext (LBS.toStrict (encode changed)))
+        compilerRows <- impactRows before compilerAfter
+        assertBool "compiler changes invalidate every native context" (all (\row -> field "declarationInputsUnchanged" row == Just (Bool False)) compilerRows)
+    , testCase "entry policy identities preserve unaffected inputs across global policy updates" $ do
+        value <- fixtureValue >>= mapRows (set "semanticIdentity" (String (mconcat (replicate 64 "a"))))
+        before <- right (decodeCompatibilityContext (LBS.toStrict (encode value)))
+        let changed = set "policyIdentity" (String (mconcat (replicate 64 "b"))) value
+        after <- right (decodeCompatibilityContext (LBS.toStrict (encode changed)))
+        rows <- impactRows before after
+        assertBool "unchanged entry policies preserve context" (all (\row -> field "declarationInputsUnchanged" row == Just (Bool True)) rows)
+        mutateEntry "semanticIdentity" (String "not-a-digest") >>= invalid
+    , testCase "legacy reports conservatively revalidate an unknown policy change" $ do
+        value <- fixtureValue >>= mapRows (\row -> case row of Object fields -> Object (KM.delete "semanticIdentity" fields); _ -> row)
+        before <- right (decodeCompatibilityContext (LBS.toStrict (encode value)))
+        after <- right (decodeCompatibilityContext (LBS.toStrict (encode (set "policyIdentity" (String (mconcat (replicate 64 "b"))) value))))
+        rows <- impactRows before after
+        assertBool "missing entry identities cannot preserve changed policy evidence" (all (\row -> field "declarationInputsUnchanged" row == Just (Bool False)) rows)
+    , testCase "impact parser requires both explicit contexts" $ do
+        case execParserPure defaultPrefs parserInfo ["compatibility", "impact", "--before", "old.json", "--after", "new.json", "--json"] of
+            Success (Compatibility (CompatibilityImpact "old.json" "new.json" True)) -> pure ()
+            other -> assertFailure (show other)
+    , testCase "changed evidence requirements need explicit revalidation" $ do
+        before <- fixture >>= right . decodeCompatibilityContext
+        changed <- mutateEntry "unmetChecks" (toJSON (["new-required-native-probe"] :: [Text]))
+        after <- right (decodeCompatibilityContext (LBS.toStrict (encode changed)))
+        rows <- impactRows before after
+        assertBool "requirements are part of declaration impact" (all (\row -> field "declarationInputsUnchanged" row == Just (Bool False)) rows)
+        mutateEntry "unmetChecks" (toJSON ([] :: [Text])) >>= invalid
     ]
   where
     fixture = getDataFileName "test/fixtures/valid/compatibility-report.json" >>= BS.readFile
     fixtureValue = fixture >>= right . eitherDecodeStrict'
     set key value (Object fields) = Object (KM.insert key value fields)
     set _ _ value = value
+    field key (Object fields) = KM.lookup key fields
+    field _ _ = Nothing
+    impactRows before after = case compatibilityImpact before after of
+        Object fields -> case KM.lookup "entries" fields of
+            Just rows -> right (fromJSONList rows)
+            _ -> assertFailure "impact has no entries"
+        _ -> assertFailure "impact is not an object"
     withCapture row@(Object fields) = case KM.lookup "inputs" fields of
         Just inputs -> let snapshot = set "effective" (object ["testsEnabled" .= False, "boundsRelaxed" .= True, "configureFlags" .= ([] :: [Text])]) inputs
             in set "construction" (object ["stage" .= ("compatibility-row" :: Text), "before" .= snapshot, "after" .= snapshot]) row

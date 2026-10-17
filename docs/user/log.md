@@ -1,6 +1,7 @@
 # Bundle Update Log
 
 ## 2026-10-17
+* **Update**: Document targeted compatibility impact, per-entry semantic identities, precise revalidation probes and unchanged unverified declaration limits.
 * **Update**: Document explicit retained project-shell constructors, checked scope reuse, compiler/ownership guards, native versus library inputs, and Cabal/evidence limits.
 * **Update**: Document explicit native probe contexts, updater verification and read-only receipt rechecks, bounded loopback-service suites and exact evidence limits.
 * **Update**: Document staged strict construction, complete-suite guards and controlled native removal probes using existing cohort graph evidence.

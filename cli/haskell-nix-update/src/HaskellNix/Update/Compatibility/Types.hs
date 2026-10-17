@@ -27,6 +27,7 @@ data CompatibilityEntry = CompatibilityEntry
     , status :: !Text
     , required :: !Bool
     , constructionProblems :: ![Text]
+    , entryDocument :: !Value
     } deriving stock (Eq, Show)
 
 decodeCompatibilityContext :: ByteString -> Either Text CompatibilityContext
@@ -63,7 +64,7 @@ parseContext document = withObject "compatibility declaration context" (\o -> do
     ) document
 
 parseEntry :: Value -> Parser CompatibilityEntry
-parseEntry = withObject "compatibility entry" $ \o -> do
+parseEntry entryDocument = withObject "compatibility entry" (\o -> do
     entryId <- o .: "id"
     package <- o .: "package"
     mapM_ nonempty [entryId, package]
@@ -76,6 +77,10 @@ parseEntry = withObject "compatibility entry" $ \o -> do
     effects <- o .: "effects"
     unless (not (null (effects :: [Text]))) (fail "entry has no declared effects")
     mapM_ nonempty effects
+    unmetChecks <- o .: "unmetChecks" :: Parser [Text]
+    mapM_ nonempty unmetChecks
+    unless (status /= "selected-unverified" || not (null unmetChecks))
+        (fail "selected unverified entry has no evidence requirements")
     inputs <- o .: "inputs"
     withObject "pre-repair inputs" (\i -> mapM_ (\key -> i .: key >>= nonempty) ["version", "sourceIdentity", "metadataIdentity", "derivation"]) inputs
     construction <- o .:? "construction"
@@ -98,7 +103,10 @@ parseEntry = withObject "compatibility entry" $ \o -> do
             ) observation
     unless (constructionProblems == expectedProblems) (fail "inconsistent captured policy diagnostics")
     required <- o .: "required"
-    pure CompatibilityEntry { entryId, package, status, required, constructionProblems }
+    semanticIdentity <- o .:? "semanticIdentity"
+    mapM_ digest semanticIdentity
+    pure CompatibilityEntry { entryId, package, status, required, constructionProblems, entryDocument }
+    ) entryDocument
 
 -- Selection remains Nix-owned. This checks only that the captured boundary and
 -- the report's input identity agree, without relabelling an observation as a test.

@@ -61,6 +61,15 @@ let
     in
     {
       inherit (entry) id kind owner reason effects retirement;
+      # Per-entry semantic identity lets maintenance preserve unaffected evidence
+      # when an unrelated policy changes. Actual recipe effects stay captured in
+      # construction snapshots; this declaration never proves native behavior.
+      semanticIdentity = builtins.hashString "sha256" (builtins.toJSON {
+        inherit (entry) id effects applicability binding;
+        profile =
+          if entry.binding.kind == "profile" then
+            policy.policies.profiles.${entry.binding.name} else null;
+      });
       package = name;
       status = if !selected then "inactive-row" else if !inScope then "inactive-scope" else "selected-unverified";
       # Source guards execute in recipes. Never infer their success from scope.

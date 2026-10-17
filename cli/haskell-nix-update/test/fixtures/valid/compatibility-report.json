@@ -36,6 +36,7 @@
         "threshold": null
       },
       "retirementCandidate": false,
+      "semanticIdentity": "9a25feb3eb9e8ce500d9e29adb09a7111747f23fd64cfcd212a2530f39ac05be",
       "sourceGuard": "unverified",
       "status": "selected-unverified",
       "unmetChecks": [
@@ -68,6 +69,7 @@
         "threshold": null
       },
       "retirementCandidate": false,
+      "semanticIdentity": "c4901116e49546cd6ad65df43ddc358e99127cb75d2aae1ad1a9241679f748c0",
       "sourceGuard": "not-required",
       "status": "selected-unverified",
       "unmetChecks": [
@@ -100,6 +102,7 @@
         "threshold": null
       },
       "retirementCandidate": false,
+      "semanticIdentity": "58f27f850f5eefb7b8ac0a8eaf448b3749895a3a2d109dd4824809c0f8a877bf",
       "sourceGuard": "not-required",
       "status": "selected-unverified",
       "unmetChecks": [
@@ -132,6 +135,7 @@
         "threshold": null
       },
       "retirementCandidate": false,
+      "semanticIdentity": "062625e6e08cfa969fce5a14b5c2a2bdc28b799400e7312359c4ccb886612e8a",
       "sourceGuard": "not-required",
       "status": "selected-unverified",
       "unmetChecks": [
@@ -165,6 +169,7 @@
         "threshold": null
       },
       "retirementCandidate": false,
+      "semanticIdentity": "f3ddbfbfb2907b01e3fd4385ba3400676768f7b07efe8fe26e3689bb446a42f7",
       "sourceGuard": "unverified",
       "status": "selected-unverified",
       "unmetChecks": [

@@ -123,3 +123,12 @@ the guest's VM boundary and explicit loopback fixtures provide isolation, withou
 claim that Nix sandboxing ran. Preserve ordinary GHC settings and host builder
 configuration. This target execution does not establish performance on physical
 x86 hardware or substitute for fresh-worker cache proofs.
+
+Maintenance impact compares selected declaration instances and exact captured inputs,
+with per-entry semantic identities for relevant scope/effects/profile policy. An
+unrelated global policy change does not invalidate an unchanged entry solely because
+the catalog hash changed. Legacy reports lacking those identities conservatively
+require revalidation after a policy change. Prose remains outside semantic identity.
+Affected active entries name the native probe and requirements needed for new evidence;
+unaffected declarations remain unverified. Exact receipt replay is still required:
+an impact report never rewrites or rebinds a receipt to a changed context.

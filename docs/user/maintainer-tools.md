@@ -4,7 +4,7 @@ title: Maintainer tools
 description: Find repository formatting, test, derivation-diff, and validation commands.
 docId: DOC-6
 tags: [maintainers, testing, nix]
-timestamp: 2026-10-17T15:05:53Z
+timestamp: 2026-10-17T18:24:36Z
 generated:
   by: human:nadeem
   at: 2026-09-21T14:33:46Z
@@ -89,6 +89,34 @@ It also rejects omitted diagnostics for captured test/bounds policy mismatches. 
 Nix selection from JSON, validate arbitrary patch-function effects or authenticate
 caller-supplied input facts. Invalid command arguments exit 2; malformed contexts
 and unmet evidence exit 1. Reports and checks do not change locks or recipes.
+
+## Compatibility impact after an update
+
+Export selected declaration contexts before and after a targeted update using
+matching construction capture scopes, then compare them explicitly:
+
+```bash
+nix run .#haskell-nix-update -- compatibility impact \
+  --before /tmp/compatibility-before.json \
+  --after /tmp/compatibility-after.json --json
+```
+
+The report lists added/removed instances and changes to applicability, exact
+source/Cabal metadata/derivation, compiler/platform/configuration, captured
+construction effects, semantic entry policy and required evidence. Affected
+active entries name their required native probes. Unaffected entries retain
+`declarationInputsUnchanged: true` and their unverified evidence status.
+Per-entry semantic identities keep an unrelated policy edit from invalidating
+unchanged declarations. Older reports without those identities conservatively
+require revalidation after a global policy change. Reasons and timestamps do not
+change semantic identities.
+
+This read-only comparison does not authenticate caller facts, rebind receipts or
+turn a declaration into a native pass. Export the new selected native probe
+context and run `compatibility verify` for affected claims; use the exact
+`verify-receipt` workflow below before accepting existing evidence. A declaration
+context cannot substitute for that executable native plan. No lock, recipe or
+exception is changed by the report.
 
 ## Isolated package validation fixtures
 

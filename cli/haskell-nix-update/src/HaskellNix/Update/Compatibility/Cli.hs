@@ -15,6 +15,7 @@ import Options.Applicative
 data CompatibilityCommand = CompatibilityReport !FilePath !Bool | CompatibilityCheck !FilePath
     | CompatibilityVerify !FilePath !Text !FilePath
     | CompatibilityVerifyReceipt !FilePath !FilePath
+    | CompatibilityImpact !FilePath !FilePath !Bool
     deriving stock (Eq, Show)
 
 compatibilityParser :: Parser CompatibilityCommand
@@ -26,7 +27,9 @@ compatibilityParser = subparser
     <> command "verify" (info (CompatibilityVerify <$> context <*> strOption (long "entry" <> metavar "ID") <*> strOption (long "out" <> metavar "DIR") <**> helper)
         (failureCode 2 <> progDesc "Run a constructed native strict-policy removal probe in a fresh directory"))
     <> command "verify-receipt" (info (CompatibilityVerifyReceipt <$> context <*> strOption (long "receipt" <> metavar "FILE") <**> helper)
-        (failureCode 2 <> progDesc "Recheck exact receipt inputs and native Nix evidence without building")))
+        (failureCode 2 <> progDesc "Recheck exact receipt inputs and native Nix evidence without building"))
+    <> command "impact" (info (CompatibilityImpact <$> strOption (long "before" <> metavar "FILE") <*> strOption (long "after" <> metavar "FILE") <*> switch (long "json") <**> helper)
+        (failureCode 2 <> progDesc "Compare exact selected declarations and required evidence after an update")))
   where
     context = strOption (long "context" <> metavar "FILE" <> help "Explicit Nix-exported declaration or native probe context")
 
@@ -36,6 +39,15 @@ runCompatibility selected = do
     case bytes of
         Left (err :: IOException) -> pure (Left (UpdateError (Text.pack (show err))))
         Right content -> case selected of
+            CompatibilityImpact _ afterPath json -> case decodeCompatibilityContext content of
+                Left err -> pure (Left (UpdateError err))
+                Right before -> do
+                    afterBytes <- try (BS.readFile afterPath)
+                    pure $ case afterBytes of
+                        Left (err :: IOException) -> Left (UpdateError (Text.pack (show err)))
+                        Right raw -> case decodeCompatibilityContext raw of
+                            Left err -> Left (UpdateError err)
+                            Right after -> Right (renderCompatibilityImpact json before after)
             CompatibilityVerify _ entry destination -> case decodeProbeContext content of
                 Left err -> pure (Left (UpdateError err))
                 Right context -> runProbe streamingProcessRunner context entry destination
@@ -59,3 +71,4 @@ runCompatibility selected = do
         CompatibilityCheck file -> file
         CompatibilityVerify file _ _ -> file
         CompatibilityVerifyReceipt file _ -> file
+        CompatibilityImpact file _ _ -> file

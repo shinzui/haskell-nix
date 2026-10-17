@@ -55,8 +55,28 @@ in
           policy = editedPolicy (row: row // { reason = "Changed descriptive reason."; });
         }) context;
       in
-      [ (result.inputIdentity == changed.inputIdentity) (result.policyIdentity == changed.policyIdentity) ];
-    expected = [ true true ];
+      [
+        (result.inputIdentity == changed.inputIdentity)
+        (result.policyIdentity == changed.policyIdentity)
+        (map (row: row.semanticIdentity) result.entries == map (row: row.semanticIdentity) changed.entries)
+      ];
+    expected = [ true true true ];
+  };
+  testReportUnrelatedPolicyPreservesEntryIdentity = {
+    expr =
+      let
+        changed = (import ../lib/compatibilityReport.nix {
+          inherit lib;
+          policy = editedPolicy (row: if row.id != "legacy-kioku-core-v1" then row else
+          row // { effects = row.effects ++ [ "fixture-change" ]; });
+        }) context;
+      in
+      [
+        ((entry result "legacy-cborg-json-v1").semanticIdentity == (entry changed "legacy-cborg-json-v1").semanticIdentity)
+        ((entry result "legacy-kioku-core-v1").semanticIdentity != (entry changed "legacy-kioku-core-v1").semanticIdentity)
+        (result.policyIdentity != changed.policyIdentity)
+      ];
+    expected = [ true true true ];
   };
   testReportEffectivePolicyChangesIdentity = {
     expr = result.policyIdentity != ((import ../lib/compatibilityReport.nix {
