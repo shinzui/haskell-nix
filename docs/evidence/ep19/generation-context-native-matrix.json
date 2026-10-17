@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "revision": "e4cb2f11045b98c7589dfc4fb3eecae23428e417",
+  "status": "Both system-specific Nix updater builds and all 213 tests pass; installed CLI exposes new context-output/repository options",
+  "results": {
+    "aarch64-darwin": {
+      "derivation": "/nix/store/ksr1s8jsma5x6d6l7xipbr3jbiyqhcld-haskell-nix-update-0.1.0.0.drv",
+      "tests": 213,
+      "exit_code": 0,
+      "elapsed_seconds": 25.688921791035682,
+      "cli_help_new_options": true
+    },
+    "x86_64-linux": {
+      "derivation": "/nix/store/77ih0ngchpyg042f7w9fwmf0f0cf0a6s-haskell-nix-update-0.1.0.0.drv",
+      "tests": 213,
+      "exit_code": 0,
+      "elapsed_seconds": 44.771399791992735,
+      "cli_help_new_options": true
+    }
+  },
+  "linux_execution": "User-selected Apple x86_64-linux container with Rosetta translation, independent warm store, sandbox/filter-syscalls false. Correctness evidence only; no physical x86 performance claim.",
+  "scope": "Accepted generation-context handoff only; EP19 M2 complete recipe artifacts, M3/M4, broader performance and adoption remain open.",
+  "raw_archive": {
+    "path": "docs/evidence/ep19/generation-context-native-matrix.raw.tar.gz",
+    "sha256": "f8a36fddf417e6a8e8c924c009268bd031293aeb5b7fbc888ae293ed743e938b",
+    "members": {
+      "host/ep19-generation-context-native-darwin-help.log": "4357eedb8252c9fe8406763df5050e5e731a1999c3915b188e335727bafdd896",
+      "host/ep19-generation-context-native-darwin-outputs.json": "fe6901ca60f4f1f267b2ab671d75277822d3c1f1b61dae76c7265053723363b1",
+      "host/ep19-generation-context-native-darwin-receipt.json": "97bf76c1b82aa21072acb94152e26e9bf42a3a47e313cf17ae821d83259df2be",
+      "host/ep19-generation-context-native-darwin.log": "097f00caddb3fe7743adbd2ebfabf2d2dcdca1ad682452b493ac30604537a4e1",
+      "host/ep19-generation-context-native-linux-driver-receipt.json": "d297c1c2e304cc5183d7e9d2a1b2ea4e6ab09d5a894198f0cd2263d461f4f458",
+      "host/ep19-generation-context-native-linux-help.log": "4357eedb8252c9fe8406763df5050e5e731a1999c3915b188e335727bafdd896",
+      "host/ep19-generation-context-native-linux-outputs.json": "968c5e833ee08635bd7700fc14e527e7baa8e57ceff478637a5b36220bf491bd",
+      "host/ep19-generation-context-native-linux.log": "ad31749c19429d98e93ef2d142a5898264424abea328cd332cf205b2a75d9eec"
+    }
+  }
+}
