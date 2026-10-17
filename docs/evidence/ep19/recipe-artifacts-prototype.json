@@ -1,0 +1,305 @@
+{
+  "schema_version": 1,
+  "status": "Bounded generated-Hackage artifact generation/check and Darwin integration pass; full M2/M3/M4 remain in progress",
+  "system": "aarch64-darwin",
+  "project_uri": "mori://shinzui/rei",
+  "source_revision": "bad0388f722af9e29187c2adfef5ed97fd0ca92f",
+  "scope": {
+    "runtime": "keiro-runtime",
+    "generation": 1,
+    "fingerprint": "da00319eb1423b4372a0a0b050911b7719d1de0867a3e32160dbd327a2762e81",
+    "classified_packages": 39,
+    "generated_packages": [
+      "base64-bytestring"
+    ],
+    "nonconverted": "38 compiler boot records in this bounded projection; other classifications remain explicit and retain their existing constructors",
+    "policy_identity": "The retained runtime fingerprint identifies the reviewed recipe/policy bundle for this experiment. The parity driver binds that declaration to the actual runtime and applies its existing dontCheck policy exactly once. General retained factory binding remains pending."
+  },
+  "results": {
+    "updater_tests": 218,
+    "repeat_and_relocation_byte_identical": true,
+    "offline_check": true,
+    "source_archive_and_unpacked_hash_verified": true,
+    "selected_metadata_before_and_after_verified": true,
+    "metadata_archive_context_artifact_drift_rejected": true,
+    "unowned_directories_preserved": true,
+    "converter_derivation_output_and_version_verified": true,
+    "scoped_no_ifd": {
+      "status": "passed",
+      "results": [
+        {
+          "name": "no-ifd-v2",
+          "command": [
+            "nix",
+            "eval",
+            "--impure",
+            "--json",
+            "--file",
+            "/tmp/ep19-bounded-artifact-parity.nix",
+            "scopedIdentity",
+            "--option",
+            "allow-import-from-derivation",
+            "false",
+            "--max-jobs",
+            "0",
+            "--builders",
+            ""
+          ],
+          "exit_code": 0,
+          "elapsed_seconds": 1.2777402499923483
+        },
+        {
+          "name": "parity-v2",
+          "command": [
+            "nix",
+            "eval",
+            "--impure",
+            "--json",
+            "--file",
+            "/tmp/ep19-bounded-artifact-parity.nix",
+            "identity",
+            "--max-jobs",
+            "0",
+            "--builders",
+            ""
+          ],
+          "exit_code": 0,
+          "elapsed_seconds": 6.15432404197054
+        }
+      ],
+      "identity": {
+        "candidate": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+        "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+        "legacy": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+        "runtime": "da00319eb1423b4372a0a0b050911b7719d1de0867a3e32160dbd327a2762e81",
+        "scoped": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv"
+      },
+      "scope": "Single retained base64-bytestring root; existing runtime reference validator preserved. Whole runtime no-IFD and performance not claimed."
+    },
+    "runtime_and_real_consumer_parity": {
+      "command": [
+        "nix",
+        "eval",
+        "--impure",
+        "--json",
+        "--file",
+        "/tmp/ep19-bounded-artifact-parity.nix",
+        "identity",
+        "--max-jobs",
+        "0",
+        "--builders",
+        ""
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 10.08382704196265,
+      "identity": {
+        "candidate": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+        "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+        "consumerCandidate": "/nix/store/l6afxry8yviihkab53lb13n3awn371iy-rei-cli-7.1.0.0.drv",
+        "consumerLegacy": "/nix/store/l6afxry8yviihkab53lb13n3awn371iy-rei-cli-7.1.0.0.drv",
+        "legacy": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+        "runtime": "da00319eb1423b4372a0a0b050911b7719d1de0867a3e32160dbd327a2762e81",
+        "scoped": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv"
+      },
+      "scope": "Existing mkApplicationScope/reference guard and actual immutable Rei bad0388 source overlay; derivation parity only, no evaluation speed claim."
+    },
+    "real_tool_exercises": [
+      {
+        "name": "repeat-generate",
+        "command": [
+          "/Users/shinzui/Keikaku/bokuno/haskell-nix/dist-newstyle/build/aarch64-osx/ghc-9.12.4/haskell-nix-update-0.1.0.0/x/haskell-nix-update/build/haskell-nix-update/haskell-nix-update",
+          "cohort",
+          "recipes",
+          "generate",
+          "--context",
+          "/tmp/ep19-bounded-artifact-inputs/context.json",
+          "--out",
+          "/tmp/ep19-bounded-artifacts-v1"
+        ],
+        "exit_code": 0,
+        "elapsed_seconds": 0.7251094169914722,
+        "external_http_proxy": "unreachable loopback; only supplied local archives and metadata required"
+      },
+      {
+        "name": "offline-check",
+        "command": [
+          "/Users/shinzui/Keikaku/bokuno/haskell-nix/dist-newstyle/build/aarch64-osx/ghc-9.12.4/haskell-nix-update-0.1.0.0/x/haskell-nix-update/build/haskell-nix-update/haskell-nix-update",
+          "cohort",
+          "recipes",
+          "check",
+          "--context",
+          "/tmp/ep19-bounded-artifact-inputs/context.json",
+          "--out",
+          "/tmp/ep19-bounded-artifacts-v1"
+        ],
+        "exit_code": 0,
+        "elapsed_seconds": 0.4593307910254225,
+        "external_http_proxy": "unreachable loopback; only supplied local archives and metadata required"
+      },
+      {
+        "name": "relocated-generate",
+        "command": [
+          "/Users/shinzui/Keikaku/bokuno/haskell-nix/dist-newstyle/build/aarch64-osx/ghc-9.12.4/haskell-nix-update-0.1.0.0/x/haskell-nix-update/build/haskell-nix-update/haskell-nix-update",
+          "cohort",
+          "recipes",
+          "generate",
+          "--context",
+          "/tmp/ep19-bounded-artifact-inputs-relocated-final-v2/context.json",
+          "--out",
+          "/tmp/ep19-bounded-artifacts-final-v2-copy"
+        ],
+        "exit_code": 0,
+        "elapsed_seconds": 0.6634677909896709,
+        "external_http_proxy": "unreachable loopback; only supplied local archives and metadata required"
+      },
+      {
+        "name": "reject-base64-bytestring.cabal",
+        "command": [
+          "/Users/shinzui/Keikaku/bokuno/haskell-nix/dist-newstyle/build/aarch64-osx/ghc-9.12.4/haskell-nix-update-0.1.0.0/x/haskell-nix-update/build/haskell-nix-update/haskell-nix-update",
+          "cohort",
+          "recipes",
+          "generate",
+          "--context",
+          "/tmp/ep19-bounded-artifact-inputs-relocated-final-v2/context.json",
+          "--out",
+          "/tmp/ep19-bounded-artifacts-final-v2-copy"
+        ],
+        "exit_code": 1,
+        "elapsed_seconds": 0.3194692910183221,
+        "external_http_proxy": "unreachable loopback; only supplied local archives and metadata required"
+      },
+      {
+        "name": "reject-base64-bytestring-1.2.1.0.tar.gz",
+        "command": [
+          "/Users/shinzui/Keikaku/bokuno/haskell-nix/dist-newstyle/build/aarch64-osx/ghc-9.12.4/haskell-nix-update-0.1.0.0/x/haskell-nix-update/build/haskell-nix-update/haskell-nix-update",
+          "cohort",
+          "recipes",
+          "generate",
+          "--context",
+          "/tmp/ep19-bounded-artifact-inputs-relocated-final-v2/context.json",
+          "--out",
+          "/tmp/ep19-bounded-artifacts-final-v2-copy"
+        ],
+        "exit_code": 1,
+        "elapsed_seconds": 0.4072405410115607,
+        "external_http_proxy": "unreachable loopback; only supplied local archives and metadata required"
+      },
+      {
+        "name": "reject-artifact-drift",
+        "command": [
+          "/Users/shinzui/Keikaku/bokuno/haskell-nix/dist-newstyle/build/aarch64-osx/ghc-9.12.4/haskell-nix-update-0.1.0.0/x/haskell-nix-update/build/haskell-nix-update/haskell-nix-update",
+          "cohort",
+          "recipes",
+          "check",
+          "--context",
+          "/tmp/ep19-bounded-artifact-inputs/context.json",
+          "--out",
+          "/tmp/ep19-bounded-artifacts-exercise-final-v2/drift-output"
+        ],
+        "exit_code": 1,
+        "elapsed_seconds": 0.4915666250162758,
+        "external_http_proxy": "unreachable loopback; only supplied local archives and metadata required"
+      }
+    ],
+    "structured_classifications": {
+      "boot": 38,
+      "generated": 1
+    },
+    "native_parity_extension_and_package_bytes_unchanged_after_manifest_structure_update": true
+  },
+  "corrected_failure": "The first raw extension asserted final.ghc before returning its attributes and triggered fixed-point recursion. Compiler validation now occurs inside each package attribute; rejected artifacts and native failures remain retained. Both scoped and real runtime parity then pass.",
+  "tool_source": {
+    "project": "mori://NixOS/nixpkgs",
+    "project_relative_path": "pkgs/development/haskell-modules/make-package-set.nix",
+    "artifact_uri": "pending",
+    "revision": "d5dfd8e6716dde34398bc14bc87c10dece9c8c68",
+    "selection": "buildPackages.haskellPackages.cabal2nix-unstable bin output, exactly as the pinned Haskell translation builder"
+  },
+  "limits": [
+    "No new source pins, policy defaults, consumers or runtime generations adopted.",
+    "This format converts generated Hackage selections; fixed source-pin conversion is pending.",
+    "The caller supplies and binds the reviewed configuration/policy extension; the general retained factory adapter remains pending.",
+    "Local metadata/archive and a realized converter are required; check performs no Hackage or Mori queries.",
+    "No new evaluation-speed claim, complete native matrix, targeted update/rollback or full cost acceptance. Earlier measured 20% speed gates remain unmet."
+  ],
+  "raw_archive": {
+    "path": "docs/evidence/ep19/recipe-artifacts-prototype.raw.tar.gz",
+    "sha256": "61a23a3ac4d292af85a705fc24581a6007eca67b1f49aa79a59df7691bec6e06",
+    "members": {
+      "artifacts/final/.recipe-artifacts": "3b68af8188320bdd757a7ee818e27d6211e4103aeeea8fbe1bc8491b21f505d8",
+      "artifacts/final/extension.nix": "9dc9e4945dc7783ae718cd4a2bccac380c3a851a795f4e50b28a391b2fbb24ee",
+      "artifacts/final/manifest.json": "2e367389ce6375b5d7ce003d3dc90d92552de9f170eb451edcad117d8eddded0",
+      "artifacts/final/packages/base64-bytestring.nix": "84f3fbe710dc6d3c3bc23a619be6a09103deebed3a3b7ce698a596307180d16d",
+      "artifacts/rejected-recursive-extension/.recipe-artifacts": "3b68af8188320bdd757a7ee818e27d6211e4103aeeea8fbe1bc8491b21f505d8",
+      "artifacts/rejected-recursive-extension/extension.nix": "d5933c24639a8f8410b7c604957ef622b8315a722cfb4c6f8c90ebe898483878",
+      "artifacts/rejected-recursive-extension/manifest.json": "e87a032c67fb077d894155b56746f113a908c34a36248dd82b0e8452b2a6e815",
+      "artifacts/rejected-recursive-extension/packages/base64-bytestring.nix": "84f3fbe710dc6d3c3bc23a619be6a09103deebed3a3b7ce698a596307180d16d",
+      "code/cli/haskell-nix-update/haskell-nix-update.cabal": "09c1df465e5e5da84c371e3c3c9a209e295dcbbc1f3268dbaf0d0fd35b85c81f",
+      "code/cli/haskell-nix-update/src/HaskellNix/Update/Cohort/Cli.hs": "3c3ce9e809d57995fbfed7bbafea0c8cea15e77bc09cbb4e277584bcc9f4ff8b",
+      "code/cli/haskell-nix-update/src/HaskellNix/Update/Cohort/RecipeArtifacts.hs": "6eeb31e2942b976f4c9beb370bbeee48590d9963aa31162a3dbd3deb647182d8",
+      "code/cli/haskell-nix-update/test/CohortRecipeArtifactsTest.hs": "d1fd0bd5f810f0a38a9761c59a4dcacf98d756cc4befd6bb01cf0be7323d646c",
+      "code/cli/haskell-nix-update/test/Main.hs": "d1c6b3b61051ec7a92192c3e656ad7d1de0da4b8d6fd07fa4113d10a33b32335",
+      "drivers/ep19-bounded-artifact-parity-root-only.nix": "64763587d49c2c366365de3986f823664c30a2f536ce4cf881b59304de5124e3",
+      "drivers/ep19-bounded-artifact-parity.nix": "4ae1e60d5dbc6958896f5bd6e7c2d3df1739c8b745c1683b9f7dc1db88072de1",
+      "drivers/ep19-exercise-bounded-artifacts-final-driver.log": "beb2433c15c806aaaf0816cc927860862267730058f26573a61071dc9c6a5990",
+      "drivers/ep19-exercise-bounded-artifacts-final-v2.py": "442c28dee4bc7319166cfd55cc1dd7ab75bf65713f4613da30f435de063d4008",
+      "drivers/ep19-exercise-bounded-artifacts-final.py": "d76567c54de22c228ca65ccc52c374ec6e88b132e0eff1cca5df39e9f546caf3",
+      "drivers/ep19-export-bounded-context.hs": "418fcda57dd15d1d4317c7bbec7bd79f8a9fc48024db2e035e78d989410f2a2d",
+      "drivers/ep19-export-bounded-context.log": "113326dd91abd70637749fc3fb154a14375151bb3883a6056b41ba251e4cd4c0",
+      "exercise/final/drift-output/.recipe-artifacts": "3b68af8188320bdd757a7ee818e27d6211e4103aeeea8fbe1bc8491b21f505d8",
+      "exercise/final/drift-output/extension.nix": "9f27c2533190226c0e0b5cab74a284f08d04443cf6f5501cfddf1c1052b64c72",
+      "exercise/final/drift-output/manifest.json": "2e367389ce6375b5d7ce003d3dc90d92552de9f170eb451edcad117d8eddded0",
+      "exercise/final/drift-output/packages/base64-bytestring.nix": "84f3fbe710dc6d3c3bc23a619be6a09103deebed3a3b7ce698a596307180d16d",
+      "exercise/final/offline-check.log": "1a704889a82775c4496874ea7f6dd12b56eead4f79707506d12e516003c2a865",
+      "exercise/final/receipt.json": "7c373fc49d23eb9d9c25b2dc87a0dbef1fb88de980d850ee9096e0b6d2a8f8db",
+      "exercise/final/reject-artifact-drift.log": "a8eed7a28b18e58d1318e8f45c79c7a48015c632d853b8f69f8689a2d7056fa0",
+      "exercise/final/reject-base64-bytestring-1.2.1.0.tar.gz.log": "14bd3637a8ecdf5e3c71ad80ef489280bc9aefdc505bee2a1afe5ef184e2aee5",
+      "exercise/final/reject-base64-bytestring.cabal.log": "be19c4476a37ccafdf5594ac9266662c4907d58fc2298cd1cda7cdd66db874ba",
+      "exercise/final/relocated-generate.log": "49d42d99b7a173f1a2edc97c73e3d9ca0411fcc79f470f6882c37f503d5d968a",
+      "exercise/final/repeat-generate.log": "49d42d99b7a173f1a2edc97c73e3d9ca0411fcc79f470f6882c37f503d5d968a",
+      "host/ep19-bounded-artifact-consumer-parity-receipt.json": "947dfea6156192e1185202185e638abecc0b1aeb0ad15bfbed79c2bcd96a5e5c",
+      "host/ep19-bounded-artifact-consumer-parity.json": "b40bfa397f31f9db873145d476ee43bc2f09b2c018318e008eeb2b376e3acd0e",
+      "host/ep19-bounded-artifact-consumer-parity.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "host/ep19-bounded-artifact-no-ifd-v1.json": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "host/ep19-bounded-artifact-no-ifd-v1.log": "8b3d755634c76121d55ef15e866472d9591898ebc709c2be878fef80de6b9c6b",
+      "host/ep19-bounded-artifact-no-ifd-v2.json": "cf181f51cb6f44b164f71f54624e952694e76c53c19d277903bc6f763719dc1d",
+      "host/ep19-bounded-artifact-no-ifd-v2.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "host/ep19-bounded-artifact-no-ifd.json": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "host/ep19-bounded-artifact-no-ifd.log": "8b3d755634c76121d55ef15e866472d9591898ebc709c2be878fef80de6b9c6b",
+      "host/ep19-bounded-artifact-parity-v1.json": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "host/ep19-bounded-artifact-parity-v1.log": "d82270c12be24fb71613a13cd1c073718d43d6b25f69440b440c2ea0e10059e8",
+      "host/ep19-bounded-artifact-parity-v2-receipt.json": "af976f1d29eaacfd22e117f746c73ec6d4bcd5a74466227b5b35aa33cafe0154",
+      "host/ep19-bounded-artifact-parity-v2.json": "69afdbe60b2cd18fbf57a1cd7bc438697487b8ef2537463cbc85cd292f66ed44",
+      "host/ep19-bounded-artifact-parity-v2.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "host/ep19-bounded-artifact-parity.json": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "host/ep19-bounded-artifact-parity.log": "d82270c12be24fb71613a13cd1c073718d43d6b25f69440b440c2ea0e10059e8",
+      "host/ep19-bounded-artifacts-generate-final-v2.log": "49d42d99b7a173f1a2edc97c73e3d9ca0411fcc79f470f6882c37f503d5d968a",
+      "host/ep19-exercise-bounded-artifacts-final-v2-driver.log": "beb2433c15c806aaaf0816cc927860862267730058f26573a61071dc9c6a5990",
+      "host/ep19-recipe-artifacts-builder-tool-scope.json": "8b7eb949151825bfaa82f7be983397da9cec25676f9f80e4b6d96fdfb2c98c05",
+      "host/ep19-recipe-artifacts-builder-tool-scope.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "host/ep19-recipe-artifacts-cli-build-final-v2.log": "55236fc17b4ffb860c2099158fe21dc3cf73801259dba4359366e625d807593e",
+      "host/ep19-recipe-artifacts-cli-build-final.log": "55236fc17b4ffb860c2099158fe21dc3cf73801259dba4359366e625d807593e",
+      "host/ep19-recipe-artifacts-cli-build-v2.log": "55236fc17b4ffb860c2099158fe21dc3cf73801259dba4359366e625d807593e",
+      "host/ep19-recipe-artifacts-converter-proof.json": "5698fb1feb64f02cc930170a28972ef5595271d7d9cf0b463ea24dcbe2a6b90f",
+      "host/ep19-recipe-artifacts-initial-tests.log": "e69256eff90445f8f2df6fe3a8d6ebe71ab7095c289b41461df2da1840445bc9",
+      "host/ep19-recipe-artifacts-mori-nix-lookup.log": "8860c130646b332695c35fe4ccffdcaabcba3729a242b9722e67b454fe0b913c",
+      "host/ep19-recipe-artifacts-tests-final-v2.log": "a393ab3093cc8bb574da9ec802b41341fd7bc83a003d1c928c019af7d4946e0c",
+      "host/ep19-recipe-artifacts-tests-final.log": "ca8726664c791dbf5594f22761b1526ac4d736e8282cde42ea963de2d5ac2160",
+      "host/ep19-recipe-artifacts-tests-v2.log": "1ce00168cc06399a08fbb5a055964032807e4d1747db475c6611bf91003819a6",
+      "host/ep19-recipe-artifacts-tests-v3.log": "3ea6c3b7bed87b1126f95d037ccfcefbb3a1da9e19b8292f781a1b4100ff9821",
+      "host/ep19-recipe-artifacts-tests-v4.log": "c7bb994aae6d047bdc5a083c1d68083b4693bd2deb25faa0f108a40ee089b3ee",
+      "host/ep19-recipe-artifacts-tests-v5.log": "2e581cb7eb44e22d22a0d5541da954b8909adfffa376ddbb45186ab964643f03",
+      "host/ep19-recipe-artifacts-tests-v6.log": "ac80bc1cc6429490672b9fc74022b390dfe5ae28dd2fae2e1ed38dd8e66184f5",
+      "host/ep19-recipe-artifacts-tool-scope-alternatives.json": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "host/ep19-recipe-artifacts-tool-scope-alternatives.log": "721e39276bd387ff6b5b9098255087c8af623ee375e8b2c1efd4574c3df48f09",
+      "host/ep19-recipe-artifacts-tool-scope.json": "571cd7b8a87d8013e74fcd2b552ed747c7334bec87d8c667852c11f77f45e9c7",
+      "host/ep19-recipe-artifacts-tool-scope.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "inputs/base64-bytestring-1.2.1.0.tar.gz": "fbf8ed30edde271eb605352021431d8f1b055f95a56af31fe2eacf6bdfdc49c9",
+      "inputs/base64-bytestring.cabal": "45305ccf8914c66d385b518721472c7b8c858f1986945377f74f85c1e0d49803",
+      "inputs/context.json": "e0d61034ea19be5da750815f2f76a605e91acb03154ab369ca41f5cb52b0eaf2",
+      "inputs/generation-context.json": "08fc8d9752bcc229cff3eb588ee756727f80602214b3ee97de54aa2240de450e",
+      "inputs/selected-revision.json": "e4b5b89c4b6bd01e5f76123d32e5a64a4a7ecf4d08ba4e664101e9a44559b10d",
+      "primary/nixpkgs-make-package-set.nix": "1f22954485ad14c6e8059f19cbc2c85cf1f4a24329e4e1ea50d7fe0ef1e7f884"
+    }
+  }
+}

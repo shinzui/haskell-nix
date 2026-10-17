@@ -4,10 +4,10 @@ title: Maintainer tools
 description: Find repository formatting, test, derivation-diff, and validation commands.
 docId: DOC-6
 tags: [maintainers, testing, nix]
-timestamp: 2026-10-17T23:14:36Z
+timestamp: 2026-10-17T23:38:30Z
 generated:
   by: process:codex
-  at: 2026-10-17T23:14:36Z
+  at: 2026-10-17T23:38:30Z
 ---
 
 # Maintainer tools
@@ -41,7 +41,53 @@ Repeat with `--check` to compare all three outputs without rewriting them. The
 existing generator still resolves metadata and source inputs through its normal
 workflow. All selected outputs are staged before publication, and a changed
 freeze, source manifest, ownership policy or lock rejects publication. Complete
-recipe-artifact generation and offline checking are subsequent EP-19 work.
+recipe artifacts are available for explicitly scoped generated Hackage inputs
+through the commands below. Source-pinned package conversion remains pending.
+
+## Staging complete Hackage recipes
+
+`cohort recipes generate --context FILE --out DIR` converts every generated
+Hackage selection in a versioned explicit recipe context. The context wraps the
+exported generation inputs with compiler/system/channel, Nixpkgs and reviewed
+policy identities, the pinned builder converter's derivation/output/version, and
+one input record per generated package. Each record supplies relative paths to a
+local source archive and exact selected Cabal file, unpacked hash, revision and
+native argument mapping. The existing classifier owns coverage and ownership.
+
+```bash
+nix run .#haskell-nix-update -- cohort recipes generate \
+  --context /tmp/recipe-inputs/context.json --out /tmp/recipe-artifacts
+nix run .#haskell-nix-update -- cohort recipes check \
+  --context /tmp/recipe-inputs/context.json --out /tmp/recipe-artifacts
+```
+
+Generation verifies the archive's solved raw hash, its unpacked NAR hash through
+Nix's local-file path, and the selected metadata before and after conversion.
+The converter must already be realized from the pinned builder's
+`buildPackages.haskellPackages.cabal2nix-unstable` scope (its `bin` output); its derivation output and
+reported version must match the context. `check` reconverts the supplied local
+inputs with offline Nix calls and compares all artifact bytes without rewriting
+the output. Invalid arguments exit 2; drift or unverified identities exit 1.
+
+A successful directory contains `manifest.json`, `extension.nix`, `packages/`
+functions and the `.recipe-artifacts` ownership marker. Replacement is staged
+and accepts only an existing directory owned by this generator. Changed context
+or input bytes reject publication; unrelated files and directories are preserved.
+Paths and creation times are absent from the manifest and generated recipes.
+The raw extension requires an explicit reviewed `policyExtension`; the caller
+must bind the declared configuration and retain normal runtime validation.
+
+[The retained example](../evidence/ep19/recipe-artifacts-prototype.json) includes
+a raw archive with its complete input context, source archive, selected metadata
+and generated artifacts. It currently covers aarch64-darwin.
+
+The bounded generation-1 `base64-bytestring` example preserves its dependency
+and actual Rei CLI derivations through the existing runtime validator, regenerates
+byte-identically after input relocation, and evaluates its scoped root with IFD
+disabled. Other classifications remain explicit in the manifest and retain their
+existing constructors. Source-pin conversion, a retained factory adapter, wider
+native coverage and performance adoption remain EP-19 acceptance work. The earlier
+one-root and five-root evaluation campaigns missed the declared speed target.
 
 ## Compatibility declaration reports
 

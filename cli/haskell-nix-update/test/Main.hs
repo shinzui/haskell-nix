@@ -5,6 +5,7 @@ import CohortCompareTest qualified
 import CohortGenerateTest qualified
 import CohortGenerateIOTest qualified
 import CohortRecipesTest qualified
+import CohortRecipeArtifactsTest qualified
 import CohortTest qualified
 import CompatibilityTest qualified
 import CompatibilityVerifyTest qualified
@@ -41,6 +42,7 @@ tests =
       CohortGenerateTest.tests,
       CohortGenerateIOTest.tests,
       CohortRecipesTest.tests,
+      CohortRecipeArtifactsTest.tests,
       CohortTest.tests,
       catalogTests,
       packageLockTests,

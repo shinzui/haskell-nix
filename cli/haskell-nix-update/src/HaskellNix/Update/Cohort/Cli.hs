@@ -22,6 +22,7 @@ import HaskellNix.Update.Catalog (decodeFamilyCatalog)
 import HaskellNix.Update.Cohort.Freeze (FreezeHeader (FreezeHeader), normaliseCabalFreeze, parseCohortFreeze, renderCohortFreeze)
 import HaskellNix.Update.Cohort.Compare (comparePlan, verifyCohortImport, comparisonContext)
 import HaskellNix.Update.Cohort.GenerateIO (GenerateOptions (..), runGenerate)
+import HaskellNix.Update.Cohort.RecipeArtifacts qualified as Artifacts
 import HaskellNix.Update.Cohort.Impact (impactReport, retainedConstraints, validateRetainedIdentities)
 import HaskellNix.Update.Cohort.Inventory
 import HaskellNix.Update.Cohort.Model
@@ -42,6 +43,7 @@ data CohortCommand
     | CohortVerifyImport !FilePath !FilePath !Text
     | CohortComparisonContext !FilePath !FilePath !FilePath
     | CohortGenerate !GenerateOptions
+    | CohortRecipes !Artifacts.ArtifactOptions
     | CohortComparePlan !FilePath !FilePath !FilePath !FilePath
     | CohortInventory !FilePath !Text !FilePath !FilePath !Text !FilePath
     | CohortInventoryNix !FilePath !FilePath ![(Text, FilePath)] !Text !Text !Text !FilePath
@@ -60,6 +62,10 @@ cohortParser =
         ( command "resolve-channel-lock" (info (resolveLockParser <**> helper) (fullDesc <> progDesc "Resolve a locked revision through nested inputs and recursive follows"))
             <> command "verify-import" (info (verifyImportParser <**> helper) (fullDesc <> progDesc "Verify the Cabal cohort import against this application's locked channel"))
             <> command "comparison-context" (info (contextParser <**> helper) (fullDesc <> progDesc "Emit validated frozen source, flag and ownership context for shared Nix comparison"))
+            <> command "recipes" (info (subparser
+                (command "generate" (info (recipesParser False <**> helper) (fullDesc <> progDesc "Stage and generate explicit full Hackage recipes"))
+                <> command "check" (info (recipesParser True <**> helper) (fullDesc <> progDesc "Reconvert local metadata and check artifacts without publication"))))
+                (fullDesc <> progDesc "Generate or check portable recipes for an explicit context"))
             <> command "generate" (info (generateParser <**> helper) (fullDesc <> progDesc "Generate retained Nix recipes from the frozen sources and metadata cutoff"))
             <> command "compare-plan" (info (compareParser <**> helper) (fullDesc <> progDesc "Check a consumer subset against frozen versions and source evidence"))
             <> command "inventory" (info (inventoryParser <**> helper) (fullDesc <> progDesc "Record a contributor's fresh Cabal plan and component bounds"))
@@ -73,6 +79,8 @@ cohortParser =
             <> command "inventory-nix" (info (nixParser <**> helper) (fullDesc <> progDesc "Record channel and deployed dependency version maps"))
         )
   where
+    recipesParser checking = CohortRecipes <$> (Artifacts.ArtifactOptions
+        <$> strOption (long "context" <> metavar "FILE") <*> strOption (long "out" <> metavar "DIR") <*> pure checking)
     resolveLockParser = CohortResolveChannelLock <$> strOption (long "lock" <> metavar "FILE") <*> textOption "input-path"
     verifyImportParser = CohortVerifyImport <$> strOption (long "project" <> metavar "FILE") <*> strOption (long "lock" <> metavar "FILE") <*> textOption "input-path"
     contextParser = CohortComparisonContext <$> pathOption "freeze" "cabal/cohort.freeze" <*> pathOption "sources" "cabal/cohort-sources.json" <*> pathOption "contributors" "cabal/contributors.json"
@@ -149,6 +157,8 @@ dispatch (CohortComparisonContext freezeFile sourcesFile contributorsFile) = run
     contributors :: [Contributor] <- ExceptT (readJSON contributorsFile)
     context <- ExceptT (pure (comparisonContext (Set.fromList (concatMap (\c -> c.ownPackages) contributors)) freeze sources))
     pure (decodeUtf8 (LBS.toStrict (encodePretty context)))
+dispatch (CohortRecipes options) = fmap (either (\(UpdateError err) -> Left err) Right)
+    (Artifacts.runArtifacts defaultProcessRunner options)
 dispatch (CohortGenerate options) = runExceptT $ do
     (_, _, firstParty, _) <- loadInputs "cabal/inventory" "packages/first-party-lock.json" "config/first-party-families.json" "cabal/policy-floors.json"
     versions <- ExceptT (pure (traverse parseVersion firstParty))

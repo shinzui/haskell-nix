@@ -59,6 +59,7 @@ library
     HaskellNix.Update.Cohort.Revision
     HaskellNix.Update.Cohort.Render
     HaskellNix.Update.Cohort.Recipes
+    HaskellNix.Update.Cohort.RecipeArtifacts
     HaskellNix.Update.Cohort.Types
     HaskellNix.Update.Git
     HaskellNix.Update.Hackage
@@ -117,6 +118,7 @@ test-suite haskell-nix-update-test
     CohortGenerateTest
     CohortGenerateIOTest
     CohortRecipesTest
+    CohortRecipeArtifactsTest
     CompatibilityTest
     CompatibilityVerifyTest
     CohortCompareTest
