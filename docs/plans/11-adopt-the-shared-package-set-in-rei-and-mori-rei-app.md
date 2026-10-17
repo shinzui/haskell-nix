@@ -27,6 +27,11 @@ provenance:
       at: 2026-10-17T00:06:03Z
       mode: "implement"
       note: "Begin atomic Rei and mori-rei-app adoption after verified runtime generation 1 and both-platform cache acceptance."
+    - model: "gpt-6-astra"
+      harness: "codex-cli"
+      at: 2026-10-17T02:22:34Z
+      mode: "implement"
+      note: "Verify prepared candidate and partial Sungkyung baseline; retain activation and live-host acceptance gates."
   reviews:
     - model: "gpt-6.1-sol"
       harness: "codex-cli"
@@ -119,7 +124,7 @@ Export the Rei library extension into the consumer's single Haskell scope. Prove
 - [x] (2026-10-17) Milestone 5 (mori-rei-app, Cabal): freeze imported at `R`; `rei-core` pin moved to `C`, `mori-app` pin moved to `A`; `effectful`/`effectful-core ^>=2.6` lifted to `^>=2.7` (and keiro bounds if plan 15 released a new major); redundant entries removed; `cabal test all` passes against a fresh private operational PostgreSQL cluster plus the existing per-test disposable Kiroku stores; 220 cases pass, optional real-Claude case explicitly skipped. Source-aware parity is zero. No shared dev or production database is used.
 - [x] (2026-10-17) Milestone 5 (mori-rei-app, Nix): `rei` flake input added; `haskell-nix`, `haskell-nix-dev` and toolchain inputs follow rei; `rei-src` and `typeid-hs-src` removed; overlay reduced; `nix build` passes; closure parity zero; `rei-core` store path equals rei's.
 - [x] (2026-10-17) Milestone 5 publication: dependency-closure audit, strict ADR-1 validation and full flake checks pass. Commit `M` = `3617350` is clean and tested; user approved and the exact commit is pushed. Actual executable manifests verify exact Rei Core reuse and 243 equal used runtime identities. The formatter normalizes 25 Haskell files to the existing configured style without semantic edits.
-- [ ] Milestone 6 (deploy): read-only production baseline captured.
+- [ ] Milestone 6 (deploy): complete live production baseline. Partial observations are retained on 2026-10-17: remote Rei CLI version, migration ledgers and forwarded HTTP probes. Running executable paths, launchd state, current logs and Mori Rei App health still require access to Sungkyung.
 - [x] (2026-10-17) Milestone 6 candidate build: dotfiles pins exact tested C and M, with other consumer updates independently owned by EP-12/13. Recursive lock projection confirms only the five authorized application subgraphs changed. Full Sungkyung system build passes (`8j1rvh175gixdak4w6anbw01mna41lj4-darwin-system-26.11.4cff07d`); packaged Rei CLI, Rei Core and Mori Rei App outputs equal the proven candidates.
 - [x] (2026-10-17) Milestone 6 exact-binary rehearsal: Rei candidate passes: protected fingerprints and ledgers unchanged; strict verify reports 200 applied, zero pending/unknown. Full replay covers 13,988 streams and passes with exactly the declared 13-stream / 89-event exclusion. The 404 streams outside audited categories are explicitly reported by the existing gate. Private cluster stopped; evidence under `/tmp/mp3-ep11-rei-clone/`. Shipping dotfiles outputs now match exactly. Mori Rei App retains pgmq-migration 0.6.1.1, equal to the captured baseline; the conditional changed-version startup rehearsal is not applicable.
 - [ ] Milestone 6: user runs `sudo ./bin/darwin-rebuild-sungkyung.sh`.
@@ -132,6 +137,8 @@ Publication acceptance (2026-10-17): Rei adoption remains reachable at approved 
 Deployment handoff (2026-10-17): the user's broad source-push authorization covers prepared dotfiles source publication before activation, superseding the earlier narrower commit ordering. Candidate `4a25d68` in `mori://shinzui/dotfiles.nix` (source artifact URI pending) is published and builds for Sungkyung; it is not activated. This machine is Yujin and deliberately does not run the live services, so the user must activate on Sungkyung. Read-only SSH access was requested for exact live-baseline and post-activation checks; no remote mutation is authorized or performed.
 
 Retained acceptance receipt: [compact evidence](../evidence/masterplan-3/prepared-deployment.json).
+
+Resume checkpoint (2026-10-17): dotfiles local and remote master remain the prepared `4a25d68754abe632c3feb5a0836ebaf4429b75f2`, and its system output remains registered in Nix. Sungkyung's restricted Rei command still reports `rei 7.1.0.0 (a3765f6)`, rather than the rehearsed `e5f26a5`. The existing tunnel permits explicit SELECT observations of the migration ledgers (Rei: 200 applied; Mori: 194 applied; both include Kiroku through 0015) and successful Mori liveness/readiness probes. The forwarded 9091 endpoint reports ready but zero active subscribers and an empty subscription map. Its owning process is unverified; do not count this as passing worker acceptance. Shell SSH to the configured Sungkyung address fails authentication, so process paths, launchd, logs and Mori Rei App health remain unobserved. The user has been asked whether activation occurred; no activation or production mutation was performed. [Partial live baseline](../evidence/masterplan-3/live-baseline-20261017.json) preserves the observations. Resume with the user's Sungkyung activation and authenticated live-host verification; preserve the accepted clone/build evidence.
 
 ## Surprises & Discoveries
 
@@ -308,7 +315,7 @@ Baseline source/configuration copies and the successful pre-edit Cabal plan are 
 
 ## Outcomes & Retrospective
 
-(To be filled during and after implementation.)
+Checkpoint (2026-10-17): all source adoption, parity, library reuse, publication and exact-binary clone gates are accepted, and the prepared dotfiles candidate is published. The live CLI still differs from the candidate, and available access cannot establish the running worker identities or delivery. Milestone 6 and whole-child completion remain open. The existing release ADRs already require artifact identity and observed delivery; these access and endpoint observations are task-local evidence, not a new architecture decision.
 
 
 ## Context and Orientation

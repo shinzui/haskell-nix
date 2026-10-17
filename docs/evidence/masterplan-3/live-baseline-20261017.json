@@ -1,0 +1,313 @@
+{
+  "schemaVersion": 1,
+  "purpose": "Partial live baseline for MP-3 consumer deployment; not activation acceptance",
+  "target": "Sungkyung",
+  "observer": "Yujin",
+  "preparedDeployment": "prepared-deployment.json",
+  "candidateActivation": "unverified",
+  "productionMutationsPerformed": false,
+  "dotfiles": {
+    "project": "mori://shinzui/dotfiles.nix",
+    "candidateRevision": "4a25d68754abe632c3feb5a0836ebaf4429b75f2",
+    "remoteMaster": {
+      "observedAt": "2026-10-17T02:21:48+00:00",
+      "exitCode": 0,
+      "stdout": "4a25d68754abe632c3feb5a0836ebaf4429b75f2\trefs/heads/master",
+      "stderr": ""
+    }
+  },
+  "reiCli": {
+    "project": "mori://shinzui/rei",
+    "expectedVersion": "rei 7.1.0.0 (e5f26a5)",
+    "observation": {
+      "observedAt": "2026-10-17T02:21:49+00:00",
+      "exitCode": 0,
+      "stdout": "rei 7.1.0.0 (a3765f6)",
+      "stderr": ""
+    },
+    "matchesCandidate": false
+  },
+  "shellAccess": {
+    "observedAt": "2026-10-17T02:21:50+00:00",
+    "exitCode": 255,
+    "stdout": "",
+    "stderr": "shinzui@100.66.155.64: Permission denied (publickey,password,keyboard-interactive)."
+  },
+  "moriHealth": {
+    "live": {
+      "observedAt": "2026-10-17T02:21:50+00:00",
+      "exitCode": 0,
+      "stderr": "",
+      "response": {
+        "check": "all",
+        "failingSince": null,
+        "status": "ok"
+      }
+    },
+    "ready": {
+      "observedAt": "2026-10-17T02:21:50+00:00",
+      "exitCode": 0,
+      "stderr": "",
+      "response": {
+        "check": "all",
+        "failingSince": null,
+        "status": "ok"
+      }
+    }
+  },
+  "forwarded9091": {
+    "targetProcessIdentity": "unverified without remote process inspection",
+    "health": {
+      "observedAt": "2026-10-17T02:21:50+00:00",
+      "exitCode": 0,
+      "stderr": "",
+      "response": {
+        "metrics": {
+          "counters": {
+            "batches_delivered": 0,
+            "events_delivered": 0,
+            "hard_deletes_issued": 0,
+            "live_fetches": 0,
+            "notifier_reconnected": 0,
+            "notifier_reconnecting": 0,
+            "publisher_decode_failures": 0,
+            "publisher_loop_errors": 0,
+            "publisher_pool_errors": 0,
+            "subscription_db_errors_fetch": 0,
+            "subscription_db_errors_load": 0,
+            "subscription_db_errors_save": 0,
+            "subscription_handler_stalls": 0,
+            "subscriptions_caught_up": 0,
+            "subscriptions_dead_lettered": 0,
+            "subscriptions_paused": 0,
+            "subscriptions_reconnecting": 0,
+            "subscriptions_resumed": 0,
+            "subscriptions_retrying": 0,
+            "subscriptions_started": 0,
+            "subscriptions_stopped_cancelled": 0,
+            "subscriptions_stopped_crashed": 0,
+            "subscriptions_stopped_handler": 0,
+            "subscriptions_stopped_overflow": 0,
+            "subscriptions_stopped_undecodable": 0
+          },
+          "store": {
+            "active_subscribers": 0,
+            "global_position": 47966,
+            "pool_connecting": 0,
+            "pool_established_total": 0,
+            "pool_in_use": 0,
+            "pool_ready": 0,
+            "pool_terminated_total": 0
+          },
+          "subscriptions": {}
+        },
+        "status": {
+          "dependencies": [],
+          "lag_ok": true,
+          "no_overflow": true,
+          "ready": true
+        }
+      }
+    },
+    "metrics": {
+      "observedAt": "2026-10-17T02:21:50+00:00",
+      "exitCode": 0,
+      "stderr": "",
+      "response": {
+        "counters": {
+          "batches_delivered": 0,
+          "events_delivered": 0,
+          "hard_deletes_issued": 0,
+          "live_fetches": 0,
+          "notifier_reconnected": 0,
+          "notifier_reconnecting": 0,
+          "publisher_decode_failures": 0,
+          "publisher_loop_errors": 0,
+          "publisher_pool_errors": 0,
+          "subscription_db_errors_fetch": 0,
+          "subscription_db_errors_load": 0,
+          "subscription_db_errors_save": 0,
+          "subscription_handler_stalls": 0,
+          "subscriptions_caught_up": 0,
+          "subscriptions_dead_lettered": 0,
+          "subscriptions_paused": 0,
+          "subscriptions_reconnecting": 0,
+          "subscriptions_resumed": 0,
+          "subscriptions_retrying": 0,
+          "subscriptions_started": 0,
+          "subscriptions_stopped_cancelled": 0,
+          "subscriptions_stopped_crashed": 0,
+          "subscriptions_stopped_handler": 0,
+          "subscriptions_stopped_overflow": 0,
+          "subscriptions_stopped_undecodable": 0
+        },
+        "store": {
+          "active_subscribers": 0,
+          "global_position": 47966,
+          "pool_connecting": 0,
+          "pool_established_total": 0,
+          "pool_in_use": 0,
+          "pool_ready": 0,
+          "pool_terminated_total": 0
+        },
+        "subscriptions": {}
+      }
+    }
+  },
+  "databaseLedgerObservations": {
+    "rei": {
+      "observedAt": "2026-10-17T02:21:50+00:00",
+      "exitCode": 0,
+      "stderr": "",
+      "response": {
+        "database": "rei",
+        "transactionReadOnly": "on",
+        "statusCounts": {
+          "applied": 200
+        },
+        "kiroku": [
+          {
+            "migration": "0001-kiroku-bootstrap",
+            "status": "applied"
+          },
+          {
+            "migration": "0002-add-subscription-dead-letters",
+            "status": "applied"
+          },
+          {
+            "migration": "0003-notify-trigger-append-guard",
+            "status": "applied"
+          },
+          {
+            "migration": "0004-dead-letters-event-id-index",
+            "status": "applied"
+          },
+          {
+            "migration": "0005-index-hygiene-and-streams-fillfactor",
+            "status": "applied"
+          },
+          {
+            "migration": "0006-stream-name-length-check",
+            "status": "applied"
+          },
+          {
+            "migration": "0007-stream-truncate-before",
+            "status": "applied"
+          },
+          {
+            "migration": "0008-schema-management-comment",
+            "status": "applied"
+          },
+          {
+            "migration": "0009",
+            "status": "applied"
+          },
+          {
+            "migration": "0010",
+            "status": "applied"
+          },
+          {
+            "migration": "0011",
+            "status": "applied"
+          },
+          {
+            "migration": "0012",
+            "status": "applied"
+          },
+          {
+            "migration": "0013",
+            "status": "applied"
+          },
+          {
+            "migration": "0014",
+            "status": "applied"
+          },
+          {
+            "migration": "0015",
+            "status": "applied"
+          }
+        ]
+      }
+    },
+    "mori": {
+      "observedAt": "2026-10-17T02:21:51+00:00",
+      "exitCode": 0,
+      "stderr": "",
+      "response": {
+        "database": "mori",
+        "transactionReadOnly": "on",
+        "statusCounts": {
+          "applied": 194
+        },
+        "kiroku": [
+          {
+            "migration": "0001-kiroku-bootstrap",
+            "status": "applied"
+          },
+          {
+            "migration": "0002-add-subscription-dead-letters",
+            "status": "applied"
+          },
+          {
+            "migration": "0003-notify-trigger-append-guard",
+            "status": "applied"
+          },
+          {
+            "migration": "0004-dead-letters-event-id-index",
+            "status": "applied"
+          },
+          {
+            "migration": "0005-index-hygiene-and-streams-fillfactor",
+            "status": "applied"
+          },
+          {
+            "migration": "0006-stream-name-length-check",
+            "status": "applied"
+          },
+          {
+            "migration": "0007-stream-truncate-before",
+            "status": "applied"
+          },
+          {
+            "migration": "0008-schema-management-comment",
+            "status": "applied"
+          },
+          {
+            "migration": "0009",
+            "status": "applied"
+          },
+          {
+            "migration": "0010",
+            "status": "applied"
+          },
+          {
+            "migration": "0011",
+            "status": "applied"
+          },
+          {
+            "migration": "0012",
+            "status": "applied"
+          },
+          {
+            "migration": "0013",
+            "status": "applied"
+          },
+          {
+            "migration": "0014",
+            "status": "applied"
+          },
+          {
+            "migration": "0015",
+            "status": "applied"
+          }
+        ]
+      }
+    }
+  },
+  "limits": [
+    "Only explicit SELECT statements inspected migration ledgers; no candidate migration/schema verify or credential-enforced read window is claimed.",
+    "A ready response with zero subscriptions does not prove the required live worker subscriptions.",
+    "Running executable paths, launchd state, current logs, Mori Rei App health and terminal delivery still require live host verification.",
+    "EP-14 remains blocked on complete EP-11, EP-12 and EP-13 acceptance."
+  ]
+}
