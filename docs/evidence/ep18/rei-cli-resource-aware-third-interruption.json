@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "project_uri": "mori://shinzui/rei",
+  "source_revision": "bad0388f722af9e29187c2adfef5ed97fd0ca92f",
+  "status": "Third diagnostic campaign automatically interrupted for foreign Cabal activity; entire campaign excluded from performance acceptance",
+  "driver_receipt": {
+    "command": [
+      "python3",
+      "scripts/measure-application-nix-builds.py",
+      "--expression",
+      "checks/fixtures/application-builds/split.nix",
+      "--baseline-source",
+      "/tmp/ep18-rei-resource-aware-split-v2/baseline",
+      "--candidate-source",
+      "/tmp/ep18-rei-resource-aware-split-v2/candidate",
+      "--edit",
+      "rei-cli/src/Rei/Cli/Commands/Help.hs",
+      "--replace",
+      "timeTopicContent = $(embedStringFile",
+      "timeTopicContent = \"MP4 paired leaf {trial} resource-aware-v3\\n\" <> $(embedStringFile",
+      "--project-uri",
+      "mori://shinzui/rei",
+      "--source-revision",
+      "bad0388f722af9e29187c2adfef5ed97fd0ca92f",
+      "--output-dir",
+      "/tmp/ep18-rei-resource-aware-paired-v3",
+      "--require-idle-compilers"
+    ],
+    "exit_code": -2,
+    "elapsed_seconds": 134.02025974995922,
+    "preflight_elapsed_seconds": 60.539468458038755,
+    "preflight_foreign_observations": [],
+    "overlay_sha256": "aa030fe0ddcc4257105db83a018c6b44a9b460402404f8d8e286db081388e55d",
+    "overlay_unchanged_after": true,
+    "foreign_test_process_observations": [
+      {
+        "elapsed_seconds": 133.50932612497127,
+        "processes": [
+          {
+            "pid": 43965,
+            "name": "cabal"
+          }
+        ]
+      }
+    ],
+    "auto_interrupted_for_foreign_work": true
+  },
+  "source_restoration_verified": true,
+  "cost": {
+    "prior_observed_native_and_diagnostics_seconds": 1468.8695364590967,
+    "third_campaign_seconds": 134.02025974995922,
+    "combined_observed_seconds_excluding_idle_preflight": 1602.889796209056,
+    "idle_preflight_seconds": 60.539468458038755
+  },
+  "remaining": "Five accepted idle pairs, graph/behavior verification and remaining total-cost/producer adoption gates. Timing paused pending user coordination; continue independent EP19 implementation.",
+  "raw_archive": {
+    "path": "docs/evidence/ep18/rei-cli-resource-aware-third-interruption.raw.tar.gz",
+    "sha256": "1ea6b017010a6925f85b4382156e2cfe3805221630c9c9212254d3613ae81e87",
+    "members": {
+      "campaign/paired-1-baseline.build.json": "be3e06d6f6322cc9e3c9724e71fc7ad650d6ee4ca58bb6f0843c2763c5479db0",
+      "campaign/paired-1-baseline.log": "641f31c18eff7935da7df3f01c05cbd3e609a1abdf040c2431e3f7058f4ebcd0",
+      "campaign/paired-1-baseline.receipt.json": "7803d50bc399ef19c0ca042d08c983c740985c6c9e36e9b413b6a29165288104",
+      "campaign/paired-1-candidate.build.json": "70036d0c9de7c6c59b883f3fa833a0f98fb4369100c7e5cef6a2cd4e8c0890e7",
+      "campaign/paired-1-candidate.log": "7442df242820ba80c4571819907d13eda4c51a0db99d0bc6b8062418b05ca975",
+      "campaign/paired-1-candidate.receipt.json": "1fca6a71bfe71ca7c6fa9869d7a7b9eaf3524e35ba20c18525d663a3a7daaa5a",
+      "campaign/paired-2-candidate.build.json": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "campaign/paired-2-candidate.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "campaign/summary.json": "f36875c6817bcd8dabc73cd0a979ef9aa65e09272009ee6c38ee8b89f9e9aa31",
+      "campaign/warmup-0-baseline.build.json": "2d5963730c3bdfbed5967df1a81606b4c81ea6b463bdab61a793276f479191d9",
+      "campaign/warmup-0-baseline.log": "86cdaf7d5a5a0a0467e15a807b0da465e1b1c9d50e5f77e01f152f6b0a03b01d",
+      "campaign/warmup-0-baseline.receipt.json": "cea470c3b348519a71a7f795e4b7f4d5935361bdac395a8274a312d8a302c9ed",
+      "campaign/warmup-0-candidate.build.json": "4e6cfe0db11c12bf26cbed7779ad4e936108f02041c16e7d9a4882d67eaafda3",
+      "campaign/warmup-0-candidate.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "campaign/warmup-0-candidate.receipt.json": "0200e1f6c6fe5dffb8c547700fcaf1417aaba39466eb734fd8865ef6b6914cc4",
+      "host/ep18-rei-resource-aware-paired-v3-driver-receipt.json": "9c431ace6e7308e4d6af8bb6140d853afdfa4f10e7100010b394cd91d6a02bbf",
+      "host/ep18-rei-resource-aware-paired-v3-driver.log": "b04a30eb999ff88784b712626206afa45d8b66cf874419d3082b2e89ff66fa91",
+      "host/ep18-rei-resource-aware-v3-driver.py": "3b481b2500f36455102069892be3c0d265af11fb935322e6c05e7726b5f57189",
+      "host/ep18-rei-resource-aware-v3-launch.log": "ba34ed7fe7586904ebefd6de76f7cdf1ba1176f3599e5d15c6bf95cd8ab88abf"
+    }
+  }
+}
