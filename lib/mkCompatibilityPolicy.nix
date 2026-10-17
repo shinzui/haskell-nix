@@ -21,10 +21,11 @@ let
       policies.profiles.${binding.name}.tests.exceptionIds
         ++ policies.profiles.${binding.name}.bounds.exceptionIds != [ ])
     recipeBindings;
-  validated = import ./validateCompatibilityPolicy.nix { inherit lib; } {
-    inherit catalog policies;
-    recipeBindings = coveredBindings;
-  };
+  validated = builtins.seq ((import ./validateCompatibilityEntries.nix { inherit lib; }) registry)
+    (import ./validateCompatibilityPolicy.nix { inherit lib; } {
+      inherit catalog policies;
+      recipeBindings = coveredBindings;
+    });
   idsFor = binding: map (entry: entry.id)
     (builtins.filter (entry: entry.binding == binding) catalog.entries);
   annotated = lib.mapAttrs

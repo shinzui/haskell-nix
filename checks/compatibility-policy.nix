@@ -22,6 +22,7 @@ let
   apply = import ../lib/applyPackageBuildPolicy.nix;
   select = import ../lib/selectCompatibilityEntry.nix { inherit lib; };
   applies = import ../lib/compatibilityEntryApplies.nix { inherit lib; };
+  validateEntries = import ../lib/validateCompatibilityEntries.nix { inherit lib; };
   haskellLib = {
     dontCheck = value: value ++ [ "skip-tests" ];
     doJailbreak = value: value ++ [ "relax-bounds" ];
@@ -30,6 +31,26 @@ let
   };
 in
 {
+  testCompatibilityEmptySelectorsRemainLazy = {
+    expr = validateEntries { empty = [ ]; };
+    expected = true;
+  };
+  testCompatibilityAdjacentRangesDoNotOverlap = {
+    expr = validateEntries { example = [{ min = "1"; max = "2"; } { min = "2"; max = "3"; }]; };
+    expected = true;
+  };
+  testCompatibilityRejectNewOverlappingRanges = rejects (validateEntries {
+    example = [{ min = "1"; max = "3"; } { min = "2"; max = "4"; }];
+  });
+  testCompatibilityRejectNewDuplicateAlwaysRows = rejects (validateEntries {
+    example = [{ always = true; } { always = true; }];
+  });
+  testCompatibilityRejectNewAlwaysAndRangeOverlap = rejects (validateEntries {
+    example = [{ always = true; } { min = "1"; max = "2"; }];
+  });
+  testCompatibilityRejectReversedSelectorRange = rejects (validateEntries {
+    example = [{ min = "3"; max = "2"; }];
+  });
   testCompatibilityExactCompilerAndReleasedSources = {
     expr = map (facts: applies "legacy-kioku-core-v1" facts) [
       { compiler = "9.14.1"; version = "0.8.0.2"; }
