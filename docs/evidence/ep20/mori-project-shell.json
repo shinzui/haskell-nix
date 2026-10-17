@@ -1,0 +1,511 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-10-17T17:06:49.600300+00:00",
+  "status": "accepted",
+  "scope": "EP-20 M3/M4 real consumer, optional adoption, final source guards and validation",
+  "foundation": {
+    "file": "mori-project-shell-partial.json",
+    "sha256": "87de536c3925364d744f5f397b3b0700b67312cd4a34c8bfc5606e9d5eaac643",
+    "supersedesPendingFields": true,
+    "note": "Historical partial capture supplies exact complete scope identities and early measurements. All its pending Linux/adoption fields are closed by this receipt; there are no live EP-20 validation jobs."
+  },
+  "implementation": {
+    "channelProject": "mori://shinzui/haskell-nix",
+    "channelCodeRevision": "d8ce0308052c68d38700315eb93d849d3ccc018b",
+    "toolchainProject": "mori://shinzui/haskell-nix-dev",
+    "toolchainCodeRevision": "cb005e5b049b6b43be3cf473afb99409e508e800",
+    "consumerProject": "mori://shinzui/mori",
+    "consumerBaseline": "05f1e808fd35ace2816b19e920b92753fa625547",
+    "consumerAdoptionRevision": "ab5c11278c0bc7ce2597e2b44209148561548c56",
+    "consumerArtifact": {
+      "project": "mori://shinzui/mori",
+      "relativePath": "flake.module.nix",
+      "artifactUri": "pending"
+    },
+    "pinsChanged": false,
+    "defaultShellChanged": false,
+    "unrelatedConsumerManifestPreserved": true
+  },
+  "codeSha256": {
+    "mori://shinzui/haskell-nix": {
+      "lib/mkProjectDevShell.nix": "ffd5ace170169c6994d59cf37550ca668f0f4eb6a558ee3031bdd30e5448714c",
+      "lib/mkCohortManifest.nix": "bf62b62be30cabc597f7a2554099b1b9e31b869fac0a6708d43b104411c8446b",
+      "lib/compatibilitySourceIdentity.nix": "a130c20c2b0c4d4df82deff27da653e26a3106990d99aada12c24070841bd7d6",
+      "checks/project-shell.nix": "d7fe3e7fae90d86bd744b31717ae284b1a8b3d3b7b529e1e405a8f28213974e9",
+      "checks/cohort-manifest.nix": "6361f37a9fac0aa034b0b5274550991535e60530c4bc1ee78edb919baa7d3dea"
+    },
+    "mori://shinzui/haskell-nix-dev": {
+      "lib/mkProjectShell.nix": "f13fe391bdfaa95f593416a457a8acca08462a83a574b571e37d8efdad4120ca"
+    }
+  },
+  "matrix": {
+    "aarch64-darwin": {
+      "production": "passed; normal CLI reports mori v7.0.0.0 (dirty)",
+      "sameProductionAndShellScope": true,
+      "sourceCompleteCabalPlan": "passed; 392 non-local dependencies, 38 boot pre-existing rows and 424 configured rows; supported tests/benchmarks enabled",
+      "actualExecutableManifest": "passed; 340 frozen Haskell dependency instances through the existing comparator",
+      "ownedPackageTests": {
+        "suite": "mori-types-test",
+        "cases": 79,
+        "result": "passed"
+      },
+      "shellOnlyVariants": [
+        "extra tool",
+        "changed hook",
+        "inherited environment"
+      ],
+      "variantIdentities": "all 311 retained identities, five owned recipes and independent HLS stay equal",
+      "sourceEditPropagation": "mori-types/core/cli/api recipes change; mori-schema-pin and all runtime identities/HLS stay equal",
+      "privateImplementationEdit": "constructor tag function extraction compiles and all 79 tests pass; original source restored"
+    },
+    "x86_64-linux": {
+      "production": "passed; normal CLI reports mori v7.0.0.0 (dirty)",
+      "sameProductionAndShellScope": true,
+      "sourceCompleteCabalPlan": "passed; 392 non-local dependencies, 38 boot pre-existing rows and 424 configured rows; supported tests/benchmarks enabled",
+      "actualExecutableManifest": "passed; 340 frozen Haskell dependency instances through the existing comparator",
+      "ownedPackageTests": {
+        "suite": "mori-types-test",
+        "cases": 79,
+        "result": "passed"
+      },
+      "shellOnlyVariants": [
+        "extra tool",
+        "changed hook",
+        "inherited environment"
+      ],
+      "variantIdentities": "all 311 retained identities, five owned recipes and independent HLS stay equal",
+      "sourceEditPropagation": "mori-types/core/cli/api recipes change; mori-schema-pin and all runtime identities/HLS stay equal",
+      "privateImplementationEdit": "constructor tag function extraction compiles and all 79 tests pass; original source restored"
+    }
+  },
+  "linuxQualification": {
+    "executor": "user-selected Apple Containers amd64 mp3-linux-builder; translated Linux execution",
+    "independentStore": true,
+    "sandbox": false,
+    "filterSyscalls": false,
+    "maxJobs": 1,
+    "cores": 8,
+    "noPhysicalX86PerformanceClaim": true
+  },
+  "entryAndEditCosts": {
+    "darwinEntries": [
+      {
+        "label": "first-tool-entry",
+        "exitCode": 0,
+        "elapsedSeconds": 8.025755165959708
+      },
+      {
+        "label": "warm-tool-entry",
+        "exitCode": 0,
+        "elapsedSeconds": 5.513142874988262
+      },
+      {
+        "label": "warm-tool-entry-2",
+        "exitCode": 0,
+        "elapsedSeconds": 5.376420042011887
+      },
+      {
+        "label": "hook-entry",
+        "exitCode": 0,
+        "elapsedSeconds": 7.397946290962864
+      },
+      {
+        "label": "inherited-entry",
+        "exitCode": 0,
+        "elapsedSeconds": 7.324426458973903
+      }
+    ],
+    "darwinImplementationEdit": {
+      "source": "mori-types/src/Mori/Types/Aeson.hs",
+      "edit": "Extract constructor tag conversion into a private helper; same external behavior.",
+      "results": [
+        {
+          "label": "cabal-prepare-code-edit",
+          "exitCode": 0,
+          "elapsedSeconds": 7.298927415977232
+        },
+        {
+          "label": "cabal-warm-before-code-edit",
+          "exitCode": 0,
+          "elapsedSeconds": 5.416343708988279
+        },
+        {
+          "label": "cabal-code-edit",
+          "exitCode": 0,
+          "elapsedSeconds": 7.94242741598282
+        },
+        {
+          "label": "cabal-code-edit-tests",
+          "exitCode": 0,
+          "elapsedSeconds": 6.790261041955091
+        }
+      ]
+    },
+    "linuxEntries": [
+      {
+        "label": "identity",
+        "exitCode": 0,
+        "elapsedSeconds": 9.309852249978576
+      },
+      {
+        "label": "first-entry",
+        "exitCode": 0,
+        "elapsedSeconds": 256.9954584579682
+      },
+      {
+        "label": "warm-entry",
+        "exitCode": 0,
+        "elapsedSeconds": 6.047754749946762
+      }
+    ],
+    "linuxFirstEntryInputs": {
+      "builtDerivations": [
+        "/nix/store/18zvlqy8z57w8hbawghsfwf6ix2zshyf-kioku-migrations-0.9.0.2.drv",
+        "/nix/store/4ady82mbaicnh89pnip0wn51yv0hirgw-frontmatter-0.1.0.2.drv",
+        "/nix/store/4k4rwm68aapzira7r6jw4kk7x5p02lms-githash-0.1.7.0.drv",
+        "/nix/store/4pd4dh4lmf85zk6cicmk2ba2y5x818fg-nix-shell-env.drv",
+        "/nix/store/6gh9xbjasyqwaic1q8d6pszyhj5c4p9l-regex-tdfa-1.3.2.6.drv",
+        "/nix/store/7ma5k5rdavddmxwdmpljlrkfkqfdnlaj-terminal-size-0.3.4.drv",
+        "/nix/store/czpz5laga4sh232mdcvd20gaj0lkdi1k-toml-parser-2.0.2.0.drv",
+        "/nix/store/hy5crm20wdnjzfng4wp9akdyl9m134qd-baikai-kit-0.4.0.1.drv",
+        "/nix/store/mpqcp1ryim6bwsph69zs449zjdaa9myk-regex-base-0.94.0.3.drv",
+        "/nix/store/p3hwx86jfhjr3l41kdy9c394f03krjvc-okf-core-0.10.0.0.drv",
+        "/nix/store/qv8s91y46hr1ddin4bc3ii59p8wsb5ws-cmark-gfm-0.2.6.drv",
+        "/nix/store/zjcrjj52yvww04ds42rf43fvdigpd3mn-ghc-9.12.4-with-packages.drv"
+      ],
+      "selectedSharedDerivationsBuilt": [],
+      "substitutedPaths": [
+        "/nix/store/1p3zcm9yznzk20l9v1kskgs9f3wfqvmn-process-compose-1.120.0",
+        "/nix/store/23q1ns1s025b401ixc1fz89rfpf2a2c6-lz4-1.10.0-lib",
+        "/nix/store/26kvamnlllxl1005qcwpjjgvx7fg45bz-llvm-binutils-21.1.8",
+        "/nix/store/2qibb9szk975kf06ls3dlp60hbm454zq-lz4-1.10.0-dev",
+        "/nix/store/5rhnyy8qnwnasmadd83bbrp1agylvwjs-lld-21.1.8",
+        "/nix/store/603yaax3l2jmc0hfv6g3hgjr1qk5jfxk-clang-21.1.8",
+        "/nix/store/8lb04y62al9sa08hhxhq410f85vpw83w-liburing-2.14",
+        "/nix/store/8z4wgfcyc5a2qqmdg562qhyqi7c29l4g-postgresql-18.6-doc",
+        "/nix/store/d0jr9vnwvw71any4frbi6hmfjzsr644z-clang-wrapper-21.1.8",
+        "/nix/store/g5l3mkk656ccm58gzz0a9kryy2grih01-compiler-rt-libc-21.1.8-dev",
+        "/nix/store/h9aczmrkpcmm9z47648m5n9sg67vi5gw-postgresql-18.6",
+        "/nix/store/jdsqfc7k0n0rwq4b2wmhb89kjxj9sx36-icu4c-78.3-dev",
+        "/nix/store/kif0w7i2cki9mk668m7al6p94imbxml4-liburing-2.14-dev",
+        "/nix/store/kyljy9lpzxcnj0mmayhn6pja667mxcqv-postgresql-18.6-dev",
+        "/nix/store/lbx1ba84hzgw5ixy47nmzvdmjp8ayqi4-liburing-2.14-bin",
+        "/nix/store/pv5pg4q7k7261z2j7z5qs7frg0rvz9b3-postgresql-18.6-man",
+        "/nix/store/vf4my63ycyp1290kaclncs9npjsg4yc9-llvm-binutils-wrapper-21.1.8",
+        "/nix/store/vgkmbbqcpmm5wagmf6gv8jv06v3lp21s-postgresql-18.6-lib",
+        "/nix/store/yc2a9854a2y2c8kci88piblc847iq1l4-clang-21.1.8-lib",
+        "/nix/store/ync7h8cyhw4nzw2laba4wra6b8mcn9by-compiler-rt-libc-21.1.8",
+        "/nix/store/z4czsax3mdyxx77mwb0yjarnzb1rip00-just-1.58.0",
+        "/nix/store/z6x3w8dih4izf3smp6l7z4k901cry7il-lz4-1.10.0"
+      ],
+      "substitutionMetadata": {
+        "/nix/store/1p3zcm9yznzk20l9v1kskgs9f3wfqvmn-process-compose-1.120.0": {
+          "cache": "https://cache.nixos.org",
+          "narHash": "sha256-2qSA8T3++Xe8BWZE5UkKSivrM44/KG68btCxpX6zgtQ=",
+          "narBytes": 44950464,
+          "archiveBytes": 14408778
+        },
+        "/nix/store/23q1ns1s025b401ixc1fz89rfpf2a2c6-lz4-1.10.0-lib": {
+          "cache": "https://cache.nixos.org",
+          "narHash": "sha256-pf+rPafh++0zvAFgTm5uU72InFGzqHwgl/Hwe91lSw8=",
+          "narBytes": 262160,
+          "archiveBytes": 116824
+        },
+        "/nix/store/26kvamnlllxl1005qcwpjjgvx7fg45bz-llvm-binutils-21.1.8": {
+          "cache": "https://cache.nixos.org",
+          "narHash": "sha256-ZEf6k8bKme+87hTupYVfVx2kzNpkG5T8KLjCA5JLKNY=",
+          "narBytes": 30072,
+          "archiveBytes": 2036
+        },
+        "/nix/store/2qibb9szk975kf06ls3dlp60hbm454zq-lz4-1.10.0-dev": {
+          "cache": "https://cache.nixos.org",
+          "narHash": "sha256-WIjjCJoYKBjqGHcmHYNYmEXnYtZfpSEWgBhZ+acNgwc=",
+          "narBytes": 118216,
+          "archiveBytes": 31515
+        },
+        "/nix/store/5rhnyy8qnwnasmadd83bbrp1agylvwjs-lld-21.1.8": {
+          "cache": "https://cache.nixos.org",
+          "narHash": "sha256-tRuSB9X9XbEXXUMacb6unndBsxRTris7TDUsHmykHMg=",
+          "narBytes": 43693584,
+          "archiveBytes": 14044973
+        },
+        "/nix/store/603yaax3l2jmc0hfv6g3hgjr1qk5jfxk-clang-21.1.8": {
+          "cache": "https://cache.nixos.org",
+          "narHash": "sha256-9U85fgeB4cSDRC197p+UluKbzdBg44V0NcW4Allk9JE=",
+          "narBytes": 53133320,
+          "archiveBytes": 13995104
+        },
+        "/nix/store/8lb04y62al9sa08hhxhq410f85vpw83w-liburing-2.14": {
+          "cache": "https://cache.nixos.org",
+          "narHash": "sha256-nyHp0mKPQihIDLu/SQxMIWcljzV4WLCT+v4N8ij9xx8=",
+          "narBytes": 107304,
+          "archiveBytes": 28981
+        },
+        "/nix/store/8z4wgfcyc5a2qqmdg562qhyqi7c29l4g-postgresql-18.6-doc": {
+          "cache": "https://cache.nixos.org",
+          "narHash": "sha256-OTGLyBXuPAWgSokaexmJNxaieMzEVGrejuQeAwrKAgg=",
+          "narBytes": 17396128,
+          "archiveBytes": 2980163
+        },
+        "/nix/store/d0jr9vnwvw71any4frbi6hmfjzsr644z-clang-wrapper-21.1.8": {
+          "cache": "https://cache.nixos.org",
+          "narHash": "sha256-36YoiPWZZBcrspZAXQC3jo3c3SdvP0gYAAa6sAaqees=",
+          "narBytes": 75176,
+          "archiveBytes": 13611
+        },
+        "/nix/store/g5l3mkk656ccm58gzz0a9kryy2grih01-compiler-rt-libc-21.1.8-dev": {
+          "cache": "https://cache.nixos.org",
+          "narHash": "sha256-BLDZfOnwPrQcwlkdOyzKQ2IDI3HGCeVcSv3NTFGGbV0=",
+          "narBytes": 774208,
+          "archiveBytes": 109113
+        },
+        "/nix/store/h9aczmrkpcmm9z47648m5n9sg67vi5gw-postgresql-18.6": {
+          "cache": "https://cache.nixos.org",
+          "narHash": "sha256-9vKy/fNw4cafX0mIq7oDYw5ly8UwY6K+9PiOM4bANGo=",
+          "narBytes": 25548408,
+          "archiveBytes": 8815477
+        },
+        "/nix/store/jdsqfc7k0n0rwq4b2wmhb89kjxj9sx36-icu4c-78.3-dev": {
+          "cache": "https://cache.nixos.org",
+          "narHash": "sha256-Jj6CMlAwjje6Bl84pUip+FkcjpZ+XY0c5Rk6sL7Wpkw=",
+          "narBytes": 6140704,
+          "archiveBytes": 1287233
+        },
+        "/nix/store/kif0w7i2cki9mk668m7al6p94imbxml4-liburing-2.14-dev": {
+          "cache": "https://cache.nixos.org",
+          "narHash": "sha256-UJ8YBCdPtK6d1qCgY/jGaJ3n5aziP8+YD5NrP229VbA=",
+          "narBytes": 97904,
+          "archiveBytes": 24210
+        },
+        "/nix/store/kyljy9lpzxcnj0mmayhn6pja667mxcqv-postgresql-18.6-dev": {
+          "cache": "https://cache.nixos.org",
+          "narHash": "sha256-Ldx3feQRzkYBXFWrd7MRxKfibc573MppDAYZqfChGxo=",
+          "narBytes": 11925728,
+          "archiveBytes": 3059907
+        },
+        "/nix/store/lbx1ba84hzgw5ixy47nmzvdmjp8ayqi4-liburing-2.14-bin": {
+          "cache": "https://cache.nixos.org",
+          "narHash": "sha256-H9hsuohsvezker41TOhWvjAOceHJJwGpjwmXED66KgU=",
+          "narBytes": 656064,
+          "archiveBytes": 102006
+        },
+        "/nix/store/pv5pg4q7k7261z2j7z5qs7frg0rvz9b3-postgresql-18.6-man": {
+          "cache": "https://cache.nixos.org",
+          "narHash": "sha256-hCrIuv1P5DVPocp+ScO4LsSgEJur0io/9I1NU/Udx0E=",
+          "narBytes": 821280,
+          "archiveBytes": 762258
+        },
+        "/nix/store/vf4my63ycyp1290kaclncs9npjsg4yc9-llvm-binutils-wrapper-21.1.8": {
+          "cache": "https://cache.nixos.org",
+          "narHash": "sha256-JoYDyzMcfRCq5Prl02JCHfsSy8pLQNmjlnfxaNK3STI=",
+          "narBytes": 45288,
+          "archiveBytes": 9348
+        },
+        "/nix/store/vgkmbbqcpmm5wagmf6gv8jv06v3lp21s-postgresql-18.6-lib": {
+          "cache": "https://cache.nixos.org",
+          "narHash": "sha256-qJzWx5s6Z6gcFs2DN3xTNeFnGECGUpxMXgv9RZrvRDQ=",
+          "narBytes": 703136,
+          "archiveBytes": 284911
+        },
+        "/nix/store/yc2a9854a2y2c8kci88piblc847iq1l4-clang-21.1.8-lib": {
+          "cache": "https://cache.nixos.org",
+          "narHash": "sha256-Qwwm8PKJqjMEC4tVBjqfQcAxpHeLKa4uIFnhkNywJzs=",
+          "narBytes": 852470608,
+          "archiveBytes": 123317159
+        },
+        "/nix/store/ync7h8cyhw4nzw2laba4wra6b8mcn9by-compiler-rt-libc-21.1.8": {
+          "cache": "https://cache.nixos.org",
+          "narHash": "sha256-uCeD279YSy1XTrlKlB7ueIzooOJr2+sWVXxgzbCcQ2Q=",
+          "narBytes": 37324816,
+          "archiveBytes": 6262474
+        },
+        "/nix/store/z4czsax3mdyxx77mwb0yjarnzb1rip00-just-1.58.0": {
+          "cache": "https://cache.nixos.org",
+          "narHash": "sha256-2TnVQwzbdjfhbqnaPNSkknLT0CofGxcMM6qUy+pr2EQ=",
+          "narBytes": 6193032,
+          "archiveBytes": 2351983
+        },
+        "/nix/store/z6x3w8dih4izf3smp6l7z4k901cry7il-lz4-1.10.0": {
+          "cache": "https://cache.nixos.org",
+          "narHash": "sha256-aNDwzGatiI6bW9UNa/GJb2nfwHYxY7X966aOdZeZEJ4=",
+          "narBytes": 362576,
+          "archiveBytes": 167884
+        }
+      },
+      "narBytes": 1102830176,
+      "archiveBytes": 192175948,
+      "qualification": "Archive payload sizes for the exact substituted paths/caches in the first entry log; excludes HTTP protocol overhead."
+    },
+    "linuxImplementationEdit": [
+      {
+        "label": "cabal-warm-before-edit",
+        "elapsedSeconds": 8,
+        "exitCode": 0
+      },
+      {
+        "label": "cabal-code-edit",
+        "elapsedSeconds": 11,
+        "exitCode": 0
+      },
+      {
+        "label": "cabal-code-edit-tests",
+        "elapsedSeconds": 11,
+        "exitCode": 0
+      }
+    ],
+    "qualification": "Existing shared outputs were warm. The first observed Linux entry built 12 other application/environment derivations, substituted 22 paths, and built no selected compiler/runtime/HLS derivation. Native first-tool entry is first measured entry for a new shell recipe. Single entry/edit observations do not claim faster compilation; guest elapsed includes translation. Cabal uses its declared -O1 profile separately from production Nix."
+  },
+  "freshWorker": {
+    "receipt": "linux-shared-fresh-worker.json",
+    "receiptSha256": "27b22efbdba228ecc767ca6213802e3a6a883a4d76931604d7a07d54110f7faf",
+    "initialExpectedPaths": 0,
+    "substitutedPaths": 907,
+    "buildsPerformed": 0,
+    "narBytes": 10153824696,
+    "archivePayloadBytes": 1383317212,
+    "archiveSizes": "shared-download-sizes.json",
+    "archiveSizesSha256": "14342d40b99a32ea6d943e0bf61caa1e1c90afd04850f29da5212fa55cbaa888",
+    "scope": "Existing published compiler, retained generation-2 runtime and independent HLS; exact NAR hashes/references match; no cache push; excludes HTTP overhead and does not claim zero builds for a fresh shell wrapper."
+  },
+  "sourceGuardRegression": {
+    "cause": "Different lazy aliases for one fetchTree source compared unequal as strings under the host Nix version.",
+    "selectedSource": {
+      "hash": "sha256-TLzr9fYziChReGioG/qNHQk0fo150HhUI6Rkc2tuX8Q=",
+      "kind": "github",
+      "path": "/nix/store/08mdzk9g6v7i4rh29n9wxq61jaa2riff-source/baikai",
+      "revision": "9e7e5a8d7bbe851f4978c9f8f2e91b2d067c353b",
+      "subdirectory": "baikai",
+      "uri": "https://github.com/shinzui/baikai"
+    },
+    "serializedActualSource": "/nix/store/08mdzk9g6v7i4rh29n9wxq61jaa2riff-source/baikai",
+    "correction": "Reuse existing metadata-only identity projection after literal equality; never build the projection or add it to a production closure.",
+    "negativeGuards": "different repository and subdirectory still rejected",
+    "manifestFixtureTestsPerSystem": 37,
+    "pureContractsPerSystem": 295,
+    "genericContractsPerSystem": 25,
+    "linuxActualManifestDerivations": {
+      "original": "/nix/store/gjfxz00afwk3afk7371wk8xh3jpld1gz-mori-cli-cohort-manifest.drv",
+      "sourceGuardFix": "/nix/store/gjfxz00afwk3afk7371wk8xh3jpld1gz-mori-cli-cohort-manifest.drv"
+    }
+  },
+  "finalChecks": {
+    "darwinFlakeCheck": {
+      "exitCode": 0,
+      "snapshot": {
+        "path": "/tmp/ep20-final-channel-ced3977d9da1ea76",
+        "trackedFileManifestSha256": "ced3977d9da1ea76f96d7be339b0d3044f0fa4107d28c457dfba256ec5db369d",
+        "codeSha256": {
+          "lib/mkCohortManifest.nix": "bf62b62be30cabc597f7a2554099b1b9e31b869fac0a6708d43b104411c8446b",
+          "checks/cohort-manifest.nix": "6361f37a9fac0aa034b0b5274550991535e60530c4bc1ee78edb919baa7d3dea",
+          "lib/mkProjectDevShell.nix": "ffd5ace170169c6994d59cf37550ca668f0f4eb6a558ee3031bdd30e5448714c",
+          "checks/project-shell.nix": "b644210efe990909ef4c91ad0768b7f03cf4e783cea916d8bfffa122a7525dbe"
+        }
+      }
+    },
+    "linuxFlakeCheck": {
+      "exitCode": 0,
+      "snapshot": "/tmp/ep20-manifest-guard-channel"
+    },
+    "lastShellHookChange": "Literal PATH parsing was checked afterward through final HLS-enabled native fixtures and retained identity checks on both systems, plus all 25 generic contracts.",
+    "documentationProfiles": "passed",
+    "formattingBothRepositories": "passed",
+    "consumerNixFormatting": "passed",
+    "legacyNormalPinIdentities": {
+      "package": "/nix/store/yak3wdr3w9swi5hn0ilqv509vkxkp38s-mori-cli-7.0.0.0.drv",
+      "shell": "/nix/store/i5k2y5cfn2d7kdgk3n03v9nn6vcmvkg9-nix-shell.drv"
+    }
+  },
+  "archives": {
+    "darwinSourceCompletePlan": {
+      "file": "mori-darwin-plan.json.gz",
+      "rawSha256": "38649f2ed9238fa0512decf51efdb805d6131405c13ce186010dc89ca0ccf183",
+      "gzipSha256": "61f34c7a6c0c6870a3ee4b0a804ce52a8c2b885ba6a213bdb39745b04e910e80",
+      "rawBytes": 299868
+    },
+    "linuxSourceCompletePlan": {
+      "file": "mori-linux-plan.json.gz",
+      "rawSha256": "e4a626488deefc3181aa0797060448f740e852f1f002a3269703e1720169e887",
+      "gzipSha256": "baf4e0f5d728716db4a00d7e8852a92360ab2e66e756a5a8a2271e296bd88c47",
+      "rawBytes": 440637
+    },
+    "darwinActualManifest": {
+      "file": "mori-darwin-manifest.log.gz",
+      "rawSha256": "4d036d6eb1d0dadc892bc9c3dc7b14ad68f07e0e81a2438ac0410a6fed6bf8ea",
+      "gzipSha256": "a4e689ceb2adb53911a69b7c0b240391668b1e1956c59d779afc78bab37bec24",
+      "rawBytes": 2400
+    },
+    "linuxActualManifest": {
+      "file": "mori-linux-manifest.log.gz",
+      "rawSha256": "76b247a4b1433ee2d4fe36e16f92046ee5bf82ab64c4e2ec9e00230c22cd163c",
+      "gzipSha256": "35d4e4c387f6bdafb2382d0be84d23bc42adac720e61063128f85eb2a163a237",
+      "rawBytes": 1231563
+    },
+    "darwinPlanComparison": {
+      "file": "mori-darwin-plan-comparison.log.gz",
+      "rawSha256": "a59a9be6d0284dc43205fc5987555fddfc0c889a37ceee195f145077e576b546",
+      "gzipSha256": "306135ab2d67bc7874c5cedf2d155ec2aa46ed15203c8afe0fbc72df2e205933",
+      "rawBytes": 9221
+    },
+    "linuxPlanComparison": {
+      "file": "mori-linux-plan-comparison.log.gz",
+      "rawSha256": "1c2d7355468d01ffce72c3f9e7f420c57e9d413d8db2e2b08e3e8bb5981126f2",
+      "gzipSha256": "8215bcb697e19db19b85afe6ddf1eaffeba3b1a3cddd9071a2858be8fd921ba8",
+      "rawBytes": 9135
+    },
+    "darwinOwnedTests": {
+      "file": "mori-darwin-owned-tests.log.gz",
+      "rawSha256": "dc3c9994adbe5f42f0a7f421641176fe2fc4f2d23cfdd5a9bd630a38441e12f3",
+      "gzipSha256": "9cf466864f810555f91822096c1cbc81c4c3e3f5aaf41b8c13d20a8ac86e5006",
+      "rawBytes": 7774
+    },
+    "linuxOwnedTests": {
+      "file": "mori-linux-owned-tests.log.gz",
+      "rawSha256": "39121a5e7cf5d3e95259da7eae4b5d929fb75aa3f2817b45fc108c70207cf7fc",
+      "gzipSha256": "a348b1067f27905c0fecb47762658e70c4ce467efb15622ebaebb4b786b11f32",
+      "rawBytes": 11189
+    },
+    "darwinCodeEditTests": {
+      "file": "mori-darwin-code-edit-tests.log.gz",
+      "rawSha256": "f9bbf646dab2688dc40d3d48f4366b84a3fc91219b0ce631d2337473b84ee1b1",
+      "gzipSha256": "74d2f66da8c415fcf67c303894759b3bc60f1cbd02eb5f26be1894bb74f68a18",
+      "rawBytes": 7774
+    },
+    "linuxCodeEditTests": {
+      "file": "mori-linux-code-edit-tests.log.gz",
+      "rawSha256": "5e96a5125456d3c6f852635024563724036fd3ce56791fff394a98ed72f92e24",
+      "gzipSha256": "4b06dd92f8007dcf474ce9541931f02bba5e40df6368f8f65e0b50ca2f696ce3",
+      "rawBytes": 7401
+    },
+    "darwinFullCheck": {
+      "file": "final-darwin-flake.log.gz",
+      "rawSha256": "37f05c2509a6cb7d25f19ad0d89af73d61b67c595edd25da5b1886680fc22b63",
+      "gzipSha256": "6dcc5fc65ae276b935178d72829778e0640480ba46e2f9be17f08cbce651aa84",
+      "rawBytes": 16417
+    },
+    "linuxFullCheck": {
+      "file": "final-linux-flake.log.gz",
+      "rawSha256": "20780d8a93f5d4ff94895b22c531408ef3f67295d96088a8b2e3944e0462bdcf",
+      "gzipSha256": "dd1658e29f2789aa12b48cd04e118dce34c1f84212959d9a12215534216f2eb2",
+      "rawBytes": 22209
+    },
+    "darwinFinalShellFixture": {
+      "file": "final-darwin-shell-fixture.log.gz",
+      "rawSha256": "aba3ffcc3992b7f194ce941e8a651524a689db5a06ba76d0dc719357b3c4a556",
+      "gzipSha256": "2014ed77c118bbb9fee56e32934520136c0c1bc6c1dccf78ea0dcbaf5a2071da",
+      "rawBytes": 43062
+    },
+    "linuxFinalShellFixture": {
+      "file": "final-linux-shell-fixture.log.gz",
+      "rawSha256": "99a7c0d431c52d705a6dc75053d04c5eb08c53f41790a927a78d7f6ed962b36e",
+      "gzipSha256": "4626a239cf5931050c47c97de42b0987f85a2c71cdc65d7f52b2e19b96de9e55",
+      "rawBytes": 46801
+    }
+  },
+  "limitations": [
+    "Normal scoped Cabal pre-existing non-boot rows omit source hashes and cannot alone prove source parity; separate same-compiler bare solves supply that evidence.",
+    "Linux initially needed Cabal index initialization; retained imports/pins stayed unchanged.",
+    "Streamed Apple container I/O stalled; interrupted attempts are excluded and guest-file reruns reached terminal success.",
+    "HLS protocol behavior and full toolchain smoke/cache matrix remain DEV-5 work.",
+    "The broader MasterPlan is not complete and this receipt claims consistency/maintenance behavior, not compiler speedup."
+  ]
+}

@@ -92,7 +92,7 @@ in  AgentPlans.AgentPlansCatalog::{
       , AgentPlans.ExposedPlan::{
         , kind = AgentPlans.PlanKind.ExecPlan
         , file = "docs/plans/20-build-project-development-shells-from-retained-runtime-package-sets.md"
-        , status = AgentPlans.PlanStatus.InProgress
+        , status = AgentPlans.PlanStatus.Complete
         , owner = None Text
         , summary = None Text
         , dependencies =

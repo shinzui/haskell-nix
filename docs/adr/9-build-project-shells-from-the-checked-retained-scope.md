@@ -1,6 +1,6 @@
 # Build project shells from the checked retained scope
 
-Status: Accepted design; real consumer adoption and shell/cache measurements remain pending.
+Status: Accepted.
 
 Date: 2026-10-17
 
@@ -79,15 +79,21 @@ only its shell builder, and all legacy tools/bundles/shells keep their identitie
 all three declared toolchain systems. [M2 evidence](../evidence/ep20/project-shell-constructors.json)
 records exact inputs and qualifications.
 
-This establishes constructor behavior. Real application plan comparison, supported
-Cabal test/benchmark configurations, first-entry/re-entry measurements, source-edit
-behavior and fresh-worker reuse remain [plan 20](../plans/20-build-project-development-shells-from-retained-runtime-package-sets.md)
-acceptance. Exposing Nix-built libraries does not imply equal Cabal unit IDs or no
-application recompilation. A normal scoped Cabal plan contains installed non-boot
-packages without source/metadata hashes; the existing comparator must reject those
-rows as source evidence. Obtain a separate fresh plan through the same bare compiler
-and retained source/constraint imports. Compare the complete cohort freeze against
-the complete comparison source manifest, then verify actual Nix identities separately.
-This preserves the existing parser, package authority and evidence requirements. HLS protocol behavior remains the toolchain smoke plan's
-separate responsibility. Linux guest results retain translation and guest
-sandbox/syscall-filter limits; no physical-x86 performance claim is made.
+The optional `mori://shinzui/mori` adoption is delivered in its unmanaged
+`flake.module.nix` (artifact-level URI pending), preserving pins and the default
+shell. [Final consumer evidence](../evidence/ep20/mori-project-shell.json) retains
+normal production execution, 392-dependency fresh Cabal comparisons, 340-instance
+actual executable manifests, 79 owned-package tests, source-edit behavior and
+shared identities on both declared execution systems. Entry/edit costs are separate
+observations. An empty Linux worker substitutes 907 existing compiler/runtime/HLS
+paths with zero builds; this does not claim zero construction for a fresh shell wrapper.
+
+Normal scoped Cabal plans contain installed non-boot packages without source/metadata
+hashes; the existing comparator must reject those rows as source evidence. Obtain a
+separate fresh plan through the same bare compiler and retained imports. Compare the
+complete cohort freeze against the complete source manifest, then verify actual Nix
+identities separately. This preserves the existing parser and package authority.
+Nix-built library exposure does not imply equal Cabal unit IDs or no application
+recompilation. HLS protocol behavior remains the toolchain smoke plan's separate
+responsibility. Linux results retain translation and guest sandbox/syscall-filter
+limits; no physical-x86 performance or general compiler speedup is claimed.

@@ -114,8 +114,9 @@ alone does not prove saved compilation. Keep these timings separate from Nix pro
 compiler performance and HLS protocol behavior. Apple Containers amd64 translation supplies
 qualified Linux correctness results; retain that qualification for guest timings.
 
-[Constructor evidence](../evidence/ep20/project-shell-constructors.json),
+[Final real-consumer evidence](../evidence/ep20/mori-project-shell.json),
+[constructor evidence](../evidence/ep20/project-shell-constructors.json),
 [the HLS-enabled regression](../evidence/ep20/hls-enabled-shell-entry.json) and
 [ADR 9](../adr/9-build-project-shells-from-the-checked-retained-scope.md) describe accepted
 constructor behavior. [Plan 20](../plans/20-build-project-development-shells-from-retained-runtime-package-sets.md)
-tracks the real-consumer and final adoption gates.
+records completed real-consumer and optional adoption acceptance, with the declared evidence limits.
