@@ -1,0 +1,14 @@
+{
+  "cryptohash-sha256": {
+    "version": "0.11.102.1",
+    "metadataSha256": "0e9de2ccce261e7a5b027e842f6f47f50eb0e6059a0de98a5479f75aa8164107",
+    "remove": ["-f-exe"],
+    "reason": "The exact selected Cabal metadata declares exe Default False. Explicit conversion emits its redundant false switch; the retained constructor omits it. Preserve that argument spelling without changing the effective flag or generated converter bytes."
+  },
+  "entropy": {
+    "version": "0.4.1.11",
+    "metadataSha256": "1b9b1a7282ba6d7671e6d7a9be84cc18c40a3a480cef621927a8e4c66ec47913",
+    "remove": ["-f-donotgetentropy"],
+    "reason": "The exact selected Cabal metadata declares DoNotGetEntropy Default False. Omit only the redundant explicit false switch to retain the legacy recipe spelling; preserve its Custom Setup and effective platform detection."
+  }
+}

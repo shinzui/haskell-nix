@@ -1,0 +1,752 @@
+{
+  "schema_version": 1,
+  "system": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "project_uri": "mori://shinzui/rei",
+  "thresholds": {
+    "minimum_scoped_saving_fraction": 0.2,
+    "trials": 5,
+    "names": [
+      "base16-bytestring",
+      "base64-bytestring",
+      "cryptohash-sha256",
+      "entropy",
+      "file-embed"
+    ],
+    "workload": "Five actual Rei dependencies whose selected Haskell dependencies are all compiler-provided, including native C and Setup declarations; full consumer measured separately",
+    "declaration": "Before group candidate timings; threshold unchanged after the negative one-root experiment",
+    "no_production_adoption": "New retained generation/reference, native matrix and total-cost acceptance remain required"
+  },
+  "command": [
+    "nix",
+    "eval",
+    "--json",
+    "--impure",
+    "--file",
+    "/Users/shinzui/Keikaku/bokuno/haskell-nix/checks/fixtures/generated-recipes/group.nix",
+    "--argstr",
+    "selection",
+    "/Users/shinzui/Keikaku/bokuno/rei-project/rei/nix/runtime-selection.json",
+    "--argstr",
+    "applicationSource",
+    "/var/folders/xf/z_902qyd0dg5m6n8pjv1vk300000gn/T/mp4-app-baselines-gqysbxfp/rei",
+    "--option",
+    "eval-cache",
+    "false"
+  ],
+  "cache_state": "All four queries warmed once; five alternating pairs in fresh Nix processes with eval-cache false. Run after native checkpoint validation and initial Rei parallelism campaign, before Mori or supplemental Rei timing; no concurrent native build launched.",
+  "generation": {
+    "schema_version": 1,
+    "converter": {
+      "drvPath": "/nix/store/v7lg9wjihi6x3khvyqh5r03fnzfvm3ab-cabal2nix-2.21.3-unstable-2026-03-30.drv",
+      "outputs": {
+        "bin": "/nix/store/53ih48jprxhjz2j5yn82wwh7gklqmva3-cabal2nix-2.21.3-unstable-2026-03-30-bin"
+      }
+    },
+    "packages": [
+      {
+        "name": "base16-bytestring",
+        "version": "1.0.2.0",
+        "revision": {
+          "number": "1",
+          "sha256": "a694e88f9ec9fc79f0b03f233d3fea592b68f70a34aac2ddb5bcaecb6562e2fd"
+        },
+        "archive_sha256": "1d5a91143ef0e22157536093ec8e59d226a68220ec89378d5dcaeea86472c784",
+        "metadata_sha256": "a694e88f9ec9fc79f0b03f233d3fea592b68f70a34aac2ddb5bcaecb6562e2fd",
+        "flags": {},
+        "metadata_url": "https://hackage.haskell.org/package/base16-bytestring-1.0.2.0/revision/1.cabal",
+        "arguments": [
+          "--compiler=ghc-9.12.4",
+          "--system=aarch64-darwin",
+          "--sha256=",
+          "--no-hpack",
+          "--src-expression=src",
+          "--extra-arguments=src",
+          "/tmp/mp4-ep19-group-inputs/base16-bytestring.cabal"
+        ],
+        "recipe_sha256": "7f06f7299b155db7f3459f71f819ac0cc070b2492a6770a3b7a45b98f76b205e",
+        "selected_dependency_roles": [
+          "lib"
+        ],
+        "source_classification": "CohortGenerated"
+      },
+      {
+        "name": "base64-bytestring",
+        "version": "1.2.1.0",
+        "revision": {
+          "number": "1",
+          "sha256": "45305ccf8914c66d385b518721472c7b8c858f1986945377f74f85c1e0d49803"
+        },
+        "archive_sha256": "fbf8ed30edde271eb605352021431d8f1b055f95a56af31fe2eacf6bdfdc49c9",
+        "metadata_sha256": "45305ccf8914c66d385b518721472c7b8c858f1986945377f74f85c1e0d49803",
+        "flags": {},
+        "metadata_url": "https://hackage.haskell.org/package/base64-bytestring-1.2.1.0/revision/1.cabal",
+        "arguments": [
+          "--compiler=ghc-9.12.4",
+          "--system=aarch64-darwin",
+          "--sha256=",
+          "--no-hpack",
+          "--src-expression=src",
+          "--extra-arguments=src",
+          "/tmp/mp4-ep19-group-inputs/base64-bytestring.cabal"
+        ],
+        "recipe_sha256": "84f3fbe710dc6d3c3bc23a619be6a09103deebed3a3b7ce698a596307180d16d",
+        "selected_dependency_roles": [
+          "lib"
+        ],
+        "source_classification": "CohortGenerated"
+      },
+      {
+        "name": "cryptohash-sha256",
+        "version": "0.11.102.1",
+        "revision": {
+          "number": "6",
+          "sha256": "0e9de2ccce261e7a5b027e842f6f47f50eb0e6059a0de98a5479f75aa8164107"
+        },
+        "archive_sha256": "73a7dc7163871a80837495039a099967b11f5c4fe70a118277842f7a713c6bf6",
+        "metadata_sha256": "0e9de2ccce261e7a5b027e842f6f47f50eb0e6059a0de98a5479f75aa8164107",
+        "flags": {
+          "exe": false,
+          "use-cbits": true
+        },
+        "metadata_url": "https://hackage.haskell.org/package/cryptohash-sha256-0.11.102.1/revision/6.cabal",
+        "arguments": [
+          "--compiler=ghc-9.12.4",
+          "--system=aarch64-darwin",
+          "--sha256=",
+          "--no-hpack",
+          "--src-expression=src",
+          "--extra-arguments=src",
+          "--flag=-exe",
+          "--flag=use-cbits",
+          "/tmp/mp4-ep19-group-inputs/cryptohash-sha256.cabal"
+        ],
+        "recipe_sha256": "a30f7a816c9664b7ed07e45eb2b465b507f658f56b60bebf2a69899c671c6dd3",
+        "selected_dependency_roles": [
+          "lib"
+        ],
+        "source_classification": "CohortGenerated"
+      },
+      {
+        "name": "entropy",
+        "version": "0.4.1.11",
+        "revision": {
+          "number": "1",
+          "sha256": "1b9b1a7282ba6d7671e6d7a9be84cc18c40a3a480cef621927a8e4c66ec47913"
+        },
+        "archive_sha256": "f5dd5a01278f8318d9793ed6071b742f13ce36c7456328baae4acc818e2d92ea",
+        "metadata_sha256": "1b9b1a7282ba6d7671e6d7a9be84cc18c40a3a480cef621927a8e4c66ec47913",
+        "flags": {
+          "donotgetentropy": false
+        },
+        "metadata_url": "https://hackage.haskell.org/package/entropy-0.4.1.11/revision/1.cabal",
+        "arguments": [
+          "--compiler=ghc-9.12.4",
+          "--system=aarch64-darwin",
+          "--sha256=",
+          "--no-hpack",
+          "--src-expression=src",
+          "--extra-arguments=src",
+          "--flag=-donotgetentropy",
+          "/tmp/mp4-ep19-group-inputs/entropy.cabal"
+        ],
+        "recipe_sha256": "a6f63bb23facc5559505c92794038c3641c22e1e6305856b29e4ef69f06c3134",
+        "selected_dependency_roles": [
+          null
+        ],
+        "source_classification": "CohortGenerated"
+      },
+      {
+        "name": "file-embed",
+        "version": "0.0.16.0",
+        "revision": null,
+        "archive_sha256": "5f18672eff936355557cdd163905451205d7ee22742edac313dd27cf42a3f415",
+        "metadata_sha256": "2e8983240c1faae020b4acef6d30f0281f5ec87c2f38736dc1dc5456355e22a5",
+        "flags": {},
+        "metadata_url": "https://hackage.haskell.org/package/file-embed-0.0.16.0/file-embed-0.0.16.0.tar.gz#file-embed-0.0.16.0/file-embed.cabal",
+        "arguments": [
+          "--compiler=ghc-9.12.4",
+          "--system=aarch64-darwin",
+          "--sha256=",
+          "--no-hpack",
+          "--src-expression=src",
+          "--extra-arguments=src",
+          "/tmp/mp4-ep19-group-inputs/file-embed.cabal"
+        ],
+        "recipe_sha256": "512530137e1b06fef4d8670fb208458e91bbf4eeb281f8ceaeca570f5ca1f566",
+        "selected_dependency_roles": [
+          "lib"
+        ],
+        "source_classification": "CohortGenerated"
+      }
+    ],
+    "elapsed_seconds": 1.09290108300047
+  },
+  "regeneration": {
+    "byte_identical": true,
+    "hashes": {
+      "pinned.nix": "0c8f127825f1d3bcd9fb06ae9dd8e9e44183eb07c68e4a68baa2724175529a29",
+      "base16-bytestring.nix": "7f06f7299b155db7f3459f71f819ac0cc070b2492a6770a3b7a45b98f76b205e",
+      "file-embed.nix": "512530137e1b06fef4d8670fb208458e91bbf4eeb281f8ceaeca570f5ca1f566",
+      "bytestring-lexing.nix": "9511dbdd75b32e3edfebbc6bc4e3593dab92205bbe4e3ce04db371c1c35b61fb",
+      "base64-bytestring.nix": "84f3fbe710dc6d3c3bc23a619be6a09103deebed3a3b7ce698a596307180d16d",
+      "revised.nix": "b16321fd343eb1809b5700a48dfbee3c9d0bbeb096345fc36a250127fc54363d",
+      "flagged.nix": "6bd5aac9b4f5315a025e7b5a4d736511121ec01752dd3a5ba6116d903a8d2a80",
+      "consumer.nix": "5b9ca4fad8c38f0c4eb0126237724a9777408baf5c6f863d141361a71b683b4b",
+      "leaf.nix": "c8124d5867660e63d6a74fc1fa844460dcafdbdab5577ffdf8b3a26404904b1d",
+      "entropy.nix": "a6f63bb23facc5559505c92794038c3641c22e1e6305856b29e4ef69f06c3134",
+      "cryptohash-sha256.nix": "a30f7a816c9664b7ed07e45eb2b465b507f658f56b60bebf2a69899c671c6dd3"
+    },
+    "second_generation": {
+      "schema_version": 1,
+      "converter": {
+        "drvPath": "/nix/store/v7lg9wjihi6x3khvyqh5r03fnzfvm3ab-cabal2nix-2.21.3-unstable-2026-03-30.drv",
+        "outputs": {
+          "bin": "/nix/store/53ih48jprxhjz2j5yn82wwh7gklqmva3-cabal2nix-2.21.3-unstable-2026-03-30-bin"
+        }
+      },
+      "packages": [
+        {
+          "name": "base16-bytestring",
+          "version": "1.0.2.0",
+          "revision": {
+            "number": "1",
+            "sha256": "a694e88f9ec9fc79f0b03f233d3fea592b68f70a34aac2ddb5bcaecb6562e2fd"
+          },
+          "archive_sha256": "1d5a91143ef0e22157536093ec8e59d226a68220ec89378d5dcaeea86472c784",
+          "metadata_sha256": "a694e88f9ec9fc79f0b03f233d3fea592b68f70a34aac2ddb5bcaecb6562e2fd",
+          "flags": {},
+          "metadata_url": "https://hackage.haskell.org/package/base16-bytestring-1.0.2.0/revision/1.cabal",
+          "arguments": [
+            "--compiler=ghc-9.12.4",
+            "--system=aarch64-darwin",
+            "--sha256=",
+            "--no-hpack",
+            "--src-expression=src",
+            "--extra-arguments=src",
+            "/tmp/mp4-ep19-group-inputs/base16-bytestring.cabal"
+          ],
+          "recipe_sha256": "7f06f7299b155db7f3459f71f819ac0cc070b2492a6770a3b7a45b98f76b205e",
+          "selected_dependency_roles": [
+            "lib"
+          ],
+          "source_classification": "CohortGenerated"
+        },
+        {
+          "name": "base64-bytestring",
+          "version": "1.2.1.0",
+          "revision": {
+            "number": "1",
+            "sha256": "45305ccf8914c66d385b518721472c7b8c858f1986945377f74f85c1e0d49803"
+          },
+          "archive_sha256": "fbf8ed30edde271eb605352021431d8f1b055f95a56af31fe2eacf6bdfdc49c9",
+          "metadata_sha256": "45305ccf8914c66d385b518721472c7b8c858f1986945377f74f85c1e0d49803",
+          "flags": {},
+          "metadata_url": "https://hackage.haskell.org/package/base64-bytestring-1.2.1.0/revision/1.cabal",
+          "arguments": [
+            "--compiler=ghc-9.12.4",
+            "--system=aarch64-darwin",
+            "--sha256=",
+            "--no-hpack",
+            "--src-expression=src",
+            "--extra-arguments=src",
+            "/tmp/mp4-ep19-group-inputs/base64-bytestring.cabal"
+          ],
+          "recipe_sha256": "84f3fbe710dc6d3c3bc23a619be6a09103deebed3a3b7ce698a596307180d16d",
+          "selected_dependency_roles": [
+            "lib"
+          ],
+          "source_classification": "CohortGenerated"
+        },
+        {
+          "name": "cryptohash-sha256",
+          "version": "0.11.102.1",
+          "revision": {
+            "number": "6",
+            "sha256": "0e9de2ccce261e7a5b027e842f6f47f50eb0e6059a0de98a5479f75aa8164107"
+          },
+          "archive_sha256": "73a7dc7163871a80837495039a099967b11f5c4fe70a118277842f7a713c6bf6",
+          "metadata_sha256": "0e9de2ccce261e7a5b027e842f6f47f50eb0e6059a0de98a5479f75aa8164107",
+          "flags": {
+            "exe": false,
+            "use-cbits": true
+          },
+          "metadata_url": "https://hackage.haskell.org/package/cryptohash-sha256-0.11.102.1/revision/6.cabal",
+          "arguments": [
+            "--compiler=ghc-9.12.4",
+            "--system=aarch64-darwin",
+            "--sha256=",
+            "--no-hpack",
+            "--src-expression=src",
+            "--extra-arguments=src",
+            "--flag=-exe",
+            "--flag=use-cbits",
+            "/tmp/mp4-ep19-group-inputs/cryptohash-sha256.cabal"
+          ],
+          "recipe_sha256": "a30f7a816c9664b7ed07e45eb2b465b507f658f56b60bebf2a69899c671c6dd3",
+          "selected_dependency_roles": [
+            "lib"
+          ],
+          "source_classification": "CohortGenerated"
+        },
+        {
+          "name": "entropy",
+          "version": "0.4.1.11",
+          "revision": {
+            "number": "1",
+            "sha256": "1b9b1a7282ba6d7671e6d7a9be84cc18c40a3a480cef621927a8e4c66ec47913"
+          },
+          "archive_sha256": "f5dd5a01278f8318d9793ed6071b742f13ce36c7456328baae4acc818e2d92ea",
+          "metadata_sha256": "1b9b1a7282ba6d7671e6d7a9be84cc18c40a3a480cef621927a8e4c66ec47913",
+          "flags": {
+            "donotgetentropy": false
+          },
+          "metadata_url": "https://hackage.haskell.org/package/entropy-0.4.1.11/revision/1.cabal",
+          "arguments": [
+            "--compiler=ghc-9.12.4",
+            "--system=aarch64-darwin",
+            "--sha256=",
+            "--no-hpack",
+            "--src-expression=src",
+            "--extra-arguments=src",
+            "--flag=-donotgetentropy",
+            "/tmp/mp4-ep19-group-inputs/entropy.cabal"
+          ],
+          "recipe_sha256": "a6f63bb23facc5559505c92794038c3641c22e1e6305856b29e4ef69f06c3134",
+          "selected_dependency_roles": [
+            null
+          ],
+          "source_classification": "CohortGenerated"
+        },
+        {
+          "name": "file-embed",
+          "version": "0.0.16.0",
+          "revision": null,
+          "archive_sha256": "5f18672eff936355557cdd163905451205d7ee22742edac313dd27cf42a3f415",
+          "metadata_sha256": "2e8983240c1faae020b4acef6d30f0281f5ec87c2f38736dc1dc5456355e22a5",
+          "flags": {},
+          "metadata_url": "https://hackage.haskell.org/package/file-embed-0.0.16.0/file-embed-0.0.16.0.tar.gz#file-embed-0.0.16.0/file-embed.cabal",
+          "arguments": [
+            "--compiler=ghc-9.12.4",
+            "--system=aarch64-darwin",
+            "--sha256=",
+            "--no-hpack",
+            "--src-expression=src",
+            "--extra-arguments=src",
+            "/tmp/mp4-ep19-group-inputs/file-embed.cabal"
+          ],
+          "recipe_sha256": "512530137e1b06fef4d8670fb208458e91bbf4eeb281f8ceaeca570f5ca1f566",
+          "selected_dependency_roles": [
+            "lib"
+          ],
+          "source_classification": "CohortGenerated"
+        }
+      ],
+      "elapsed_seconds": 1.093173333996674
+    }
+  },
+  "identity": {
+    "checked": {
+      "base16-bytestring": "/nix/store/nzr71qa57xi0f118bg6lh2hfs3f7s092-base16-bytestring-1.0.2.0.drv",
+      "base64-bytestring": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+      "cryptohash-sha256": "/nix/store/6wpspi7g6cm948xfkahj5n73ag111si6-cryptohash-sha256-0.11.102.1.drv",
+      "entropy": "/nix/store/n7aj73c6xwzva343av0iqlkhfrl6qs9h-entropy-0.4.1.11.drv",
+      "file-embed": "/nix/store/vhqz47k73r2gijyqqlc53zn7kmjq2pyk-file-embed-0.0.16.0.drv"
+    },
+    "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+    "generated": {
+      "base16-bytestring": "/nix/store/nzr71qa57xi0f118bg6lh2hfs3f7s092-base16-bytestring-1.0.2.0.drv",
+      "base64-bytestring": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+      "cryptohash-sha256": "/nix/store/6wpspi7g6cm948xfkahj5n73ag111si6-cryptohash-sha256-0.11.102.1.drv",
+      "entropy": "/nix/store/n7aj73c6xwzva343av0iqlkhfrl6qs9h-entropy-0.4.1.11.drv",
+      "file-embed": "/nix/store/vhqz47k73r2gijyqqlc53zn7kmjq2pyk-file-embed-0.0.16.0.drv"
+    },
+    "legacy": {
+      "base16-bytestring": "/nix/store/nzr71qa57xi0f118bg6lh2hfs3f7s092-base16-bytestring-1.0.2.0.drv",
+      "base64-bytestring": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+      "cryptohash-sha256": "/nix/store/6wpspi7g6cm948xfkahj5n73ag111si6-cryptohash-sha256-0.11.102.1.drv",
+      "entropy": "/nix/store/n7aj73c6xwzva343av0iqlkhfrl6qs9h-entropy-0.4.1.11.drv",
+      "file-embed": "/nix/store/vhqz47k73r2gijyqqlc53zn7kmjq2pyk-file-embed-0.0.16.0.drv"
+    },
+    "names": [
+      "base16-bytestring",
+      "base64-bytestring",
+      "cryptohash-sha256",
+      "entropy",
+      "file-embed"
+    ],
+    "runtime": "da00319eb1423b4372a0a0b050911b7719d1de0867a3e32160dbd327a2762e81",
+    "sources": {
+      "base16-bytestring": "/nix/store/shvmdimg1b58p4i0zja0x71lq0yn8w13-source",
+      "base64-bytestring": "/nix/store/7xl51c661970j6vsajh1y97y9i063nl9-source",
+      "cryptohash-sha256": "/nix/store/ziwqay27mqrp5sjqfn247z16hsn87lgq-source",
+      "entropy": "/nix/store/7zsmhzg21786s2d7bbvkvbhyd61arxqs-source",
+      "file-embed": "/nix/store/rc3szlww45j8r844qbx87i1yyv7jm7xd-source"
+    },
+    "system": "aarch64-darwin"
+  },
+  "scoped_no_ifd": {
+    "exit_code": 0,
+    "identities": {
+      "base16-bytestring": "/nix/store/nzr71qa57xi0f118bg6lh2hfs3f7s092-base16-bytestring-1.0.2.0.drv",
+      "base64-bytestring": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+      "cryptohash-sha256": "/nix/store/6wpspi7g6cm948xfkahj5n73ag111si6-cryptohash-sha256-0.11.102.1.drv",
+      "entropy": "/nix/store/n7aj73c6xwzva343av0iqlkhfrl6qs9h-entropy-0.4.1.11.drv",
+      "file-embed": "/nix/store/vhqz47k73r2gijyqqlc53zn7kmjq2pyk-file-embed-0.0.16.0.drv"
+    }
+  },
+  "flag_normalization": {
+    "cryptohash-sha256": {
+      "version": "0.11.102.1",
+      "metadataSha256": "0e9de2ccce261e7a5b027e842f6f47f50eb0e6059a0de98a5479f75aa8164107",
+      "remove": [
+        "-f-exe"
+      ],
+      "reason": "The exact selected Cabal metadata declares exe Default False. Explicit conversion emits its redundant false switch; the retained constructor omits it. Preserve that argument spelling without changing the effective flag or generated converter bytes."
+    },
+    "entropy": {
+      "version": "0.4.1.11",
+      "metadataSha256": "1b9b1a7282ba6d7671e6d7a9be84cc18c40a3a480cef621927a8e4c66ec47913",
+      "remove": [
+        "-f-donotgetentropy"
+      ],
+      "reason": "The exact selected Cabal metadata declares DoNotGetEntropy Default False. Omit only the redundant explicit false switch to retain the legacy recipe spelling; preserve its Custom Setup and effective platform detection."
+    }
+  },
+  "measurements": [
+    {
+      "workload": "scoped_group",
+      "warmup": [
+        {
+          "trial": 0,
+          "label": "baseline",
+          "query": "groupLegacy",
+          "elapsed_seconds": 1.3956041659985203,
+          "maximum_resident_set_bytes_darwin": 764248064,
+          "output": {
+            "base16-bytestring": "/nix/store/nzr71qa57xi0f118bg6lh2hfs3f7s092-base16-bytestring-1.0.2.0.drv",
+            "base64-bytestring": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+            "cryptohash-sha256": "/nix/store/6wpspi7g6cm948xfkahj5n73ag111si6-cryptohash-sha256-0.11.102.1.drv",
+            "entropy": "/nix/store/n7aj73c6xwzva343av0iqlkhfrl6qs9h-entropy-0.4.1.11.drv",
+            "file-embed": "/nix/store/vhqz47k73r2gijyqqlc53zn7kmjq2pyk-file-embed-0.0.16.0.drv"
+          },
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "trial": 0,
+          "label": "candidate",
+          "query": "groupGenerated",
+          "elapsed_seconds": 1.1190823749930132,
+          "maximum_resident_set_bytes_darwin": 634355712,
+          "output": {
+            "base16-bytestring": "/nix/store/nzr71qa57xi0f118bg6lh2hfs3f7s092-base16-bytestring-1.0.2.0.drv",
+            "base64-bytestring": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+            "cryptohash-sha256": "/nix/store/6wpspi7g6cm948xfkahj5n73ag111si6-cryptohash-sha256-0.11.102.1.drv",
+            "entropy": "/nix/store/n7aj73c6xwzva343av0iqlkhfrl6qs9h-entropy-0.4.1.11.drv",
+            "file-embed": "/nix/store/vhqz47k73r2gijyqqlc53zn7kmjq2pyk-file-embed-0.0.16.0.drv"
+          },
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "trials": [
+        {
+          "trial": 1,
+          "label": "baseline",
+          "query": "groupLegacy",
+          "elapsed_seconds": 1.350124250020599,
+          "maximum_resident_set_bytes_darwin": 759611392,
+          "output": {
+            "base16-bytestring": "/nix/store/nzr71qa57xi0f118bg6lh2hfs3f7s092-base16-bytestring-1.0.2.0.drv",
+            "base64-bytestring": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+            "cryptohash-sha256": "/nix/store/6wpspi7g6cm948xfkahj5n73ag111si6-cryptohash-sha256-0.11.102.1.drv",
+            "entropy": "/nix/store/n7aj73c6xwzva343av0iqlkhfrl6qs9h-entropy-0.4.1.11.drv",
+            "file-embed": "/nix/store/vhqz47k73r2gijyqqlc53zn7kmjq2pyk-file-embed-0.0.16.0.drv"
+          },
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "trial": 1,
+          "label": "candidate",
+          "query": "groupGenerated",
+          "elapsed_seconds": 1.0915090829948895,
+          "maximum_resident_set_bytes_darwin": 629981184,
+          "output": {
+            "base16-bytestring": "/nix/store/nzr71qa57xi0f118bg6lh2hfs3f7s092-base16-bytestring-1.0.2.0.drv",
+            "base64-bytestring": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+            "cryptohash-sha256": "/nix/store/6wpspi7g6cm948xfkahj5n73ag111si6-cryptohash-sha256-0.11.102.1.drv",
+            "entropy": "/nix/store/n7aj73c6xwzva343av0iqlkhfrl6qs9h-entropy-0.4.1.11.drv",
+            "file-embed": "/nix/store/vhqz47k73r2gijyqqlc53zn7kmjq2pyk-file-embed-0.0.16.0.drv"
+          },
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "trial": 2,
+          "label": "candidate",
+          "query": "groupGenerated",
+          "elapsed_seconds": 1.2956157500157133,
+          "maximum_resident_set_bytes_darwin": 631291904,
+          "output": {
+            "base16-bytestring": "/nix/store/nzr71qa57xi0f118bg6lh2hfs3f7s092-base16-bytestring-1.0.2.0.drv",
+            "base64-bytestring": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+            "cryptohash-sha256": "/nix/store/6wpspi7g6cm948xfkahj5n73ag111si6-cryptohash-sha256-0.11.102.1.drv",
+            "entropy": "/nix/store/n7aj73c6xwzva343av0iqlkhfrl6qs9h-entropy-0.4.1.11.drv",
+            "file-embed": "/nix/store/vhqz47k73r2gijyqqlc53zn7kmjq2pyk-file-embed-0.0.16.0.drv"
+          },
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "trial": 2,
+          "label": "baseline",
+          "query": "groupLegacy",
+          "elapsed_seconds": 1.3484106250107288,
+          "maximum_resident_set_bytes_darwin": 761856000,
+          "output": {
+            "base16-bytestring": "/nix/store/nzr71qa57xi0f118bg6lh2hfs3f7s092-base16-bytestring-1.0.2.0.drv",
+            "base64-bytestring": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+            "cryptohash-sha256": "/nix/store/6wpspi7g6cm948xfkahj5n73ag111si6-cryptohash-sha256-0.11.102.1.drv",
+            "entropy": "/nix/store/n7aj73c6xwzva343av0iqlkhfrl6qs9h-entropy-0.4.1.11.drv",
+            "file-embed": "/nix/store/vhqz47k73r2gijyqqlc53zn7kmjq2pyk-file-embed-0.0.16.0.drv"
+          },
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "trial": 3,
+          "label": "baseline",
+          "query": "groupLegacy",
+          "elapsed_seconds": 1.3466486660181545,
+          "maximum_resident_set_bytes_darwin": 761708544,
+          "output": {
+            "base16-bytestring": "/nix/store/nzr71qa57xi0f118bg6lh2hfs3f7s092-base16-bytestring-1.0.2.0.drv",
+            "base64-bytestring": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+            "cryptohash-sha256": "/nix/store/6wpspi7g6cm948xfkahj5n73ag111si6-cryptohash-sha256-0.11.102.1.drv",
+            "entropy": "/nix/store/n7aj73c6xwzva343av0iqlkhfrl6qs9h-entropy-0.4.1.11.drv",
+            "file-embed": "/nix/store/vhqz47k73r2gijyqqlc53zn7kmjq2pyk-file-embed-0.0.16.0.drv"
+          },
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "trial": 3,
+          "label": "candidate",
+          "query": "groupGenerated",
+          "elapsed_seconds": 1.305905499990331,
+          "maximum_resident_set_bytes_darwin": 632946688,
+          "output": {
+            "base16-bytestring": "/nix/store/nzr71qa57xi0f118bg6lh2hfs3f7s092-base16-bytestring-1.0.2.0.drv",
+            "base64-bytestring": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+            "cryptohash-sha256": "/nix/store/6wpspi7g6cm948xfkahj5n73ag111si6-cryptohash-sha256-0.11.102.1.drv",
+            "entropy": "/nix/store/n7aj73c6xwzva343av0iqlkhfrl6qs9h-entropy-0.4.1.11.drv",
+            "file-embed": "/nix/store/vhqz47k73r2gijyqqlc53zn7kmjq2pyk-file-embed-0.0.16.0.drv"
+          },
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "trial": 4,
+          "label": "candidate",
+          "query": "groupGenerated",
+          "elapsed_seconds": 1.164719749998767,
+          "maximum_resident_set_bytes_darwin": 633602048,
+          "output": {
+            "base16-bytestring": "/nix/store/nzr71qa57xi0f118bg6lh2hfs3f7s092-base16-bytestring-1.0.2.0.drv",
+            "base64-bytestring": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+            "cryptohash-sha256": "/nix/store/6wpspi7g6cm948xfkahj5n73ag111si6-cryptohash-sha256-0.11.102.1.drv",
+            "entropy": "/nix/store/n7aj73c6xwzva343av0iqlkhfrl6qs9h-entropy-0.4.1.11.drv",
+            "file-embed": "/nix/store/vhqz47k73r2gijyqqlc53zn7kmjq2pyk-file-embed-0.0.16.0.drv"
+          },
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "trial": 4,
+          "label": "baseline",
+          "query": "groupLegacy",
+          "elapsed_seconds": 1.4953184170008171,
+          "maximum_resident_set_bytes_darwin": 764477440,
+          "output": {
+            "base16-bytestring": "/nix/store/nzr71qa57xi0f118bg6lh2hfs3f7s092-base16-bytestring-1.0.2.0.drv",
+            "base64-bytestring": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+            "cryptohash-sha256": "/nix/store/6wpspi7g6cm948xfkahj5n73ag111si6-cryptohash-sha256-0.11.102.1.drv",
+            "entropy": "/nix/store/n7aj73c6xwzva343av0iqlkhfrl6qs9h-entropy-0.4.1.11.drv",
+            "file-embed": "/nix/store/vhqz47k73r2gijyqqlc53zn7kmjq2pyk-file-embed-0.0.16.0.drv"
+          },
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "trial": 5,
+          "label": "baseline",
+          "query": "groupLegacy",
+          "elapsed_seconds": 1.392471667000791,
+          "maximum_resident_set_bytes_darwin": 759234560,
+          "output": {
+            "base16-bytestring": "/nix/store/nzr71qa57xi0f118bg6lh2hfs3f7s092-base16-bytestring-1.0.2.0.drv",
+            "base64-bytestring": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+            "cryptohash-sha256": "/nix/store/6wpspi7g6cm948xfkahj5n73ag111si6-cryptohash-sha256-0.11.102.1.drv",
+            "entropy": "/nix/store/n7aj73c6xwzva343av0iqlkhfrl6qs9h-entropy-0.4.1.11.drv",
+            "file-embed": "/nix/store/vhqz47k73r2gijyqqlc53zn7kmjq2pyk-file-embed-0.0.16.0.drv"
+          },
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "trial": 5,
+          "label": "candidate",
+          "query": "groupGenerated",
+          "elapsed_seconds": 1.1027344999893103,
+          "maximum_resident_set_bytes_darwin": 633307136,
+          "output": {
+            "base16-bytestring": "/nix/store/nzr71qa57xi0f118bg6lh2hfs3f7s092-base16-bytestring-1.0.2.0.drv",
+            "base64-bytestring": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+            "cryptohash-sha256": "/nix/store/6wpspi7g6cm948xfkahj5n73ag111si6-cryptohash-sha256-0.11.102.1.drv",
+            "entropy": "/nix/store/n7aj73c6xwzva343av0iqlkhfrl6qs9h-entropy-0.4.1.11.drv",
+            "file-embed": "/nix/store/vhqz47k73r2gijyqqlc53zn7kmjq2pyk-file-embed-0.0.16.0.drv"
+          },
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "median_seconds": {
+        "baseline": 1.350124250020599,
+        "candidate": 1.164719749998767
+      },
+      "saving_fraction": 0.137324027784112,
+      "threshold_passed": false,
+      "spread_seconds": {
+        "baseline": [
+          1.3466486660181545,
+          1.4953184170008171
+        ],
+        "candidate": [
+          1.0915090829948895,
+          1.305905499990331
+        ]
+      }
+    },
+    {
+      "workload": "real_consumer",
+      "warmup": [
+        {
+          "trial": 0,
+          "label": "baseline",
+          "query": "consumerLegacy.drvPath",
+          "elapsed_seconds": 3.4486200000101235,
+          "maximum_resident_set_bytes_darwin": 1675558912,
+          "output": "/nix/store/7qwknx1qlsx4f17m28synb782zc86w1x-rei-cli-7.1.0.0.drv",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "trial": 0,
+          "label": "candidate",
+          "query": "consumerCandidate.drvPath",
+          "elapsed_seconds": 3.4006567090109456,
+          "maximum_resident_set_bytes_darwin": 1658929152,
+          "output": "/nix/store/7qwknx1qlsx4f17m28synb782zc86w1x-rei-cli-7.1.0.0.drv",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "trials": [
+        {
+          "trial": 1,
+          "label": "baseline",
+          "query": "consumerLegacy.drvPath",
+          "elapsed_seconds": 3.2476682089909445,
+          "maximum_resident_set_bytes_darwin": 1673723904,
+          "output": "/nix/store/7qwknx1qlsx4f17m28synb782zc86w1x-rei-cli-7.1.0.0.drv",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "trial": 1,
+          "label": "candidate",
+          "query": "consumerCandidate.drvPath",
+          "elapsed_seconds": 3.2552568329847418,
+          "maximum_resident_set_bytes_darwin": 1659338752,
+          "output": "/nix/store/7qwknx1qlsx4f17m28synb782zc86w1x-rei-cli-7.1.0.0.drv",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "trial": 2,
+          "label": "candidate",
+          "query": "consumerCandidate.drvPath",
+          "elapsed_seconds": 3.240465665992815,
+          "maximum_resident_set_bytes_darwin": 1675132928,
+          "output": "/nix/store/7qwknx1qlsx4f17m28synb782zc86w1x-rei-cli-7.1.0.0.drv",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "trial": 2,
+          "label": "baseline",
+          "query": "consumerLegacy.drvPath",
+          "elapsed_seconds": 3.5611152079945896,
+          "maximum_resident_set_bytes_darwin": 1674231808,
+          "output": "/nix/store/7qwknx1qlsx4f17m28synb782zc86w1x-rei-cli-7.1.0.0.drv",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "trial": 3,
+          "label": "baseline",
+          "query": "consumerLegacy.drvPath",
+          "elapsed_seconds": 3.696759375015972,
+          "maximum_resident_set_bytes_darwin": 1673936896,
+          "output": "/nix/store/7qwknx1qlsx4f17m28synb782zc86w1x-rei-cli-7.1.0.0.drv",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "trial": 3,
+          "label": "candidate",
+          "query": "consumerCandidate.drvPath",
+          "elapsed_seconds": 3.689838541991776,
+          "maximum_resident_set_bytes_darwin": 1674199040,
+          "output": "/nix/store/7qwknx1qlsx4f17m28synb782zc86w1x-rei-cli-7.1.0.0.drv",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "trial": 4,
+          "label": "candidate",
+          "query": "consumerCandidate.drvPath",
+          "elapsed_seconds": 3.435889792017406,
+          "maximum_resident_set_bytes_darwin": 1674936320,
+          "output": "/nix/store/7qwknx1qlsx4f17m28synb782zc86w1x-rei-cli-7.1.0.0.drv",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "trial": 4,
+          "label": "baseline",
+          "query": "consumerLegacy.drvPath",
+          "elapsed_seconds": 3.8743045419978444,
+          "maximum_resident_set_bytes_darwin": 1673166848,
+          "output": "/nix/store/7qwknx1qlsx4f17m28synb782zc86w1x-rei-cli-7.1.0.0.drv",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "trial": 5,
+          "label": "baseline",
+          "query": "consumerLegacy.drvPath",
+          "elapsed_seconds": 3.6391319159884006,
+          "maximum_resident_set_bytes_darwin": 1679671296,
+          "output": "/nix/store/7qwknx1qlsx4f17m28synb782zc86w1x-rei-cli-7.1.0.0.drv",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "trial": 5,
+          "label": "candidate",
+          "query": "consumerCandidate.drvPath",
+          "elapsed_seconds": 3.5028992909938097,
+          "maximum_resident_set_bytes_darwin": 1677033472,
+          "output": "/nix/store/7qwknx1qlsx4f17m28synb782zc86w1x-rei-cli-7.1.0.0.drv",
+          "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "median_seconds": {
+        "baseline": 3.6391319159884006,
+        "candidate": 3.435889792017406
+      },
+      "saving_fraction": 0.05584906748723717,
+      "threshold_passed": false,
+      "spread_seconds": {
+        "baseline": [
+          3.2476682089909445,
+          3.8743045419978444
+        ],
+        "candidate": [
+          3.240465665992815,
+          3.689838541991776
+        ]
+      }
+    }
+  ],
+  "limits": "Bounded prototype, not a production retained generation. Two explicitly reviewed redundant default flag spellings are normalized after conversion, guarded by exact metadata hashes. Full constructor retains unrelated IFD. Native transitive build and production promotion acceptance remain open. Producer commits and their short formatting hooks overlapped the whole-consumer interval; that interval is diagnostic and cannot support a fine performance conclusion. Scoped-root pairs finished before those hooks and independently miss the declared threshold. Production/default adoption is unaccepted."
+}
