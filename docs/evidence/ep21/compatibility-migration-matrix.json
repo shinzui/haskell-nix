@@ -1,0 +1,685 @@
+{
+  "schema_version": 1,
+  "project_uri": "mori://shinzui/haskell-nix",
+  "before_revision": "03e159c82728de215bfc4b4a0fd6a5bd902c3b01",
+  "after_revision": "903c93ee40fc131b94f07506f290750d8ba376fc",
+  "scope": "Complete generated-cohort and constructible current-registry migration identities, plus retained history and diagnostic report/CLI interchange. No compatibility repair retirement or package-policy promotion.",
+  "matrix": [
+    {
+      "kind": "registry",
+      "system": "x86_64-linux",
+      "channel": "github",
+      "selector": "ghc9124",
+      "unchanged": true,
+      "status_counts": {
+        "evaluated": 164,
+        "blocked-by-evaluation-guard": 1
+      },
+      "blocked_packages": [
+        "retrie"
+      ],
+      "absent_packages": [],
+      "fingerprint": null,
+      "observation_stdout_sha256": {
+        "before": "2324315dbb6b32003814c2a127f9e0e53628e9934fd3f169a28e985477c80d69",
+        "after": "2324315dbb6b32003814c2a127f9e0e53628e9934fd3f169a28e985477c80d69"
+      }
+    },
+    {
+      "kind": "registry",
+      "system": "x86_64-linux",
+      "channel": "github",
+      "selector": "ghc9141",
+      "unchanged": true,
+      "status_counts": {
+        "evaluated": 164,
+        "blocked-by-evaluation-guard": 1
+      },
+      "blocked_packages": [
+        "retrie"
+      ],
+      "absent_packages": [],
+      "fingerprint": null,
+      "observation_stdout_sha256": {
+        "before": "6cf6362be576937c7088d222bf9acba4d22c9ce9989173a5d331ec5a1cab563f",
+        "after": "6cf6362be576937c7088d222bf9acba4d22c9ce9989173a5d331ec5a1cab563f"
+      }
+    },
+    {
+      "kind": "registry",
+      "system": "x86_64-linux",
+      "channel": "hackage",
+      "selector": "ghc9124",
+      "unchanged": true,
+      "status_counts": {
+        "evaluated": 154,
+        "blocked-by-evaluation-guard": 1
+      },
+      "blocked_packages": [
+        "retrie"
+      ],
+      "absent_packages": [],
+      "fingerprint": null,
+      "observation_stdout_sha256": {
+        "before": "9b472ba17eb0e8715c6f624d97a14877697f17bf005c1fa8d713eee118d65202",
+        "after": "9b472ba17eb0e8715c6f624d97a14877697f17bf005c1fa8d713eee118d65202"
+      }
+    },
+    {
+      "kind": "registry",
+      "system": "x86_64-linux",
+      "channel": "hackage",
+      "selector": "ghc9141",
+      "unchanged": true,
+      "status_counts": {
+        "evaluated": 154,
+        "blocked-by-evaluation-guard": 1
+      },
+      "blocked_packages": [
+        "retrie"
+      ],
+      "absent_packages": [],
+      "fingerprint": null,
+      "observation_stdout_sha256": {
+        "before": "25a73183a516a399261f69f4eebc4b6929e93e2264b136ced88044f826e3aae7",
+        "after": "25a73183a516a399261f69f4eebc4b6929e93e2264b136ced88044f826e3aae7"
+      }
+    },
+    {
+      "kind": "cohort",
+      "system": "x86_64-linux",
+      "channel": "github",
+      "selector": "ghc9124",
+      "unchanged": true,
+      "status_counts": {
+        "evaluated": 370
+      },
+      "blocked_packages": [],
+      "absent_packages": [],
+      "fingerprint": null,
+      "observation_stdout_sha256": {
+        "before": "b49b41c177aa000cff17aa5920c794f0f7b8db97718cf84442c0710b8119496b",
+        "after": "b49b41c177aa000cff17aa5920c794f0f7b8db97718cf84442c0710b8119496b"
+      }
+    },
+    {
+      "kind": "cohort",
+      "system": "x86_64-linux",
+      "channel": "github",
+      "selector": "ghc9141",
+      "unchanged": true,
+      "status_counts": {
+        "evaluated": 370
+      },
+      "blocked_packages": [],
+      "absent_packages": [],
+      "fingerprint": null,
+      "observation_stdout_sha256": {
+        "before": "2dc41bf09055ab3b45ab73d7141da3623349d49612e90d9558ab8cfd8ad9e474",
+        "after": "2dc41bf09055ab3b45ab73d7141da3623349d49612e90d9558ab8cfd8ad9e474"
+      }
+    },
+    {
+      "kind": "cohort",
+      "system": "x86_64-linux",
+      "channel": "hackage",
+      "selector": "ghc9124",
+      "unchanged": true,
+      "status_counts": {
+        "evaluated": 370
+      },
+      "blocked_packages": [],
+      "absent_packages": [],
+      "fingerprint": null,
+      "observation_stdout_sha256": {
+        "before": "57ed606f2018bf2ec28f45ebbb05f13a19080933ac4837622588bb59da0a9363",
+        "after": "57ed606f2018bf2ec28f45ebbb05f13a19080933ac4837622588bb59da0a9363"
+      }
+    },
+    {
+      "kind": "cohort",
+      "system": "x86_64-linux",
+      "channel": "hackage",
+      "selector": "ghc9141",
+      "unchanged": true,
+      "status_counts": {
+        "evaluated": 370
+      },
+      "blocked_packages": [],
+      "absent_packages": [],
+      "fingerprint": null,
+      "observation_stdout_sha256": {
+        "before": "595a1a864131f43beb733c383a1a00c4b995cc656b4c95ef76a6c09deee2af70",
+        "after": "595a1a864131f43beb733c383a1a00c4b995cc656b4c95ef76a6c09deee2af70"
+      }
+    },
+    {
+      "kind": "cohort",
+      "system": "aarch64-darwin",
+      "channel": "github",
+      "selector": "ghc9124",
+      "unchanged": true,
+      "status_counts": {
+        "evaluated": 370
+      },
+      "blocked_packages": [],
+      "absent_packages": [],
+      "fingerprint": null,
+      "observation_stdout_sha256": {
+        "before": "6e08866b9f1455066967910a2a42220c37b640501c4a5a1285feed0e2122fc0a",
+        "after": "6e08866b9f1455066967910a2a42220c37b640501c4a5a1285feed0e2122fc0a"
+      }
+    },
+    {
+      "kind": "cohort",
+      "system": "aarch64-darwin",
+      "channel": "github",
+      "selector": "ghc9141",
+      "unchanged": true,
+      "status_counts": {
+        "evaluated": 370
+      },
+      "blocked_packages": [],
+      "absent_packages": [],
+      "fingerprint": null,
+      "observation_stdout_sha256": {
+        "before": "515fc1a22ed9764ec1eb5a6474a0b22d3c7eecfd8c3d97ea63966e3391e95afe",
+        "after": "515fc1a22ed9764ec1eb5a6474a0b22d3c7eecfd8c3d97ea63966e3391e95afe"
+      }
+    },
+    {
+      "kind": "cohort",
+      "system": "aarch64-darwin",
+      "channel": "hackage",
+      "selector": "ghc9124",
+      "unchanged": true,
+      "status_counts": {
+        "evaluated": 370
+      },
+      "blocked_packages": [],
+      "absent_packages": [],
+      "fingerprint": null,
+      "observation_stdout_sha256": {
+        "before": "86053d6e817a1866af089709b7fe5d58f08d5e632daa65e88fc5babca0dddfb6",
+        "after": "86053d6e817a1866af089709b7fe5d58f08d5e632daa65e88fc5babca0dddfb6"
+      }
+    },
+    {
+      "kind": "cohort",
+      "system": "aarch64-darwin",
+      "channel": "hackage",
+      "selector": "ghc9141",
+      "unchanged": true,
+      "status_counts": {
+        "evaluated": 370
+      },
+      "blocked_packages": [],
+      "absent_packages": [],
+      "fingerprint": null,
+      "observation_stdout_sha256": {
+        "before": "4caa6fc86e611d04b044d10d059a2c8891c7c14d741f92e574ece29a51edf2cd",
+        "after": "4caa6fc86e611d04b044d10d059a2c8891c7c14d741f92e574ece29a51edf2cd"
+      }
+    },
+    {
+      "kind": "retained",
+      "system": "x86_64-linux",
+      "channel": "github",
+      "selector": "1",
+      "unchanged": true,
+      "status_counts": {
+        "absent": 37,
+        "evaluated": 274
+      },
+      "blocked_packages": [],
+      "absent_packages": [
+        "Cabal",
+        "Cabal-syntax",
+        "array",
+        "base",
+        "binary",
+        "bytestring",
+        "containers",
+        "deepseq",
+        "directory",
+        "exceptions",
+        "file-io",
+        "filepath",
+        "ghc-bignum",
+        "ghc-boot",
+        "ghc-boot-th",
+        "ghc-heap",
+        "ghc-internal",
+        "ghc-platform",
+        "ghc-prim",
+        "ghci",
+        "haskeline",
+        "hpc",
+        "integer-gmp",
+        "mtl",
+        "os-string",
+        "parsec",
+        "pretty",
+        "process",
+        "rts",
+        "semaphore-compat",
+        "stm",
+        "template-haskell",
+        "terminfo",
+        "text",
+        "time",
+        "transformers",
+        "unix"
+      ],
+      "fingerprint": "da00319eb1423b4372a0a0b050911b7719d1de0867a3e32160dbd327a2762e81",
+      "observation_stdout_sha256": {
+        "before": "0c0fde2429c3a2f8d7b37a43a252de2e26aab917587f1ecc36c45ff2268cd68d",
+        "after": "0c0fde2429c3a2f8d7b37a43a252de2e26aab917587f1ecc36c45ff2268cd68d"
+      }
+    },
+    {
+      "kind": "retained",
+      "system": "x86_64-linux",
+      "channel": "github",
+      "selector": "2",
+      "unchanged": true,
+      "status_counts": {
+        "absent": 37,
+        "evaluated": 274
+      },
+      "blocked_packages": [],
+      "absent_packages": [
+        "Cabal",
+        "Cabal-syntax",
+        "array",
+        "base",
+        "binary",
+        "bytestring",
+        "containers",
+        "deepseq",
+        "directory",
+        "exceptions",
+        "file-io",
+        "filepath",
+        "ghc-bignum",
+        "ghc-boot",
+        "ghc-boot-th",
+        "ghc-heap",
+        "ghc-internal",
+        "ghc-platform",
+        "ghc-prim",
+        "ghci",
+        "haskeline",
+        "hpc",
+        "integer-gmp",
+        "mtl",
+        "os-string",
+        "parsec",
+        "pretty",
+        "process",
+        "rts",
+        "semaphore-compat",
+        "stm",
+        "template-haskell",
+        "terminfo",
+        "text",
+        "time",
+        "transformers",
+        "unix"
+      ],
+      "fingerprint": "a9257fa760a9e7cbf2922bebfd4056326eddcc43bb562f87fec3e421cbb8e85f",
+      "observation_stdout_sha256": {
+        "before": "bff980f402bac3468f26a10a7bdcd6b9635adc7c0efa494fa0cb4e05bad872f5",
+        "after": "bff980f402bac3468f26a10a7bdcd6b9635adc7c0efa494fa0cb4e05bad872f5"
+      }
+    },
+    {
+      "kind": "retained",
+      "system": "x86_64-linux",
+      "channel": "hackage",
+      "selector": "1",
+      "unchanged": true,
+      "status_counts": {
+        "absent": 37,
+        "evaluated": 274
+      },
+      "blocked_packages": [],
+      "absent_packages": [
+        "Cabal",
+        "Cabal-syntax",
+        "array",
+        "base",
+        "binary",
+        "bytestring",
+        "containers",
+        "deepseq",
+        "directory",
+        "exceptions",
+        "file-io",
+        "filepath",
+        "ghc-bignum",
+        "ghc-boot",
+        "ghc-boot-th",
+        "ghc-heap",
+        "ghc-internal",
+        "ghc-platform",
+        "ghc-prim",
+        "ghci",
+        "haskeline",
+        "hpc",
+        "integer-gmp",
+        "mtl",
+        "os-string",
+        "parsec",
+        "pretty",
+        "process",
+        "rts",
+        "semaphore-compat",
+        "stm",
+        "template-haskell",
+        "terminfo",
+        "text",
+        "time",
+        "transformers",
+        "unix"
+      ],
+      "fingerprint": "da00319eb1423b4372a0a0b050911b7719d1de0867a3e32160dbd327a2762e81",
+      "observation_stdout_sha256": {
+        "before": "f827b9fe4aa1393afd7d55f1d9f1d80b15372239274f7207cbd9618d428a22a4",
+        "after": "f827b9fe4aa1393afd7d55f1d9f1d80b15372239274f7207cbd9618d428a22a4"
+      }
+    },
+    {
+      "kind": "retained",
+      "system": "x86_64-linux",
+      "channel": "hackage",
+      "selector": "2",
+      "unchanged": true,
+      "status_counts": {
+        "absent": 37,
+        "evaluated": 274
+      },
+      "blocked_packages": [],
+      "absent_packages": [
+        "Cabal",
+        "Cabal-syntax",
+        "array",
+        "base",
+        "binary",
+        "bytestring",
+        "containers",
+        "deepseq",
+        "directory",
+        "exceptions",
+        "file-io",
+        "filepath",
+        "ghc-bignum",
+        "ghc-boot",
+        "ghc-boot-th",
+        "ghc-heap",
+        "ghc-internal",
+        "ghc-platform",
+        "ghc-prim",
+        "ghci",
+        "haskeline",
+        "hpc",
+        "integer-gmp",
+        "mtl",
+        "os-string",
+        "parsec",
+        "pretty",
+        "process",
+        "rts",
+        "semaphore-compat",
+        "stm",
+        "template-haskell",
+        "terminfo",
+        "text",
+        "time",
+        "transformers",
+        "unix"
+      ],
+      "fingerprint": "a9257fa760a9e7cbf2922bebfd4056326eddcc43bb562f87fec3e421cbb8e85f",
+      "observation_stdout_sha256": {
+        "before": "8e4e98d078b515fffc669836634ae575658c22f0d32f12b48e88f3ba35aa2ada",
+        "after": "8e4e98d078b515fffc669836634ae575658c22f0d32f12b48e88f3ba35aa2ada"
+      }
+    }
+  ],
+  "construction_capture": {
+    "schema_version": 1,
+    "system": "x86_64-linux",
+    "revision": "903c93ee40fc131b94f07506f290750d8ba376fc",
+    "updater_build": {
+      "command": [
+        "nix",
+        "build",
+        "--no-link",
+        "--json",
+        "git+file:///workspace?rev=903c93ee40fc131b94f07506f290750d8ba376fc#haskell-nix-update",
+        "--max-jobs",
+        "1",
+        "--cores",
+        "8",
+        "--builders",
+        "",
+        "-L"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 39.89697243599221
+    },
+    "cells": [
+      {
+        "compiler": "ghc9124",
+        "channel": "github",
+        "command": [
+          "nix",
+          "eval",
+          "--impure",
+          "--json",
+          "--expr",
+          "let flake = builtins.getFlake \"git+file:///workspace?rev=903c93ee40fc131b94f07506f290750d8ba376fc\"; pkgs = import flake.inputs.nixpkgs { system = \"x86_64-linux\"; }; in import (flake.outPath + \"/checks/compatibility-capture.nix\") { lib = pkgs.lib; inherit pkgs; mkFirstPartyPackageSet = flake.lib.mkFirstPartyPackageSet; compiler = \"ghc9124\"; channel = \"github\"; }",
+          "--max-jobs",
+          "1",
+          "--cores",
+          "8",
+          "--builders",
+          ""
+        ],
+        "elapsed_seconds": 1.9224720429920126,
+        "context_sha256": "08ccb081de5d90ac3c5946601d56483c8d0e2a31324a75604af087588719fbb4",
+        "identities": {
+          "base64-bytestring": {
+            "captured": "/nix/store/hzaqrmdmvcci378svzsv0i8csmm1qhgd-base64-bytestring-1.2.1.0.drv",
+            "ordinary": "/nix/store/hzaqrmdmvcci378svzsv0i8csmm1qhgd-base64-bytestring-1.2.1.0.drv"
+          },
+          "cborg-json": {
+            "captured": "/nix/store/vhr12xp05zxnh6h8wv10j5h2l1bgmqbk-cborg-json-0.2.6.0.drv",
+            "ordinary": "/nix/store/vhr12xp05zxnh6h8wv10j5h2l1bgmqbk-cborg-json-0.2.6.0.drv"
+          },
+          "kioku-core": {
+            "captured": "/nix/store/rkz2vv3s0bd8yjfb3295si9rkg1y7w3p-kioku-core-0.9.0.2.drv",
+            "ordinary": "/nix/store/rkz2vv3s0bd8yjfb3295si9rkg1y7w3p-kioku-core-0.9.0.2.drv"
+          },
+          "unicode-data": {
+            "captured": "/nix/store/rpf87865zagh7vm0xw3y53rzwck2gkxy-unicode-data-0.9.0.drv",
+            "ordinary": "/nix/store/rpf87865zagh7vm0xw3y53rzwck2gkxy-unicode-data-0.9.0.drv"
+          }
+        },
+        "entries": 13,
+        "check_command": [
+          "/nix/store/3y96wbmbpzxw2wsi7mdh98bpdrxs5iyn-haskell-nix-update-0.1.0.0/bin/haskell-nix-update",
+          "compatibility",
+          "check",
+          "--context",
+          "/tmp/ep21-linux-construction-capture/github-ghc9124-context.json"
+        ],
+        "check_exit_code": 0
+      },
+      {
+        "compiler": "ghc9124",
+        "channel": "hackage",
+        "command": [
+          "nix",
+          "eval",
+          "--impure",
+          "--json",
+          "--expr",
+          "let flake = builtins.getFlake \"git+file:///workspace?rev=903c93ee40fc131b94f07506f290750d8ba376fc\"; pkgs = import flake.inputs.nixpkgs { system = \"x86_64-linux\"; }; in import (flake.outPath + \"/checks/compatibility-capture.nix\") { lib = pkgs.lib; inherit pkgs; mkFirstPartyPackageSet = flake.lib.mkFirstPartyPackageSet; compiler = \"ghc9124\"; channel = \"hackage\"; }",
+          "--max-jobs",
+          "1",
+          "--cores",
+          "8",
+          "--builders",
+          ""
+        ],
+        "elapsed_seconds": 1.8941320840094704,
+        "context_sha256": "a972c40996e614ccbd722397d134572acf1a7c8b8a3afb3f67523bd7f2554f63",
+        "identities": {
+          "base64-bytestring": {
+            "captured": "/nix/store/hzaqrmdmvcci378svzsv0i8csmm1qhgd-base64-bytestring-1.2.1.0.drv",
+            "ordinary": "/nix/store/hzaqrmdmvcci378svzsv0i8csmm1qhgd-base64-bytestring-1.2.1.0.drv"
+          },
+          "cborg-json": {
+            "captured": "/nix/store/vhr12xp05zxnh6h8wv10j5h2l1bgmqbk-cborg-json-0.2.6.0.drv",
+            "ordinary": "/nix/store/vhr12xp05zxnh6h8wv10j5h2l1bgmqbk-cborg-json-0.2.6.0.drv"
+          },
+          "kioku-core": {
+            "captured": "/nix/store/1mbwlkcvqpxy6fman350nrw0ad9yjjyi-kioku-core-0.9.0.2.drv",
+            "ordinary": "/nix/store/1mbwlkcvqpxy6fman350nrw0ad9yjjyi-kioku-core-0.9.0.2.drv"
+          },
+          "unicode-data": {
+            "captured": "/nix/store/rpf87865zagh7vm0xw3y53rzwck2gkxy-unicode-data-0.9.0.drv",
+            "ordinary": "/nix/store/rpf87865zagh7vm0xw3y53rzwck2gkxy-unicode-data-0.9.0.drv"
+          }
+        },
+        "entries": 13,
+        "check_command": [
+          "/nix/store/3y96wbmbpzxw2wsi7mdh98bpdrxs5iyn-haskell-nix-update-0.1.0.0/bin/haskell-nix-update",
+          "compatibility",
+          "check",
+          "--context",
+          "/tmp/ep21-linux-construction-capture/hackage-ghc9124-context.json"
+        ],
+        "check_exit_code": 0
+      },
+      {
+        "compiler": "ghc9141",
+        "channel": "github",
+        "command": [
+          "nix",
+          "eval",
+          "--impure",
+          "--json",
+          "--expr",
+          "let flake = builtins.getFlake \"git+file:///workspace?rev=903c93ee40fc131b94f07506f290750d8ba376fc\"; pkgs = import flake.inputs.nixpkgs { system = \"x86_64-linux\"; }; in import (flake.outPath + \"/checks/compatibility-capture.nix\") { lib = pkgs.lib; inherit pkgs; mkFirstPartyPackageSet = flake.lib.mkFirstPartyPackageSet; compiler = \"ghc9141\"; channel = \"github\"; }",
+          "--max-jobs",
+          "1",
+          "--cores",
+          "8",
+          "--builders",
+          ""
+        ],
+        "elapsed_seconds": 1.9051684590085642,
+        "context_sha256": "e4ad61f1736ea8b1af7470c24911f79495756417589e1b3e2e61c53070482564",
+        "identities": {
+          "base64-bytestring": {
+            "captured": "/nix/store/ag3lrrmpwxan0kxqglmphb14h26zyyqw-base64-bytestring-1.2.1.0.drv",
+            "ordinary": "/nix/store/ag3lrrmpwxan0kxqglmphb14h26zyyqw-base64-bytestring-1.2.1.0.drv"
+          },
+          "cborg-json": {
+            "captured": "/nix/store/6yfbmcpvc0xjivdrzjw9k02nfdjkib4v-cborg-json-0.2.6.0.drv",
+            "ordinary": "/nix/store/6yfbmcpvc0xjivdrzjw9k02nfdjkib4v-cborg-json-0.2.6.0.drv"
+          },
+          "kioku-core": {
+            "captured": "/nix/store/lfb8hjjzqpqlhz0skvrgxrl127pw5cj0-kioku-core-0.9.0.2.drv",
+            "ordinary": "/nix/store/lfb8hjjzqpqlhz0skvrgxrl127pw5cj0-kioku-core-0.9.0.2.drv"
+          },
+          "unicode-data": {
+            "captured": "/nix/store/8vm4hbc83xyf8dfj7nsfz2b0wlb2jbhh-unicode-data-0.9.0.drv",
+            "ordinary": "/nix/store/8vm4hbc83xyf8dfj7nsfz2b0wlb2jbhh-unicode-data-0.9.0.drv"
+          }
+        },
+        "entries": 13,
+        "check_command": [
+          "/nix/store/3y96wbmbpzxw2wsi7mdh98bpdrxs5iyn-haskell-nix-update-0.1.0.0/bin/haskell-nix-update",
+          "compatibility",
+          "check",
+          "--context",
+          "/tmp/ep21-linux-construction-capture/github-ghc9141-context.json"
+        ],
+        "check_exit_code": 0
+      },
+      {
+        "compiler": "ghc9141",
+        "channel": "hackage",
+        "command": [
+          "nix",
+          "eval",
+          "--impure",
+          "--json",
+          "--expr",
+          "let flake = builtins.getFlake \"git+file:///workspace?rev=903c93ee40fc131b94f07506f290750d8ba376fc\"; pkgs = import flake.inputs.nixpkgs { system = \"x86_64-linux\"; }; in import (flake.outPath + \"/checks/compatibility-capture.nix\") { lib = pkgs.lib; inherit pkgs; mkFirstPartyPackageSet = flake.lib.mkFirstPartyPackageSet; compiler = \"ghc9141\"; channel = \"hackage\"; }",
+          "--max-jobs",
+          "1",
+          "--cores",
+          "8",
+          "--builders",
+          ""
+        ],
+        "elapsed_seconds": 1.9020348350022687,
+        "context_sha256": "8e889bc5113a41ffafe547f69c3d9660a74b8040e859f8a752041721bc344eb3",
+        "identities": {
+          "base64-bytestring": {
+            "captured": "/nix/store/ag3lrrmpwxan0kxqglmphb14h26zyyqw-base64-bytestring-1.2.1.0.drv",
+            "ordinary": "/nix/store/ag3lrrmpwxan0kxqglmphb14h26zyyqw-base64-bytestring-1.2.1.0.drv"
+          },
+          "cborg-json": {
+            "captured": "/nix/store/6yfbmcpvc0xjivdrzjw9k02nfdjkib4v-cborg-json-0.2.6.0.drv",
+            "ordinary": "/nix/store/6yfbmcpvc0xjivdrzjw9k02nfdjkib4v-cborg-json-0.2.6.0.drv"
+          },
+          "kioku-core": {
+            "captured": "/nix/store/qb0jjpyb64bxn0nnihq0f11lbbpdfs3n-kioku-core-0.9.0.2.drv",
+            "ordinary": "/nix/store/qb0jjpyb64bxn0nnihq0f11lbbpdfs3n-kioku-core-0.9.0.2.drv"
+          },
+          "unicode-data": {
+            "captured": "/nix/store/8vm4hbc83xyf8dfj7nsfz2b0wlb2jbhh-unicode-data-0.9.0.drv",
+            "ordinary": "/nix/store/8vm4hbc83xyf8dfj7nsfz2b0wlb2jbhh-unicode-data-0.9.0.drv"
+          }
+        },
+        "entries": 13,
+        "check_command": [
+          "/nix/store/3y96wbmbpzxw2wsi7mdh98bpdrxs5iyn-haskell-nix-update-0.1.0.0/bin/haskell-nix-update",
+          "compatibility",
+          "check",
+          "--context",
+          "/tmp/ep21-linux-construction-capture/hackage-ghc9141-context.json"
+        ],
+        "check_exit_code": 0
+      }
+    ],
+    "status": "passed",
+    "qualification": "User-selected Apple translated amd64 guest. Exact diagnostic/ordinary recipe identities and native report/check interchange only; source assertions, package tests and individual workaround necessity remain unverified."
+  },
+  "native_cli_tests": {
+    "system": "x86_64-linux",
+    "tests": 209,
+    "status": "passed",
+    "raw_log": "linux/ep21-linux-construction-capture/updater-build.log"
+  },
+  "qualifications": [
+    "Darwin cohort queries execute on native Apple Silicon; Linux runs in the user-selected Apple amd64 container through translation, with sandbox=false/filter-syscalls=false. No physical-x86 performance claim.",
+    "The existing retrie broken-package guard remains blocked in both revisions and compilers/channels; no recipe identity or build-success claim is made for it.",
+    "Retained generations preserve fingerprints, compiler and every observed identity or explicit absence. Prior Apple Silicon retained/registry proofs remain in catalog-migration-partial.json.",
+    "Three short retained-selection attempts fail before package evaluation because Nix treats numeric attribute paths as list indices and --apply sees an uncalled file function. Explicit import/application succeeds; all failed command logs remain retained.",
+    "Reports retain all unverified source-guard/native-workaround labels. Diagnostic capture and native check do not prove every patch is necessary.",
+    "IFD translations and input caches are uncontrolled; query timings are observation costs, not an evaluation speedup."
+  ],
+  "artifacts": {
+    "compatibility-migration-matrix-raw-evidence.tar.gz": {
+      "sha256": "ca4491aba60649bae964b1b9a2974ecead08e2bdc4f75c3697dfbd2964b56c12",
+      "bytes": 715696,
+      "verified_members": 111
+    }
+  }
+}
