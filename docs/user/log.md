@@ -1,6 +1,7 @@
 # Bundle Update Log
 
 ## 2026-10-17
+* **Update**: Document explicit native probe contexts, updater verification and read-only receipt rechecks, bounded loopback-service suites and exact evidence limits.
 * **Update**: Document staged strict construction, complete-suite guards and controlled native removal probes using existing cohort graph evidence.
 * **Update**: Document opt-in actual-construction compatibility capture, canonical diagnostic identities, policy mismatch checks and historical/native evidence limits.
 * **Update**: Document declaration-only compatibility report/check commands, explicit pre-repair facts and remaining native evidence gates.

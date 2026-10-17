@@ -46,6 +46,9 @@ in
   testStrictValidationRejectsEmptyTestTargets = rejects { testTargets = [ ]; };
   testStrictValidationRejectsPartialTestTargets = rejects { testTargets = [ "only-one-suite" ]; };
   testStrictValidationRejectsFilteredTests = rejects { testFlags = [ "--test-options=skip-all" ]; };
+  testStrictValidationRejectsConfigureTestSuppression = rejects { configureFlags = [ "--disable-tests" ]; };
+  testStrictValidationRejectsConfigureBoundRelaxation = rejects { configureFlags = [ "--allow-newer=base" ]; };
+  testStrictValidationRejectsConfigureLowerBoundRelaxation = rejects { configureFlags = [ "--allow-older" ]; };
   testStrictValidationRejectsChangedSource = rejects { src = "another-source"; };
   testStrictValidationRejectsChangedMetadata = rejects { revision = "1"; editedCabalFile = "another-metadata-hash"; };
   testStrictValidationRejectsChangedCompiler = rejects { compiler.drvPath = "another-compiler.drv"; };

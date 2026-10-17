@@ -98,3 +98,28 @@ graph evidence rather than inventing a missing package or silently solving a new
 Migration acceptance additionally compares actual production derivations before and
 after the refactor. Native test/bounds claims require separately scoped receipts;
 blocked services and unavailable platforms remain visibly unverified.
+
+Native probe contexts name the complete suite inventory and exact baseline/candidate
+graph, behavior and service-check derivations. Use the existing cohort producer to
+reconstruct/check dependency graphs; reject duplicate Haskell package instances and
+omitted declared/transitive dependencies. The strict path also rejects explicit
+configure flags that disable tests or relax bounds. Build native probes only on the
+declared system and retain bounded execution logs.
+
+A receipt's success label alone is insufficient. Recheck exact expected context,
+complete required outcomes and absence of waivers, then query Nix's current output
+metadata and original native suite logs without rebuilding. Missing metadata/logs
+invalidate the claim. Cache substitution without available native test logs does not
+establish test execution. These local receipts assume a trusted expected constructor
+context; they are not signed attestations against a malicious context producer.
+Supplied service probes require native evidence, and actual service-backed suites
+must contact isolated bounded services rather than production endpoints.
+
+The user-selected Apple Linux guest can supply qualified target-Linux behavioral
+evidence, following the accepted cohort producer workflow. Record its amd64 image,
+Apple translation, independent store and read-only source mount. Guest-only
+`sandbox=false` and `filter-syscalls=false` are required by its seccomp limitation;
+the guest's VM boundary and explicit loopback fixtures provide isolation, without a
+claim that Nix sandboxing ran. Preserve ordinary GHC settings and host builder
+configuration. This target execution does not establish performance on physical
+x86 hardware or substitute for fresh-worker cache proofs.

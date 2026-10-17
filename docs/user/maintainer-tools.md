@@ -4,7 +4,7 @@ title: Maintainer tools
 description: Find repository formatting, test, derivation-diff, and validation commands.
 docId: DOC-6
 tags: [maintainers, testing, nix]
-timestamp: 2026-10-17T14:42:51Z
+timestamp: 2026-10-17T15:05:53Z
 generated:
   by: human:nadeem
   at: 2026-09-21T14:33:46Z
@@ -121,12 +121,92 @@ executable behavior without the repair. Passing graphs go through the existing
 graph checks. The script uses Nix build/log APIs and records cache conditions and
 elapsed fixture-validation time; it makes no performance claim.
 
-These are staged fixture receipts. Constructor requests remain unverified until
-their required execution and graph evidence exists. Null Cabal dependency values
-are explicitly unresolved; they can denote compiler-provided packages and do not
-by themselves prove missing dependencies. Production necessity/retirement, a native
-provided-service probe, general receipt validation and updater `compatibility verify`
-commands remain pending. Ordinary builds and shell entry do not run these probes.
+The general updater workflow uses `lib.mkCompatibilityProbeContext` to export an
+explicit native plan. Supply the selected `validation`, baseline/candidate `graphs`
+from `mkCohortManifest`, the complete `requiredSuites`, named baseline/candidate
+`behaviorProbes`, `channel`, and a semantic `policyIdentity`. Behavior and service
+checks are sandboxed Nix derivations; the updater accepts no shell command strings.
+The graph must describe the exact strict package, compiler and system. Null Cabal
+dependency values remain unresolved until the cohort producer checks compiler
+packages and the exported derivation graph.
+
+Export and run the fixed native fixture from the repository root:
+
+```bash
+nix eval --impure --json --expr '
+  let f = builtins.getFlake (toString ./.);
+      p = import f.inputs.nixpkgs { system = builtins.currentSystem; };
+      fixture = import ./checks/package-validation.nix {
+        lib = p.lib; pkgs = p;
+        scope = p.haskell.packages.${f.lib.defaultGhc};
+      };
+  in fixture.contexts.fixed' > /tmp/compatibility-probe-context.json
+nix run .#haskell-nix-update -- compatibility verify \
+  --context /tmp/compatibility-probe-context.json \
+  --entry fixture-compatibility-repair --out /tmp/compatibility-probe
+nix run .#haskell-nix-update -- compatibility verify-receipt \
+  --context /tmp/compatibility-probe-context.json \
+  --receipt /tmp/compatibility-probe/receipt.json
+```
+
+Use a fresh output directory. `verify` builds both strict packages, checks the
+complete named Cabal suite results, and builds the graph, executable and required
+service probes. It writes a receipt and bounded logs, with a 900-second build
+limit. A failed required check exits 1 and retains a failed receipt. Neither
+command edits recipes, locks or exception entries.
+
+`verify-receipt` requires exact context equality, no remaining waivers and complete
+passing results. It then checks current Nix output metadata and original native
+suite logs without building. An asserted pass cannot replace missing outputs,
+missing logs, skipped suites or service evidence. Rechecking on another native
+system fails. Existing cached outputs with their native logs are acceptable;
+record cache state separately when measuring maintenance cost. Expected contexts
+must come from the trusted selected constructors: receipts are local evidence,
+not signed attestations of arbitrary caller-supplied JSON.
+
+Select `fixture.contexts.service` to exercise the provided-service path. Both
+strict suites contact a bounded, one-request loopback service; no external service
+is contacted. `fixture.contexts.needed` produces a failed removal receipt with the
+actual `EP21_REPAIR_REQUIRED` test failure. Missing service declarations block
+construction. Production narrowing/retirement and full matrix acceptance remain
+pending. Ordinary builds and shell entry do not run these probes.
+
+The real `bytestring-lexing` prototype uses the exact current cohort source and
+metadata with `strict-v1` selected before construction. Run it explicitly:
+
+```bash
+nix build --impure --no-link --print-build-logs --timeout 900 --expr '
+  let channel = builtins.getFlake (toString ./.);
+      pilot = import ./checks/bytestring-lexing-validation.nix {
+        inherit channel; system = builtins.currentSystem;
+      };
+  in [ pilot.strict pilot.manifest pilot.behavior ]'
+```
+
+This separately builds the complete `test-all` suite, checked dependency graph and
+parser/serializer behavior. It does not change production policy or retire a
+repair. Apple Silicon and the user-selected x86 Linux Apple guest pass 58 tests; a reviewed
+new retained policy selection remains required before adoption.
+
+The existing Apple guest can run the same Linux behavior checks:
+
+```bash
+container exec --workdir /workspace mp3-linux-builder \
+  nix --extra-experimental-features 'nix-command flakes' \
+  --option filter-syscalls false build --impure --no-link \
+  --print-build-logs --timeout 900 --max-jobs 1 --cores 8 --expr '
+    let channel = builtins.getFlake (toString ./.);
+        pilot = import ./checks/bytestring-lexing-validation.nix {
+          inherit channel; system = builtins.currentSystem;
+        };
+    in [ pilot.strict pilot.manifest pilot.behavior ]'
+```
+
+This reuses MP-3's read-only `/workspace` mount and independent store. The amd64
+image runs through Apple translation; the guest has `sandbox=false`, and its
+seccomp limitation requires `filter-syscalls=false`. Record those facts in Linux
+receipts. These results establish the checked Linux behavior; they do not establish
+performance on physical x86 hardware. Host builder configuration stays unchanged.
 
 ## Formatting
 

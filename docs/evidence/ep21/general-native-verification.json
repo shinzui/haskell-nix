@@ -1,0 +1,2465 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-10-17T15:09:11.206724+00:00",
+  "scope": "Native GHC 9.12.4 Apple Silicon controlled strict/removal and local-service fixtures",
+  "status": "passed",
+  "receipts": {
+    "fixed": {
+      "context": {
+        "channel": "github",
+        "kind": "native-compatibility-probe",
+        "phases": {
+          "baseline": {
+            "behaviorProbes": {
+              "executable": "/nix/store/y0j36fviq4g4zdlxj60w6j4bmfxxcaam-strict-validation-behavior.drv"
+            },
+            "graph": {
+              "declaration": {
+                "compiler": {
+                  "drvPath": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+                  "name": "ghc",
+                  "outputPath": "/nix/store/g1qpr9sf56sr9znrqk05wxqrbgnnyanj-ghc-9.12.4",
+                  "version": "9.12.4"
+                },
+                "context": {
+                  "entryId": "fixture-compatibility-repair",
+                  "purpose": "explicit strict-validation fixture"
+                },
+                "nativePackages": [],
+                "packages": [
+                  {
+                    "componentRoles": [
+                      "root"
+                    ],
+                    "configuration": {
+                      "configureFlags": [
+                        "-fcompatibility-repair"
+                      ],
+                      "doBenchmark": false,
+                      "doCheck": true,
+                      "doHaddock": false,
+                      "enableLibraryProfiling": false,
+                      "hooks": {
+                        "postBuild": "",
+                        "postConfigure": "",
+                        "postInstall": "",
+                        "postUnpack": "",
+                        "preBuild": "",
+                        "preConfigure": "",
+                        "preInstall": ""
+                      },
+                      "jailbreak": false,
+                      "patches": [],
+                      "postPatch": "",
+                      "prePatch": ""
+                    },
+                    "configurationReplay": "/nix/store/2my5psq908jshv8l6837galsrrw44m15-package-validation-fixture-0.2.0-cohort-configure",
+                    "dependencies": [],
+                    "drvPath": "/nix/store/zggsgn274k269hcs0wi4p3hzvr8hnznf-package-validation-fixture-0.2.0.drv",
+                    "metadata": {
+                      "hash": null,
+                      "revision": null
+                    },
+                    "name": "package-validation-fixture",
+                    "outputPath": "/nix/store/jywshqkv0003agnw1pcbz022y3a30zsb-package-validation-fixture-0.2.0",
+                    "role": "local",
+                    "source": {
+                      "hash": null,
+                      "hashMode": null,
+                      "path": "/nix/store/myjsny8rmwsrzpagp45fyl5aynnc4g4n-fixed",
+                      "revision": null,
+                      "urls": []
+                    },
+                    "version": "0.2.0"
+                  }
+                ],
+                "root": {
+                  "drvPath": "/nix/store/zggsgn274k269hcs0wi4p3hzvr8hnznf-package-validation-fixture-0.2.0.drv",
+                  "name": "package-validation-fixture",
+                  "outputPath": "/nix/store/jywshqkv0003agnw1pcbz022y3a30zsb-package-validation-fixture-0.2.0"
+                },
+                "schemaVersion": 1,
+                "system": "aarch64-darwin"
+              },
+              "derivation": "/nix/store/351s2bp78syjwsdcvyvvzshh8zpk1myh-package-validation-fixture-cohort-manifest.drv"
+            }
+          },
+          "candidate": {
+            "behaviorProbes": {
+              "executable": "/nix/store/gwa2qs94d290fyh4vqcd7j2zl5b33b6v-strict-validation-behavior.drv"
+            },
+            "graph": {
+              "declaration": {
+                "compiler": {
+                  "drvPath": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+                  "name": "ghc",
+                  "outputPath": "/nix/store/g1qpr9sf56sr9znrqk05wxqrbgnnyanj-ghc-9.12.4",
+                  "version": "9.12.4"
+                },
+                "context": {
+                  "entryId": "fixture-compatibility-repair",
+                  "purpose": "explicit strict-validation fixture"
+                },
+                "nativePackages": [],
+                "packages": [
+                  {
+                    "componentRoles": [
+                      "root"
+                    ],
+                    "configuration": {
+                      "configureFlags": [
+                        "-f-compatibility-repair"
+                      ],
+                      "doBenchmark": false,
+                      "doCheck": true,
+                      "doHaddock": false,
+                      "enableLibraryProfiling": false,
+                      "hooks": {
+                        "postBuild": "",
+                        "postConfigure": "",
+                        "postInstall": "",
+                        "postUnpack": "",
+                        "preBuild": "",
+                        "preConfigure": "",
+                        "preInstall": ""
+                      },
+                      "jailbreak": false,
+                      "patches": [],
+                      "postPatch": "",
+                      "prePatch": ""
+                    },
+                    "configurationReplay": "/nix/store/p4s3b892ssxvg9pdr4crribfzr8jkjbr-package-validation-fixture-0.2.0-cohort-configure",
+                    "dependencies": [],
+                    "drvPath": "/nix/store/3f7891js9al5vpdlchfkj4cs6x0wxsyp-package-validation-fixture-0.2.0.drv",
+                    "metadata": {
+                      "hash": null,
+                      "revision": null
+                    },
+                    "name": "package-validation-fixture",
+                    "outputPath": "/nix/store/8y1w88gx01w8h43giwh0jbsfylq5k3n4-package-validation-fixture-0.2.0",
+                    "role": "local",
+                    "source": {
+                      "hash": null,
+                      "hashMode": null,
+                      "path": "/nix/store/myjsny8rmwsrzpagp45fyl5aynnc4g4n-fixed",
+                      "revision": null,
+                      "urls": []
+                    },
+                    "version": "0.2.0"
+                  }
+                ],
+                "root": {
+                  "drvPath": "/nix/store/3f7891js9al5vpdlchfkj4cs6x0wxsyp-package-validation-fixture-0.2.0.drv",
+                  "name": "package-validation-fixture",
+                  "outputPath": "/nix/store/8y1w88gx01w8h43giwh0jbsfylq5k3n4-package-validation-fixture-0.2.0"
+                },
+                "schemaVersion": 1,
+                "system": "aarch64-darwin"
+              },
+              "derivation": "/nix/store/29bhqsmd1dqkgg8m7ny9paq59189jx46-package-validation-fixture-cohort-manifest.drv"
+            }
+          }
+        },
+        "policyIdentity": "7dc4b5b8a30aa05ef3117c12a095008de761deabef63469da45785c94059ea03",
+        "requiredSuites": [
+          "fixture-tests"
+        ],
+        "schemaVersion": 1,
+        "validation": {
+          "baseline": {
+            "derivation": "/nix/store/zggsgn274k269hcs0wi4p3hzvr8hnznf-package-validation-fixture-0.2.0.drv",
+            "effective": {
+              "boundsRelaxed": false,
+              "buildFlags": [],
+              "configureFlags": [
+                "-fcompatibility-repair"
+              ],
+              "dependencies": {
+                "buildDepends": [],
+                "buildTools": [],
+                "executableFrameworkDepends": [],
+                "executableHaskellDepends": [
+                  {
+                    "kind": "null",
+                    "resolution": "not-inferred"
+                  }
+                ],
+                "executablePkgconfigDepends": [],
+                "executableSystemDepends": [],
+                "executableToolDepends": [],
+                "extraLibraries": [],
+                "libraryFrameworkDepends": [],
+                "libraryHaskellDepends": [
+                  {
+                    "kind": "null",
+                    "resolution": "not-inferred"
+                  }
+                ],
+                "libraryPkgconfigDepends": [],
+                "librarySystemDepends": [],
+                "libraryToolDepends": [],
+                "pkg-configDepends": [],
+                "setupHaskellDepends": [],
+                "testDepends": [],
+                "testFrameworkDepends": [],
+                "testHaskellDepends": [
+                  {
+                    "kind": "null",
+                    "resolution": "not-inferred"
+                  }
+                ],
+                "testPkgconfigDepends": [],
+                "testSystemDepends": [],
+                "testToolDepends": []
+              },
+              "editedCabalFile": null,
+              "hooks": {
+                "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              "patches": [],
+              "revision": null,
+              "testDependencyInventory": "declared",
+              "testExecution": {
+                "customCheckPhase": false,
+                "flags": [],
+                "targets": [
+                  ""
+                ]
+              },
+              "testsEnabled": true
+            },
+            "metadataIdentity": "fb73e36c4c9731a10ca29300924595bee964e36dbea1e993564f7b19329d556b",
+            "sourceIdentity": "nix-source:/nix/store/j2pm32pn2d6hb9vkh7w6b2z464xqh7g5-compatibility-source-identity.drv",
+            "version": "0.2.0"
+          },
+          "bounds": "enforce",
+          "candidate": {
+            "derivation": "/nix/store/3f7891js9al5vpdlchfkj4cs6x0wxsyp-package-validation-fixture-0.2.0.drv",
+            "effective": {
+              "boundsRelaxed": false,
+              "buildFlags": [],
+              "configureFlags": [
+                "-f-compatibility-repair"
+              ],
+              "dependencies": {
+                "buildDepends": [],
+                "buildTools": [],
+                "executableFrameworkDepends": [],
+                "executableHaskellDepends": [
+                  {
+                    "kind": "null",
+                    "resolution": "not-inferred"
+                  }
+                ],
+                "executablePkgconfigDepends": [],
+                "executableSystemDepends": [],
+                "executableToolDepends": [],
+                "extraLibraries": [],
+                "libraryFrameworkDepends": [],
+                "libraryHaskellDepends": [
+                  {
+                    "kind": "null",
+                    "resolution": "not-inferred"
+                  }
+                ],
+                "libraryPkgconfigDepends": [],
+                "librarySystemDepends": [],
+                "libraryToolDepends": [],
+                "pkg-configDepends": [],
+                "setupHaskellDepends": [],
+                "testDepends": [],
+                "testFrameworkDepends": [],
+                "testHaskellDepends": [
+                  {
+                    "kind": "null",
+                    "resolution": "not-inferred"
+                  }
+                ],
+                "testPkgconfigDepends": [],
+                "testSystemDepends": [],
+                "testToolDepends": []
+              },
+              "editedCabalFile": null,
+              "hooks": {
+                "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              "patches": [],
+              "revision": null,
+              "testDependencyInventory": "declared",
+              "testExecution": {
+                "customCheckPhase": false,
+                "flags": [],
+                "targets": [
+                  ""
+                ]
+              },
+              "testsEnabled": true
+            },
+            "metadataIdentity": "fb73e36c4c9731a10ca29300924595bee964e36dbea1e993564f7b19329d556b",
+            "sourceIdentity": "nix-source:/nix/store/j2pm32pn2d6hb9vkh7w6b2z464xqh7g5-compatibility-source-identity.drv",
+            "version": "0.2.0"
+          },
+          "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+          "entryId": "fixture-compatibility-repair",
+          "graphStatus": "unverified",
+          "inputIdentity": "985c632f34ec5ceeccc3f6d879684666b67b2df76da17685c668e048c83ba0f0",
+          "missingServices": [],
+          "policyProfile": "strict-v1",
+          "providedServiceProbes": {},
+          "requiredServices": [],
+          "schemaVersion": 1,
+          "status": "unverified",
+          "system": "aarch64-darwin",
+          "tests": "run"
+        }
+      },
+      "observedAt": "2026-10-17 15:00:19.64327 UTC",
+      "remainingWaivers": [],
+      "results": [
+        {
+          "checks": [
+            {
+              "derivation": "/nix/store/351s2bp78syjwsdcvyvvzshh8zpk1myh-package-validation-fixture-cohort-manifest.drv",
+              "id": "graph",
+              "passed": true
+            },
+            {
+              "derivation": "/nix/store/y0j36fviq4g4zdlxj60w6j4bmfxxcaam-strict-validation-behavior.drv",
+              "id": "behavior:executable",
+              "passed": true
+            }
+          ],
+          "package": "/nix/store/zggsgn274k269hcs0wi4p3hzvr8hnznf-package-validation-fixture-0.2.0.drv",
+          "packagePassed": true,
+          "phase": "baseline",
+          "suitesPassed": true
+        },
+        {
+          "checks": [
+            {
+              "derivation": "/nix/store/29bhqsmd1dqkgg8m7ny9paq59189jx46-package-validation-fixture-cohort-manifest.drv",
+              "id": "graph",
+              "passed": true
+            },
+            {
+              "derivation": "/nix/store/gwa2qs94d290fyh4vqcd7j2zl5b33b6v-strict-validation-behavior.drv",
+              "id": "behavior:executable",
+              "passed": true
+            }
+          ],
+          "package": "/nix/store/3f7891js9al5vpdlchfkj4cs6x0wxsyp-package-validation-fixture-0.2.0.drv",
+          "packagePassed": true,
+          "phase": "candidate",
+          "suitesPassed": true
+        }
+      ],
+      "schemaVersion": 1,
+      "status": "passed"
+    },
+    "needed": {
+      "context": {
+        "channel": "github",
+        "kind": "native-compatibility-probe",
+        "phases": {
+          "baseline": {
+            "behaviorProbes": {
+              "executable": "/nix/store/daqa4k3zdlgcdcfv3chiicxm29avhn60-strict-validation-behavior.drv"
+            },
+            "graph": {
+              "declaration": {
+                "compiler": {
+                  "drvPath": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+                  "name": "ghc",
+                  "outputPath": "/nix/store/g1qpr9sf56sr9znrqk05wxqrbgnnyanj-ghc-9.12.4",
+                  "version": "9.12.4"
+                },
+                "context": {
+                  "entryId": "fixture-compatibility-repair",
+                  "purpose": "explicit strict-validation fixture"
+                },
+                "nativePackages": [],
+                "packages": [
+                  {
+                    "componentRoles": [
+                      "root"
+                    ],
+                    "configuration": {
+                      "configureFlags": [
+                        "-fcompatibility-repair"
+                      ],
+                      "doBenchmark": false,
+                      "doCheck": true,
+                      "doHaddock": false,
+                      "enableLibraryProfiling": false,
+                      "hooks": {
+                        "postBuild": "",
+                        "postConfigure": "",
+                        "postInstall": "",
+                        "postUnpack": "",
+                        "preBuild": "",
+                        "preConfigure": "",
+                        "preInstall": ""
+                      },
+                      "jailbreak": false,
+                      "patches": [],
+                      "postPatch": "",
+                      "prePatch": ""
+                    },
+                    "configurationReplay": "/nix/store/0bnyny6l7pjkpr6z6vi69v4sdqgxdbcd-package-validation-fixture-0.1.0-cohort-configure",
+                    "dependencies": [],
+                    "drvPath": "/nix/store/2ak29h5c96bzxxw15mllm114jgzpkps7-package-validation-fixture-0.1.0.drv",
+                    "metadata": {
+                      "hash": null,
+                      "revision": null
+                    },
+                    "name": "package-validation-fixture",
+                    "outputPath": "/nix/store/xyhiy6kj8r6rkcgmvsqcwwlzpqxykwd4-package-validation-fixture-0.1.0",
+                    "role": "local",
+                    "source": {
+                      "hash": null,
+                      "hashMode": null,
+                      "path": "/nix/store/mj2lcnh6rlqkfl9j91drmnas2q7kb74b-needs-repair",
+                      "revision": null,
+                      "urls": []
+                    },
+                    "version": "0.1.0"
+                  }
+                ],
+                "root": {
+                  "drvPath": "/nix/store/2ak29h5c96bzxxw15mllm114jgzpkps7-package-validation-fixture-0.1.0.drv",
+                  "name": "package-validation-fixture",
+                  "outputPath": "/nix/store/xyhiy6kj8r6rkcgmvsqcwwlzpqxykwd4-package-validation-fixture-0.1.0"
+                },
+                "schemaVersion": 1,
+                "system": "aarch64-darwin"
+              },
+              "derivation": "/nix/store/ibh7w7pf5dlnjfm90rqf1y5pfp5igvij-package-validation-fixture-cohort-manifest.drv"
+            }
+          },
+          "candidate": {
+            "behaviorProbes": {
+              "executable": "/nix/store/sg09zg7k51brbk1r8hh87vbnzsvfdqhs-strict-validation-behavior.drv"
+            },
+            "graph": {
+              "declaration": {
+                "compiler": {
+                  "drvPath": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+                  "name": "ghc",
+                  "outputPath": "/nix/store/g1qpr9sf56sr9znrqk05wxqrbgnnyanj-ghc-9.12.4",
+                  "version": "9.12.4"
+                },
+                "context": {
+                  "entryId": "fixture-compatibility-repair",
+                  "purpose": "explicit strict-validation fixture"
+                },
+                "nativePackages": [],
+                "packages": [
+                  {
+                    "componentRoles": [
+                      "root"
+                    ],
+                    "configuration": {
+                      "configureFlags": [
+                        "-f-compatibility-repair"
+                      ],
+                      "doBenchmark": false,
+                      "doCheck": true,
+                      "doHaddock": false,
+                      "enableLibraryProfiling": false,
+                      "hooks": {
+                        "postBuild": "",
+                        "postConfigure": "",
+                        "postInstall": "",
+                        "postUnpack": "",
+                        "preBuild": "",
+                        "preConfigure": "",
+                        "preInstall": ""
+                      },
+                      "jailbreak": false,
+                      "patches": [],
+                      "postPatch": "",
+                      "prePatch": ""
+                    },
+                    "configurationReplay": "/nix/store/pm86njh10v1ixagqlxjrbrrrj9vqyb9b-package-validation-fixture-0.1.0-cohort-configure",
+                    "dependencies": [],
+                    "drvPath": "/nix/store/ygiarb6nvlm8c8dc8ppn85q7m8izsica-package-validation-fixture-0.1.0.drv",
+                    "metadata": {
+                      "hash": null,
+                      "revision": null
+                    },
+                    "name": "package-validation-fixture",
+                    "outputPath": "/nix/store/vi38masr8cfglh4i1vmglg4si0kih0bx-package-validation-fixture-0.1.0",
+                    "role": "local",
+                    "source": {
+                      "hash": null,
+                      "hashMode": null,
+                      "path": "/nix/store/mj2lcnh6rlqkfl9j91drmnas2q7kb74b-needs-repair",
+                      "revision": null,
+                      "urls": []
+                    },
+                    "version": "0.1.0"
+                  }
+                ],
+                "root": {
+                  "drvPath": "/nix/store/ygiarb6nvlm8c8dc8ppn85q7m8izsica-package-validation-fixture-0.1.0.drv",
+                  "name": "package-validation-fixture",
+                  "outputPath": "/nix/store/vi38masr8cfglh4i1vmglg4si0kih0bx-package-validation-fixture-0.1.0"
+                },
+                "schemaVersion": 1,
+                "system": "aarch64-darwin"
+              },
+              "derivation": "/nix/store/vp4pd4p5kn8265yp6p2is4cxwygdn3hl-package-validation-fixture-cohort-manifest.drv"
+            }
+          }
+        },
+        "policyIdentity": "7dc4b5b8a30aa05ef3117c12a095008de761deabef63469da45785c94059ea03",
+        "requiredSuites": [
+          "fixture-tests"
+        ],
+        "schemaVersion": 1,
+        "validation": {
+          "baseline": {
+            "derivation": "/nix/store/2ak29h5c96bzxxw15mllm114jgzpkps7-package-validation-fixture-0.1.0.drv",
+            "effective": {
+              "boundsRelaxed": false,
+              "buildFlags": [],
+              "configureFlags": [
+                "-fcompatibility-repair"
+              ],
+              "dependencies": {
+                "buildDepends": [],
+                "buildTools": [],
+                "executableFrameworkDepends": [],
+                "executableHaskellDepends": [
+                  {
+                    "kind": "null",
+                    "resolution": "not-inferred"
+                  }
+                ],
+                "executablePkgconfigDepends": [],
+                "executableSystemDepends": [],
+                "executableToolDepends": [],
+                "extraLibraries": [],
+                "libraryFrameworkDepends": [],
+                "libraryHaskellDepends": [
+                  {
+                    "kind": "null",
+                    "resolution": "not-inferred"
+                  }
+                ],
+                "libraryPkgconfigDepends": [],
+                "librarySystemDepends": [],
+                "libraryToolDepends": [],
+                "pkg-configDepends": [],
+                "setupHaskellDepends": [],
+                "testDepends": [],
+                "testFrameworkDepends": [],
+                "testHaskellDepends": [
+                  {
+                    "kind": "null",
+                    "resolution": "not-inferred"
+                  }
+                ],
+                "testPkgconfigDepends": [],
+                "testSystemDepends": [],
+                "testToolDepends": []
+              },
+              "editedCabalFile": null,
+              "hooks": {
+                "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              "patches": [],
+              "revision": null,
+              "testDependencyInventory": "declared",
+              "testExecution": {
+                "customCheckPhase": false,
+                "flags": [],
+                "targets": [
+                  ""
+                ]
+              },
+              "testsEnabled": true
+            },
+            "metadataIdentity": "2ad3c136ecb72f3d5899d8beca47b9f1039f7c5d9320ea3c801b23e5e6ab1d6a",
+            "sourceIdentity": "nix-source:/nix/store/z8iblsyl83h4smyjn6prdgfdfzlnhqid-compatibility-source-identity.drv",
+            "version": "0.1.0"
+          },
+          "bounds": "enforce",
+          "candidate": {
+            "derivation": "/nix/store/ygiarb6nvlm8c8dc8ppn85q7m8izsica-package-validation-fixture-0.1.0.drv",
+            "effective": {
+              "boundsRelaxed": false,
+              "buildFlags": [],
+              "configureFlags": [
+                "-f-compatibility-repair"
+              ],
+              "dependencies": {
+                "buildDepends": [],
+                "buildTools": [],
+                "executableFrameworkDepends": [],
+                "executableHaskellDepends": [
+                  {
+                    "kind": "null",
+                    "resolution": "not-inferred"
+                  }
+                ],
+                "executablePkgconfigDepends": [],
+                "executableSystemDepends": [],
+                "executableToolDepends": [],
+                "extraLibraries": [],
+                "libraryFrameworkDepends": [],
+                "libraryHaskellDepends": [
+                  {
+                    "kind": "null",
+                    "resolution": "not-inferred"
+                  }
+                ],
+                "libraryPkgconfigDepends": [],
+                "librarySystemDepends": [],
+                "libraryToolDepends": [],
+                "pkg-configDepends": [],
+                "setupHaskellDepends": [],
+                "testDepends": [],
+                "testFrameworkDepends": [],
+                "testHaskellDepends": [
+                  {
+                    "kind": "null",
+                    "resolution": "not-inferred"
+                  }
+                ],
+                "testPkgconfigDepends": [],
+                "testSystemDepends": [],
+                "testToolDepends": []
+              },
+              "editedCabalFile": null,
+              "hooks": {
+                "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              "patches": [],
+              "revision": null,
+              "testDependencyInventory": "declared",
+              "testExecution": {
+                "customCheckPhase": false,
+                "flags": [],
+                "targets": [
+                  ""
+                ]
+              },
+              "testsEnabled": true
+            },
+            "metadataIdentity": "2ad3c136ecb72f3d5899d8beca47b9f1039f7c5d9320ea3c801b23e5e6ab1d6a",
+            "sourceIdentity": "nix-source:/nix/store/z8iblsyl83h4smyjn6prdgfdfzlnhqid-compatibility-source-identity.drv",
+            "version": "0.1.0"
+          },
+          "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+          "entryId": "fixture-compatibility-repair",
+          "graphStatus": "unverified",
+          "inputIdentity": "0f206fc2b76f272a5d0308e6c700be5425f0417000183fe8c4edf98d5fc27199",
+          "missingServices": [],
+          "policyProfile": "strict-v1",
+          "providedServiceProbes": {},
+          "requiredServices": [],
+          "schemaVersion": 1,
+          "status": "unverified",
+          "system": "aarch64-darwin",
+          "tests": "run"
+        }
+      },
+      "observedAt": "2026-10-17 15:02:13.110171 UTC",
+      "remainingWaivers": [],
+      "results": [
+        {
+          "checks": [
+            {
+              "derivation": "/nix/store/ibh7w7pf5dlnjfm90rqf1y5pfp5igvij-package-validation-fixture-cohort-manifest.drv",
+              "id": "graph",
+              "passed": true
+            },
+            {
+              "derivation": "/nix/store/daqa4k3zdlgcdcfv3chiicxm29avhn60-strict-validation-behavior.drv",
+              "id": "behavior:executable",
+              "passed": true
+            }
+          ],
+          "package": "/nix/store/2ak29h5c96bzxxw15mllm114jgzpkps7-package-validation-fixture-0.1.0.drv",
+          "packagePassed": true,
+          "phase": "baseline",
+          "suitesPassed": true
+        },
+        {
+          "checks": [
+            {
+              "derivation": "/nix/store/vp4pd4p5kn8265yp6p2is4cxwygdn3hl-package-validation-fixture-cohort-manifest.drv",
+              "id": "graph",
+              "passed": false
+            },
+            {
+              "derivation": "/nix/store/sg09zg7k51brbk1r8hh87vbnzsvfdqhs-strict-validation-behavior.drv",
+              "id": "behavior:executable",
+              "passed": false
+            }
+          ],
+          "package": "/nix/store/ygiarb6nvlm8c8dc8ppn85q7m8izsica-package-validation-fixture-0.1.0.drv",
+          "packagePassed": false,
+          "phase": "candidate",
+          "suitesPassed": false
+        }
+      ],
+      "schemaVersion": 1,
+      "status": "failed"
+    },
+    "service": {
+      "context": {
+        "channel": "github",
+        "kind": "native-compatibility-probe",
+        "phases": {
+          "baseline": {
+            "behaviorProbes": {
+              "executable": "/nix/store/8jp3wgyf9wrq2ygkxg8pyj57fhjkzb7m-strict-validation-behavior.drv"
+            },
+            "graph": {
+              "declaration": {
+                "compiler": {
+                  "drvPath": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+                  "name": "ghc",
+                  "outputPath": "/nix/store/g1qpr9sf56sr9znrqk05wxqrbgnnyanj-ghc-9.12.4",
+                  "version": "9.12.4"
+                },
+                "context": {
+                  "entryId": "fixture-compatibility-repair",
+                  "purpose": "explicit strict-validation fixture"
+                },
+                "nativePackages": [
+                  {
+                    "drvPath": "/nix/store/w9n86pxqrklaiczlpdg6glhxx83kz894-ep21-local-service-probe.drv",
+                    "name": "ep21-local-service-probe",
+                    "outputPath": "/nix/store/n2vfs406iy7d9blgp9jp0wz639npgzc4-ep21-local-service-probe",
+                    "role": "native",
+                    "version": null
+                  }
+                ],
+                "packages": [
+                  {
+                    "componentRoles": [
+                      "root"
+                    ],
+                    "configuration": {
+                      "configureFlags": [
+                        "-fcompatibility-repair"
+                      ],
+                      "doBenchmark": false,
+                      "doCheck": true,
+                      "doHaddock": false,
+                      "enableLibraryProfiling": false,
+                      "hooks": {
+                        "postBuild": "",
+                        "postConfigure": "",
+                        "postInstall": "",
+                        "postUnpack": "",
+                        "preBuild": "",
+                        "preConfigure": "",
+                        "preInstall": ""
+                      },
+                      "jailbreak": false,
+                      "patches": [],
+                      "postPatch": "",
+                      "prePatch": ""
+                    },
+                    "configurationReplay": "/nix/store/3zda4an5yw2q3x6ncb2xnp17cizp7z54-package-validation-fixture-0.3.0-cohort-configure",
+                    "dependencies": [],
+                    "drvPath": "/nix/store/3lmz44621124d0rb7mka909xicd0d031-package-validation-fixture-0.3.0.drv",
+                    "metadata": {
+                      "hash": null,
+                      "revision": null
+                    },
+                    "name": "package-validation-fixture",
+                    "outputPath": "/nix/store/5s1dbafanbdyq1sb24dgpqic68xaylji-package-validation-fixture-0.3.0",
+                    "role": "local",
+                    "source": {
+                      "hash": null,
+                      "hashMode": null,
+                      "path": "/nix/store/55x0nmckn20g7ip0rx5jklwpsdivvdaa-service",
+                      "revision": null,
+                      "urls": []
+                    },
+                    "version": "0.3.0"
+                  }
+                ],
+                "root": {
+                  "drvPath": "/nix/store/3lmz44621124d0rb7mka909xicd0d031-package-validation-fixture-0.3.0.drv",
+                  "name": "package-validation-fixture",
+                  "outputPath": "/nix/store/5s1dbafanbdyq1sb24dgpqic68xaylji-package-validation-fixture-0.3.0"
+                },
+                "schemaVersion": 1,
+                "system": "aarch64-darwin"
+              },
+              "derivation": "/nix/store/1r2ifh3fwbnq25y5jdyj4b1ik4xxqzq1-package-validation-fixture-cohort-manifest.drv"
+            }
+          },
+          "candidate": {
+            "behaviorProbes": {
+              "executable": "/nix/store/48qk6kgaxwdp89w1qaij60jhb9cyw57f-strict-validation-behavior.drv"
+            },
+            "graph": {
+              "declaration": {
+                "compiler": {
+                  "drvPath": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+                  "name": "ghc",
+                  "outputPath": "/nix/store/g1qpr9sf56sr9znrqk05wxqrbgnnyanj-ghc-9.12.4",
+                  "version": "9.12.4"
+                },
+                "context": {
+                  "entryId": "fixture-compatibility-repair",
+                  "purpose": "explicit strict-validation fixture"
+                },
+                "nativePackages": [
+                  {
+                    "drvPath": "/nix/store/w9n86pxqrklaiczlpdg6glhxx83kz894-ep21-local-service-probe.drv",
+                    "name": "ep21-local-service-probe",
+                    "outputPath": "/nix/store/n2vfs406iy7d9blgp9jp0wz639npgzc4-ep21-local-service-probe",
+                    "role": "native",
+                    "version": null
+                  }
+                ],
+                "packages": [
+                  {
+                    "componentRoles": [
+                      "root"
+                    ],
+                    "configuration": {
+                      "configureFlags": [
+                        "-f-compatibility-repair"
+                      ],
+                      "doBenchmark": false,
+                      "doCheck": true,
+                      "doHaddock": false,
+                      "enableLibraryProfiling": false,
+                      "hooks": {
+                        "postBuild": "",
+                        "postConfigure": "",
+                        "postInstall": "",
+                        "postUnpack": "",
+                        "preBuild": "",
+                        "preConfigure": "",
+                        "preInstall": ""
+                      },
+                      "jailbreak": false,
+                      "patches": [],
+                      "postPatch": "",
+                      "prePatch": ""
+                    },
+                    "configurationReplay": "/nix/store/gg4lj5yj90669bhjks0ck9vvjqwwpny9-package-validation-fixture-0.3.0-cohort-configure",
+                    "dependencies": [],
+                    "drvPath": "/nix/store/z35y1l4ld22s4lv682m1pdl13dfgjh86-package-validation-fixture-0.3.0.drv",
+                    "metadata": {
+                      "hash": null,
+                      "revision": null
+                    },
+                    "name": "package-validation-fixture",
+                    "outputPath": "/nix/store/fpl99f8wspc33nn9l348r4l8s3id2634-package-validation-fixture-0.3.0",
+                    "role": "local",
+                    "source": {
+                      "hash": null,
+                      "hashMode": null,
+                      "path": "/nix/store/55x0nmckn20g7ip0rx5jklwpsdivvdaa-service",
+                      "revision": null,
+                      "urls": []
+                    },
+                    "version": "0.3.0"
+                  }
+                ],
+                "root": {
+                  "drvPath": "/nix/store/z35y1l4ld22s4lv682m1pdl13dfgjh86-package-validation-fixture-0.3.0.drv",
+                  "name": "package-validation-fixture",
+                  "outputPath": "/nix/store/fpl99f8wspc33nn9l348r4l8s3id2634-package-validation-fixture-0.3.0"
+                },
+                "schemaVersion": 1,
+                "system": "aarch64-darwin"
+              },
+              "derivation": "/nix/store/lr4s4b6l7wqlgaka8xzm3d2jky00vf1l-package-validation-fixture-cohort-manifest.drv"
+            }
+          }
+        },
+        "policyIdentity": "7dc4b5b8a30aa05ef3117c12a095008de761deabef63469da45785c94059ea03",
+        "requiredSuites": [
+          "fixture-tests"
+        ],
+        "schemaVersion": 1,
+        "validation": {
+          "baseline": {
+            "derivation": "/nix/store/3lmz44621124d0rb7mka909xicd0d031-package-validation-fixture-0.3.0.drv",
+            "effective": {
+              "boundsRelaxed": false,
+              "buildFlags": [],
+              "configureFlags": [
+                "-fcompatibility-repair"
+              ],
+              "dependencies": {
+                "buildDepends": [],
+                "buildTools": [],
+                "executableFrameworkDepends": [],
+                "executableHaskellDepends": [
+                  {
+                    "kind": "null",
+                    "resolution": "not-inferred"
+                  }
+                ],
+                "executablePkgconfigDepends": [],
+                "executableSystemDepends": [],
+                "executableToolDepends": [],
+                "extraLibraries": [],
+                "libraryFrameworkDepends": [],
+                "libraryHaskellDepends": [
+                  {
+                    "kind": "null",
+                    "resolution": "not-inferred"
+                  }
+                ],
+                "libraryPkgconfigDepends": [],
+                "librarySystemDepends": [],
+                "libraryToolDepends": [],
+                "pkg-configDepends": [],
+                "setupHaskellDepends": [],
+                "testDepends": [],
+                "testFrameworkDepends": [],
+                "testHaskellDepends": [
+                  {
+                    "kind": "null",
+                    "resolution": "not-inferred"
+                  },
+                  {
+                    "kind": "null",
+                    "resolution": "not-inferred"
+                  }
+                ],
+                "testPkgconfigDepends": [],
+                "testSystemDepends": [],
+                "testToolDepends": [
+                  {
+                    "derivation": "/nix/store/w9n86pxqrklaiczlpdg6glhxx83kz894-ep21-local-service-probe.drv",
+                    "output": "out"
+                  }
+                ]
+              },
+              "editedCabalFile": null,
+              "hooks": {
+                "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "postCheck": "aafb4287438bdce90570632d5da7c0df7455360fe5f5bceae9a1b7243d70c182",
+                "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "preCheck": "nix-hook:/nix/store/k011r9k160nh21fv6bdy2cy7byljy9h5-compatibility-hook-identity.drv",
+                "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              "patches": [],
+              "revision": null,
+              "testDependencyInventory": "declared",
+              "testExecution": {
+                "customCheckPhase": false,
+                "flags": [],
+                "targets": [
+                  ""
+                ]
+              },
+              "testsEnabled": true
+            },
+            "metadataIdentity": "b1b230fed94c691b0a6650c586958aca712e37ae6bfdb0f23d96a82a0c96297e",
+            "sourceIdentity": "nix-source:/nix/store/ghqxhyspfq16rv1j4rbjdj2wjcy7qhch-compatibility-source-identity.drv",
+            "version": "0.3.0"
+          },
+          "bounds": "enforce",
+          "candidate": {
+            "derivation": "/nix/store/z35y1l4ld22s4lv682m1pdl13dfgjh86-package-validation-fixture-0.3.0.drv",
+            "effective": {
+              "boundsRelaxed": false,
+              "buildFlags": [],
+              "configureFlags": [
+                "-f-compatibility-repair"
+              ],
+              "dependencies": {
+                "buildDepends": [],
+                "buildTools": [],
+                "executableFrameworkDepends": [],
+                "executableHaskellDepends": [
+                  {
+                    "kind": "null",
+                    "resolution": "not-inferred"
+                  }
+                ],
+                "executablePkgconfigDepends": [],
+                "executableSystemDepends": [],
+                "executableToolDepends": [],
+                "extraLibraries": [],
+                "libraryFrameworkDepends": [],
+                "libraryHaskellDepends": [
+                  {
+                    "kind": "null",
+                    "resolution": "not-inferred"
+                  }
+                ],
+                "libraryPkgconfigDepends": [],
+                "librarySystemDepends": [],
+                "libraryToolDepends": [],
+                "pkg-configDepends": [],
+                "setupHaskellDepends": [],
+                "testDepends": [],
+                "testFrameworkDepends": [],
+                "testHaskellDepends": [
+                  {
+                    "kind": "null",
+                    "resolution": "not-inferred"
+                  },
+                  {
+                    "kind": "null",
+                    "resolution": "not-inferred"
+                  }
+                ],
+                "testPkgconfigDepends": [],
+                "testSystemDepends": [],
+                "testToolDepends": [
+                  {
+                    "derivation": "/nix/store/w9n86pxqrklaiczlpdg6glhxx83kz894-ep21-local-service-probe.drv",
+                    "output": "out"
+                  }
+                ]
+              },
+              "editedCabalFile": null,
+              "hooks": {
+                "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "postCheck": "aafb4287438bdce90570632d5da7c0df7455360fe5f5bceae9a1b7243d70c182",
+                "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "preCheck": "nix-hook:/nix/store/k011r9k160nh21fv6bdy2cy7byljy9h5-compatibility-hook-identity.drv",
+                "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              "patches": [],
+              "revision": null,
+              "testDependencyInventory": "declared",
+              "testExecution": {
+                "customCheckPhase": false,
+                "flags": [],
+                "targets": [
+                  ""
+                ]
+              },
+              "testsEnabled": true
+            },
+            "metadataIdentity": "b1b230fed94c691b0a6650c586958aca712e37ae6bfdb0f23d96a82a0c96297e",
+            "sourceIdentity": "nix-source:/nix/store/ghqxhyspfq16rv1j4rbjdj2wjcy7qhch-compatibility-source-identity.drv",
+            "version": "0.3.0"
+          },
+          "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+          "entryId": "fixture-compatibility-repair",
+          "graphStatus": "unverified",
+          "inputIdentity": "0895fe23d0f14dbf35af52a312ad4f4f26aed5ed8b65956c30c21a61d9211106",
+          "missingServices": [],
+          "policyProfile": "strict-v1",
+          "providedServiceProbes": {
+            "fixture-service": "/nix/store/w9n86pxqrklaiczlpdg6glhxx83kz894-ep21-local-service-probe.drv"
+          },
+          "requiredServices": [
+            "fixture-service"
+          ],
+          "schemaVersion": 1,
+          "status": "unverified",
+          "system": "aarch64-darwin",
+          "tests": "run"
+        }
+      },
+      "observedAt": "2026-10-17 15:03:51.091951 UTC",
+      "remainingWaivers": [],
+      "results": [
+        {
+          "checks": [
+            {
+              "derivation": "/nix/store/1r2ifh3fwbnq25y5jdyj4b1ik4xxqzq1-package-validation-fixture-cohort-manifest.drv",
+              "id": "graph",
+              "passed": true
+            },
+            {
+              "derivation": "/nix/store/8jp3wgyf9wrq2ygkxg8pyj57fhjkzb7m-strict-validation-behavior.drv",
+              "id": "behavior:executable",
+              "passed": true
+            },
+            {
+              "derivation": "/nix/store/w9n86pxqrklaiczlpdg6glhxx83kz894-ep21-local-service-probe.drv",
+              "id": "service:fixture-service",
+              "passed": true
+            }
+          ],
+          "package": "/nix/store/3lmz44621124d0rb7mka909xicd0d031-package-validation-fixture-0.3.0.drv",
+          "packagePassed": true,
+          "phase": "baseline",
+          "suitesPassed": true
+        },
+        {
+          "checks": [
+            {
+              "derivation": "/nix/store/lr4s4b6l7wqlgaka8xzm3d2jky00vf1l-package-validation-fixture-cohort-manifest.drv",
+              "id": "graph",
+              "passed": true
+            },
+            {
+              "derivation": "/nix/store/48qk6kgaxwdp89w1qaij60jhb9cyw57f-strict-validation-behavior.drv",
+              "id": "behavior:executable",
+              "passed": true
+            },
+            {
+              "derivation": "/nix/store/w9n86pxqrklaiczlpdg6glhxx83kz894-ep21-local-service-probe.drv",
+              "id": "service:fixture-service",
+              "passed": true
+            }
+          ],
+          "package": "/nix/store/z35y1l4ld22s4lv682m1pdl13dfgjh86-package-validation-fixture-0.3.0.drv",
+          "packagePassed": true,
+          "phase": "candidate",
+          "suitesPassed": true
+        }
+      ],
+      "schemaVersion": 1,
+      "status": "passed"
+    }
+  },
+  "receiptRechecksAndFalsePassRejections": [
+    {
+      "case": "fixed",
+      "exitCode": 0,
+      "stdout": "Native receipt verified against exact inputs, Nix metadata and complete suite logs",
+      "stderrTail": "warning: '--json' without '--json-format' is deprecated; please specify '--json-format 1' or '--json-format 2'. This will become an error in a future release.\ngot build log for '/nix/store/zggsgn274k269hcs0wi4p3hzvr8hnznf-package-validation-fixture-0.2.0.drv' from 'daemon'\nwarning: '--json' without '--json-format' is deprecated; please specify '--json-format 1' or '--json-format 2'. This will become an error in a future release.\nwarning: '--json' without '--json-format' is deprecated; please specify '--json-format 1' or '--json-format 2'. This will become an error in a future release.\nwarning: '--json' without '--json-format' is deprecated; please specify '--json-format 1' or '--json-format 2'. This will become an error in a future release.\ngot build log for '/nix/store/3f7891js9al5vpdlchfkj4cs6x0wxsyp-package-validation-fixture-0.2.0.drv' from 'daemon'\nwarning: '--json' without '--json-format' is deprecated; please specify '--json-format 1' or '--json-format 2'. This will become an error in a future release.\nwarning: '--json' without '--json-format' is deprecated; please specify '--json-format 1' or '--json-format 2'. This will become an error in a future release.\n"
+    },
+    {
+      "case": "needed",
+      "exitCode": 1,
+      "stdout": "",
+      "stderrTail": "Error in $: failed, blocked, waived or unverified receipt cannot pass\n"
+    },
+    {
+      "case": "service",
+      "exitCode": 0,
+      "stdout": "Native receipt verified against exact inputs, Nix metadata and complete suite logs",
+      "stderrTail": "rning: '--json' without '--json-format' is deprecated; please specify '--json-format 1' or '--json-format 2'. This will become an error in a future release.\ngot build log for '/nix/store/3lmz44621124d0rb7mka909xicd0d031-package-validation-fixture-0.3.0.drv' from 'daemon'\nwarning: '--json' without '--json-format' is deprecated; please specify '--json-format 1' or '--json-format 2'. This will become an error in a future release.\nwarning: '--json' without '--json-format' is deprecated; please specify '--json-format 1' or '--json-format 2'. This will become an error in a future release.\nwarning: '--json' without '--json-format' is deprecated; please specify '--json-format 1' or '--json-format 2'. This will become an error in a future release.\nwarning: '--json' without '--json-format' is deprecated; please specify '--json-format 1' or '--json-format 2'. This will become an error in a future release.\ngot build log for '/nix/store/z35y1l4ld22s4lv682m1pdl13dfgjh86-package-validation-fixture-0.3.0.drv' from 'daemon'\nwarning: '--json' without '--json-format' is deprecated; please specify '--json-format 1' or '--json-format 2'. This will become an error in a future release.\nwarning: '--json' without '--json-format' is deprecated; please specify '--json-format 1' or '--json-format 2'. This will become an error in a future release.\nwarning: '--json' without '--json-format' is deprecated; please specify '--json-format 1' or '--json-format 2'. This will become an error in a future release.\n"
+    },
+    {
+      "case": "stale-source",
+      "exitCode": 1,
+      "stderrTail": "Error in $: receipt belongs to another input, policy or probe context\n"
+    },
+    {
+      "case": "stale-compiler",
+      "exitCode": 1,
+      "stderrTail": "Error in $: receipt belongs to another input, policy or probe context\n"
+    },
+    {
+      "case": "stale-policy",
+      "exitCode": 1,
+      "stderrTail": "Error in $: receipt belongs to another input, policy or probe context\n"
+    },
+    {
+      "case": "blocked",
+      "exitCode": 1,
+      "stderrTail": "Error in $: failed, blocked, waived or unverified receipt cannot pass\n"
+    },
+    {
+      "case": "waived",
+      "exitCode": 1,
+      "stderrTail": "Error in $: failed, blocked, waived or unverified receipt cannot pass\n"
+    },
+    {
+      "case": "unverified",
+      "exitCode": 1,
+      "stderrTail": "Error in $: failed, blocked, waived or unverified receipt cannot pass\n"
+    },
+    {
+      "case": "failed",
+      "exitCode": 1,
+      "stderrTail": "Error in $: failed, blocked, waived or unverified receipt cannot pass\n"
+    },
+    {
+      "case": "omitted-checks",
+      "exitCode": 1,
+      "stderrTail": "Error in $: receipt omitted or changed required tests, graph, behavior or services\n"
+    },
+    {
+      "case": "waived-tests",
+      "exitCode": 1,
+      "stderrTail": "Error in $: waiver-qualified evidence cannot claim strict validation\n"
+    }
+  ],
+  "recheckCampaignElapsedSeconds": 3.1149492919794284,
+  "cacheState": "Warm existing outputs and their original native logs; metadata/log replay only. No performance claim.",
+  "limitations": [
+    "No real dependency policy has been narrowed or retired",
+    "Linux target fixture verification/replay now passes in the user-selected Apple guest; translation and guest settings are retained explicitly",
+    "Expected contexts must be exported from the selected trusted Nix constructors; these receipts are not signed attestations",
+    "Missing output metadata or native logs fails verification; replay does not rebuild or regenerate evidence",
+    "Strict helper rejects waived, custom or filtered test execution rather than making a waiver-qualified claim"
+  ],
+  "validation": {
+    "updaterTests": 203,
+    "pureNixContracts": 274,
+    "darwinStrictAndServiceFixtures": "passed",
+    "darwinFullFlakeCheck": "passed",
+    "documentationProfiles": "passed",
+    "formatting": "passed"
+  },
+  "linuxContainer": {
+    "executionEnvironment": {
+      "id": "mp3-linux-builder",
+      "image": {
+        "descriptor": {
+          "digest": "sha256:7a007c766426c1877758ddc5cb87a965ac131fc78c582ce0083d922d51ae945c",
+          "mediaType": "application/vnd.docker.distribution.manifest.list.v2+json",
+          "size": 745
+        },
+        "reference": "ghcr.io/nixos/nix:2.35.2"
+      },
+      "platform": {
+        "architecture": "amd64",
+        "os": "linux"
+      },
+      "resources": {
+        "cpuOverhead": 1,
+        "cpus": 8,
+        "memoryInBytes": 25769803776
+      },
+      "rosetta": true,
+      "mounts": [
+        {
+          "destination": "/workspace",
+          "options": [
+            "ro"
+          ],
+          "source": "/Users/shinzui/Keikaku/bokuno/haskell-nix",
+          "type": {
+            "virtiofs": {}
+          }
+        }
+      ],
+      "nixSettings": {
+        "sandbox": false,
+        "filter-syscalls": false,
+        "max-jobs": 1,
+        "cores": 8
+      },
+      "translation": "Apple amd64 translation on Apple Silicon; not physical x86 hardware"
+    },
+    "receipts": {
+      "fixed": {
+        "context": {
+          "channel": "github",
+          "kind": "native-compatibility-probe",
+          "phases": {
+            "baseline": {
+              "behaviorProbes": {
+                "executable": "/nix/store/f7xxhmp8nk8i95g1hslrwdf9npi4mzxx-strict-validation-behavior.drv"
+              },
+              "graph": {
+                "declaration": {
+                  "compiler": {
+                    "drvPath": "/nix/store/08qkkbbl2kfwl1hhwv61zslrcfz8ax5n-ghc-9.12.4.drv",
+                    "name": "ghc",
+                    "outputPath": "/nix/store/i6nc2j7qpx67im29fw36z9dwcmak69zf-ghc-9.12.4",
+                    "version": "9.12.4"
+                  },
+                  "context": {
+                    "entryId": "fixture-compatibility-repair",
+                    "purpose": "explicit strict-validation fixture"
+                  },
+                  "nativePackages": [],
+                  "packages": [
+                    {
+                      "componentRoles": [
+                        "root"
+                      ],
+                      "configuration": {
+                        "configureFlags": [
+                          "-fcompatibility-repair"
+                        ],
+                        "doBenchmark": false,
+                        "doCheck": true,
+                        "doHaddock": false,
+                        "enableLibraryProfiling": false,
+                        "hooks": {
+                          "postBuild": "",
+                          "postConfigure": "",
+                          "postInstall": "",
+                          "postUnpack": "",
+                          "preBuild": "",
+                          "preConfigure": "",
+                          "preInstall": ""
+                        },
+                        "jailbreak": false,
+                        "patches": [],
+                        "postPatch": "",
+                        "prePatch": ""
+                      },
+                      "configurationReplay": "/nix/store/0dzrmzq2dh31g45vmfc7n54lzs3zgvpf-package-validation-fixture-0.2.0-cohort-configure",
+                      "dependencies": [],
+                      "drvPath": "/nix/store/7b1g1sirv474bh0aqyfl6srbxchp3lk9-package-validation-fixture-0.2.0.drv",
+                      "metadata": {
+                        "hash": null,
+                        "revision": null
+                      },
+                      "name": "package-validation-fixture",
+                      "outputPath": "/nix/store/5rrvhnipgmi6qi634nzarynic9fj82la-package-validation-fixture-0.2.0",
+                      "role": "local",
+                      "source": {
+                        "hash": null,
+                        "hashMode": null,
+                        "path": "/nix/store/myjsny8rmwsrzpagp45fyl5aynnc4g4n-fixed",
+                        "revision": null,
+                        "urls": []
+                      },
+                      "version": "0.2.0"
+                    }
+                  ],
+                  "root": {
+                    "drvPath": "/nix/store/7b1g1sirv474bh0aqyfl6srbxchp3lk9-package-validation-fixture-0.2.0.drv",
+                    "name": "package-validation-fixture",
+                    "outputPath": "/nix/store/5rrvhnipgmi6qi634nzarynic9fj82la-package-validation-fixture-0.2.0"
+                  },
+                  "schemaVersion": 1,
+                  "system": "x86_64-linux"
+                },
+                "derivation": "/nix/store/c5x6mzaz6yc7zg1qj8ydfa40jpy5rsda-package-validation-fixture-cohort-manifest.drv"
+              }
+            },
+            "candidate": {
+              "behaviorProbes": {
+                "executable": "/nix/store/01lcgbbzqqcas39ni9jbhmbvqkwi1pph-strict-validation-behavior.drv"
+              },
+              "graph": {
+                "declaration": {
+                  "compiler": {
+                    "drvPath": "/nix/store/08qkkbbl2kfwl1hhwv61zslrcfz8ax5n-ghc-9.12.4.drv",
+                    "name": "ghc",
+                    "outputPath": "/nix/store/i6nc2j7qpx67im29fw36z9dwcmak69zf-ghc-9.12.4",
+                    "version": "9.12.4"
+                  },
+                  "context": {
+                    "entryId": "fixture-compatibility-repair",
+                    "purpose": "explicit strict-validation fixture"
+                  },
+                  "nativePackages": [],
+                  "packages": [
+                    {
+                      "componentRoles": [
+                        "root"
+                      ],
+                      "configuration": {
+                        "configureFlags": [
+                          "-f-compatibility-repair"
+                        ],
+                        "doBenchmark": false,
+                        "doCheck": true,
+                        "doHaddock": false,
+                        "enableLibraryProfiling": false,
+                        "hooks": {
+                          "postBuild": "",
+                          "postConfigure": "",
+                          "postInstall": "",
+                          "postUnpack": "",
+                          "preBuild": "",
+                          "preConfigure": "",
+                          "preInstall": ""
+                        },
+                        "jailbreak": false,
+                        "patches": [],
+                        "postPatch": "",
+                        "prePatch": ""
+                      },
+                      "configurationReplay": "/nix/store/s2i4b1n9blhv1r5na9175kak6v46nr85-package-validation-fixture-0.2.0-cohort-configure",
+                      "dependencies": [],
+                      "drvPath": "/nix/store/paviaja37iljkcsl97vbxb96dnr9nn0d-package-validation-fixture-0.2.0.drv",
+                      "metadata": {
+                        "hash": null,
+                        "revision": null
+                      },
+                      "name": "package-validation-fixture",
+                      "outputPath": "/nix/store/5xp9z6bhlcb0nhg3dms3xc9d2qs7mn22-package-validation-fixture-0.2.0",
+                      "role": "local",
+                      "source": {
+                        "hash": null,
+                        "hashMode": null,
+                        "path": "/nix/store/myjsny8rmwsrzpagp45fyl5aynnc4g4n-fixed",
+                        "revision": null,
+                        "urls": []
+                      },
+                      "version": "0.2.0"
+                    }
+                  ],
+                  "root": {
+                    "drvPath": "/nix/store/paviaja37iljkcsl97vbxb96dnr9nn0d-package-validation-fixture-0.2.0.drv",
+                    "name": "package-validation-fixture",
+                    "outputPath": "/nix/store/5xp9z6bhlcb0nhg3dms3xc9d2qs7mn22-package-validation-fixture-0.2.0"
+                  },
+                  "schemaVersion": 1,
+                  "system": "x86_64-linux"
+                },
+                "derivation": "/nix/store/xnb2m1alxjkw81mhw3fzdsba65iw5617-package-validation-fixture-cohort-manifest.drv"
+              }
+            }
+          },
+          "policyIdentity": "7dc4b5b8a30aa05ef3117c12a095008de761deabef63469da45785c94059ea03",
+          "requiredSuites": [
+            "fixture-tests"
+          ],
+          "schemaVersion": 1,
+          "validation": {
+            "baseline": {
+              "derivation": "/nix/store/7b1g1sirv474bh0aqyfl6srbxchp3lk9-package-validation-fixture-0.2.0.drv",
+              "effective": {
+                "boundsRelaxed": false,
+                "buildFlags": [],
+                "configureFlags": [
+                  "-fcompatibility-repair"
+                ],
+                "dependencies": {
+                  "buildDepends": [],
+                  "buildTools": [],
+                  "executableFrameworkDepends": [],
+                  "executableHaskellDepends": [
+                    {
+                      "kind": "null",
+                      "resolution": "not-inferred"
+                    }
+                  ],
+                  "executablePkgconfigDepends": [],
+                  "executableSystemDepends": [],
+                  "executableToolDepends": [],
+                  "extraLibraries": [],
+                  "libraryFrameworkDepends": [],
+                  "libraryHaskellDepends": [
+                    {
+                      "kind": "null",
+                      "resolution": "not-inferred"
+                    }
+                  ],
+                  "libraryPkgconfigDepends": [],
+                  "librarySystemDepends": [],
+                  "libraryToolDepends": [],
+                  "pkg-configDepends": [],
+                  "setupHaskellDepends": [],
+                  "testDepends": [],
+                  "testFrameworkDepends": [],
+                  "testHaskellDepends": [
+                    {
+                      "kind": "null",
+                      "resolution": "not-inferred"
+                    }
+                  ],
+                  "testPkgconfigDepends": [],
+                  "testSystemDepends": [],
+                  "testToolDepends": []
+                },
+                "editedCabalFile": null,
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": null,
+                "testDependencyInventory": "declared",
+                "testExecution": {
+                  "customCheckPhase": false,
+                  "flags": [],
+                  "targets": [
+                    ""
+                  ]
+                },
+                "testsEnabled": true
+              },
+              "metadataIdentity": "fb73e36c4c9731a10ca29300924595bee964e36dbea1e993564f7b19329d556b",
+              "sourceIdentity": "nix-source:/nix/store/j2pm32pn2d6hb9vkh7w6b2z464xqh7g5-compatibility-source-identity.drv",
+              "version": "0.2.0"
+            },
+            "bounds": "enforce",
+            "candidate": {
+              "derivation": "/nix/store/paviaja37iljkcsl97vbxb96dnr9nn0d-package-validation-fixture-0.2.0.drv",
+              "effective": {
+                "boundsRelaxed": false,
+                "buildFlags": [],
+                "configureFlags": [
+                  "-f-compatibility-repair"
+                ],
+                "dependencies": {
+                  "buildDepends": [],
+                  "buildTools": [],
+                  "executableFrameworkDepends": [],
+                  "executableHaskellDepends": [
+                    {
+                      "kind": "null",
+                      "resolution": "not-inferred"
+                    }
+                  ],
+                  "executablePkgconfigDepends": [],
+                  "executableSystemDepends": [],
+                  "executableToolDepends": [],
+                  "extraLibraries": [],
+                  "libraryFrameworkDepends": [],
+                  "libraryHaskellDepends": [
+                    {
+                      "kind": "null",
+                      "resolution": "not-inferred"
+                    }
+                  ],
+                  "libraryPkgconfigDepends": [],
+                  "librarySystemDepends": [],
+                  "libraryToolDepends": [],
+                  "pkg-configDepends": [],
+                  "setupHaskellDepends": [],
+                  "testDepends": [],
+                  "testFrameworkDepends": [],
+                  "testHaskellDepends": [
+                    {
+                      "kind": "null",
+                      "resolution": "not-inferred"
+                    }
+                  ],
+                  "testPkgconfigDepends": [],
+                  "testSystemDepends": [],
+                  "testToolDepends": []
+                },
+                "editedCabalFile": null,
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": null,
+                "testDependencyInventory": "declared",
+                "testExecution": {
+                  "customCheckPhase": false,
+                  "flags": [],
+                  "targets": [
+                    ""
+                  ]
+                },
+                "testsEnabled": true
+              },
+              "metadataIdentity": "fb73e36c4c9731a10ca29300924595bee964e36dbea1e993564f7b19329d556b",
+              "sourceIdentity": "nix-source:/nix/store/j2pm32pn2d6hb9vkh7w6b2z464xqh7g5-compatibility-source-identity.drv",
+              "version": "0.2.0"
+            },
+            "compiler": "/nix/store/08qkkbbl2kfwl1hhwv61zslrcfz8ax5n-ghc-9.12.4.drv",
+            "entryId": "fixture-compatibility-repair",
+            "graphStatus": "unverified",
+            "inputIdentity": "25f123950aff50b11a10c1b5f005cfab5fb2f738982b398245fb6320fd034c8d",
+            "missingServices": [],
+            "policyProfile": "strict-v1",
+            "providedServiceProbes": {},
+            "requiredServices": [],
+            "schemaVersion": 1,
+            "status": "unverified",
+            "system": "x86_64-linux",
+            "tests": "run"
+          }
+        },
+        "observedAt": "2026-10-17 15:15:22.524650594 UTC",
+        "remainingWaivers": [],
+        "results": [
+          {
+            "checks": [
+              {
+                "derivation": "/nix/store/c5x6mzaz6yc7zg1qj8ydfa40jpy5rsda-package-validation-fixture-cohort-manifest.drv",
+                "id": "graph",
+                "passed": true
+              },
+              {
+                "derivation": "/nix/store/f7xxhmp8nk8i95g1hslrwdf9npi4mzxx-strict-validation-behavior.drv",
+                "id": "behavior:executable",
+                "passed": true
+              }
+            ],
+            "package": "/nix/store/7b1g1sirv474bh0aqyfl6srbxchp3lk9-package-validation-fixture-0.2.0.drv",
+            "packagePassed": true,
+            "phase": "baseline",
+            "suitesPassed": true
+          },
+          {
+            "checks": [
+              {
+                "derivation": "/nix/store/xnb2m1alxjkw81mhw3fzdsba65iw5617-package-validation-fixture-cohort-manifest.drv",
+                "id": "graph",
+                "passed": true
+              },
+              {
+                "derivation": "/nix/store/01lcgbbzqqcas39ni9jbhmbvqkwi1pph-strict-validation-behavior.drv",
+                "id": "behavior:executable",
+                "passed": true
+              }
+            ],
+            "package": "/nix/store/paviaja37iljkcsl97vbxb96dnr9nn0d-package-validation-fixture-0.2.0.drv",
+            "packagePassed": true,
+            "phase": "candidate",
+            "suitesPassed": true
+          }
+        ],
+        "schemaVersion": 1,
+        "status": "passed"
+      },
+      "service": {
+        "context": {
+          "channel": "github",
+          "kind": "native-compatibility-probe",
+          "phases": {
+            "baseline": {
+              "behaviorProbes": {
+                "executable": "/nix/store/a8nhidk20s9n5qz69r55cccawyaj9hh8-strict-validation-behavior.drv"
+              },
+              "graph": {
+                "declaration": {
+                  "compiler": {
+                    "drvPath": "/nix/store/08qkkbbl2kfwl1hhwv61zslrcfz8ax5n-ghc-9.12.4.drv",
+                    "name": "ghc",
+                    "outputPath": "/nix/store/i6nc2j7qpx67im29fw36z9dwcmak69zf-ghc-9.12.4",
+                    "version": "9.12.4"
+                  },
+                  "context": {
+                    "entryId": "fixture-compatibility-repair",
+                    "purpose": "explicit strict-validation fixture"
+                  },
+                  "nativePackages": [
+                    {
+                      "drvPath": "/nix/store/1733p6gp461f9br6rnn8i6acv2qv6ivx-ep21-local-service-probe.drv",
+                      "name": "ep21-local-service-probe",
+                      "outputPath": "/nix/store/vzjjmj5hdxnmf8cfgsmwj0b9l8d4icc1-ep21-local-service-probe",
+                      "role": "native",
+                      "version": null
+                    }
+                  ],
+                  "packages": [
+                    {
+                      "componentRoles": [
+                        "root"
+                      ],
+                      "configuration": {
+                        "configureFlags": [
+                          "-fcompatibility-repair"
+                        ],
+                        "doBenchmark": false,
+                        "doCheck": true,
+                        "doHaddock": false,
+                        "enableLibraryProfiling": false,
+                        "hooks": {
+                          "postBuild": "",
+                          "postConfigure": "",
+                          "postInstall": "",
+                          "postUnpack": "",
+                          "preBuild": "",
+                          "preConfigure": "",
+                          "preInstall": ""
+                        },
+                        "jailbreak": false,
+                        "patches": [],
+                        "postPatch": "",
+                        "prePatch": ""
+                      },
+                      "configurationReplay": "/nix/store/qqsf0irw6pb9d6r3ky7mpw6hsvviym7c-package-validation-fixture-0.3.0-cohort-configure",
+                      "dependencies": [],
+                      "drvPath": "/nix/store/i1k8nmi8ns35b9wrwyyvs67v6mjnykbn-package-validation-fixture-0.3.0.drv",
+                      "metadata": {
+                        "hash": null,
+                        "revision": null
+                      },
+                      "name": "package-validation-fixture",
+                      "outputPath": "/nix/store/wz4n5rry0bm0ndhkaqss3ngsay65fkz0-package-validation-fixture-0.3.0",
+                      "role": "local",
+                      "source": {
+                        "hash": null,
+                        "hashMode": null,
+                        "path": "/nix/store/55x0nmckn20g7ip0rx5jklwpsdivvdaa-service",
+                        "revision": null,
+                        "urls": []
+                      },
+                      "version": "0.3.0"
+                    }
+                  ],
+                  "root": {
+                    "drvPath": "/nix/store/i1k8nmi8ns35b9wrwyyvs67v6mjnykbn-package-validation-fixture-0.3.0.drv",
+                    "name": "package-validation-fixture",
+                    "outputPath": "/nix/store/wz4n5rry0bm0ndhkaqss3ngsay65fkz0-package-validation-fixture-0.3.0"
+                  },
+                  "schemaVersion": 1,
+                  "system": "x86_64-linux"
+                },
+                "derivation": "/nix/store/k4y7rnlr2l3y8pi0rrczwhbxw7fsqyni-package-validation-fixture-cohort-manifest.drv"
+              }
+            },
+            "candidate": {
+              "behaviorProbes": {
+                "executable": "/nix/store/4x3h8ryl8szpln8qaagskclhjpnlrrhh-strict-validation-behavior.drv"
+              },
+              "graph": {
+                "declaration": {
+                  "compiler": {
+                    "drvPath": "/nix/store/08qkkbbl2kfwl1hhwv61zslrcfz8ax5n-ghc-9.12.4.drv",
+                    "name": "ghc",
+                    "outputPath": "/nix/store/i6nc2j7qpx67im29fw36z9dwcmak69zf-ghc-9.12.4",
+                    "version": "9.12.4"
+                  },
+                  "context": {
+                    "entryId": "fixture-compatibility-repair",
+                    "purpose": "explicit strict-validation fixture"
+                  },
+                  "nativePackages": [
+                    {
+                      "drvPath": "/nix/store/1733p6gp461f9br6rnn8i6acv2qv6ivx-ep21-local-service-probe.drv",
+                      "name": "ep21-local-service-probe",
+                      "outputPath": "/nix/store/vzjjmj5hdxnmf8cfgsmwj0b9l8d4icc1-ep21-local-service-probe",
+                      "role": "native",
+                      "version": null
+                    }
+                  ],
+                  "packages": [
+                    {
+                      "componentRoles": [
+                        "root"
+                      ],
+                      "configuration": {
+                        "configureFlags": [
+                          "-f-compatibility-repair"
+                        ],
+                        "doBenchmark": false,
+                        "doCheck": true,
+                        "doHaddock": false,
+                        "enableLibraryProfiling": false,
+                        "hooks": {
+                          "postBuild": "",
+                          "postConfigure": "",
+                          "postInstall": "",
+                          "postUnpack": "",
+                          "preBuild": "",
+                          "preConfigure": "",
+                          "preInstall": ""
+                        },
+                        "jailbreak": false,
+                        "patches": [],
+                        "postPatch": "",
+                        "prePatch": ""
+                      },
+                      "configurationReplay": "/nix/store/kfgzxx23s651d9v4d1vzg04fi9g2i4vh-package-validation-fixture-0.3.0-cohort-configure",
+                      "dependencies": [],
+                      "drvPath": "/nix/store/bxh88h166pckk1h9ik7qdgwmswyfbiq4-package-validation-fixture-0.3.0.drv",
+                      "metadata": {
+                        "hash": null,
+                        "revision": null
+                      },
+                      "name": "package-validation-fixture",
+                      "outputPath": "/nix/store/j9lsqyk2ynxbpskig02dm2wkrnq00k5y-package-validation-fixture-0.3.0",
+                      "role": "local",
+                      "source": {
+                        "hash": null,
+                        "hashMode": null,
+                        "path": "/nix/store/55x0nmckn20g7ip0rx5jklwpsdivvdaa-service",
+                        "revision": null,
+                        "urls": []
+                      },
+                      "version": "0.3.0"
+                    }
+                  ],
+                  "root": {
+                    "drvPath": "/nix/store/bxh88h166pckk1h9ik7qdgwmswyfbiq4-package-validation-fixture-0.3.0.drv",
+                    "name": "package-validation-fixture",
+                    "outputPath": "/nix/store/j9lsqyk2ynxbpskig02dm2wkrnq00k5y-package-validation-fixture-0.3.0"
+                  },
+                  "schemaVersion": 1,
+                  "system": "x86_64-linux"
+                },
+                "derivation": "/nix/store/j83js1az4p4b410z6hrz5gvkajvmwkrm-package-validation-fixture-cohort-manifest.drv"
+              }
+            }
+          },
+          "policyIdentity": "7dc4b5b8a30aa05ef3117c12a095008de761deabef63469da45785c94059ea03",
+          "requiredSuites": [
+            "fixture-tests"
+          ],
+          "schemaVersion": 1,
+          "validation": {
+            "baseline": {
+              "derivation": "/nix/store/i1k8nmi8ns35b9wrwyyvs67v6mjnykbn-package-validation-fixture-0.3.0.drv",
+              "effective": {
+                "boundsRelaxed": false,
+                "buildFlags": [],
+                "configureFlags": [
+                  "-fcompatibility-repair"
+                ],
+                "dependencies": {
+                  "buildDepends": [],
+                  "buildTools": [],
+                  "executableFrameworkDepends": [],
+                  "executableHaskellDepends": [
+                    {
+                      "kind": "null",
+                      "resolution": "not-inferred"
+                    }
+                  ],
+                  "executablePkgconfigDepends": [],
+                  "executableSystemDepends": [],
+                  "executableToolDepends": [],
+                  "extraLibraries": [],
+                  "libraryFrameworkDepends": [],
+                  "libraryHaskellDepends": [
+                    {
+                      "kind": "null",
+                      "resolution": "not-inferred"
+                    }
+                  ],
+                  "libraryPkgconfigDepends": [],
+                  "librarySystemDepends": [],
+                  "libraryToolDepends": [],
+                  "pkg-configDepends": [],
+                  "setupHaskellDepends": [],
+                  "testDepends": [],
+                  "testFrameworkDepends": [],
+                  "testHaskellDepends": [
+                    {
+                      "kind": "null",
+                      "resolution": "not-inferred"
+                    },
+                    {
+                      "kind": "null",
+                      "resolution": "not-inferred"
+                    }
+                  ],
+                  "testPkgconfigDepends": [],
+                  "testSystemDepends": [],
+                  "testToolDepends": [
+                    {
+                      "derivation": "/nix/store/1733p6gp461f9br6rnn8i6acv2qv6ivx-ep21-local-service-probe.drv",
+                      "output": "out"
+                    }
+                  ]
+                },
+                "editedCabalFile": null,
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "aafb4287438bdce90570632d5da7c0df7455360fe5f5bceae9a1b7243d70c182",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "nix-hook:/nix/store/qc0mdhmfp7dr81n8hm1vf5zvp0d5jagj-compatibility-hook-identity.drv",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": null,
+                "testDependencyInventory": "declared",
+                "testExecution": {
+                  "customCheckPhase": false,
+                  "flags": [],
+                  "targets": [
+                    ""
+                  ]
+                },
+                "testsEnabled": true
+              },
+              "metadataIdentity": "b1b230fed94c691b0a6650c586958aca712e37ae6bfdb0f23d96a82a0c96297e",
+              "sourceIdentity": "nix-source:/nix/store/ghqxhyspfq16rv1j4rbjdj2wjcy7qhch-compatibility-source-identity.drv",
+              "version": "0.3.0"
+            },
+            "bounds": "enforce",
+            "candidate": {
+              "derivation": "/nix/store/bxh88h166pckk1h9ik7qdgwmswyfbiq4-package-validation-fixture-0.3.0.drv",
+              "effective": {
+                "boundsRelaxed": false,
+                "buildFlags": [],
+                "configureFlags": [
+                  "-f-compatibility-repair"
+                ],
+                "dependencies": {
+                  "buildDepends": [],
+                  "buildTools": [],
+                  "executableFrameworkDepends": [],
+                  "executableHaskellDepends": [
+                    {
+                      "kind": "null",
+                      "resolution": "not-inferred"
+                    }
+                  ],
+                  "executablePkgconfigDepends": [],
+                  "executableSystemDepends": [],
+                  "executableToolDepends": [],
+                  "extraLibraries": [],
+                  "libraryFrameworkDepends": [],
+                  "libraryHaskellDepends": [
+                    {
+                      "kind": "null",
+                      "resolution": "not-inferred"
+                    }
+                  ],
+                  "libraryPkgconfigDepends": [],
+                  "librarySystemDepends": [],
+                  "libraryToolDepends": [],
+                  "pkg-configDepends": [],
+                  "setupHaskellDepends": [],
+                  "testDepends": [],
+                  "testFrameworkDepends": [],
+                  "testHaskellDepends": [
+                    {
+                      "kind": "null",
+                      "resolution": "not-inferred"
+                    },
+                    {
+                      "kind": "null",
+                      "resolution": "not-inferred"
+                    }
+                  ],
+                  "testPkgconfigDepends": [],
+                  "testSystemDepends": [],
+                  "testToolDepends": [
+                    {
+                      "derivation": "/nix/store/1733p6gp461f9br6rnn8i6acv2qv6ivx-ep21-local-service-probe.drv",
+                      "output": "out"
+                    }
+                  ]
+                },
+                "editedCabalFile": null,
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "aafb4287438bdce90570632d5da7c0df7455360fe5f5bceae9a1b7243d70c182",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "nix-hook:/nix/store/qc0mdhmfp7dr81n8hm1vf5zvp0d5jagj-compatibility-hook-identity.drv",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": null,
+                "testDependencyInventory": "declared",
+                "testExecution": {
+                  "customCheckPhase": false,
+                  "flags": [],
+                  "targets": [
+                    ""
+                  ]
+                },
+                "testsEnabled": true
+              },
+              "metadataIdentity": "b1b230fed94c691b0a6650c586958aca712e37ae6bfdb0f23d96a82a0c96297e",
+              "sourceIdentity": "nix-source:/nix/store/ghqxhyspfq16rv1j4rbjdj2wjcy7qhch-compatibility-source-identity.drv",
+              "version": "0.3.0"
+            },
+            "compiler": "/nix/store/08qkkbbl2kfwl1hhwv61zslrcfz8ax5n-ghc-9.12.4.drv",
+            "entryId": "fixture-compatibility-repair",
+            "graphStatus": "unverified",
+            "inputIdentity": "1ae3ce6b2cdd74ba8a8a2ec440d36a11c65683ca6d378d7b97acc1d36e55e3b2",
+            "missingServices": [],
+            "policyProfile": "strict-v1",
+            "providedServiceProbes": {
+              "fixture-service": "/nix/store/1733p6gp461f9br6rnn8i6acv2qv6ivx-ep21-local-service-probe.drv"
+            },
+            "requiredServices": [
+              "fixture-service"
+            ],
+            "schemaVersion": 1,
+            "status": "unverified",
+            "system": "x86_64-linux",
+            "tests": "run"
+          }
+        },
+        "observedAt": "2026-10-17 15:16:31.028002181 UTC",
+        "remainingWaivers": [],
+        "results": [
+          {
+            "checks": [
+              {
+                "derivation": "/nix/store/k4y7rnlr2l3y8pi0rrczwhbxw7fsqyni-package-validation-fixture-cohort-manifest.drv",
+                "id": "graph",
+                "passed": true
+              },
+              {
+                "derivation": "/nix/store/a8nhidk20s9n5qz69r55cccawyaj9hh8-strict-validation-behavior.drv",
+                "id": "behavior:executable",
+                "passed": true
+              },
+              {
+                "derivation": "/nix/store/1733p6gp461f9br6rnn8i6acv2qv6ivx-ep21-local-service-probe.drv",
+                "id": "service:fixture-service",
+                "passed": true
+              }
+            ],
+            "package": "/nix/store/i1k8nmi8ns35b9wrwyyvs67v6mjnykbn-package-validation-fixture-0.3.0.drv",
+            "packagePassed": true,
+            "phase": "baseline",
+            "suitesPassed": true
+          },
+          {
+            "checks": [
+              {
+                "derivation": "/nix/store/j83js1az4p4b410z6hrz5gvkajvmwkrm-package-validation-fixture-cohort-manifest.drv",
+                "id": "graph",
+                "passed": true
+              },
+              {
+                "derivation": "/nix/store/4x3h8ryl8szpln8qaagskclhjpnlrrhh-strict-validation-behavior.drv",
+                "id": "behavior:executable",
+                "passed": true
+              },
+              {
+                "derivation": "/nix/store/1733p6gp461f9br6rnn8i6acv2qv6ivx-ep21-local-service-probe.drv",
+                "id": "service:fixture-service",
+                "passed": true
+              }
+            ],
+            "package": "/nix/store/bxh88h166pckk1h9ik7qdgwmswyfbiq4-package-validation-fixture-0.3.0.drv",
+            "packagePassed": true,
+            "phase": "candidate",
+            "suitesPassed": true
+          }
+        ],
+        "schemaVersion": 1,
+        "status": "passed"
+      },
+      "needed": {
+        "context": {
+          "channel": "github",
+          "kind": "native-compatibility-probe",
+          "phases": {
+            "baseline": {
+              "behaviorProbes": {
+                "executable": "/nix/store/0fng1ca5j3pnpwf78m4s4jhkqdmxrrxm-strict-validation-behavior.drv"
+              },
+              "graph": {
+                "declaration": {
+                  "compiler": {
+                    "drvPath": "/nix/store/08qkkbbl2kfwl1hhwv61zslrcfz8ax5n-ghc-9.12.4.drv",
+                    "name": "ghc",
+                    "outputPath": "/nix/store/i6nc2j7qpx67im29fw36z9dwcmak69zf-ghc-9.12.4",
+                    "version": "9.12.4"
+                  },
+                  "context": {
+                    "entryId": "fixture-compatibility-repair",
+                    "purpose": "explicit strict-validation fixture"
+                  },
+                  "nativePackages": [],
+                  "packages": [
+                    {
+                      "componentRoles": [
+                        "root"
+                      ],
+                      "configuration": {
+                        "configureFlags": [
+                          "-fcompatibility-repair"
+                        ],
+                        "doBenchmark": false,
+                        "doCheck": true,
+                        "doHaddock": false,
+                        "enableLibraryProfiling": false,
+                        "hooks": {
+                          "postBuild": "",
+                          "postConfigure": "",
+                          "postInstall": "",
+                          "postUnpack": "",
+                          "preBuild": "",
+                          "preConfigure": "",
+                          "preInstall": ""
+                        },
+                        "jailbreak": false,
+                        "patches": [],
+                        "postPatch": "",
+                        "prePatch": ""
+                      },
+                      "configurationReplay": "/nix/store/km1kinzwrblr39nsqrlbr1i4401c7j3b-package-validation-fixture-0.1.0-cohort-configure",
+                      "dependencies": [],
+                      "drvPath": "/nix/store/k0dd9758w5chwb99rqdq4p0mzaybjzl7-package-validation-fixture-0.1.0.drv",
+                      "metadata": {
+                        "hash": null,
+                        "revision": null
+                      },
+                      "name": "package-validation-fixture",
+                      "outputPath": "/nix/store/ykgyr7zghxdk86kg0jh8zps62zwj9ihr-package-validation-fixture-0.1.0",
+                      "role": "local",
+                      "source": {
+                        "hash": null,
+                        "hashMode": null,
+                        "path": "/nix/store/mj2lcnh6rlqkfl9j91drmnas2q7kb74b-needs-repair",
+                        "revision": null,
+                        "urls": []
+                      },
+                      "version": "0.1.0"
+                    }
+                  ],
+                  "root": {
+                    "drvPath": "/nix/store/k0dd9758w5chwb99rqdq4p0mzaybjzl7-package-validation-fixture-0.1.0.drv",
+                    "name": "package-validation-fixture",
+                    "outputPath": "/nix/store/ykgyr7zghxdk86kg0jh8zps62zwj9ihr-package-validation-fixture-0.1.0"
+                  },
+                  "schemaVersion": 1,
+                  "system": "x86_64-linux"
+                },
+                "derivation": "/nix/store/xa39sfavhhknlyx3q59hbrnkf6zzk0fc-package-validation-fixture-cohort-manifest.drv"
+              }
+            },
+            "candidate": {
+              "behaviorProbes": {
+                "executable": "/nix/store/kplb9jwhvbnygphc8zc4zl4kb3fxssg0-strict-validation-behavior.drv"
+              },
+              "graph": {
+                "declaration": {
+                  "compiler": {
+                    "drvPath": "/nix/store/08qkkbbl2kfwl1hhwv61zslrcfz8ax5n-ghc-9.12.4.drv",
+                    "name": "ghc",
+                    "outputPath": "/nix/store/i6nc2j7qpx67im29fw36z9dwcmak69zf-ghc-9.12.4",
+                    "version": "9.12.4"
+                  },
+                  "context": {
+                    "entryId": "fixture-compatibility-repair",
+                    "purpose": "explicit strict-validation fixture"
+                  },
+                  "nativePackages": [],
+                  "packages": [
+                    {
+                      "componentRoles": [
+                        "root"
+                      ],
+                      "configuration": {
+                        "configureFlags": [
+                          "-f-compatibility-repair"
+                        ],
+                        "doBenchmark": false,
+                        "doCheck": true,
+                        "doHaddock": false,
+                        "enableLibraryProfiling": false,
+                        "hooks": {
+                          "postBuild": "",
+                          "postConfigure": "",
+                          "postInstall": "",
+                          "postUnpack": "",
+                          "preBuild": "",
+                          "preConfigure": "",
+                          "preInstall": ""
+                        },
+                        "jailbreak": false,
+                        "patches": [],
+                        "postPatch": "",
+                        "prePatch": ""
+                      },
+                      "configurationReplay": "/nix/store/mksc4fn0ap8136qp4ch1inqhbqja51yr-package-validation-fixture-0.1.0-cohort-configure",
+                      "dependencies": [],
+                      "drvPath": "/nix/store/5wfsnjgwzs1xgyx29pn2sil5p843diwc-package-validation-fixture-0.1.0.drv",
+                      "metadata": {
+                        "hash": null,
+                        "revision": null
+                      },
+                      "name": "package-validation-fixture",
+                      "outputPath": "/nix/store/pbw3an7dgi1vl3xrrqakf6fjl8vaw8rs-package-validation-fixture-0.1.0",
+                      "role": "local",
+                      "source": {
+                        "hash": null,
+                        "hashMode": null,
+                        "path": "/nix/store/mj2lcnh6rlqkfl9j91drmnas2q7kb74b-needs-repair",
+                        "revision": null,
+                        "urls": []
+                      },
+                      "version": "0.1.0"
+                    }
+                  ],
+                  "root": {
+                    "drvPath": "/nix/store/5wfsnjgwzs1xgyx29pn2sil5p843diwc-package-validation-fixture-0.1.0.drv",
+                    "name": "package-validation-fixture",
+                    "outputPath": "/nix/store/pbw3an7dgi1vl3xrrqakf6fjl8vaw8rs-package-validation-fixture-0.1.0"
+                  },
+                  "schemaVersion": 1,
+                  "system": "x86_64-linux"
+                },
+                "derivation": "/nix/store/z48v5bg5yylirj31nx01nv4xkzr0gcbb-package-validation-fixture-cohort-manifest.drv"
+              }
+            }
+          },
+          "policyIdentity": "7dc4b5b8a30aa05ef3117c12a095008de761deabef63469da45785c94059ea03",
+          "requiredSuites": [
+            "fixture-tests"
+          ],
+          "schemaVersion": 1,
+          "validation": {
+            "baseline": {
+              "derivation": "/nix/store/k0dd9758w5chwb99rqdq4p0mzaybjzl7-package-validation-fixture-0.1.0.drv",
+              "effective": {
+                "boundsRelaxed": false,
+                "buildFlags": [],
+                "configureFlags": [
+                  "-fcompatibility-repair"
+                ],
+                "dependencies": {
+                  "buildDepends": [],
+                  "buildTools": [],
+                  "executableFrameworkDepends": [],
+                  "executableHaskellDepends": [
+                    {
+                      "kind": "null",
+                      "resolution": "not-inferred"
+                    }
+                  ],
+                  "executablePkgconfigDepends": [],
+                  "executableSystemDepends": [],
+                  "executableToolDepends": [],
+                  "extraLibraries": [],
+                  "libraryFrameworkDepends": [],
+                  "libraryHaskellDepends": [
+                    {
+                      "kind": "null",
+                      "resolution": "not-inferred"
+                    }
+                  ],
+                  "libraryPkgconfigDepends": [],
+                  "librarySystemDepends": [],
+                  "libraryToolDepends": [],
+                  "pkg-configDepends": [],
+                  "setupHaskellDepends": [],
+                  "testDepends": [],
+                  "testFrameworkDepends": [],
+                  "testHaskellDepends": [
+                    {
+                      "kind": "null",
+                      "resolution": "not-inferred"
+                    }
+                  ],
+                  "testPkgconfigDepends": [],
+                  "testSystemDepends": [],
+                  "testToolDepends": []
+                },
+                "editedCabalFile": null,
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": null,
+                "testDependencyInventory": "declared",
+                "testExecution": {
+                  "customCheckPhase": false,
+                  "flags": [],
+                  "targets": [
+                    ""
+                  ]
+                },
+                "testsEnabled": true
+              },
+              "metadataIdentity": "2ad3c136ecb72f3d5899d8beca47b9f1039f7c5d9320ea3c801b23e5e6ab1d6a",
+              "sourceIdentity": "nix-source:/nix/store/z8iblsyl83h4smyjn6prdgfdfzlnhqid-compatibility-source-identity.drv",
+              "version": "0.1.0"
+            },
+            "bounds": "enforce",
+            "candidate": {
+              "derivation": "/nix/store/5wfsnjgwzs1xgyx29pn2sil5p843diwc-package-validation-fixture-0.1.0.drv",
+              "effective": {
+                "boundsRelaxed": false,
+                "buildFlags": [],
+                "configureFlags": [
+                  "-f-compatibility-repair"
+                ],
+                "dependencies": {
+                  "buildDepends": [],
+                  "buildTools": [],
+                  "executableFrameworkDepends": [],
+                  "executableHaskellDepends": [
+                    {
+                      "kind": "null",
+                      "resolution": "not-inferred"
+                    }
+                  ],
+                  "executablePkgconfigDepends": [],
+                  "executableSystemDepends": [],
+                  "executableToolDepends": [],
+                  "extraLibraries": [],
+                  "libraryFrameworkDepends": [],
+                  "libraryHaskellDepends": [
+                    {
+                      "kind": "null",
+                      "resolution": "not-inferred"
+                    }
+                  ],
+                  "libraryPkgconfigDepends": [],
+                  "librarySystemDepends": [],
+                  "libraryToolDepends": [],
+                  "pkg-configDepends": [],
+                  "setupHaskellDepends": [],
+                  "testDepends": [],
+                  "testFrameworkDepends": [],
+                  "testHaskellDepends": [
+                    {
+                      "kind": "null",
+                      "resolution": "not-inferred"
+                    }
+                  ],
+                  "testPkgconfigDepends": [],
+                  "testSystemDepends": [],
+                  "testToolDepends": []
+                },
+                "editedCabalFile": null,
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": null,
+                "testDependencyInventory": "declared",
+                "testExecution": {
+                  "customCheckPhase": false,
+                  "flags": [],
+                  "targets": [
+                    ""
+                  ]
+                },
+                "testsEnabled": true
+              },
+              "metadataIdentity": "2ad3c136ecb72f3d5899d8beca47b9f1039f7c5d9320ea3c801b23e5e6ab1d6a",
+              "sourceIdentity": "nix-source:/nix/store/z8iblsyl83h4smyjn6prdgfdfzlnhqid-compatibility-source-identity.drv",
+              "version": "0.1.0"
+            },
+            "compiler": "/nix/store/08qkkbbl2kfwl1hhwv61zslrcfz8ax5n-ghc-9.12.4.drv",
+            "entryId": "fixture-compatibility-repair",
+            "graphStatus": "unverified",
+            "inputIdentity": "9829e42498d9a45b3299a8c007d2c3dfe37bf89e14c5586c796971d97002ffe8",
+            "missingServices": [],
+            "policyProfile": "strict-v1",
+            "providedServiceProbes": {},
+            "requiredServices": [],
+            "schemaVersion": 1,
+            "status": "unverified",
+            "system": "x86_64-linux",
+            "tests": "run"
+          }
+        },
+        "observedAt": "2026-10-17 15:18:22.716297216 UTC",
+        "remainingWaivers": [],
+        "results": [
+          {
+            "checks": [
+              {
+                "derivation": "/nix/store/xa39sfavhhknlyx3q59hbrnkf6zzk0fc-package-validation-fixture-cohort-manifest.drv",
+                "id": "graph",
+                "passed": true
+              },
+              {
+                "derivation": "/nix/store/0fng1ca5j3pnpwf78m4s4jhkqdmxrrxm-strict-validation-behavior.drv",
+                "id": "behavior:executable",
+                "passed": true
+              }
+            ],
+            "package": "/nix/store/k0dd9758w5chwb99rqdq4p0mzaybjzl7-package-validation-fixture-0.1.0.drv",
+            "packagePassed": true,
+            "phase": "baseline",
+            "suitesPassed": true
+          },
+          {
+            "checks": [
+              {
+                "derivation": "/nix/store/z48v5bg5yylirj31nx01nv4xkzr0gcbb-package-validation-fixture-cohort-manifest.drv",
+                "id": "graph",
+                "passed": false
+              },
+              {
+                "derivation": "/nix/store/kplb9jwhvbnygphc8zc4zl4kb3fxssg0-strict-validation-behavior.drv",
+                "id": "behavior:executable",
+                "passed": false
+              }
+            ],
+            "package": "/nix/store/5wfsnjgwzs1xgyx29pn2sil5p843diwc-package-validation-fixture-0.1.0.drv",
+            "packagePassed": false,
+            "phase": "candidate",
+            "suitesPassed": false
+          }
+        ],
+        "schemaVersion": 1,
+        "status": "failed"
+      }
+    },
+    "commands": {
+      "results": [
+        {
+          "fixture": "fixed",
+          "phase": "verify",
+          "exitCode": 0
+        },
+        {
+          "fixture": "fixed",
+          "phase": "verify-receipt",
+          "exitCode": 0
+        },
+        {
+          "fixture": "service",
+          "phase": "verify",
+          "exitCode": 0
+        },
+        {
+          "fixture": "service",
+          "phase": "verify-receipt",
+          "exitCode": 0
+        },
+        {
+          "fixture": "needed",
+          "phase": "verify",
+          "exitCode": 1,
+          "expectedCause": "EP21_REPAIR_REQUIRED in actual Cabal test failure"
+        }
+      ],
+      "elapsedSeconds": 132.5461850000429
+    },
+    "updaterTests": 203,
+    "status": "passed",
+    "limitations": [
+      "Translated Linux target execution; guest sandbox and syscall filtering disabled",
+      "Existing outputs and original native-target logs accepted; no performance claim",
+      "No production exception or retained policy changed"
+    ],
+    "fullFlakeCheck": "pending immutable snapshot rerun; mutable checkout run rejected concurrent source changes"
+  }
+}

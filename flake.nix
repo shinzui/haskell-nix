@@ -210,6 +210,7 @@
           compatibilityEntryApplies = import ./lib/compatibilityEntryApplies.nix { inherit lib; };
           compatibilityReport = import ./lib/compatibilityReport.nix { inherit lib; };
           capturedCompatibilityReport = import ./lib/capturedCompatibilityReport.nix { inherit lib; };
+          mkCompatibilityProbeContext = import ./lib/mkCompatibilityProbeContext.nix { inherit lib; };
           mkPackageValidation = import ./lib/mkPackageValidation.nix { inherit lib; };
           mkApplicationIncrementalBuild = import ./lib/mkApplicationIncrementalBuild.nix { inherit lib; };
           mkApplicationIncrementalPackage = import ./lib/mkApplicationIncrementalPackage.nix { inherit lib; };

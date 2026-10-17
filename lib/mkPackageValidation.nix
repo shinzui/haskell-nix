@@ -20,7 +20,11 @@ let
   strict = snapshot: snapshot.effective.testsEnabled == true && snapshot.effective.boundsRelaxed == false
     && !snapshot.effective.testExecution.customCheckPhase
     && snapshot.effective.testExecution.targets == [ "" ]
-    && snapshot.effective.testExecution.flags == [ ];
+    && snapshot.effective.testExecution.flags == [ ]
+    && !(builtins.any
+    (flag: builtins.any (prefix: lib.hasPrefix prefix flag)
+      [ "--allow-newer" "--allow-older" "--disable-tests" "--enable-tests=false" ])
+    snapshot.effective.configureFlags);
   sameInputs = baselineFacts.sourceIdentity == candidateFacts.sourceIdentity
     && baselineFacts.metadataIdentity == candidateFacts.metadataIdentity
     && baselineFacts.version == candidateFacts.version

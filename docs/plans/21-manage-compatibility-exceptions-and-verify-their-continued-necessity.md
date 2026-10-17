@@ -38,6 +38,11 @@ provenance:
       at: 2026-10-17T13:17:55Z
       mode: "implement"
       note: "Add declaration-only compatibility reports, read-only CLI checks and native interchange fixtures; keep production capture and strict evidence gates open."
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-17T15:05:53Z
+      mode: "implement"
+      note: "Deliver explicit native removal plans, general verification and metadata/log receipt replay with strict false-pass and local-service fixtures."
   reviews:
     - model: "gpt-6-astra"
       harness: "codex-cli"
@@ -61,6 +66,10 @@ This is a standalone plan covering exception lifecycle and the validation necess
 
 ## Progress
 
+2026-10-17 M4 native pilot: `checks/bytestring-lexing-validation.nix` constructs the actual selected 0.5.0.16 source with `strict-v1` before policy application. Exact archive/Cabal hashes agree with the cohort. All 58 `test-all` cases, a 21-instance checked Haskell graph and three parser/serializer behavior cases pass on GHC 9.12.4 Apple Silicon and in the user-selected x86 Linux Apple guest. Source, metadata, flags, hooks, dependency instances and all other recorded effective inputs remain equal to production; only tests become enabled and bounds enforcement becomes explicit. [Evidence](../evidence/ep21/bytestring-lexing-native-policy-pilot.json). No standalone repair is retired. The configured remote builder still names unreadable `/etc/nix/builder_ed25519`; the user-selected Apple guest now supplies qualified Linux target execution instead. Production policy selection, retained evidence integration and update-impact reporting remain pending; no physical-x86 performance claim is made. No older recipe/policy record is changed.
+
+2026-10-17 general native verification: updater `compatibility verify` and `verify-receipt` now consume explicit `lib.mkCompatibilityProbeContext` exports. Verification builds strict baseline/candidate packages and required graph/behavior/service checks; receipt replay checks exact context, complete outcomes, Nix output metadata and original complete suite logs without building. Stale/waived/incomplete receipts fail. Native fixed and bounded loopback-service fixtures pass both suites, graph and executable checks and receipt replay. The needed repair fails its actual suite with `EP21_REPAIR_REQUIRED` and retains a failed receipt. Configure flags cannot bypass enabled tests/enforced bounds. [Evidence](../evidence/ep21/general-native-verification.json) records twelve host CLI receipt/rejection checks plus Linux fixed/service verification/replay and expected needed-repair rejection, with cache conditions and elapsed replay cost. All 203 updater tests, 274 aggregate pure contracts and the native fixture check pass. M3's general fixture workflow is delivered on Apple Silicon and the user-selected translated x86 Linux Apple guest, including actual service-backed suites, metadata/log replay and needed-repair failure. The complete Darwin flake check passes; the full Linux check is being rerun from an immutable snapshot after the mutable-checkout attempt correctly rejected concurrent evidence edits. Production narrowing and M1/M2 matrix/effect acceptance remain open.
+
 2026-10-17 strict-fixture continuation: `lib.mkPackageValidation` now requests the strict profile during recipe construction and suppresses one requested entry. It rejects disabled/jailbroken/custom/filtered suites and changed selected source, metadata, compiler or declared dependency instances; missing service probes block before package construction. Controlled native fixtures prove that a needed repair's removal fails the actual Cabal suite, while fixed input passes tests and executable behavior without it. Passing graph checks reuse `mkCohortManifest`. All 261 pure contracts and native fixture/capture checks pass. [The fixture receipt](../evidence/ep21/strict-native-fixtures.json) records an 18.42 s warm validation path, exact contexts, suite logs and graph/executable checks; uncontrolled caches preclude a performance claim. Requests and overall receipts remain unverified pending the general verifier and remaining coverage. Shared argument inspection now preserves unresolved null dependencies rather than falsely labeling compiler-provided inputs unavailable. M3 and M4 remain open.
 
 2026-10-17 construction continuation: opt-in `captureCompatibility` now observes the real recursive repair boundary and source-constructor stages; `lib.capturedCompatibilityReport` exports actual selected inputs, hidden Cabal arguments, production dependency identities, hook identities and changed fields. Represented test/bounds declaration mismatches fail the report check, and CLI validation rejects inconsistent capture boundaries or omitted mismatch diagnostics. Four representative packages preserve all ordinary derivations across both current compilers and both channels on Apple Silicon; all four reports repeat identically and pass the CLI check. The native capture/report and nix-unit checks pass, with 243 aggregate pure expectations and 184 updater tests. [Evidence](../evidence/ep21/construction-capture.json). Source assertions, arbitrary patch effects, historical constructors without capture hooks and the Linux matrix remain acceptance gaps; no strict test/bounds or retirement result is claimed.
@@ -75,8 +84,8 @@ This is a standalone plan covering exception lifecycle and the validation necess
 - [ ] M2: Share dispatch semantics with selected-configuration reports and retirement-candidate evaluation.
 - [x] (2026-10-17) M2 declaration interchange: implement the pure report adapter, report/check CLI, required-evidence diagnostics and native fixture handoff without claiming verified package behavior.
 - [x] (2026-10-17) M2 current construction capture: observe real source/repair stages, inspect hidden Cabal arguments, check represented policy effects and verify repeatable four-cell producer/consumer identity parity without modifying retained recipes.
-- [ ] M3: Add isolated strict validation and exception-removal probes with complete receipts and negative fixtures.
-- [x] (2026-10-17) M3 construction/native foundation: strict constructor guards, isolated needed/fixed removal fixtures, blocked-service construction, enabled suite/executable checks and existing cohort graph-producer integration. General verify/receipt commands, provided-service native coverage and full false-positive receipt checks remain open.
+- [x] (2026-10-17) M3: Deliver isolated strict/removal constructors, explicit native plans, general verification/receipt CLI, complete native suites/graph/behavior/service evidence and false-pass fixtures for the declared Apple Silicon and user-selected translated x86 Linux guest fixture configurations. Production policy and full current/historical matrix claims remain unverified under the real-pilot/integration gates.
+- [x] (2026-10-17) M3 construction/native foundation: strict constructor guards, isolated needed/fixed removal fixtures, blocked-service construction, enabled suite/executable checks and existing cohort graph-producer integration. General verify/receipt commands, provided-service native coverage and false-positive receipt checks are delivered by the subsequent general native workflow.
 - [ ] M4: Verify a real dependency pilot, integrate retained policy evidence, and document the workflow and ADR.
 
 ## Surprises & Discoveries
@@ -93,6 +102,8 @@ This is a standalone plan covering exception lifecycle and the validation necess
 Channel applicability now compares membership independently of list order. Pure fixtures cover reordered declarations and require an explicit selection for channel-restricted effects; native identities remain a separate gate. New catalog bindings now reject malformed version ranges, overlapping half-open ranges, duplicate always rows, and always/range ambiguity. The public selector independently preserves historical first-match behavior for legacy callers. Six negative/adjacent-range fixtures extend the pure suite to 198 expectations. No retirement decisions are recorded. The source baseline and already documented exceptions are described in Context and Orientation.
 
 ## Decision Log
+
+2026-10-17: At the user's request, reuse MP-3's existing `mp3-linux-builder` Apple guest for Linux behavioral validation. Its amd64 binaries execute through Apple translation in an independent Linux store with a read-only source mount. Record `sandbox=false` and guest-only `filter-syscalls=false` explicitly; the latter avoids Rosetta's seccomp setup failure. Preserve default GHC settings. Translated target execution is qualified Linux behavior evidence, following the accepted producer precedent in plan 9; it is not physical-x86 performance evidence. No host builder or global configuration changes are needed.
 
 
 2026-10-16: Use delivered generator/runtime evidence interfaces and report exact policy/evidence impact for targeted maintenance. Keep expensive strict probes out of routine evaluation/build/shell entry, while retaining all required explicit native checks and the independent policy pilot.
@@ -113,7 +124,13 @@ Channel applicability now compares membership independently of list order. Pure 
 ## Outcomes & Retrospective
 
 
-M1 declaration/migration, M2 declaration interchange/current-constructor capture and M3 strict fixture construction are implemented. Current capture preserves derivations in four compiler/channel cells. Controlled strict fixtures run actual suites and behavior checks, reject a necessary repair's removal for its expected test cause, and verify passing graphs through the existing producer. Full acceptance remains pending: arbitrary effective-effect comparison, exact source/metadata probes, historical constructor coverage, general validation/removal receipt commands and verification, provided-service coverage, the real narrowing pilot and full native matrix. Declaration or staged-request checks cannot satisfy those native claims.
+M1 declaration/migration, M2 declaration interchange/current-constructor capture and M3 native verification are implemented. Current capture preserves derivations in four compiler/channel cells. Strict fixtures run actual suites, isolated service-backed tests and executable checks, reject a necessary repair's removal for its expected test cause, and verify passing graphs through the existing producer. Full acceptance remains pending: arbitrary effective-effect comparison, exact source/metadata probes, historical constructor coverage, production receipt integration, the real narrowing pilot and full native matrix.
+
+The M3 general workflow additionally delivers native receipt replay without builds,
+strict false-pass rejection and actual isolated service-backed suites. It accepts
+only the declared fixture configurations and does not retire any production exception.
+Production package-policy narrowing, selected-policy update impact and the full
+current/historical matrix remain mandatory work.
 
 ## Context and Orientation
 
