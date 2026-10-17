@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "project_uri": "mori://shinzui/rei",
+  "source_revision": "bad0388f722af9e29187c2adfef5ed97fd0ca92f",
+  "inventory": "docs/evidence/ep18/rei-cli-resource-aware-boundary-inventory.json",
+  "inventory_sha256": "85b65ec556574ae1539ae162e6d0155f1c313380cbb80479f89624d92b7181f3",
+  "status": "source preparation and fail-closed guards pass; native validation, workflows, ownership, timings, full cost and adoption pending",
+  "preparation_command": [
+    "python3",
+    "scripts/prepare-rei-package-split.py",
+    "--checkout",
+    "/Users/shinzui/Keikaku/bokuno/rei-project/rei",
+    "--revision",
+    "bad0388f722af9e29187c2adfef5ed97fd0ca92f",
+    "--inventory",
+    "docs/evidence/ep18/rei-cli-resource-aware-boundary-inventory.json",
+    "--destination",
+    "/tmp/ep18-rei-resource-aware-split-v2",
+    "--use-reviewed-resources"
+  ],
+  "results": {
+    "moved_haskell_module_bytes": 293,
+    "public_reexports": 293,
+    "resources_bytes_and_modes": 7,
+    "negative_cases_rejected": 5,
+    "legacy_91_module_cabal_and_source": "byte-identical",
+    "producer_checkout": "read-only Git archive access; unrelated dirty files preserved",
+    "production_adoption": false
+  },
+  "raw_archive": {
+    "path": "docs/evidence/ep18/rei-cli-resource-aware-preparation.raw.tar.gz",
+    "sha256": "427a9c41a0a88ce5509e9da50b8b6a7d660a1015b75cf1a06f12ff06b49be7f3",
+    "members": {
+      "code/scripts/prepare-rei-package-split.py": "715cd80ef66e09675e6b6c80f70fcbc466da64f2889ada32aa01cbffdd5313d2",
+      "guards/changed-resource.json": "d35af72b9694b0ec0a5ea1b8aa3e629be1eba98eb03894c375940b0c3d35f380",
+      "guards/changed-resource.log": "89ba7cc419a90cb234e44b9e6503a462e59b2d5afbe92ddc3806eabd9cbd3a17",
+      "guards/changed-source-review.json": "99009a1185874f5319e074cff8e002b4074be1795164260904fda6485d3691b8",
+      "guards/changed-source-review.log": "407a92c354377736df0dda6dff6c992b09cb258845d8ab06f94d8e2ad9cb10b0",
+      "guards/default-rejects-hazards.json": "0d82e46ce635bca49ae8f324362b70015aee8113ce2adf0ba793a6a4f9245415",
+      "guards/default-rejects-hazards.log": "0fee33e56281308273d6342568dec1f0a3f4434271d96708e247b9d170fd1e49",
+      "guards/extra-resource.json": "062517c43169a07eb0e79a0091bd3f6c62f5a97c55a76aaa71e4e8b5d0e79847",
+      "guards/extra-resource.log": "177c8896c6cbd6becd55656f8b30ec099f5e2a984c035f47c81f158decdb24f0",
+      "guards/missing-review.json": "67403efa12c5676043c2dba2f5d122f4a6052b303e3f800e59be5e5a5f5fba6b",
+      "guards/missing-review.log": "de37d4e3931b95e5e7f7d68325120880dd9b93db998bd3fca31ac57f3c11cbf9",
+      "guards/receipt.json": "a4222fb6f6bd75355e70dbb93487b8edf42fdab687421466240c2283ce02ec05",
+      "host/ep18-rei-legacy-split-regression.log": "e99837bd9719e27fbce6569f6901d6c0a86db37296adaf1e311311b97673d416",
+      "host/ep18-rei-resource-aware-preparation-regression.json": "acc0cc62503ed802430e1e99bf27c3a6e5f4001f338f426bbbe75a17eb98c7d0",
+      "host/ep18-rei-resource-aware-prepare-final.log": "06da2ff55988eec461b52aa20c8ec2c2a20516eeeacfe1e1e65c516245142f2a",
+      "host/ep18-rei-resource-aware-prepare.log": "37052ef7a7bb1838ae72b59006234917b12064c28edc29c42e4b38df8f7f4e50",
+      "prepared/candidate/rei-cli-foundation/rei-cli-foundation.cabal": "f9b76f01210cbbb5bc86a39a717d64160902f524820bd461389c56dfa350ac0d",
+      "prepared/candidate/rei-cli/rei-cli.cabal": "4c822d35bdf4cdedd93b8dc6922a54a482d526965be1f58ca107f79107e335e6",
+      "prepared/resources/completions/rei.zsh": "7d29b1b4c71dc94a15d6405e6e44314bcf72aacf1f7b4b1673fe680fd61a1ca2",
+      "prepared/resources/prompts/ask-note.md": "e085162b142af5303cd4ee93720130a6d612f4a515bb43fb817c4ca001629803",
+      "prepared/resources/prompts/create-intention-skill-context.md": "11e00c88b0eb18be1a21405ea3b4203225eb9fa935e96b74ab3c0918f9124fe7",
+      "prepared/resources/prompts/create-note.md": "d3f2c267e394922523a0cfe992e316e390f32cf8336b965ac0283ff4899a3fee",
+      "prepared/resources/prompts/create-skill-context.md": "6bd7b309e30d45d5e91f961703a1626d2d431d1242c126b56766604c24de7afe",
+      "prepared/resources/prompts/rei-system-context.md": "ee69b32c7969f3b9b0b5140e781862ec71fa5482189b5bc18190537a6b4a90cc",
+      "prepared/resources/prompts/update-note.md": "788f0674a8cf15fd10cfa623e2ef8abf4d5a0f0c341ca3cb2f5d39c5e9a84560",
+      "prepared/split-manifest.json": "db0d0147d61d3f953b5114d8a7e4bf3a6a7c17648d13c8adb5dadf7639323a91"
+    }
+  }
+}
