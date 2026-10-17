@@ -4,8 +4,11 @@
 # Retire when a fixed compiler builds the unchanged source without the flag.
 # The additional 0.9.0.2 proof covers mori://shinzui/kioku, project-relative
 # kioku-cli/src/ and kioku-cli/app/ (source-file artifact URIs pending), at c4bf956b5b00c899adde225e026484c3a1a44258.
-{ pkg, haskellLib, hself, ... }:
-if hself.ghc.version != "9.14.1" then pkg
+{ pkg, lib, haskellLib, hself, ... }:
+if !((import ../../lib/compatibilityEntryApplies.nix { inherit lib; }) "legacy-kioku-cli-v1" {
+  version = pkg.version;
+  compiler = hself.ghc.version;
+}) then pkg
 else if pkg.version == "0.9.0.2" then
   haskellLib.overrideCabal
     (drv: {

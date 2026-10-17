@@ -3,9 +3,10 @@
 # https://github.com/fizruk/http-api-data/commit/7bc38dd4463b7275e9c97c4b2ac308df73278dad
 # Preserve 0.6.3 source/API and all other bounds. Retire when admitting metadata is selected.
 { pkg, lib, haskellLib, hself, ... }:
-if pkg.version != "0.6.3"
-  || !lib.versionAtLeast hself.ghc.version "9.14"
-  || !lib.versionOlder hself.ghc.version "9.15"
+if !((import ../../lib/compatibilityEntryApplies.nix { inherit lib; }) "legacy-http-api-data-v1" {
+  version = pkg.version;
+  compiler = hself.ghc.version;
+})
 then pkg
 else
   haskellLib.overrideCabal

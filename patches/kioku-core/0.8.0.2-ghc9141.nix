@@ -5,8 +5,11 @@
 # versions/compiler releases do not inherit it. Coercion optimisation alone is disabled.
 # The additional 0.9.0.2 proof covers mori://shinzui/kioku, project-relative
 # kioku-core/src/ (source-file artifact URI pending), at c4bf956b5b00c899adde225e026484c3a1a44258.
-{ pkg, haskellLib, hself, ... }:
-if hself.ghc.version != "9.14.1" then pkg
+{ pkg, lib, haskellLib, hself, ... }:
+if !((import ../../lib/compatibilityEntryApplies.nix { inherit lib; }) "legacy-kioku-core-v1" {
+  version = pkg.version;
+  compiler = hself.ghc.version;
+}) then pkg
 else if pkg.version == "0.9.0.2" then
   haskellLib.overrideCabal
     (drv: {

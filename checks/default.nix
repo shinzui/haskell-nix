@@ -186,6 +186,16 @@ in
     );
 
   first-party-registry = fixture.check;
+  compatibility-policy =
+    let
+      tests = import ./compatibility-policy.nix { inherit lib; };
+      failures = lib.filterAttrs (_: test: test.expr != test.expected) tests;
+    in
+    assert lib.assertMsg (failures == { })
+      "compatibility-policy: ${lib.concatStringsSep ", " (builtins.attrNames failures)}";
+    pkgsPlain.runCommand "compatibility-policy" { } ''
+      touch "$out"
+    '';
 
   shared-overrides = import ./shared-overrides.nix {
     inherit lib defaultGhc;

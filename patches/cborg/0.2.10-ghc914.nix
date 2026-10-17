@@ -1,8 +1,10 @@
 # mori://well-typed/cborg/packages/cborg: released source, metadata revision 3.
 # Admit only the GHC 9.14 boot base/containers lines; preserve every other bound.
 { pkg, lib, haskellLib, hself, ... }:
-if !lib.versionAtLeast hself.ghc.version "9.14"
-  || !lib.versionOlder hself.ghc.version "9.15"
+if !((import ../../lib/compatibilityEntryApplies.nix { inherit lib; }) "legacy-cborg-v1" {
+  version = pkg.version;
+  compiler = hself.ghc.version;
+})
 then pkg
 else
   haskellLib.overrideCabal

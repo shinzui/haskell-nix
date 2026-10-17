@@ -10,7 +10,7 @@ lib.mapAttrs
   (name: entry:
     if builtins.hasAttr name hsuper && hsuper.${name} == null then null
     else
-      haskellLib.dontCheck (call {
+      (import ./applyPackageBuildPolicy.nix) "legacy-skip-enforce-v1" haskellLib (call {
         inherit hself haskellLib pkgs name entry;
         arguments = arguments.${name} or { };
       }))

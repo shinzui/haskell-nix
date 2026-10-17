@@ -198,7 +198,7 @@ let
       true;
 
   wrapPackage = haskellLib: package:
-    haskellLib.dontCheck (haskellLib.doJailbreak package);
+    (import ./applyPackageBuildPolicy.nix) "legacy-first-party-v1" haskellLib package;
 
   # Selecting a monorepo subdirectory as a Nix source can leave links such as
   # LICENSE -> ../LICENSE or vendor -> ../vendor dangling in the copied source
@@ -220,6 +220,12 @@ let
     name = package.name;
     value = [{
       always = true;
+      buildPolicyProfile = "legacy-first-party-v1";
+      exceptionIds = [
+        "legacy-first-party-source-v1"
+        "legacy-first-party-v1-test-suppression"
+        "legacy-first-party-v1-bound-relaxation"
+      ];
       patch = { hself, haskellLib, ... }:
         let
           familySource = sources.${family.githubInput};
@@ -252,6 +258,12 @@ let
     name = package.name;
     value = [{
       always = true;
+      buildPolicyProfile = "legacy-first-party-v1";
+      exceptionIds = [
+        "legacy-first-party-source-v1"
+        "legacy-first-party-v1-test-suppression"
+        "legacy-first-party-v1-bound-relaxation"
+      ];
       patch = { hself, haskellLib, ... }:
         wrapPackage haskellLib (hself.callHackageDirect
           {

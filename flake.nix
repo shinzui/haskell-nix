@@ -39,7 +39,9 @@
       supportedGhcs = builtins.attrNames toolchainDiscovery.compilers;
       inherit (toolchainDiscovery) defaultGhc;
 
-      commonRegistry = import ./overlays/registry.nix;
+      compatibilityPolicy = (import ./lib/mkCompatibilityPolicy.nix { inherit lib; })
+        (import ./overlays/registry.nix);
+      commonRegistry = compatibilityPolicy.registry;
       firstPartyConfig = builtins.fromJSON
         (builtins.readFile ./config/first-party-families.json);
       firstPartyLock = builtins.fromJSON
@@ -202,6 +204,10 @@
         };
 
         lib = {
+          inherit compatibilityPolicy;
+          validateCompatibilityPolicy = import ./lib/validateCompatibilityPolicy.nix { inherit lib; };
+          selectCompatibilityEntry = import ./lib/selectCompatibilityEntry.nix { inherit lib; };
+          compatibilityEntryApplies = import ./lib/compatibilityEntryApplies.nix { inherit lib; };
           mkApplicationIncrementalBuild = import ./lib/mkApplicationIncrementalBuild.nix { inherit lib; };
           mkApplicationIncrementalPackage = import ./lib/mkApplicationIncrementalPackage.nix { inherit lib; };
           mkCohortManifest = import ./lib/mkCohortManifest.nix { inherit lib; };

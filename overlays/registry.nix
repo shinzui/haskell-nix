@@ -14,27 +14,29 @@
 #
 # Patch functions receive { pkg, lib, haskellLib, pkgs, hself, hsuper }.
 let
+  policy = import ../lib/applyPackageBuildPolicy.nix;
   dontCheckDoJailbreak = { pkg, haskellLib, ... }:
-    haskellLib.dontCheck (haskellLib.doJailbreak pkg);
+    policy "legacy-skip-relax-v1" haskellLib pkg;
 
   markUnbrokenDontCheckDoJailbreak = { pkg, haskellLib, ... }:
-    haskellLib.markUnbroken (haskellLib.dontCheck (haskellLib.doJailbreak pkg));
+    haskellLib.markUnbroken (policy "legacy-skip-relax-v1" haskellLib pkg);
 
   dontCheckOnly = { pkg, haskellLib, ... }:
-    haskellLib.dontCheck pkg;
+    policy "legacy-skip-enforce-v1" haskellLib pkg;
 
   markUnbrokenDontCheck = { pkg, haskellLib, ... }:
-    haskellLib.markUnbroken (haskellLib.dontCheck pkg);
+    haskellLib.markUnbroken (policy "legacy-skip-enforce-v1" haskellLib pkg);
 
   doJailbreakOnly = { pkg, haskellLib, ... }:
-    haskellLib.doJailbreak pkg;
+    policy "legacy-run-relax-v1" haskellLib pkg;
 
   always = patch: [{ always = true; inherit patch; }];
-  admittingRevision = version: max: revision: sha256: [{
+  admittingRevision = name: version: max: revision: sha256: [{
     min = version;
     inherit max;
     patch = import ../patches/metadata/admitting-revision-ghc914.nix {
       inherit version revision sha256;
+      exceptionId = "legacy-${name}-v1";
     };
   }];
 in
@@ -148,12 +150,12 @@ in
   # mori://haskell-servant/servant/packages/servant-foreign,
   # mori://haskell-servant/servant/packages/servant-docs.
   # Exact identities: https://hackage.haskell.org/package/<name>-<version>/revisions/
-  singleton-bool = admittingRevision "0.1.8" "0.1.9" "2" "94988e14281fa9c70714fbae5e32031f7008919c13b060ee16c714edb62858c0";
-  servant = admittingRevision "0.20.3.0" "0.20.3.1" "7" "4fe47ef2b2939c018cb0f87f3cd8ede0ae5365a275ad33e3deca109319d42a6f";
-  servant-client = admittingRevision "0.20.3.0" "0.20.3.1" "4" "c152c3b72328987f10dd0e2007c703404787e29d0947cad7d033a223a506bbd3";
-  servant-client-core = admittingRevision "0.20.3.0" "0.20.3.1" "5" "6611f79f74626c68483e30ff9f6acd0e14f5fedcef710d8472c14be6318cef7c";
-  servant-foreign = admittingRevision "0.16.1" "0.16.2" "3" "1b61e76b974e217b33c9c676e950ea15df7ad900dedb54756276bb65d88b7f7d";
-  servant-docs = admittingRevision "0.13.1" "0.13.2" "3" "69402db0eb641ee31e20c6e449baf58dac5bbe190150d3eb6d7f5fe861275048";
+  singleton-bool = admittingRevision "singleton-bool" "0.1.8" "0.1.9" "2" "94988e14281fa9c70714fbae5e32031f7008919c13b060ee16c714edb62858c0";
+  servant = admittingRevision "servant" "0.20.3.0" "0.20.3.1" "7" "4fe47ef2b2939c018cb0f87f3cd8ede0ae5365a275ad33e3deca109319d42a6f";
+  servant-client = admittingRevision "servant-client" "0.20.3.0" "0.20.3.1" "4" "c152c3b72328987f10dd0e2007c703404787e29d0947cad7d033a223a506bbd3";
+  servant-client-core = admittingRevision "servant-client-core" "0.20.3.0" "0.20.3.1" "5" "6611f79f74626c68483e30ff9f6acd0e14f5fedcef710d8472c14be6318cef7c";
+  servant-foreign = admittingRevision "servant-foreign" "0.16.1" "0.16.2" "3" "1b61e76b974e217b33c9c676e950ea15df7ad900dedb54756276bb65d88b7f7d";
+  servant-docs = admittingRevision "servant-docs" "0.13.1" "0.13.2" "3" "69402db0eb641ee31e20c6e449baf58dac5bbe190150d3eb6d7f5fe861275048";
 
   # ── hasql ecosystem ────────────────────────────────────────────────
   hasql = always doJailbreakOnly;

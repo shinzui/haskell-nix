@@ -5,9 +5,10 @@
 # Retire when an admitting upstream release/revision is selected.
 { name, sha256 }:
 { pkg, lib, haskellLib, hself, ... }:
-if pkg.version != "2.1.3"
-  || !lib.versionAtLeast hself.ghc.version "9.14"
-  || !lib.versionOlder hself.ghc.version "9.15"
+if !((import ../../lib/compatibilityEntryApplies.nix { inherit lib; }) "legacy-${name}-v1" {
+  version = pkg.version;
+  compiler = hself.ghc.version;
+})
 then pkg
 else
   haskellLib.overrideCabal

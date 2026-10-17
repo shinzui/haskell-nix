@@ -14,6 +14,7 @@ let
   consumerOverlayReport = import ../lib/consumerOverlayReport.nix { inherit lib; };
   overlayReport = args: consumerOverlayReport ({ channelPackages = [ ]; overlayPackages = [ ]; ownPackages = [ ]; } // args);
   doctestTickerRepair = system: compiler: version: import ../patches/doctest/0.24.3-ghc9124-ticker.nix {
+    inherit lib;
     patchFile = "fixture.patch";
     pkg = { inherit version; src = "released-source"; doCheck = true; postPatch = "existing hook\n"; };
     pkgs.stdenv.hostPlatform = { inherit system; };
@@ -27,11 +28,13 @@ let
     haskellLib.overrideCabal = update: drv: drv // update drv;
   };
   kiokuCompilerRepair = compiler: version: import ../patches/kioku-core/0.8.0.2-ghc9141.nix {
+    inherit lib;
     pkg = { inherit version; src = "selected-source"; configureFlags = [ "existing-flag" ]; postPatch = "existing hook\n"; doCheck = true; enableLibraryProfiling = true; jailbreak = false; };
     hself.ghc.version = compiler;
     haskellLib.overrideCabal = update: drv: drv // update drv;
   };
   kiokuCliCompilerRepair = compiler: version: import ../patches/kioku-cli/0.8.0.2-ghc9141.nix {
+    inherit lib;
     pkg = { inherit version; src = "selected-source"; configureFlags = [ "existing-flag" ]; postPatch = "existing hook\n"; doCheck = true; enableLibraryProfiling = true; jailbreak = false; };
     hself.ghc.version = compiler;
     haskellLib.overrideCabal = update: drv: drv // update drv;
@@ -522,4 +525,5 @@ in
   invalidPackageSetCases // import ./cohort-freeze-parser.nix { inherit lib; }
 // import ./cohort-generated.nix { inherit lib; }
 // import ./cohort-layer.nix { inherit lib; }
-  // import ./application-incremental-policy.nix { inherit lib; }
+// import ./application-incremental-policy.nix { inherit lib; }
+  // import ./compatibility-policy.nix { inherit lib; }

@@ -5,9 +5,10 @@
 # Released example preserves success and intentional pending/failure propagation.
 # Retire when an admitting upstream release/revision is selected.
 { pkg, lib, haskellLib, hself, ... }:
-if pkg.version != "1.2.0.4"
-  || !lib.versionAtLeast hself.ghc.version "9.14"
-  || !lib.versionOlder hself.ghc.version "9.15"
+if !((import ../../lib/compatibilityEntryApplies.nix { inherit lib; }) "legacy-tasty-hspec-v1" {
+  version = pkg.version;
+  compiler = hself.ghc.version;
+})
 then pkg
 else
   haskellLib.overrideCabal

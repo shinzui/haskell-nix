@@ -5,9 +5,10 @@
 # https://github.com/well-typed/cborg/commit/06cdc44be7497fe5be02b62697bc9268c6699134
 # Retire when Hackage publishes an admitting revision/release and nixpkgs selects it.
 { pkg, lib, haskellLib, hself, ... }:
-if pkg.version != "0.2.6.0"
-  || !lib.versionAtLeast hself.ghc.version "9.14"
-  || !lib.versionOlder hself.ghc.version "9.15"
+if !((import ../../lib/compatibilityEntryApplies.nix { inherit lib; }) "legacy-cborg-json-v1" {
+  version = pkg.version;
+  compiler = hself.ghc.version;
+})
 then pkg
 else
   haskellLib.overrideCabal

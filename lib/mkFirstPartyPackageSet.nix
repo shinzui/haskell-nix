@@ -215,6 +215,8 @@ let
       if compatibility == [ ] then entries else
       map
         (entry: entry // {
+          exceptionIds = lib.unique ((entry.exceptionIds or [ ])
+            ++ lib.concatMap (row: row.exceptionIds or [ ]) compatibility);
           patch = args:
             let selected = entry.patch args;
             in (fixPackageByVersion name compatibility args.haskellLib args.pkgs

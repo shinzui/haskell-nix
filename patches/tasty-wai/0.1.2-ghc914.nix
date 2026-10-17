@@ -4,9 +4,10 @@
 # on GHC 9.14.1/base 4.22.0.0. No upstream endorsement or broad jailbreak.
 # Retire when an admitting upstream release/revision is selected.
 { pkg, lib, haskellLib, hself, ... }:
-if pkg.version != "0.1.2.0"
-  || !lib.versionAtLeast hself.ghc.version "9.14"
-  || !lib.versionOlder hself.ghc.version "9.15"
+if !((import ../../lib/compatibilityEntryApplies.nix { inherit lib; }) "legacy-tasty-wai-v1" {
+  version = pkg.version;
+  compiler = hself.ghc.version;
+})
 then pkg
 else
   haskellLib.overrideCabal

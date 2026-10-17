@@ -28,6 +28,11 @@ provenance:
       at: 2026-10-17T03:25:59Z
       mode: "update"
       note: "Reconcile delivered prerequisites and strengthen maintenance, real-consumer integration, and measured total-cost acceptance."
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-17T06:42:24Z
+      mode: "implement"
+      note: "Begin explicit legacy compatibility catalog and immutable build-policy migration."
   reviews:
     - model: "gpt-6-astra"
       harness: "codex-cli"
@@ -51,6 +56,8 @@ This is a standalone plan covering exception lifecycle and the validation necess
 
 ## Progress
 
+2026-10-17 M1 in progress: a schema-1 catalog covers 89 executable registry rows plus generated first-party/cohort constructors and named legacy profile waivers (98 entries). Every migrated entry remains unverified. Unicode-data's always-applied test waiver and compiler-guarded metadata repair have separate IDs. Construction helpers preserve their existing operation order and pin legacy profile modes. Validation and pure negative fixtures cover guards, ownership, duplicate IDs, coverage and waiver references. M2 groundwork extracts the lazy first-always/first-matching selector, and production compiler/version/system guards now consume the same catalog predicate. Exact inner package-version guards remain exact rather than being widened to outer registry ranges. All 192 pure expectations evaluate without failures. Four retained Apple Silicon generation/channel cells preserve compiler, fingerprint and package derivations. Current full-registry queries require an unrealized Codd source/translation and were left blocked while compilation is disabled during timings; Linux requires unavailable native translation. [Partial evidence](../evidence/ep21/catalog-migration-partial.json). Full matrix/focused native checks remain pending; no policy narrowing or native test claim is made.
+
 
 - [ ] M1: Define the exception catalog and explicit build-policy profiles; migrate current entries without changing production derivations.
 - [ ] M2: Share dispatch semantics with selected-configuration reports and retirement-candidate evaluation.
@@ -60,7 +67,9 @@ This is a standalone plan covering exception lifecycle and the validation necess
 ## Surprises & Discoveries
 
 
-No implementation experiments or retirement decisions are recorded. The source baseline and already documented exceptions are described in Context and Orientation.
+2026-10-17: Cohort construction also suppresses tests before common registry repair dispatch. Coverage therefore includes that generated constructor as well as hand-written rows and first-party wrapping. A metadata catalog alone cannot establish the effects of an arbitrary patch function; selected-configuration reporting remains M2 acceptance. Reading the real functions found exact inner version guards narrower than their outer half-open registry range; the migrated shared predicates preserve both boundaries. Source-manifest/Cabal assertions remain in build hooks and are never treated as passed merely because a predicate matches.
+
+No retirement decisions are recorded. The source baseline and already documented exceptions are described in Context and Orientation.
 
 ## Decision Log
 
@@ -83,7 +92,7 @@ No implementation experiments or retirement decisions are recorded. The source b
 ## Outcomes & Retrospective
 
 
-Planning only. Structured exception metadata, policy migration, reports, strict-validation outputs, and retirement evidence remain pending.
+M1 declaration and migration work is in progress; acceptance is pending. Structured exception metadata, policy migration, reports, strict-validation outputs, and retirement evidence remain pending.
 
 ## Context and Orientation
 

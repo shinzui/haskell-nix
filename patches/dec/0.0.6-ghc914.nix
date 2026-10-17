@@ -3,9 +3,10 @@
 # mori://phadej/dec, dec.cabal; artifact-level URI pending.
 # Retire once the selected package metadata supplies this revision or newer.
 { pkg, lib, haskellLib, hself, ... }:
-if pkg.version != "0.0.6"
-  || !lib.versionAtLeast hself.ghc.version "9.14"
-  || !lib.versionOlder hself.ghc.version "9.15"
+if !((import ../../lib/compatibilityEntryApplies.nix { inherit lib; }) "legacy-dec-v1" {
+  version = pkg.version;
+  compiler = hself.ghc.version;
+})
 then pkg
 else
   haskellLib.overrideCabal

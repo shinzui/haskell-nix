@@ -3,9 +3,10 @@
 # https://github.com/composewell/unicode-data/commit/da6c4ece0d8cbf43498cd310c64c15d55e116d96
 # Retire when admitting package metadata is selected; preserve Unicode 0.6 data/API.
 { pkg, lib, haskellLib, hself, ... }:
-if pkg.version != "0.6.0"
-  || !lib.versionAtLeast hself.ghc.version "9.14"
-  || !lib.versionOlder hself.ghc.version "9.15"
+if !((import ../../lib/compatibilityEntryApplies.nix { inherit lib; }) "legacy-unicode-data-metadata-v1" {
+  version = pkg.version;
+  compiler = hself.ghc.version;
+})
 then pkg
 else
   haskellLib.overrideCabal

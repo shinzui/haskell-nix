@@ -25,19 +25,9 @@ hself: hsuper:
     let
       pkg = hsuper.${name};
 
-      alwaysEntry = lib.findFirst (e: e.always or false) null table;
-
-      versionMatch =
-        if alwaysEntry != null then null
-        else
-          lib.findFirst
-            (e: !(e.always or false)
-              && lib.versionAtLeast pkg.version e.min
-              && lib.versionOlder pkg.version e.max)
-            null
-            table;
-
-      match = if alwaysEntry != null then alwaysEntry else versionMatch;
+      match = (import ./selectCompatibilityEntry.nix { inherit lib; }) table {
+        version = pkg.version;
+      };
     in
     if match != null
     then match.patch { inherit pkg lib haskellLib pkgs hself hsuper; }

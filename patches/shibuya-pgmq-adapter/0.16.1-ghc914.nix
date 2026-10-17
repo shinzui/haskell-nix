@@ -1,8 +1,10 @@
 # mori://shinzui/shibuya-pgmq-adapter/packages/shibuya-pgmq-adapter
 # Preserve released code and admit only the additional GHC 9.14 boot lines.
 { pkg, lib, haskellLib, hself, ... }:
-if !lib.versionAtLeast hself.ghc.version "9.14"
-  || !lib.versionOlder hself.ghc.version "9.15"
+if !((import ../../lib/compatibilityEntryApplies.nix { inherit lib; }) "legacy-shibuya-pgmq-adapter-v1" {
+  version = pkg.version;
+  compiler = hself.ghc.version;
+})
 then pkg
 else
   haskellLib.overrideCabal

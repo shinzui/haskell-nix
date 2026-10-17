@@ -1,10 +1,12 @@
 # mori://sol/doctest, test/RunSpec.hs (source-file artifact URI pending).
 # Retain the bootstrap tool and every test; normalize only GHC's known EINTR
 # diagnostic in captured test output. Released library/executable code is intact.
-{ pkg, pkgs, hself, haskellLib, patchFile ? ./0.24.3-ghc9124-ticker.patch, ... }:
-if pkg.version != "0.24.3"
-  || hself.ghc.version != "9.12.4"
-  || pkgs.stdenv.hostPlatform.system != "x86_64-linux"
+{ pkg, lib, pkgs, hself, haskellLib, patchFile ? ./0.24.3-ghc9124-ticker.patch, ... }:
+if !((import ../../lib/compatibilityEntryApplies.nix { inherit lib; }) "legacy-doctest-v1" {
+  version = pkg.version;
+  compiler = hself.ghc.version;
+  system = pkgs.stdenv.hostPlatform.system;
+})
 then pkg
 else
   haskellLib.overrideCabal

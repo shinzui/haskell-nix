@@ -5,8 +5,8 @@ description: Add and verify shared compatibility patches for the GitHub and Hack
 docId: DOC-2
 tags: [patches, compatibility, maintainers]
 generated:
-  by: human:nadeem
-  at: 2026-10-16T14:44:08Z
+  by: process:codex
+  at: 2026-10-17T07:05:00Z
 ---
 
 [User guide](README.md)
@@ -30,6 +30,46 @@ sources use fixed revisions and hashes, as in `patches/typeid-hs/`. Record sourc
 and intentional differences in `config/cohort-policy.json` and the cohort source manifest.
 Consumer overlays reuse these recipes; the
 [ownership audit](consumer-integration.md#audit-your-local-overlay) enforces that boundary.
+
+Every common registry row also needs a stable binding in
+`config/compatibility-exceptions.json`. Record its kind, canonical Mori owner, reason,
+effects, compiler/version/system/source scope, evidence requirements and retirement or
+review condition. The binding identifies the package and zero-based row. The channel
+validates complete coverage and attaches the matching `exceptionIds` outside derivation
+arguments. Descriptive edits do not change production recipes.
+
+The initial catalog marks all migrated behavior **unverified**. It preserves existing
+recipes and historical profiles; it does not prove that tests ran, original bounds held,
+or a workaround remains necessary. Native source/Cabal assertions remain build checks.
+For example, inspect the metadata repair's declared scope without building packages:
+
+```bash
+nix eval --json .#lib.compatibilityPolicy.catalog.entries --apply \
+  'entries: builtins.filter (entry: entry.id == "legacy-cborg-json-v1") entries'
+```
+
+Use `lib/compatibilityEntryApplies.nix` from guarded patch functions so executable
+compiler/version/system activation shares the catalog predicate. Keep source-drift checks
+inside the patch. A matched predicate does not establish that its source assertion passed.
+An exact inner package-version guard must remain exact even when the registry row spans a
+broader half-open range. Preserve always-applied effects separately: unicode-data's test
+waiver has a different ID from its GHC 9.14 metadata repair.
+
+`config/package-build-policies.json` names test and bounds policies independently.
+`legacy-first-party-v1` preserves skipped tests and relaxed bounds;
+`legacy-skip-enforce-v1` preserves the cohort's existing test suppression without adding
+a jailbreak. Legacy names have immutable modes and `construction: legacy-layer`: an absent legacy operation preserves inherited settings. Their mode labels cannot prove the final recipe has tests enabled or original bounds intact. `strict-v1` uses `construction: complete` and explicitly enables tests and disables the jailbreak flag. A stricter profile must be selected during
+recipe construction and verified separately; applying it afterward cannot undo previous
+metadata rewrites. New or widened waivers need an explicit scoped exception and native
+verification requirements. Selected-configuration CLI reports and removal receipts remain
+in development; catalog consistency alone is not their acceptance.
+
+Run the focused declaration checks after editing either file:
+
+```bash
+just nix-test
+nix build .#checks.aarch64-darwin.compatibility-policy --no-link
+```
 
 The common registry supports two entry types: **always-apply** and **version-scoped**.
 
