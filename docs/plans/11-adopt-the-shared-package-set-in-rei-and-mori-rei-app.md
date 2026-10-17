@@ -100,7 +100,7 @@ Export the Rei library extension into the consumer's single Haskell scope. Prove
 
 ## Progress
 
-- [ ] Prerequisite: EP-16 delivers a tested exact runtime generation and composition API; adopt it atomically with Cabal/Nix selectors and prove used runtime dependency identities
+- [x] (2026-10-17) Prerequisite: verified generation 1 adopted atomically; real Rei/Mori Rei App manifests prove exact Rei Core reuse and 243 equal used runtime dependency identities.
 
 - [x] (2026-10-17) Documentation/CLI-only edits preserve unchanged library and shared dependency identities; measured executable manifests and retained receipts prove the boundary.
 
@@ -116,9 +116,9 @@ Export the Rei library extension into the consumer's single Haskell scope. Prove
 - [x] (2026-10-17) Milestone 3 (rei, ADR): new ADR (allocated with `okf id next`, expected ADR-49) written; ADR-18 amended; `just adr-validate` and strict validation pass; committed. Record rei commit `C` = `e5f26a5e07a2472e0e695607482198865ccc1581` (published as an ancestor of merge `99b882ee`, preserving four newer remote commits).
 - [x] (2026-10-17) Milestone 3: user approved publication of `C`; remote master had four newer commits, cleanly merged at `99b882ee`. Combined full Cabal build, all suites, OpenAPI and flake checks pass, and the merge is pushed. The immutable approved `C` is now reachable publicly.
 - [x] (2026-10-17) Milestone 4 (mori-app): freeze/runtime source policy imported at `R`; Effectful/core and ephemeral-pg bounds updated; build and all seven tests pass; source-aware parity zero. Commit `A` = `258bfa45b0817e9b72fd9838c976128761ba02f5` approved by the user and published; remote master verified at this exact revision.
-- [ ] Milestone 5 (mori-rei-app, Cabal): freeze imported at `R`; `rei-core` pin moved to `C`, `mori-app` pin moved to `A`; `effectful`/`effectful-core ^>=2.6` lifted to `^>=2.7` (and keiro bounds if plan 15 released a new major); redundant entries removed; `cabal test all` passes against Rei's repo-local dev database; parity zero.
-- [ ] Milestone 5 (mori-rei-app, Nix): `rei` flake input added; `haskell-nix`, `haskell-nix-dev` and toolchain inputs follow rei; `rei-src` and `typeid-hs-src` removed; overlay reduced; `nix build` passes; closure parity zero; `rei-core` store path equals rei's.
-- [ ] Milestone 5: dependency-closure audit updated and passing; ADR-1 amended; committed; user approves push. Record mori-rei-app commit `M`.
+- [x] (2026-10-17) Milestone 5 (mori-rei-app, Cabal): freeze imported at `R`; `rei-core` pin moved to `C`, `mori-app` pin moved to `A`; `effectful`/`effectful-core ^>=2.6` lifted to `^>=2.7` (and keiro bounds if plan 15 released a new major); redundant entries removed; `cabal test all` passes against a fresh private operational PostgreSQL cluster plus the existing per-test disposable Kiroku stores; 220 cases pass, optional real-Claude case explicitly skipped. Source-aware parity is zero. No shared dev or production database is used.
+- [x] (2026-10-17) Milestone 5 (mori-rei-app, Nix): `rei` flake input added; `haskell-nix`, `haskell-nix-dev` and toolchain inputs follow rei; `rei-src` and `typeid-hs-src` removed; overlay reduced; `nix build` passes; closure parity zero; `rei-core` store path equals rei's.
+- [ ] Milestone 5 publication: dependency-closure audit, strict ADR-1 validation and full flake checks pass. Commit `M` = `3617350` is clean and tested; explicit user push approval requested. Actual executable manifests verify exact Rei Core reuse and 243 equal used runtime identities. The formatter normalizes 25 Haskell files to the existing configured style without semantic edits.
 - [ ] Milestone 6 (deploy): read-only production baseline captured.
 - [ ] Milestone 6: dotfiles lock moved for `rei` and `mori-rei-app` only; `./bin/build.sh` passes; built store paths equal the proven ones.
 - [ ] Milestone 6: fresh-clone rehearsal with the shipped binaries passes (migration status pending 0; replay gate passes with the 13-stream / 89-event exclusion).
