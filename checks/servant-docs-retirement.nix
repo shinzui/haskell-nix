@@ -32,7 +32,8 @@ let
           hl
           pkgs
           scope
-          { servant-docs = strict; }).servant-docs;
+          { servant-docs = strict; }
+      ).servant-docs;
   };
   phases = [ "baseline" "candidate" ];
   graphs = lib.genAttrs phases (phase: channel.lib.mkCohortManifest {
