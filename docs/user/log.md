@@ -1,5 +1,8 @@
 # Bundle Update Log
 
+## 2026-10-17
+* **Update**: Record verified generation-1 support for the four declared platform/channel configurations and distinguish future unverified records.
+
 ## 2026-10-16
 * **Addition**: Document immutable, hash-checked Cabal runtime import materialization and no-write verification, including Cabal relative URL-import behavior.
 * **Addition**: Document retained runtime generations, explicit application complements, checked scope/manifest construction and immutable projection operations; distinguish declared targets from accepted support.

@@ -6,7 +6,7 @@ docId: DOC-7
 tags: [package-sets, snapshots, cache]
 generated:
   by: human:nadeem
-  at: 2026-10-16T23:37:25Z
+  at: 2026-10-17T00:04:00Z
 ---
 
 [User guide](README.md)
@@ -292,8 +292,8 @@ keiro-runtime --json` reports metadata. Existing generations remain immutable wh
 or policy changes. Build/cache evidence lives outside their immutable projection directories.
 
 The root, closure and manifest outputs are `keiro-runtime`, `keiro-runtime-closure` and
-`keiro-runtime-manifest`, with corresponding `keiro-runtime-hackage*` outputs. Declared initial
-targets are GHC 9.12.4 on aarch64-darwin and x86_64-linux, both source channels, profiling and
-Haddock disabled. Declared targets become supported only when plan 16's build, disposable
-integration and fresh-worker cache acceptance is recorded. Generation numbers and documentation
+`keiro-runtime-manifest`, with corresponding `keiro-runtime-hackage*` outputs. Verified generation-1
+configurations are GHC 9.12.4 on aarch64-darwin and x86_64-linux, both source channels, profiling and
+Haddock disabled. The exported `support.status` is `verified` only when a support receipt matches the
+immutable fingerprint; new records without acceptance evidence remain `unverified`. Generation numbers and documentation
 labels do not enter library derivation inputs.

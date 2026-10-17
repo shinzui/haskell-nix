@@ -1,6 +1,6 @@
 # Compose applications on retained Keiro runtime baselines
 
-Status: Accepted; generation 1 and composition are implemented. Cross-platform support acceptance remains pending plan 16.
+Status: Accepted; generation 1 and its declared GHC 9.12.4 platform/channel matrix are implemented and verified.
 
 Date: 2026-10-04
 
@@ -118,5 +118,9 @@ drift at unchanged versions.
 Build declared configurations on aarch64-darwin and x86_64-linux, publish outputs through
 the existing trusted cache and prove substitution on fresh workers. Reuse disposable runtime
 verification machinery from `mori://shinzui/keiro-runtime-kenshou` without changing its historical
-profiles or touching production databases. All runtime delivery and timing evidence remains
-pending under [plan 16](../plans/16-create-the-keiro-runtime-package-set-and-compose-applications-on-it.md).
+profiles or touching production databases. Generation 1 passes both complete platform gates, actual application-manifest proofs,
+both native source-channel integration sweeps and fresh-worker zero-build substitution for
+all four configurations. Evidence is bound to the immutable fingerprint in
+`cabal/runtime-cache/keiro-runtime/1/support.json`. Fleet update measurements remain owned
+by plan 14; runtime delivery is accepted under
+[plan 16](../plans/16-create-the-keiro-runtime-package-set-and-compose-applications-on-it.md).

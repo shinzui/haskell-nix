@@ -62,14 +62,28 @@
       mkRuntimePackageSet = import ./lib/mkRuntimePackageSet.nix { inherit lib; };
       runtimeLock = builtins.fromJSON (builtins.readFile ./packages/runtime-lock.json);
       runtimePackageSets = lib.mapAttrs
-        (_: records: map
+        (runtime: records: map
           (record:
             let
               retained = builtins.fromJSON (builtins.readFile (./. + "/${record.recipeDirectory}/packages/first-party-lock.json"));
               complete = builtins.head (builtins.filter (set: set.name == retained.defaultPackageSet) retained.packageSets);
               complement = builtins.filter (selection: !(builtins.hasAttr selection.group record.selections)) complete.groups;
+              supportPath = ./. + "/cabal/runtime-cache/${runtime}/${toString record.generation}/support.json";
+              support =
+                if builtins.pathExists supportPath then
+                  builtins.fromJSON (builtins.readFile supportPath)
+                else { status = "unverified"; configurations = [ ]; };
+              supportValid = support.status == "unverified" || (
+                support.schemaVersion == 1 && support.status == "verified"
+                  && support.configurations != [ ]
+                  && support.runtime == runtime && support.generation == record.generation
+                  && support.runtimeFingerprint == record.fingerprint
+                  && builtins.all (configuration: builtins.elem configuration record.configurations) support.configurations
+              );
             in
+            assert supportValid;
             record // {
+              inherit support;
               applicationSelections = lib.listToAttrs (map
                 (selection: {
                   name = selection.group;

@@ -203,7 +203,7 @@ Phase 3 (plan 14) comes last because it is the only place all five meet: the dot
 | 17 | Upgrade every ephemeral PostgreSQL consumer to stable cleanup roots | docs/plans/17-upgrade-every-ephemeral-postgresql-consumer-to-stable-cleanup-roots.md | None | EP-8, EP-9, EP-10 | Complete |
 | 9 | Generate the Nix package set from the cohort freeze and guard version parity | docs/plans/9-generate-the-nix-package-set-from-the-cohort-freeze-and-guard-version-parity.md | EP-8 | None | Complete |
 | 10 | Own the shared third-party overrides in the channel instead of consumer overlays | docs/plans/10-own-the-shared-third-party-overrides-in-the-channel-instead-of-consumer-overlays.md | None | EP-9 | Complete |
-| 16 | Create the Keiro runtime package set and compose applications on it | docs/plans/16-create-the-keiro-runtime-package-set-and-compose-applications-on-it.md | EP-9, EP-10 | None | In Progress |
+| 16 | Create the Keiro runtime package set and compose applications on it | docs/plans/16-create-the-keiro-runtime-package-set-and-compose-applications-on-it.md | EP-9, EP-10 | None | Complete |
 | 11 | Adopt the shared package set in rei and mori-rei-app | docs/plans/11-adopt-the-shared-package-set-in-rei-and-mori-rei-app.md | EP-9, EP-10, EP-16 | None | Not Started |
 | 12 | Adopt the shared package set in mori | docs/plans/12-adopt-the-shared-package-set-in-mori.md | EP-9, EP-10, EP-16 | EP-11 | In Progress |
 | 13 | Bring mina and reiko up to the shared package set | docs/plans/13-bring-mina-and-reiko-up-to-the-shared-package-set.md | EP-9, EP-10, EP-16 | None | Not Started |
@@ -211,7 +211,7 @@ Phase 3 (plan 14) comes last because it is the only place all five meet: the dot
 
 Status values: Not Started, In Progress, Complete, Cancelled.
 EP-12's current work is its explicitly independent Hasql-vendoring Milestone 1; cohort/runtime adoption still waits for its hard dependencies. On 2026-10-05 the user requested parallel execution: EP-10, EP-12 M1 and the relay compatibility release run concurrently with EP-8. EP-16's read-only runtime inventory is preparation, not completion of its prerequisite-dependent implementation.
-EP-9 is Complete with both full platform checks and fresh-worker substitution accepted. EP-16 is the active child; no aggregate gate is waived.
+EP-9 is Complete with both full platform checks and fresh-worker substitution accepted. EP-16 is Complete with generation 1, both full platform gates, four fresh cache jobs and native disposable integration accepted. EP-11 is the next eligible child; no aggregate gate is waived.
 Hard Deps and Soft Deps reference other rows by their # prefix (e.g., EP-8). This repository numbers ExecPlans globally, so this MasterPlan's children are 8 through 17. Plan 15 was added on the user's decision to move the whole family to effectful 2.7; it runs first. Plan 17 adds the user's later cross-project ephemeral PostgreSQL cleanup migration.
 
 
@@ -319,9 +319,9 @@ The goal is less repeated coordination and dependency compilation. Equal version
 
 ## Progress
 
-Current snapshot (2026-10-16): EP-15, EP-8, EP-9, EP-10 and EP-17 are Complete. EP-16 is active. EP-12 has completed its independent Hasql-removal M1; its adoption work still waits for EP-9/10/16. EP-11/13/14 remain Not Started. The registry records whole-child status; child plans retain implementation and acceptance evidence.
+Current snapshot (2026-10-16): EP-15, EP-8, EP-9, EP-10, EP-17 and EP-16 are Complete. EP-11 is the next eligible child. EP-12 has completed its independent Hasql-removal M1; its adoption work still waits for EP-9/10/16. EP-11/13/14 remain Not Started. The registry records whole-child status; child plans retain implementation and acceptance evidence.
 
-EP-16 has completed M1–M3: generation 1 retains 311 owned packages and 76 immutable projections, reproduced byte for byte in an independent checkout. Its targeted cohort extension contains 465 selections/370 generated recipes, preserves 461 unrelated identities, and retains the maintained Kafka fixes. Both native runtime source channels pass frozen manifest parity for 272 Haskell instances, with 393-path publications remotely verified per channel. Real application/doc/leaf/interface fixtures prove the shared build boundary. Whole-child completion still requires Linux/cache-CI and disposable integration acceptance; consumer adoption remains gated.
+EP-16 has completed M1–M3: generation 1 retains 311 owned packages and 76 immutable projections, reproduced byte for byte in an independent checkout. Its targeted cohort extension contains 465 selections/370 generated recipes, preserves 461 unrelated identities, and retains the maintained Kafka fixes. Both native runtime source channels pass frozen manifest parity for 272 Haskell instances, with 393-path publications remotely verified per channel. Real application/doc/leaf/interface fixtures prove the shared build boundary. Both full platform checks, actual fixture manifests, all four fresh runtime cache jobs and both native disposable scenario sweeps pass. Generation 1 support evidence is retained and fingerprint-bound; consumer adoption is now unblocked.
 
 EP-9 now owns one accepted 462-package solve and 369 generated Hackage recipes. Both source channels have zero default-compiler version mismatches. Its shared comparator, lock resolver, manifest/source/configuration checks and registry policy pass. The complete Darwin compiler/channel matrix and then-current 122 Nix contracts pass. Real manifests verify 78 pg-migrate-cli and 120 Dhall JSON instances, and Rei's fresh pre-adoption plan correctly reports existing drift. Earlier release, solver, translation and compatibility problems are resolved; their evidence remains in EP-9.
 
