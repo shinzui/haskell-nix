@@ -10,7 +10,7 @@ import sys
 from urllib.request import urlopen
 
 
-def prepare(revision, runtime, generation, channel, fetch):
+def prepare(revision, runtime, generation, channel, fetch, application_sources=None):
     if not re.fullmatch(r"[0-9a-f]{40}", revision):
         raise ValueError("channel revision must be a full immutable Git revision")
     if not re.fullmatch(r"[a-z0-9-]+", runtime) or generation < 1 or channel not in ("github", "hackage"):
@@ -46,6 +46,29 @@ def prepare(revision, runtime, generation, channel, fetch):
         if name not in sources or sources[name]["version"] != package["version"]:
             raise ValueError("runtime/cohort version conflict: " + name)
     sources.update(runtime_sources)
+    if application_sources:
+        contributors = json.loads(fetch("cabal/contributors.json"))
+        owners = {name: contributor["mori"] for contributor in contributors
+                  for name in contributor["ownPackages"]}
+        for name, policy in application_sources.items():
+            if name in sources or name not in owners:
+                raise ValueError("application source must be a declared contributor package outside the cohort: " + name)
+            if policy.get("owner") != owners[name] or not str(policy.get("reason", "")).strip():
+                raise ValueError("application source requires its declared owner and a reason: " + name)
+            package = policy["package"]
+            if package.get("source") != "SourcePin" or not package.get("identities"):
+                raise ValueError("application source requires pinned source evidence: " + name)
+            for identity in package["identities"]:
+                source = identity.get("pkg-src", {})
+                repo = source.get("source-repo", {})
+                if (source.get("type") != "source-repo" or repo.get("type") != "git"
+                        or not str(repo.get("location", "")).startswith("https://")
+                        or not re.fullmatch(r"[0-9a-f]{40}", repo.get("tag", ""))
+                        or not re.fullmatch(r"[0-9a-f]{64}", identity.get("pkg-src-sha256", ""))
+                        or identity.get("pkg-name") != name
+                        or identity.get("pkg-version") != package.get("version")):
+                    raise ValueError("application source requires immutable matching source identity: " + name)
+            sources[name] = package
     files["comparison-sources.json"] = (json.dumps(sources, indent=2, sort_keys=True) + "\n").encode()
     hashes["comparison-sources.json"] = hashlib.sha256(files["comparison-sources.json"]).hexdigest()
     metadata = {"schemaVersion": 1, "runtime": runtime, "generation": generation,
@@ -67,7 +90,7 @@ def publish(destination, files, check=False):
         previous[name] = path.read_bytes() if path.exists() else None
         if check and previous[name] != content:
             raise ValueError("missing or stale runtime import: " + name)
-        if name != "selection.json" and previous[name] not in (None, content):
+        if name not in ("selection.json", "comparison-sources.json") and previous[name] not in (None, content):
             raise ValueError("refusing to overwrite changed retained projection: " + name)
     if check:
         return
@@ -101,6 +124,7 @@ def main():
     parser.add_argument("--channel", choices=["github", "hackage"], required=True)
     parser.add_argument("--destination", required=True)
     parser.add_argument("--check", action="store_true")
+    parser.add_argument("--application-sources", help="Owned contributor source policy, outside the shared cohort")
     args = parser.parse_args()
     # Validate revision before using it as part of any URL.
     if not re.fullmatch(r"[0-9a-f]{40}", args.revision):
@@ -114,7 +138,8 @@ def main():
                 raise ValueError("runtime source transport requires HTTPS")
             return response.read()
 
-    files = prepare(args.revision, args.runtime, args.generation, args.channel, fetch)
+    application_sources = json.loads(Path(args.application_sources).read_bytes()) if args.application_sources else None
+    files = prepare(args.revision, args.runtime, args.generation, args.channel, fetch, application_sources)
     publish(args.destination, files, args.check)
     print(("Verified " if args.check else "Materialized ") + str(Path(args.destination) / (args.channel + ".project")))
 

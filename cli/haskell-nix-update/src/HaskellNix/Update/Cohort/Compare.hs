@@ -41,10 +41,28 @@ validateExpected owned freeze sources = do
         [value] | not (Text.null value) -> Right value
         _ -> Left "freeze must record exactly one compiler header"
     unless (Map.keysSet document.freezeVersions `Set.isSubsetOf` Map.keysSet sources) (Left "freeze packages missing from source manifest")
-    unless (Set.null (owned `Set.intersection` Map.keysSet sources)) (Left "local ownership overlaps the cohort source manifest")
+    mapM_ (validateOwned document) (Set.toAscList (owned `Set.intersection` Map.keysSet sources))
     mapM_ (validateFrozen document) (Map.toAscList sources)
     pure (document, compiler)
   where
+    -- Application libraries may be consumed as immutable source packages by a
+    -- sibling. They remain outside the shared freeze, but their explicitly
+    -- supplied source policy must still be checked for every plan instance.
+    validateOwned document name = do
+        let package = sources Map.! name
+        unless (package.source == SourcePin && Map.notMember name document.freezeVersions)
+            (Left "local ownership overlaps the cohort source manifest")
+        unless (not (null package.identities) && all immutableRepository package.identities)
+            (Left ("contributor source requires immutable Git identity: " <> name))
+    immutableRepository (Object identity) = case KeyMap.lookup "pkg-src" identity of
+        Just (Object source) -> case KeyMap.lookup "source-repo" source of
+            Just (Object repository) -> case (KeyMap.lookup "type" repository, KeyMap.lookup "location" repository, KeyMap.lookup "tag" repository) of
+                (Just (String "git"), Just (String location), Just (String revision)) ->
+                    Text.isPrefixOf "https://" location && Text.length revision == 40 && Text.all isHexDigit revision
+                _ -> False
+            _ -> False
+        _ -> False
+    immutableRepository _ = False
     validateFrozen document (name, package) = do
         case Map.lookup name document.freezeVersions of
             Just version -> unless (package.version == Text.pack (prettyShow version)) (Left ("freeze/source version mismatch: " <> name))

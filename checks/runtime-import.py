@@ -49,6 +49,35 @@ class ImportProof(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "runtime/cohort version conflict: keiki"):
             self.prepare(conflict)
 
+    def application_policy(self):
+        inventory = json.loads((ROOT / "cabal/inventory/mori-app.json").read_bytes())
+        return {"mori-types": {"owner": "mori://shinzui/mori", "reason": "Sibling webhook contract; not released on Hackage",
+                               "package": inventory["packages"]["mori-types"]}}
+
+    def prepare_application(self, policy):
+        return tool.prepare("a" * 40, "keiro-runtime", 1, "github",
+                            lambda path: (ROOT / path).read_bytes(), policy)
+
+    def test_owned_sibling_policy_is_compared_without_changing_the_cohort(self):
+        policy = self.application_policy()
+        files = self.prepare_application(policy)
+        self.assertEqual(json.loads(files["comparison-sources.json"])["mori-types"], policy["mori-types"]["package"])
+
+    def test_application_policy_cannot_override_shared_packages_or_unknown_ownership(self):
+        policy = self.application_policy()["mori-types"]
+        for name in ("keiki", "unknown"):
+            with self.assertRaisesRegex(ValueError, "declared contributor package outside the cohort"):
+                self.prepare_application({name: policy})
+
+    def test_application_policy_requires_owner_reason_and_immutable_revision(self):
+        for mutate in (lambda p: p.update(owner="mori://example/other"),
+                       lambda p: p.update(reason=""),
+                       lambda p: p["package"]["identities"][0]["pkg-src"]["source-repo"].update(tag="main")):
+            policy = self.application_policy()
+            mutate(policy["mori-types"])
+            with self.assertRaisesRegex(ValueError, "requires"):
+                self.prepare_application(policy)
+
     def test_tampered_transport_is_rejected(self):
         with self.assertRaisesRegex(ValueError, "hash mismatch"):
             self.prepare(lambda path, value: value + b"tamper" if path.endswith("cohort.freeze") else value)

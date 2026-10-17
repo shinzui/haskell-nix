@@ -1,6 +1,7 @@
 # Bundle Update Log
 
 ## 2026-10-17
+* **Update**: Document explicit immutable source policy for contributor-owned sibling libraries, with shared/runtime override rejection.
 * **Update**: Materialize the selected source policy for shared Cabal plan comparison, preserving the complete complementary cohort.
 
 ## 2026-10-16

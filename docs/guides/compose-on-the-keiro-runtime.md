@@ -6,7 +6,7 @@ docId: DOC-6
 tags: [runtime, composition, adoption]
 generated:
   by: process:codex
-  at: 2026-10-17T00:13:15Z
+  at: 2026-10-17T00:22:13Z
 ---
 
 [Guides](README.md)
@@ -87,6 +87,16 @@ nix run github:shinzui/haskell-nix/REV#cohort-compare -- \
   --sources cabal/runtime/keiro-runtime/1/comparison-sources.json \
   --plan-json dist-newstyle/cache/plan.json
 ```
+
+For a sibling application library supplied by Git rather than Hackage, pass
+`--application-sources cabal/application-sources.json` to the materializer and its
+`--check` invocation. Each package entry declares `owner` (the contributor's exact
+canonical Mori project URI), a nonempty `reason`, and `package` (the shared inventory's
+version/source/identities/dependencies record). Retain the independently captured source
+revision and hash evidence in that file. Only declared contributor packages outside the
+shared cohort are admitted; immutable HTTPS Git revisions are required. The comparator
+then checks those source packages normally, including every component and flag identity.
+These declarations cannot replace frozen or runtime-owned packages.
 
 ## 3. Construct one checked scope
 

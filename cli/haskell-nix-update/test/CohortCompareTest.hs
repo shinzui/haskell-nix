@@ -62,11 +62,30 @@ tests = testGroup "consumer cohort comparison"
         assertBool "context should be a JSON object" (case comparisonContext (Set.singleton "app") freeze sources of Right (Object _) -> True; _ -> False)
     , testCase "Nix comparison context rejects overlapping local ownership" $
         assertBool "overlapping ownership should fail" (case comparisonContext (Set.singleton "lib") freeze sources of Left message -> "ownership overlaps" `Text.isInfixOf` message; _ -> False)
+    , testCase "a pinned sibling library is checked against explicit source policy" $
+        succeeds (siblingCheck (sibling revision))
+    , testCase "a same-version sibling source revision change fails" $
+        failsWith "source/metadata/flags" (siblingCheck (sibling (Text.replicate 40 "b")))
+    , testCase "a mutable sibling source policy fails" $
+        failsWith "immutable Git identity" (comparePlan (Set.singleton "sibling") freeze
+            (Map.insert "sibling" (PlanPackage "1" SourcePin [sibling "main"] []) sources)
+            (plan "ghc-9.12.4" [sibling "main"]))
+    , testCase "contributor ownership cannot replace a frozen dependency with a pin" $
+        failsWith "ownership overlaps" (comparePlan (Set.singleton "lib") freeze
+            (Map.insert "lib" (PlanPackage "1" SourcePin [sibling revision] []) sources)
+            (plan "ghc-9.12.4" [sibling revision]))
     ]
   where
     check rows = comparePlan (Set.singleton "app") freeze sources (plan "ghc-9.12.4" rows)
     revision = Text.replicate 40 "a"
     importUrl = "https://raw.githubusercontent.com/shinzui/haskell-nix/" <> revision <> "/cabal/cohort.freeze"
+    sibling :: Text -> Value
+    sibling rev = change "pkg-src" (object ["type" .= ("source-repo" :: Text), "source-repo" .= object
+        ["type" .= ("git" :: Text), "location" .= ("https://github.com/example/app" :: Text), "tag" .= rev]])
+        (row "sibling" "1" "sibling-id")
+    siblingCheck actual = comparePlan (Set.fromList ["app", "sibling"]) freeze
+        (Map.insert "sibling" (PlanPackage "1" SourcePin [sibling revision] []) sources)
+        (plan "ghc-9.12.4" [row "lib" "1" "lib-id", actual, local "app"])
 
 freeze :: Text
 freeze = "-- Compiler: ghc-9.12.4\nindex-state: 2026-10-06T00:00:00Z\nconstraints: any.lib ==1, any.unused ==1\n"
