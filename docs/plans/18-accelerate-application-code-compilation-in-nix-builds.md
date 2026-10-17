@@ -27,6 +27,17 @@ provenance:
       at: 2026-10-14T17:32:37Z
       mode: "update"
       note: "Add cross-repository umbrella coordination and scoped Mori publication without changing implementation ownership."
+    - model: "gpt-6-astra"
+      harness: "codex-cli"
+      at: 2026-10-17T03:25:59Z
+      mode: "update"
+      note: "Reconcile delivered prerequisites and strengthen maintenance, real-consumer integration, and measured total-cost acceptance."
+  reviews:
+    - model: "gpt-6-astra"
+      harness: "codex-cli"
+      at: 2026-10-17T03:25:59Z
+      verdict: "comments"
+      note: "Reviewed against current repository contracts and applied maintenance/performance findings; new implementation and benchmark evidence remain pending."
 ---
 
 
@@ -49,7 +60,7 @@ This follows [MasterPlan 3](../masterplans/3-align-one-cabal-and-nix-package-set
 ## Progress
 
 
-- [ ] M1: Establish compilation baselines and prove Nix intermediate reuse with a small native fixture.
+- [ ] M1: Establish compilation baselines and decide intermediate-reuse feasibility with a small native fixture.
 - [ ] M2: Pilot guarded Nix intermediate reuse in Rei and Mori and compare changed-code builds against clean builds.
 - [ ] M3: Remove unrelated source and revision invalidation while preserving embedded resources and truthful provenance.
 - [ ] M4: Measure bounded compiler parallelism and, if necessary, pilot smaller independently cached Cabal packages.
@@ -68,6 +79,8 @@ At the 2026-10-07 source inspection, `mori://shinzui/rei` had 1,068 Haskell file
 
 ## Decision Log
 
+
+2026-10-16: Execute M1, then M3 invalidation fixes before expanding reuse. M2 depends on a successful M1 reuse proof; failed reuse takes the M4 package-boundary path. Measure total changed-build latency and seed amortization before default adoption. A failed experiment is a valid feasibility result, not completion of the faster-build outcome.
 
 2026-10-14: Coordinate this workstream under [MasterPlan 4](../masterplans/4-coordinate-horizon-inspired-haskell-nix-performance-and-reliability-improvements.md). Scoped Mori publication records its production prerequisites and integration relationships; initial fixture work remains independent. Preserve the earlier declined intention association. Share effective compiler/source/policy identities and phase-separated measurements with plans 19 and 21 without introducing a Hard prerequisite on them.
 
@@ -89,6 +102,8 @@ At the 2026-10-07 source inspection, `mori://shinzui/rei` had 1,068 Haskell file
 
 ## Context and Orientation
 
+
+As of 2026-10-16, plans 9 and 16 are Complete locally. The live manifest/comparator, `lib/mkRuntimePackageSet.nix` and generation-1/2 support receipts under `cabal/runtime-cache/keiro-runtime/` provide the prerequisite contracts. Reuse `mkApplicationScope`, `validateApplicationScope` and `mkApplicationManifest` from the retained constructor; verify the selected application's adoption before rollout. Mori discovery was unavailable during this update, so current foreign application pins/builder behavior must be rechecked before experiments.
 
 A Nix derivation is a recipe with immutable declared inputs. An intermediate compilation product is a compiler-generated object or interface file that can be reused when the compiler verifies that its inputs are still valid. Ordinary project Nix builds currently start application compilation without previous products. Reusing dependency packages under MP-3 does not itself change that application build behavior.
 
@@ -140,7 +155,9 @@ incremental
 
 In disposable Rei and Mori checkouts, warm shared dependencies and record elapsed time, memory pressure, compiler/linker phases, effective flags, and application derivations for a real leaf edit. Record the source revisions and exact MP-3 selections. `nix build` of an unchanged output only measures cache lookup, so it is not the compilation baseline. Use source variants to request new application derivations without deleting existing outputs or forcing a rebuild of the dependency closure.
 
-M1 passes when a leaf edit demonstrably reuses at least one unaffected fixture module while producing correct new behavior, a real interface/data edit invalidates its dependents correctly, and a clean comparison agrees. If the upstream mechanism recompiles everything, fails correctness, or requires unacceptable changes, record that result and prioritize the M4 package-boundary experiment. Do not claim incremental Nix support from option names alone.
+M1 is complete when representative baselines and a documented feasibility decision exist. A positive reuse decision requires a leaf edit to reuse at least one unaffected fixture module with correct new behavior, interface/data edits to invalidate dependents, and a clean comparison to agree. If the mechanism recompiles everything, fails correctness, or needs unacceptable changes, record the failed evidence and omit M2 implementation; after M3 take the M4 package-boundary experiment. Record M2 as not applicable with the failed experiment cited, rather than falsely claiming its reuse checks passed. The plan still requires a measured changed-build improvement to complete. Do not claim incremental Nix support from option names alone.
+
+Before tuning, choose representative Rei and Mori leaf edits and a practical time-saving threshold above baseline variability. Run at least five paired trials with the same hardware, worker limits, memory budget, compiler/dependencies and production settings. Alternate clean/candidate order and use distinct declared source variants per pair to prevent existing target outputs from replacing compilation. Report median, spread, peak memory, compiled modules and total time from invocation to usable executable, as well as individual phases. After M3, rebaseline M2 so seed savings are not confused with source-filter improvements.
 
 
 ### Milestone 2: Pilot guarded intermediate reuse in the application packages
@@ -154,7 +171,7 @@ Use a fixed, explicitly chosen seed source revision initially. Build that seed w
 
 In each owning project, wire the helper through unmanaged `flake.module.nix`/`nix/haskell-overlay.nix` and an optional `nix/application-incremental.nix`. Export the seed intermediates for explicit rooting/inspection through metadata, an incremental package, and a clean comparison package. Begin with opt-in outputs. Move the normal project/default output onto the tested policy only after native acceptance so dotfiles can request the same package identity; expose the clean package for reproducible cross-checks and recovery. Preserve MP-3 manifests, including the seed as a real auxiliary build input, without claiming it changes the compiler/dependency cohort.
 
-M2 requires reduced compiler work and lower median elapsed application compilation for representative leaf edits in Rei and Mori at unchanged build settings, plus clean-build behavioral agreement. Run repeated trials and report their spread. Count one-time seed creation separately. Unchanged dependencies must retain their identities. Keep application runtime outputs separate from intermediate retention; verify metadata/closure size so runtime installation does not accidentally retain every historical intermediate checkpoint.
+M2 requires reduced compiler work, the predeclared improvement in total changed-build time, and lower median elapsed application compilation for representative leaf edits in Rei and Mori at unchanged build settings, plus clean-build behavioral agreement. Run repeated trials and report their spread. Count seed creation, refresh, download/copy and retention costs separately and include them in the overall cost comparison. For seed overhead C and per-edit total saving S, report ceil(C/S) edits to break even; if S is nonpositive there is no amortized benefit. Choose a realistic edit count/checkpoint frequency before adoption and test a missing-seed first-use build as well as a warm seed. Keep the normal clean output as default if savings do not exceed the budget or memory/closure costs are unacceptable. Unchanged dependencies must retain their identities. Keep application runtime outputs separate from intermediate retention; verify metadata/closure size so runtime installation does not accidentally retain every historical intermediate checkpoint.
 
 
 ### Milestone 3: Remove avoidable source and revision invalidation
@@ -182,7 +199,7 @@ Update that application's `cabal.project`, package manifests, owned Nix overlay,
 ### Milestone 5: Roll out the winning policy without changing deployment semantics
 
 
-Add `docs/guides/faster-application-nix-builds.md` and `scripts/measure-application-nix-builds.py`. Record before/after tests for unchanged builds, unrelated prose, embedded resources, a leaf edit, an interface change, a targeted dependency update, and a deliberate toolchain update. Report seed creation/refresh, evaluation, substitution, application compilation, linking, tests, and system assembly separately. List unexpectedly rebuilt modules/packages and explain unavoidable rebuilds.
+Add `docs/guides/faster-application-nix-builds.md` and `scripts/measure-application-nix-builds.py`. This script owns the common receipt fields for exact inputs, trial order, phases and cache state; EP-19 records compatible fields for evaluation measurements without requiring this script as a prerequisite. Record before/after tests for unchanged builds, unrelated prose, embedded resources, a leaf edit, an interface change, a targeted dependency update, and a deliberate toolchain update. Report seed creation/refresh, evaluation, substitution, application compilation, linking, tests, and system assembly separately. List unexpectedly rebuilt modules/packages and explain unavoidable rebuilds.
 
 Adopt the accepted helper/settings/boundaries independently across `mori://shinzui/rei`, `mori://shinzui/mori`, then the other MP-3 applications as their measured profiles justify. Keep shared rules here and owned recipe/source edits in their producing projects. In `mori://shinzui/dotfiles.nix`, compare the effective selected project package identity with its producing project under matching inputs. Updating the source input and then building Darwin must reuse the Nix output already produced in the project. Do not add an artifact-export adapter or bypass the existing parity guard.
 
@@ -240,7 +257,7 @@ N/M/X/Y are measured values, not thresholds or promises. Clean and seeded candid
 ## Validation and Acceptance
 
 
-The central acceptance is faster production of a new Nix application build after a leaf edit under the same dependency set and runtime build settings. Either validated intermediate reuse or validated smaller package boundaries must reduce actual compiler work and measured elapsed time. A fast subsequent dotfiles build alone does not satisfy this plan.
+The central acceptance is faster production of a new Nix application build after a leaf edit under the same dependency set and runtime build settings. Validated source/invalidation fixes, intermediate reuse or smaller package boundaries must reduce actual compiler work and total changed-build time beyond the predeclared threshold. Optional reduced-optimization profiles cannot satisfy this production-settings gate. A fast subsequent dotfiles build alone does not satisfy this plan.
 
 Fixture and native application checks must detect changed exported types, removed/renamed modules, modified generated or embedded inputs, and changed compiler/dependency/native/CPP configuration. Invalid seeds select a clean build with a clear reason; stale interfaces must never hide a source error or old runtime behavior. Compare isolated tests and executable behavior with a clean build. Compare byte hashes where deterministic outputs make that meaningful, and classify differences rather than treating differing hashes or identical version strings as proof by themselves.
 
@@ -275,3 +292,5 @@ No dependency bounds or new pins are chosen during planning. Verify any required
 2026-10-07: Replaced the rejected local Cabal artifact-export proposal after the user clarified that the project `nix build` is the bottleneck and already warms dotfiles. Renamed the plan while preserving its number and provenance. Inspected the pinned Nixpkgs Haskell builder and prioritized a guarded intermediate-reuse experiment, then source/stamp isolation, measured compiler settings, and smaller Cabal-package pilots. No implementation or speedup is claimed.
 
 2026-10-14: Added umbrella membership and scoped Mori opt-in while preserving implementation boundaries and existing prerequisites.
+
+2026-10-16: Reconciled completed generator/runtime prerequisites, scheduled source/stamp fixes before reuse expansion, made failed reuse an explicit fallback decision, and added repeated total-latency, memory and seed-amortization gates.

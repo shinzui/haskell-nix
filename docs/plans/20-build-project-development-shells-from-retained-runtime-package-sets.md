@@ -23,6 +23,17 @@ provenance:
       at: 2026-10-14T17:32:37Z
       mode: "update"
       note: "Add cross-repository umbrella coordination and scoped Mori publication without changing implementation ownership."
+    - model: "gpt-6-astra"
+      harness: "codex-cli"
+      at: 2026-10-17T03:25:59Z
+      mode: "update"
+      note: "Reconcile delivered prerequisites and strengthen maintenance, real-consumer integration, and measured total-cost acceptance."
+  reviews:
+    - model: "gpt-6-astra"
+      harness: "codex-cli"
+      at: 2026-10-17T03:26:00Z
+      verdict: "comments"
+      note: "Reviewed against current repository contracts and applied maintenance/performance findings; new implementation and benchmark evidence remain pending."
 ---
 
 # Build project development shells from retained runtime package sets
@@ -49,10 +60,12 @@ This standalone plan requires [plan 16](16-create-the-keiro-runtime-package-set-
 ## Surprises & Discoveries
 
 
-No shell experiments are recorded. The existing toolchain helper only exposes extra native inputs and a shell hook; the retained runtime factory is still pending under plan 16.
+No shell experiments are recorded. The existing toolchain helper only exposes extra native inputs and a shell hook; the retained runtime factory is now delivered under plan 16. The foreign DEV-4 contract remains unverified in this review because its plan is absent from the available checkout and Mori discovery fails.
 
 ## Decision Log
 
+
+2026-10-16: Consume the delivered retained runtime API with explicit selection mapping and checked scope reuse. Keep DEV-4 production activation gated until its actual contract is available; record shell startup/reuse evidence separately from application compilation improvements.
 
 2026-10-14: Coordinate this workstream under [MasterPlan 4](../masterplans/4-coordinate-horizon-inspired-haskell-nix-performance-and-reliability-improvements.md). Scoped Mori publication records its production prerequisites and integration relationships; initial fixture work remains independent. Existing generator/runtime ownership and this plan's acceptance remain unchanged.
 
@@ -73,7 +86,7 @@ Planning only. Shell constructors, runtime integration, consumer evidence, and d
 ## Context and Orientation
 
 
-`flake.nix` selects shared toolchain inputs through `haskell-nix-dev`, imports a common patch registry, and exposes `lib.mkFirstPartyPackageSet`. `lib/mkFirstPartyPackageSet.nix` composes selected first-party families with common compatibility policy in one Haskell scope. It does not yet expose the retained runtime factory. `docs/plans/16-create-the-keiro-runtime-package-set-and-compose-applications-on-it.md` owns that factory, including runtime name/generation/configuration, exact source policy, complete application complement, and conflict validation. Use its delivered factory and returned scope; do not implement an alternative runtime selector here.
+`flake.nix` selects shared toolchain inputs through `haskell-nix-dev`, imports a common patch registry, and exposes `lib.mkFirstPartyPackageSet`. `lib/mkFirstPartyPackageSet.nix` composes selected first-party families with common compatibility policy in one Haskell scope. The flake now also exports `lib.mkRuntimePackageSet` from `lib/mkRuntimePackageSet.nix`. `docs/plans/16-create-the-keiro-runtime-package-set-and-compose-applications-on-it.md` owns that factory, including runtime name/generation/configuration, exact source policy, complete application complement, and conflict validation. Plan 16 is Complete locally, with generation-1/2 fingerprint-bound support evidence under `cabal/runtime-cache/keiro-runtime/`. Use its delivered factory and returned scope; do not implement an alternative runtime selector here. The factory accepts `runtime`, `generation`, `applicationSelections`, `channel`, `disableProfiling`, `disableHaddock`, and optional `applicationCohort`/`applicationRegistry`; it returns `mkApplicationScope`, `validateApplicationScope`, and `mkApplicationManifest`. Its compiler is currently fixed to the retained GHC 9.12.4 configuration. Map the proposed shell selection's `name` to `runtime` and validate its `configuration` against the retained record, translating supported build options explicitly. Do not pass a fictional free-form configuration argument or silently substitute the current default compiler.
 
 A Haskell scope is the recursive package set in which dependency names resolve to one selected package instance. Nixpkgs `shellFor` derives a compiler package environment and development dependencies from packages in that scope. An `inputsFrom` shell inherits build dependencies from another derivation; extra native inputs are programs running on the development machine, while extra build inputs are libraries/header/pkg-config providers used by the project. A shell hook is code executed when entering the shell. These distinctions matter for PostgreSQL, OpenSSL, zlib, and other native libraries.
 
@@ -100,7 +113,7 @@ In `mori://shinzui/haskell-nix-dev`, add project-relative `lib/mkProjectShell.ni
 
 Leave `mkDevShell` unchanged. An explicitly requested unavailable HLS fails in the new helper with a clear compiler/system reason. Empty packages, wrong system, incompatible scope/compiler, unknown compiler cell, and invalid shell arguments also fail before shell realization. Keep caller-supplied libraries in build inputs, executable tools in native inputs, and inherited shells in `inputsFrom`. Locale behavior must preserve the existing developer default; verify shell hooks execute exactly once.
 
-In this repository, add `lib/mkProjectDevShell.nix` and export `lib.mkProjectDevShell`. It accepts an explicit `runtimeSelection = { name; generation; configuration; channel; }`, complete `applicationSelections`, optional application-owned overrides, `ownPackages`, `pkgs`, and the matching `toolchainLib`, plus shell options. Invoke plan 16's delivered runtime composition helper to create the one scope used by production and the shell. Apply the existing ownership audit to application overrides; reject runtime recipe/source/flag/policy replacement and incomplete complements. Do not reconstruct recipes from package versions. Return a shell with `passthru.packageSetIdentity` recording selection/compiler/system/configuration and actual scoped dependency identities for diagnostics. Metadata and shell-only options must not alter runtime recipes.
+In this repository, add `lib/mkProjectDevShell.nix` and export `lib.mkProjectDevShell`. It accepts an explicit `runtimeSelection = { name; generation; configuration; channel; }`, complete `applicationSelections`, optional application-owned overrides, `ownPackages`, `pkgs`, and the matching `toolchainLib`, plus shell options. Invoke `lib.mkRuntimePackageSet` with the mapped selection and use its `mkApplicationScope pkgs applicationOverrides` to create the one scope used by production and the shell. Pass that checked scope to the generic helper; do not independently reconstruct it. Apply the existing ownership audit to application overrides; reject runtime recipe/source/flag/policy replacement and incomplete complements. Do not reconstruct recipes from package versions. Return a shell with `passthru.packageSetIdentity` recording selection/compiler/system/configuration and actual scoped dependency identities for diagnostics. Metadata and shell-only options must not alter runtime recipes.
 
 M2 passes when both helpers evaluate through local input overrides, mismatches fail clearly, the old toolchain APIs still evaluate, and two otherwise identical shells differing only in an extra development tool preserve production/runtime derivation identities.
 
@@ -111,7 +124,7 @@ Choose the smallest already adopted runtime consumer from the delivered plan 16/
 
 Obtain the fresh Cabal plan through the existing retained runtime constraints/source projection with supported test and benchmark configurations. Compare source/metadata/flags and declared exceptions using plan 9's comparator, and build the actual production package from the same composed scope. The shell can expose Nix-built libraries without making Cabal unit IDs identical; verify declared selection parity and actual Nix dependency identities as separate facts. Do not force a broad dependency update to resolve an application conflict.
 
-Run Apple Silicon and x86 Linux native probes. Change an extra shell tool, a shell hook, and inherited shell metadata separately: each changes the shell as appropriate while runtime package derivations remain unchanged. A real project-owned package edit affects that package and its dependents, retaining unrelated runtime inputs. An explicit runtime flag/source change requires a new configuration/generation or is rejected. M3 passes after a real consumer builds and works in the candidate shell with truthful dependency evidence, and negative ownership/compiler fixtures still fail.
+Run Apple Silicon and x86 Linux native probes. Change an extra shell tool, a shell hook, and inherited shell metadata separately: each changes the shell as appropriate while runtime package derivations remain unchanged. A real project-owned package edit affects that package and its dependents, retaining unrelated runtime inputs. An explicit runtime flag/source change requires a new configuration/generation or is rejected. Record first entry and warm re-entry time, substituted bytes and any compiler/runtime/HLS builds. A shell-only edit must reuse existing compiler/runtime/HLS outputs when present, and a fresh worker must use available published outputs. Also measure a representative Cabal source edit separately: Nix-built package exposure does not prove Cabal avoided compilation. M3 passes after a real consumer builds and works in the candidate shell with truthful dependency evidence, and negative ownership/compiler fixtures still fail. This plan claims easier consistent development; claim speed only for separately measured paths.
 
 ### Milestone 4: Document the optional adoption path
 
@@ -177,3 +190,5 @@ The generic helper receives a caller's scope and owned package function while ch
 2026-10-14: Created from the Horizon comparison, reconciled existing cohort/runtime ownership, and checked native plan structure, canonical references, milestones, and intention bindings. This records planning, not implementation or independent review.
 
 2026-10-14: Added umbrella membership and scoped Mori opt-in while preserving implementation boundaries and existing prerequisites.
+
+2026-10-16: Reconciled the implemented runtime constructor and its real arguments, retained the unverified foreign capability gate, and added shell first-use/re-entry and Cabal reuse evidence without promising compiler speedups.

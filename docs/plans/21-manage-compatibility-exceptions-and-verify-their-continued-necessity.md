@@ -23,6 +23,17 @@ provenance:
       at: 2026-10-14T17:32:37Z
       mode: "update"
       note: "Add cross-repository umbrella coordination and scoped Mori publication without changing implementation ownership."
+    - model: "gpt-6-astra"
+      harness: "codex-cli"
+      at: 2026-10-17T03:25:59Z
+      mode: "update"
+      note: "Reconcile delivered prerequisites and strengthen maintenance, real-consumer integration, and measured total-cost acceptance."
+  reviews:
+    - model: "gpt-6-astra"
+      harness: "codex-cli"
+      at: 2026-10-17T03:26:00Z
+      verdict: "comments"
+      note: "Reviewed against current repository contracts and applied maintenance/performance findings; new implementation and benchmark evidence remain pending."
 ---
 
 # Manage compatibility exceptions and verify their continued necessity
@@ -53,6 +64,8 @@ No implementation experiments or retirement decisions are recorded. The source b
 
 ## Decision Log
 
+
+2026-10-16: Use delivered generator/runtime evidence interfaces and report exact policy/evidence impact for targeted maintenance. Keep expensive strict probes out of routine evaluation/build/shell entry, while retaining all required explicit native checks and the independent policy pilot.
 
 2026-10-14: Coordinate this workstream under [MasterPlan 4](../masterplans/4-coordinate-horizon-inspired-haskell-nix-performance-and-reliability-improvements.md). Scoped Mori publication records its production prerequisites and integration relationships; initial fixture work remains independent. Existing generator/runtime ownership and this plan's acceptance remain unchanged.
 
@@ -136,9 +149,11 @@ Inventory the currently selected matrix and pilot the real `bytestring-lexing` p
 
 For retirement reporting, use an actual selected source/metadata/compiler condition that satisfies a catalog predicate when one exists. Verify the no-entry candidate; if none currently satisfies retirement conditions, retain all repairs and record no eligible real retirement, alongside the successful controlled removal fixtures. A plan that tracks necessity must not invent an obsolete repair to complete its demonstration. Preserve legacy support as declared while marking waived/unverified coverage precisely.
 
-Connect effective exception/policy identities to plan 9's generated manifests, plan 16's immutable runtime configuration, and plan 19's recipe artifacts as each interface becomes available. Retain older profile definitions under immutable names and introduce a new profile/generation for accepted effective-policy changes. Historical selections keep their previous recipes. The integration cannot become a dependency cycle: these existing plans do not wait for this plan's pilot; this plan consumes accepted contexts afterward and fixture acceptance remains independently runnable.
+Connect effective exception/policy identities to plan 9's delivered `lib/mkCohortManifest.nix` and comparator, plan 16's delivered `lib/mkRuntimePackageSet.nix` and immutable runtime records, and plan 19's recipe artifacts when delivered. Plans 9 and 16 are Complete locally as of 2026-10-16; consume their actual interfaces rather than waiting for replacement contracts. Retain older profile definitions under immutable names and introduce a new profile/generation for accepted effective-policy changes. Historical selections keep their previous recipes. The integration cannot become a dependency cycle: these existing plans do not wait for this plan's pilot; this plan consumes accepted contexts afterward and fixture acceptance remains independently runnable.
 
-Update `docs/user/adding-patches.md`, `docs/user/maintainer-tools.md`, `docs/user/package-sets.md`, and their reserved log through the existing documentation profile workflow. Show catalog creation, reporting, strict validation, blocked-service handling, receipt checking, and reviewed retirement. Add the next unused filesystem ADR for evidence-backed compatibility exception lifecycle after inspecting `docs/adr/`; do not guess a number already reserved by another active plan. Preserve canonical Mori references to external owners and upstream issue artifacts. M4 passes after the real policy-narrowing pilot, native receipts, unchanged historical identities, existing channel/audit checks, and documentation validation. Completion does not imply every existing waiver has been retired.
+Update `docs/user/adding-patches.md`, `docs/user/maintainer-tools.md`, `docs/user/package-sets.md`, and their reserved log through the existing documentation profile workflow. Show catalog creation, reporting, strict validation, blocked-service handling, receipt checking, and reviewed retirement. Add the next unused filesystem ADR for evidence-backed compatibility exception lifecycle after inspecting `docs/adr/`; do not guess a number already reserved by another active plan. Preserve canonical Mori references to external owners and upstream issue artifacts. For a selected dependency update, report which exception IDs changed applicability, which evidence was invalidated, and the precise probe needed to regain each required claim. Include unaffected entries whose evidence remains valid. Pass this report and effective-policy identity into EP-19's targeted-update rehearsal once available; preserve standalone fixtures so EP-19 does not become a hard prerequisite. Document a short report/check/probe path that does not require manual edits to generated artifacts or duplicated policy records. Validation probes run explicitly or in designated CI; ordinary builds and shell entry must not rerun the strict matrix, query live upstream releases, or change inputs. Measure the cost of that maintenance path separately from production build latency.
+
+M4 passes after the real policy-narrowing pilot, native receipts, unchanged historical identities, actionable update-impact reporting, existing channel/audit checks, and documentation validation. Completion does not imply every existing waiver has been retired.
 
 ## Concrete Steps
 
@@ -189,3 +204,5 @@ This plan owns structured exception metadata, package test/bounds policy, report
 2026-10-14: Created from the compatibility lifecycle and dependency-test gaps identified after the Horizon comparison. Reconciled existing generator/runtime ownership, retained historical policy, and separate production/validation evidence. This records planning, not implementation or independent review.
 
 2026-10-14: Added umbrella membership and scoped Mori opt-in while preserving implementation boundaries and existing prerequisites.
+
+2026-10-16: Reconciled delivered generator/runtime interfaces and added actionable update/evidence impact plus the EP-19 rehearsal handoff; separated explicit validation cost from routine build latency.

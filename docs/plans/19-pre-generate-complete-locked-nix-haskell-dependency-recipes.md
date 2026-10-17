@@ -23,6 +23,17 @@ provenance:
       at: 2026-10-14T17:32:37Z
       mode: "update"
       note: "Add cross-repository umbrella coordination and scoped Mori publication without changing implementation ownership."
+    - model: "gpt-6-astra"
+      harness: "codex-cli"
+      at: 2026-10-17T03:25:59Z
+      mode: "update"
+      note: "Reconcile delivered prerequisites and strengthen maintenance, real-consumer integration, and measured total-cost acceptance."
+  reviews:
+    - model: "gpt-6-astra"
+      harness: "codex-cli"
+      at: 2026-10-17T03:26:00Z
+      verdict: "comments"
+      note: "Reviewed against current repository contracts and applied maintenance/performance findings; new implementation and benchmark evidence remain pending."
 ---
 
 # Pre-generate complete locked Nix Haskell dependency recipes
@@ -36,7 +47,7 @@ Evaluating a selected shared dependency should read its checked-in recipe rather
 
 Import-from-derivation (IFD) means Nix builds an output and imports the Nix expression inside that output during evaluation. Removing that step can reduce evaluation work; it does not provide incremental compilation of changed application modules. Benchmark evaluation separately, and make no speedup claim until measured.
 
-This is a standalone follow-on to [plan 9](9-generate-the-nix-package-set-from-the-cohort-freeze-and-guard-version-parity.md). It neither repeats its solver/version-generation work nor becomes an adoption gate for its existing consumers. Real-runtime rollout also integrates with [plan 16](16-create-the-keiro-runtime-package-set-and-compose-applications-on-it.md). Fixture work can start now; production generation waits for accepted explicit generation inputs from plan 9, and retained-runtime adoption waits for plan 16's delivered configuration.
+This is a standalone follow-on to [plan 9](9-generate-the-nix-package-set-from-the-cohort-freeze-and-guard-version-parity.md). It neither repeats its solver/version-generation work nor becomes an adoption gate for its existing consumers. Real-runtime rollout also integrates with [plan 16](16-create-the-keiro-runtime-package-set-and-compose-applications-on-it.md). Plans 9 and 16 are Complete locally as of 2026-10-16; their explicit generation inputs, checked runtime constructor and retained configurations are available. New recipe artifacts and real-consumer adoption still require this plan's acceptance.
 
 ## Progress
 
@@ -49,10 +60,12 @@ This is a standalone follow-on to [plan 9](9-generate-the-nix-package-set-from-t
 ## Surprises & Discoveries
 
 
-No implementation measurements are recorded. The current generator preparation renders version/source metadata, while production source construction still uses evaluation-time cabal2nix paths.
+No implementation measurements are recorded. The delivered generator renders version/source metadata and is active in production, while full recipe construction still uses evaluation-time cabal2nix paths. The runtime constructor imports captured recipe code and validates the final scope against an independent retained reference; a new recipe layer must cover both paths or its claimed no-IFD runtime evaluation can still fail.
 
 ## Decision Log
 
+
+2026-10-16: Validate full conversion against a real retained dependency root early, capture new recipe code in a new retained generation, and exercise the actual constructor/reference guard for parity and end-to-end timing, keeping no-IFD claims scoped to generated roots. Own one targeted-update/rollback rehearsal using existing solver/report/publisher interfaces. Treat reduced evaluation and maintenance cost as measured outcomes, including regeneration and migration cost.
 
 2026-10-14: Coordinate this workstream under [MasterPlan 4](../masterplans/4-coordinate-horizon-inspired-haskell-nix-performance-and-reliability-improvements.md). Scoped Mori publication records its production prerequisites and integration relationships; initial fixture work remains independent. Existing generator/runtime ownership and this plan's acceptance remain unchanged.
 
@@ -77,7 +90,7 @@ Planning only. Recipe artifacts, generation commands, production adoption, and p
 
 `cabal/cohort.freeze` records versions and index-state; `cabal/cohort-sources.json` records sources, metadata identities, flags, and dependency edges. An index-state is the cutoff selecting which Hackage observations and metadata revisions participate. A Hackage metadata revision can change dependency declarations without changing source version. Raw archive SHA256, unpacked-tree hash, and Cabal-file SHA256 identify different objects; keep all applicable identities distinct.
 
-Generator preparation already exists in `cli/haskell-nix-update/src/HaskellNix/Update/Cohort/GenerationTypes.hs`, `Generate.hs`, `Render.hs`, and `Revision.hs`. `classifyCohort` takes an explicit `GenerationContext`; `renderCohortVersions` emits a version/source table rather than complete package recipes. `CohortGenerateTest.hs` exercises this preparation. Plan 9 still owns activation, generation CLI, policy classification, exact metadata lookup, executable manifests, comparator, and cache-publication mechanism. Plan 16 owns retained runtime records and guarded application composition. At implementation time read their delivered interfaces; do not overwrite their types or presume unchecked milestones are complete.
+The delivered generator implementation exists in `cli/haskell-nix-update/src/HaskellNix/Update/Cohort/GenerationTypes.hs`, `Generate.hs`, `Render.hs`, and `Revision.hs`. `classifyCohort` takes an explicit `GenerationContext`; `renderCohortVersions` emits a version/source table rather than complete package recipes. `CohortGenerateTest.hs` exercises this preparation. Plan 9 owns the active generation CLI, policy classification, exact metadata lookup, executable manifests, comparator, and cache-publication mechanism. `lib/mkCohortVersionLayer.nix` and `lib/callCohortHackage.nix` instantiate the generated selections. `lib/mkCohortManifest.nix`, `scripts/cohort-manifest.py`, `scripts/cohort-compare.sh`, and `scripts/cohort-cache.py` provide delivered evidence and publication paths. Plan 16 owns `lib/mkRuntimePackageSet.nix`, whose returned `mkApplicationScope`, `validateApplicationScope`, and `mkApplicationManifest` enforce retained recipes. Both plans are Complete locally; `cabal/runtime-cache/keiro-runtime/1/support.json` and `2/support.json` bind accepted matrices to fingerprints. Extend their interfaces instead of recreating them.
 
 [ADR 1](../adr/1-compose-first-party-snapshots-in-one-haskell-scope.md) requires one recursive dependency scope and cache identity based on actual inputs, not generation labels. [ADR 2](../adr/2-resolve-the-rei-family-cohort-upgrade-only.md) preserves upgrade-only floors and exact source/metadata/flag observations. [ADR 4](../adr/4-consumer-overlays-define-only-their-own-packages.md) keeps shared recipes in this channel. [ADR 5](../adr/5-keep-routine-application-changes-independent-of-cohort-and-toolchain-updates.md) separates routine application edits from dependency changes and distinguishes build identity from version parity. [ADR 7](../adr/7-compose-applications-on-retained-keiro-runtime-baselines.md) retains runtime-owned recipes and forbids application overlays from silently changing them. Apply all these constraints to the generated path.
 
@@ -95,6 +108,8 @@ Prototype an explicit generation adapter in `cli/haskell-nix-update/src/HaskellN
 
 Wire the fixture through `hself.callPackage` in one recursive scope. Evaluate its `drvPath` with `--option allow-import-from-derivation false`, build it, and run the consumer. Compare effective source, metadata, flags, dependency edges, and output behavior to the legacy constructor. M1 passes when the positive fixture evaluates without IFD and metadata/flag mutations produce the correct dependency changes. If conversion cannot preserve these facts, fix the adapter before proceeding.
 
+Before expanding to all packages, repeat conversion/parity on one actually used generated dependency root from the accepted runtime, including its native/Setup dependencies. Capture baseline evaluation and full consumer-evaluation time, translation count and peak memory. Identify the fraction attributable to this layer and explicitly list remaining IFD from first-party, application, base and validation paths. Predeclare a practical reduction threshold above baseline variability; a no-IFD toy result alone does not justify a package-set-wide migration.
+
 ### Milestone 2: Generate and validate portable artifacts
 
 
@@ -109,7 +124,7 @@ Stage artifacts and verify complete coverage, hashes, exact revised metadata, an
 ### Milestone 3: Compose recipes without changing dependency ownership
 
 
-Add `lib/mkGeneratedRecipeExtension.nix` taking validated `{ manifest; recipes; policyExtension; }`. It returns a Haskell extension that instantiates each generated function with `hself.callPackage` and applies the existing reviewed policy once in the established source/policy order. Integrate as an opt-in path through plan 9's generation layer and plan 16's runtime projection factory. Keep legacy `mkFirstPartyPackageSet` behavior, immutable historical selections, and channel aliases unchanged.
+Add `lib/mkGeneratedRecipeExtension.nix` taking validated `{ manifest; recipes; policyExtension; }`. It returns a Haskell extension that instantiates each generated function with `hself.callPackage` and applies the existing reviewed policy once in the established source/policy order. Integrate as an opt-in path through plan 9's generation layer and plan 16's runtime projection factory. Capture both candidate and reference constructors and their generated artifacts in a new retained generation/configuration. The current `mkRuntimePackageSet` imports captured libraries/registries and checks final dependency derivations against a captured independent reference; changing the live overlay alone cannot update historical generations. Preserve that guard and use the captured generated representation for both scopes. Build and compare a real consumer through `mkApplicationScope` and its reference validation. Probe the same path with IFD disabled to identify remaining excluded first-party/application/base work; because the validator evaluates all owned packages, this probe may still fail for a documented excluded constructor. The mandatory no-IFD gate covers the declared generated roots; it is not a promise that the entire runtime constructor is IFD-free. Never bypass production validation to obtain a no-IFD pass, and measure its full evaluation cost before adoption. Keep legacy `mkFirstPartyPackageSet` behavior, immutable historical selections, and channel aliases unchanged.
 
 Treat an unsupported compiler/system/configuration as an explicit error for the selected generated layer; do not silently substitute a different configuration or fall back to live cabal2nix. Existing legacy consumers can keep their existing path. Audit conflicting source ownership through the existing consumer overlay audit. Add `generated-recipes-fresh`, `generated-recipes-no-ifd`, and `generated-recipes-parity` checks to `checks/default.nix`. The no-IFD check/query is scoped to the declared generated dependency roots; report first-party, application-owned, updater bootstrap, or base exceptions that still use IFD instead of claiming the whole flake is IFD-free.
 
@@ -118,9 +133,13 @@ Compare actual derivation identities and graph manifests with plan 9's comparato
 ### Milestone 4: Adopt one retained configuration and measure the result
 
 
-Once plans 9 and 16 have delivered their required contracts and acceptance, generate one accepted default-compiler runtime configuration for Apple Silicon and x86 Linux as separately explicit artifacts. Store retained artifacts using their runtime-generation scheme, with content identities for package recipes; do not mutate an older generation. Update runtime projections to consume those artifacts and compare a representative application through the existing manifest API. Keep non-target compilers/configurations and source channels explicit and do not broaden support from one successful cell.
+Using the accepted plans 9 and 16 contracts, generate one candidate default-compiler runtime configuration for Apple Silicon and x86 Linux as separately explicit artifacts. Store retained artifacts using their runtime-generation scheme, with content identities for package recipes; do not mutate an older generation. Update runtime projections to consume those artifacts and compare a representative application through the existing manifest API. Keep non-target compilers/configurations and source channels explicit and do not broaden support from one successful cell.
 
-Measure wall time for the same evaluation query before/after with warm source inputs but no target output build; record repeated trials and spread, converter work moved to regeneration, and the exact roots/configuration. Run no-IFD evaluation for those roots, native builds, actual executable parity, and publication through plan 9's existing cache mechanism. Changed application compilation remains owned by the independent [plan 18](18-accelerate-application-code-compilation-in-nix-builds.md); no incremental compiler benefit is claimed here.
+Measure at least five paired trials of the same evaluation query before/after with warm source inputs but no target output build; use fresh Nix evaluation processes and control the evaluation cache identically, alternate baseline/candidate order, and record medians, spread, memory, converter work moved to regeneration, and exact roots/configuration. Also measure the full consumer query to expose remaining IFD. The scoped evaluation result must exceed the M1 threshold; if whole-consumer time is unchanged, describe that limit. Include initial rebuild/republish costs when representation changes derivations. Report regeneration/migration cost C and evaluation saving S, and ceil(C/S) uses to break even when S is positive. Keep production defaults unchanged until representative use repays the cost; no positive measured benefit means the evaluation-performance outcome remains unmet. Run no-IFD evaluation for those roots, native builds, actual executable parity, and publication through plan 9's existing cache mechanism. Changed application compilation remains owned by the independent [plan 18](18-accelerate-application-code-compilation-in-nix-builds.md); no incremental compiler benefit is claimed here.
+
+Rehearse one real targeted package update in a disposable checkout with the existing `scripts/cohort-update.py`/`just cohort-update` workflow, holding unrelated versions, index-state and toolchain fixed. Use its impact report to explain source, metadata, flags, policy and reverse dependency changes; explicitly request any needed wider unlocks. Generate the candidate artifacts, run freshness/policy checks, compose and build an actual consumer, publish through the existing cache mechanism, then select the previous retained generation to demonstrate rollback. Repeat generation byte-for-byte and verify unaffected recipes/derivations and all old generation bytes remain unchanged. Also inject a stale/concurrent context and a dependency conflict: each must leave accepted artifacts untouched with an actionable reason. Do not hand-edit generated recipes or add a parallel solver.
+
+Perform the rehearsal once after M2/M3 in fixtures and again here on the real configuration. Integrate EP-21's report when delivered; otherwise retain explicit current-policy evidence, with the final umbrella integration checking the report handoff. Record baseline/candidate maintenance elapsed time, commands/manual interventions, changed recipe count, affected dependent count and unexplained rebuilds. Acceptance requires a reproducible documented path without duplicated per-consumer pins; any increased maintenance cost must be explained against measured evaluation benefit rather than hidden.
 
 Update `docs/user/maintainer-tools.md` and `docs/user/package-sets.md`, including reserved logs per their profiles. Create `docs/adr/8-pre-generate-locked-dependency-recipes-outside-nix-evaluation.md` only if that number is still unused at implementation; inspect local filenames first and allocate the next unused filesystem number otherwise. Record measured benefits and remaining IFD boundaries. M4 passes only when the exact targeted configuration is usable by a real application, fresh-worker cache publication evidence is retained by the existing owner, and all claimed evaluation improvements are measured.
 
@@ -147,7 +166,7 @@ Repeat generation in a second temporary output directory and compare with `diff 
 
 Acceptance covers exact metadata conversion, flags, source pins/subdirectories, native and Setup dependencies, deterministic portable artifacts, stale/concurrent input rejection, safe staged promotion, and no-IFD evaluation of declared roots. Compare sources and effective recipes at identical versions, including a revision-only change that adds a dependency. Reject duplicate/conflicting ownership and unsupported configuration selection.
 
-Build both targeted systems and preserve all existing first-party/channel/cache-identity checks. Record actual generated and legacy root identities and executable behavior using the shared comparator. Production publication and fresh-worker substitution use plan 9's machinery; no second publisher is introduced. Report the remaining IFD classes, and distinguish lower evaluation cost from unchanged whole-package recompilation. A positive toy fixture alone cannot complete production acceptance.
+Build both targeted systems and preserve all existing first-party/channel/cache-identity checks. Record actual generated and legacy root identities and executable behavior using the shared comparator. Production publication and fresh-worker substitution use plan 9's machinery; no second publisher is introduced. Report the remaining IFD classes, and distinguish lower evaluation cost from unchanged whole-package recompilation. A positive toy fixture alone cannot complete production acceptance. The real constructor/reference-validation path, targeted-update/rollback rehearsal, predeclared evaluation improvement and total-cost comparison are required; a maintenance-only result cannot be reported as faster builds.
 
 ## Idempotence and Recovery
 
@@ -167,3 +186,5 @@ Generation writes only to a staging/output directory and promotes after verified
 2026-10-14: Created from the Horizon comparison, reconciled existing cohort/runtime ownership, and checked native plan structure, canonical references, milestones, and intention bindings. This records planning, not implementation or independent review.
 
 2026-10-14: Added umbrella membership and scoped Mori opt-in while preserving implementation boundaries and existing prerequisites.
+
+2026-10-16: Updated delivered generator/runtime context; added early real-root measurements, captured-reference parity and scoped no-IFD validation, targeted-update/rollback evidence and regeneration/migration amortization before default adoption.

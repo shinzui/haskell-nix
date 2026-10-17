@@ -4,6 +4,8 @@ Status: Accepted for implementation; reuse and timing measurements are pending.
 
 Date: 2026-10-04
 
+Revised: 2026-10-16
+
 ## Context
 
 MasterPlan 3 aligns the Cabal and Nix dependency versions used by the Rei family. The
@@ -68,6 +70,23 @@ targeted dependency upgrades and deliberate base upgrades. Separate evaluation, 
 dependency compilation, application compilation/linking and tests. An application-only edit
 must incur zero avoidable shared dependency compilations. Record residual bottlenecks and
 elapsed times before making any speedup claim.
+
+Judge build optimizations by total time to a usable changed application and by their
+amortized cost across a declared workflow. Record practical acceptance thresholds before
+tuning, repeated paired timings and variability, compiler work, memory and input/cache state.
+Include generation, seed creation/refresh, transfer, retention and migration rebuild costs;
+a warm unchanged output is not a changed-code measurement. Keep production settings and
+correctness gates equivalent. Keep an optimization opt-in or discard it when its benefit
+is unproven or its cost is not repaid within the intended update/checkpoint cycle.
+
+Evaluate package-set maintenance through a targeted update, deterministic regeneration,
+impact/policy review, real consumer verification and rollback to a prior retained generation.
+Record manual interventions and changed/unchanged recipe identities. Generated recipes remain
+derived artifacts, not another editable authority. Reuse the existing solver, reports,
+retained-runtime constructor and publisher. Run expensive strict validation explicitly or
+in designated CI; routine evaluation, builds and shell entry consume recorded immutable
+inputs without triggering that maintenance work. These requirements are acceptance policy,
+not a claim that the planned optimizations already pass.
 
 Preserve the user's advisory fleet guard: differing application channel revisions and shared
 build identities warn, so a single-application hotfix remains possible. A mismatch against
