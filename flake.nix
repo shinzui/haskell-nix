@@ -30,12 +30,14 @@
     let
       lib = nixpkgs.lib;
 
-      # The GHC package sets this flake patches and checks are exactly the ones
-      # haskell-nix-dev ships toolchains for. The list is system-independent;
-      # reading its names from one system's `ghcVersions` forces no toolchain.
-      devGhcs = haskell-nix-dev.lib.x86_64-linux;
-      supportedGhcs = builtins.attrNames devGhcs.ghcVersions;
-      inherit (devGhcs) defaultGhc;
+      # Prefer the system-independent contract from mori://shinzui/haskell-nix-dev.
+      # The legacy adapter preserves retained pins predating that metadata API.
+      toolchainDiscovery = haskell-nix-dev.lib.toolchainPolicy or {
+        compilers = haskell-nix-dev.lib.x86_64-linux.ghcVersions;
+        defaultGhc = haskell-nix-dev.lib.x86_64-linux.defaultGhc;
+      };
+      supportedGhcs = builtins.attrNames toolchainDiscovery.compilers;
+      inherit (toolchainDiscovery) defaultGhc;
 
       commonRegistry = import ./overlays/registry.nix;
       firstPartyConfig = builtins.fromJSON
