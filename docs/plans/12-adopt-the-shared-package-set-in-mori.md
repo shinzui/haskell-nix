@@ -27,6 +27,11 @@ provenance:
       at: 2026-10-05T22:14:29Z
       mode: "implement"
       note: "Parallel independent M1: vendor pinned Hasql modules and remove private dependency before shared cohort adoption."
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-17T00:53:35Z
+      mode: "implement"
+      note: "Resume adoption preflight after retained runtime delivery; preserve Mori Cabal HTTPS imports and investigate the shared TLS configuration before selector changes."
   reviews:
     - model: "gpt-6.1-sol"
       harness: "codex-cli"
@@ -126,6 +131,10 @@ Constrain package sources to their relevant directories plus required shared fil
 
 
 ## Surprises & Discoveries
+
+- Observation (2026-10-17): Plans 9/10/16 are Complete, and the adopted consumer tool revision is `f125d7666b8ac7c34c532766dfd0eac5a1ec102d`. Rei's exported five-package extension convention and source-boundary proof are implemented at its local commit `e5f26a5e07a2472e0e695607482198865ccc1581`; publication was approved in plan 11; the clean adoption commit is being integrated with four newer remote commits before pushing. Mori starts at `56efc0257d8c4a4fd4a542d6f5847ae55c7cc312`, with only the user's `.seihou/manifest.json` dirty; its hash is retained under `/tmp/mp3-ep12-mori-baseline/` and that file must remain untouched.
+
+- Compatibility investigation (2026-10-17): Mori's explicit decision to retain Cabal HTTPS imports conflicts with generation 1's TLS-disabled Cabal projection. The shared Nix policy already enables TLS in shipped binaries and admits this source/flag difference, but that does not authorize weakening Mori's existing Cabal behavior. Preserve generation 1 unchanged. An isolated checkout `/tmp/mp3-ep12-tls` is testing the same full version freeze with only Dhall's Cabal TLS flag enabled, before any Mori selector edit. The targeted updater correctly refuses SourcePin requests and directs them through an explicit common.config source-policy update and broad solve; the first attempt is retained in `/tmp/mp3-ep12-tls-targeted-solve.log`. Any accepted runtime-owned flag change must append a retained generation/configuration and obtain its applicable build, identity and cache evidence. Generation 2 has now been captured with fingerprint `a9257fa760a9e7cbf2922bebfd4056326eddcc43bb562f87fec3e421cbb8e85f`. The full freeze remains byte-identical, and all 273 non-Boot native Nix derivations, compiler identity and ownership are equal to generation 1 (`/tmp/mp3-ep12-runtime-generation-2-native-identities.json`). Both native source-channel roots and actual manifests build and pass shared parity (`/tmp/mp3-ep12-runtime-2-native-build.log`). The TLS-enabled Cabal Dhall executable builds, and a fresh private cache successfully fetches and evaluates the published OKF 0.7 profile over HTTPS (`/tmp/mp3-ep12-tls-cabal-build.log`, `/tmp/mp3-ep12-tls-cold-https.stdout`). Linux also confirms all 273 non-Boot derivations unchanged and both source-channel native roots/manifests/parity pass. Both fresh tests/benchmarks-enabled Cabal profile solves pass the shared comparator. All four cache publications remotely verify the existing outputs (393 Darwin paths and 400 Linux paths per channel); published bootstrap `ea31fa58afef91d561a23611944d284778959608` exposes generation 2 as unverified. Fresh-worker workflow run `38990226225` is requested with explicit generation 2. Disposable integration and the complete Linux gate are running. Generation 2 is not accepted until their evidence is retained.
 
 These were found while drafting on 2026-09-26. Re-verify each at execution time.
 
