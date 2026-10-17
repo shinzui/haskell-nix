@@ -1,0 +1,265 @@
+{
+  "schema_version": 1,
+  "context": {
+    "project": "mori://shinzui/dotfiles.nix",
+    "revision": "4a25d68754abe632c3feb5a0836ebaf4429b75f2",
+    "lock_sha256": "cf31c634b585d361337bfe92fec84d95177460dc0437c34bd05fe935037dd06c",
+    "command": [
+      "nix",
+      "eval",
+      "--json",
+      "path:/Users/shinzui/.config/dotfiles.nix#darwinConfigurations.SungkyungM1X.pkgs",
+      "--apply",
+      "pkgs: { rei = pkgs.rei.drvPath; mori = pkgs.mori.drvPath; }",
+      "--no-write-lock-file",
+      "--max-jobs",
+      "0",
+      "--builders",
+      "",
+      "--override-input",
+      "rei",
+      "git+file:///Users/shinzui/Keikaku/bokuno/rei-project/rei?rev=702775cc534bcebf10cc250293ef90da0db12048",
+      "--override-input",
+      "mori",
+      "git+file:///Users/shinzui/Keikaku/bokuno/mori-project/mori?rev=05f1e808fd35ace2816b19e920b92753fa625547"
+    ],
+    "elapsed_seconds": 6.384338875010144,
+    "exit_code": 0,
+    "application_refs": {
+      "rei": "git+file:///Users/shinzui/Keikaku/bokuno/rei-project/rei?rev=702775cc534bcebf10cc250293ef90da0db12048",
+      "mori": "git+file:///Users/shinzui/Keikaku/bokuno/mori-project/mori?rev=05f1e808fd35ace2816b19e920b92753fa625547"
+    },
+    "stderr_sha256": "57e860e8e2ca824b23a78e9a76803112af7deb3c2be19f3e464040615b9300b8",
+    "wrappers": {
+      "mori": "/nix/store/y008shrmdql4gz2s25sscb3hr5fckn11-mori.drv",
+      "rei": "/nix/store/ya11db8f2i321wqwzlbaf43v6ry494iw-rei.drv"
+    }
+  },
+  "applications": {
+    "mori": {
+      "producer": "/nix/store/bcc03sfyb2zgdhzzch4vms8q5r8ysqmm-mori-cli-7.0.0.0.drv",
+      "dotfiles_wrapper": "/nix/store/y008shrmdql4gz2s25sscb3hr5fckn11-mori.drv",
+      "owned_cli_in_wrapper_graph": "/nix/store/bcc03sfyb2zgdhzzch4vms8q5r8ysqmm-mori-cli-7.0.0.0.drv",
+      "identity_equal": true,
+      "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+      "graph_sha256": "f2145bc07935c42730ced046eedc5d623f9664fd927744bc998ef243143db505",
+      "graph_nodes": 2558,
+      "native_build": [
+        {
+          "label": "producer",
+          "command": [
+            "nix",
+            "build",
+            "/nix/store/bcc03sfyb2zgdhzzch4vms8q5r8ysqmm-mori-cli-7.0.0.0.drv^out",
+            "--json",
+            "--no-link",
+            "--print-build-logs",
+            "--max-jobs",
+            "1",
+            "--cores",
+            "16"
+          ],
+          "exit_code": 0,
+          "elapsed_seconds": 46.923256374982884,
+          "compile_events": 92,
+          "build": [
+            {
+              "drvPath": "/nix/store/bcc03sfyb2zgdhzzch4vms8q5r8ysqmm-mori-cli-7.0.0.0.drv",
+              "outputs": {
+                "out": "/nix/store/mif23hdmgb5v7vq7hwmb3lzznl7xdfk7-mori-cli-7.0.0.0"
+              }
+            }
+          ],
+          "log_sha256": "18c4d2b345ad08c1f97a38b85a0f93ed3fc4a340a9e3ff603356ceb30821d5de",
+          "version": "mori v7.0.0.0 (05f1e80)",
+          "compiled_by_package": {
+            "mori-cli": 92
+          },
+          "shared_dependency_ghc_events": 0
+        },
+        {
+          "label": "dotfiles-wrapper",
+          "command": [
+            "nix",
+            "build",
+            "/nix/store/y008shrmdql4gz2s25sscb3hr5fckn11-mori.drv^out",
+            "--json",
+            "--no-link",
+            "--print-build-logs",
+            "--max-jobs",
+            "1",
+            "--cores",
+            "16"
+          ],
+          "exit_code": 0,
+          "elapsed_seconds": 1.0603898330009542,
+          "compile_events": 0,
+          "build": [
+            {
+              "drvPath": "/nix/store/y008shrmdql4gz2s25sscb3hr5fckn11-mori.drv",
+              "outputs": {
+                "out": "/nix/store/54m7jvlk4246z5fvjpi0pc0w8xvdjnlk-mori"
+              }
+            }
+          ],
+          "log_sha256": "10e2cd94c71dfde16a070974f3c5e35407b193fb08cdf76f02b337fc9608f226",
+          "version": "mori v7.0.0.0 (05f1e80)",
+          "compiled_by_package": {},
+          "shared_dependency_ghc_events": 0
+        }
+      ],
+      "owner": "mori://shinzui/mori"
+    },
+    "rei": {
+      "producer": "/nix/store/p40vlz2qrbsk6aclnrpms3k0iy4l6fwv-rei-cli-7.1.0.0.drv",
+      "dotfiles_wrapper": "/nix/store/ya11db8f2i321wqwzlbaf43v6ry494iw-rei.drv",
+      "owned_cli_in_wrapper_graph": "/nix/store/p40vlz2qrbsk6aclnrpms3k0iy4l6fwv-rei-cli-7.1.0.0.drv",
+      "identity_equal": true,
+      "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+      "graph_sha256": "7e612f9a21cf53d3b3291f419370bc0f7e54b58a08951870c348d7babdb8064b",
+      "graph_nodes": 2571,
+      "native_build": [
+        {
+          "label": "producer",
+          "command": [
+            "nix",
+            "build",
+            "/nix/store/p40vlz2qrbsk6aclnrpms3k0iy4l6fwv-rei-cli-7.1.0.0.drv^out",
+            "--json",
+            "--no-link",
+            "--print-build-logs",
+            "--max-jobs",
+            "1",
+            "--cores",
+            "16"
+          ],
+          "exit_code": 0,
+          "elapsed_seconds": 52.96554533301969,
+          "compile_events": 301,
+          "build": [
+            {
+              "drvPath": "/nix/store/p40vlz2qrbsk6aclnrpms3k0iy4l6fwv-rei-cli-7.1.0.0.drv",
+              "outputs": {
+                "out": "/nix/store/n4hfz75gxxj339yahq8nkigxi7sym25v-rei-cli-7.1.0.0"
+              }
+            }
+          ],
+          "log_sha256": "993762c9b69c02f67fefa6bed87790da6e2801931e3e52db57092409a7acb662",
+          "version": "rei 7.1.0.0 (702775c)",
+          "compiled_by_package": {
+            "rei-cli": 301
+          },
+          "shared_dependency_ghc_events": 0
+        },
+        {
+          "label": "dotfiles-wrapper",
+          "command": [
+            "nix",
+            "build",
+            "/nix/store/ya11db8f2i321wqwzlbaf43v6ry494iw-rei.drv^out",
+            "--json",
+            "--no-link",
+            "--print-build-logs",
+            "--max-jobs",
+            "1",
+            "--cores",
+            "16"
+          ],
+          "exit_code": 0,
+          "elapsed_seconds": 1.1819932079815771,
+          "compile_events": 0,
+          "build": [
+            {
+              "drvPath": "/nix/store/ya11db8f2i321wqwzlbaf43v6ry494iw-rei.drv",
+              "outputs": {
+                "out": "/nix/store/67dzymnlwrkk1z3jlg3cr5whflnl3ci7-rei"
+              }
+            }
+          ],
+          "log_sha256": "fc8205da7f01d80929bba224271c6c78b0bdca5391d685e31f15fedd6d6b6bff",
+          "version": "rei 7.1.0.0 (702775c)",
+          "compiled_by_package": {},
+          "shared_dependency_ghc_events": 0
+        }
+      ],
+      "owner": "mori://shinzui/rei"
+    }
+  },
+  "scope": "Actual dotfiles pkgs overlay against immutable local producer Git references and their normal pins. Read-only diagnosis; no Darwin activation, lock edit or publication.",
+  "dotfiles_lock_unchanged": true,
+  "native_package_identity_and_wrapper_reuse": "passed",
+  "darwin_system_assembly": {
+    "schema_version": 1,
+    "project_uri": "mori://shinzui/dotfiles.nix",
+    "command": [
+      "nix",
+      "build",
+      "/nix/store/lvngli07nz2p5pa02k2qak5yxc73fd6p-darwin-system-26.11.4cff07d.drv^out",
+      "--json",
+      "--no-link",
+      "--print-build-logs",
+      "--max-jobs",
+      "1",
+      "--cores",
+      "16"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 88.18019800001639,
+    "compile_events_by_package": {
+      "rei-api-contract": 19,
+      "rei-api": 33
+    },
+    "log_sha256": "9645c7507e384ce32ec06ee0e82acaba7ded5f6d2ab5e8adce710898192c9343",
+    "scope": "Build the actual queried Darwin system; do not execute activation, switch, launchctl or services. Normal application inputs and dotfiles lock unchanged.",
+    "build": [
+      {
+        "drvPath": "/nix/store/lvngli07nz2p5pa02k2qak5yxc73fd6p-darwin-system-26.11.4cff07d.drv",
+        "outputs": {
+          "out": "/nix/store/nmy9nbk4hhsycdaidzl3khyxhbq1lxhv-darwin-system-26.11.4cff07d"
+        }
+      }
+    ],
+    "selected_cli_outputs_reused": true
+  },
+  "darwin_system_query": {
+    "schema_version": 1,
+    "project_uri": "mori://shinzui/dotfiles.nix",
+    "command": [
+      "nix",
+      "eval",
+      "--raw",
+      "path:/Users/shinzui/.config/dotfiles.nix#darwinConfigurations.SungkyungM1X.system.drvPath",
+      "--no-write-lock-file",
+      "--max-jobs",
+      "0",
+      "--builders",
+      "",
+      "--override-input",
+      "rei",
+      "git+file:///Users/shinzui/Keikaku/bokuno/rei-project/rei?rev=702775cc534bcebf10cc250293ef90da0db12048",
+      "--override-input",
+      "mori",
+      "git+file:///Users/shinzui/Keikaku/bokuno/mori-project/mori?rev=05f1e808fd35ace2816b19e920b92753fa625547"
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 23.952177083992865,
+    "stderr_sha256": "656c4513ef94e9ef7af4db7c1463a715e9212734fecbc00451c6fad0fbfb0699",
+    "scope": "Read-only actual Darwin toplevel query with immutable local app inputs; no activation or lock writes.",
+    "derivation": "/nix/store/lvngli07nz2p5pa02k2qak5yxc73fd6p-darwin-system-26.11.4cff07d.drv",
+    "graph_sha256": "47123cf825dad65ec1b2b45855761070291a42a5836780a601c4631ebec3ecf8",
+    "system": "aarch64-darwin",
+    "graph_nodes": 13654,
+    "wrapper_membership": {
+      "mori": true,
+      "rei": true
+    }
+  },
+  "additional_owned_api_exports": {
+    "owner": "mori://shinzui/rei",
+    "identities": {
+      "api": "/nix/store/ybm73hphrv3v9sjprapwib5jq3hwa040-rei-api-7.1.0.0.drv",
+      "contract": "/nix/store/71zj4lpv4k8ngqgihadf7wx5xs11rixj-rei-api-contract-0.2.0.0.drv"
+    },
+    "reason": "CLI default does not build the separately exported API and contract targets. The actual system needs these exports; CLI and shared-dependency GHC work remain zero."
+  }
+}

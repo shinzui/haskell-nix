@@ -6,7 +6,7 @@ docId: DOC-7
 tags: [performance, consumers, nix, source-boundaries]
 generated:
   by: process:codex
-  at: 2026-10-17T06:22:46Z
+  at: 2026-10-17T09:20:37Z
 ---
 
 [Guides](README.md)
@@ -231,14 +231,38 @@ nix build .#application-seed-intermediates --out-link /path/to/explicit-seed-roo
   --override-input haskell-nix path:/path/to/haskell-nix --no-write-lock-file
 ```
 
+For the independent core-library experiment, use `application-core-incremental` for the
+library and `application-with-core-intermediates` for the full CLI consuming that guarded
+library in one recursive scope. `application-core-seed-intermediates` roots its clean
+checkpoint, and `legacyPackages.<system>.applicationCoreIncremental.compatibilityReport`
+explains its guard decision. The producing checkouts bind their original checkpoint to an
+explicit native declaration under a local channel override. Changed-core timing, behavior and total-cost acceptance
+are separate gates; these outputs remain opt-in. Core data files have no permissive
+embedded-help exception.
+
 The seed source is a fixed published application revision. Its clean recipe is constructed
 using the same reviewed owned overlay and retained dependency environment as the current
-candidate. A checkpoint has no predecessor. Changes to that environment request a new clean
-checkpoint derivation; an old store output cannot substitute for it. Root only the checkpoint
-you intend to retain. Runtime outputs do not retain intermediate products.
+candidate. A checkpoint has no predecessor. Reuse additionally requires a `validatedCheckpoint`
+declaration binding its exact successfully built derivation and compatibility record. Compare
+the current context and raw old-source metadata with that recorded origin before constructing
+an older package. A changed
+compiler, dependency or recipe selects the ordinary clean package; reconstructing both records
+in the new scope cannot validate an old checkpoint. Root only the checkpoint you intend to
+retain. Runtime outputs do not retain intermediate products.
+
+Both `mori://shinzui/rei` and `mori://shinzui/mori` store native declarations in project-relative
+`nix/application-checkpoints.json` (file-level URIs pending). Missing declarations, including
+systems without native validation, select clean builds. To refresh one, deliberately build
+`legacyPackages.<system>.applicationIncremental.checkpoint` (or `applicationCoreIncremental`),
+then capture its `checkpointDeclaration`. Review and store that declaration only after the
+exact build succeeds; repeat behavioral and budget checks before adopting a new checkpoint.
+`checkpointDeclaration` describes a candidate and is not itself evidence of a successful build.
+The [origin fixture](../evidence/ep18/application-checkpoint-binding.json) exercises a same-version
+dependency that removes an API: current clean code works, reconstruction of old code fails,
+and the guard rejects it before adding that invalid checkpoint to the current build graph.
 
 The shared constructor takes `pkgs`, `mkScope`, `overlayFor`, `source`, `seedSource`,
-`packageName`, `revision` and `seedRevision`, plus optional `enabled` and `trackedDataFile`.
+`packageName`, `revision` and `seedRevision`, plus optional `validatedCheckpoint`, `enabled` and `trackedDataFile`.
 `overlayFor` uses the supplied source and revision; `mkScope` is the actual retained-runtime
 constructor. Only the revision literal and root source are normalized in the recipe projection.
 All other recipe inputs remain intact. Cabal/Setup and every non-Haskell file are hashed unless
@@ -292,3 +316,43 @@ These timings belong to the explicit pilot expression. Native identities and sou
 connect it to the owned factory, whose final evaluation latency and core-package rollout have
 separate acceptance. The original Mori 49.26 s archive baseline had an alias-sensitive README
 selection and a different core context; use the corrected canonical pilot evidence above.
+
+The independent [core-library pilot](../evidence/ep18/application-core-intermediate-pilots.json)
+measures full CLI builds after core leaf edits: Rei falls from median 155.343 to 93.245 seconds
+and Mori from 224.621 to 115.045 seconds across five alternating pairs. Native changed-value
+probes use the exact measured core libraries. CLI behavior, shared graphs, one-seed bounds,
+source errors and runtime closure isolation pass. Including the later origin-binding work,
+the conservative observed cost requires at least 15 Rei or 11 Mori edits to break even;
+the declared budget is ten. Uninstrumented fixture time and fresh-worker transfer add further
+uncertainty. These results retain opt-in outputs and keep production defaults clean.
+
+For package-boundary investigation, inventory the chosen source component explicitly:
+
+```bash
+python3 scripts/application-module-graph.py \
+  --package /path/to/rei/rei-cli --source-dir src \
+  --project-uri mori://shinzui/rei \
+  --group-prefix Rei.Cli.Commands.Help \
+  --output /tmp/rei-cli-module-graph.json
+```
+
+The scanner records nested-comment-aware imports, conservative cycles, reverse dependents,
+CPP/Template Haskell/resource hazards and Cabal/source hashes. An existing native log can
+verify module-name coverage with `--compiler-log` and `--compiler-prefix`. It remains a source
+inventory; conditional/generated edges and an actual package split require compiler validation.
+The [Rei inventory](../evidence/ep18/rei-cli-boundary-inventory.json) covers 297 native source
+modules and a proposed closed 91-module parser/type foundation. The disposable
+`scripts/prepare-rei-package-split.py` archive tool preserves source bytes and original public
+module names through Cabal reexports. Its [native five-pair pilot](../evidence/ep18/rei-cli-package-split-pilot.json)
+passes all 91 public imports and clean behavior, but median elapsed saving is only 8.08%
+(56.398 → 51.843 s), below the declared 20% target. Production layout adoption is rejected;
+no producing package layout or retained ownership manifest has been changed.
+
+The [matching-input dotfiles rehearsal](../evidence/ep18/dotfiles-package-identity.json) uses
+immutable local Git references and normal producing pins. Build those exact references when
+checking cache identity: an input override or a dirty working tree can change the truthful
+version stamp and therefore the CLI derivation. Both current producer builds complete and
+their dotfiles wrappers reuse the same CLI outputs with zero GHC compilations. The actual
+Darwin graph includes both wrappers. The system build completes without activation and performs
+zero CLI/shared-dependency GHC compilations. It builds the separately exported Rei API and
+contract targets; building the project CLI default does not produce those additional artifacts.

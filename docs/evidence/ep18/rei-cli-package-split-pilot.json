@@ -1,0 +1,2312 @@
+{
+  "schema_version": 1,
+  "project_uri": "mori://shinzui/rei",
+  "thresholds": {
+    "minimum_saving_fraction": 0.2,
+    "pairs": 5,
+    "break_even_edits": 10,
+    "declared_before_native_pilot": true,
+    "scope": "Rei Help leaf edits, same retained runtime, production optimization, cores16/jobs1; 91 closed parser/type modules moved with all public names reexported"
+  },
+  "manifest": {
+    "schema_version": 1,
+    "project_uri": "mori://shinzui/rei",
+    "source_revision": "bad0388f722af9e29187c2adfef5ed97fd0ca92f",
+    "inventory_sha256": "e9ece3d84a3169775fba44fd591aad27ffe6f146346be39080ebf068915f6f78",
+    "moved_modules": [
+      {
+        "module": "Rei.Cli.Commands.Action.Parser",
+        "file": "src/Rei/Cli/Commands/Action/Parser.hs",
+        "sha256": "3536ed2e127dd062dc9be0ddf5a1b90f37d619da68e17662b75f336dd1541926"
+      },
+      {
+        "module": "Rei.Cli.Commands.Action.Types",
+        "file": "src/Rei/Cli/Commands/Action/Types.hs",
+        "sha256": "be4eedead4d12ad5da3f29b03171d1db03f8bc699320e9018c346c292cde5135"
+      },
+      {
+        "module": "Rei.Cli.Commands.Agent.Parser",
+        "file": "src/Rei/Cli/Commands/Agent/Parser.hs",
+        "sha256": "62284fd4f34032e7072bef3777d3366aff8b76dd6fdc581a3b49ac907e3bf141"
+      },
+      {
+        "module": "Rei.Cli.Commands.Agent.Types",
+        "file": "src/Rei/Cli/Commands/Agent/Types.hs",
+        "sha256": "b80baee8152e0118311bdf11d5e02073eb73cf463c2c1234d05c4241d811ca26"
+      },
+      {
+        "module": "Rei.Cli.Commands.Blocker.Parser",
+        "file": "src/Rei/Cli/Commands/Blocker/Parser.hs",
+        "sha256": "c841d39a9d44c9c662f2d3bdae8f01c36b48126b59a876b0775dfcc519fcb8b8"
+      },
+      {
+        "module": "Rei.Cli.Commands.Blocker.Types",
+        "file": "src/Rei/Cli/Commands/Blocker/Types.hs",
+        "sha256": "c5cc1b8da265350f583c4d031d75aa6cd7d9997eb3b070f59053628b7f105234"
+      },
+      {
+        "module": "Rei.Cli.Commands.Category.Parser",
+        "file": "src/Rei/Cli/Commands/Category/Parser.hs",
+        "sha256": "6cbe6a30af2b1c5a947cecb0fe6483ebcd1a43721bc03b38c41bc2122fe989e7"
+      },
+      {
+        "module": "Rei.Cli.Commands.Category.Types",
+        "file": "src/Rei/Cli/Commands/Category/Types.hs",
+        "sha256": "266a8e0fe237808ae1505139390d69852295997edcfe85872ec58743f925b8ed"
+      },
+      {
+        "module": "Rei.Cli.Commands.Checkpoint.Parser",
+        "file": "src/Rei/Cli/Commands/Checkpoint/Parser.hs",
+        "sha256": "2b47ba185ab68d6753b0e05de943fe6a0280ffd4302aef19f3ee6fe805d0627a"
+      },
+      {
+        "module": "Rei.Cli.Commands.Checkpoint.Types",
+        "file": "src/Rei/Cli/Commands/Checkpoint/Types.hs",
+        "sha256": "edc8c20c5460fa5b6fc2d4fa125fcae6643d5d9841a52ef24cd7c52b23f7bc96"
+      },
+      {
+        "module": "Rei.Cli.Commands.Collection.Parser",
+        "file": "src/Rei/Cli/Commands/Collection/Parser.hs",
+        "sha256": "e5a4e3e7272d3f968cce5fdca5cd009ed93169e2757c421fb505dcaa81434583"
+      },
+      {
+        "module": "Rei.Cli.Commands.Collection.Types",
+        "file": "src/Rei/Cli/Commands/Collection/Types.hs",
+        "sha256": "5482f713d66a4a1c430938dc6bc431f6cb5ed5bf39ecde8fe897d24b31adb341"
+      },
+      {
+        "module": "Rei.Cli.Commands.Completions.Parser",
+        "file": "src/Rei/Cli/Commands/Completions/Parser.hs",
+        "sha256": "5ffaefce22b520579b9110e4144f34e1b714432ee480b040f38a1662592f9586"
+      },
+      {
+        "module": "Rei.Cli.Commands.Completions.Types",
+        "file": "src/Rei/Cli/Commands/Completions/Types.hs",
+        "sha256": "3686df7d7b35d58f86c3931fc15267615122046191702a762faa7c37173a5b8a"
+      },
+      {
+        "module": "Rei.Cli.Commands.CustomProperty.Parser",
+        "file": "src/Rei/Cli/Commands/CustomProperty/Parser.hs",
+        "sha256": "87f5a237cd85c161538512091a30de859c5e3ba6bc2b402a7027a182fe908e06"
+      },
+      {
+        "module": "Rei.Cli.Commands.CustomProperty.Types",
+        "file": "src/Rei/Cli/Commands/CustomProperty/Types.hs",
+        "sha256": "ca5e08f575a3be54aa2ce58678fef15cb808a610c57d3daf0cffe668e10e7a38"
+      },
+      {
+        "module": "Rei.Cli.Commands.Cycle.Parser",
+        "file": "src/Rei/Cli/Commands/Cycle/Parser.hs",
+        "sha256": "46c09a394617c3e71cb29bf5e0a3b600b7f1e29831747c945dd8b3f45149a0cd"
+      },
+      {
+        "module": "Rei.Cli.Commands.Cycle.Types",
+        "file": "src/Rei/Cli/Commands/Cycle/Types.hs",
+        "sha256": "d332f89ae7fe95506fe5980ec16ba1b29e1f1b8ed191720c1b39a3a0120390eb"
+      },
+      {
+        "module": "Rei.Cli.Commands.Day.Parser",
+        "file": "src/Rei/Cli/Commands/Day/Parser.hs",
+        "sha256": "d5c70843b01a8e5493c924f212edf5570ae0969e4b79a6672788b1cac182248c"
+      },
+      {
+        "module": "Rei.Cli.Commands.Day.Types",
+        "file": "src/Rei/Cli/Commands/Day/Types.hs",
+        "sha256": "c4b51b67a953cb7a1c0eb5e045a5bcc32a1eefead516d330a89d969fbd551c48"
+      },
+      {
+        "module": "Rei.Cli.Commands.Dependency.Parser",
+        "file": "src/Rei/Cli/Commands/Dependency/Parser.hs",
+        "sha256": "00ed4479306f3577e25bad76cc2bf06049b018c17aad5e377a065f40c09b5397"
+      },
+      {
+        "module": "Rei.Cli.Commands.Dependency.Types",
+        "file": "src/Rei/Cli/Commands/Dependency/Types.hs",
+        "sha256": "c22c6a8a7e28a94641f72b576909ea44df3c5a65482e68ea6e99fc721f8090e2"
+      },
+      {
+        "module": "Rei.Cli.Commands.Disruption.Parser",
+        "file": "src/Rei/Cli/Commands/Disruption/Parser.hs",
+        "sha256": "03d6b4a753c458e2cbd9db414b03a8ad5855e08e1af628213114423343c897bf"
+      },
+      {
+        "module": "Rei.Cli.Commands.Disruption.Types",
+        "file": "src/Rei/Cli/Commands/Disruption/Types.hs",
+        "sha256": "d0dc7123974cbd21e2e6893e36c416c75693f87b4c1146184d9e909deda2b195"
+      },
+      {
+        "module": "Rei.Cli.Commands.Doc.Parser",
+        "file": "src/Rei/Cli/Commands/Doc/Parser.hs",
+        "sha256": "11cb34791a060b5c7e99ac799652a952927eab7cabbc7f0bdf9a73a55b3a1f80"
+      },
+      {
+        "module": "Rei.Cli.Commands.Doc.Types",
+        "file": "src/Rei/Cli/Commands/Doc/Types.hs",
+        "sha256": "e9b809317345f204629964f69f2a3770856914c23890ece601b18d8812f705cb"
+      },
+      {
+        "module": "Rei.Cli.Commands.Edge.Parser",
+        "file": "src/Rei/Cli/Commands/Edge/Parser.hs",
+        "sha256": "f30b8c82f8de5356a386823f11d99c9d124c1af26ce9300729264eb503ca50b0"
+      },
+      {
+        "module": "Rei.Cli.Commands.Edge.Types",
+        "file": "src/Rei/Cli/Commands/Edge/Types.hs",
+        "sha256": "bd93cf490c5f25ebdb7125d09179f1d27c947f01dcb34c0cffd06d2639fbb099"
+      },
+      {
+        "module": "Rei.Cli.Commands.Focus.Parser",
+        "file": "src/Rei/Cli/Commands/Focus/Parser.hs",
+        "sha256": "90c059f357e95987ffe9234932f04eb43b20efa81b0a87912c768aa6546a0087"
+      },
+      {
+        "module": "Rei.Cli.Commands.Focus.Types",
+        "file": "src/Rei/Cli/Commands/Focus/Types.hs",
+        "sha256": "13623797dd0fda7c59dfad16b0f692779c2e30a33559d91c9655385928b9c432"
+      },
+      {
+        "module": "Rei.Cli.Commands.Habit.Parser",
+        "file": "src/Rei/Cli/Commands/Habit/Parser.hs",
+        "sha256": "ec24835646b517e9b47f155f41e5ba2a531474849263d14e286766239acba6ce"
+      },
+      {
+        "module": "Rei.Cli.Commands.Habit.Types",
+        "file": "src/Rei/Cli/Commands/Habit/Types.hs",
+        "sha256": "ee3257f7246dd0ef371f2d3da726b4d901095bbae4cfc9e8a9cc520d65924cb8"
+      },
+      {
+        "module": "Rei.Cli.Commands.Intention.Parser",
+        "file": "src/Rei/Cli/Commands/Intention/Parser.hs",
+        "sha256": "cc829c5a6829e598e61488da7aa71f84b88a0af75624e683a81f215dc07e4df2"
+      },
+      {
+        "module": "Rei.Cli.Commands.Intention.Types",
+        "file": "src/Rei/Cli/Commands/Intention/Types.hs",
+        "sha256": "91efb8249d12272f05c3d4dc05727db00b682f0f492f244644fb44aa9f09806f"
+      },
+      {
+        "module": "Rei.Cli.Commands.Kit.Parser",
+        "file": "src/Rei/Cli/Commands/Kit/Parser.hs",
+        "sha256": "ed0c507c94e3c13c28efc58d13bb8282ada3a6b7ee948e7873aa0b01ed09c6f4"
+      },
+      {
+        "module": "Rei.Cli.Commands.Kit.Types",
+        "file": "src/Rei/Cli/Commands/Kit/Types.hs",
+        "sha256": "f8bcb50fa19710492c1ca6cb361946ec875d0e7261bc0c5b78b9400e8c6f7ccf"
+      },
+      {
+        "module": "Rei.Cli.Commands.Knowledge.Parser",
+        "file": "src/Rei/Cli/Commands/Knowledge/Parser.hs",
+        "sha256": "312d3285dd58da2c29986a016bca71249d64553a6c18a1f53517f4e158189efe"
+      },
+      {
+        "module": "Rei.Cli.Commands.Knowledge.Types",
+        "file": "src/Rei/Cli/Commands/Knowledge/Types.hs",
+        "sha256": "b4e73cc5841235d2386d77121b082e1787463aa05b692a57500e0824d67fa124"
+      },
+      {
+        "module": "Rei.Cli.Commands.Link.Parser",
+        "file": "src/Rei/Cli/Commands/Link/Parser.hs",
+        "sha256": "c466e202146a315278b4a28fe35eb2e8dff6787308cae0aea8a7495429dc55eb"
+      },
+      {
+        "module": "Rei.Cli.Commands.Link.Types",
+        "file": "src/Rei/Cli/Commands/Link/Types.hs",
+        "sha256": "c0564ef9195e2015045cdd571aaf5d3469b23b5a5acb1a3fa612747c302e8acd"
+      },
+      {
+        "module": "Rei.Cli.Commands.Note.Parser",
+        "file": "src/Rei/Cli/Commands/Note/Parser.hs",
+        "sha256": "dc558bdfe3fe776fad2e44627de5020659496614bd903cf04184940febd79caa"
+      },
+      {
+        "module": "Rei.Cli.Commands.Note.Types",
+        "file": "src/Rei/Cli/Commands/Note/Types.hs",
+        "sha256": "ab95d25c0d30f7c385287e4a93aada3c7fede87a83276673092aac39037bf43e"
+      },
+      {
+        "module": "Rei.Cli.Commands.Ontology.Parser",
+        "file": "src/Rei/Cli/Commands/Ontology/Parser.hs",
+        "sha256": "96ced5cc49fb004d8b13073aa2276e2d4a9729fc905cffe4adc33b97684f9f64"
+      },
+      {
+        "module": "Rei.Cli.Commands.Ontology.Types",
+        "file": "src/Rei/Cli/Commands/Ontology/Types.hs",
+        "sha256": "0e11b01b77b77c7479b79bd628e09de56c1958392646d12ddb3329697b581114"
+      },
+      {
+        "module": "Rei.Cli.Commands.PeriodicCheck.Parser",
+        "file": "src/Rei/Cli/Commands/PeriodicCheck/Parser.hs",
+        "sha256": "860e682dccb795891b127c6e92c3b2a8308a566a88585aa940e0f42009bba17b"
+      },
+      {
+        "module": "Rei.Cli.Commands.PeriodicCheck.Types",
+        "file": "src/Rei/Cli/Commands/PeriodicCheck/Types.hs",
+        "sha256": "77fc71cd7e4020804f5266dd0a92fcd99c80f7df51edfd910fbecf05454c517b"
+      },
+      {
+        "module": "Rei.Cli.Commands.Playbook.Parser",
+        "file": "src/Rei/Cli/Commands/Playbook/Parser.hs",
+        "sha256": "b5c10c21a3028de918e196fd384b9ffb003f8d54da317427ca00bbf0f41aeca3"
+      },
+      {
+        "module": "Rei.Cli.Commands.Playbook.Types",
+        "file": "src/Rei/Cli/Commands/Playbook/Types.hs",
+        "sha256": "1ed52696f6bcf0c62e82e8419c5944c54a1b58441f26e1ec04744f2d2b48dd24"
+      },
+      {
+        "module": "Rei.Cli.Commands.Predeploy.Parser",
+        "file": "src/Rei/Cli/Commands/Predeploy/Parser.hs",
+        "sha256": "a517de1bba6d5d90c8e80bf9a22d1c631f5c1b970b4f944536e952a84655dad9"
+      },
+      {
+        "module": "Rei.Cli.Commands.Predeploy.Types",
+        "file": "src/Rei/Cli/Commands/Predeploy/Types.hs",
+        "sha256": "47b41bbdebf032be982bea9ab9c2e1717ceb3d636e190289b0848b0945aa751e"
+      },
+      {
+        "module": "Rei.Cli.Commands.Predicate.Parser",
+        "file": "src/Rei/Cli/Commands/Predicate/Parser.hs",
+        "sha256": "a21050a4472bf9dfe5b1f7246e4525ed1e69dbc4519ec825e43f71fbbd4c2013"
+      },
+      {
+        "module": "Rei.Cli.Commands.Predicate.Types",
+        "file": "src/Rei/Cli/Commands/Predicate/Types.hs",
+        "sha256": "8745d2f2fe67b39754ec258d9f53278912488a676e0c65303fe146b43eca58bb"
+      },
+      {
+        "module": "Rei.Cli.Commands.Project.Parser",
+        "file": "src/Rei/Cli/Commands/Project/Parser.hs",
+        "sha256": "51ad7118087f0cb2c870ce87b35a0d856d3ca8f44ab5fa6329fa7093736d17d6"
+      },
+      {
+        "module": "Rei.Cli.Commands.Project.Types",
+        "file": "src/Rei/Cli/Commands/Project/Types.hs",
+        "sha256": "e15a38f0b21488a7b55dcb6d4babd85f0c337494aca9db365e58a53e05402928"
+      },
+      {
+        "module": "Rei.Cli.Commands.PropertyWrite",
+        "file": "src/Rei/Cli/Commands/PropertyWrite.hs",
+        "sha256": "cbaba952f9a5d13f275a14ad6bcfb5230c41c1b8860b20f6c5877f14bf17aaeb"
+      },
+      {
+        "module": "Rei.Cli.Commands.Reflect.Parser",
+        "file": "src/Rei/Cli/Commands/Reflect/Parser.hs",
+        "sha256": "48e37859c2c4428fe0f6e5c4748c0da59ffe54e2ca4b1021a22b4ca3328d10e3"
+      },
+      {
+        "module": "Rei.Cli.Commands.Reflect.Types",
+        "file": "src/Rei/Cli/Commands/Reflect/Types.hs",
+        "sha256": "c5acb9f8359f0131d8358afdee35e34cd010b22c3c146844538a1acaec218dcf"
+      },
+      {
+        "module": "Rei.Cli.Commands.Reminder.Parser",
+        "file": "src/Rei/Cli/Commands/Reminder/Parser.hs",
+        "sha256": "4946d4c42f106ddfd6dcb6cadb25c1e7713375ee8f2667a7af4afb848d55fc38"
+      },
+      {
+        "module": "Rei.Cli.Commands.Reminder.Types",
+        "file": "src/Rei/Cli/Commands/Reminder/Types.hs",
+        "sha256": "57fff42a6d3ed541387953465162bee39a1053bc980b5a3936cab3c6929beac2"
+      },
+      {
+        "module": "Rei.Cli.Commands.Review.Day.Parser",
+        "file": "src/Rei/Cli/Commands/Review/Day/Parser.hs",
+        "sha256": "2b8984b8cef312f243e55124d93a3d225d503b6807a829c2164aaf8d549b1a95"
+      },
+      {
+        "module": "Rei.Cli.Commands.Review.Day.Types",
+        "file": "src/Rei/Cli/Commands/Review/Day/Types.hs",
+        "sha256": "09e93246b3197c0e7c4f9d22b033fa5e3d8b4b254710da1837fdcfa387774477"
+      },
+      {
+        "module": "Rei.Cli.Commands.Review.Parser",
+        "file": "src/Rei/Cli/Commands/Review/Parser.hs",
+        "sha256": "c1cb577f50ad992068d6a7c07c9a7dd57c11c4fec46bc3df6f0bc38e9fcf67b4"
+      },
+      {
+        "module": "Rei.Cli.Commands.Review.Types",
+        "file": "src/Rei/Cli/Commands/Review/Types.hs",
+        "sha256": "d0e9b236c1fd2af1002c3f309503ac0cd4b2e2368c85fac51bee748cc1347c5f"
+      },
+      {
+        "module": "Rei.Cli.Commands.Support.Parser",
+        "file": "src/Rei/Cli/Commands/Support/Parser.hs",
+        "sha256": "4904a6480420189a447dce804c3a1acc1ad60aa6c6cbb2546400c49bec60c052"
+      },
+      {
+        "module": "Rei.Cli.Commands.Support.Types",
+        "file": "src/Rei/Cli/Commands/Support/Types.hs",
+        "sha256": "ef4221660d0f794c9eec951fbcc80960ea582ccfeb6e221d6464607818a1e52a"
+      },
+      {
+        "module": "Rei.Cli.Commands.Task.Parser",
+        "file": "src/Rei/Cli/Commands/Task/Parser.hs",
+        "sha256": "247ca15e2e9d94b1c16507e1e056b051f0db99c923ebeb41dcab251d2df8dce3"
+      },
+      {
+        "module": "Rei.Cli.Commands.Task.Types",
+        "file": "src/Rei/Cli/Commands/Task/Types.hs",
+        "sha256": "42e67e0530ef5cddcd5c2cf9abef98c300d83611c2df046896d1f7c91ee6261c"
+      },
+      {
+        "module": "Rei.Cli.Commands.Template.Parser",
+        "file": "src/Rei/Cli/Commands/Template/Parser.hs",
+        "sha256": "0e82c95207dc92fc47898cf8f19761db63f218861e8ecd617bfbc17dd0e232d6"
+      },
+      {
+        "module": "Rei.Cli.Commands.Template.Types",
+        "file": "src/Rei/Cli/Commands/Template/Types.hs",
+        "sha256": "3f5e758c1329b60656360b308fb3c8df1b5abaf498d3e4ca1a9d9278e27a6c99"
+      },
+      {
+        "module": "Rei.Cli.Commands.Today.Parser",
+        "file": "src/Rei/Cli/Commands/Today/Parser.hs",
+        "sha256": "caa7461b0dc200dbbbc9f704d220d3ac27b793c160f1ba5ae023eaa125ca252e"
+      },
+      {
+        "module": "Rei.Cli.Commands.Today.Types",
+        "file": "src/Rei/Cli/Commands/Today/Types.hs",
+        "sha256": "87ff2c9711258146b61fc16cb6025daefdb9c3e25367e66f588e8a76aa89b3d8"
+      },
+      {
+        "module": "Rei.Cli.Commands.Tomorrow.Parser",
+        "file": "src/Rei/Cli/Commands/Tomorrow/Parser.hs",
+        "sha256": "51f0bd1ddb1a8189c1de8611618184a6a69446d2ed563474ea75c99ebb4b241c"
+      },
+      {
+        "module": "Rei.Cli.Commands.Tomorrow.Types",
+        "file": "src/Rei/Cli/Commands/Tomorrow/Types.hs",
+        "sha256": "7ff5ae3aa78985764e541590bb008dabb6f1872a647f2716519d3868c6f2a5b9"
+      },
+      {
+        "module": "Rei.Cli.Commands.Topic.Parser",
+        "file": "src/Rei/Cli/Commands/Topic/Parser.hs",
+        "sha256": "7591a3882854ddd160c3c7676af5d9f421a6a98656bd2823b7908b00aeefaa81"
+      },
+      {
+        "module": "Rei.Cli.Commands.Topic.Types",
+        "file": "src/Rei/Cli/Commands/Topic/Types.hs",
+        "sha256": "e6078f0bb319712828df6b8fc88931ac43c0953598ddc85b30d54aed78ecc19e"
+      },
+      {
+        "module": "Rei.Cli.Commands.View.Parser",
+        "file": "src/Rei/Cli/Commands/View/Parser.hs",
+        "sha256": "3aee4ba0a38f2ce361dacc9a228fb5f6fbce87ccf21a6536a691060c82584dca"
+      },
+      {
+        "module": "Rei.Cli.Commands.View.Types",
+        "file": "src/Rei/Cli/Commands/View/Types.hs",
+        "sha256": "4f9ab2a15371cb497c44422e2fe2a603b07439a45edec1589ee20b10634e992c"
+      },
+      {
+        "module": "Rei.Cli.Commands.Worker.Parser",
+        "file": "src/Rei/Cli/Commands/Worker/Parser.hs",
+        "sha256": "56f8f8886b982c38aa63604a22143cabd32d4a1f3503c03327b1bc09ccf63aa3"
+      },
+      {
+        "module": "Rei.Cli.Commands.Worker.Types",
+        "file": "src/Rei/Cli/Commands/Worker/Types.hs",
+        "sha256": "899872b8f70076552e414ae0d26837fb05a8617d741c93d97de111a5609d1f23"
+      },
+      {
+        "module": "Rei.Cli.Commands.Yesterday.Parser",
+        "file": "src/Rei/Cli/Commands/Yesterday/Parser.hs",
+        "sha256": "56189ce2a030c2147785888a67bc0c2a009c8792a9c0285aa2e8abcc39d7dd03"
+      },
+      {
+        "module": "Rei.Cli.Commands.Yesterday.Types",
+        "file": "src/Rei/Cli/Commands/Yesterday/Types.hs",
+        "sha256": "b8f8bfc306448b4ee3881af8b9d18a0ecb352bdbefe0966c9f546c034ebd93ef"
+      },
+      {
+        "module": "Rei.Cli.Cutover",
+        "file": "src/Rei/Cli/Cutover.hs",
+        "sha256": "5f39a897f1d3115c1a2e13c4b3ea3327397b64b26b53325a61b0dda434ae8dc6"
+      },
+      {
+        "module": "Rei.Cli.Error",
+        "file": "src/Rei/Cli/Error.hs",
+        "sha256": "f8c4a13f7d94309d2d9ad235a5ec6a71b644cffeca25963e909858e518ff63ec"
+      },
+      {
+        "module": "Rei.Cli.Fzf",
+        "file": "src/Rei/Cli/Fzf.hs",
+        "sha256": "7178938d6611699b635914d3229b6a295006a3812e34fec052b1944aa1e4fb07"
+      },
+      {
+        "module": "Rei.Cli.Fzf.Selector.Types",
+        "file": "src/Rei/Cli/Fzf/Selector/Types.hs",
+        "sha256": "e0521557a8deed41ce1b2893586a261b89fb53a896390002031597fa3d0aa704"
+      },
+      {
+        "module": "Rei.Cli.GlobalOpts",
+        "file": "src/Rei/Cli/GlobalOpts.hs",
+        "sha256": "0ea665acf3ac0e70303fc89198f5857ac1ba798b98625a7b1595445fb8ae76c7"
+      },
+      {
+        "module": "Rei.Cli.Pretty",
+        "file": "src/Rei/Cli/Pretty.hs",
+        "sha256": "bc9af9660405dbe7ce34d12a604b28162c12d581d3d4c88839b52e1f551154bc"
+      },
+      {
+        "module": "Rei.Cli.PropertyFilterParser",
+        "file": "src/Rei/Cli/PropertyFilterParser.hs",
+        "sha256": "9cb9fb2b5c4e10a8f45eff195a354b2c55d4901e37b84ebce576dd3a94c42d03"
+      },
+      {
+        "module": "Rei.Cli.Time",
+        "file": "src/Rei/Cli/Time.hs",
+        "sha256": "9a0dd8a4b26f56b873ed45686c2bcfe5f6f0407714c128d1c78498450fee8039"
+      },
+      {
+        "module": "Rei.Cli.Tui.Types",
+        "file": "src/Rei/Cli/Tui/Types.hs",
+        "sha256": "7ec6ec47bf7d79fc0f0bf84d64daa1baf83af7c312fc340071a63c527b6e3263"
+      },
+      {
+        "module": "Rei.Cli.Types",
+        "file": "src/Rei/Cli/Types.hs",
+        "sha256": "84219a8ca6b0fd47e173f0f6a2a52cfd50fee3f419139b1a570d976ffd8f4e11"
+      }
+    ],
+    "new_package": "rei-cli-foundation",
+    "version": "7.1.0.0",
+    "public_module_names": "Original rei-cli library reexports every moved module without renaming",
+    "dependencies": "All original library bounds retained; no shared source, flag, compiler, test or optimization changes",
+    "test_sources": "unchanged; explicit foundation dependency added to every original component",
+    "adoption": "Disposable pilot only; not a retained owned-package inventory or production adoption",
+    "native_validation": "pending"
+  },
+  "calibration": {
+    "schema_version": 1,
+    "command": [
+      "nix",
+      "build",
+      "--json",
+      "--no-link",
+      "--print-build-logs",
+      "--impure",
+      "--file",
+      "checks/fixtures/application-builds/split.nix",
+      "--argstr",
+      "source",
+      "/tmp/mp4-rei-package-split-20261017/candidate",
+      "package",
+      "--max-jobs",
+      "1",
+      "--cores",
+      "16"
+    ],
+    "elapsed_seconds": 75.11980191699695,
+    "exit_code": 0,
+    "log_sha256": "46fe32c84e74acb713dcb16eb48aceeefea9251b496e1feb1b8aed1fff9cf70b",
+    "compile_events": {
+      "rei-cli-foundation": 92,
+      "rei-cli": 210
+    },
+    "scope": "Native disposable boundary preflight, not a paired speedup or complete acceptance claim",
+    "build": [
+      {
+        "drvPath": "/nix/store/y91n1035n2s4zvy4zfnj4ilr68z7r83x-rei-cli-7.1.0.0.drv",
+        "outputs": {
+          "out": "/nix/store/i21jpw2vd2q6wasci0hknmcw75djdv3f-rei-cli-7.1.0.0"
+        }
+      }
+    ]
+  },
+  "measurement": {
+    "schema_version": 1,
+    "project_uri": "mori://shinzui/rei",
+    "source_revision": "bad0388f722af9e29187c2adfef5ed97fd0ca92f",
+    "started_at": "2026-10-17T08:48:15.201281+00:00",
+    "platform": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+    "nix_version": "nix (Determinate Nix 3.23.2) 2.35.3",
+    "workload": "source edit: rei-cli/src/Rei/Cli/Commands/Help.hs",
+    "replacement": [
+      "timeTopicContent = $(embedStringFile",
+      "timeTopicContent = \"MP4 paired leaf {trial} package-split-v1\\n\" <> $(embedStringFile"
+    ],
+    "minimum_saving": 0.2,
+    "cores": 16,
+    "max_jobs": 1,
+    "expression_sha256": "d2a3cf03dd1c9d2981759c93237021095ad8aa1be7105e73863b18411e47e8c0",
+    "lock_sha256": {
+      "baseline": "2cf3f5081ea331e73a80a0ce32e5567381cd6ae0fd807ddca01f84b5e214886b",
+      "candidate": "2cf3f5081ea331e73a80a0ce32e5567381cd6ae0fd807ddca01f84b5e214886b"
+    },
+    "evaluation_cache": "Nix expression evaluation, fresh process per invocation; no flake output evaluation cache",
+    "require_idle_compilers": true,
+    "compiler_count_semantics": "GHC Compiling events, including Setup and repeated module names across components",
+    "trials": [
+      {
+        "trial": 1,
+        "stage": "paired",
+        "label": "baseline",
+        "command": [
+          "nix",
+          "build",
+          "--impure",
+          "--file",
+          "/Users/shinzui/Keikaku/bokuno/haskell-nix/checks/fixtures/application-builds/split.nix",
+          "--argstr",
+          "source",
+          "/private/tmp/mp4-rei-package-split-20261017/baseline",
+          "package",
+          "--no-link",
+          "--json",
+          "--print-build-logs",
+          "--max-jobs",
+          "1",
+          "--cores",
+          "16"
+        ],
+        "source_variant_sha256": "b1ba6eb037296a844b8cd20487c2670fe70aa89aad76439171d67185a5e77fec",
+        "identity": {
+          "behaviorProbe": null,
+          "compatibilityReport": {
+            "accepted": false,
+            "enabled": false,
+            "reason": "clean separate-package boundary experiment; no seed"
+          },
+          "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+          "component": "cli",
+          "core": "/nix/store/q81gkiznk4n6hmya2d3ndqpnjg7pqcz5-rei-core-7.1.0.0.drv",
+          "experimentMode": "package-split",
+          "foundation": null,
+          "packageSplit": false,
+          "registrationCompiler": "/nix/store/m924rr4mwxkxzi156w584g7hpx012rvr-ghc-9.12.4-with-packages.drv",
+          "root": "/nix/store/x9qdmcr4n79w6ggxrh6s5bbznf8sy344-rei-cli-7.1.0.0.drv",
+          "splitManifest": "/tmp/mp4-rei-package-split-20261017/split-manifest.json"
+        },
+        "elapsed_seconds": 56.39832504201331,
+        "exit_code": 0,
+        "compiled_modules": {
+          "rei-cli": 301
+        },
+        "phase_events": [
+          {
+            "elapsed_seconds": 8.370863542018924,
+            "message": "rei-cli> Running phase: setupCompilerEnvironmentPhase"
+          },
+          {
+            "elapsed_seconds": 14.89851762499893,
+            "message": "rei-cli> Running phase: unpackPhase"
+          },
+          {
+            "elapsed_seconds": 14.969794292002916,
+            "message": "rei-cli> Running phase: patchPhase"
+          },
+          {
+            "elapsed_seconds": 14.990221957996255,
+            "message": "rei-cli> Running phase: compileBuildDriverPhase"
+          },
+          {
+            "elapsed_seconds": 15.767862083012005,
+            "message": "rei-cli> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+          },
+          {
+            "elapsed_seconds": 15.785800083016511,
+            "message": "rei-cli> Running phase: configurePhase"
+          },
+          {
+            "elapsed_seconds": 18.293630083004246,
+            "message": "rei-cli> Running phase: buildPhase"
+          },
+          {
+            "elapsed_seconds": 46.918627250008285,
+            "message": "rei-cli> Running phase: haddockPhase"
+          },
+          {
+            "elapsed_seconds": 46.93272512499243,
+            "message": "rei-cli> Running phase: installPhase"
+          },
+          {
+            "elapsed_seconds": 49.93935379199684,
+            "message": "rei-cli> Running phase: fixupPhase"
+          }
+        ],
+        "build_result": [
+          {
+            "drvPath": "/nix/store/x9qdmcr4n79w6ggxrh6s5bbznf8sy344-rei-cli-7.1.0.0.drv",
+            "outputs": {
+              "out": "/nix/store/wi0izi69crpq2s3yhsm6r6w3fcv2d7fq-rei-cli-7.1.0.0"
+            }
+          }
+        ],
+        "cache_state": "warm dependencies; initial build plan and actual compilations recorded in build log",
+        "sampled_host_compiler_memory": {
+          "peak_kib": 4596768,
+          "samples": 186,
+          "preexisting_processes": [],
+          "errors": [],
+          "scope": "Host compiler RSS sum sampled every 250 ms; may include concurrent unrelated compilers; not exact builder peak"
+        },
+        "idle_wait_seconds": 0.02937983299489133,
+        "compilers_observed_before_wait": [],
+        "log": "paired-1-baseline.log",
+        "phase_limits": "No separate linker, test or transfer instrumentation; memory is sampled host compiler RSS, not isolated builder accounting; phase events are builder log boundaries.",
+        "order": 1
+      },
+      {
+        "trial": 1,
+        "stage": "paired",
+        "label": "candidate",
+        "command": [
+          "nix",
+          "build",
+          "--impure",
+          "--file",
+          "/Users/shinzui/Keikaku/bokuno/haskell-nix/checks/fixtures/application-builds/split.nix",
+          "--argstr",
+          "source",
+          "/private/tmp/mp4-rei-package-split-20261017/candidate",
+          "package",
+          "--no-link",
+          "--json",
+          "--print-build-logs",
+          "--max-jobs",
+          "1",
+          "--cores",
+          "16"
+        ],
+        "source_variant_sha256": "b1ba6eb037296a844b8cd20487c2670fe70aa89aad76439171d67185a5e77fec",
+        "identity": {
+          "behaviorProbe": null,
+          "compatibilityReport": {
+            "accepted": false,
+            "enabled": false,
+            "reason": "clean separate-package boundary experiment; no seed"
+          },
+          "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+          "component": "cli",
+          "core": "/nix/store/q81gkiznk4n6hmya2d3ndqpnjg7pqcz5-rei-core-7.1.0.0.drv",
+          "experimentMode": "package-split",
+          "foundation": "/nix/store/xh17rw8apn7pm8xsyks43399lhzm26p8-rei-cli-foundation-7.1.0.0.drv",
+          "packageSplit": true,
+          "registrationCompiler": "/nix/store/ha0xxibjfxlwmzzpbyf689dmj8clkp2q-ghc-9.12.4-with-packages.drv",
+          "root": "/nix/store/s14a4khlwcim8psjhv84ascjfm4mkkq6-rei-cli-7.1.0.0.drv",
+          "splitManifest": "/tmp/mp4-rei-package-split-20261017/split-manifest.json"
+        },
+        "elapsed_seconds": 51.842934083979344,
+        "exit_code": 0,
+        "compiled_modules": {
+          "rei-cli": 210
+        },
+        "phase_events": [
+          {
+            "elapsed_seconds": 6.021058499987703,
+            "message": "rei-cli> Running phase: setupCompilerEnvironmentPhase"
+          },
+          {
+            "elapsed_seconds": 12.737830917001702,
+            "message": "rei-cli> Running phase: unpackPhase"
+          },
+          {
+            "elapsed_seconds": 12.794090624985984,
+            "message": "rei-cli> Running phase: patchPhase"
+          },
+          {
+            "elapsed_seconds": 12.812080499978038,
+            "message": "rei-cli> Running phase: compileBuildDriverPhase"
+          },
+          {
+            "elapsed_seconds": 13.6197742089862,
+            "message": "rei-cli> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+          },
+          {
+            "elapsed_seconds": 13.637965417001396,
+            "message": "rei-cli> Running phase: configurePhase"
+          },
+          {
+            "elapsed_seconds": 16.456515500001842,
+            "message": "rei-cli> Running phase: buildPhase"
+          },
+          {
+            "elapsed_seconds": 42.4020269169996,
+            "message": "rei-cli> Running phase: haddockPhase"
+          },
+          {
+            "elapsed_seconds": 42.416877041978296,
+            "message": "rei-cli> Running phase: installPhase"
+          },
+          {
+            "elapsed_seconds": 45.42310570899281,
+            "message": "rei-cli> Running phase: fixupPhase"
+          }
+        ],
+        "build_result": [
+          {
+            "drvPath": "/nix/store/s14a4khlwcim8psjhv84ascjfm4mkkq6-rei-cli-7.1.0.0.drv",
+            "outputs": {
+              "out": "/nix/store/109rw7vq640djfy76hszsnym8vcj2wfn-rei-cli-7.1.0.0"
+            }
+          }
+        ],
+        "cache_state": "warm dependencies; initial build plan and actual compilations recorded in build log",
+        "sampled_host_compiler_memory": {
+          "peak_kib": 4636176,
+          "samples": 171,
+          "preexisting_processes": [],
+          "errors": [],
+          "scope": "Host compiler RSS sum sampled every 250 ms; may include concurrent unrelated compilers; not exact builder peak"
+        },
+        "idle_wait_seconds": 0.028484459005994722,
+        "compilers_observed_before_wait": [],
+        "log": "paired-1-candidate.log",
+        "phase_limits": "No separate linker, test or transfer instrumentation; memory is sampled host compiler RSS, not isolated builder accounting; phase events are builder log boundaries.",
+        "order": 2
+      },
+      {
+        "trial": 2,
+        "stage": "paired",
+        "label": "candidate",
+        "command": [
+          "nix",
+          "build",
+          "--impure",
+          "--file",
+          "/Users/shinzui/Keikaku/bokuno/haskell-nix/checks/fixtures/application-builds/split.nix",
+          "--argstr",
+          "source",
+          "/private/tmp/mp4-rei-package-split-20261017/candidate",
+          "package",
+          "--no-link",
+          "--json",
+          "--print-build-logs",
+          "--max-jobs",
+          "1",
+          "--cores",
+          "16"
+        ],
+        "source_variant_sha256": "b4a602787b67a5276574ab44af9a5541f0fdc70ab2d7c89a58d7255af18c2441",
+        "identity": {
+          "behaviorProbe": null,
+          "compatibilityReport": {
+            "accepted": false,
+            "enabled": false,
+            "reason": "clean separate-package boundary experiment; no seed"
+          },
+          "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+          "component": "cli",
+          "core": "/nix/store/q81gkiznk4n6hmya2d3ndqpnjg7pqcz5-rei-core-7.1.0.0.drv",
+          "experimentMode": "package-split",
+          "foundation": "/nix/store/xh17rw8apn7pm8xsyks43399lhzm26p8-rei-cli-foundation-7.1.0.0.drv",
+          "packageSplit": true,
+          "registrationCompiler": "/nix/store/ipwcfai534kpbjcj5416dg53ngka6dg5-ghc-9.12.4-with-packages.drv",
+          "root": "/nix/store/0419f47vplc9pcjixvdrfp685j86q6k5-rei-cli-7.1.0.0.drv",
+          "splitManifest": "/tmp/mp4-rei-package-split-20261017/split-manifest.json"
+        },
+        "elapsed_seconds": 51.562337499985006,
+        "exit_code": 0,
+        "compiled_modules": {
+          "rei-cli": 210
+        },
+        "phase_events": [
+          {
+            "elapsed_seconds": 5.864893291989574,
+            "message": "rei-cli> Running phase: setupCompilerEnvironmentPhase"
+          },
+          {
+            "elapsed_seconds": 12.441848499991465,
+            "message": "rei-cli> Running phase: unpackPhase"
+          },
+          {
+            "elapsed_seconds": 12.498805042007007,
+            "message": "rei-cli> Running phase: patchPhase"
+          },
+          {
+            "elapsed_seconds": 12.51596616700408,
+            "message": "rei-cli> Running phase: compileBuildDriverPhase"
+          },
+          {
+            "elapsed_seconds": 13.329991832986707,
+            "message": "rei-cli> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+          },
+          {
+            "elapsed_seconds": 13.347960124985548,
+            "message": "rei-cli> Running phase: configurePhase"
+          },
+          {
+            "elapsed_seconds": 16.194327832985437,
+            "message": "rei-cli> Running phase: buildPhase"
+          },
+          {
+            "elapsed_seconds": 42.152709916990716,
+            "message": "rei-cli> Running phase: haddockPhase"
+          },
+          {
+            "elapsed_seconds": 42.1634561670071,
+            "message": "rei-cli> Running phase: installPhase"
+          },
+          {
+            "elapsed_seconds": 45.197443541983375,
+            "message": "rei-cli> Running phase: fixupPhase"
+          }
+        ],
+        "build_result": [
+          {
+            "drvPath": "/nix/store/0419f47vplc9pcjixvdrfp685j86q6k5-rei-cli-7.1.0.0.drv",
+            "outputs": {
+              "out": "/nix/store/c8vfs9q9dcnnvjxyhwamnfdh74y26rl7-rei-cli-7.1.0.0"
+            }
+          }
+        ],
+        "cache_state": "warm dependencies; initial build plan and actual compilations recorded in build log",
+        "sampled_host_compiler_memory": {
+          "peak_kib": 4464800,
+          "samples": 170,
+          "preexisting_processes": [],
+          "errors": [],
+          "scope": "Host compiler RSS sum sampled every 250 ms; may include concurrent unrelated compilers; not exact builder peak"
+        },
+        "idle_wait_seconds": 0.028667875012615696,
+        "compilers_observed_before_wait": [],
+        "log": "paired-2-candidate.log",
+        "phase_limits": "No separate linker, test or transfer instrumentation; memory is sampled host compiler RSS, not isolated builder accounting; phase events are builder log boundaries.",
+        "order": 1
+      },
+      {
+        "trial": 2,
+        "stage": "paired",
+        "label": "baseline",
+        "command": [
+          "nix",
+          "build",
+          "--impure",
+          "--file",
+          "/Users/shinzui/Keikaku/bokuno/haskell-nix/checks/fixtures/application-builds/split.nix",
+          "--argstr",
+          "source",
+          "/private/tmp/mp4-rei-package-split-20261017/baseline",
+          "package",
+          "--no-link",
+          "--json",
+          "--print-build-logs",
+          "--max-jobs",
+          "1",
+          "--cores",
+          "16"
+        ],
+        "source_variant_sha256": "b4a602787b67a5276574ab44af9a5541f0fdc70ab2d7c89a58d7255af18c2441",
+        "identity": {
+          "behaviorProbe": null,
+          "compatibilityReport": {
+            "accepted": false,
+            "enabled": false,
+            "reason": "clean separate-package boundary experiment; no seed"
+          },
+          "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+          "component": "cli",
+          "core": "/nix/store/q81gkiznk4n6hmya2d3ndqpnjg7pqcz5-rei-core-7.1.0.0.drv",
+          "experimentMode": "package-split",
+          "foundation": null,
+          "packageSplit": false,
+          "registrationCompiler": "/nix/store/li570yzpzjm0xjm2d13jbwyaqgafclhr-ghc-9.12.4-with-packages.drv",
+          "root": "/nix/store/q520f9kb344fdy1sfk014jw59sa2bafz-rei-cli-7.1.0.0.drv",
+          "splitManifest": "/tmp/mp4-rei-package-split-20261017/split-manifest.json"
+        },
+        "elapsed_seconds": 56.505322084005456,
+        "exit_code": 0,
+        "compiled_modules": {
+          "rei-cli": 301
+        },
+        "phase_events": [
+          {
+            "elapsed_seconds": 8.54529104201356,
+            "message": "rei-cli> Running phase: setupCompilerEnvironmentPhase"
+          },
+          {
+            "elapsed_seconds": 15.260475334012881,
+            "message": "rei-cli> Running phase: unpackPhase"
+          },
+          {
+            "elapsed_seconds": 15.329506000009133,
+            "message": "rei-cli> Running phase: patchPhase"
+          },
+          {
+            "elapsed_seconds": 15.34792004202609,
+            "message": "rei-cli> Running phase: compileBuildDriverPhase"
+          },
+          {
+            "elapsed_seconds": 16.133858834014973,
+            "message": "rei-cli> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+          },
+          {
+            "elapsed_seconds": 16.15228320902679,
+            "message": "rei-cli> Running phase: configurePhase"
+          },
+          {
+            "elapsed_seconds": 18.74725466701784,
+            "message": "rei-cli> Running phase: buildPhase"
+          },
+          {
+            "elapsed_seconds": 46.618452250026166,
+            "message": "rei-cli> Running phase: haddockPhase"
+          },
+          {
+            "elapsed_seconds": 46.62879970902577,
+            "message": "rei-cli> Running phase: installPhase"
+          },
+          {
+            "elapsed_seconds": 49.735873417026596,
+            "message": "rei-cli> Running phase: fixupPhase"
+          }
+        ],
+        "build_result": [
+          {
+            "drvPath": "/nix/store/q520f9kb344fdy1sfk014jw59sa2bafz-rei-cli-7.1.0.0.drv",
+            "outputs": {
+              "out": "/nix/store/912aplzdrd7yiqy3jnj67igs7mvzlc7c-rei-cli-7.1.0.0"
+            }
+          }
+        ],
+        "cache_state": "warm dependencies; initial build plan and actual compilations recorded in build log",
+        "sampled_host_compiler_memory": {
+          "peak_kib": 4246560,
+          "samples": 186,
+          "preexisting_processes": [],
+          "errors": [],
+          "scope": "Host compiler RSS sum sampled every 250 ms; may include concurrent unrelated compilers; not exact builder peak"
+        },
+        "idle_wait_seconds": 0.02880683302646503,
+        "compilers_observed_before_wait": [],
+        "log": "paired-2-baseline.log",
+        "phase_limits": "No separate linker, test or transfer instrumentation; memory is sampled host compiler RSS, not isolated builder accounting; phase events are builder log boundaries.",
+        "order": 2
+      },
+      {
+        "trial": 3,
+        "stage": "paired",
+        "label": "baseline",
+        "command": [
+          "nix",
+          "build",
+          "--impure",
+          "--file",
+          "/Users/shinzui/Keikaku/bokuno/haskell-nix/checks/fixtures/application-builds/split.nix",
+          "--argstr",
+          "source",
+          "/private/tmp/mp4-rei-package-split-20261017/baseline",
+          "package",
+          "--no-link",
+          "--json",
+          "--print-build-logs",
+          "--max-jobs",
+          "1",
+          "--cores",
+          "16"
+        ],
+        "source_variant_sha256": "ced2160269045f1cc37ba80949e9e14cd1cd59b13298e5110c29685ba4470a04",
+        "identity": {
+          "behaviorProbe": null,
+          "compatibilityReport": {
+            "accepted": false,
+            "enabled": false,
+            "reason": "clean separate-package boundary experiment; no seed"
+          },
+          "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+          "component": "cli",
+          "core": "/nix/store/q81gkiznk4n6hmya2d3ndqpnjg7pqcz5-rei-core-7.1.0.0.drv",
+          "experimentMode": "package-split",
+          "foundation": null,
+          "packageSplit": false,
+          "registrationCompiler": "/nix/store/5c5mi5bx31n6452mcm6ax0nj6j90ix3q-ghc-9.12.4-with-packages.drv",
+          "root": "/nix/store/96sm9q8v61l5zyrs1sa7s9gz2d5hhmsf-rei-cli-7.1.0.0.drv",
+          "splitManifest": "/tmp/mp4-rei-package-split-20261017/split-manifest.json"
+        },
+        "elapsed_seconds": 56.31987350000418,
+        "exit_code": 0,
+        "compiled_modules": {
+          "rei-cli": 301
+        },
+        "phase_events": [
+          {
+            "elapsed_seconds": 8.301398875017185,
+            "message": "rei-cli> Running phase: setupCompilerEnvironmentPhase"
+          },
+          {
+            "elapsed_seconds": 15.017345458007185,
+            "message": "rei-cli> Running phase: unpackPhase"
+          },
+          {
+            "elapsed_seconds": 15.085817208018852,
+            "message": "rei-cli> Running phase: patchPhase"
+          },
+          {
+            "elapsed_seconds": 15.102981792006176,
+            "message": "rei-cli> Running phase: compileBuildDriverPhase"
+          },
+          {
+            "elapsed_seconds": 15.879475666995859,
+            "message": "rei-cli> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+          },
+          {
+            "elapsed_seconds": 15.897839333018055,
+            "message": "rei-cli> Running phase: configurePhase"
+          },
+          {
+            "elapsed_seconds": 18.703566292009782,
+            "message": "rei-cli> Running phase: buildPhase"
+          },
+          {
+            "elapsed_seconds": 46.58993912499864,
+            "message": "rei-cli> Running phase: haddockPhase"
+          },
+          {
+            "elapsed_seconds": 46.60094737500185,
+            "message": "rei-cli> Running phase: installPhase"
+          },
+          {
+            "elapsed_seconds": 49.54949012500583,
+            "message": "rei-cli> Running phase: fixupPhase"
+          }
+        ],
+        "build_result": [
+          {
+            "drvPath": "/nix/store/96sm9q8v61l5zyrs1sa7s9gz2d5hhmsf-rei-cli-7.1.0.0.drv",
+            "outputs": {
+              "out": "/nix/store/f0yyis4qf3vrkml3gvwgh09x3nz454rs-rei-cli-7.1.0.0"
+            }
+          }
+        ],
+        "cache_state": "warm dependencies; initial build plan and actual compilations recorded in build log",
+        "sampled_host_compiler_memory": {
+          "peak_kib": 4626720,
+          "samples": 186,
+          "preexisting_processes": [],
+          "errors": [],
+          "scope": "Host compiler RSS sum sampled every 250 ms; may include concurrent unrelated compilers; not exact builder peak"
+        },
+        "idle_wait_seconds": 0.028205374983372167,
+        "compilers_observed_before_wait": [],
+        "log": "paired-3-baseline.log",
+        "phase_limits": "No separate linker, test or transfer instrumentation; memory is sampled host compiler RSS, not isolated builder accounting; phase events are builder log boundaries.",
+        "order": 1
+      },
+      {
+        "trial": 3,
+        "stage": "paired",
+        "label": "candidate",
+        "command": [
+          "nix",
+          "build",
+          "--impure",
+          "--file",
+          "/Users/shinzui/Keikaku/bokuno/haskell-nix/checks/fixtures/application-builds/split.nix",
+          "--argstr",
+          "source",
+          "/private/tmp/mp4-rei-package-split-20261017/candidate",
+          "package",
+          "--no-link",
+          "--json",
+          "--print-build-logs",
+          "--max-jobs",
+          "1",
+          "--cores",
+          "16"
+        ],
+        "source_variant_sha256": "ced2160269045f1cc37ba80949e9e14cd1cd59b13298e5110c29685ba4470a04",
+        "identity": {
+          "behaviorProbe": null,
+          "compatibilityReport": {
+            "accepted": false,
+            "enabled": false,
+            "reason": "clean separate-package boundary experiment; no seed"
+          },
+          "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+          "component": "cli",
+          "core": "/nix/store/q81gkiznk4n6hmya2d3ndqpnjg7pqcz5-rei-core-7.1.0.0.drv",
+          "experimentMode": "package-split",
+          "foundation": "/nix/store/xh17rw8apn7pm8xsyks43399lhzm26p8-rei-cli-foundation-7.1.0.0.drv",
+          "packageSplit": true,
+          "registrationCompiler": "/nix/store/jnqk1yqhcmpylz9dfpy4y52xxrbxa0ib-ghc-9.12.4-with-packages.drv",
+          "root": "/nix/store/0z4k9502fh7nyqb13iapxvsm76whm14q-rei-cli-7.1.0.0.drv",
+          "splitManifest": "/tmp/mp4-rei-package-split-20261017/split-manifest.json"
+        },
+        "elapsed_seconds": 51.45732116702129,
+        "exit_code": 0,
+        "compiled_modules": {
+          "rei-cli": 210
+        },
+        "phase_events": [
+          {
+            "elapsed_seconds": 5.949255209008697,
+            "message": "rei-cli> Running phase: setupCompilerEnvironmentPhase"
+          },
+          {
+            "elapsed_seconds": 12.55146000001696,
+            "message": "rei-cli> Running phase: unpackPhase"
+          },
+          {
+            "elapsed_seconds": 12.616187000006903,
+            "message": "rei-cli> Running phase: patchPhase"
+          },
+          {
+            "elapsed_seconds": 12.63599137502024,
+            "message": "rei-cli> Running phase: compileBuildDriverPhase"
+          },
+          {
+            "elapsed_seconds": 13.466930875001708,
+            "message": "rei-cli> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+          },
+          {
+            "elapsed_seconds": 13.485562292014947,
+            "message": "rei-cli> Running phase: configurePhase"
+          },
+          {
+            "elapsed_seconds": 16.276465333998203,
+            "message": "rei-cli> Running phase: buildPhase"
+          },
+          {
+            "elapsed_seconds": 42.140185875003226,
+            "message": "rei-cli> Running phase: haddockPhase"
+          },
+          {
+            "elapsed_seconds": 42.15135612501763,
+            "message": "rei-cli> Running phase: installPhase"
+          },
+          {
+            "elapsed_seconds": 45.19706962502096,
+            "message": "rei-cli> Running phase: fixupPhase"
+          }
+        ],
+        "build_result": [
+          {
+            "drvPath": "/nix/store/0z4k9502fh7nyqb13iapxvsm76whm14q-rei-cli-7.1.0.0.drv",
+            "outputs": {
+              "out": "/nix/store/njbchmz8yfraxnw3vk2fnr8ghm3q3775-rei-cli-7.1.0.0"
+            }
+          }
+        ],
+        "cache_state": "warm dependencies; initial build plan and actual compilations recorded in build log",
+        "sampled_host_compiler_memory": {
+          "peak_kib": 4634336,
+          "samples": 169,
+          "preexisting_processes": [],
+          "errors": [],
+          "scope": "Host compiler RSS sum sampled every 250 ms; may include concurrent unrelated compilers; not exact builder peak"
+        },
+        "idle_wait_seconds": 0.02843895900878124,
+        "compilers_observed_before_wait": [],
+        "log": "paired-3-candidate.log",
+        "phase_limits": "No separate linker, test or transfer instrumentation; memory is sampled host compiler RSS, not isolated builder accounting; phase events are builder log boundaries.",
+        "order": 2
+      },
+      {
+        "trial": 4,
+        "stage": "paired",
+        "label": "candidate",
+        "command": [
+          "nix",
+          "build",
+          "--impure",
+          "--file",
+          "/Users/shinzui/Keikaku/bokuno/haskell-nix/checks/fixtures/application-builds/split.nix",
+          "--argstr",
+          "source",
+          "/private/tmp/mp4-rei-package-split-20261017/candidate",
+          "package",
+          "--no-link",
+          "--json",
+          "--print-build-logs",
+          "--max-jobs",
+          "1",
+          "--cores",
+          "16"
+        ],
+        "source_variant_sha256": "9ada4f6460640b335781107357bcd263d4d22f594eb2145c4a97d9e7e3639e04",
+        "identity": {
+          "behaviorProbe": null,
+          "compatibilityReport": {
+            "accepted": false,
+            "enabled": false,
+            "reason": "clean separate-package boundary experiment; no seed"
+          },
+          "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+          "component": "cli",
+          "core": "/nix/store/q81gkiznk4n6hmya2d3ndqpnjg7pqcz5-rei-core-7.1.0.0.drv",
+          "experimentMode": "package-split",
+          "foundation": "/nix/store/xh17rw8apn7pm8xsyks43399lhzm26p8-rei-cli-foundation-7.1.0.0.drv",
+          "packageSplit": true,
+          "registrationCompiler": "/nix/store/w6pldv8cs1x2456c2dfghy820w5bpas2-ghc-9.12.4-with-packages.drv",
+          "root": "/nix/store/z1swa0nnw1qr3gak48ymm73845jvn658-rei-cli-7.1.0.0.drv",
+          "splitManifest": "/tmp/mp4-rei-package-split-20261017/split-manifest.json"
+        },
+        "elapsed_seconds": 52.062973249994684,
+        "exit_code": 0,
+        "compiled_modules": {
+          "rei-cli": 210
+        },
+        "phase_events": [
+          {
+            "elapsed_seconds": 6.098888792010257,
+            "message": "rei-cli> Running phase: setupCompilerEnvironmentPhase"
+          },
+          {
+            "elapsed_seconds": 12.800630000012461,
+            "message": "rei-cli> Running phase: unpackPhase"
+          },
+          {
+            "elapsed_seconds": 12.861388667020947,
+            "message": "rei-cli> Running phase: patchPhase"
+          },
+          {
+            "elapsed_seconds": 12.87993829199695,
+            "message": "rei-cli> Running phase: compileBuildDriverPhase"
+          },
+          {
+            "elapsed_seconds": 13.695979583018925,
+            "message": "rei-cli> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+          },
+          {
+            "elapsed_seconds": 13.7140452080057,
+            "message": "rei-cli> Running phase: configurePhase"
+          },
+          {
+            "elapsed_seconds": 16.695009917020798,
+            "message": "rei-cli> Running phase: buildPhase"
+          },
+          {
+            "elapsed_seconds": 42.61382633302128,
+            "message": "rei-cli> Running phase: haddockPhase"
+          },
+          {
+            "elapsed_seconds": 42.624445541994646,
+            "message": "rei-cli> Running phase: installPhase"
+          },
+          {
+            "elapsed_seconds": 45.676688000006834,
+            "message": "rei-cli> Running phase: fixupPhase"
+          }
+        ],
+        "build_result": [
+          {
+            "drvPath": "/nix/store/z1swa0nnw1qr3gak48ymm73845jvn658-rei-cli-7.1.0.0.drv",
+            "outputs": {
+              "out": "/nix/store/yal0bg4zhrzj4xh5s6bsjdr1q875rw0n-rei-cli-7.1.0.0"
+            }
+          }
+        ],
+        "cache_state": "warm dependencies; initial build plan and actual compilations recorded in build log",
+        "sampled_host_compiler_memory": {
+          "peak_kib": 4630672,
+          "samples": 171,
+          "preexisting_processes": [],
+          "errors": [],
+          "scope": "Host compiler RSS sum sampled every 250 ms; may include concurrent unrelated compilers; not exact builder peak"
+        },
+        "idle_wait_seconds": 0.029544125020038337,
+        "compilers_observed_before_wait": [],
+        "log": "paired-4-candidate.log",
+        "phase_limits": "No separate linker, test or transfer instrumentation; memory is sampled host compiler RSS, not isolated builder accounting; phase events are builder log boundaries.",
+        "order": 1
+      },
+      {
+        "trial": 4,
+        "stage": "paired",
+        "label": "baseline",
+        "command": [
+          "nix",
+          "build",
+          "--impure",
+          "--file",
+          "/Users/shinzui/Keikaku/bokuno/haskell-nix/checks/fixtures/application-builds/split.nix",
+          "--argstr",
+          "source",
+          "/private/tmp/mp4-rei-package-split-20261017/baseline",
+          "package",
+          "--no-link",
+          "--json",
+          "--print-build-logs",
+          "--max-jobs",
+          "1",
+          "--cores",
+          "16"
+        ],
+        "source_variant_sha256": "9ada4f6460640b335781107357bcd263d4d22f594eb2145c4a97d9e7e3639e04",
+        "identity": {
+          "behaviorProbe": null,
+          "compatibilityReport": {
+            "accepted": false,
+            "enabled": false,
+            "reason": "clean separate-package boundary experiment; no seed"
+          },
+          "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+          "component": "cli",
+          "core": "/nix/store/q81gkiznk4n6hmya2d3ndqpnjg7pqcz5-rei-core-7.1.0.0.drv",
+          "experimentMode": "package-split",
+          "foundation": null,
+          "packageSplit": false,
+          "registrationCompiler": "/nix/store/fk8jrlgxybk40mrmfxk8iw2lz66lax6f-ghc-9.12.4-with-packages.drv",
+          "root": "/nix/store/91sszdm8k6v987mi1dxv4274xsw9dixs-rei-cli-7.1.0.0.drv",
+          "splitManifest": "/tmp/mp4-rei-package-split-20261017/split-manifest.json"
+        },
+        "elapsed_seconds": 55.92141245800303,
+        "exit_code": 0,
+        "compiled_modules": {
+          "rei-cli": 301
+        },
+        "phase_events": [
+          {
+            "elapsed_seconds": 8.346730707999086,
+            "message": "rei-cli> Running phase: setupCompilerEnvironmentPhase"
+          },
+          {
+            "elapsed_seconds": 14.848771624994697,
+            "message": "rei-cli> Running phase: unpackPhase"
+          },
+          {
+            "elapsed_seconds": 14.91491066699382,
+            "message": "rei-cli> Running phase: patchPhase"
+          },
+          {
+            "elapsed_seconds": 14.933678542001871,
+            "message": "rei-cli> Running phase: compileBuildDriverPhase"
+          },
+          {
+            "elapsed_seconds": 15.720433916983893,
+            "message": "rei-cli> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+          },
+          {
+            "elapsed_seconds": 15.73720979198697,
+            "message": "rei-cli> Running phase: configurePhase"
+          },
+          {
+            "elapsed_seconds": 18.4675957080035,
+            "message": "rei-cli> Running phase: buildPhase"
+          },
+          {
+            "elapsed_seconds": 46.49509208300151,
+            "message": "rei-cli> Running phase: haddockPhase"
+          },
+          {
+            "elapsed_seconds": 46.50609599999734,
+            "message": "rei-cli> Running phase: installPhase"
+          },
+          {
+            "elapsed_seconds": 49.4652181249985,
+            "message": "rei-cli> Running phase: fixupPhase"
+          }
+        ],
+        "build_result": [
+          {
+            "drvPath": "/nix/store/91sszdm8k6v987mi1dxv4274xsw9dixs-rei-cli-7.1.0.0.drv",
+            "outputs": {
+              "out": "/nix/store/5cghsfqj38xffzy2haaanaxpxkxxlpfh-rei-cli-7.1.0.0"
+            }
+          }
+        ],
+        "cache_state": "warm dependencies; initial build plan and actual compilations recorded in build log",
+        "sampled_host_compiler_memory": {
+          "peak_kib": 4630464,
+          "samples": 184,
+          "preexisting_processes": [],
+          "errors": [],
+          "scope": "Host compiler RSS sum sampled every 250 ms; may include concurrent unrelated compilers; not exact builder peak"
+        },
+        "idle_wait_seconds": 0.02827783301472664,
+        "compilers_observed_before_wait": [],
+        "log": "paired-4-baseline.log",
+        "phase_limits": "No separate linker, test or transfer instrumentation; memory is sampled host compiler RSS, not isolated builder accounting; phase events are builder log boundaries.",
+        "order": 2
+      },
+      {
+        "trial": 5,
+        "stage": "paired",
+        "label": "baseline",
+        "command": [
+          "nix",
+          "build",
+          "--impure",
+          "--file",
+          "/Users/shinzui/Keikaku/bokuno/haskell-nix/checks/fixtures/application-builds/split.nix",
+          "--argstr",
+          "source",
+          "/private/tmp/mp4-rei-package-split-20261017/baseline",
+          "package",
+          "--no-link",
+          "--json",
+          "--print-build-logs",
+          "--max-jobs",
+          "1",
+          "--cores",
+          "16"
+        ],
+        "source_variant_sha256": "cdfc35c8081ee78ea8af9918d3fd4288dfbbb56e22b4ec9f902218707032f117",
+        "identity": {
+          "behaviorProbe": null,
+          "compatibilityReport": {
+            "accepted": false,
+            "enabled": false,
+            "reason": "clean separate-package boundary experiment; no seed"
+          },
+          "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+          "component": "cli",
+          "core": "/nix/store/q81gkiznk4n6hmya2d3ndqpnjg7pqcz5-rei-core-7.1.0.0.drv",
+          "experimentMode": "package-split",
+          "foundation": null,
+          "packageSplit": false,
+          "registrationCompiler": "/nix/store/09v7v10n1lkv49ad2kawiqi1063mrhi2-ghc-9.12.4-with-packages.drv",
+          "root": "/nix/store/qlldfqb2qgbi78im9x25178sg0wm4w04-rei-cli-7.1.0.0.drv",
+          "splitManifest": "/tmp/mp4-rei-package-split-20261017/split-manifest.json"
+        },
+        "elapsed_seconds": 57.15962712498731,
+        "exit_code": 0,
+        "compiled_modules": {
+          "rei-cli": 301
+        },
+        "phase_events": [
+          {
+            "elapsed_seconds": 8.415479999996023,
+            "message": "rei-cli> Running phase: setupCompilerEnvironmentPhase"
+          },
+          {
+            "elapsed_seconds": 15.221858790988335,
+            "message": "rei-cli> Running phase: unpackPhase"
+          },
+          {
+            "elapsed_seconds": 15.2914122499933,
+            "message": "rei-cli> Running phase: patchPhase"
+          },
+          {
+            "elapsed_seconds": 15.309232083003735,
+            "message": "rei-cli> Running phase: compileBuildDriverPhase"
+          },
+          {
+            "elapsed_seconds": 16.100636707997182,
+            "message": "rei-cli> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+          },
+          {
+            "elapsed_seconds": 16.119904833001783,
+            "message": "rei-cli> Running phase: configurePhase"
+          },
+          {
+            "elapsed_seconds": 18.850524165987736,
+            "message": "rei-cli> Running phase: buildPhase"
+          },
+          {
+            "elapsed_seconds": 47.46297333299299,
+            "message": "rei-cli> Running phase: haddockPhase"
+          },
+          {
+            "elapsed_seconds": 47.474622957990505,
+            "message": "rei-cli> Running phase: installPhase"
+          },
+          {
+            "elapsed_seconds": 50.568174332991475,
+            "message": "rei-cli> Running phase: fixupPhase"
+          }
+        ],
+        "build_result": [
+          {
+            "drvPath": "/nix/store/qlldfqb2qgbi78im9x25178sg0wm4w04-rei-cli-7.1.0.0.drv",
+            "outputs": {
+              "out": "/nix/store/379xi7z3mx1jhcffnwqjr56vij83sxqp-rei-cli-7.1.0.0"
+            }
+          }
+        ],
+        "cache_state": "warm dependencies; initial build plan and actual compilations recorded in build log",
+        "sampled_host_compiler_memory": {
+          "peak_kib": 5201328,
+          "samples": 190,
+          "preexisting_processes": [],
+          "errors": [],
+          "scope": "Host compiler RSS sum sampled every 250 ms; may include concurrent unrelated compilers; not exact builder peak"
+        },
+        "idle_wait_seconds": 0.02839383398531936,
+        "compilers_observed_before_wait": [],
+        "log": "paired-5-baseline.log",
+        "phase_limits": "No separate linker, test or transfer instrumentation; memory is sampled host compiler RSS, not isolated builder accounting; phase events are builder log boundaries.",
+        "order": 1
+      },
+      {
+        "trial": 5,
+        "stage": "paired",
+        "label": "candidate",
+        "command": [
+          "nix",
+          "build",
+          "--impure",
+          "--file",
+          "/Users/shinzui/Keikaku/bokuno/haskell-nix/checks/fixtures/application-builds/split.nix",
+          "--argstr",
+          "source",
+          "/private/tmp/mp4-rei-package-split-20261017/candidate",
+          "package",
+          "--no-link",
+          "--json",
+          "--print-build-logs",
+          "--max-jobs",
+          "1",
+          "--cores",
+          "16"
+        ],
+        "source_variant_sha256": "cdfc35c8081ee78ea8af9918d3fd4288dfbbb56e22b4ec9f902218707032f117",
+        "identity": {
+          "behaviorProbe": null,
+          "compatibilityReport": {
+            "accepted": false,
+            "enabled": false,
+            "reason": "clean separate-package boundary experiment; no seed"
+          },
+          "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+          "component": "cli",
+          "core": "/nix/store/q81gkiznk4n6hmya2d3ndqpnjg7pqcz5-rei-core-7.1.0.0.drv",
+          "experimentMode": "package-split",
+          "foundation": "/nix/store/xh17rw8apn7pm8xsyks43399lhzm26p8-rei-cli-foundation-7.1.0.0.drv",
+          "packageSplit": true,
+          "registrationCompiler": "/nix/store/lnvd0q2nw5gjd2xvd8k2h7valbn7ly1y-ghc-9.12.4-with-packages.drv",
+          "root": "/nix/store/qmplkx9dw0364r7pb31ncynx4n61sbrd-rei-cli-7.1.0.0.drv",
+          "splitManifest": "/tmp/mp4-rei-package-split-20261017/split-manifest.json"
+        },
+        "elapsed_seconds": 55.057488541991916,
+        "exit_code": 0,
+        "compiled_modules": {
+          "rei-cli": 210
+        },
+        "phase_events": [
+          {
+            "elapsed_seconds": 5.957614584011026,
+            "message": "rei-cli> Running phase: setupCompilerEnvironmentPhase"
+          },
+          {
+            "elapsed_seconds": 13.443300792016089,
+            "message": "rei-cli> Running phase: unpackPhase"
+          },
+          {
+            "elapsed_seconds": 13.507745542010525,
+            "message": "rei-cli> Running phase: patchPhase"
+          },
+          {
+            "elapsed_seconds": 13.527808999991976,
+            "message": "rei-cli> Running phase: compileBuildDriverPhase"
+          },
+          {
+            "elapsed_seconds": 14.3782520419918,
+            "message": "rei-cli> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+          },
+          {
+            "elapsed_seconds": 14.397844249993796,
+            "message": "rei-cli> Running phase: configurePhase"
+          },
+          {
+            "elapsed_seconds": 17.032806709001306,
+            "message": "rei-cli> Running phase: buildPhase"
+          },
+          {
+            "elapsed_seconds": 45.43833591701696,
+            "message": "rei-cli> Running phase: haddockPhase"
+          },
+          {
+            "elapsed_seconds": 45.44735299999593,
+            "message": "rei-cli> Running phase: installPhase"
+          },
+          {
+            "elapsed_seconds": 48.569248834013706,
+            "message": "rei-cli> Running phase: fixupPhase"
+          }
+        ],
+        "build_result": [
+          {
+            "drvPath": "/nix/store/qmplkx9dw0364r7pb31ncynx4n61sbrd-rei-cli-7.1.0.0.drv",
+            "outputs": {
+              "out": "/nix/store/w4vajwdn73h8gpq6v0xsnkxq230jmxn0-rei-cli-7.1.0.0"
+            }
+          }
+        ],
+        "cache_state": "warm dependencies; initial build plan and actual compilations recorded in build log",
+        "sampled_host_compiler_memory": {
+          "peak_kib": 8971904,
+          "samples": 189,
+          "preexisting_processes": [],
+          "errors": [],
+          "scope": "Host compiler RSS sum sampled every 250 ms; may include concurrent unrelated compilers; not exact builder peak"
+        },
+        "idle_wait_seconds": 0.02892979100579396,
+        "compilers_observed_before_wait": [],
+        "log": "paired-5-candidate.log",
+        "phase_limits": "No separate linker, test or transfer instrumentation; memory is sampled host compiler RSS, not isolated builder accounting; phase events are builder log boundaries.",
+        "order": 2
+      }
+    ],
+    "warmup": [
+      {
+        "trial": 0,
+        "stage": "warmup",
+        "label": "baseline",
+        "command": [
+          "nix",
+          "build",
+          "--impure",
+          "--file",
+          "/Users/shinzui/Keikaku/bokuno/haskell-nix/checks/fixtures/application-builds/split.nix",
+          "--argstr",
+          "source",
+          "/private/tmp/mp4-rei-package-split-20261017/baseline",
+          "package",
+          "--no-link",
+          "--json",
+          "--print-build-logs",
+          "--max-jobs",
+          "1",
+          "--cores",
+          "16"
+        ],
+        "source_variant_sha256": "0d0b178b13322df196b4cc7887366ea05348edaebba26eaca9e58d0495b97757",
+        "identity": {
+          "behaviorProbe": null,
+          "compatibilityReport": {
+            "accepted": false,
+            "enabled": false,
+            "reason": "clean separate-package boundary experiment; no seed"
+          },
+          "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+          "component": "cli",
+          "core": "/nix/store/q81gkiznk4n6hmya2d3ndqpnjg7pqcz5-rei-core-7.1.0.0.drv",
+          "experimentMode": "package-split",
+          "foundation": null,
+          "packageSplit": false,
+          "registrationCompiler": "/nix/store/mxkss6fnfrvr4l9f4ijmf02a7kclllf5-ghc-9.12.4-with-packages.drv",
+          "root": "/nix/store/l6afxry8yviihkab53lb13n3awn371iy-rei-cli-7.1.0.0.drv",
+          "splitManifest": "/tmp/mp4-rei-package-split-20261017/split-manifest.json"
+        },
+        "elapsed_seconds": 55.924633624992566,
+        "exit_code": 0,
+        "compiled_modules": {
+          "rei-cli": 301
+        },
+        "phase_events": [
+          {
+            "elapsed_seconds": 7.4297533329809085,
+            "message": "rei-cli> Running phase: setupCompilerEnvironmentPhase"
+          },
+          {
+            "elapsed_seconds": 14.19465408299584,
+            "message": "rei-cli> Running phase: unpackPhase"
+          },
+          {
+            "elapsed_seconds": 14.270788458001334,
+            "message": "rei-cli> Running phase: patchPhase"
+          },
+          {
+            "elapsed_seconds": 14.28807916698861,
+            "message": "rei-cli> Running phase: compileBuildDriverPhase"
+          },
+          {
+            "elapsed_seconds": 15.116973457974382,
+            "message": "rei-cli> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+          },
+          {
+            "elapsed_seconds": 15.135693124990212,
+            "message": "rei-cli> Running phase: configurePhase"
+          },
+          {
+            "elapsed_seconds": 17.911963457998354,
+            "message": "rei-cli> Running phase: buildPhase"
+          },
+          {
+            "elapsed_seconds": 45.71863333298825,
+            "message": "rei-cli> Running phase: haddockPhase"
+          },
+          {
+            "elapsed_seconds": 45.733541207999224,
+            "message": "rei-cli> Running phase: installPhase"
+          },
+          {
+            "elapsed_seconds": 48.81227620798745,
+            "message": "rei-cli> Running phase: fixupPhase"
+          }
+        ],
+        "build_result": [
+          {
+            "drvPath": "/nix/store/l6afxry8yviihkab53lb13n3awn371iy-rei-cli-7.1.0.0.drv",
+            "outputs": {
+              "out": "/nix/store/n3i540rdai30hdxx66mybxqjsai89g59-rei-cli-7.1.0.0"
+            }
+          }
+        ],
+        "cache_state": "warm dependencies; initial build plan and actual compilations recorded in build log",
+        "sampled_host_compiler_memory": {
+          "peak_kib": 4626304,
+          "samples": 185,
+          "preexisting_processes": [],
+          "errors": [],
+          "scope": "Host compiler RSS sum sampled every 250 ms; may include concurrent unrelated compilers; not exact builder peak"
+        },
+        "idle_wait_seconds": 0.029302500013727695,
+        "compilers_observed_before_wait": [],
+        "log": "warmup-0-baseline.log",
+        "phase_limits": "No separate linker, test or transfer instrumentation; memory is sampled host compiler RSS, not isolated builder accounting; phase events are builder log boundaries."
+      },
+      {
+        "trial": 0,
+        "stage": "warmup",
+        "label": "candidate",
+        "command": [
+          "nix",
+          "build",
+          "--impure",
+          "--file",
+          "/Users/shinzui/Keikaku/bokuno/haskell-nix/checks/fixtures/application-builds/split.nix",
+          "--argstr",
+          "source",
+          "/private/tmp/mp4-rei-package-split-20261017/candidate",
+          "package",
+          "--no-link",
+          "--json",
+          "--print-build-logs",
+          "--max-jobs",
+          "1",
+          "--cores",
+          "16"
+        ],
+        "source_variant_sha256": "0d0b178b13322df196b4cc7887366ea05348edaebba26eaca9e58d0495b97757",
+        "identity": {
+          "behaviorProbe": null,
+          "compatibilityReport": {
+            "accepted": false,
+            "enabled": false,
+            "reason": "clean separate-package boundary experiment; no seed"
+          },
+          "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+          "component": "cli",
+          "core": "/nix/store/q81gkiznk4n6hmya2d3ndqpnjg7pqcz5-rei-core-7.1.0.0.drv",
+          "experimentMode": "package-split",
+          "foundation": "/nix/store/xh17rw8apn7pm8xsyks43399lhzm26p8-rei-cli-foundation-7.1.0.0.drv",
+          "packageSplit": true,
+          "registrationCompiler": "/nix/store/zfvjr3mr3ma6g9qp61m0i8kqdg4jg3s9-ghc-9.12.4-with-packages.drv",
+          "root": "/nix/store/y91n1035n2s4zvy4zfnj4ilr68z7r83x-rei-cli-7.1.0.0.drv",
+          "splitManifest": "/tmp/mp4-rei-package-split-20261017/split-manifest.json"
+        },
+        "elapsed_seconds": 3.2786352910043206,
+        "exit_code": 0,
+        "compiled_modules": {},
+        "phase_events": [],
+        "build_result": [
+          {
+            "drvPath": "/nix/store/y91n1035n2s4zvy4zfnj4ilr68z7r83x-rei-cli-7.1.0.0.drv",
+            "outputs": {
+              "out": "/nix/store/i21jpw2vd2q6wasci0hknmcw75djdv3f-rei-cli-7.1.0.0"
+            }
+          }
+        ],
+        "cache_state": "warm dependencies; initial build plan and actual compilations recorded in build log",
+        "sampled_host_compiler_memory": {
+          "peak_kib": 0,
+          "samples": 12,
+          "preexisting_processes": [],
+          "errors": [],
+          "scope": "Host compiler RSS sum sampled every 250 ms; may include concurrent unrelated compilers; not exact builder peak"
+        },
+        "idle_wait_seconds": 0.029102416010573506,
+        "compilers_observed_before_wait": [],
+        "log": "warmup-0-candidate.log",
+        "phase_limits": "No separate linker, test or transfer instrumentation; memory is sampled host compiler RSS, not isolated builder accounting; phase events are builder log boundaries."
+      }
+    ],
+    "timings": {
+      "baseline": {
+        "median_seconds": 56.39832504201331,
+        "min_seconds": 55.92141245800303,
+        "max_seconds": 57.15962712498731
+      },
+      "candidate": {
+        "median_seconds": 51.842934083979344,
+        "min_seconds": 51.45732116702129,
+        "max_seconds": 55.057488541991916
+      }
+    },
+    "saving_fraction": 0.08077174197355119,
+    "timing_threshold_passed": false,
+    "migration_cost_seconds": 3.2786352910043206,
+    "break_even_edits": 1,
+    "cost_limits": "migration_cost_seconds is the candidate warmup only, retained for receipt compatibility. Cached warmups cannot establish seed creation cost. Include independently measured seed creation, source/recipe migration, final validation, transfer and retention before any adoption decision; break_even_edits excludes those additional costs."
+  },
+  "verification": {
+    "schema_version": 1,
+    "project_uri": "mori://shinzui/rei",
+    "summary_sha256": "415130b157f3bc85b969ba940df87febfefc23c79d6a4937167b2989f363a61b",
+    "component": "cli",
+    "experiment_mode": "package-split",
+    "pairs": [
+      {
+        "trial": 1,
+        "behavior": [
+          {
+            "command": [
+              "--version"
+            ],
+            "exit_code": 0,
+            "stdout_sha256": "ceb9946b7d9a4b5d747ad754a0df97d300ec252be7b4c965beed9d505a2724cb",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "command": [
+              "--help"
+            ],
+            "exit_code": 0,
+            "stdout_sha256": "0eafee80c6251dfd461391c7fcc802148d5ff912cdebcc6cebf661b27a16f048",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "command": [
+              "help",
+              "time"
+            ],
+            "exit_code": 0,
+            "stdout_sha256": "db4b8b3d87441243075269477a77025fcee6a6a25981f640ec362b6772378fbd",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "command": [
+              "--bash-completion-script",
+              "rei"
+            ],
+            "exit_code": 0,
+            "stdout_sha256": "f7414ece722cc984da96cb5fe7a5fcc2addd4b92b39590e1de9caaa3ed36eae9",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        ],
+        "roots": {
+          "baseline": {
+            "derivation": "/nix/store/x9qdmcr4n79w6ggxrh6s5bbznf8sy344-rei-cli-7.1.0.0.drv",
+            "output": "/nix/store/wi0izi69crpq2s3yhsm6r6w3fcv2d7fq-rei-cli-7.1.0.0",
+            "graph_sha256": "d7de8499864a3e12c67092816f70755e689c21645c7c870e2ca3292dc5216be1",
+            "runtime_closure_nar_bytes": 9466338224,
+            "intermediates_absent_from_runtime_closure": true,
+            "seed_outputs_absent_from_runtime_closure": true
+          },
+          "candidate": {
+            "derivation": "/nix/store/s14a4khlwcim8psjhv84ascjfm4mkkq6-rei-cli-7.1.0.0.drv",
+            "output": "/nix/store/109rw7vq640djfy76hszsnym8vcj2wfn-rei-cli-7.1.0.0",
+            "graph_sha256": "e0452008624c2f8dade95dabf214723781912f98e452968400836426921c6f27",
+            "runtime_closure_nar_bytes": 9469516976,
+            "intermediates_absent_from_runtime_closure": true,
+            "seed_outputs_absent_from_runtime_closure": true
+          }
+        },
+        "settings": {
+          "configureFlags": "",
+          "doCheck": "",
+          "system": "aarch64-darwin",
+          "builder": "/nix/store/yqk6qhawnigv832m2zhcbs25nb37r73i-bash-5.3p15/bin/bash",
+          "source": "<declared-package-split>",
+          "buildWays": {
+            "doHaddock": null,
+            "enableLibraryProfiling": null,
+            "enableExecutableProfiling": null,
+            "enableSharedLibraries": null,
+            "enableSharedExecutables": null,
+            "enableStaticLibraries": null,
+            "enableStaticExecutables": null,
+            "enableParallelBuilding": null
+          },
+          "recipeHooks": {
+            "prePatch": "\nsed -i -e 's/\\r$//' *.cabal\n",
+            "postPatch": "substituteInPlace src/Rei/Cli/Commands/Info.hs \\\n  --replace-fail '#ifdef GIT_HASH' '#if 1' \\\n  --replace-fail 'nixGitHash = Just GIT_HASH' 'nixGitHash = Just \"bad0388\"'\n",
+            "preConfigure": null,
+            "postConfigure": null,
+            "preBuild": null,
+            "postBuild": null,
+            "preInstall": null,
+            "postInstall": null,
+            "buildFlags": "",
+            "setupCompileFlags": null,
+            "doBenchmark": null
+          }
+        },
+        "shared_graph_nodes_unchanged": 2049,
+        "shared_haskell_instances_unchanged": 475,
+        "seed_chain": "no seed"
+      },
+      {
+        "trial": 2,
+        "behavior": [
+          {
+            "command": [
+              "--version"
+            ],
+            "exit_code": 0,
+            "stdout_sha256": "ceb9946b7d9a4b5d747ad754a0df97d300ec252be7b4c965beed9d505a2724cb",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "command": [
+              "--help"
+            ],
+            "exit_code": 0,
+            "stdout_sha256": "0eafee80c6251dfd461391c7fcc802148d5ff912cdebcc6cebf661b27a16f048",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "command": [
+              "help",
+              "time"
+            ],
+            "exit_code": 0,
+            "stdout_sha256": "d8841525e9f53a78b206abb4e5f4d98beecd0eff914c9eb4b4cf48a3a98c9bab",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "command": [
+              "--bash-completion-script",
+              "rei"
+            ],
+            "exit_code": 0,
+            "stdout_sha256": "f7414ece722cc984da96cb5fe7a5fcc2addd4b92b39590e1de9caaa3ed36eae9",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        ],
+        "roots": {
+          "baseline": {
+            "derivation": "/nix/store/q520f9kb344fdy1sfk014jw59sa2bafz-rei-cli-7.1.0.0.drv",
+            "output": "/nix/store/912aplzdrd7yiqy3jnj67igs7mvzlc7c-rei-cli-7.1.0.0",
+            "graph_sha256": "74e77690a21045dbb772440835901e144f27e513bd12d58269a53d212022274c",
+            "runtime_closure_nar_bytes": 9466338248,
+            "intermediates_absent_from_runtime_closure": true,
+            "seed_outputs_absent_from_runtime_closure": true
+          },
+          "candidate": {
+            "derivation": "/nix/store/0419f47vplc9pcjixvdrfp685j86q6k5-rei-cli-7.1.0.0.drv",
+            "output": "/nix/store/c8vfs9q9dcnnvjxyhwamnfdh74y26rl7-rei-cli-7.1.0.0",
+            "graph_sha256": "8691f699c0619c7d12eb5e80783d929263a02d762b625c81990b7fcb926e1c2d",
+            "runtime_closure_nar_bytes": 9469517000,
+            "intermediates_absent_from_runtime_closure": true,
+            "seed_outputs_absent_from_runtime_closure": true
+          }
+        },
+        "settings": {
+          "configureFlags": "",
+          "doCheck": "",
+          "system": "aarch64-darwin",
+          "builder": "/nix/store/yqk6qhawnigv832m2zhcbs25nb37r73i-bash-5.3p15/bin/bash",
+          "source": "<declared-package-split>",
+          "buildWays": {
+            "doHaddock": null,
+            "enableLibraryProfiling": null,
+            "enableExecutableProfiling": null,
+            "enableSharedLibraries": null,
+            "enableSharedExecutables": null,
+            "enableStaticLibraries": null,
+            "enableStaticExecutables": null,
+            "enableParallelBuilding": null
+          },
+          "recipeHooks": {
+            "prePatch": "\nsed -i -e 's/\\r$//' *.cabal\n",
+            "postPatch": "substituteInPlace src/Rei/Cli/Commands/Info.hs \\\n  --replace-fail '#ifdef GIT_HASH' '#if 1' \\\n  --replace-fail 'nixGitHash = Just GIT_HASH' 'nixGitHash = Just \"bad0388\"'\n",
+            "preConfigure": null,
+            "postConfigure": null,
+            "preBuild": null,
+            "postBuild": null,
+            "preInstall": null,
+            "postInstall": null,
+            "buildFlags": "",
+            "setupCompileFlags": null,
+            "doBenchmark": null
+          }
+        },
+        "shared_graph_nodes_unchanged": 2049,
+        "shared_haskell_instances_unchanged": 475,
+        "seed_chain": "no seed"
+      },
+      {
+        "trial": 3,
+        "behavior": [
+          {
+            "command": [
+              "--version"
+            ],
+            "exit_code": 0,
+            "stdout_sha256": "ceb9946b7d9a4b5d747ad754a0df97d300ec252be7b4c965beed9d505a2724cb",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "command": [
+              "--help"
+            ],
+            "exit_code": 0,
+            "stdout_sha256": "0eafee80c6251dfd461391c7fcc802148d5ff912cdebcc6cebf661b27a16f048",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "command": [
+              "help",
+              "time"
+            ],
+            "exit_code": 0,
+            "stdout_sha256": "79377fd7f57bcb464d98f3fda4783f606dd043e98e7210f76f9fadf5dfdd882e",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "command": [
+              "--bash-completion-script",
+              "rei"
+            ],
+            "exit_code": 0,
+            "stdout_sha256": "f7414ece722cc984da96cb5fe7a5fcc2addd4b92b39590e1de9caaa3ed36eae9",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        ],
+        "roots": {
+          "baseline": {
+            "derivation": "/nix/store/96sm9q8v61l5zyrs1sa7s9gz2d5hhmsf-rei-cli-7.1.0.0.drv",
+            "output": "/nix/store/f0yyis4qf3vrkml3gvwgh09x3nz454rs-rei-cli-7.1.0.0",
+            "graph_sha256": "6cf2e3e4e3e2df9ef167da3c42f16d7cbf2984f1c2976622c102b1d54246f3a7",
+            "runtime_closure_nar_bytes": 9466338248,
+            "intermediates_absent_from_runtime_closure": true,
+            "seed_outputs_absent_from_runtime_closure": true
+          },
+          "candidate": {
+            "derivation": "/nix/store/0z4k9502fh7nyqb13iapxvsm76whm14q-rei-cli-7.1.0.0.drv",
+            "output": "/nix/store/njbchmz8yfraxnw3vk2fnr8ghm3q3775-rei-cli-7.1.0.0",
+            "graph_sha256": "94d7cd2686b7df70e2497f7d90f8a62f845bc1168f866a7a56a9a47c995bcec1",
+            "runtime_closure_nar_bytes": 9469516976,
+            "intermediates_absent_from_runtime_closure": true,
+            "seed_outputs_absent_from_runtime_closure": true
+          }
+        },
+        "settings": {
+          "configureFlags": "",
+          "doCheck": "",
+          "system": "aarch64-darwin",
+          "builder": "/nix/store/yqk6qhawnigv832m2zhcbs25nb37r73i-bash-5.3p15/bin/bash",
+          "source": "<declared-package-split>",
+          "buildWays": {
+            "doHaddock": null,
+            "enableLibraryProfiling": null,
+            "enableExecutableProfiling": null,
+            "enableSharedLibraries": null,
+            "enableSharedExecutables": null,
+            "enableStaticLibraries": null,
+            "enableStaticExecutables": null,
+            "enableParallelBuilding": null
+          },
+          "recipeHooks": {
+            "prePatch": "\nsed -i -e 's/\\r$//' *.cabal\n",
+            "postPatch": "substituteInPlace src/Rei/Cli/Commands/Info.hs \\\n  --replace-fail '#ifdef GIT_HASH' '#if 1' \\\n  --replace-fail 'nixGitHash = Just GIT_HASH' 'nixGitHash = Just \"bad0388\"'\n",
+            "preConfigure": null,
+            "postConfigure": null,
+            "preBuild": null,
+            "postBuild": null,
+            "preInstall": null,
+            "postInstall": null,
+            "buildFlags": "",
+            "setupCompileFlags": null,
+            "doBenchmark": null
+          }
+        },
+        "shared_graph_nodes_unchanged": 2049,
+        "shared_haskell_instances_unchanged": 475,
+        "seed_chain": "no seed"
+      },
+      {
+        "trial": 4,
+        "behavior": [
+          {
+            "command": [
+              "--version"
+            ],
+            "exit_code": 0,
+            "stdout_sha256": "ceb9946b7d9a4b5d747ad754a0df97d300ec252be7b4c965beed9d505a2724cb",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "command": [
+              "--help"
+            ],
+            "exit_code": 0,
+            "stdout_sha256": "0eafee80c6251dfd461391c7fcc802148d5ff912cdebcc6cebf661b27a16f048",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "command": [
+              "help",
+              "time"
+            ],
+            "exit_code": 0,
+            "stdout_sha256": "0895aac1e5bedd6a626e26421a40fa1a131a3b8ffaca8062da602808170fc48c",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "command": [
+              "--bash-completion-script",
+              "rei"
+            ],
+            "exit_code": 0,
+            "stdout_sha256": "f7414ece722cc984da96cb5fe7a5fcc2addd4b92b39590e1de9caaa3ed36eae9",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        ],
+        "roots": {
+          "baseline": {
+            "derivation": "/nix/store/91sszdm8k6v987mi1dxv4274xsw9dixs-rei-cli-7.1.0.0.drv",
+            "output": "/nix/store/5cghsfqj38xffzy2haaanaxpxkxxlpfh-rei-cli-7.1.0.0",
+            "graph_sha256": "842245ffa3f25924beada49aa0e101d3c531527cfc9614d961a86597e620e144",
+            "runtime_closure_nar_bytes": 9466338224,
+            "intermediates_absent_from_runtime_closure": true,
+            "seed_outputs_absent_from_runtime_closure": true
+          },
+          "candidate": {
+            "derivation": "/nix/store/z1swa0nnw1qr3gak48ymm73845jvn658-rei-cli-7.1.0.0.drv",
+            "output": "/nix/store/yal0bg4zhrzj4xh5s6bsjdr1q875rw0n-rei-cli-7.1.0.0",
+            "graph_sha256": "158db0c5072f14e764c01594fb8ad0f6e9e86713a804dcaa81fee4bdd71d7c3b",
+            "runtime_closure_nar_bytes": 9469516976,
+            "intermediates_absent_from_runtime_closure": true,
+            "seed_outputs_absent_from_runtime_closure": true
+          }
+        },
+        "settings": {
+          "configureFlags": "",
+          "doCheck": "",
+          "system": "aarch64-darwin",
+          "builder": "/nix/store/yqk6qhawnigv832m2zhcbs25nb37r73i-bash-5.3p15/bin/bash",
+          "source": "<declared-package-split>",
+          "buildWays": {
+            "doHaddock": null,
+            "enableLibraryProfiling": null,
+            "enableExecutableProfiling": null,
+            "enableSharedLibraries": null,
+            "enableSharedExecutables": null,
+            "enableStaticLibraries": null,
+            "enableStaticExecutables": null,
+            "enableParallelBuilding": null
+          },
+          "recipeHooks": {
+            "prePatch": "\nsed -i -e 's/\\r$//' *.cabal\n",
+            "postPatch": "substituteInPlace src/Rei/Cli/Commands/Info.hs \\\n  --replace-fail '#ifdef GIT_HASH' '#if 1' \\\n  --replace-fail 'nixGitHash = Just GIT_HASH' 'nixGitHash = Just \"bad0388\"'\n",
+            "preConfigure": null,
+            "postConfigure": null,
+            "preBuild": null,
+            "postBuild": null,
+            "preInstall": null,
+            "postInstall": null,
+            "buildFlags": "",
+            "setupCompileFlags": null,
+            "doBenchmark": null
+          }
+        },
+        "shared_graph_nodes_unchanged": 2049,
+        "shared_haskell_instances_unchanged": 475,
+        "seed_chain": "no seed"
+      },
+      {
+        "trial": 5,
+        "behavior": [
+          {
+            "command": [
+              "--version"
+            ],
+            "exit_code": 0,
+            "stdout_sha256": "ceb9946b7d9a4b5d747ad754a0df97d300ec252be7b4c965beed9d505a2724cb",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "command": [
+              "--help"
+            ],
+            "exit_code": 0,
+            "stdout_sha256": "0eafee80c6251dfd461391c7fcc802148d5ff912cdebcc6cebf661b27a16f048",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "command": [
+              "help",
+              "time"
+            ],
+            "exit_code": 0,
+            "stdout_sha256": "d6ddf43f46c4495cf95738ff9023d22ee962b9744d02ca07a1b8c25d56ba37b1",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "command": [
+              "--bash-completion-script",
+              "rei"
+            ],
+            "exit_code": 0,
+            "stdout_sha256": "f7414ece722cc984da96cb5fe7a5fcc2addd4b92b39590e1de9caaa3ed36eae9",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        ],
+        "roots": {
+          "baseline": {
+            "derivation": "/nix/store/qlldfqb2qgbi78im9x25178sg0wm4w04-rei-cli-7.1.0.0.drv",
+            "output": "/nix/store/379xi7z3mx1jhcffnwqjr56vij83sxqp-rei-cli-7.1.0.0",
+            "graph_sha256": "4f4559d3738f532fbcc5a44ec1e1d8fdcc157ad33ad3e5cb6f7874b2369d0291",
+            "runtime_closure_nar_bytes": 9466338256,
+            "intermediates_absent_from_runtime_closure": true,
+            "seed_outputs_absent_from_runtime_closure": true
+          },
+          "candidate": {
+            "derivation": "/nix/store/qmplkx9dw0364r7pb31ncynx4n61sbrd-rei-cli-7.1.0.0.drv",
+            "output": "/nix/store/w4vajwdn73h8gpq6v0xsnkxq230jmxn0-rei-cli-7.1.0.0",
+            "graph_sha256": "d68f50b6315ba462bff45fdfd77e2727ecffbcb5191be95040eaff244f0fb1ad",
+            "runtime_closure_nar_bytes": 9469516992,
+            "intermediates_absent_from_runtime_closure": true,
+            "seed_outputs_absent_from_runtime_closure": true
+          }
+        },
+        "settings": {
+          "configureFlags": "",
+          "doCheck": "",
+          "system": "aarch64-darwin",
+          "builder": "/nix/store/yqk6qhawnigv832m2zhcbs25nb37r73i-bash-5.3p15/bin/bash",
+          "source": "<declared-package-split>",
+          "buildWays": {
+            "doHaddock": null,
+            "enableLibraryProfiling": null,
+            "enableExecutableProfiling": null,
+            "enableSharedLibraries": null,
+            "enableSharedExecutables": null,
+            "enableStaticLibraries": null,
+            "enableStaticExecutables": null,
+            "enableParallelBuilding": null
+          },
+          "recipeHooks": {
+            "prePatch": "\nsed -i -e 's/\\r$//' *.cabal\n",
+            "postPatch": "substituteInPlace src/Rei/Cli/Commands/Info.hs \\\n  --replace-fail '#ifdef GIT_HASH' '#if 1' \\\n  --replace-fail 'nixGitHash = Just GIT_HASH' 'nixGitHash = Just \"bad0388\"'\n",
+            "preConfigure": null,
+            "postConfigure": null,
+            "preBuild": null,
+            "postBuild": null,
+            "preInstall": null,
+            "postInstall": null,
+            "buildFlags": "",
+            "setupCompileFlags": null,
+            "doBenchmark": null
+          }
+        },
+        "shared_graph_nodes_unchanged": 2049,
+        "shared_haskell_instances_unchanged": 475,
+        "seed_chain": "no seed"
+      }
+    ],
+    "validation_observations": [
+      {
+        "trial": 1,
+        "label": "baseline",
+        "probe": "original public module reexports",
+        "module_count": 91,
+        "elapsed_seconds": 21.034575958998175
+      },
+      {
+        "trial": 1,
+        "label": "candidate",
+        "probe": "original public module reexports",
+        "module_count": 91,
+        "elapsed_seconds": 18.123509708995698
+      }
+    ],
+    "total_validation_elapsed_seconds": 67.36825937498361,
+    "status": "passed"
+  },
+  "costs": {
+    "gross_observed_startup_and_validation_seconds": 201.69133020797744,
+    "observed_candidate_first_use_minus_baseline_plus_validation_seconds": 86.56342766698799,
+    "per_edit_saving_seconds": 4.555390958033968,
+    "gross_break_even_edits": 45,
+    "differential_break_even_edits": 20,
+    "limits": "Cached candidate warmup is not fresh migration cost; the preceding native calibration records that cost. Full validation elapsed overlaps independent smoke/registry queries. Complete suite/native maintenance and publication costs remain open. The elapsed threshold already fails independently of cost accounting."
+  },
+  "decision": "Reject production layout adoption: the median saving is below the predeclared 20% threshold. Retain the disposable tooling/evidence, all production layouts/defaults/pins unchanged."
+}

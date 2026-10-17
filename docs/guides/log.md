@@ -1,6 +1,10 @@
 # Bundle Update Log
 
 ## 2026-10-17
+* **Update**: Record successful native Darwin assembly and lazy replaced-seed metadata rejection.
+* **Update**: Record rejected package split measurements and native producer/dotfiles output reuse.
+* **Update**: Document native checkpoint origin binding, full core-pilot costs, and conservative package-boundary investigation.
+* **Update**: Document explicit core-library experiment outputs and preserve their pending acceptance gates.
 * **Update**: Retain five-pair CLI results and observed total-cost/storage limits; keep clean defaults.
 * **Update**: Document owned clean/seed outputs, conservative data guards, native behavior evidence and resumable idle-host measurement.
 * **Update**: Document native intermediate feasibility, compatibility guards and paired Haskell leaf experiments without claiming production acceptance.
