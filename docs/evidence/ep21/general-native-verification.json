@@ -2460,6 +2460,13 @@
       "Existing outputs and original native-target logs accepted; no performance claim",
       "No production exception or retained policy changed"
     ],
-    "fullFlakeCheck": "pending immutable snapshot rerun; mutable checkout run rejected concurrent source changes"
+    "fullFlakeCheck": {
+      "status": "passed",
+      "sourceRevision": "823bf773e2e52b184a0fd262bf7f7166834b91f8",
+      "logSha256": "1227b8e2179e9f0bd9627fb45c0e5d104994854668999375bdb3c5faac08fb52",
+      "pureNixContracts": 274,
+      "updaterTests": 203,
+      "scope": "All declared x86_64-linux checks; Apple target translation, not other systems"
+    }
   }
 }
