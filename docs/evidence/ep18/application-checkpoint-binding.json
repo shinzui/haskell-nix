@@ -1,0 +1,1139 @@
+{
+  "schema_version": 1,
+  "system": "aarch64-darwin",
+  "positive_fixture": {
+    "command": [
+      "nix",
+      "build",
+      "--no-link",
+      "--json",
+      "--print-build-logs",
+      ".#checks.aarch64-darwin.application-checkpoint"
+    ],
+    "exit_code": 0,
+    "build": [
+      {
+        "drvPath": "/nix/store/mjd90jiphvm2b70r4g0j5haqpxxazkrv-application-checkpoint-origin.drv",
+        "outputs": {
+          "out": "/nix/store/kc6cv0q1ipd5vfngnm08a7cw4hihiz4m-application-checkpoint-origin"
+        }
+      }
+    ],
+    "log_sha256": "d617cc677578513c380f86a1be9b609352f22c26247c1c4c4cffc4a771df0cc2",
+    "elapsed_seconds": null,
+    "timing_limit": "Positive fixture time was not instrumented; do not count it as free in adoption costs."
+  },
+  "pure_expectations_passed": 210,
+  "applications": {
+    "rei": {
+      "owner": "mori://shinzui/rei",
+      "observations": [
+        {
+          "component": "cli",
+          "declaration": {
+            "compatibility": {
+              "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+              "generatedInputPolicy": "4e6ba33b41c8d8998e823d6005a45f8e2361b68e415dc732673e56a389697b5f",
+              "metadataIdentity": "3f5be62e142fc224d4732512b7f828815c9452ebdf81f864b1c3a32767b62e17",
+              "packageName": "rei-cli",
+              "packageVersion": "7.1.0.0",
+              "recipeIdentity": "/nix/store/j9v3vkqlwmj8vf5401b3plv9jfdizfak-rei-cli-7.1.0.0.drv",
+              "schemaVersion": 1,
+              "sourceLayoutIdentity": "32f13fcecd1fcb0e9cf3bd7e5af03ab0b3fb818ce6027a0a2faf5a983ddcb45d"
+            },
+            "derivation": "/nix/store/ji22cr0wpragzp5hp9hrcaamdl828yya-rei-cli-7.1.0.0.drv",
+            "schemaVersion": 1
+          },
+          "build": [
+            {
+              "drvPath": "/nix/store/ji22cr0wpragzp5hp9hrcaamdl828yya-rei-cli-7.1.0.0.drv",
+              "outputs": {
+                "out": "/nix/store/yxmk4y2arzqrdj5nfa4107h5y1hw4hx3-rei-cli-7.1.0.0"
+              }
+            }
+          ],
+          "elapsed_seconds": 14.072234916005982,
+          "log_sha256": "5bcfaeef4be6771f233cf652aa5e3ef316685d9ca18d6ea917a5dddb1eaa4639",
+          "compile_events": 0,
+          "final_compatibility_report": {
+            "accepted": true,
+            "differences": [],
+            "enabled": true,
+            "reason": "compatible explicit seed",
+            "schemaVersion": 1
+          }
+        },
+        {
+          "component": "core",
+          "declaration": {
+            "compatibility": {
+              "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+              "generatedInputPolicy": "912b079b6b798e4415201ced57e2bf3768ba398319af4d9d972f4c78265fa34c",
+              "metadataIdentity": "db723e3e0b38b98638c2925564f9a859f2c1b5f55f7a8d90c9d2dfc3dc86af83",
+              "packageName": "rei-core",
+              "packageVersion": "7.1.0.0",
+              "recipeIdentity": "/nix/store/cb026m3n5bj962l2nxc8npgcg26wrz4n-rei-core-7.1.0.0.drv",
+              "schemaVersion": 1,
+              "sourceLayoutIdentity": "aa273ceeb3f74da0db35e2a3508ebe4cc83665fdaebdb7c492292adc87201b40"
+            },
+            "derivation": "/nix/store/0jrcj7cngybqjy8fxwvsrs72a07ng7c3-rei-core-7.1.0.0.drv",
+            "schemaVersion": 1
+          },
+          "build": [
+            {
+              "drvPath": "/nix/store/0jrcj7cngybqjy8fxwvsrs72a07ng7c3-rei-core-7.1.0.0.drv",
+              "outputs": {
+                "out": "/nix/store/kcpav403hc44ysph0nb7i0ryw1j2d8iw-rei-core-7.1.0.0"
+              }
+            }
+          ],
+          "elapsed_seconds": 108.13266141701024,
+          "log_sha256": "f9e392dd235dc3351f31c5d2edfb91756d14a5cca8b7410fbaf784200dddb98c",
+          "compile_events": 893,
+          "final_compatibility_report": {
+            "accepted": true,
+            "differences": [],
+            "enabled": true,
+            "reason": "compatible explicit seed",
+            "schemaVersion": 1
+          }
+        }
+      ],
+      "scope": "Published fixed seed source, current reviewed recipe, exact successful native checkpoint. Current CLI/Core production defaults remain clean; unsupported systems have no declaration and fall back clean."
+    },
+    "mori": {
+      "owner": "mori://shinzui/mori",
+      "observations": [
+        {
+          "component": "cli",
+          "declaration": {
+            "compatibility": {
+              "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+              "generatedInputPolicy": "d18ae4ed5c4af905096b8f415b74efc300db08211e01c136998289a35258993d",
+              "metadataIdentity": "cf82c1d80f382c8fa8b44a1a0bc37d0835d713bdac84d729d4b4ad65f0ed726b",
+              "packageName": "mori-cli",
+              "packageVersion": "7.0.0.0",
+              "recipeIdentity": "/nix/store/zs9q8wpq7q13mb521irgxacgqxmdfsiq-mori-cli-7.0.0.0.drv",
+              "schemaVersion": 1,
+              "sourceLayoutIdentity": "935c55965d9e0ff25d6c0d9c4321a352cd277bb88472ffbe3cb10c9f498254b2"
+            },
+            "derivation": "/nix/store/dmq51l56g3asmilgbr6pa70nfbqc1d61-mori-cli-7.0.0.0.drv",
+            "schemaVersion": 1
+          },
+          "build": [
+            {
+              "drvPath": "/nix/store/dmq51l56g3asmilgbr6pa70nfbqc1d61-mori-cli-7.0.0.0.drv",
+              "outputs": {
+                "out": "/nix/store/13bckpvikgdk0l5vkp3b10dx5p0gl98i-mori-cli-7.0.0.0"
+              }
+            }
+          ],
+          "elapsed_seconds": 13.246712541003944,
+          "log_sha256": "0d11571f5b6522d778515c5d6a569f6575ca4906d7d059a06ce072e8b7d08e25",
+          "compile_events": 0,
+          "final_compatibility_report": {
+            "accepted": true,
+            "differences": [],
+            "enabled": true,
+            "reason": "compatible explicit seed",
+            "schemaVersion": 1
+          }
+        },
+        {
+          "component": "core",
+          "declaration": {
+            "compatibility": {
+              "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+              "generatedInputPolicy": "912b079b6b798e4415201ced57e2bf3768ba398319af4d9d972f4c78265fa34c",
+              "metadataIdentity": "7b343563c012bf750b49d32037915888cfc03d891639c49588ec7c7822daa67c",
+              "packageName": "mori-core",
+              "packageVersion": "7.0.0.0",
+              "recipeIdentity": "/nix/store/w0d99iw1bnpkxl4a7rjg57fhbivvb9zv-mori-core-7.0.0.0.drv",
+              "schemaVersion": 1,
+              "sourceLayoutIdentity": "66efd7665de4f1741d0aa7997ba67807a4fb022d6f42cb43863919f6becbb882"
+            },
+            "derivation": "/nix/store/kvqh2jbvj499ibc38d1ypsymf0d8n21b-mori-core-7.0.0.0.drv",
+            "schemaVersion": 1
+          },
+          "build": [
+            {
+              "drvPath": "/nix/store/kvqh2jbvj499ibc38d1ypsymf0d8n21b-mori-core-7.0.0.0.drv",
+              "outputs": {
+                "out": "/nix/store/mnsqyiynnj6cyv7dncp1klxnc72l073j-mori-core-7.0.0.0"
+              }
+            }
+          ],
+          "elapsed_seconds": 153.6596677499765,
+          "log_sha256": "2daf0c08d4d3baf904ab8e9cbe8f7b54bdbdce88f703f22c88a8404ef72b7c2f",
+          "compile_events": 589,
+          "final_compatibility_report": {
+            "accepted": true,
+            "differences": [],
+            "enabled": true,
+            "reason": "compatible explicit seed",
+            "schemaVersion": 1
+          }
+        }
+      ],
+      "scope": "Published fixed seed source, current reviewed recipe, exact successful native checkpoint. Current CLI/Core production defaults remain clean; unsupported systems have no declaration and fall back clean."
+    }
+  },
+  "negative_fixture": {
+    "identity": {
+      "clean": "/nix/store/fcib968g5sph8d84xwv8f7w9802rnanc-checkpoint-app-1.0.drv",
+      "compatibilityReport": {
+        "accepted": false,
+        "differences": [
+          "validatedCheckpoint"
+        ],
+        "enabled": true,
+        "reason": "validated checkpoint compatibility changed",
+        "schemaVersion": 1
+      },
+      "currentCompatibility": {
+        "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+        "generatedInputPolicy": "912b079b6b798e4415201ced57e2bf3768ba398319af4d9d972f4c78265fa34c",
+        "metadataIdentity": "af2f9c2b09d87e53d5cd76a8682f40a129832fa498a1b555a97a32e659d67f8d",
+        "packageName": "checkpoint-app",
+        "packageVersion": "1.0",
+        "recipeIdentity": "/nix/store/jvmzahhlbhp5crbx16790pdh9p940z9f-checkpoint-app-1.0.drv",
+        "schemaVersion": 1,
+        "sourceLayoutIdentity": "62cb46229eb494b7cb53c8cf34bb66c896d700a10391355fd4de1f94acf9f6b0"
+      },
+      "guarded": "/nix/store/fcib968g5sph8d84xwv8f7w9802rnanc-checkpoint-app-1.0.drv",
+      "originalDeclaration": {
+        "compatibility": {
+          "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+          "generatedInputPolicy": "912b079b6b798e4415201ced57e2bf3768ba398319af4d9d972f4c78265fa34c",
+          "metadataIdentity": "af2f9c2b09d87e53d5cd76a8682f40a129832fa498a1b555a97a32e659d67f8d",
+          "packageName": "checkpoint-app",
+          "packageVersion": "1.0",
+          "recipeIdentity": "/nix/store/3vg74a24akg4vys41pjx6jgf1bfmrdjm-checkpoint-app-1.0.drv",
+          "schemaVersion": 1,
+          "sourceLayoutIdentity": "62cb46229eb494b7cb53c8cf34bb66c896d700a10391355fd4de1f94acf9f6b0"
+        },
+        "derivation": "/nix/store/6w8kwmdmgdaf8ba7vhy0xn1899s5s0yh-checkpoint-app-1.0.drv",
+        "schemaVersion": 1
+      },
+      "replacedSeedReport": {
+        "accepted": false,
+        "differences": [
+          "validatedCheckpoint"
+        ],
+        "enabled": true,
+        "reason": "validated checkpoint derivation changed",
+        "schemaVersion": 1
+      },
+      "unsafeCheckpoint": "/nix/store/6dnw11qv6smf71g47ar5bha1czpr53cc-checkpoint-app-1.0.drv"
+    },
+    "command": [
+      "nix",
+      "build",
+      "--json",
+      "--no-link",
+      "--print-build-logs",
+      "--impure",
+      "--expr",
+      "let f=builtins.getFlake (toString ./.); pkgs=import f.inputs.nixpkgs {system=\"aarch64-darwin\";}; fixture=import ./checks/application-checkpoint.nix {inherit pkgs; scope=pkgs.haskell.packages.ghc9124;}; in fixture.unsafeCheckpoint",
+      "--max-jobs",
+      "1",
+      "--cores",
+      "16"
+    ],
+    "expected_failure_exit_code": 1,
+    "elapsed_seconds": 5.476069541007746,
+    "log_sha256": "88e890c42f8e0049c5c7b5b6d4b6396b251719d6a0f93f8c93a849ee855a581a",
+    "assertion": "Old source requires oldValue, removed by a same-version dependency update. Correct guarded output equals clean; deliberately reconstructed old checkpoint fails.",
+    "unsafe_checkpoint_absent_from_guarded_graph": true
+  },
+  "status": "passed",
+  "final_native_fixture_checks": {
+    "exit_code": 0,
+    "log": "mp4-final-native-fixtures.log",
+    "note": "After diagnostic field hardening; positive checkpoint-origin, project-shell and compatibility-policy checks retain their native outputs.",
+    "build": [
+      {
+        "drvPath": "/nix/store/mjd90jiphvm2b70r4g0j5haqpxxazkrv-application-checkpoint-origin.drv",
+        "outputs": {
+          "out": "/nix/store/kc6cv0q1ipd5vfngnm08a7cw4hihiz4m-application-checkpoint-origin"
+        }
+      }
+    ],
+    "seed_metadata_replacement": "passed: source metadata is compared before the old constructor; the fixture constructor throws if forced"
+  },
+  "source_guard_regressions": [
+    {
+      "application": "rei",
+      "component": "cli",
+      "elapsed_seconds": 109.78093195901602,
+      "receipt": {
+        "schema_version": 1,
+        "project_uri": "mori://shinzui/rei",
+        "source_revision": "3ef904cdf8fdbaf19188b6ce4dc6c9dbf02bc8e3",
+        "component": "cli",
+        "baseline": {
+          "behaviorProbe": null,
+          "compatibilityReport": {
+            "accepted": true,
+            "differences": [],
+            "enabled": true,
+            "reason": "compatible explicit seed",
+            "schemaVersion": 1
+          },
+          "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+          "component": "cli",
+          "core": "/nix/store/8h1wgajrqd3vnwlj8l7g68rkln6mra0q-rei-core-7.1.0.0.drv",
+          "currentCompatibility": {
+            "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+            "generatedInputPolicy": "4e6ba33b41c8d8998e823d6005a45f8e2361b68e415dc732673e56a389697b5f",
+            "metadataIdentity": "3f5be62e142fc224d4732512b7f828815c9452ebdf81f864b1c3a32767b62e17",
+            "packageName": "rei-cli",
+            "packageVersion": "7.1.0.0",
+            "recipeIdentity": "/nix/store/dbi03zdss18wfyrzvaqyrmg157d241a3-rei-cli-7.1.0.0.drv",
+            "schemaVersion": 1,
+            "sourceLayoutIdentity": "32f13fcecd1fcb0e9cf3bd7e5af03ab0b3fb818ce6027a0a2faf5a983ddcb45d"
+          },
+          "root": "/nix/store/214a40jn8gqmghwvmirzfwgwnfisw3hz-rei-cli-7.1.0.0.drv",
+          "seedCompatibility": {
+            "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+            "generatedInputPolicy": "4e6ba33b41c8d8998e823d6005a45f8e2361b68e415dc732673e56a389697b5f",
+            "metadataIdentity": "3f5be62e142fc224d4732512b7f828815c9452ebdf81f864b1c3a32767b62e17",
+            "packageName": "rei-cli",
+            "packageVersion": "7.1.0.0",
+            "recipeIdentity": "/nix/store/dbi03zdss18wfyrzvaqyrmg157d241a3-rei-cli-7.1.0.0.drv",
+            "schemaVersion": 1,
+            "sourceLayoutIdentity": "32f13fcecd1fcb0e9cf3bd7e5af03ab0b3fb818ce6027a0a2faf5a983ddcb45d"
+          }
+        },
+        "probes": [
+          {
+            "probe": "Haskell source comment edit",
+            "identity": {
+              "behaviorProbe": null,
+              "compatibilityReport": {
+                "accepted": true,
+                "differences": [],
+                "enabled": true,
+                "reason": "compatible explicit seed",
+                "schemaVersion": 1
+              },
+              "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+              "component": "cli",
+              "core": "/nix/store/8h1wgajrqd3vnwlj8l7g68rkln6mra0q-rei-core-7.1.0.0.drv",
+              "currentCompatibility": {
+                "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+                "generatedInputPolicy": "4e6ba33b41c8d8998e823d6005a45f8e2361b68e415dc732673e56a389697b5f",
+                "metadataIdentity": "3f5be62e142fc224d4732512b7f828815c9452ebdf81f864b1c3a32767b62e17",
+                "packageName": "rei-cli",
+                "packageVersion": "7.1.0.0",
+                "recipeIdentity": "/nix/store/dbi03zdss18wfyrzvaqyrmg157d241a3-rei-cli-7.1.0.0.drv",
+                "schemaVersion": 1,
+                "sourceLayoutIdentity": "32f13fcecd1fcb0e9cf3bd7e5af03ab0b3fb818ce6027a0a2faf5a983ddcb45d"
+              },
+              "root": "/nix/store/cbyavid8lr840gj5p7bfzviq23hpmkv0-rei-cli-7.1.0.0.drv",
+              "seedCompatibility": {
+                "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+                "generatedInputPolicy": "4e6ba33b41c8d8998e823d6005a45f8e2361b68e415dc732673e56a389697b5f",
+                "metadataIdentity": "3f5be62e142fc224d4732512b7f828815c9452ebdf81f864b1c3a32767b62e17",
+                "packageName": "rei-cli",
+                "packageVersion": "7.1.0.0",
+                "recipeIdentity": "/nix/store/dbi03zdss18wfyrzvaqyrmg157d241a3-rei-cli-7.1.0.0.drv",
+                "schemaVersion": 1,
+                "sourceLayoutIdentity": "32f13fcecd1fcb0e9cf3bd7e5af03ab0b3fb818ce6027a0a2faf5a983ddcb45d"
+              }
+            }
+          },
+          {
+            "probe": "unrelated repository prose",
+            "identity": {
+              "behaviorProbe": null,
+              "compatibilityReport": {
+                "accepted": true,
+                "differences": [],
+                "enabled": true,
+                "reason": "compatible explicit seed",
+                "schemaVersion": 1
+              },
+              "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+              "component": "cli",
+              "core": "/nix/store/8h1wgajrqd3vnwlj8l7g68rkln6mra0q-rei-core-7.1.0.0.drv",
+              "currentCompatibility": {
+                "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+                "generatedInputPolicy": "4e6ba33b41c8d8998e823d6005a45f8e2361b68e415dc732673e56a389697b5f",
+                "metadataIdentity": "3f5be62e142fc224d4732512b7f828815c9452ebdf81f864b1c3a32767b62e17",
+                "packageName": "rei-cli",
+                "packageVersion": "7.1.0.0",
+                "recipeIdentity": "/nix/store/dbi03zdss18wfyrzvaqyrmg157d241a3-rei-cli-7.1.0.0.drv",
+                "schemaVersion": 1,
+                "sourceLayoutIdentity": "32f13fcecd1fcb0e9cf3bd7e5af03ab0b3fb818ce6027a0a2faf5a983ddcb45d"
+              },
+              "root": "/nix/store/214a40jn8gqmghwvmirzfwgwnfisw3hz-rei-cli-7.1.0.0.drv",
+              "seedCompatibility": {
+                "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+                "generatedInputPolicy": "4e6ba33b41c8d8998e823d6005a45f8e2361b68e415dc732673e56a389697b5f",
+                "metadataIdentity": "3f5be62e142fc224d4732512b7f828815c9452ebdf81f864b1c3a32767b62e17",
+                "packageName": "rei-cli",
+                "packageVersion": "7.1.0.0",
+                "recipeIdentity": "/nix/store/dbi03zdss18wfyrzvaqyrmg157d241a3-rei-cli-7.1.0.0.drv",
+                "schemaVersion": 1,
+                "sourceLayoutIdentity": "32f13fcecd1fcb0e9cf3bd7e5af03ab0b3fb818ce6027a0a2faf5a983ddcb45d"
+              }
+            }
+          },
+          {
+            "probe": "unrelated API source",
+            "identity": {
+              "behaviorProbe": null,
+              "compatibilityReport": {
+                "accepted": true,
+                "differences": [],
+                "enabled": true,
+                "reason": "compatible explicit seed",
+                "schemaVersion": 1
+              },
+              "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+              "component": "cli",
+              "core": "/nix/store/8h1wgajrqd3vnwlj8l7g68rkln6mra0q-rei-core-7.1.0.0.drv",
+              "currentCompatibility": {
+                "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+                "generatedInputPolicy": "4e6ba33b41c8d8998e823d6005a45f8e2361b68e415dc732673e56a389697b5f",
+                "metadataIdentity": "3f5be62e142fc224d4732512b7f828815c9452ebdf81f864b1c3a32767b62e17",
+                "packageName": "rei-cli",
+                "packageVersion": "7.1.0.0",
+                "recipeIdentity": "/nix/store/dbi03zdss18wfyrzvaqyrmg157d241a3-rei-cli-7.1.0.0.drv",
+                "schemaVersion": 1,
+                "sourceLayoutIdentity": "32f13fcecd1fcb0e9cf3bd7e5af03ab0b3fb818ce6027a0a2faf5a983ddcb45d"
+              },
+              "root": "/nix/store/214a40jn8gqmghwvmirzfwgwnfisw3hz-rei-cli-7.1.0.0.drv",
+              "seedCompatibility": {
+                "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+                "generatedInputPolicy": "4e6ba33b41c8d8998e823d6005a45f8e2361b68e415dc732673e56a389697b5f",
+                "metadataIdentity": "3f5be62e142fc224d4732512b7f828815c9452ebdf81f864b1c3a32767b62e17",
+                "packageName": "rei-cli",
+                "packageVersion": "7.1.0.0",
+                "recipeIdentity": "/nix/store/dbi03zdss18wfyrzvaqyrmg157d241a3-rei-cli-7.1.0.0.drv",
+                "schemaVersion": 1,
+                "sourceLayoutIdentity": "32f13fcecd1fcb0e9cf3bd7e5af03ab0b3fb818ce6027a0a2faf5a983ddcb45d"
+              }
+            }
+          },
+          {
+            "probe": "core source edit",
+            "identity": {
+              "behaviorProbe": null,
+              "compatibilityReport": {
+                "accepted": false,
+                "differences": [
+                  "recipeIdentity"
+                ],
+                "enabled": true,
+                "reason": "validated checkpoint compatibility changed",
+                "schemaVersion": 1
+              },
+              "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+              "component": "cli",
+              "core": "/nix/store/z7q9z9k55aha0x78n38q0mvm4rvbji6b-rei-core-7.1.0.0.drv",
+              "currentCompatibility": {
+                "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+                "generatedInputPolicy": "4e6ba33b41c8d8998e823d6005a45f8e2361b68e415dc732673e56a389697b5f",
+                "metadataIdentity": "3f5be62e142fc224d4732512b7f828815c9452ebdf81f864b1c3a32767b62e17",
+                "packageName": "rei-cli",
+                "packageVersion": "7.1.0.0",
+                "recipeIdentity": "/nix/store/5rr3mcicwl1vcjsrk5vf3dvnlyfvbhvb-rei-cli-7.1.0.0.drv",
+                "schemaVersion": 1,
+                "sourceLayoutIdentity": "32f13fcecd1fcb0e9cf3bd7e5af03ab0b3fb818ce6027a0a2faf5a983ddcb45d"
+              },
+              "root": "/nix/store/xnf0za0i556gp3dnvdj7c77v9fvvwbx7-rei-cli-7.1.0.0.drv",
+              "seedCompatibility": {
+                "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+                "generatedInputPolicy": "4e6ba33b41c8d8998e823d6005a45f8e2361b68e415dc732673e56a389697b5f",
+                "metadataIdentity": "3f5be62e142fc224d4732512b7f828815c9452ebdf81f864b1c3a32767b62e17",
+                "packageName": "rei-cli",
+                "packageVersion": "7.1.0.0",
+                "recipeIdentity": "/nix/store/dbi03zdss18wfyrzvaqyrmg157d241a3-rei-cli-7.1.0.0.drv",
+                "schemaVersion": 1,
+                "sourceLayoutIdentity": "32f13fcecd1fcb0e9cf3bd7e5af03ab0b3fb818ce6027a0a2faf5a983ddcb45d"
+              }
+            }
+          },
+          {
+            "probe": "Cabal metadata edit",
+            "identity": {
+              "behaviorProbe": null,
+              "compatibilityReport": {
+                "accepted": false,
+                "differences": [
+                  "metadataIdentity"
+                ],
+                "enabled": true,
+                "reason": "validated checkpoint compatibility changed",
+                "schemaVersion": 1
+              },
+              "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+              "component": "cli",
+              "core": "/nix/store/8h1wgajrqd3vnwlj8l7g68rkln6mra0q-rei-core-7.1.0.0.drv",
+              "currentCompatibility": {
+                "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+                "generatedInputPolicy": "4e6ba33b41c8d8998e823d6005a45f8e2361b68e415dc732673e56a389697b5f",
+                "metadataIdentity": "b3eafe912ef50a4cd84be870b440fb335bf9b7416c00adbe54a64b58e6163ff2",
+                "packageName": "rei-cli",
+                "packageVersion": "7.1.0.0",
+                "recipeIdentity": "/nix/store/dbi03zdss18wfyrzvaqyrmg157d241a3-rei-cli-7.1.0.0.drv",
+                "schemaVersion": 1,
+                "sourceLayoutIdentity": "32f13fcecd1fcb0e9cf3bd7e5af03ab0b3fb818ce6027a0a2faf5a983ddcb45d"
+              },
+              "root": "/nix/store/r6w420lvjdsjs1fawxdaxj1krb86aixl-rei-cli-7.1.0.0.drv",
+              "seedCompatibility": {
+                "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+                "generatedInputPolicy": "4e6ba33b41c8d8998e823d6005a45f8e2361b68e415dc732673e56a389697b5f",
+                "metadataIdentity": "3f5be62e142fc224d4732512b7f828815c9452ebdf81f864b1c3a32767b62e17",
+                "packageName": "rei-cli",
+                "packageVersion": "7.1.0.0",
+                "recipeIdentity": "/nix/store/dbi03zdss18wfyrzvaqyrmg157d241a3-rei-cli-7.1.0.0.drv",
+                "schemaVersion": 1,
+                "sourceLayoutIdentity": "32f13fcecd1fcb0e9cf3bd7e5af03ab0b3fb818ce6027a0a2faf5a983ddcb45d"
+              }
+            }
+          },
+          {
+            "probe": "added module",
+            "identity": {
+              "behaviorProbe": null,
+              "compatibilityReport": {
+                "accepted": false,
+                "differences": [
+                  "sourceLayoutIdentity"
+                ],
+                "enabled": true,
+                "reason": "validated checkpoint compatibility changed",
+                "schemaVersion": 1
+              },
+              "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+              "component": "cli",
+              "core": "/nix/store/8h1wgajrqd3vnwlj8l7g68rkln6mra0q-rei-core-7.1.0.0.drv",
+              "currentCompatibility": {
+                "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+                "generatedInputPolicy": "4e6ba33b41c8d8998e823d6005a45f8e2361b68e415dc732673e56a389697b5f",
+                "metadataIdentity": "3f5be62e142fc224d4732512b7f828815c9452ebdf81f864b1c3a32767b62e17",
+                "packageName": "rei-cli",
+                "packageVersion": "7.1.0.0",
+                "recipeIdentity": "/nix/store/dbi03zdss18wfyrzvaqyrmg157d241a3-rei-cli-7.1.0.0.drv",
+                "schemaVersion": 1,
+                "sourceLayoutIdentity": "d26d1496c9494643282ed1a33e199c12131ea21cc20ce8556ece97ec7e53383c"
+              },
+              "root": "/nix/store/ps567cnw50fwsmh5m4p05x0gsflfvvwh-rei-cli-7.1.0.0.drv",
+              "seedCompatibility": {
+                "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+                "generatedInputPolicy": "4e6ba33b41c8d8998e823d6005a45f8e2361b68e415dc732673e56a389697b5f",
+                "metadataIdentity": "3f5be62e142fc224d4732512b7f828815c9452ebdf81f864b1c3a32767b62e17",
+                "packageName": "rei-cli",
+                "packageVersion": "7.1.0.0",
+                "recipeIdentity": "/nix/store/dbi03zdss18wfyrzvaqyrmg157d241a3-rei-cli-7.1.0.0.drv",
+                "schemaVersion": 1,
+                "sourceLayoutIdentity": "32f13fcecd1fcb0e9cf3bd7e5af03ab0b3fb818ce6027a0a2faf5a983ddcb45d"
+              }
+            }
+          },
+          {
+            "probe": "added native input",
+            "identity": {
+              "behaviorProbe": null,
+              "compatibilityReport": {
+                "accepted": false,
+                "differences": [
+                  "metadataIdentity",
+                  "sourceLayoutIdentity"
+                ],
+                "enabled": true,
+                "reason": "validated checkpoint compatibility changed",
+                "schemaVersion": 1
+              },
+              "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+              "component": "cli",
+              "core": "/nix/store/8h1wgajrqd3vnwlj8l7g68rkln6mra0q-rei-core-7.1.0.0.drv",
+              "currentCompatibility": {
+                "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+                "generatedInputPolicy": "4e6ba33b41c8d8998e823d6005a45f8e2361b68e415dc732673e56a389697b5f",
+                "metadataIdentity": "50f853f9d34c737906ccfef9b8e67645e3dc3ebbcfbca3a27908c72a3431daca",
+                "packageName": "rei-cli",
+                "packageVersion": "7.1.0.0",
+                "recipeIdentity": "/nix/store/dbi03zdss18wfyrzvaqyrmg157d241a3-rei-cli-7.1.0.0.drv",
+                "schemaVersion": 1,
+                "sourceLayoutIdentity": "3570cff3d47f662d5017418479c53729263bcfb10f6340f6b053150048bbe391"
+              },
+              "root": "/nix/store/rydakdad9p255vf9qxd96sbyknfx5rad-rei-cli-7.1.0.0.drv",
+              "seedCompatibility": {
+                "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+                "generatedInputPolicy": "4e6ba33b41c8d8998e823d6005a45f8e2361b68e415dc732673e56a389697b5f",
+                "metadataIdentity": "3f5be62e142fc224d4732512b7f828815c9452ebdf81f864b1c3a32767b62e17",
+                "packageName": "rei-cli",
+                "packageVersion": "7.1.0.0",
+                "recipeIdentity": "/nix/store/dbi03zdss18wfyrzvaqyrmg157d241a3-rei-cli-7.1.0.0.drv",
+                "schemaVersion": 1,
+                "sourceLayoutIdentity": "32f13fcecd1fcb0e9cf3bd7e5af03ab0b3fb818ce6027a0a2faf5a983ddcb45d"
+              }
+            }
+          },
+          {
+            "probe": "embedded help edit",
+            "identity": {
+              "behaviorProbe": null,
+              "compatibilityReport": {
+                "accepted": true,
+                "differences": [],
+                "enabled": true,
+                "reason": "compatible explicit seed",
+                "schemaVersion": 1
+              },
+              "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+              "component": "cli",
+              "core": "/nix/store/8h1wgajrqd3vnwlj8l7g68rkln6mra0q-rei-core-7.1.0.0.drv",
+              "currentCompatibility": {
+                "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+                "generatedInputPolicy": "4e6ba33b41c8d8998e823d6005a45f8e2361b68e415dc732673e56a389697b5f",
+                "metadataIdentity": "3f5be62e142fc224d4732512b7f828815c9452ebdf81f864b1c3a32767b62e17",
+                "packageName": "rei-cli",
+                "packageVersion": "7.1.0.0",
+                "recipeIdentity": "/nix/store/dbi03zdss18wfyrzvaqyrmg157d241a3-rei-cli-7.1.0.0.drv",
+                "schemaVersion": 1,
+                "sourceLayoutIdentity": "32f13fcecd1fcb0e9cf3bd7e5af03ab0b3fb818ce6027a0a2faf5a983ddcb45d"
+              },
+              "root": "/nix/store/c1lajinjr8x5l4hr9k1cpwn9141ysf8q-rei-cli-7.1.0.0.drv",
+              "seedCompatibility": {
+                "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+                "generatedInputPolicy": "4e6ba33b41c8d8998e823d6005a45f8e2361b68e415dc732673e56a389697b5f",
+                "metadataIdentity": "3f5be62e142fc224d4732512b7f828815c9452ebdf81f864b1c3a32767b62e17",
+                "packageName": "rei-cli",
+                "packageVersion": "7.1.0.0",
+                "recipeIdentity": "/nix/store/dbi03zdss18wfyrzvaqyrmg157d241a3-rei-cli-7.1.0.0.drv",
+                "schemaVersion": 1,
+                "sourceLayoutIdentity": "32f13fcecd1fcb0e9cf3bd7e5af03ab0b3fb818ce6027a0a2faf5a983ddcb45d"
+              }
+            }
+          },
+          {
+            "probe": "synthetic stamp-only identity change",
+            "identity": {
+              "behaviorProbe": null,
+              "compatibilityReport": {
+                "accepted": true,
+                "differences": [],
+                "enabled": true,
+                "reason": "compatible explicit seed",
+                "schemaVersion": 1
+              },
+              "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+              "component": "cli",
+              "core": "/nix/store/8h1wgajrqd3vnwlj8l7g68rkln6mra0q-rei-core-7.1.0.0.drv",
+              "currentCompatibility": {
+                "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+                "generatedInputPolicy": "4e6ba33b41c8d8998e823d6005a45f8e2361b68e415dc732673e56a389697b5f",
+                "metadataIdentity": "3f5be62e142fc224d4732512b7f828815c9452ebdf81f864b1c3a32767b62e17",
+                "packageName": "rei-cli",
+                "packageVersion": "7.1.0.0",
+                "recipeIdentity": "/nix/store/dbi03zdss18wfyrzvaqyrmg157d241a3-rei-cli-7.1.0.0.drv",
+                "schemaVersion": 1,
+                "sourceLayoutIdentity": "32f13fcecd1fcb0e9cf3bd7e5af03ab0b3fb818ce6027a0a2faf5a983ddcb45d"
+              },
+              "root": "/nix/store/crc3psi9q5jy8sfgnas54g64h30sp7wp-rei-cli-7.1.0.0.drv",
+              "seedCompatibility": {
+                "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+                "generatedInputPolicy": "4e6ba33b41c8d8998e823d6005a45f8e2361b68e415dc732673e56a389697b5f",
+                "metadataIdentity": "3f5be62e142fc224d4732512b7f828815c9452ebdf81f864b1c3a32767b62e17",
+                "packageName": "rei-cli",
+                "packageVersion": "7.1.0.0",
+                "recipeIdentity": "/nix/store/dbi03zdss18wfyrzvaqyrmg157d241a3-rei-cli-7.1.0.0.drv",
+                "schemaVersion": 1,
+                "sourceLayoutIdentity": "32f13fcecd1fcb0e9cf3bd7e5af03ab0b3fb818ce6027a0a2faf5a983ddcb45d"
+              }
+            }
+          }
+        ],
+        "native_probes": [],
+        "scope": "Identity guards plus explicitly listed native probes; no timing claim",
+        "status": "passed"
+      }
+    },
+    {
+      "application": "mori",
+      "component": "core",
+      "elapsed_seconds": 107.55345604202012,
+      "receipt": {
+        "schema_version": 1,
+        "project_uri": "mori://shinzui/mori",
+        "source_revision": "a76af070a40d22b1c7140794d2f14fc64e3d92d9",
+        "component": "core",
+        "baseline": {
+          "behaviorProbe": "/nix/store/mrxmpr65l1c3dahs29hsqx2bwd1d33rc-core-probe-1.0.drv",
+          "compatibilityReport": {
+            "accepted": true,
+            "differences": [],
+            "enabled": true,
+            "reason": "compatible explicit seed",
+            "schemaVersion": 1
+          },
+          "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+          "component": "core",
+          "core": "/nix/store/sgghjkjva3z5a2scfzgx9ffwb6n0csxi-mori-core-7.0.0.0.drv",
+          "currentCompatibility": {
+            "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+            "generatedInputPolicy": "912b079b6b798e4415201ced57e2bf3768ba398319af4d9d972f4c78265fa34c",
+            "metadataIdentity": "df6f53467d9442221950cb7fcec001fde188296ce613e35063ba1098986adbc8",
+            "packageName": "mori-core",
+            "packageVersion": "7.0.0.0",
+            "recipeIdentity": "/nix/store/w0d99iw1bnpkxl4a7rjg57fhbivvb9zv-mori-core-7.0.0.0.drv",
+            "schemaVersion": 1,
+            "sourceLayoutIdentity": "66efd7665de4f1741d0aa7997ba67807a4fb022d6f42cb43863919f6becbb882"
+          },
+          "root": "/nix/store/3x4kzk5ifvm7kb3f87sl979dmlbbkyxh-mori-cli-7.0.0.0.drv",
+          "seedCompatibility": {
+            "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+            "generatedInputPolicy": "912b079b6b798e4415201ced57e2bf3768ba398319af4d9d972f4c78265fa34c",
+            "metadataIdentity": "df6f53467d9442221950cb7fcec001fde188296ce613e35063ba1098986adbc8",
+            "packageName": "mori-core",
+            "packageVersion": "7.0.0.0",
+            "recipeIdentity": "/nix/store/w0d99iw1bnpkxl4a7rjg57fhbivvb9zv-mori-core-7.0.0.0.drv",
+            "schemaVersion": 1,
+            "sourceLayoutIdentity": "66efd7665de4f1741d0aa7997ba67807a4fb022d6f42cb43863919f6becbb882"
+          }
+        },
+        "probes": [
+          {
+            "probe": "Haskell source comment edit",
+            "identity": {
+              "behaviorProbe": "/nix/store/bwvd16bh7gqznxl253ipr5zhs9k9hrms-core-probe-1.0.drv",
+              "compatibilityReport": {
+                "accepted": true,
+                "differences": [],
+                "enabled": true,
+                "reason": "compatible explicit seed",
+                "schemaVersion": 1
+              },
+              "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+              "component": "core",
+              "core": "/nix/store/kcin11q31svdgc3n6icybb4c6gr45ppq-mori-core-7.0.0.0.drv",
+              "currentCompatibility": {
+                "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+                "generatedInputPolicy": "912b079b6b798e4415201ced57e2bf3768ba398319af4d9d972f4c78265fa34c",
+                "metadataIdentity": "df6f53467d9442221950cb7fcec001fde188296ce613e35063ba1098986adbc8",
+                "packageName": "mori-core",
+                "packageVersion": "7.0.0.0",
+                "recipeIdentity": "/nix/store/w0d99iw1bnpkxl4a7rjg57fhbivvb9zv-mori-core-7.0.0.0.drv",
+                "schemaVersion": 1,
+                "sourceLayoutIdentity": "66efd7665de4f1741d0aa7997ba67807a4fb022d6f42cb43863919f6becbb882"
+              },
+              "root": "/nix/store/vgdcqx17b7aaw4kqqfg7ajbpvkacls96-mori-cli-7.0.0.0.drv",
+              "seedCompatibility": {
+                "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+                "generatedInputPolicy": "912b079b6b798e4415201ced57e2bf3768ba398319af4d9d972f4c78265fa34c",
+                "metadataIdentity": "df6f53467d9442221950cb7fcec001fde188296ce613e35063ba1098986adbc8",
+                "packageName": "mori-core",
+                "packageVersion": "7.0.0.0",
+                "recipeIdentity": "/nix/store/w0d99iw1bnpkxl4a7rjg57fhbivvb9zv-mori-core-7.0.0.0.drv",
+                "schemaVersion": 1,
+                "sourceLayoutIdentity": "66efd7665de4f1741d0aa7997ba67807a4fb022d6f42cb43863919f6becbb882"
+              }
+            }
+          },
+          {
+            "probe": "unrelated repository prose",
+            "identity": {
+              "behaviorProbe": "/nix/store/mrxmpr65l1c3dahs29hsqx2bwd1d33rc-core-probe-1.0.drv",
+              "compatibilityReport": {
+                "accepted": true,
+                "differences": [],
+                "enabled": true,
+                "reason": "compatible explicit seed",
+                "schemaVersion": 1
+              },
+              "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+              "component": "core",
+              "core": "/nix/store/sgghjkjva3z5a2scfzgx9ffwb6n0csxi-mori-core-7.0.0.0.drv",
+              "currentCompatibility": {
+                "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+                "generatedInputPolicy": "912b079b6b798e4415201ced57e2bf3768ba398319af4d9d972f4c78265fa34c",
+                "metadataIdentity": "df6f53467d9442221950cb7fcec001fde188296ce613e35063ba1098986adbc8",
+                "packageName": "mori-core",
+                "packageVersion": "7.0.0.0",
+                "recipeIdentity": "/nix/store/w0d99iw1bnpkxl4a7rjg57fhbivvb9zv-mori-core-7.0.0.0.drv",
+                "schemaVersion": 1,
+                "sourceLayoutIdentity": "66efd7665de4f1741d0aa7997ba67807a4fb022d6f42cb43863919f6becbb882"
+              },
+              "root": "/nix/store/3x4kzk5ifvm7kb3f87sl979dmlbbkyxh-mori-cli-7.0.0.0.drv",
+              "seedCompatibility": {
+                "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+                "generatedInputPolicy": "912b079b6b798e4415201ced57e2bf3768ba398319af4d9d972f4c78265fa34c",
+                "metadataIdentity": "df6f53467d9442221950cb7fcec001fde188296ce613e35063ba1098986adbc8",
+                "packageName": "mori-core",
+                "packageVersion": "7.0.0.0",
+                "recipeIdentity": "/nix/store/w0d99iw1bnpkxl4a7rjg57fhbivvb9zv-mori-core-7.0.0.0.drv",
+                "schemaVersion": 1,
+                "sourceLayoutIdentity": "66efd7665de4f1741d0aa7997ba67807a4fb022d6f42cb43863919f6becbb882"
+              }
+            }
+          },
+          {
+            "probe": "unrelated API source",
+            "identity": {
+              "behaviorProbe": "/nix/store/mrxmpr65l1c3dahs29hsqx2bwd1d33rc-core-probe-1.0.drv",
+              "compatibilityReport": {
+                "accepted": true,
+                "differences": [],
+                "enabled": true,
+                "reason": "compatible explicit seed",
+                "schemaVersion": 1
+              },
+              "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+              "component": "core",
+              "core": "/nix/store/sgghjkjva3z5a2scfzgx9ffwb6n0csxi-mori-core-7.0.0.0.drv",
+              "currentCompatibility": {
+                "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+                "generatedInputPolicy": "912b079b6b798e4415201ced57e2bf3768ba398319af4d9d972f4c78265fa34c",
+                "metadataIdentity": "df6f53467d9442221950cb7fcec001fde188296ce613e35063ba1098986adbc8",
+                "packageName": "mori-core",
+                "packageVersion": "7.0.0.0",
+                "recipeIdentity": "/nix/store/w0d99iw1bnpkxl4a7rjg57fhbivvb9zv-mori-core-7.0.0.0.drv",
+                "schemaVersion": 1,
+                "sourceLayoutIdentity": "66efd7665de4f1741d0aa7997ba67807a4fb022d6f42cb43863919f6becbb882"
+              },
+              "root": "/nix/store/xdz05j7yjs40zm27zvmnxz8cn1fm2wwc-mori-cli-7.0.0.0.drv",
+              "seedCompatibility": {
+                "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+                "generatedInputPolicy": "912b079b6b798e4415201ced57e2bf3768ba398319af4d9d972f4c78265fa34c",
+                "metadataIdentity": "df6f53467d9442221950cb7fcec001fde188296ce613e35063ba1098986adbc8",
+                "packageName": "mori-core",
+                "packageVersion": "7.0.0.0",
+                "recipeIdentity": "/nix/store/w0d99iw1bnpkxl4a7rjg57fhbivvb9zv-mori-core-7.0.0.0.drv",
+                "schemaVersion": 1,
+                "sourceLayoutIdentity": "66efd7665de4f1741d0aa7997ba67807a4fb022d6f42cb43863919f6becbb882"
+              }
+            }
+          },
+          {
+            "probe": "downstream CLI source edit",
+            "identity": {
+              "behaviorProbe": "/nix/store/mrxmpr65l1c3dahs29hsqx2bwd1d33rc-core-probe-1.0.drv",
+              "compatibilityReport": {
+                "accepted": true,
+                "differences": [],
+                "enabled": true,
+                "reason": "compatible explicit seed",
+                "schemaVersion": 1
+              },
+              "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+              "component": "core",
+              "core": "/nix/store/sgghjkjva3z5a2scfzgx9ffwb6n0csxi-mori-core-7.0.0.0.drv",
+              "currentCompatibility": {
+                "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+                "generatedInputPolicy": "912b079b6b798e4415201ced57e2bf3768ba398319af4d9d972f4c78265fa34c",
+                "metadataIdentity": "df6f53467d9442221950cb7fcec001fde188296ce613e35063ba1098986adbc8",
+                "packageName": "mori-core",
+                "packageVersion": "7.0.0.0",
+                "recipeIdentity": "/nix/store/w0d99iw1bnpkxl4a7rjg57fhbivvb9zv-mori-core-7.0.0.0.drv",
+                "schemaVersion": 1,
+                "sourceLayoutIdentity": "66efd7665de4f1741d0aa7997ba67807a4fb022d6f42cb43863919f6becbb882"
+              },
+              "root": "/nix/store/i92lx6xkvmzigs5r396mp1jwdxrijzbj-mori-cli-7.0.0.0.drv",
+              "seedCompatibility": {
+                "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+                "generatedInputPolicy": "912b079b6b798e4415201ced57e2bf3768ba398319af4d9d972f4c78265fa34c",
+                "metadataIdentity": "df6f53467d9442221950cb7fcec001fde188296ce613e35063ba1098986adbc8",
+                "packageName": "mori-core",
+                "packageVersion": "7.0.0.0",
+                "recipeIdentity": "/nix/store/w0d99iw1bnpkxl4a7rjg57fhbivvb9zv-mori-core-7.0.0.0.drv",
+                "schemaVersion": 1,
+                "sourceLayoutIdentity": "66efd7665de4f1741d0aa7997ba67807a4fb022d6f42cb43863919f6becbb882"
+              }
+            }
+          },
+          {
+            "probe": "Cabal metadata edit",
+            "identity": {
+              "behaviorProbe": "/nix/store/5hgi0w1djbi0g9hj425iqw1xszb0krgd-core-probe-1.0.drv",
+              "compatibilityReport": {
+                "accepted": false,
+                "differences": [
+                  "metadataIdentity"
+                ],
+                "enabled": true,
+                "reason": "validated checkpoint compatibility changed",
+                "schemaVersion": 1
+              },
+              "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+              "component": "core",
+              "core": "/nix/store/vv4ghpjrb05inn9p98rpssflszws0b6d-mori-core-7.0.0.0.drv",
+              "currentCompatibility": {
+                "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+                "generatedInputPolicy": "912b079b6b798e4415201ced57e2bf3768ba398319af4d9d972f4c78265fa34c",
+                "metadataIdentity": "534f5a838d992f92b9a2c5e89e163cae4386e48e0207e7c6ee6b25a98e57ce20",
+                "packageName": "mori-core",
+                "packageVersion": "7.0.0.0",
+                "recipeIdentity": "/nix/store/w0d99iw1bnpkxl4a7rjg57fhbivvb9zv-mori-core-7.0.0.0.drv",
+                "schemaVersion": 1,
+                "sourceLayoutIdentity": "66efd7665de4f1741d0aa7997ba67807a4fb022d6f42cb43863919f6becbb882"
+              },
+              "root": "/nix/store/mc94x1ibhwvdwgs0mysrmkqcyfasxxzy-mori-cli-7.0.0.0.drv",
+              "seedCompatibility": {
+                "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+                "generatedInputPolicy": "912b079b6b798e4415201ced57e2bf3768ba398319af4d9d972f4c78265fa34c",
+                "metadataIdentity": "df6f53467d9442221950cb7fcec001fde188296ce613e35063ba1098986adbc8",
+                "packageName": "mori-core",
+                "packageVersion": "7.0.0.0",
+                "recipeIdentity": "/nix/store/w0d99iw1bnpkxl4a7rjg57fhbivvb9zv-mori-core-7.0.0.0.drv",
+                "schemaVersion": 1,
+                "sourceLayoutIdentity": "66efd7665de4f1741d0aa7997ba67807a4fb022d6f42cb43863919f6becbb882"
+              }
+            }
+          },
+          {
+            "probe": "added module",
+            "identity": {
+              "behaviorProbe": "/nix/store/j7g2j98qq64i1v4yds6izz8mcdzfnci1-core-probe-1.0.drv",
+              "compatibilityReport": {
+                "accepted": false,
+                "differences": [
+                  "sourceLayoutIdentity"
+                ],
+                "enabled": true,
+                "reason": "validated checkpoint compatibility changed",
+                "schemaVersion": 1
+              },
+              "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+              "component": "core",
+              "core": "/nix/store/y9187hv58rav346h7xz53zr9mb1zaag0-mori-core-7.0.0.0.drv",
+              "currentCompatibility": {
+                "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+                "generatedInputPolicy": "912b079b6b798e4415201ced57e2bf3768ba398319af4d9d972f4c78265fa34c",
+                "metadataIdentity": "df6f53467d9442221950cb7fcec001fde188296ce613e35063ba1098986adbc8",
+                "packageName": "mori-core",
+                "packageVersion": "7.0.0.0",
+                "recipeIdentity": "/nix/store/w0d99iw1bnpkxl4a7rjg57fhbivvb9zv-mori-core-7.0.0.0.drv",
+                "schemaVersion": 1,
+                "sourceLayoutIdentity": "ecc91a0388680bee9a8d94be84bdf5bc5b3fa993549bca22e100b1ffe5b38a8d"
+              },
+              "root": "/nix/store/0gclmz74r4f7wf3rx1mw0dbdx9w2m7rf-mori-cli-7.0.0.0.drv",
+              "seedCompatibility": {
+                "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+                "generatedInputPolicy": "912b079b6b798e4415201ced57e2bf3768ba398319af4d9d972f4c78265fa34c",
+                "metadataIdentity": "df6f53467d9442221950cb7fcec001fde188296ce613e35063ba1098986adbc8",
+                "packageName": "mori-core",
+                "packageVersion": "7.0.0.0",
+                "recipeIdentity": "/nix/store/w0d99iw1bnpkxl4a7rjg57fhbivvb9zv-mori-core-7.0.0.0.drv",
+                "schemaVersion": 1,
+                "sourceLayoutIdentity": "66efd7665de4f1741d0aa7997ba67807a4fb022d6f42cb43863919f6becbb882"
+              }
+            }
+          },
+          {
+            "probe": "added native input",
+            "identity": {
+              "behaviorProbe": "/nix/store/jc4blwcqhsajryhb4y0d3galxxrb0qr6-core-probe-1.0.drv",
+              "compatibilityReport": {
+                "accepted": false,
+                "differences": [
+                  "metadataIdentity",
+                  "sourceLayoutIdentity"
+                ],
+                "enabled": true,
+                "reason": "validated checkpoint compatibility changed",
+                "schemaVersion": 1
+              },
+              "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+              "component": "core",
+              "core": "/nix/store/702y6b6cxrva0lnyjpka8i59wfgp8lzj-mori-core-7.0.0.0.drv",
+              "currentCompatibility": {
+                "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+                "generatedInputPolicy": "912b079b6b798e4415201ced57e2bf3768ba398319af4d9d972f4c78265fa34c",
+                "metadataIdentity": "002f5225355fcfc71095551a573b365981d171ae9947c0dbeeeaac1b40d77753",
+                "packageName": "mori-core",
+                "packageVersion": "7.0.0.0",
+                "recipeIdentity": "/nix/store/w0d99iw1bnpkxl4a7rjg57fhbivvb9zv-mori-core-7.0.0.0.drv",
+                "schemaVersion": 1,
+                "sourceLayoutIdentity": "0d342e5bb3f89e71e0bcf426496c5bb57e0532d68740687e4e5e0f2c8d96397c"
+              },
+              "root": "/nix/store/7wjxa4gd32fxx52vv5qlj61hkk4af9gc-mori-cli-7.0.0.0.drv",
+              "seedCompatibility": {
+                "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+                "generatedInputPolicy": "912b079b6b798e4415201ced57e2bf3768ba398319af4d9d972f4c78265fa34c",
+                "metadataIdentity": "df6f53467d9442221950cb7fcec001fde188296ce613e35063ba1098986adbc8",
+                "packageName": "mori-core",
+                "packageVersion": "7.0.0.0",
+                "recipeIdentity": "/nix/store/w0d99iw1bnpkxl4a7rjg57fhbivvb9zv-mori-core-7.0.0.0.drv",
+                "schemaVersion": 1,
+                "sourceLayoutIdentity": "66efd7665de4f1741d0aa7997ba67807a4fb022d6f42cb43863919f6becbb882"
+              }
+            }
+          },
+          {
+            "probe": "embedded help edit",
+            "identity": {
+              "behaviorProbe": "/nix/store/mrxmpr65l1c3dahs29hsqx2bwd1d33rc-core-probe-1.0.drv",
+              "compatibilityReport": {
+                "accepted": true,
+                "differences": [],
+                "enabled": true,
+                "reason": "compatible explicit seed",
+                "schemaVersion": 1
+              },
+              "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+              "component": "core",
+              "core": "/nix/store/sgghjkjva3z5a2scfzgx9ffwb6n0csxi-mori-core-7.0.0.0.drv",
+              "currentCompatibility": {
+                "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+                "generatedInputPolicy": "912b079b6b798e4415201ced57e2bf3768ba398319af4d9d972f4c78265fa34c",
+                "metadataIdentity": "df6f53467d9442221950cb7fcec001fde188296ce613e35063ba1098986adbc8",
+                "packageName": "mori-core",
+                "packageVersion": "7.0.0.0",
+                "recipeIdentity": "/nix/store/w0d99iw1bnpkxl4a7rjg57fhbivvb9zv-mori-core-7.0.0.0.drv",
+                "schemaVersion": 1,
+                "sourceLayoutIdentity": "66efd7665de4f1741d0aa7997ba67807a4fb022d6f42cb43863919f6becbb882"
+              },
+              "root": "/nix/store/a9ykcwx5zx56p4w7ycl9h9xnl1xsf4x5-mori-cli-7.0.0.0.drv",
+              "seedCompatibility": {
+                "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+                "generatedInputPolicy": "912b079b6b798e4415201ced57e2bf3768ba398319af4d9d972f4c78265fa34c",
+                "metadataIdentity": "df6f53467d9442221950cb7fcec001fde188296ce613e35063ba1098986adbc8",
+                "packageName": "mori-core",
+                "packageVersion": "7.0.0.0",
+                "recipeIdentity": "/nix/store/w0d99iw1bnpkxl4a7rjg57fhbivvb9zv-mori-core-7.0.0.0.drv",
+                "schemaVersion": 1,
+                "sourceLayoutIdentity": "66efd7665de4f1741d0aa7997ba67807a4fb022d6f42cb43863919f6becbb882"
+              }
+            }
+          },
+          {
+            "probe": "synthetic stamp-only identity change",
+            "identity": {
+              "behaviorProbe": "/nix/store/mrxmpr65l1c3dahs29hsqx2bwd1d33rc-core-probe-1.0.drv",
+              "compatibilityReport": {
+                "accepted": true,
+                "differences": [],
+                "enabled": true,
+                "reason": "compatible explicit seed",
+                "schemaVersion": 1
+              },
+              "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+              "component": "core",
+              "core": "/nix/store/sgghjkjva3z5a2scfzgx9ffwb6n0csxi-mori-core-7.0.0.0.drv",
+              "currentCompatibility": {
+                "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+                "generatedInputPolicy": "912b079b6b798e4415201ced57e2bf3768ba398319af4d9d972f4c78265fa34c",
+                "metadataIdentity": "df6f53467d9442221950cb7fcec001fde188296ce613e35063ba1098986adbc8",
+                "packageName": "mori-core",
+                "packageVersion": "7.0.0.0",
+                "recipeIdentity": "/nix/store/w0d99iw1bnpkxl4a7rjg57fhbivvb9zv-mori-core-7.0.0.0.drv",
+                "schemaVersion": 1,
+                "sourceLayoutIdentity": "66efd7665de4f1741d0aa7997ba67807a4fb022d6f42cb43863919f6becbb882"
+              },
+              "root": "/nix/store/bkyk84zjfcn5p73nfswz0aidq4py1b8n-mori-cli-7.0.0.0.drv",
+              "seedCompatibility": {
+                "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+                "generatedInputPolicy": "912b079b6b798e4415201ced57e2bf3768ba398319af4d9d972f4c78265fa34c",
+                "metadataIdentity": "df6f53467d9442221950cb7fcec001fde188296ce613e35063ba1098986adbc8",
+                "packageName": "mori-core",
+                "packageVersion": "7.0.0.0",
+                "recipeIdentity": "/nix/store/w0d99iw1bnpkxl4a7rjg57fhbivvb9zv-mori-core-7.0.0.0.drv",
+                "schemaVersion": 1,
+                "sourceLayoutIdentity": "66efd7665de4f1741d0aa7997ba67807a4fb022d6f42cb43863919f6becbb882"
+              }
+            }
+          }
+        ],
+        "native_probes": [],
+        "scope": "Identity guards plus explicitly listed native probes; no timing claim",
+        "status": "passed"
+      }
+    }
+  ],
+  "diagnostic_transport": "The source-guard adapter passes its fixed origin through a JSON file using --argstr; JSON is not interpreted as a Nix expression.",
+  "final_origin_identity": {
+    "clean": "/nix/store/fcib968g5sph8d84xwv8f7w9802rnanc-checkpoint-app-1.0.drv",
+    "compatibilityReport": {
+      "accepted": false,
+      "differences": [
+        "recipeIdentity"
+      ],
+      "enabled": true,
+      "reason": "validated checkpoint compatibility changed",
+      "schemaVersion": 1
+    },
+    "currentCompatibility": {
+      "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+      "generatedInputPolicy": "912b079b6b798e4415201ced57e2bf3768ba398319af4d9d972f4c78265fa34c",
+      "metadataIdentity": "af2f9c2b09d87e53d5cd76a8682f40a129832fa498a1b555a97a32e659d67f8d",
+      "packageName": "checkpoint-app",
+      "packageVersion": "1.0",
+      "recipeIdentity": "/nix/store/jvmzahhlbhp5crbx16790pdh9p940z9f-checkpoint-app-1.0.drv",
+      "schemaVersion": 1,
+      "sourceLayoutIdentity": "62cb46229eb494b7cb53c8cf34bb66c896d700a10391355fd4de1f94acf9f6b0"
+    },
+    "guarded": "/nix/store/fcib968g5sph8d84xwv8f7w9802rnanc-checkpoint-app-1.0.drv",
+    "invalidMetadataSeedReport": {
+      "accepted": false,
+      "differences": [
+        "metadataIdentity"
+      ],
+      "enabled": true,
+      "reason": "validated checkpoint source metadata changed",
+      "schemaVersion": 1
+    },
+    "originalDeclaration": {
+      "compatibility": {
+        "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+        "generatedInputPolicy": "912b079b6b798e4415201ced57e2bf3768ba398319af4d9d972f4c78265fa34c",
+        "metadataIdentity": "af2f9c2b09d87e53d5cd76a8682f40a129832fa498a1b555a97a32e659d67f8d",
+        "packageName": "checkpoint-app",
+        "packageVersion": "1.0",
+        "recipeIdentity": "/nix/store/3vg74a24akg4vys41pjx6jgf1bfmrdjm-checkpoint-app-1.0.drv",
+        "schemaVersion": 1,
+        "sourceLayoutIdentity": "62cb46229eb494b7cb53c8cf34bb66c896d700a10391355fd4de1f94acf9f6b0"
+      },
+      "derivation": "/nix/store/6w8kwmdmgdaf8ba7vhy0xn1899s5s0yh-checkpoint-app-1.0.drv",
+      "schemaVersion": 1
+    },
+    "replacedSeedReport": {
+      "accepted": false,
+      "differences": [
+        "validatedCheckpoint"
+      ],
+      "enabled": true,
+      "reason": "validated checkpoint derivation changed",
+      "schemaVersion": 1
+    },
+    "unsafeCheckpoint": "/nix/store/6dnw11qv6smf71g47ar5bha1czpr53cc-checkpoint-app-1.0.drv"
+  },
+  "final_application_reports": {
+    "rei": {
+      "cli": {
+        "accepted": true,
+        "differences": [],
+        "enabled": true,
+        "reason": "compatible explicit seed",
+        "schemaVersion": 1
+      },
+      "core": {
+        "accepted": true,
+        "differences": [],
+        "enabled": true,
+        "reason": "compatible explicit seed",
+        "schemaVersion": 1
+      }
+    },
+    "mori": {
+      "cli": {
+        "accepted": true,
+        "differences": [],
+        "enabled": true,
+        "reason": "compatible explicit seed",
+        "schemaVersion": 1
+      },
+      "core": {
+        "accepted": true,
+        "differences": [],
+        "enabled": true,
+        "reason": "compatible explicit seed",
+        "schemaVersion": 1
+      }
+    }
+  }
+}

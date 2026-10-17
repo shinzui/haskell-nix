@@ -526,4 +526,6 @@ in
 // import ./cohort-generated.nix { inherit lib; }
 // import ./cohort-layer.nix { inherit lib; }
 // import ./application-incremental-policy.nix { inherit lib; }
-  // import ./compatibility-policy.nix { inherit lib; }
+// import ./compatibility-policy.nix { inherit lib; }
+
+  // import ./application-checkpoint-policy.nix { inherit lib; }

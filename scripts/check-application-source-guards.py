@@ -19,6 +19,7 @@ from pathlib import Path
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--application", choices=["rei", "mori"], required=True)
+    parser.add_argument("--component", choices=["cli", "core"], default="cli")
     parser.add_argument("--checkout", type=Path, required=True)
     parser.add_argument("--source", type=Path, required=True)
     parser.add_argument("--application-revision", required=True)
@@ -38,13 +39,21 @@ def main():
     environment = os.environ | {"MP4_APPLICATION_CHECKOUT": str(args.checkout.resolve())}
     application = args.application
     cli = f"{application}-cli"
+    target = f"{application}-{args.component}"
+    core_mode = args.component == "core"
+    if core_mode and not args.expression:
+        parser.error("Core guards require the producing-project --expression")
     leaf = "src/Rei/Cli/Commands/Help.hs" if application == "rei" else "src/Mori/Command/Help.hs"
+    target_leaf = ("src/Rei/Infrastructure/CategoryStream.hs" if application == "rei" else "src/Mori/Automation/ConfigHash.hs") if core_mode else leaf
     original_stamp = args.application_revision[:7]
     if args.alternate_stamp == original_stamp:
         parser.error("--alternate-stamp must differ from the original stamp")
     with tempfile.TemporaryDirectory(prefix=f"mp4-{application}-source-guards-") as temporary:
         candidate = Path(temporary) / application
         shutil.copytree(source, candidate, symlinks=True)
+
+        checkpoint_declaration = None
+        checkpoint_file = destination / "checkpoint-declaration.json"
 
         def arguments(policy="incremental", stamp=original_stamp):
             command = ["--impure", "--file",
@@ -53,6 +62,10 @@ def main():
                                 "application": application, "applicationRevision": args.application_revision,
                                 "revision": stamp, "seedRevision": original_stamp, "policy": policy}.items():
                 command += ["--argstr", name, value]
+            if args.expression:
+                command += ["--argstr", "component", args.component]
+                if checkpoint_declaration is not None:
+                    command += ["--argstr", "validatedCheckpointFile", str(checkpoint_file)]
             return command
 
         def identity(policy="incremental", stamp=original_stamp):
@@ -102,6 +115,12 @@ def main():
             if not expected_error and outputs["clean"] != outputs["incremental"]:
                 raise ValueError(f"Clean/seeded application behavior differs: {label}")
 
+        if args.expression:
+            # Capture the explicitly selected origin once; never recompute it
+            # from each mutated candidate's current dependency context.
+            checkpoint_declaration = json.loads(subprocess.check_output(
+                ["nix", "eval", "--json", *arguments("clean"), "checkpointDeclaration"], env=environment))
+            checkpoint_file.write_text(json.dumps(checkpoint_declaration, indent=2) + "\n")
         baseline = identity()
         if not baseline["compatibilityReport"]["accepted"]:
             raise ValueError("Unchanged archived source must accept its seed")
@@ -127,7 +146,7 @@ def main():
                 if not accepted and result["root"] != identity(policy="clean")["root"]:
                     raise ValueError(f"Rejected {label} failed to return the original clean recipe")
                 rows.append({"probe": label, "identity": result})
-                if args.native and label == "embedded help edit":
+                if args.native and not core_mode and label == "embedded help edit":
                     native_pair("embedded-data")
             finally:
                 if original is None:
@@ -135,8 +154,8 @@ def main():
                 else:
                     path.write_bytes(original)
 
-        probe("Haskell source comment edit", f"{cli}/{leaf}",
-              lambda content: content + b"\n-- source-guard implementation probe\n", True)
+        probe("Haskell source comment edit", f"{target}/{target_leaf}",
+              lambda content: content + b"\n-- source-guard implementation probe\n", True, core_changed=core_mode)
         if args.expression:
             probe("unrelated repository prose", "README.md",
                   lambda content: content + b"\nSource-guard repository prose.\n", True, same_root=True)
@@ -146,23 +165,27 @@ def main():
             api_source = sorted((candidate / f"{application}-api/src").rglob("*.hs"))[0]
             # Mori's CLI imports its API library; Rei's CLI does not. Keep the
             # required dependency invalidation instead of excluding that source.
-            api_is_dependency = application == "mori"
+            api_is_dependency = application == "mori" and not core_mode
             probe("API dependency source" if api_is_dependency else "unrelated API source",
                   str(api_source.relative_to(candidate)),
                   lambda content: content + b"\n-- source-guard sibling probe\n",
                   not api_is_dependency, "recipeIdentity" if api_is_dependency else None,
-                  same_root=not api_is_dependency)
-            core_source = sorted((candidate / f"{application}-core/src").rglob("*.hs"))[0]
-            probe("core source edit", str(core_source.relative_to(candidate)),
-                  lambda content: content + b"\n-- source-guard dependency probe\n", False,
-                  "recipeIdentity", core_changed=True)
-        probe("Cabal metadata edit", f"{cli}/{cli}.cabal",
-              lambda content: content + b"\n-- source-guard metadata probe\n", False, "metadataIdentity")
-        probe("added module", f"{cli}/src/IntermediateGuardProbe.hs",
-              lambda _: b"module IntermediateGuardProbe where\n", False, "sourceLayoutIdentity")
+                  same_root=application == "rei")
+            if core_mode:
+                probe("downstream CLI source edit", f"{cli}/{leaf}",
+                      lambda content: content + b"\n-- source-guard downstream probe\n", True)
+            else:
+                core_source = sorted((candidate / f"{application}-core/src").rglob("*.hs"))[0]
+                probe("core source edit", str(core_source.relative_to(candidate)),
+                      lambda content: content + b"\n-- source-guard dependency probe\n", False,
+                      "recipeIdentity", core_changed=True)
+        probe("Cabal metadata edit", f"{target}/{target}.cabal",
+              lambda content: content + b"\n-- source-guard metadata probe\n", False, "metadataIdentity", core_changed=core_mode)
+        probe("added module", f"{target}/src/IntermediateGuardProbe.hs",
+              lambda _: b"module IntermediateGuardProbe where\n", False, "sourceLayoutIdentity", core_changed=core_mode)
         if args.expression:
-            probe("added native input", f"{cli}/intermediate-guard-probe.h",
-                  lambda _: b"#define INTERMEDIATE_GUARD_PROBE 1\n", False, "metadataIdentity")
+            probe("added native input", f"{target}/intermediate-guard-probe.h",
+                  lambda _: b"#define INTERMEDIATE_GUARD_PROBE 1\n", False, "metadataIdentity", core_changed=core_mode)
         probe("embedded help edit", f"{cli}/help/{'time' if application == 'rei' else 'sealed-evaluation'}.md",
               lambda content: content + b"\nEmbedded source-guard probe.\n", True)
         stamp = identity(stamp=args.alternate_stamp)
@@ -171,8 +194,9 @@ def main():
             raise ValueError("Stamp must change only the CLI recipe while retaining seed compatibility")
         rows.append({"probe": "synthetic stamp-only identity change", "identity": stamp})
         if args.native:
-            native_pair("stamp", stamp=args.alternate_stamp)
-            path = candidate / cli / leaf
+            if not core_mode:
+                native_pair("stamp", stamp=args.alternate_stamp)
+            path = candidate / target / target_leaf
             original = path.read_bytes()
             try:
                 path.write_bytes(original + b'\nmp4GuardTypeError :: Int\nmp4GuardTypeError = "invalid type"\n')
@@ -182,7 +206,7 @@ def main():
             finally:
                 path.write_bytes(original)
         receipt = {"schema_version": 1, "project_uri": f"mori://shinzui/{application}",
-                   "source_revision": args.application_revision, "baseline": baseline, "probes": rows,
+                   "source_revision": args.application_revision, "component": args.component, "baseline": baseline, "probes": rows,
                    "native_probes": native,
                    "scope": "Identity guards plus explicitly listed native probes; no timing claim",
                    "status": "passed"}

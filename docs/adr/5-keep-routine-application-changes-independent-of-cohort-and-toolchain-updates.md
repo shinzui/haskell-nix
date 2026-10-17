@@ -116,8 +116,14 @@ normal clean build while the checkpoint budget is unmet. The application-owned c
 uses the same current recipe implementation for both explicit source selections, fingerprints
 all non-Haskell inputs except audited GHC-tracked data, and retains a separately requestable
 clean checkpoint. Its returned recursive scope contains the guarded package, so downstream
-owned packages consume it; the older source retains its own dependency context and is rejected
-when that context differs. Native CLI checks prove current embedded help and truthful changed stamps;
+owned packages consume it. Reuse also requires an explicit declaration captured after a
+successful clean checkpoint build, binding that actual derivation and its compatibility
+record. Compare the current context and raw seed metadata with the recorded origin before
+forcing the older package, then require the reconstructed checkpoint derivation to match exactly. Computing
+both source records inside a changed current scope cannot establish origin: old Haskell
+source may use an API removed by a same-version dependency update. Missing declarations and
+changed origins select the ordinary clean package without adding an invalid seed. Candidate
+declaration metadata alone is not native validation evidence. Native CLI checks prove current embedded help and truthful changed stamps;
 they do not establish a default performance policy. Compare retained-runtime manifests against
 the selected generation's captured freeze, preserving its reference validation even when a
 newer channel default changes.

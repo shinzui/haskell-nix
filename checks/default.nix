@@ -42,6 +42,10 @@ let
     pkgs = pkgsPlain;
     scope = pkgsPlain.haskell.packages.${defaultGhc};
   };
+  applicationCheckpointFixture = import ./application-checkpoint.nix {
+    pkgs = pkgsPlain;
+    scope = pkgsPlain.haskell.packages.${defaultGhc};
+  };
   projectShellFixture = import ./project-shell.nix {
     pkgs = pkgsPlain;
     scope = pkgsPlain.haskell.packages.${defaultGhc};
@@ -190,6 +194,7 @@ in
     );
 
   first-party-registry = fixture.check;
+  application-checkpoint = applicationCheckpointFixture.check;
   project-shell = projectShellFixture.check;
   compatibility-policy =
     let

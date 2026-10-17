@@ -9,6 +9,7 @@
 , packageName
 , revision
 , seedRevision
+, validatedCheckpoint ? null
 , enabled ? true
 , trackedDataFile ? (_: false)
 }:
@@ -17,7 +18,7 @@ let
   project = package: haskellLib.overrideCabal
     (_: { src = builtins.toFile "application-compatibility-source" ""; })
     package;
-  compatibility = directory: package: projected:
+  sourceCompatibility = directory:
     let
       packageRoot = directory + "/${packageName}";
       walk = prefix: path:
@@ -46,11 +47,6 @@ let
         guardedFiles;
     in
     {
-      schemaVersion = 1;
-      inherit packageName;
-      packageVersion = package.version;
-      compilerIdentity = package.compiler.drvPath;
-      recipeIdentity = projected.drvPath;
       metadataIdentity = builtins.hashString "sha256" (builtins.toJSON metadata);
       sourceLayoutIdentity = builtins.hashString "sha256" (builtins.toJSON files);
       generatedInputPolicy = builtins.hashString "sha256" (builtins.toJSON {
@@ -58,6 +54,13 @@ let
         trackedDataFiles = builtins.filter trackedDataFile files;
       });
     };
+  compatibility = directory: package: projected: sourceCompatibility directory // {
+    schemaVersion = 1;
+    inherit packageName;
+    packageVersion = package.version;
+    compilerIdentity = package.compiler.drvPath;
+    recipeIdentity = projected.drvPath;
+  };
   previousScope = mkScope (overlayFor { source = seedSource; revision = seedRevision; });
   previousProjection = mkScope (final: prev:
     let owned = (overlayFor { source = seedSource; revision = "<revision>"; }) final prev;
@@ -71,21 +74,44 @@ let
       previousIntermediates = null;
     })
     previousPackage;
+  checkpointDeclaration = {
+    schemaVersion = 1;
+    derivation = checkpoint.drvPath;
+    compatibility = seedCompatibility;
+  };
   # Replace the package inside the caller's recursive scope, so downstream owned
   # packages consume the guarded library. The previous source keeps its own
-  # dependency scope; a changed owned dependency rejects that older checkpoint.
+  # dependency scope. The declaration binds its actual validated derivation,
+  # preventing reconstruction of old source against unvalidated new inputs.
   haskellExtension = final: prev:
     let
       owned = (overlayFor { inherit source revision; }) final prev;
       normalized = (overlayFor { inherit source; revision = "<revision>"; }) final prev;
       clean = owned.${packageName};
       currentCompatibility = compatibility source clean (project normalized.${packageName});
-      guarded = (import ./mkApplicationIncrementalBuild.nix { inherit lib; }) {
-        inherit pkgs enabled currentCompatibility seedCompatibility;
-        package = clean;
-        seedPackage = previousPackage;
+      checkpointValidation = (import ./validateApplicationCheckpoint.nix { inherit lib; }) {
+        inherit currentCompatibility checkpoint;
+        declaration = validatedCheckpoint;
+        seedSourceCompatibility = sourceCompatibility seedSource;
       };
-      state = guarded // { inherit clean checkpoint currentCompatibility seedCompatibility; };
+      guarded =
+        if enabled && !checkpointValidation.accepted then {
+          package = builtins.trace "application-incremental ${clean.pname}: ${checkpointValidation.reason}" clean;
+          seed = null;
+          compatibilityReport = {
+            schemaVersion = 1;
+            inherit enabled;
+            accepted = false;
+            reason = checkpointValidation.reason;
+            inherit (checkpointValidation) differences;
+          };
+        } else
+          (import ./mkApplicationIncrementalBuild.nix { inherit lib; }) {
+            inherit pkgs enabled currentCompatibility seedCompatibility;
+            package = clean;
+            seedPackage = previousPackage;
+          };
+      state = guarded // { inherit clean checkpoint checkpointDeclaration currentCompatibility seedCompatibility; };
     in
     owned // {
       # Descriptive state stays outside mkDerivation's arguments. Do not add a
