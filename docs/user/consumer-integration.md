@@ -4,6 +4,7 @@ title: Consumer integration
 description: Compose haskell-nix package sets and channels with downstream Haskell overrides.
 docId: DOC-4
 tags: [consumers, overrides, package-sets]
+timestamp: 2026-10-17T16:03:26Z
 generated:
   by: human:nadeem
   at: 2026-09-22T21:30:17Z
@@ -284,3 +285,25 @@ input normally, and rerun the same consumer target.
 
 See [Troubleshooting](troubleshooting.md) if a later package-set override removes the shared
 patches or a package is intentionally unavailable from the selected channel.
+
+
+## An optional retained-runtime shell
+
+Use the explicit `mkProjectDevShell` interface in [Package sets](package-sets.md#project-shells-from-retained-scopes)
+to select one checked scope for the production package and development shell.
+Keep the current default shell during validation. The matching toolchain library
+must export `mkProjectShell`; ordinary builds retain their existing source pins.
+Use both local input overrides when testing unpublished helper changes, with
+`--no-write-lock-file`, then inspect the exact production/runtime identities.
+
+Pass application-owned overlay names through `ownPackages`. Put executable tools
+in `extraNativeBuildInputs`, native libraries in `extraBuildInputs`, and inherited
+shells in `inputsFrom`. Their dependencies and hooks are retained. Supply the
+selected runtime configuration and complete application complement explicitly.
+Do not inherit a bare toolchain shell that introduces a second GHC alongside the
+scope's compiler wrapper.
+
+Entering this shell exposes Nix-built dependencies. Keep the accepted retained
+Cabal constraints/source imports and verify fresh test/benchmark plans using the
+existing cohort comparator. Measure Cabal source edits independently before making
+any compilation-speed claim.

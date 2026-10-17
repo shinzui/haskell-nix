@@ -4,6 +4,7 @@ title: Package sets
 description: Understand first-party package-set selection, retention, and cache behavior.
 docId: DOC-7
 tags: [package-sets, snapshots, cache]
+timestamp: 2026-10-17T16:03:26Z
 generated:
   by: human:nadeem
   at: 2026-10-17T00:04:00Z
@@ -297,3 +298,76 @@ configurations are GHC 9.12.4 on aarch64-darwin and x86_64-linux, both source ch
 Haddock disabled. The exported `support.status` is `verified` only when a support receipt matches the
 immutable fingerprint; new records without acceptance evidence remain `unverified`. Generation numbers and documentation
 labels do not enter library derivation inputs.
+
+
+## Project shells from retained scopes
+
+`lib.mkProjectDevShell` selects and validates one retained application scope for
+both production and development. Supply a matching per-system `toolchainLib`
+from `mori://shinzui/haskell-nix-dev` that exports `mkProjectShell`. Older toolchain
+pins keep their existing outputs; use local input overrides to verify the new API
+before adopting its source revision.
+
+```nix
+let
+  choice = builtins.fromJSON (builtins.readFile ./nix/runtime-selection.json);
+  runtimeShell = inputs.haskell-nix.lib.mkProjectDevShell {
+    inherit pkgs;
+    toolchainLib = inputs.haskell-nix-dev.lib.${system};
+    runtimeSelection = {
+      name = choice.runtime;
+      inherit (choice) generation channel;
+      configuration = {
+        compiler = "ghc9124";
+        disableProfiling = true;
+        disableHaddock = true;
+      };
+    };
+    applicationSelections = choice.applicationSelections;
+    applicationOverrides = hs: _: {
+      my-application = hs.callCabal2nix "my-application" ./my-application { };
+    };
+    ownPackages = [ "my-application" ];
+    withHls = false;
+    extraNativeBuildInputs = [ pkgs.jq ];
+    extraBuildInputs = [ pkgs.zlib ];
+    inputsFrom = [ (pkgs.mkShell { shellHook = "echo project-tools"; }) ];
+    shellHook = "echo retained-runtime-shell";
+  };
+in {
+  devShells.runtime = runtimeShell;
+  packages.default = runtimeShell.applicationScope.my-application;
+}
+```
+
+The configuration is explicit and must match a retained cell. Missing application
+selections and runtime source/compiler/policy replacements fail. Overlay names
+must be declared application-owned packages and cannot shadow channel, frozen or
+runtime names. The same checked `applicationScope` supplies production packages.
+
+The generic helper uses `shellFor`'s compiler wrapper and selected dependencies,
+adds compatible existing tools, and preserves inherited input classes and hooks.
+An explicitly requested unavailable HLS fails with the compiler/system reason;
+the default follows availability. Extra or inherited GHC packages are rejected.
+HLS keeps its existing toolchain dependency closure.
+
+`runtimeShell.packageSetIdentity` reports the runtime fingerprint, configuration,
+compiler and actual scoped dependency derivations. Its JSON can be evaluated
+without realizing dependency outputs. Changing a shell-only tool or hook preserves
+production/runtime identities. Keep the retained Cabal imports and use the existing
+comparator on a fresh plan: shell exposure alone does not prove Cabal/Nix unit-ID
+parity or that an application source edit avoids compilation.
+
+The constructor fixture and identity checks are available with a toolchain input
+exporting the new API:
+
+```bash
+nix build --no-link .#checks.aarch64-darwin.project-shell-helper \
+  .#checks.aarch64-darwin.project-shell-identity \
+  --override-input haskell-nix-dev path:/path/to/haskell-nix-dev \
+  --no-write-lock-file
+```
+
+The path is a local checkout example for `mori://shinzui/haskell-nix-dev`. These
+checks cover constructor integration. A real application rollout and its
+first-use/Cabal/cache measurements remain separate acceptance work.

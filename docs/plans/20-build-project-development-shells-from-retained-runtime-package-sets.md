@@ -61,22 +61,28 @@ This standalone plan requires [plan 16](16-create-the-keiro-runtime-package-set-
 
 ## Progress
 
+2026-10-17 M2 accepted: the public generic helper in `mori://shinzui/haskell-nix-dev` and channel `lib.mkProjectDevShell` share one checked retained scope, explicit configuration/complement, ownership audit and compiler/toolchain validation. Twenty-five upstream contracts and 295 aggregate channel contracts pass. The public selected/wrong-dependency, native-library, inherited-input/hook and offline Cabal fixtures pass on Apple Silicon and the user-selected translated x86 Linux guest. Actual retained runtime checks preserve production and every retained dependency across development-tool, hook and inherited-shell changes, and reject incomplete complements, runtime replacement, wrong compiler and wrong system. HLS remains the exact independent toolchain component across project dependency changes; this is identity evidence, not an HLS protocol session. All legacy tool/bundle/shell identities are unchanged on three systems. The complete Darwin flake check with the local toolchain override passes. [Constructor receipt](../evidence/ep20/project-shell-constructors.json) and [ADR 9](../adr/9-build-project-shells-from-the-checked-retained-scope.md) retain the implementation and evidence limits. No pins changed; M3 real-consumer and M4 adoption acceptance remain open.
+
 2026-10-17 prerequisite handoff: DEV-4 is Complete in `mori://shinzui/haskell-nix-dev` at revision `0bd206a`, with 25 passing Linux policy fixtures, unchanged exact tool/bundle identities and preserved legacy/channel consumers. The user-selected Apple Linux guest supplies qualified translated target execution, with guest sandbox/syscall-filter settings recorded in that project's `docs/evidence/toolchain-capability-linux.json` (artifact-level URI pending). The whole-child production gate is satisfied; proceed to M2's generic helper and checked retained-runtime wrapper without changing pins. Runtime smoke and fresh-worker cache claims remain owned by DEV-5.
 
-2026-10-17 M1 accepted on native Apple Silicon: the selected-scope compiler, direct executable, Nix production package and offline Cabal all resolve dependency 1.0 and print `42:1.3.2`. The deliberately wrong dependency prints `9000:1.3.2`. All four inherited input classes, three hooks exactly once, scoped compiler variables and shell-only identity changes pass. [Receipt](../evidence/ep20/project-shell-prototype.json). DEV-4 native Linux acceptance remains blocked; production helper/adoption work remains gated.
+2026-10-17 M1 accepted on native Apple Silicon: the selected-scope compiler, direct executable, Nix production package and offline Cabal all resolve dependency 1.0 and print `42:1.3.2`. The deliberately wrong dependency prints `9000:1.3.2`. All four inherited input classes, three hooks exactly once, scoped compiler variables and shell-only identity changes pass. [Receipt](../evidence/ep20/project-shell-prototype.json). This was the initial Apple-only M1 observation; the later DEV-4 acceptance and M2 two-system public-helper checks supersede that prerequisite blocker.
 
 
 - [x] (2026-10-17) M1: Prototype one-scope shell construction with native and shell-input fixtures.
-- [ ] M2: Add generic toolchain helper and guarded channel/runtime wrapper.
+- [x] (2026-10-17) M2: Add generic toolchain helper and guarded channel/runtime wrapper; accept two-system fixtures, retained identity/negative guards and unchanged legacy APIs.
 - [ ] M3: Validate real consumer shell/build/plan consistency on both supported systems.
 - [ ] M4: Document adoption, preserve legacy consumers, and distill the ADR.
 
 ## Surprises & Discoveries
 
+2026-10-17 constructor delivery: equal Nixpkgs revision/NAR inputs can have different materialized path aliases. Verify declared package-set version/system plus operative native/compiler/tool identities rather than rejecting equivalent inputs by path strings. Nix derivation-path observations carry output contexts; strip contexts from diagnostic JSON so an identity-only check does not build the observed production/runtime packages. The real retained check now has only its shell builder as direct build input. Old toolchain pins lack the additive API, so local integration checks are conditional on its presence and are exercised with an explicit override; default consumers retain their current locks and outputs.
 
-The native prototype passes. The pinned stdenv flattens `env` variables into derivation attributes, and `inputsFrom` does not preserve those arbitrary variables. Forward the scoped `NIX_GHC*` and locale values explicitly. Inherited native tools select development outputs, so compare derivation identity rather than entire multi-output values. No speed measurement is claimed. The existing toolchain helper only exposes extra native inputs and a shell hook; the retained runtime factory is now delivered under plan 16. The user restored the foreign DEV-4 plan and it is pulled locally; policy/capability fixtures pass on Apple Silicon, while native Linux acceptance is blocked by the configured builder authentication. Mori discovery remains unavailable.
+
+The native prototype passes. The pinned stdenv flattens `env` variables into derivation attributes, and `inputsFrom` does not preserve those arbitrary variables. Forward the scoped `NIX_GHC*` and locale values explicitly. Inherited native tools select development outputs, so compare derivation identity rather than entire multi-output values. No speed measurement is claimed. The existing toolchain helper only exposes extra native inputs and a shell hook; the retained runtime factory is now delivered under plan 16. The user restored the foreign DEV-4 plan and it is pulled locally; policy/capability fixtures pass on Apple Silicon, and its native Linux acceptance subsequently passed in the user-selected Apple guest. Mori discovery remains unavailable.
 
 ## Decision Log
+
+2026-10-17: Bind the generic helper's compiler cell by actual supplied-scope compiler identity, validate its operative pinned native universe, and reject extra/inherited bare or wrapped compilers. The channel wrapper constructs and audits the retained scope once, exposes it for production, and attaches context-free diagnostic identities. Keep legacy APIs/locks and the dependency direction unchanged. See ADR 9 for the durable contract.
 
 
 2026-10-16: Consume the delivered retained runtime API with explicit selection mapping and checked scope reuse. Keep DEV-4 production activation gated until its actual contract is available; record shell startup/reuse evidence separately from application compilation improvements.
@@ -95,7 +101,7 @@ The native prototype passes. The pinned stdenv flattens `env` variables into der
 ## Outcomes & Retrospective
 
 
-M1 is accepted on native Apple Silicon. DEV-4 acceptance now satisfies the production prerequisite. Production shell constructors, retained runtime integration, the qualified real-consumer execution matrix and adoption documentation remain pending.
+M1 and M2 are accepted. Both public constructors, checked retained scope integration, qualified two-system native fixtures and legacy identity preservation are delivered. Interface documentation and ADR 9 are present, but M4 remains open until real-consumer examples and adoption guidance satisfy its full criteria. M3 still requires real consumer shell/build/Cabal-plan consistency, source-edit behavior, phase-separated entry/edit measurements and fresh-worker reuse. No shell speedup or HLS behavioral claim is made.
 
 ## Context and Orientation
 

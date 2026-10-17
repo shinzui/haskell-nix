@@ -1,14 +1,16 @@
 # Independent prototype only. Production helper activation remains gated by the
 # native toolchain capability contract in mori://shinzui/haskell-nix-dev.
-{ pkgs, scope }:
+{ pkgs, scope, mkProjectShell ? null }:
 let
   hlib = pkgs.haskell.lib.compose;
+  dependencySource = builtins.path { path = ./fixtures/project-shell/dependency; name = "project-shell-dependency-source"; };
+  applicationSource = builtins.path { path = ./fixtures/project-shell/application; name = "project-shell-application-source"; };
   ownedExtension = final: _: {
     project-shell-dependency = final.callPackage
       ({ mkDerivation, base }: mkDerivation {
         pname = "project-shell-dependency";
         version = "1.0";
-        src = ./fixtures/project-shell/dependency;
+        src = dependencySource;
         libraryHaskellDepends = [ base ];
         doCheck = false;
         doHaddock = false;
@@ -19,7 +21,7 @@ let
       ({ mkDerivation, base, project-shell-dependency }: mkDerivation {
         pname = "project-shell-app";
         version = "1.0";
-        src = ./fixtures/project-shell/application;
+        src = applicationSource;
         isLibrary = false;
         isExecutable = true;
         executableHaskellDepends = [ base project-shell-dependency ];
@@ -57,20 +59,35 @@ let
     propagatedBuildInputs = [ pkgs.libffi ];
     shellHook = ''printf 'inherited\n' >> "$PWD/hooks"'';
   };
-  shell = pkgs.mkShell {
-    # inputsFrom merges dependency lists and hooks, not arbitrary environment
-    # variables. Preserve the scoped compiler settings and Linux locale archive.
-    env = pkgs.lib.filterAttrs
-      (name: _: pkgs.lib.hasPrefix "NIX_GHC" name || name == "LOCALE_ARCHIVE")
-      environment;
-    inputsFrom = [ environment inherited ];
-    nativeBuildInputs = [ pkgs.cabal-install pkgs.pkg-config ];
-    buildInputs = [ pkgs.zlib ];
-    shellHook = ''
-      export LANG=en_US.UTF-8
-      printf 'caller\n' >> "$PWD/hooks"
-    '';
-  };
+  shell =
+    if mkProjectShell != null then
+      mkProjectShell
+        {
+          inherit pkgs;
+          haskellPackages = selected // {
+            shellFor = args: selected.shellFor (args // { shellHook = ''printf 'scope\n' >> "$PWD/hooks"''; });
+          };
+          packages = packages: [ packages.project-shell-app ];
+          withHls = false;
+          extraNativeBuildInputs = [ pkgs.pkg-config ];
+          extraBuildInputs = [ pkgs.zlib ];
+          inputsFrom = [ inherited ];
+          shellHook = ''printf 'caller\n' >> "$PWD/hooks"'';
+        } else
+      pkgs.mkShell {
+        # inputsFrom merges dependency lists and hooks, not arbitrary environment
+        # variables. Preserve the scoped compiler settings and Linux locale archive.
+        env = pkgs.lib.filterAttrs
+          (name: _: pkgs.lib.hasPrefix "NIX_GHC" name || name == "LOCALE_ARCHIVE")
+          environment;
+        inputsFrom = [ environment inherited ];
+        nativeBuildInputs = [ pkgs.cabal-install pkgs.pkg-config ];
+        buildInputs = [ pkgs.zlib ];
+        shellHook = ''
+          export LANG=en_US.UTF-8
+          printf 'caller\n' >> "$PWD/hooks"
+        '';
+      };
   changedShell = pkgs.mkShell {
     inputsFrom = [ shell ];
     nativeBuildInputs = [ pkgs.hello ];
@@ -99,7 +116,7 @@ let
       test "$(cat compiler-version)" = '${scope.ghc.version}'
       ghc-pkg field project-shell-dependency version | grep -F 'version: 1.0'
       pkg-config --exists zlib libffi
-      cp ${./fixtures/project-shell/application/Main.hs} Main.hs
+      cp ${applicationSource}/Main.hs Main.hs
       ghc -package project-shell-dependency Main.hs $(pkg-config --libs zlib) -o direct
       ./direct | grep -E '^42:[0-9]'
       "$nativeCheck/bin/project-shell-app" | grep -E '^42:[0-9]'
@@ -109,7 +126,7 @@ let
         exit 1
       fi
       ./wrong | grep -E '^9000:[0-9]'
-      cp ${./fixtures/project-shell/application/project-shell-app.cabal} project-shell-app.cabal
+      cp ${applicationSource}/project-shell-app.cabal project-shell-app.cabal
       cat > cabal.project <<'CABAL'
       packages: .
       active-repositories: :none
@@ -130,7 +147,7 @@ assert builtins.any (input: input.drvPath == pkgs.which.drvPath) shell.propagate
 assert builtins.any (input: input.drvPath == pkgs.libffi.drvPath) shell.propagatedBuildInputs;
 assert builtins.all (input: input.drvPath != scope.ghc.drvPath) shell.nativeBuildInputs;
 {
-  inherit selected environment shell changedShell check;
+  inherit selected wrong environment shell changedShell check;
   identity = {
     compiler = selected.ghc.drvPath;
     dependency = selected.project-shell-dependency.drvPath;

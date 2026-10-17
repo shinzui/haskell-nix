@@ -212,6 +212,9 @@
           capturedCompatibilityReport = import ./lib/capturedCompatibilityReport.nix { inherit lib; };
           mkCompatibilityProbeContext = import ./lib/mkCompatibilityProbeContext.nix { inherit lib; };
           mkPackageValidation = import ./lib/mkPackageValidation.nix { inherit lib; };
+          mkProjectDevShell = import ./lib/mkProjectDevShell.nix {
+            inherit lib mkRuntimePackageSet auditConsumerOverlay;
+          };
           mkApplicationIncrementalBuild = import ./lib/mkApplicationIncrementalBuild.nix { inherit lib; };
           mkApplicationIncrementalPackage = import ./lib/mkApplicationIncrementalPackage.nix { inherit lib; };
           mkCohortManifest = import ./lib/mkCohortManifest.nix { inherit lib; };
@@ -516,6 +519,20 @@
               inherit lib mkRuntimePackageSet;
               pkgs = pkgsPlain;
             };
+          } // lib.optionalAttrs (haskell-nix-dev.lib.${system} ? mkProjectShell) {
+            # Keep older toolchain pins usable. These integration checks become
+            # available with the project-shell API, including local overrides.
+            project-shell-helper = (import ./checks/project-shell.nix {
+              pkgs = pkgsPlain;
+              scope = pkgsPlain.haskell.packages.${defaultGhc};
+              inherit (haskell-nix-dev.lib.${system}) mkProjectShell;
+            }).check;
+            project-shell-identity = (import ./checks/runtime-project-shell.nix {
+              pkgs = pkgsPlain;
+              toolchainLib = haskell-nix-dev.lib.${system};
+              inherit mkRuntimePackageSet;
+              inherit (self.lib) mkProjectDevShell;
+            }).check;
           };
         };
     };

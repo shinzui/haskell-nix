@@ -531,5 +531,6 @@ in
 // import ./capture-compatibility.nix { inherit lib; }
 // import ./package-validation-contract.nix { inherit lib; }
 // import ./compatibility-probe-context.nix { inherit lib; }
+// import ./project-shell-runtime-contract.nix { inherit lib; }
 
   // import ./application-checkpoint-policy.nix { inherit lib; }
