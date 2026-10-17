@@ -486,6 +486,18 @@
               pkgs = pkgsPlain;
               channel = "hackage";
             };
+            runtime-2-github-composition = import ./checks/runtime-composition.nix {
+              inherit lib mkRuntimePackageSet;
+              pkgs = pkgsPlain;
+              generation = 2;
+              channel = "github";
+            };
+            runtime-2-hackage-composition = import ./checks/runtime-composition.nix {
+              inherit lib mkRuntimePackageSet;
+              pkgs = pkgsPlain;
+              generation = 2;
+              channel = "hackage";
+            };
             runtime-composition = import ./checks/runtime-composition.nix {
               inherit lib mkRuntimePackageSet;
               pkgs = pkgsPlain;

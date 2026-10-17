@@ -1,10 +1,9 @@
 # Real dependency identities, with independent application scopes and source edits.
-{ lib, pkgs, mkRuntimePackageSet, channel ? "github" }:
+{ lib, pkgs, mkRuntimePackageSet, channel ? "github", generation ? 1 }:
 let
   arguments = {
     runtime = "keiro-runtime";
-    generation = 1;
-    inherit channel;
+    inherit generation channel;
     applicationSelections = {
       kioku = 8;
       okf = 5;
@@ -143,7 +142,7 @@ pkgs.linkFarm "runtime-composition-${channel}" [
     name = "identities.json";
     path = pkgs.writeText "runtime-composition-identities.json" (builtins.toJSON {
       runtime = "keiro-runtime";
-      generation = 1;
+      inherit generation;
       fingerprint = selected.metadata.fingerprint;
       packages = identities a;
       assertions = builtins.length assertions;
