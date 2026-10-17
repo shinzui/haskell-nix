@@ -12,10 +12,11 @@
 , versionLayer ? (_: _: _: _: { })
 , disableProfiling ? true
 , disableHaddock ? true
+, captureCompatibility ? false
 }:
 
 let
-  fixPackageByVersion = import ./fixPackageByVersion.nix { inherit lib; };
+  fixPackageByVersion = import ./fixPackageByVersion.nix { inherit lib captureCompatibility; };
   disableProfilingOverride = import ./disableProfilingOverride.nix;
   disableHaddockOverride = import ./disableHaddockOverride.nix;
   composeManyExtensions = lib.composeManyExtensions or

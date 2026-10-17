@@ -33,6 +33,30 @@ tests = testGroup "compatibility declaration report"
     , testCase "forged evidence and guard results are rejected" $ do
         mapM_ (\(field, value) -> mutateEntry field value >>= invalid)
             [("evidenceStatus", String "passed"), ("sourceGuard", String "passed"), ("status", String "passed")]
+    , testCase "captured inputs must agree with their construction boundary" $ do
+        value <- fixtureValue >>= mapRows withCapture
+        _ <- right (decodeCompatibilityContext (LBS.toStrict (encode value)))
+        wrong <- mapRows (set "inputs" (object ["version" .= ("0.0.1" :: Text), "sourceIdentity" .= ("wrong-source" :: Text), "metadataIdentity" .= ("wrong-metadata" :: Text), "derivation" .= ("wrong.drv" :: Text)])) value
+        invalid wrong
+    , testCase "captured source constructors cannot claim stock pre-repair facts" $ do
+        value <- fixtureValue >>= mapRows withCapture
+        wrong <- mapRows (\row -> case row of
+            Object fields -> case KM.lookup "construction" fields of
+                Just observation -> set "construction" (set "stage" (String "source-constructor") observation) row
+                _ -> row
+            _ -> row) value
+        invalid wrong
+    , testCase "captured enabled tests cannot hide behind a suppression declaration" $ do
+        value <- fixtureValue >>= mapRows withCapture
+        wrong <- mapRows (\row -> case row of
+            Object fields -> case KM.lookup "construction" fields of
+                Just (Object observation) -> case KM.lookup "after" observation of
+                    Just after -> let changed = set "effective" (object ["testsEnabled" .= True, "boundsRelaxed" .= True, "configureFlags" .= ([] :: [Text])]) after
+                        in set "construction" (Object (KM.insert "after" changed observation)) row
+                    _ -> row
+                _ -> row
+            _ -> row) value
+        invalid wrong
     , testCase "required evidence cannot disappear from diagnostics" $ do
         value <- fixtureValue
         invalid (set "requiredEvidence" (toJSON (["legacy-kioku-core-v1"] :: [Text])) value)
@@ -68,6 +92,18 @@ tests = testGroup "compatibility declaration report"
     fixtureValue = fixture >>= right . eitherDecodeStrict'
     set key value (Object fields) = Object (KM.insert key value fields)
     set _ _ value = value
+    withCapture row@(Object fields) = case KM.lookup "inputs" fields of
+        Just inputs -> let snapshot = set "effective" (object ["testsEnabled" .= False, "boundsRelaxed" .= True, "configureFlags" .= ([] :: [Text])]) inputs
+            in set "construction" (object ["stage" .= ("compatibility-row" :: Text), "before" .= snapshot, "after" .= snapshot]) row
+        _ -> row
+    withCapture value = value
+    mapRows f document = case document of
+        Object fields -> case KM.lookup "entries" fields of
+            Just encoded -> do
+                rows <- right (fromJSONList encoded)
+                pure (set "entries" (toJSON (map f rows)) document)
+            _ -> assertFailure "fixture has no entries"
+        _ -> assertFailure "fixture is not an object"
     mutateEntry field value = do
         document <- fixtureValue
         case document of

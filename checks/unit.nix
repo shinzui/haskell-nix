@@ -528,5 +528,6 @@ in
 // import ./application-incremental-policy.nix { inherit lib; }
 // import ./compatibility-policy.nix { inherit lib; }
 // import ./compatibility-report.nix { inherit lib; }
+// import ./capture-compatibility.nix { inherit lib; }
 
   // import ./application-checkpoint-policy.nix { inherit lib; }

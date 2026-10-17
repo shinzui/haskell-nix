@@ -15,7 +15,7 @@
 # which triggers nixpkgs' splice machinery and causes infinite recursion.
 # Instead, we always produce { <name> = ...; } and let the version dispatch
 # happen lazily when the attribute is actually consumed.
-{ lib }:
+{ lib, captureCompatibility ? false }:
 
 name: table: haskellLib: pkgs:
 
@@ -28,8 +28,19 @@ hself: hsuper:
       match = (import ./selectCompatibilityEntry.nix { inherit lib; }) table {
         version = pkg.version;
       };
+      patched = match.patch { inherit pkg lib haskellLib pkgs hself hsuper; };
     in
     if match != null
-    then match.patch { inherit pkg lib haskellLib pkgs hself hsuper; }
+    then if captureCompatibility then
+      (import ./captureCompatibility.nix { inherit lib; }) { inherit name haskellLib; entry = match; before = pkg; after = patched; }
+    else patched
+    else if captureCompatibility then
+      (import ./captureCompatibility.nix { inherit lib; })
+        {
+          inherit name haskellLib; entry = { };
+          before = pkg;
+          after = pkg;
+          selected = false;
+        }
     else pkg;
 }

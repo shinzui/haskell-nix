@@ -232,6 +232,27 @@ in
       cp report.json "$out/"
     '';
 
+  compatibility-capture =
+    let
+      fixture = import ./compatibility-capture.nix {
+        inherit lib mkFirstPartyPackageSet;
+        pkgs = pkgsPlain;
+        compiler = defaultGhc;
+      };
+      report = pkgsPlain.writeText "compatibility-captured.json" (builtins.toJSON fixture.report);
+      identities = pkgsPlain.writeText "compatibility-captured-identities.json" (builtins.toJSON fixture.identities);
+    in
+    pkgsPlain.runCommand "compatibility-capture" { nativeBuildInputs = [ updater pkgsPlain.jq ]; } ''
+      haskell-nix-update compatibility report --context ${report} --json > captured.json
+      haskell-nix-update compatibility check --context ${report}
+      jq -e '.entries[] | select(.id == "legacy-kioku-core-v1") | .construction.stage == "compatibility-row" and .inputs.derivation == .construction.before.derivation' captured.json
+      jq -e '.entries[] | select(.id == "legacy-first-party-source-v1") | .construction.stage == "source-constructor" and .construction.before == null' captured.json
+      jq -e '.entries[] | select(.id == "legacy-cborg-json-v1") | .construction.after.effective.editedCabalFile != null' captured.json
+      mkdir "$out"
+      cp captured.json "$out/"
+      cp ${identities} "$out/identities.json"
+    '';
+
   shared-overrides = import ./shared-overrides.nix {
     inherit lib defaultGhc;
     pkgs = pkgsPlain;

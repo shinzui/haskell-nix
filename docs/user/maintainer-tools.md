@@ -4,7 +4,7 @@ title: Maintainer tools
 description: Find repository formatting, test, derivation-diff, and validation commands.
 docId: DOC-6
 tags: [maintainers, testing, nix]
-timestamp: 2026-10-17T13:15:43Z
+timestamp: 2026-10-17T14:16:28Z
 generated:
   by: human:nadeem
   at: 2026-09-21T14:33:46Z
@@ -25,8 +25,8 @@ package set, compiler, channel, system and optional retained runtime configurati
 The caller supplies each package's version, source identity, Cabal metadata identity
 and derivation **before its compatibility repair**, plus its selected construction
 profiles and generated-source layer. Do not substitute a final repaired recipe or
-stock Nixpkgs facts for those selected inputs. Automatic capture from real recipe
-construction is still pending; the checked-in example is a controlled fixture.
+stock Nixpkgs facts for those selected inputs. This low-level interface accepts
+caller facts; use construction capture to collect actual current inputs.
 
 Run the fixture and its native interchange check from this repository:
 
@@ -46,11 +46,46 @@ Selected declarations remain unverified: a source assertion in a build hook has
 not passed merely because its compiler/version predicate matches. Retirement
 thresholds produce candidates with unmet checks, never automatic removals.
 
+For a current selected scope, pass `captureCompatibility = true` to
+`lib.mkFirstPartyPackageSet`, `lib.mkHaskellExtension`, or `lib.mkHaskellOverlay`.
+Then pass that scope and an explicit package subset to
+`lib.capturedCompatibilityReport`. The native representative check is:
+
+```bash
+nix build --no-link .#checks.aarch64-darwin.compatibility-capture
+```
+
+`checks/compatibility-capture.nix` shows the complete producer/consumer wiring.
+Capture records the real input before each repair, including repairs applied after
+first-party source selection, and the resulting recipe. Source constructors use a
+separate stage with no invented stock input. The report checks declared test
+suppression and bounds relaxation against captured Cabal arguments and lists changed
+fields. Other function effects and build-time source assertions still need explicit
+probes. Captured flags do not prove tests ran or original bounds admitted the compiler.
+
+Some builder arguments, including metadata revisions and jailbreak policy, disappear
+from final derivation attributes. Capture inspects the actual `overrideCabal` boundary
+rather than substituting absent attributes with false values. It preserves the original
+derivation and recursive dependency instances. Source and contextual hook identities use
+metadata-only derivation projections so Nix canonicalizes lazy source aliases; these
+projections are never built. Exported report strings discard build contexts so writing
+a report does not require dependency outputs to be realized. Dependencies are identified
+by derivation and output name. Disabled-test dependencies
+are reserved for explicit strict-validation inventory.
+
+Capture is opt-in and preserves production derivations. Older retained recipe bundles
+lack capture hooks and fail explicitly in the captured adapter; their recipes are not
+rewritten or silently reconstructed using current policy. Raw metadata equality is
+insufficient for retirement: a repair can also change bounds in a build hook. An
+already selected admitting-metadata repair becomes a candidate only when the complete
+recipes also match, and still requires native validation before retirement.
+
 `check` validates the declaration interchange contract and fails if any explicitly
 required evidence is missing or unverified. A context with no required evidence
 can pass that check while retaining unverified native coverage; this is not a
 dependency-test, bounds-enforcement or retirement receipt. The CLI rejects forged
-pass statuses and inconsistent required-evidence diagnostics. It does not rerun
+pass statuses, inconsistent captured boundaries and required-evidence diagnostics.
+It also rejects omitted diagnostics for captured test/bounds policy mismatches. It does not rerun
 Nix selection from JSON, validate arbitrary patch-function effects or authenticate
 caller-supplied input facts. Invalid command arguments exit 2; malformed contexts
 and unmet evidence exit 1. Reports and checks do not change locks or recipes.

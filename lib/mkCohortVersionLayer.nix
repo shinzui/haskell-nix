@@ -1,5 +1,5 @@
 # Names come from the retained record, never from the package fixed point.
-{ lib }:
+{ lib, captureCompatibility ? false }:
 cohort: haskellLib: pkgs:
 hself: hsuper:
 let
@@ -10,10 +10,23 @@ lib.mapAttrs
   (name: entry:
     if builtins.hasAttr name hsuper && hsuper.${name} == null then null
     else
-      (import ./applyPackageBuildPolicy.nix) "legacy-skip-enforce-v1" haskellLib (call {
-        inherit hself haskellLib pkgs name entry;
-        arguments = arguments.${name} or { };
-      }))
+      let
+        raw = call {
+          inherit hself haskellLib pkgs name entry;
+          arguments = arguments.${name} or { };
+        };
+        package = (import ./applyPackageBuildPolicy.nix) "legacy-skip-enforce-v1" haskellLib raw;
+      in
+      if !captureCompatibility then package else
+      (import ./captureCompatibility.nix { inherit lib; }) {
+        inherit name haskellLib;
+        before = null;
+        after = package;
+        entry = {
+          buildPolicyProfile = "legacy-skip-enforce-v1";
+          exceptionIds = [ "legacy-cohort-source-v1" "legacy-skip-enforce-v1-test-suppression" ];
+        };
+      })
   cohort.packages
   // lib.optionalAttrs ((pkgs.stdenv.hostPlatform.config or "") == "arm64-apple-darwin") {
   # cabal2nix's platform parser does not normalize Apple's arm64 spelling to

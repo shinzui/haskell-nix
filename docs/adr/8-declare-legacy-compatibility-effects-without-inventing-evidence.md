@@ -59,8 +59,28 @@ rejects fabricated pass labels and inconsistent required-evidence diagnostics, b
 does not authenticate caller facts or prove arbitrary patch effects. Input and policy
 report identities exclude descriptive reason text; changed exact input facts or
 semantic policy change their respective identities. A declaration check with no
-required native evidence is not a strict validation receipt. Automatic selected-scope
-fact capture and native source/metadata probes remain separate acceptance work.
+required native evidence is not a strict validation receipt.
+
+Opt-in capture observes the actual recursive construction boundary. Do not reconstruct
+a separate unpatched scope: its dependency instances can differ from the real inputs.
+Preserve source-constructor versus repair stages and lazy replacement of absent stock
+packages. Inspect consumed Cabal arguments through `overrideCabal`; final derivation
+attributes omit fields such as revision and jailbreak policy. Keep observations on
+returned values, outside builder arguments, preserving ordinary derivation identities.
+
+Lazy source trees can render transient path aliases. Canonicalize source and contextual
+hook identities through metadata-only derivation projections, without building them.
+Remove output string contexts from exported diagnostic JSON so report materialization
+does not require dependency output realization. Record dependency derivations and output
+names rather than output paths. Strict validation owns disabled-test input
+inventory; ordinary reports must not force that closure. Older retained constructors
+without capture hooks are explicitly unsupported rather than silently replayed through
+new policy. Native source/metadata probes remain separate acceptance work.
+
+Admitting-metadata candidates require equal complete recipes as well as selected
+metadata identity. The cborg-json repair demonstrates why: identical revised metadata
+can still require an additional guarded Cabal-bound rewrite in `postPatch`. Neither
+metadata equality nor a matching declaration establishes successful native retirement.
 
 Migration acceptance additionally compares actual production derivations before and
 after the refactor. Native test/bounds claims require separately scoped receipts;

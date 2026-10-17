@@ -110,6 +110,23 @@ in
       in [ row.retirementCandidate (row.unmetChecks != [ ]) (row.evidenceStatus == "unverified") ];
     expected = [ true true true ];
   };
+  testCapturedAdmittingMetadataIsOnlyARetirementCandidate = {
+    expr =
+      let
+        inputs = context.packages.cborg-json;
+        before = inputs // { effective.editedCabalFile = "selected-admitting-metadata"; };
+        captured = report (context // {
+          packages.cborg-json = inputs // {
+            selectedExceptionIds = [ "legacy-cborg-json-v1" ];
+            inputsByException.legacy-cborg-json-v1 = inputs;
+            construction.legacy-cborg-json-v1 = { stage = "compatibility-row"; inherit before; after = before; };
+          };
+        });
+        row = entry captured "legacy-cborg-json-v1";
+      in
+      [ row.retirementCandidate (row.unmetChecks != [ ]) (row.evidenceStatus == "unverified") ];
+    expected = [ true true true ];
+  };
   testReportNeverRunsPatchFunctions = {
     expr =
       let

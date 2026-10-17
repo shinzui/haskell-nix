@@ -1,0 +1,3607 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-10-17T14:20:42.471717+00:00",
+  "system": "aarch64-darwin",
+  "scope": "Current selected construction and Nix-to-CLI reporting for four representative packages; evaluation identities, not package-test or workaround-necessity evidence. Retained recipe directories are unchanged.",
+  "cells": [
+    {
+      "compiler": "ghc9124",
+      "channel": "github",
+      "identities": {
+        "base64-bytestring": {
+          "captured": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+          "ordinary": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv"
+        },
+        "cborg-json": {
+          "captured": "/nix/store/0yyp3ffydi75sq8gzd53s8p1h9bx72hc-cborg-json-0.2.6.0.drv",
+          "ordinary": "/nix/store/0yyp3ffydi75sq8gzd53s8p1h9bx72hc-cborg-json-0.2.6.0.drv"
+        },
+        "kioku-core": {
+          "captured": "/nix/store/g00m8jclgqjmkchf74fq4q5997yg7kb8-kioku-core-0.9.0.2.drv",
+          "ordinary": "/nix/store/g00m8jclgqjmkchf74fq4q5997yg7kb8-kioku-core-0.9.0.2.drv"
+        },
+        "unicode-data": {
+          "captured": "/nix/store/b7f3dsshxnxdny0b47zimilh3glysfv6-unicode-data-0.9.0.drv",
+          "ordinary": "/nix/store/b7f3dsshxnxdny0b47zimilh3glysfv6-unicode-data-0.9.0.drv"
+        }
+      },
+      "entries": [
+        {
+          "id": "legacy-cborg-json-v1",
+          "package": "cborg-json",
+          "status": "inactive-scope",
+          "inputs": {
+            "derivation": "/nix/store/0yyp3ffydi75sq8gzd53s8p1h9bx72hc-cborg-json-0.2.6.0.drv",
+            "metadataIdentity": "655e5e4fde408b84b8c717328b5ef6d71b3cf47da2e296c25296024a6a0fb786",
+            "sourceIdentity": "nix-source:/nix/store/cwg4qfny466d4jhpldv1663qq8fa509i-compatibility-source-identity.drv",
+            "version": "0.2.6.0"
+          },
+          "retirementCandidate": false,
+          "construction": {
+            "after": {
+              "derivation": "/nix/store/0yyp3ffydi75sq8gzd53s8p1h9bx72hc-cborg-json-0.2.6.0.drv",
+              "effective": {
+                "boundsRelaxed": null,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": "a01a16807fb9b08c656ed256afa6a70278a436549b203777360ec9b351c7f21a",
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": "4",
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 9,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "b0bba5b53090ab37725b794cc38e567049c31b9bb9881aa2e8a165895d851165"
+              },
+              "metadataIdentity": "655e5e4fde408b84b8c717328b5ef6d71b3cf47da2e296c25296024a6a0fb786",
+              "sourceIdentity": "nix-source:/nix/store/cwg4qfny466d4jhpldv1663qq8fa509i-compatibility-source-identity.drv",
+              "version": "0.2.6.0"
+            },
+            "before": {
+              "derivation": "/nix/store/0yyp3ffydi75sq8gzd53s8p1h9bx72hc-cborg-json-0.2.6.0.drv",
+              "effective": {
+                "boundsRelaxed": null,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": "a01a16807fb9b08c656ed256afa6a70278a436549b203777360ec9b351c7f21a",
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": "4",
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 9,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "b0bba5b53090ab37725b794cc38e567049c31b9bb9881aa2e8a165895d851165"
+              },
+              "metadataIdentity": "655e5e4fde408b84b8c717328b5ef6d71b3cf47da2e296c25296024a6a0fb786",
+              "sourceIdentity": "nix-source:/nix/store/cwg4qfny466d4jhpldv1663qq8fa509i-compatibility-source-identity.drv",
+              "version": "0.2.6.0"
+            },
+            "changedFields": [],
+            "stage": "compatibility-row"
+          },
+          "constructionProblems": []
+        },
+        {
+          "id": "legacy-cohort-source-v1",
+          "package": "base64-bytestring",
+          "status": "selected-unverified",
+          "inputs": {
+            "derivation": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+            "metadataIdentity": "5720419ed191dfedc86caf5916879fd57f214ea6d6a8b87b1bbafb71b7002195",
+            "sourceIdentity": "nix-source:/nix/store/lcrc4sciikvvlvrdwpj29d38b9vj558g-compatibility-source-identity.drv",
+            "version": "1.2.1.0"
+          },
+          "retirementCandidate": false,
+          "construction": {
+            "after": {
+              "derivation": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+              "effective": {
+                "boundsRelaxed": null,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": "45305ccf8914c66d385b518721472c7b8c858f1986945377f74f85c1e0d49803",
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": "1",
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 2,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "a63469f770b286bde5eb34f2b989b9fa342b4909b09665019a72881f6c77a7a8"
+              },
+              "metadataIdentity": "5720419ed191dfedc86caf5916879fd57f214ea6d6a8b87b1bbafb71b7002195",
+              "sourceIdentity": "nix-source:/nix/store/lcrc4sciikvvlvrdwpj29d38b9vj558g-compatibility-source-identity.drv",
+              "version": "1.2.1.0"
+            },
+            "before": null,
+            "changedFields": [],
+            "stage": "source-constructor"
+          },
+          "constructionProblems": []
+        },
+        {
+          "id": "legacy-cohort-source-v1",
+          "package": "cborg-json",
+          "status": "selected-unverified",
+          "inputs": {
+            "derivation": "/nix/store/0yyp3ffydi75sq8gzd53s8p1h9bx72hc-cborg-json-0.2.6.0.drv",
+            "metadataIdentity": "655e5e4fde408b84b8c717328b5ef6d71b3cf47da2e296c25296024a6a0fb786",
+            "sourceIdentity": "nix-source:/nix/store/cwg4qfny466d4jhpldv1663qq8fa509i-compatibility-source-identity.drv",
+            "version": "0.2.6.0"
+          },
+          "retirementCandidate": false,
+          "construction": {
+            "after": {
+              "derivation": "/nix/store/0yyp3ffydi75sq8gzd53s8p1h9bx72hc-cborg-json-0.2.6.0.drv",
+              "effective": {
+                "boundsRelaxed": null,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": "a01a16807fb9b08c656ed256afa6a70278a436549b203777360ec9b351c7f21a",
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": "4",
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 9,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "b0bba5b53090ab37725b794cc38e567049c31b9bb9881aa2e8a165895d851165"
+              },
+              "metadataIdentity": "655e5e4fde408b84b8c717328b5ef6d71b3cf47da2e296c25296024a6a0fb786",
+              "sourceIdentity": "nix-source:/nix/store/cwg4qfny466d4jhpldv1663qq8fa509i-compatibility-source-identity.drv",
+              "version": "0.2.6.0"
+            },
+            "before": null,
+            "changedFields": [],
+            "stage": "source-constructor"
+          },
+          "constructionProblems": []
+        },
+        {
+          "id": "legacy-cohort-source-v1",
+          "package": "unicode-data",
+          "status": "selected-unverified",
+          "inputs": {
+            "derivation": "/nix/store/b7f3dsshxnxdny0b47zimilh3glysfv6-unicode-data-0.9.0.drv",
+            "metadataIdentity": "614822406b71eab265949a0a9d4b11e5b2a5e25ff7acaa9586c0cc9314f573a0",
+            "sourceIdentity": "nix-source:/nix/store/kma9lgi9zf3pwxdnjkf12172cz1jcys4-compatibility-source-identity.drv",
+            "version": "0.9.0"
+          },
+          "retirementCandidate": false,
+          "construction": {
+            "after": {
+              "derivation": "/nix/store/b7f3dsshxnxdny0b47zimilh3glysfv6-unicode-data-0.9.0.drv",
+              "effective": {
+                "boundsRelaxed": null,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": null,
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": null,
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 1,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "78b34b864e4de02d9e53561c22ade0a40d55ab53e4d95b6e5d93a2a17fe5a43d"
+              },
+              "metadataIdentity": "614822406b71eab265949a0a9d4b11e5b2a5e25ff7acaa9586c0cc9314f573a0",
+              "sourceIdentity": "nix-source:/nix/store/kma9lgi9zf3pwxdnjkf12172cz1jcys4-compatibility-source-identity.drv",
+              "version": "0.9.0"
+            },
+            "before": null,
+            "changedFields": [],
+            "stage": "source-constructor"
+          },
+          "constructionProblems": []
+        },
+        {
+          "id": "legacy-first-party-source-v1",
+          "package": "kioku-core",
+          "status": "selected-unverified",
+          "inputs": {
+            "derivation": "/nix/store/g00m8jclgqjmkchf74fq4q5997yg7kb8-kioku-core-0.9.0.2.drv",
+            "metadataIdentity": "a3c5182002edea6762bcc952a030c5ec0471ee43befda8ec2eee761a464de75a",
+            "sourceIdentity": "nix-source:/nix/store/dyp7q32i0fag79s4dwri58jfk1y10avg-compatibility-source-identity.drv",
+            "version": "0.9.0.2"
+          },
+          "retirementCandidate": false,
+          "construction": {
+            "after": {
+              "derivation": "/nix/store/g00m8jclgqjmkchf74fq4q5997yg7kb8-kioku-core-0.9.0.2.drv",
+              "effective": {
+                "boundsRelaxed": true,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": null,
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": null,
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 37,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "c32cd128259ef45014edcd1ce3f82732a3b59b93ead5088318805d5fa0e35f02"
+              },
+              "metadataIdentity": "a3c5182002edea6762bcc952a030c5ec0471ee43befda8ec2eee761a464de75a",
+              "sourceIdentity": "nix-source:/nix/store/dyp7q32i0fag79s4dwri58jfk1y10avg-compatibility-source-identity.drv",
+              "version": "0.9.0.2"
+            },
+            "before": null,
+            "changedFields": [],
+            "stage": "source-constructor"
+          },
+          "constructionProblems": []
+        },
+        {
+          "id": "legacy-first-party-v1-bound-relaxation",
+          "package": "kioku-core",
+          "status": "selected-unverified",
+          "inputs": {
+            "derivation": "/nix/store/g00m8jclgqjmkchf74fq4q5997yg7kb8-kioku-core-0.9.0.2.drv",
+            "metadataIdentity": "a3c5182002edea6762bcc952a030c5ec0471ee43befda8ec2eee761a464de75a",
+            "sourceIdentity": "nix-source:/nix/store/dyp7q32i0fag79s4dwri58jfk1y10avg-compatibility-source-identity.drv",
+            "version": "0.9.0.2"
+          },
+          "retirementCandidate": false,
+          "construction": {
+            "after": {
+              "derivation": "/nix/store/g00m8jclgqjmkchf74fq4q5997yg7kb8-kioku-core-0.9.0.2.drv",
+              "effective": {
+                "boundsRelaxed": true,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": null,
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": null,
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 37,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "c32cd128259ef45014edcd1ce3f82732a3b59b93ead5088318805d5fa0e35f02"
+              },
+              "metadataIdentity": "a3c5182002edea6762bcc952a030c5ec0471ee43befda8ec2eee761a464de75a",
+              "sourceIdentity": "nix-source:/nix/store/dyp7q32i0fag79s4dwri58jfk1y10avg-compatibility-source-identity.drv",
+              "version": "0.9.0.2"
+            },
+            "before": null,
+            "changedFields": [],
+            "stage": "source-constructor"
+          },
+          "constructionProblems": []
+        },
+        {
+          "id": "legacy-first-party-v1-test-suppression",
+          "package": "kioku-core",
+          "status": "selected-unverified",
+          "inputs": {
+            "derivation": "/nix/store/g00m8jclgqjmkchf74fq4q5997yg7kb8-kioku-core-0.9.0.2.drv",
+            "metadataIdentity": "a3c5182002edea6762bcc952a030c5ec0471ee43befda8ec2eee761a464de75a",
+            "sourceIdentity": "nix-source:/nix/store/dyp7q32i0fag79s4dwri58jfk1y10avg-compatibility-source-identity.drv",
+            "version": "0.9.0.2"
+          },
+          "retirementCandidate": false,
+          "construction": {
+            "after": {
+              "derivation": "/nix/store/g00m8jclgqjmkchf74fq4q5997yg7kb8-kioku-core-0.9.0.2.drv",
+              "effective": {
+                "boundsRelaxed": true,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": null,
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": null,
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 37,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "c32cd128259ef45014edcd1ce3f82732a3b59b93ead5088318805d5fa0e35f02"
+              },
+              "metadataIdentity": "a3c5182002edea6762bcc952a030c5ec0471ee43befda8ec2eee761a464de75a",
+              "sourceIdentity": "nix-source:/nix/store/dyp7q32i0fag79s4dwri58jfk1y10avg-compatibility-source-identity.drv",
+              "version": "0.9.0.2"
+            },
+            "before": null,
+            "changedFields": [],
+            "stage": "source-constructor"
+          },
+          "constructionProblems": []
+        },
+        {
+          "id": "legacy-kioku-core-v1",
+          "package": "kioku-core",
+          "status": "inactive-scope",
+          "inputs": {
+            "derivation": "/nix/store/g00m8jclgqjmkchf74fq4q5997yg7kb8-kioku-core-0.9.0.2.drv",
+            "metadataIdentity": "a3c5182002edea6762bcc952a030c5ec0471ee43befda8ec2eee761a464de75a",
+            "sourceIdentity": "nix-source:/nix/store/dyp7q32i0fag79s4dwri58jfk1y10avg-compatibility-source-identity.drv",
+            "version": "0.9.0.2"
+          },
+          "retirementCandidate": false,
+          "construction": {
+            "after": {
+              "derivation": "/nix/store/g00m8jclgqjmkchf74fq4q5997yg7kb8-kioku-core-0.9.0.2.drv",
+              "effective": {
+                "boundsRelaxed": true,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": null,
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": null,
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 37,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "c32cd128259ef45014edcd1ce3f82732a3b59b93ead5088318805d5fa0e35f02"
+              },
+              "metadataIdentity": "a3c5182002edea6762bcc952a030c5ec0471ee43befda8ec2eee761a464de75a",
+              "sourceIdentity": "nix-source:/nix/store/dyp7q32i0fag79s4dwri58jfk1y10avg-compatibility-source-identity.drv",
+              "version": "0.9.0.2"
+            },
+            "before": {
+              "derivation": "/nix/store/g00m8jclgqjmkchf74fq4q5997yg7kb8-kioku-core-0.9.0.2.drv",
+              "effective": {
+                "boundsRelaxed": true,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": null,
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": null,
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 37,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "c32cd128259ef45014edcd1ce3f82732a3b59b93ead5088318805d5fa0e35f02"
+              },
+              "metadataIdentity": "a3c5182002edea6762bcc952a030c5ec0471ee43befda8ec2eee761a464de75a",
+              "sourceIdentity": "nix-source:/nix/store/dyp7q32i0fag79s4dwri58jfk1y10avg-compatibility-source-identity.drv",
+              "version": "0.9.0.2"
+            },
+            "changedFields": [],
+            "stage": "compatibility-row"
+          },
+          "constructionProblems": []
+        },
+        {
+          "id": "legacy-skip-enforce-v1-test-suppression",
+          "package": "base64-bytestring",
+          "status": "selected-unverified",
+          "inputs": {
+            "derivation": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+            "metadataIdentity": "5720419ed191dfedc86caf5916879fd57f214ea6d6a8b87b1bbafb71b7002195",
+            "sourceIdentity": "nix-source:/nix/store/lcrc4sciikvvlvrdwpj29d38b9vj558g-compatibility-source-identity.drv",
+            "version": "1.2.1.0"
+          },
+          "retirementCandidate": false,
+          "construction": {
+            "after": {
+              "derivation": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+              "effective": {
+                "boundsRelaxed": null,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": "45305ccf8914c66d385b518721472c7b8c858f1986945377f74f85c1e0d49803",
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": "1",
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 2,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "a63469f770b286bde5eb34f2b989b9fa342b4909b09665019a72881f6c77a7a8"
+              },
+              "metadataIdentity": "5720419ed191dfedc86caf5916879fd57f214ea6d6a8b87b1bbafb71b7002195",
+              "sourceIdentity": "nix-source:/nix/store/lcrc4sciikvvlvrdwpj29d38b9vj558g-compatibility-source-identity.drv",
+              "version": "1.2.1.0"
+            },
+            "before": null,
+            "changedFields": [],
+            "stage": "source-constructor"
+          },
+          "constructionProblems": []
+        },
+        {
+          "id": "legacy-skip-enforce-v1-test-suppression",
+          "package": "cborg-json",
+          "status": "selected-unverified",
+          "inputs": {
+            "derivation": "/nix/store/0yyp3ffydi75sq8gzd53s8p1h9bx72hc-cborg-json-0.2.6.0.drv",
+            "metadataIdentity": "655e5e4fde408b84b8c717328b5ef6d71b3cf47da2e296c25296024a6a0fb786",
+            "sourceIdentity": "nix-source:/nix/store/cwg4qfny466d4jhpldv1663qq8fa509i-compatibility-source-identity.drv",
+            "version": "0.2.6.0"
+          },
+          "retirementCandidate": false,
+          "construction": {
+            "after": {
+              "derivation": "/nix/store/0yyp3ffydi75sq8gzd53s8p1h9bx72hc-cborg-json-0.2.6.0.drv",
+              "effective": {
+                "boundsRelaxed": null,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": "a01a16807fb9b08c656ed256afa6a70278a436549b203777360ec9b351c7f21a",
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": "4",
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 9,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "b0bba5b53090ab37725b794cc38e567049c31b9bb9881aa2e8a165895d851165"
+              },
+              "metadataIdentity": "655e5e4fde408b84b8c717328b5ef6d71b3cf47da2e296c25296024a6a0fb786",
+              "sourceIdentity": "nix-source:/nix/store/cwg4qfny466d4jhpldv1663qq8fa509i-compatibility-source-identity.drv",
+              "version": "0.2.6.0"
+            },
+            "before": null,
+            "changedFields": [],
+            "stage": "source-constructor"
+          },
+          "constructionProblems": []
+        },
+        {
+          "id": "legacy-skip-enforce-v1-test-suppression",
+          "package": "unicode-data",
+          "status": "selected-unverified",
+          "inputs": {
+            "derivation": "/nix/store/b7f3dsshxnxdny0b47zimilh3glysfv6-unicode-data-0.9.0.drv",
+            "metadataIdentity": "614822406b71eab265949a0a9d4b11e5b2a5e25ff7acaa9586c0cc9314f573a0",
+            "sourceIdentity": "nix-source:/nix/store/kma9lgi9zf3pwxdnjkf12172cz1jcys4-compatibility-source-identity.drv",
+            "version": "0.9.0"
+          },
+          "retirementCandidate": false,
+          "construction": {
+            "after": {
+              "derivation": "/nix/store/b7f3dsshxnxdny0b47zimilh3glysfv6-unicode-data-0.9.0.drv",
+              "effective": {
+                "boundsRelaxed": null,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": null,
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": null,
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 1,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "78b34b864e4de02d9e53561c22ade0a40d55ab53e4d95b6e5d93a2a17fe5a43d"
+              },
+              "metadataIdentity": "614822406b71eab265949a0a9d4b11e5b2a5e25ff7acaa9586c0cc9314f573a0",
+              "sourceIdentity": "nix-source:/nix/store/kma9lgi9zf3pwxdnjkf12172cz1jcys4-compatibility-source-identity.drv",
+              "version": "0.9.0"
+            },
+            "before": null,
+            "changedFields": [],
+            "stage": "source-constructor"
+          },
+          "constructionProblems": []
+        },
+        {
+          "id": "legacy-unicode-data-metadata-v1",
+          "package": "unicode-data",
+          "status": "inactive-scope",
+          "inputs": {
+            "derivation": "/nix/store/b7f3dsshxnxdny0b47zimilh3glysfv6-unicode-data-0.9.0.drv",
+            "metadataIdentity": "614822406b71eab265949a0a9d4b11e5b2a5e25ff7acaa9586c0cc9314f573a0",
+            "sourceIdentity": "nix-source:/nix/store/kma9lgi9zf3pwxdnjkf12172cz1jcys4-compatibility-source-identity.drv",
+            "version": "0.9.0"
+          },
+          "retirementCandidate": false,
+          "construction": {
+            "after": {
+              "derivation": "/nix/store/b7f3dsshxnxdny0b47zimilh3glysfv6-unicode-data-0.9.0.drv",
+              "effective": {
+                "boundsRelaxed": null,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": null,
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": null,
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 1,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "78b34b864e4de02d9e53561c22ade0a40d55ab53e4d95b6e5d93a2a17fe5a43d"
+              },
+              "metadataIdentity": "614822406b71eab265949a0a9d4b11e5b2a5e25ff7acaa9586c0cc9314f573a0",
+              "sourceIdentity": "nix-source:/nix/store/kma9lgi9zf3pwxdnjkf12172cz1jcys4-compatibility-source-identity.drv",
+              "version": "0.9.0"
+            },
+            "before": {
+              "derivation": "/nix/store/b7f3dsshxnxdny0b47zimilh3glysfv6-unicode-data-0.9.0.drv",
+              "effective": {
+                "boundsRelaxed": null,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": null,
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": null,
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 1,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "78b34b864e4de02d9e53561c22ade0a40d55ab53e4d95b6e5d93a2a17fe5a43d"
+              },
+              "metadataIdentity": "614822406b71eab265949a0a9d4b11e5b2a5e25ff7acaa9586c0cc9314f573a0",
+              "sourceIdentity": "nix-source:/nix/store/kma9lgi9zf3pwxdnjkf12172cz1jcys4-compatibility-source-identity.drv",
+              "version": "0.9.0"
+            },
+            "changedFields": [],
+            "stage": "compatibility-row"
+          },
+          "constructionProblems": []
+        },
+        {
+          "id": "legacy-unicode-data-v1",
+          "package": "unicode-data",
+          "status": "selected-unverified",
+          "inputs": {
+            "derivation": "/nix/store/b7f3dsshxnxdny0b47zimilh3glysfv6-unicode-data-0.9.0.drv",
+            "metadataIdentity": "614822406b71eab265949a0a9d4b11e5b2a5e25ff7acaa9586c0cc9314f573a0",
+            "sourceIdentity": "nix-source:/nix/store/kma9lgi9zf3pwxdnjkf12172cz1jcys4-compatibility-source-identity.drv",
+            "version": "0.9.0"
+          },
+          "retirementCandidate": false,
+          "construction": {
+            "after": {
+              "derivation": "/nix/store/b7f3dsshxnxdny0b47zimilh3glysfv6-unicode-data-0.9.0.drv",
+              "effective": {
+                "boundsRelaxed": null,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": null,
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": null,
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 1,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "78b34b864e4de02d9e53561c22ade0a40d55ab53e4d95b6e5d93a2a17fe5a43d"
+              },
+              "metadataIdentity": "614822406b71eab265949a0a9d4b11e5b2a5e25ff7acaa9586c0cc9314f573a0",
+              "sourceIdentity": "nix-source:/nix/store/kma9lgi9zf3pwxdnjkf12172cz1jcys4-compatibility-source-identity.drv",
+              "version": "0.9.0"
+            },
+            "before": {
+              "derivation": "/nix/store/b7f3dsshxnxdny0b47zimilh3glysfv6-unicode-data-0.9.0.drv",
+              "effective": {
+                "boundsRelaxed": null,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": null,
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": null,
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 1,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "78b34b864e4de02d9e53561c22ade0a40d55ab53e4d95b6e5d93a2a17fe5a43d"
+              },
+              "metadataIdentity": "614822406b71eab265949a0a9d4b11e5b2a5e25ff7acaa9586c0cc9314f573a0",
+              "sourceIdentity": "nix-source:/nix/store/kma9lgi9zf3pwxdnjkf12172cz1jcys4-compatibility-source-identity.drv",
+              "version": "0.9.0"
+            },
+            "changedFields": [],
+            "stage": "compatibility-row"
+          },
+          "constructionProblems": []
+        }
+      ],
+      "reportSha256": "c3e15ebb9320fbe896dd7285d5ef0cdaaaab98d6a4ef0668926bd06a7aea641a",
+      "checkExitCode": 0,
+      "commands": [
+        [
+          "nix",
+          "eval",
+          "--impure",
+          "--json",
+          "--expr",
+          "(import /tmp/mp4-ep21-captured-context.nix { compiler = \"ghc9124\"; channel = \"github\"; })"
+        ],
+        [
+          "nix",
+          "run",
+          ".#haskell-nix-update",
+          "--",
+          "compatibility",
+          "check",
+          "--context",
+          "/tmp/mp4-ep21-capture-campaign/github-ghc9124.json"
+        ]
+      ],
+      "repeatIdentical": true
+    },
+    {
+      "compiler": "ghc9124",
+      "channel": "hackage",
+      "identities": {
+        "base64-bytestring": {
+          "captured": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+          "ordinary": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv"
+        },
+        "cborg-json": {
+          "captured": "/nix/store/0yyp3ffydi75sq8gzd53s8p1h9bx72hc-cborg-json-0.2.6.0.drv",
+          "ordinary": "/nix/store/0yyp3ffydi75sq8gzd53s8p1h9bx72hc-cborg-json-0.2.6.0.drv"
+        },
+        "kioku-core": {
+          "captured": "/nix/store/0kvc1l4xma742fk2z3ldpkrraw221xya-kioku-core-0.9.0.2.drv",
+          "ordinary": "/nix/store/0kvc1l4xma742fk2z3ldpkrraw221xya-kioku-core-0.9.0.2.drv"
+        },
+        "unicode-data": {
+          "captured": "/nix/store/b7f3dsshxnxdny0b47zimilh3glysfv6-unicode-data-0.9.0.drv",
+          "ordinary": "/nix/store/b7f3dsshxnxdny0b47zimilh3glysfv6-unicode-data-0.9.0.drv"
+        }
+      },
+      "entries": [
+        {
+          "id": "legacy-cborg-json-v1",
+          "package": "cborg-json",
+          "status": "inactive-scope",
+          "inputs": {
+            "derivation": "/nix/store/0yyp3ffydi75sq8gzd53s8p1h9bx72hc-cborg-json-0.2.6.0.drv",
+            "metadataIdentity": "655e5e4fde408b84b8c717328b5ef6d71b3cf47da2e296c25296024a6a0fb786",
+            "sourceIdentity": "nix-source:/nix/store/cwg4qfny466d4jhpldv1663qq8fa509i-compatibility-source-identity.drv",
+            "version": "0.2.6.0"
+          },
+          "retirementCandidate": false,
+          "construction": {
+            "after": {
+              "derivation": "/nix/store/0yyp3ffydi75sq8gzd53s8p1h9bx72hc-cborg-json-0.2.6.0.drv",
+              "effective": {
+                "boundsRelaxed": null,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": "a01a16807fb9b08c656ed256afa6a70278a436549b203777360ec9b351c7f21a",
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": "4",
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 9,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "b0bba5b53090ab37725b794cc38e567049c31b9bb9881aa2e8a165895d851165"
+              },
+              "metadataIdentity": "655e5e4fde408b84b8c717328b5ef6d71b3cf47da2e296c25296024a6a0fb786",
+              "sourceIdentity": "nix-source:/nix/store/cwg4qfny466d4jhpldv1663qq8fa509i-compatibility-source-identity.drv",
+              "version": "0.2.6.0"
+            },
+            "before": {
+              "derivation": "/nix/store/0yyp3ffydi75sq8gzd53s8p1h9bx72hc-cborg-json-0.2.6.0.drv",
+              "effective": {
+                "boundsRelaxed": null,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": "a01a16807fb9b08c656ed256afa6a70278a436549b203777360ec9b351c7f21a",
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": "4",
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 9,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "b0bba5b53090ab37725b794cc38e567049c31b9bb9881aa2e8a165895d851165"
+              },
+              "metadataIdentity": "655e5e4fde408b84b8c717328b5ef6d71b3cf47da2e296c25296024a6a0fb786",
+              "sourceIdentity": "nix-source:/nix/store/cwg4qfny466d4jhpldv1663qq8fa509i-compatibility-source-identity.drv",
+              "version": "0.2.6.0"
+            },
+            "changedFields": [],
+            "stage": "compatibility-row"
+          },
+          "constructionProblems": []
+        },
+        {
+          "id": "legacy-cohort-source-v1",
+          "package": "base64-bytestring",
+          "status": "selected-unverified",
+          "inputs": {
+            "derivation": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+            "metadataIdentity": "5720419ed191dfedc86caf5916879fd57f214ea6d6a8b87b1bbafb71b7002195",
+            "sourceIdentity": "nix-source:/nix/store/lcrc4sciikvvlvrdwpj29d38b9vj558g-compatibility-source-identity.drv",
+            "version": "1.2.1.0"
+          },
+          "retirementCandidate": false,
+          "construction": {
+            "after": {
+              "derivation": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+              "effective": {
+                "boundsRelaxed": null,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": "45305ccf8914c66d385b518721472c7b8c858f1986945377f74f85c1e0d49803",
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": "1",
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 2,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "a63469f770b286bde5eb34f2b989b9fa342b4909b09665019a72881f6c77a7a8"
+              },
+              "metadataIdentity": "5720419ed191dfedc86caf5916879fd57f214ea6d6a8b87b1bbafb71b7002195",
+              "sourceIdentity": "nix-source:/nix/store/lcrc4sciikvvlvrdwpj29d38b9vj558g-compatibility-source-identity.drv",
+              "version": "1.2.1.0"
+            },
+            "before": null,
+            "changedFields": [],
+            "stage": "source-constructor"
+          },
+          "constructionProblems": []
+        },
+        {
+          "id": "legacy-cohort-source-v1",
+          "package": "cborg-json",
+          "status": "selected-unverified",
+          "inputs": {
+            "derivation": "/nix/store/0yyp3ffydi75sq8gzd53s8p1h9bx72hc-cborg-json-0.2.6.0.drv",
+            "metadataIdentity": "655e5e4fde408b84b8c717328b5ef6d71b3cf47da2e296c25296024a6a0fb786",
+            "sourceIdentity": "nix-source:/nix/store/cwg4qfny466d4jhpldv1663qq8fa509i-compatibility-source-identity.drv",
+            "version": "0.2.6.0"
+          },
+          "retirementCandidate": false,
+          "construction": {
+            "after": {
+              "derivation": "/nix/store/0yyp3ffydi75sq8gzd53s8p1h9bx72hc-cborg-json-0.2.6.0.drv",
+              "effective": {
+                "boundsRelaxed": null,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": "a01a16807fb9b08c656ed256afa6a70278a436549b203777360ec9b351c7f21a",
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": "4",
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 9,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "b0bba5b53090ab37725b794cc38e567049c31b9bb9881aa2e8a165895d851165"
+              },
+              "metadataIdentity": "655e5e4fde408b84b8c717328b5ef6d71b3cf47da2e296c25296024a6a0fb786",
+              "sourceIdentity": "nix-source:/nix/store/cwg4qfny466d4jhpldv1663qq8fa509i-compatibility-source-identity.drv",
+              "version": "0.2.6.0"
+            },
+            "before": null,
+            "changedFields": [],
+            "stage": "source-constructor"
+          },
+          "constructionProblems": []
+        },
+        {
+          "id": "legacy-cohort-source-v1",
+          "package": "unicode-data",
+          "status": "selected-unverified",
+          "inputs": {
+            "derivation": "/nix/store/b7f3dsshxnxdny0b47zimilh3glysfv6-unicode-data-0.9.0.drv",
+            "metadataIdentity": "614822406b71eab265949a0a9d4b11e5b2a5e25ff7acaa9586c0cc9314f573a0",
+            "sourceIdentity": "nix-source:/nix/store/kma9lgi9zf3pwxdnjkf12172cz1jcys4-compatibility-source-identity.drv",
+            "version": "0.9.0"
+          },
+          "retirementCandidate": false,
+          "construction": {
+            "after": {
+              "derivation": "/nix/store/b7f3dsshxnxdny0b47zimilh3glysfv6-unicode-data-0.9.0.drv",
+              "effective": {
+                "boundsRelaxed": null,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": null,
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": null,
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 1,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "78b34b864e4de02d9e53561c22ade0a40d55ab53e4d95b6e5d93a2a17fe5a43d"
+              },
+              "metadataIdentity": "614822406b71eab265949a0a9d4b11e5b2a5e25ff7acaa9586c0cc9314f573a0",
+              "sourceIdentity": "nix-source:/nix/store/kma9lgi9zf3pwxdnjkf12172cz1jcys4-compatibility-source-identity.drv",
+              "version": "0.9.0"
+            },
+            "before": null,
+            "changedFields": [],
+            "stage": "source-constructor"
+          },
+          "constructionProblems": []
+        },
+        {
+          "id": "legacy-first-party-source-v1",
+          "package": "kioku-core",
+          "status": "selected-unverified",
+          "inputs": {
+            "derivation": "/nix/store/0kvc1l4xma742fk2z3ldpkrraw221xya-kioku-core-0.9.0.2.drv",
+            "metadataIdentity": "09a1aba4815a938d398faa15967cca24842fbe049850253c1e9eed07e5afadcf",
+            "sourceIdentity": "nix-source:/nix/store/jzv9cvkgq6arvaclm22lkmlyz6dmpgmn-compatibility-source-identity.drv",
+            "version": "0.9.0.2"
+          },
+          "retirementCandidate": false,
+          "construction": {
+            "after": {
+              "derivation": "/nix/store/0kvc1l4xma742fk2z3ldpkrraw221xya-kioku-core-0.9.0.2.drv",
+              "effective": {
+                "boundsRelaxed": true,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": null,
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": null,
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 37,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "c5c6a60d6e32cfa169e965699a2c87fe493f5888dc6c5aadd7f4e6fa6039920e"
+              },
+              "metadataIdentity": "09a1aba4815a938d398faa15967cca24842fbe049850253c1e9eed07e5afadcf",
+              "sourceIdentity": "nix-source:/nix/store/jzv9cvkgq6arvaclm22lkmlyz6dmpgmn-compatibility-source-identity.drv",
+              "version": "0.9.0.2"
+            },
+            "before": null,
+            "changedFields": [],
+            "stage": "source-constructor"
+          },
+          "constructionProblems": []
+        },
+        {
+          "id": "legacy-first-party-v1-bound-relaxation",
+          "package": "kioku-core",
+          "status": "selected-unverified",
+          "inputs": {
+            "derivation": "/nix/store/0kvc1l4xma742fk2z3ldpkrraw221xya-kioku-core-0.9.0.2.drv",
+            "metadataIdentity": "09a1aba4815a938d398faa15967cca24842fbe049850253c1e9eed07e5afadcf",
+            "sourceIdentity": "nix-source:/nix/store/jzv9cvkgq6arvaclm22lkmlyz6dmpgmn-compatibility-source-identity.drv",
+            "version": "0.9.0.2"
+          },
+          "retirementCandidate": false,
+          "construction": {
+            "after": {
+              "derivation": "/nix/store/0kvc1l4xma742fk2z3ldpkrraw221xya-kioku-core-0.9.0.2.drv",
+              "effective": {
+                "boundsRelaxed": true,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": null,
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": null,
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 37,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "c5c6a60d6e32cfa169e965699a2c87fe493f5888dc6c5aadd7f4e6fa6039920e"
+              },
+              "metadataIdentity": "09a1aba4815a938d398faa15967cca24842fbe049850253c1e9eed07e5afadcf",
+              "sourceIdentity": "nix-source:/nix/store/jzv9cvkgq6arvaclm22lkmlyz6dmpgmn-compatibility-source-identity.drv",
+              "version": "0.9.0.2"
+            },
+            "before": null,
+            "changedFields": [],
+            "stage": "source-constructor"
+          },
+          "constructionProblems": []
+        },
+        {
+          "id": "legacy-first-party-v1-test-suppression",
+          "package": "kioku-core",
+          "status": "selected-unverified",
+          "inputs": {
+            "derivation": "/nix/store/0kvc1l4xma742fk2z3ldpkrraw221xya-kioku-core-0.9.0.2.drv",
+            "metadataIdentity": "09a1aba4815a938d398faa15967cca24842fbe049850253c1e9eed07e5afadcf",
+            "sourceIdentity": "nix-source:/nix/store/jzv9cvkgq6arvaclm22lkmlyz6dmpgmn-compatibility-source-identity.drv",
+            "version": "0.9.0.2"
+          },
+          "retirementCandidate": false,
+          "construction": {
+            "after": {
+              "derivation": "/nix/store/0kvc1l4xma742fk2z3ldpkrraw221xya-kioku-core-0.9.0.2.drv",
+              "effective": {
+                "boundsRelaxed": true,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": null,
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": null,
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 37,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "c5c6a60d6e32cfa169e965699a2c87fe493f5888dc6c5aadd7f4e6fa6039920e"
+              },
+              "metadataIdentity": "09a1aba4815a938d398faa15967cca24842fbe049850253c1e9eed07e5afadcf",
+              "sourceIdentity": "nix-source:/nix/store/jzv9cvkgq6arvaclm22lkmlyz6dmpgmn-compatibility-source-identity.drv",
+              "version": "0.9.0.2"
+            },
+            "before": null,
+            "changedFields": [],
+            "stage": "source-constructor"
+          },
+          "constructionProblems": []
+        },
+        {
+          "id": "legacy-kioku-core-v1",
+          "package": "kioku-core",
+          "status": "inactive-scope",
+          "inputs": {
+            "derivation": "/nix/store/0kvc1l4xma742fk2z3ldpkrraw221xya-kioku-core-0.9.0.2.drv",
+            "metadataIdentity": "09a1aba4815a938d398faa15967cca24842fbe049850253c1e9eed07e5afadcf",
+            "sourceIdentity": "nix-source:/nix/store/jzv9cvkgq6arvaclm22lkmlyz6dmpgmn-compatibility-source-identity.drv",
+            "version": "0.9.0.2"
+          },
+          "retirementCandidate": false,
+          "construction": {
+            "after": {
+              "derivation": "/nix/store/0kvc1l4xma742fk2z3ldpkrraw221xya-kioku-core-0.9.0.2.drv",
+              "effective": {
+                "boundsRelaxed": true,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": null,
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": null,
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 37,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "c5c6a60d6e32cfa169e965699a2c87fe493f5888dc6c5aadd7f4e6fa6039920e"
+              },
+              "metadataIdentity": "09a1aba4815a938d398faa15967cca24842fbe049850253c1e9eed07e5afadcf",
+              "sourceIdentity": "nix-source:/nix/store/jzv9cvkgq6arvaclm22lkmlyz6dmpgmn-compatibility-source-identity.drv",
+              "version": "0.9.0.2"
+            },
+            "before": {
+              "derivation": "/nix/store/0kvc1l4xma742fk2z3ldpkrraw221xya-kioku-core-0.9.0.2.drv",
+              "effective": {
+                "boundsRelaxed": true,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": null,
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": null,
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 37,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "c5c6a60d6e32cfa169e965699a2c87fe493f5888dc6c5aadd7f4e6fa6039920e"
+              },
+              "metadataIdentity": "09a1aba4815a938d398faa15967cca24842fbe049850253c1e9eed07e5afadcf",
+              "sourceIdentity": "nix-source:/nix/store/jzv9cvkgq6arvaclm22lkmlyz6dmpgmn-compatibility-source-identity.drv",
+              "version": "0.9.0.2"
+            },
+            "changedFields": [],
+            "stage": "compatibility-row"
+          },
+          "constructionProblems": []
+        },
+        {
+          "id": "legacy-skip-enforce-v1-test-suppression",
+          "package": "base64-bytestring",
+          "status": "selected-unverified",
+          "inputs": {
+            "derivation": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+            "metadataIdentity": "5720419ed191dfedc86caf5916879fd57f214ea6d6a8b87b1bbafb71b7002195",
+            "sourceIdentity": "nix-source:/nix/store/lcrc4sciikvvlvrdwpj29d38b9vj558g-compatibility-source-identity.drv",
+            "version": "1.2.1.0"
+          },
+          "retirementCandidate": false,
+          "construction": {
+            "after": {
+              "derivation": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+              "effective": {
+                "boundsRelaxed": null,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": "45305ccf8914c66d385b518721472c7b8c858f1986945377f74f85c1e0d49803",
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": "1",
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 2,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "a63469f770b286bde5eb34f2b989b9fa342b4909b09665019a72881f6c77a7a8"
+              },
+              "metadataIdentity": "5720419ed191dfedc86caf5916879fd57f214ea6d6a8b87b1bbafb71b7002195",
+              "sourceIdentity": "nix-source:/nix/store/lcrc4sciikvvlvrdwpj29d38b9vj558g-compatibility-source-identity.drv",
+              "version": "1.2.1.0"
+            },
+            "before": null,
+            "changedFields": [],
+            "stage": "source-constructor"
+          },
+          "constructionProblems": []
+        },
+        {
+          "id": "legacy-skip-enforce-v1-test-suppression",
+          "package": "cborg-json",
+          "status": "selected-unverified",
+          "inputs": {
+            "derivation": "/nix/store/0yyp3ffydi75sq8gzd53s8p1h9bx72hc-cborg-json-0.2.6.0.drv",
+            "metadataIdentity": "655e5e4fde408b84b8c717328b5ef6d71b3cf47da2e296c25296024a6a0fb786",
+            "sourceIdentity": "nix-source:/nix/store/cwg4qfny466d4jhpldv1663qq8fa509i-compatibility-source-identity.drv",
+            "version": "0.2.6.0"
+          },
+          "retirementCandidate": false,
+          "construction": {
+            "after": {
+              "derivation": "/nix/store/0yyp3ffydi75sq8gzd53s8p1h9bx72hc-cborg-json-0.2.6.0.drv",
+              "effective": {
+                "boundsRelaxed": null,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": "a01a16807fb9b08c656ed256afa6a70278a436549b203777360ec9b351c7f21a",
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": "4",
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 9,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "b0bba5b53090ab37725b794cc38e567049c31b9bb9881aa2e8a165895d851165"
+              },
+              "metadataIdentity": "655e5e4fde408b84b8c717328b5ef6d71b3cf47da2e296c25296024a6a0fb786",
+              "sourceIdentity": "nix-source:/nix/store/cwg4qfny466d4jhpldv1663qq8fa509i-compatibility-source-identity.drv",
+              "version": "0.2.6.0"
+            },
+            "before": null,
+            "changedFields": [],
+            "stage": "source-constructor"
+          },
+          "constructionProblems": []
+        },
+        {
+          "id": "legacy-skip-enforce-v1-test-suppression",
+          "package": "unicode-data",
+          "status": "selected-unverified",
+          "inputs": {
+            "derivation": "/nix/store/b7f3dsshxnxdny0b47zimilh3glysfv6-unicode-data-0.9.0.drv",
+            "metadataIdentity": "614822406b71eab265949a0a9d4b11e5b2a5e25ff7acaa9586c0cc9314f573a0",
+            "sourceIdentity": "nix-source:/nix/store/kma9lgi9zf3pwxdnjkf12172cz1jcys4-compatibility-source-identity.drv",
+            "version": "0.9.0"
+          },
+          "retirementCandidate": false,
+          "construction": {
+            "after": {
+              "derivation": "/nix/store/b7f3dsshxnxdny0b47zimilh3glysfv6-unicode-data-0.9.0.drv",
+              "effective": {
+                "boundsRelaxed": null,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": null,
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": null,
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 1,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "78b34b864e4de02d9e53561c22ade0a40d55ab53e4d95b6e5d93a2a17fe5a43d"
+              },
+              "metadataIdentity": "614822406b71eab265949a0a9d4b11e5b2a5e25ff7acaa9586c0cc9314f573a0",
+              "sourceIdentity": "nix-source:/nix/store/kma9lgi9zf3pwxdnjkf12172cz1jcys4-compatibility-source-identity.drv",
+              "version": "0.9.0"
+            },
+            "before": null,
+            "changedFields": [],
+            "stage": "source-constructor"
+          },
+          "constructionProblems": []
+        },
+        {
+          "id": "legacy-unicode-data-metadata-v1",
+          "package": "unicode-data",
+          "status": "inactive-scope",
+          "inputs": {
+            "derivation": "/nix/store/b7f3dsshxnxdny0b47zimilh3glysfv6-unicode-data-0.9.0.drv",
+            "metadataIdentity": "614822406b71eab265949a0a9d4b11e5b2a5e25ff7acaa9586c0cc9314f573a0",
+            "sourceIdentity": "nix-source:/nix/store/kma9lgi9zf3pwxdnjkf12172cz1jcys4-compatibility-source-identity.drv",
+            "version": "0.9.0"
+          },
+          "retirementCandidate": false,
+          "construction": {
+            "after": {
+              "derivation": "/nix/store/b7f3dsshxnxdny0b47zimilh3glysfv6-unicode-data-0.9.0.drv",
+              "effective": {
+                "boundsRelaxed": null,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": null,
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": null,
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 1,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "78b34b864e4de02d9e53561c22ade0a40d55ab53e4d95b6e5d93a2a17fe5a43d"
+              },
+              "metadataIdentity": "614822406b71eab265949a0a9d4b11e5b2a5e25ff7acaa9586c0cc9314f573a0",
+              "sourceIdentity": "nix-source:/nix/store/kma9lgi9zf3pwxdnjkf12172cz1jcys4-compatibility-source-identity.drv",
+              "version": "0.9.0"
+            },
+            "before": {
+              "derivation": "/nix/store/b7f3dsshxnxdny0b47zimilh3glysfv6-unicode-data-0.9.0.drv",
+              "effective": {
+                "boundsRelaxed": null,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": null,
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": null,
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 1,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "78b34b864e4de02d9e53561c22ade0a40d55ab53e4d95b6e5d93a2a17fe5a43d"
+              },
+              "metadataIdentity": "614822406b71eab265949a0a9d4b11e5b2a5e25ff7acaa9586c0cc9314f573a0",
+              "sourceIdentity": "nix-source:/nix/store/kma9lgi9zf3pwxdnjkf12172cz1jcys4-compatibility-source-identity.drv",
+              "version": "0.9.0"
+            },
+            "changedFields": [],
+            "stage": "compatibility-row"
+          },
+          "constructionProblems": []
+        },
+        {
+          "id": "legacy-unicode-data-v1",
+          "package": "unicode-data",
+          "status": "selected-unverified",
+          "inputs": {
+            "derivation": "/nix/store/b7f3dsshxnxdny0b47zimilh3glysfv6-unicode-data-0.9.0.drv",
+            "metadataIdentity": "614822406b71eab265949a0a9d4b11e5b2a5e25ff7acaa9586c0cc9314f573a0",
+            "sourceIdentity": "nix-source:/nix/store/kma9lgi9zf3pwxdnjkf12172cz1jcys4-compatibility-source-identity.drv",
+            "version": "0.9.0"
+          },
+          "retirementCandidate": false,
+          "construction": {
+            "after": {
+              "derivation": "/nix/store/b7f3dsshxnxdny0b47zimilh3glysfv6-unicode-data-0.9.0.drv",
+              "effective": {
+                "boundsRelaxed": null,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": null,
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": null,
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 1,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "78b34b864e4de02d9e53561c22ade0a40d55ab53e4d95b6e5d93a2a17fe5a43d"
+              },
+              "metadataIdentity": "614822406b71eab265949a0a9d4b11e5b2a5e25ff7acaa9586c0cc9314f573a0",
+              "sourceIdentity": "nix-source:/nix/store/kma9lgi9zf3pwxdnjkf12172cz1jcys4-compatibility-source-identity.drv",
+              "version": "0.9.0"
+            },
+            "before": {
+              "derivation": "/nix/store/b7f3dsshxnxdny0b47zimilh3glysfv6-unicode-data-0.9.0.drv",
+              "effective": {
+                "boundsRelaxed": null,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": null,
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": null,
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 1,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "78b34b864e4de02d9e53561c22ade0a40d55ab53e4d95b6e5d93a2a17fe5a43d"
+              },
+              "metadataIdentity": "614822406b71eab265949a0a9d4b11e5b2a5e25ff7acaa9586c0cc9314f573a0",
+              "sourceIdentity": "nix-source:/nix/store/kma9lgi9zf3pwxdnjkf12172cz1jcys4-compatibility-source-identity.drv",
+              "version": "0.9.0"
+            },
+            "changedFields": [],
+            "stage": "compatibility-row"
+          },
+          "constructionProblems": []
+        }
+      ],
+      "reportSha256": "758ef9f84976137c631821360013c2585c830706585fc4204bc1598236deabe1",
+      "checkExitCode": 0,
+      "commands": [
+        [
+          "nix",
+          "eval",
+          "--impure",
+          "--json",
+          "--expr",
+          "(import /tmp/mp4-ep21-captured-context.nix { compiler = \"ghc9124\"; channel = \"hackage\"; })"
+        ],
+        [
+          "nix",
+          "run",
+          ".#haskell-nix-update",
+          "--",
+          "compatibility",
+          "check",
+          "--context",
+          "/tmp/mp4-ep21-capture-campaign/hackage-ghc9124.json"
+        ]
+      ],
+      "repeatIdentical": true
+    },
+    {
+      "compiler": "ghc9141",
+      "channel": "github",
+      "identities": {
+        "base64-bytestring": {
+          "captured": "/nix/store/wsp7q2y11wfyn9y8ccj43ar6f8pqmssx-base64-bytestring-1.2.1.0.drv",
+          "ordinary": "/nix/store/wsp7q2y11wfyn9y8ccj43ar6f8pqmssx-base64-bytestring-1.2.1.0.drv"
+        },
+        "cborg-json": {
+          "captured": "/nix/store/gabnl4h59d5cg3pnv1kligh17hzdhg0s-cborg-json-0.2.6.0.drv",
+          "ordinary": "/nix/store/gabnl4h59d5cg3pnv1kligh17hzdhg0s-cborg-json-0.2.6.0.drv"
+        },
+        "kioku-core": {
+          "captured": "/nix/store/j06hjjdgxz5c3diibq0v5y44ngkd7r4y-kioku-core-0.9.0.2.drv",
+          "ordinary": "/nix/store/j06hjjdgxz5c3diibq0v5y44ngkd7r4y-kioku-core-0.9.0.2.drv"
+        },
+        "unicode-data": {
+          "captured": "/nix/store/7y2j9i5z601nzjvys1nbgh429nwxrpwf-unicode-data-0.9.0.drv",
+          "ordinary": "/nix/store/7y2j9i5z601nzjvys1nbgh429nwxrpwf-unicode-data-0.9.0.drv"
+        }
+      },
+      "entries": [
+        {
+          "id": "legacy-cborg-json-v1",
+          "package": "cborg-json",
+          "status": "selected-unverified",
+          "inputs": {
+            "derivation": "/nix/store/xm00x0yb8fsd35sqygsxn1xxxrir08s3-cborg-json-0.2.6.0.drv",
+            "metadataIdentity": "655e5e4fde408b84b8c717328b5ef6d71b3cf47da2e296c25296024a6a0fb786",
+            "sourceIdentity": "nix-source:/nix/store/cwg4qfny466d4jhpldv1663qq8fa509i-compatibility-source-identity.drv",
+            "version": "0.2.6.0"
+          },
+          "retirementCandidate": false,
+          "construction": {
+            "after": {
+              "derivation": "/nix/store/gabnl4h59d5cg3pnv1kligh17hzdhg0s-cborg-json-0.2.6.0.drv",
+              "effective": {
+                "boundsRelaxed": null,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": "a01a16807fb9b08c656ed256afa6a70278a436549b203777360ec9b351c7f21a",
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "445e2516c761ae71839af39b4b5bc3d92a7127181e89911421edb26d5bbe8299",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": "4",
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 9,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "3cfb20e2a8a0715a299e962f1b6f5fad167f0e242da2dbc056d3b6b566be08c6"
+              },
+              "metadataIdentity": "655e5e4fde408b84b8c717328b5ef6d71b3cf47da2e296c25296024a6a0fb786",
+              "sourceIdentity": "nix-source:/nix/store/cwg4qfny466d4jhpldv1663qq8fa509i-compatibility-source-identity.drv",
+              "version": "0.2.6.0"
+            },
+            "before": {
+              "derivation": "/nix/store/xm00x0yb8fsd35sqygsxn1xxxrir08s3-cborg-json-0.2.6.0.drv",
+              "effective": {
+                "boundsRelaxed": null,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": "a01a16807fb9b08c656ed256afa6a70278a436549b203777360ec9b351c7f21a",
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": "4",
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 9,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "3cfb20e2a8a0715a299e962f1b6f5fad167f0e242da2dbc056d3b6b566be08c6"
+              },
+              "metadataIdentity": "655e5e4fde408b84b8c717328b5ef6d71b3cf47da2e296c25296024a6a0fb786",
+              "sourceIdentity": "nix-source:/nix/store/cwg4qfny466d4jhpldv1663qq8fa509i-compatibility-source-identity.drv",
+              "version": "0.2.6.0"
+            },
+            "changedFields": [
+              "derivation",
+              "effective"
+            ],
+            "stage": "compatibility-row"
+          },
+          "constructionProblems": []
+        },
+        {
+          "id": "legacy-cohort-source-v1",
+          "package": "base64-bytestring",
+          "status": "selected-unverified",
+          "inputs": {
+            "derivation": "/nix/store/wsp7q2y11wfyn9y8ccj43ar6f8pqmssx-base64-bytestring-1.2.1.0.drv",
+            "metadataIdentity": "5720419ed191dfedc86caf5916879fd57f214ea6d6a8b87b1bbafb71b7002195",
+            "sourceIdentity": "nix-source:/nix/store/lcrc4sciikvvlvrdwpj29d38b9vj558g-compatibility-source-identity.drv",
+            "version": "1.2.1.0"
+          },
+          "retirementCandidate": false,
+          "construction": {
+            "after": {
+              "derivation": "/nix/store/wsp7q2y11wfyn9y8ccj43ar6f8pqmssx-base64-bytestring-1.2.1.0.drv",
+              "effective": {
+                "boundsRelaxed": null,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": "45305ccf8914c66d385b518721472c7b8c858f1986945377f74f85c1e0d49803",
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": "1",
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 2,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "a63469f770b286bde5eb34f2b989b9fa342b4909b09665019a72881f6c77a7a8"
+              },
+              "metadataIdentity": "5720419ed191dfedc86caf5916879fd57f214ea6d6a8b87b1bbafb71b7002195",
+              "sourceIdentity": "nix-source:/nix/store/lcrc4sciikvvlvrdwpj29d38b9vj558g-compatibility-source-identity.drv",
+              "version": "1.2.1.0"
+            },
+            "before": null,
+            "changedFields": [],
+            "stage": "source-constructor"
+          },
+          "constructionProblems": []
+        },
+        {
+          "id": "legacy-cohort-source-v1",
+          "package": "cborg-json",
+          "status": "selected-unverified",
+          "inputs": {
+            "derivation": "/nix/store/xm00x0yb8fsd35sqygsxn1xxxrir08s3-cborg-json-0.2.6.0.drv",
+            "metadataIdentity": "655e5e4fde408b84b8c717328b5ef6d71b3cf47da2e296c25296024a6a0fb786",
+            "sourceIdentity": "nix-source:/nix/store/cwg4qfny466d4jhpldv1663qq8fa509i-compatibility-source-identity.drv",
+            "version": "0.2.6.0"
+          },
+          "retirementCandidate": false,
+          "construction": {
+            "after": {
+              "derivation": "/nix/store/xm00x0yb8fsd35sqygsxn1xxxrir08s3-cborg-json-0.2.6.0.drv",
+              "effective": {
+                "boundsRelaxed": null,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": "a01a16807fb9b08c656ed256afa6a70278a436549b203777360ec9b351c7f21a",
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": "4",
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 9,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "3cfb20e2a8a0715a299e962f1b6f5fad167f0e242da2dbc056d3b6b566be08c6"
+              },
+              "metadataIdentity": "655e5e4fde408b84b8c717328b5ef6d71b3cf47da2e296c25296024a6a0fb786",
+              "sourceIdentity": "nix-source:/nix/store/cwg4qfny466d4jhpldv1663qq8fa509i-compatibility-source-identity.drv",
+              "version": "0.2.6.0"
+            },
+            "before": null,
+            "changedFields": [],
+            "stage": "source-constructor"
+          },
+          "constructionProblems": []
+        },
+        {
+          "id": "legacy-cohort-source-v1",
+          "package": "unicode-data",
+          "status": "selected-unverified",
+          "inputs": {
+            "derivation": "/nix/store/7y2j9i5z601nzjvys1nbgh429nwxrpwf-unicode-data-0.9.0.drv",
+            "metadataIdentity": "614822406b71eab265949a0a9d4b11e5b2a5e25ff7acaa9586c0cc9314f573a0",
+            "sourceIdentity": "nix-source:/nix/store/kma9lgi9zf3pwxdnjkf12172cz1jcys4-compatibility-source-identity.drv",
+            "version": "0.9.0"
+          },
+          "retirementCandidate": false,
+          "construction": {
+            "after": {
+              "derivation": "/nix/store/7y2j9i5z601nzjvys1nbgh429nwxrpwf-unicode-data-0.9.0.drv",
+              "effective": {
+                "boundsRelaxed": null,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": null,
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": null,
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 1,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "78b34b864e4de02d9e53561c22ade0a40d55ab53e4d95b6e5d93a2a17fe5a43d"
+              },
+              "metadataIdentity": "614822406b71eab265949a0a9d4b11e5b2a5e25ff7acaa9586c0cc9314f573a0",
+              "sourceIdentity": "nix-source:/nix/store/kma9lgi9zf3pwxdnjkf12172cz1jcys4-compatibility-source-identity.drv",
+              "version": "0.9.0"
+            },
+            "before": null,
+            "changedFields": [],
+            "stage": "source-constructor"
+          },
+          "constructionProblems": []
+        },
+        {
+          "id": "legacy-first-party-source-v1",
+          "package": "kioku-core",
+          "status": "selected-unverified",
+          "inputs": {
+            "derivation": "/nix/store/j06hjjdgxz5c3diibq0v5y44ngkd7r4y-kioku-core-0.9.0.2.drv",
+            "metadataIdentity": "a3c5182002edea6762bcc952a030c5ec0471ee43befda8ec2eee761a464de75a",
+            "sourceIdentity": "nix-source:/nix/store/dyp7q32i0fag79s4dwri58jfk1y10avg-compatibility-source-identity.drv",
+            "version": "0.9.0.2"
+          },
+          "retirementCandidate": false,
+          "construction": {
+            "after": {
+              "derivation": "/nix/store/j06hjjdgxz5c3diibq0v5y44ngkd7r4y-kioku-core-0.9.0.2.drv",
+              "effective": {
+                "boundsRelaxed": true,
+                "buildFlags": [],
+                "configureFlags": [
+                  "--ghc-option=-fno-opt-coercion"
+                ],
+                "editedCabalFile": null,
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "149ce274af5441572d1a0031ccebf9f64c4bef45d7922acafbea9b77704465a6",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": null,
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 37,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "f1fa836454d3333ae6fdb8668164cf37ab84317d5011f81d8e436f3baddb8d0d"
+              },
+              "metadataIdentity": "a3c5182002edea6762bcc952a030c5ec0471ee43befda8ec2eee761a464de75a",
+              "sourceIdentity": "nix-source:/nix/store/dyp7q32i0fag79s4dwri58jfk1y10avg-compatibility-source-identity.drv",
+              "version": "0.9.0.2"
+            },
+            "before": null,
+            "changedFields": [],
+            "stage": "source-constructor"
+          },
+          "constructionProblems": []
+        },
+        {
+          "id": "legacy-first-party-v1-bound-relaxation",
+          "package": "kioku-core",
+          "status": "selected-unverified",
+          "inputs": {
+            "derivation": "/nix/store/j06hjjdgxz5c3diibq0v5y44ngkd7r4y-kioku-core-0.9.0.2.drv",
+            "metadataIdentity": "a3c5182002edea6762bcc952a030c5ec0471ee43befda8ec2eee761a464de75a",
+            "sourceIdentity": "nix-source:/nix/store/dyp7q32i0fag79s4dwri58jfk1y10avg-compatibility-source-identity.drv",
+            "version": "0.9.0.2"
+          },
+          "retirementCandidate": false,
+          "construction": {
+            "after": {
+              "derivation": "/nix/store/j06hjjdgxz5c3diibq0v5y44ngkd7r4y-kioku-core-0.9.0.2.drv",
+              "effective": {
+                "boundsRelaxed": true,
+                "buildFlags": [],
+                "configureFlags": [
+                  "--ghc-option=-fno-opt-coercion"
+                ],
+                "editedCabalFile": null,
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "149ce274af5441572d1a0031ccebf9f64c4bef45d7922acafbea9b77704465a6",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": null,
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 37,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "f1fa836454d3333ae6fdb8668164cf37ab84317d5011f81d8e436f3baddb8d0d"
+              },
+              "metadataIdentity": "a3c5182002edea6762bcc952a030c5ec0471ee43befda8ec2eee761a464de75a",
+              "sourceIdentity": "nix-source:/nix/store/dyp7q32i0fag79s4dwri58jfk1y10avg-compatibility-source-identity.drv",
+              "version": "0.9.0.2"
+            },
+            "before": null,
+            "changedFields": [],
+            "stage": "source-constructor"
+          },
+          "constructionProblems": []
+        },
+        {
+          "id": "legacy-first-party-v1-test-suppression",
+          "package": "kioku-core",
+          "status": "selected-unverified",
+          "inputs": {
+            "derivation": "/nix/store/j06hjjdgxz5c3diibq0v5y44ngkd7r4y-kioku-core-0.9.0.2.drv",
+            "metadataIdentity": "a3c5182002edea6762bcc952a030c5ec0471ee43befda8ec2eee761a464de75a",
+            "sourceIdentity": "nix-source:/nix/store/dyp7q32i0fag79s4dwri58jfk1y10avg-compatibility-source-identity.drv",
+            "version": "0.9.0.2"
+          },
+          "retirementCandidate": false,
+          "construction": {
+            "after": {
+              "derivation": "/nix/store/j06hjjdgxz5c3diibq0v5y44ngkd7r4y-kioku-core-0.9.0.2.drv",
+              "effective": {
+                "boundsRelaxed": true,
+                "buildFlags": [],
+                "configureFlags": [
+                  "--ghc-option=-fno-opt-coercion"
+                ],
+                "editedCabalFile": null,
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "149ce274af5441572d1a0031ccebf9f64c4bef45d7922acafbea9b77704465a6",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": null,
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 37,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "f1fa836454d3333ae6fdb8668164cf37ab84317d5011f81d8e436f3baddb8d0d"
+              },
+              "metadataIdentity": "a3c5182002edea6762bcc952a030c5ec0471ee43befda8ec2eee761a464de75a",
+              "sourceIdentity": "nix-source:/nix/store/dyp7q32i0fag79s4dwri58jfk1y10avg-compatibility-source-identity.drv",
+              "version": "0.9.0.2"
+            },
+            "before": null,
+            "changedFields": [],
+            "stage": "source-constructor"
+          },
+          "constructionProblems": []
+        },
+        {
+          "id": "legacy-kioku-core-v1",
+          "package": "kioku-core",
+          "status": "selected-unverified",
+          "inputs": {
+            "derivation": "/nix/store/c80byfs45gl5dndm0n5121nnhj6cxxkq-kioku-core-0.9.0.2.drv",
+            "metadataIdentity": "a3c5182002edea6762bcc952a030c5ec0471ee43befda8ec2eee761a464de75a",
+            "sourceIdentity": "nix-source:/nix/store/dyp7q32i0fag79s4dwri58jfk1y10avg-compatibility-source-identity.drv",
+            "version": "0.9.0.2"
+          },
+          "retirementCandidate": false,
+          "construction": {
+            "after": {
+              "derivation": "/nix/store/j06hjjdgxz5c3diibq0v5y44ngkd7r4y-kioku-core-0.9.0.2.drv",
+              "effective": {
+                "boundsRelaxed": true,
+                "buildFlags": [],
+                "configureFlags": [
+                  "--ghc-option=-fno-opt-coercion"
+                ],
+                "editedCabalFile": null,
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "149ce274af5441572d1a0031ccebf9f64c4bef45d7922acafbea9b77704465a6",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": null,
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 37,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "f1fa836454d3333ae6fdb8668164cf37ab84317d5011f81d8e436f3baddb8d0d"
+              },
+              "metadataIdentity": "a3c5182002edea6762bcc952a030c5ec0471ee43befda8ec2eee761a464de75a",
+              "sourceIdentity": "nix-source:/nix/store/dyp7q32i0fag79s4dwri58jfk1y10avg-compatibility-source-identity.drv",
+              "version": "0.9.0.2"
+            },
+            "before": {
+              "derivation": "/nix/store/c80byfs45gl5dndm0n5121nnhj6cxxkq-kioku-core-0.9.0.2.drv",
+              "effective": {
+                "boundsRelaxed": true,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": null,
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": null,
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 37,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "f1fa836454d3333ae6fdb8668164cf37ab84317d5011f81d8e436f3baddb8d0d"
+              },
+              "metadataIdentity": "a3c5182002edea6762bcc952a030c5ec0471ee43befda8ec2eee761a464de75a",
+              "sourceIdentity": "nix-source:/nix/store/dyp7q32i0fag79s4dwri58jfk1y10avg-compatibility-source-identity.drv",
+              "version": "0.9.0.2"
+            },
+            "changedFields": [
+              "derivation",
+              "effective"
+            ],
+            "stage": "compatibility-row"
+          },
+          "constructionProblems": []
+        },
+        {
+          "id": "legacy-skip-enforce-v1-test-suppression",
+          "package": "base64-bytestring",
+          "status": "selected-unverified",
+          "inputs": {
+            "derivation": "/nix/store/wsp7q2y11wfyn9y8ccj43ar6f8pqmssx-base64-bytestring-1.2.1.0.drv",
+            "metadataIdentity": "5720419ed191dfedc86caf5916879fd57f214ea6d6a8b87b1bbafb71b7002195",
+            "sourceIdentity": "nix-source:/nix/store/lcrc4sciikvvlvrdwpj29d38b9vj558g-compatibility-source-identity.drv",
+            "version": "1.2.1.0"
+          },
+          "retirementCandidate": false,
+          "construction": {
+            "after": {
+              "derivation": "/nix/store/wsp7q2y11wfyn9y8ccj43ar6f8pqmssx-base64-bytestring-1.2.1.0.drv",
+              "effective": {
+                "boundsRelaxed": null,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": "45305ccf8914c66d385b518721472c7b8c858f1986945377f74f85c1e0d49803",
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": "1",
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 2,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "a63469f770b286bde5eb34f2b989b9fa342b4909b09665019a72881f6c77a7a8"
+              },
+              "metadataIdentity": "5720419ed191dfedc86caf5916879fd57f214ea6d6a8b87b1bbafb71b7002195",
+              "sourceIdentity": "nix-source:/nix/store/lcrc4sciikvvlvrdwpj29d38b9vj558g-compatibility-source-identity.drv",
+              "version": "1.2.1.0"
+            },
+            "before": null,
+            "changedFields": [],
+            "stage": "source-constructor"
+          },
+          "constructionProblems": []
+        },
+        {
+          "id": "legacy-skip-enforce-v1-test-suppression",
+          "package": "cborg-json",
+          "status": "selected-unverified",
+          "inputs": {
+            "derivation": "/nix/store/xm00x0yb8fsd35sqygsxn1xxxrir08s3-cborg-json-0.2.6.0.drv",
+            "metadataIdentity": "655e5e4fde408b84b8c717328b5ef6d71b3cf47da2e296c25296024a6a0fb786",
+            "sourceIdentity": "nix-source:/nix/store/cwg4qfny466d4jhpldv1663qq8fa509i-compatibility-source-identity.drv",
+            "version": "0.2.6.0"
+          },
+          "retirementCandidate": false,
+          "construction": {
+            "after": {
+              "derivation": "/nix/store/xm00x0yb8fsd35sqygsxn1xxxrir08s3-cborg-json-0.2.6.0.drv",
+              "effective": {
+                "boundsRelaxed": null,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": "a01a16807fb9b08c656ed256afa6a70278a436549b203777360ec9b351c7f21a",
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": "4",
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 9,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "3cfb20e2a8a0715a299e962f1b6f5fad167f0e242da2dbc056d3b6b566be08c6"
+              },
+              "metadataIdentity": "655e5e4fde408b84b8c717328b5ef6d71b3cf47da2e296c25296024a6a0fb786",
+              "sourceIdentity": "nix-source:/nix/store/cwg4qfny466d4jhpldv1663qq8fa509i-compatibility-source-identity.drv",
+              "version": "0.2.6.0"
+            },
+            "before": null,
+            "changedFields": [],
+            "stage": "source-constructor"
+          },
+          "constructionProblems": []
+        },
+        {
+          "id": "legacy-skip-enforce-v1-test-suppression",
+          "package": "unicode-data",
+          "status": "selected-unverified",
+          "inputs": {
+            "derivation": "/nix/store/7y2j9i5z601nzjvys1nbgh429nwxrpwf-unicode-data-0.9.0.drv",
+            "metadataIdentity": "614822406b71eab265949a0a9d4b11e5b2a5e25ff7acaa9586c0cc9314f573a0",
+            "sourceIdentity": "nix-source:/nix/store/kma9lgi9zf3pwxdnjkf12172cz1jcys4-compatibility-source-identity.drv",
+            "version": "0.9.0"
+          },
+          "retirementCandidate": false,
+          "construction": {
+            "after": {
+              "derivation": "/nix/store/7y2j9i5z601nzjvys1nbgh429nwxrpwf-unicode-data-0.9.0.drv",
+              "effective": {
+                "boundsRelaxed": null,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": null,
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": null,
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 1,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "78b34b864e4de02d9e53561c22ade0a40d55ab53e4d95b6e5d93a2a17fe5a43d"
+              },
+              "metadataIdentity": "614822406b71eab265949a0a9d4b11e5b2a5e25ff7acaa9586c0cc9314f573a0",
+              "sourceIdentity": "nix-source:/nix/store/kma9lgi9zf3pwxdnjkf12172cz1jcys4-compatibility-source-identity.drv",
+              "version": "0.9.0"
+            },
+            "before": null,
+            "changedFields": [],
+            "stage": "source-constructor"
+          },
+          "constructionProblems": []
+        },
+        {
+          "id": "legacy-unicode-data-metadata-v1",
+          "package": "unicode-data",
+          "status": "inactive-scope",
+          "inputs": {
+            "derivation": "/nix/store/7y2j9i5z601nzjvys1nbgh429nwxrpwf-unicode-data-0.9.0.drv",
+            "metadataIdentity": "614822406b71eab265949a0a9d4b11e5b2a5e25ff7acaa9586c0cc9314f573a0",
+            "sourceIdentity": "nix-source:/nix/store/kma9lgi9zf3pwxdnjkf12172cz1jcys4-compatibility-source-identity.drv",
+            "version": "0.9.0"
+          },
+          "retirementCandidate": false,
+          "construction": {
+            "after": {
+              "derivation": "/nix/store/7y2j9i5z601nzjvys1nbgh429nwxrpwf-unicode-data-0.9.0.drv",
+              "effective": {
+                "boundsRelaxed": null,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": null,
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": null,
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 1,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "78b34b864e4de02d9e53561c22ade0a40d55ab53e4d95b6e5d93a2a17fe5a43d"
+              },
+              "metadataIdentity": "614822406b71eab265949a0a9d4b11e5b2a5e25ff7acaa9586c0cc9314f573a0",
+              "sourceIdentity": "nix-source:/nix/store/kma9lgi9zf3pwxdnjkf12172cz1jcys4-compatibility-source-identity.drv",
+              "version": "0.9.0"
+            },
+            "before": {
+              "derivation": "/nix/store/7y2j9i5z601nzjvys1nbgh429nwxrpwf-unicode-data-0.9.0.drv",
+              "effective": {
+                "boundsRelaxed": null,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": null,
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": null,
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 1,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "78b34b864e4de02d9e53561c22ade0a40d55ab53e4d95b6e5d93a2a17fe5a43d"
+              },
+              "metadataIdentity": "614822406b71eab265949a0a9d4b11e5b2a5e25ff7acaa9586c0cc9314f573a0",
+              "sourceIdentity": "nix-source:/nix/store/kma9lgi9zf3pwxdnjkf12172cz1jcys4-compatibility-source-identity.drv",
+              "version": "0.9.0"
+            },
+            "changedFields": [],
+            "stage": "compatibility-row"
+          },
+          "constructionProblems": []
+        },
+        {
+          "id": "legacy-unicode-data-v1",
+          "package": "unicode-data",
+          "status": "selected-unverified",
+          "inputs": {
+            "derivation": "/nix/store/7y2j9i5z601nzjvys1nbgh429nwxrpwf-unicode-data-0.9.0.drv",
+            "metadataIdentity": "614822406b71eab265949a0a9d4b11e5b2a5e25ff7acaa9586c0cc9314f573a0",
+            "sourceIdentity": "nix-source:/nix/store/kma9lgi9zf3pwxdnjkf12172cz1jcys4-compatibility-source-identity.drv",
+            "version": "0.9.0"
+          },
+          "retirementCandidate": false,
+          "construction": {
+            "after": {
+              "derivation": "/nix/store/7y2j9i5z601nzjvys1nbgh429nwxrpwf-unicode-data-0.9.0.drv",
+              "effective": {
+                "boundsRelaxed": null,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": null,
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": null,
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 1,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "78b34b864e4de02d9e53561c22ade0a40d55ab53e4d95b6e5d93a2a17fe5a43d"
+              },
+              "metadataIdentity": "614822406b71eab265949a0a9d4b11e5b2a5e25ff7acaa9586c0cc9314f573a0",
+              "sourceIdentity": "nix-source:/nix/store/kma9lgi9zf3pwxdnjkf12172cz1jcys4-compatibility-source-identity.drv",
+              "version": "0.9.0"
+            },
+            "before": {
+              "derivation": "/nix/store/7y2j9i5z601nzjvys1nbgh429nwxrpwf-unicode-data-0.9.0.drv",
+              "effective": {
+                "boundsRelaxed": null,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": null,
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": null,
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 1,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "78b34b864e4de02d9e53561c22ade0a40d55ab53e4d95b6e5d93a2a17fe5a43d"
+              },
+              "metadataIdentity": "614822406b71eab265949a0a9d4b11e5b2a5e25ff7acaa9586c0cc9314f573a0",
+              "sourceIdentity": "nix-source:/nix/store/kma9lgi9zf3pwxdnjkf12172cz1jcys4-compatibility-source-identity.drv",
+              "version": "0.9.0"
+            },
+            "changedFields": [],
+            "stage": "compatibility-row"
+          },
+          "constructionProblems": []
+        }
+      ],
+      "reportSha256": "04f88bfd28e6904d068122f32af5ad19215b2e73af8e91c5f74844e95e728071",
+      "checkExitCode": 0,
+      "commands": [
+        [
+          "nix",
+          "eval",
+          "--impure",
+          "--json",
+          "--expr",
+          "(import /tmp/mp4-ep21-captured-context.nix { compiler = \"ghc9141\"; channel = \"github\"; })"
+        ],
+        [
+          "nix",
+          "run",
+          ".#haskell-nix-update",
+          "--",
+          "compatibility",
+          "check",
+          "--context",
+          "/tmp/mp4-ep21-capture-campaign/github-ghc9141.json"
+        ]
+      ],
+      "repeatIdentical": true
+    },
+    {
+      "compiler": "ghc9141",
+      "channel": "hackage",
+      "identities": {
+        "base64-bytestring": {
+          "captured": "/nix/store/wsp7q2y11wfyn9y8ccj43ar6f8pqmssx-base64-bytestring-1.2.1.0.drv",
+          "ordinary": "/nix/store/wsp7q2y11wfyn9y8ccj43ar6f8pqmssx-base64-bytestring-1.2.1.0.drv"
+        },
+        "cborg-json": {
+          "captured": "/nix/store/gabnl4h59d5cg3pnv1kligh17hzdhg0s-cborg-json-0.2.6.0.drv",
+          "ordinary": "/nix/store/gabnl4h59d5cg3pnv1kligh17hzdhg0s-cborg-json-0.2.6.0.drv"
+        },
+        "kioku-core": {
+          "captured": "/nix/store/02frwrb8wrmx2ywsc36qf6bia8m19q4g-kioku-core-0.9.0.2.drv",
+          "ordinary": "/nix/store/02frwrb8wrmx2ywsc36qf6bia8m19q4g-kioku-core-0.9.0.2.drv"
+        },
+        "unicode-data": {
+          "captured": "/nix/store/7y2j9i5z601nzjvys1nbgh429nwxrpwf-unicode-data-0.9.0.drv",
+          "ordinary": "/nix/store/7y2j9i5z601nzjvys1nbgh429nwxrpwf-unicode-data-0.9.0.drv"
+        }
+      },
+      "entries": [
+        {
+          "id": "legacy-cborg-json-v1",
+          "package": "cborg-json",
+          "status": "selected-unverified",
+          "inputs": {
+            "derivation": "/nix/store/xm00x0yb8fsd35sqygsxn1xxxrir08s3-cborg-json-0.2.6.0.drv",
+            "metadataIdentity": "655e5e4fde408b84b8c717328b5ef6d71b3cf47da2e296c25296024a6a0fb786",
+            "sourceIdentity": "nix-source:/nix/store/cwg4qfny466d4jhpldv1663qq8fa509i-compatibility-source-identity.drv",
+            "version": "0.2.6.0"
+          },
+          "retirementCandidate": false,
+          "construction": {
+            "after": {
+              "derivation": "/nix/store/gabnl4h59d5cg3pnv1kligh17hzdhg0s-cborg-json-0.2.6.0.drv",
+              "effective": {
+                "boundsRelaxed": null,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": "a01a16807fb9b08c656ed256afa6a70278a436549b203777360ec9b351c7f21a",
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "445e2516c761ae71839af39b4b5bc3d92a7127181e89911421edb26d5bbe8299",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": "4",
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 9,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "3cfb20e2a8a0715a299e962f1b6f5fad167f0e242da2dbc056d3b6b566be08c6"
+              },
+              "metadataIdentity": "655e5e4fde408b84b8c717328b5ef6d71b3cf47da2e296c25296024a6a0fb786",
+              "sourceIdentity": "nix-source:/nix/store/cwg4qfny466d4jhpldv1663qq8fa509i-compatibility-source-identity.drv",
+              "version": "0.2.6.0"
+            },
+            "before": {
+              "derivation": "/nix/store/xm00x0yb8fsd35sqygsxn1xxxrir08s3-cborg-json-0.2.6.0.drv",
+              "effective": {
+                "boundsRelaxed": null,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": "a01a16807fb9b08c656ed256afa6a70278a436549b203777360ec9b351c7f21a",
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": "4",
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 9,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "3cfb20e2a8a0715a299e962f1b6f5fad167f0e242da2dbc056d3b6b566be08c6"
+              },
+              "metadataIdentity": "655e5e4fde408b84b8c717328b5ef6d71b3cf47da2e296c25296024a6a0fb786",
+              "sourceIdentity": "nix-source:/nix/store/cwg4qfny466d4jhpldv1663qq8fa509i-compatibility-source-identity.drv",
+              "version": "0.2.6.0"
+            },
+            "changedFields": [
+              "derivation",
+              "effective"
+            ],
+            "stage": "compatibility-row"
+          },
+          "constructionProblems": []
+        },
+        {
+          "id": "legacy-cohort-source-v1",
+          "package": "base64-bytestring",
+          "status": "selected-unverified",
+          "inputs": {
+            "derivation": "/nix/store/wsp7q2y11wfyn9y8ccj43ar6f8pqmssx-base64-bytestring-1.2.1.0.drv",
+            "metadataIdentity": "5720419ed191dfedc86caf5916879fd57f214ea6d6a8b87b1bbafb71b7002195",
+            "sourceIdentity": "nix-source:/nix/store/lcrc4sciikvvlvrdwpj29d38b9vj558g-compatibility-source-identity.drv",
+            "version": "1.2.1.0"
+          },
+          "retirementCandidate": false,
+          "construction": {
+            "after": {
+              "derivation": "/nix/store/wsp7q2y11wfyn9y8ccj43ar6f8pqmssx-base64-bytestring-1.2.1.0.drv",
+              "effective": {
+                "boundsRelaxed": null,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": "45305ccf8914c66d385b518721472c7b8c858f1986945377f74f85c1e0d49803",
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": "1",
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 2,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "a63469f770b286bde5eb34f2b989b9fa342b4909b09665019a72881f6c77a7a8"
+              },
+              "metadataIdentity": "5720419ed191dfedc86caf5916879fd57f214ea6d6a8b87b1bbafb71b7002195",
+              "sourceIdentity": "nix-source:/nix/store/lcrc4sciikvvlvrdwpj29d38b9vj558g-compatibility-source-identity.drv",
+              "version": "1.2.1.0"
+            },
+            "before": null,
+            "changedFields": [],
+            "stage": "source-constructor"
+          },
+          "constructionProblems": []
+        },
+        {
+          "id": "legacy-cohort-source-v1",
+          "package": "cborg-json",
+          "status": "selected-unverified",
+          "inputs": {
+            "derivation": "/nix/store/xm00x0yb8fsd35sqygsxn1xxxrir08s3-cborg-json-0.2.6.0.drv",
+            "metadataIdentity": "655e5e4fde408b84b8c717328b5ef6d71b3cf47da2e296c25296024a6a0fb786",
+            "sourceIdentity": "nix-source:/nix/store/cwg4qfny466d4jhpldv1663qq8fa509i-compatibility-source-identity.drv",
+            "version": "0.2.6.0"
+          },
+          "retirementCandidate": false,
+          "construction": {
+            "after": {
+              "derivation": "/nix/store/xm00x0yb8fsd35sqygsxn1xxxrir08s3-cborg-json-0.2.6.0.drv",
+              "effective": {
+                "boundsRelaxed": null,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": "a01a16807fb9b08c656ed256afa6a70278a436549b203777360ec9b351c7f21a",
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": "4",
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 9,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "3cfb20e2a8a0715a299e962f1b6f5fad167f0e242da2dbc056d3b6b566be08c6"
+              },
+              "metadataIdentity": "655e5e4fde408b84b8c717328b5ef6d71b3cf47da2e296c25296024a6a0fb786",
+              "sourceIdentity": "nix-source:/nix/store/cwg4qfny466d4jhpldv1663qq8fa509i-compatibility-source-identity.drv",
+              "version": "0.2.6.0"
+            },
+            "before": null,
+            "changedFields": [],
+            "stage": "source-constructor"
+          },
+          "constructionProblems": []
+        },
+        {
+          "id": "legacy-cohort-source-v1",
+          "package": "unicode-data",
+          "status": "selected-unverified",
+          "inputs": {
+            "derivation": "/nix/store/7y2j9i5z601nzjvys1nbgh429nwxrpwf-unicode-data-0.9.0.drv",
+            "metadataIdentity": "614822406b71eab265949a0a9d4b11e5b2a5e25ff7acaa9586c0cc9314f573a0",
+            "sourceIdentity": "nix-source:/nix/store/kma9lgi9zf3pwxdnjkf12172cz1jcys4-compatibility-source-identity.drv",
+            "version": "0.9.0"
+          },
+          "retirementCandidate": false,
+          "construction": {
+            "after": {
+              "derivation": "/nix/store/7y2j9i5z601nzjvys1nbgh429nwxrpwf-unicode-data-0.9.0.drv",
+              "effective": {
+                "boundsRelaxed": null,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": null,
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": null,
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 1,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "78b34b864e4de02d9e53561c22ade0a40d55ab53e4d95b6e5d93a2a17fe5a43d"
+              },
+              "metadataIdentity": "614822406b71eab265949a0a9d4b11e5b2a5e25ff7acaa9586c0cc9314f573a0",
+              "sourceIdentity": "nix-source:/nix/store/kma9lgi9zf3pwxdnjkf12172cz1jcys4-compatibility-source-identity.drv",
+              "version": "0.9.0"
+            },
+            "before": null,
+            "changedFields": [],
+            "stage": "source-constructor"
+          },
+          "constructionProblems": []
+        },
+        {
+          "id": "legacy-first-party-source-v1",
+          "package": "kioku-core",
+          "status": "selected-unverified",
+          "inputs": {
+            "derivation": "/nix/store/02frwrb8wrmx2ywsc36qf6bia8m19q4g-kioku-core-0.9.0.2.drv",
+            "metadataIdentity": "09a1aba4815a938d398faa15967cca24842fbe049850253c1e9eed07e5afadcf",
+            "sourceIdentity": "nix-source:/nix/store/jzv9cvkgq6arvaclm22lkmlyz6dmpgmn-compatibility-source-identity.drv",
+            "version": "0.9.0.2"
+          },
+          "retirementCandidate": false,
+          "construction": {
+            "after": {
+              "derivation": "/nix/store/02frwrb8wrmx2ywsc36qf6bia8m19q4g-kioku-core-0.9.0.2.drv",
+              "effective": {
+                "boundsRelaxed": true,
+                "buildFlags": [],
+                "configureFlags": [
+                  "--ghc-option=-fno-opt-coercion"
+                ],
+                "editedCabalFile": null,
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "149ce274af5441572d1a0031ccebf9f64c4bef45d7922acafbea9b77704465a6",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": null,
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 37,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "b01accbe05977fe4fa918bf0c0cf16027d6d2669a49a743e637ee88a4e38a752"
+              },
+              "metadataIdentity": "09a1aba4815a938d398faa15967cca24842fbe049850253c1e9eed07e5afadcf",
+              "sourceIdentity": "nix-source:/nix/store/jzv9cvkgq6arvaclm22lkmlyz6dmpgmn-compatibility-source-identity.drv",
+              "version": "0.9.0.2"
+            },
+            "before": null,
+            "changedFields": [],
+            "stage": "source-constructor"
+          },
+          "constructionProblems": []
+        },
+        {
+          "id": "legacy-first-party-v1-bound-relaxation",
+          "package": "kioku-core",
+          "status": "selected-unverified",
+          "inputs": {
+            "derivation": "/nix/store/02frwrb8wrmx2ywsc36qf6bia8m19q4g-kioku-core-0.9.0.2.drv",
+            "metadataIdentity": "09a1aba4815a938d398faa15967cca24842fbe049850253c1e9eed07e5afadcf",
+            "sourceIdentity": "nix-source:/nix/store/jzv9cvkgq6arvaclm22lkmlyz6dmpgmn-compatibility-source-identity.drv",
+            "version": "0.9.0.2"
+          },
+          "retirementCandidate": false,
+          "construction": {
+            "after": {
+              "derivation": "/nix/store/02frwrb8wrmx2ywsc36qf6bia8m19q4g-kioku-core-0.9.0.2.drv",
+              "effective": {
+                "boundsRelaxed": true,
+                "buildFlags": [],
+                "configureFlags": [
+                  "--ghc-option=-fno-opt-coercion"
+                ],
+                "editedCabalFile": null,
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "149ce274af5441572d1a0031ccebf9f64c4bef45d7922acafbea9b77704465a6",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": null,
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 37,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "b01accbe05977fe4fa918bf0c0cf16027d6d2669a49a743e637ee88a4e38a752"
+              },
+              "metadataIdentity": "09a1aba4815a938d398faa15967cca24842fbe049850253c1e9eed07e5afadcf",
+              "sourceIdentity": "nix-source:/nix/store/jzv9cvkgq6arvaclm22lkmlyz6dmpgmn-compatibility-source-identity.drv",
+              "version": "0.9.0.2"
+            },
+            "before": null,
+            "changedFields": [],
+            "stage": "source-constructor"
+          },
+          "constructionProblems": []
+        },
+        {
+          "id": "legacy-first-party-v1-test-suppression",
+          "package": "kioku-core",
+          "status": "selected-unverified",
+          "inputs": {
+            "derivation": "/nix/store/02frwrb8wrmx2ywsc36qf6bia8m19q4g-kioku-core-0.9.0.2.drv",
+            "metadataIdentity": "09a1aba4815a938d398faa15967cca24842fbe049850253c1e9eed07e5afadcf",
+            "sourceIdentity": "nix-source:/nix/store/jzv9cvkgq6arvaclm22lkmlyz6dmpgmn-compatibility-source-identity.drv",
+            "version": "0.9.0.2"
+          },
+          "retirementCandidate": false,
+          "construction": {
+            "after": {
+              "derivation": "/nix/store/02frwrb8wrmx2ywsc36qf6bia8m19q4g-kioku-core-0.9.0.2.drv",
+              "effective": {
+                "boundsRelaxed": true,
+                "buildFlags": [],
+                "configureFlags": [
+                  "--ghc-option=-fno-opt-coercion"
+                ],
+                "editedCabalFile": null,
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "149ce274af5441572d1a0031ccebf9f64c4bef45d7922acafbea9b77704465a6",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": null,
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 37,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "b01accbe05977fe4fa918bf0c0cf16027d6d2669a49a743e637ee88a4e38a752"
+              },
+              "metadataIdentity": "09a1aba4815a938d398faa15967cca24842fbe049850253c1e9eed07e5afadcf",
+              "sourceIdentity": "nix-source:/nix/store/jzv9cvkgq6arvaclm22lkmlyz6dmpgmn-compatibility-source-identity.drv",
+              "version": "0.9.0.2"
+            },
+            "before": null,
+            "changedFields": [],
+            "stage": "source-constructor"
+          },
+          "constructionProblems": []
+        },
+        {
+          "id": "legacy-kioku-core-v1",
+          "package": "kioku-core",
+          "status": "selected-unverified",
+          "inputs": {
+            "derivation": "/nix/store/1v850snnzkzv2n7cl01k2h7sld4zmw2n-kioku-core-0.9.0.2.drv",
+            "metadataIdentity": "09a1aba4815a938d398faa15967cca24842fbe049850253c1e9eed07e5afadcf",
+            "sourceIdentity": "nix-source:/nix/store/jzv9cvkgq6arvaclm22lkmlyz6dmpgmn-compatibility-source-identity.drv",
+            "version": "0.9.0.2"
+          },
+          "retirementCandidate": false,
+          "construction": {
+            "after": {
+              "derivation": "/nix/store/02frwrb8wrmx2ywsc36qf6bia8m19q4g-kioku-core-0.9.0.2.drv",
+              "effective": {
+                "boundsRelaxed": true,
+                "buildFlags": [],
+                "configureFlags": [
+                  "--ghc-option=-fno-opt-coercion"
+                ],
+                "editedCabalFile": null,
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "149ce274af5441572d1a0031ccebf9f64c4bef45d7922acafbea9b77704465a6",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": null,
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 37,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "b01accbe05977fe4fa918bf0c0cf16027d6d2669a49a743e637ee88a4e38a752"
+              },
+              "metadataIdentity": "09a1aba4815a938d398faa15967cca24842fbe049850253c1e9eed07e5afadcf",
+              "sourceIdentity": "nix-source:/nix/store/jzv9cvkgq6arvaclm22lkmlyz6dmpgmn-compatibility-source-identity.drv",
+              "version": "0.9.0.2"
+            },
+            "before": {
+              "derivation": "/nix/store/1v850snnzkzv2n7cl01k2h7sld4zmw2n-kioku-core-0.9.0.2.drv",
+              "effective": {
+                "boundsRelaxed": true,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": null,
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": null,
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 37,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "b01accbe05977fe4fa918bf0c0cf16027d6d2669a49a743e637ee88a4e38a752"
+              },
+              "metadataIdentity": "09a1aba4815a938d398faa15967cca24842fbe049850253c1e9eed07e5afadcf",
+              "sourceIdentity": "nix-source:/nix/store/jzv9cvkgq6arvaclm22lkmlyz6dmpgmn-compatibility-source-identity.drv",
+              "version": "0.9.0.2"
+            },
+            "changedFields": [
+              "derivation",
+              "effective"
+            ],
+            "stage": "compatibility-row"
+          },
+          "constructionProblems": []
+        },
+        {
+          "id": "legacy-skip-enforce-v1-test-suppression",
+          "package": "base64-bytestring",
+          "status": "selected-unverified",
+          "inputs": {
+            "derivation": "/nix/store/wsp7q2y11wfyn9y8ccj43ar6f8pqmssx-base64-bytestring-1.2.1.0.drv",
+            "metadataIdentity": "5720419ed191dfedc86caf5916879fd57f214ea6d6a8b87b1bbafb71b7002195",
+            "sourceIdentity": "nix-source:/nix/store/lcrc4sciikvvlvrdwpj29d38b9vj558g-compatibility-source-identity.drv",
+            "version": "1.2.1.0"
+          },
+          "retirementCandidate": false,
+          "construction": {
+            "after": {
+              "derivation": "/nix/store/wsp7q2y11wfyn9y8ccj43ar6f8pqmssx-base64-bytestring-1.2.1.0.drv",
+              "effective": {
+                "boundsRelaxed": null,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": "45305ccf8914c66d385b518721472c7b8c858f1986945377f74f85c1e0d49803",
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": "1",
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 2,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "a63469f770b286bde5eb34f2b989b9fa342b4909b09665019a72881f6c77a7a8"
+              },
+              "metadataIdentity": "5720419ed191dfedc86caf5916879fd57f214ea6d6a8b87b1bbafb71b7002195",
+              "sourceIdentity": "nix-source:/nix/store/lcrc4sciikvvlvrdwpj29d38b9vj558g-compatibility-source-identity.drv",
+              "version": "1.2.1.0"
+            },
+            "before": null,
+            "changedFields": [],
+            "stage": "source-constructor"
+          },
+          "constructionProblems": []
+        },
+        {
+          "id": "legacy-skip-enforce-v1-test-suppression",
+          "package": "cborg-json",
+          "status": "selected-unverified",
+          "inputs": {
+            "derivation": "/nix/store/xm00x0yb8fsd35sqygsxn1xxxrir08s3-cborg-json-0.2.6.0.drv",
+            "metadataIdentity": "655e5e4fde408b84b8c717328b5ef6d71b3cf47da2e296c25296024a6a0fb786",
+            "sourceIdentity": "nix-source:/nix/store/cwg4qfny466d4jhpldv1663qq8fa509i-compatibility-source-identity.drv",
+            "version": "0.2.6.0"
+          },
+          "retirementCandidate": false,
+          "construction": {
+            "after": {
+              "derivation": "/nix/store/xm00x0yb8fsd35sqygsxn1xxxrir08s3-cborg-json-0.2.6.0.drv",
+              "effective": {
+                "boundsRelaxed": null,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": "a01a16807fb9b08c656ed256afa6a70278a436549b203777360ec9b351c7f21a",
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": "4",
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 9,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "3cfb20e2a8a0715a299e962f1b6f5fad167f0e242da2dbc056d3b6b566be08c6"
+              },
+              "metadataIdentity": "655e5e4fde408b84b8c717328b5ef6d71b3cf47da2e296c25296024a6a0fb786",
+              "sourceIdentity": "nix-source:/nix/store/cwg4qfny466d4jhpldv1663qq8fa509i-compatibility-source-identity.drv",
+              "version": "0.2.6.0"
+            },
+            "before": null,
+            "changedFields": [],
+            "stage": "source-constructor"
+          },
+          "constructionProblems": []
+        },
+        {
+          "id": "legacy-skip-enforce-v1-test-suppression",
+          "package": "unicode-data",
+          "status": "selected-unverified",
+          "inputs": {
+            "derivation": "/nix/store/7y2j9i5z601nzjvys1nbgh429nwxrpwf-unicode-data-0.9.0.drv",
+            "metadataIdentity": "614822406b71eab265949a0a9d4b11e5b2a5e25ff7acaa9586c0cc9314f573a0",
+            "sourceIdentity": "nix-source:/nix/store/kma9lgi9zf3pwxdnjkf12172cz1jcys4-compatibility-source-identity.drv",
+            "version": "0.9.0"
+          },
+          "retirementCandidate": false,
+          "construction": {
+            "after": {
+              "derivation": "/nix/store/7y2j9i5z601nzjvys1nbgh429nwxrpwf-unicode-data-0.9.0.drv",
+              "effective": {
+                "boundsRelaxed": null,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": null,
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": null,
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 1,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "78b34b864e4de02d9e53561c22ade0a40d55ab53e4d95b6e5d93a2a17fe5a43d"
+              },
+              "metadataIdentity": "614822406b71eab265949a0a9d4b11e5b2a5e25ff7acaa9586c0cc9314f573a0",
+              "sourceIdentity": "nix-source:/nix/store/kma9lgi9zf3pwxdnjkf12172cz1jcys4-compatibility-source-identity.drv",
+              "version": "0.9.0"
+            },
+            "before": null,
+            "changedFields": [],
+            "stage": "source-constructor"
+          },
+          "constructionProblems": []
+        },
+        {
+          "id": "legacy-unicode-data-metadata-v1",
+          "package": "unicode-data",
+          "status": "inactive-scope",
+          "inputs": {
+            "derivation": "/nix/store/7y2j9i5z601nzjvys1nbgh429nwxrpwf-unicode-data-0.9.0.drv",
+            "metadataIdentity": "614822406b71eab265949a0a9d4b11e5b2a5e25ff7acaa9586c0cc9314f573a0",
+            "sourceIdentity": "nix-source:/nix/store/kma9lgi9zf3pwxdnjkf12172cz1jcys4-compatibility-source-identity.drv",
+            "version": "0.9.0"
+          },
+          "retirementCandidate": false,
+          "construction": {
+            "after": {
+              "derivation": "/nix/store/7y2j9i5z601nzjvys1nbgh429nwxrpwf-unicode-data-0.9.0.drv",
+              "effective": {
+                "boundsRelaxed": null,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": null,
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": null,
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 1,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "78b34b864e4de02d9e53561c22ade0a40d55ab53e4d95b6e5d93a2a17fe5a43d"
+              },
+              "metadataIdentity": "614822406b71eab265949a0a9d4b11e5b2a5e25ff7acaa9586c0cc9314f573a0",
+              "sourceIdentity": "nix-source:/nix/store/kma9lgi9zf3pwxdnjkf12172cz1jcys4-compatibility-source-identity.drv",
+              "version": "0.9.0"
+            },
+            "before": {
+              "derivation": "/nix/store/7y2j9i5z601nzjvys1nbgh429nwxrpwf-unicode-data-0.9.0.drv",
+              "effective": {
+                "boundsRelaxed": null,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": null,
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": null,
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 1,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "78b34b864e4de02d9e53561c22ade0a40d55ab53e4d95b6e5d93a2a17fe5a43d"
+              },
+              "metadataIdentity": "614822406b71eab265949a0a9d4b11e5b2a5e25ff7acaa9586c0cc9314f573a0",
+              "sourceIdentity": "nix-source:/nix/store/kma9lgi9zf3pwxdnjkf12172cz1jcys4-compatibility-source-identity.drv",
+              "version": "0.9.0"
+            },
+            "changedFields": [],
+            "stage": "compatibility-row"
+          },
+          "constructionProblems": []
+        },
+        {
+          "id": "legacy-unicode-data-v1",
+          "package": "unicode-data",
+          "status": "selected-unverified",
+          "inputs": {
+            "derivation": "/nix/store/7y2j9i5z601nzjvys1nbgh429nwxrpwf-unicode-data-0.9.0.drv",
+            "metadataIdentity": "614822406b71eab265949a0a9d4b11e5b2a5e25ff7acaa9586c0cc9314f573a0",
+            "sourceIdentity": "nix-source:/nix/store/kma9lgi9zf3pwxdnjkf12172cz1jcys4-compatibility-source-identity.drv",
+            "version": "0.9.0"
+          },
+          "retirementCandidate": false,
+          "construction": {
+            "after": {
+              "derivation": "/nix/store/7y2j9i5z601nzjvys1nbgh429nwxrpwf-unicode-data-0.9.0.drv",
+              "effective": {
+                "boundsRelaxed": null,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": null,
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": null,
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 1,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "78b34b864e4de02d9e53561c22ade0a40d55ab53e4d95b6e5d93a2a17fe5a43d"
+              },
+              "metadataIdentity": "614822406b71eab265949a0a9d4b11e5b2a5e25ff7acaa9586c0cc9314f573a0",
+              "sourceIdentity": "nix-source:/nix/store/kma9lgi9zf3pwxdnjkf12172cz1jcys4-compatibility-source-identity.drv",
+              "version": "0.9.0"
+            },
+            "before": {
+              "derivation": "/nix/store/7y2j9i5z601nzjvys1nbgh429nwxrpwf-unicode-data-0.9.0.drv",
+              "effective": {
+                "boundsRelaxed": null,
+                "buildFlags": [],
+                "configureFlags": [],
+                "editedCabalFile": null,
+                "hooks": {
+                  "postBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "postPatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preBuild": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preCheck": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "preConfigure": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+                  "prePatch": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "patches": [],
+                "revision": null,
+                "testDependencyInventory": "not-evaluated",
+                "testsEnabled": false,
+                "productionDependencyCounts": {
+                  "executableHaskellDepends": 0,
+                  "executableSystemDepends": 0,
+                  "executableToolDepends": 0,
+                  "libraryHaskellDepends": 1,
+                  "librarySystemDepends": 0,
+                  "libraryToolDepends": 0,
+                  "setupHaskellDepends": 0
+                },
+                "productionDependencyIdentity": "78b34b864e4de02d9e53561c22ade0a40d55ab53e4d95b6e5d93a2a17fe5a43d"
+              },
+              "metadataIdentity": "614822406b71eab265949a0a9d4b11e5b2a5e25ff7acaa9586c0cc9314f573a0",
+              "sourceIdentity": "nix-source:/nix/store/kma9lgi9zf3pwxdnjkf12172cz1jcys4-compatibility-source-identity.drv",
+              "version": "0.9.0"
+            },
+            "changedFields": [],
+            "stage": "compatibility-row"
+          },
+          "constructionProblems": []
+        }
+      ],
+      "reportSha256": "0afc8f08cbc45211ea1f694d58d5d1f352317ab2d88546075c5d7f0e42f8b9d7",
+      "checkExitCode": 0,
+      "commands": [
+        [
+          "nix",
+          "eval",
+          "--impure",
+          "--json",
+          "--expr",
+          "(import /tmp/mp4-ep21-captured-context.nix { compiler = \"ghc9141\"; channel = \"hackage\"; })"
+        ],
+        [
+          "nix",
+          "run",
+          ".#haskell-nix-update",
+          "--",
+          "compatibility",
+          "check",
+          "--context",
+          "/tmp/mp4-ep21-capture-campaign/hackage-ghc9141.json"
+        ]
+      ],
+      "repeatIdentical": true
+    }
+  ],
+  "limitations": [
+    "Native Linux matrix unavailable",
+    "Historical recipe bundles do not contain capture hooks",
+    "Source assertions and tests remain unverified",
+    "Test dependency inventory belongs to explicit strict validation",
+    "Only represented test/bounds policy effects are checked; arbitrary function effects still require explicit probes"
+  ],
+  "sourceSha256": {
+    "lib/captureCompatibility.nix": "435613cc504c10dcc03eacaf6f3303a373d3a4ec16df275cfbf6192c613c88d2",
+    "lib/compatibilitySourceIdentity.nix": "a130c20c2b0c4d4df82deff27da653e26a3106990d99aada12c24070841bd7d6",
+    "lib/capturedCompatibilityReport.nix": "2e72d6752db90cd93d2650a978b3cc444bc93451fb044afeca13c22616328e4f",
+    "lib/compatibilityReport.nix": "7a2c05cc7f42117ed4479547036fbf9b0160dc7f4fc57d6c6d2644eff9e7541a",
+    "checks/compatibility-capture.nix": "b74b78c1c771ddb007993ea56e9438cc2f826def4223c2e6e7a39ae659ab8eff",
+    "cli/haskell-nix-update/src/HaskellNix/Update/Compatibility/Types.hs": "7ce28a06500f17349fa7847124fae7251ede22ad0a5727018eba7337da2c2e1b"
+  }
+}

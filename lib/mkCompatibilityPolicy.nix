@@ -32,6 +32,9 @@ let
     (package: rows: lib.imap0
       (row: entry: entry // {
         exceptionIds = idsFor (rowBinding package row);
+        sourceConstructor = builtins.any
+          (record: record.binding == rowBinding package row && builtins.elem "source-replacement" record.effects)
+          catalog.entries;
       })
       rows)
     registry;

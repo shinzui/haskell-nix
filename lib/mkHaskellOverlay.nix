@@ -23,12 +23,13 @@
 , versionLayer ? (_: _: _: _: { })
 , disableProfiling ? true
 , disableHaddock ? true
+, captureCompatibility ? false
 }:
 
 let
   mkHaskellExtension = import ./mkHaskellExtension.nix { inherit lib; };
   combinedOverride = mkHaskellExtension {
-    inherit registry extraOverrides versionLayer disableProfiling disableHaddock;
+    inherit registry extraOverrides versionLayer disableProfiling disableHaddock captureCompatibility;
   };
 
 in

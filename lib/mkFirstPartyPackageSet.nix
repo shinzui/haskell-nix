@@ -21,6 +21,7 @@
 , channel ? "github"
 , disableProfiling ? true
 , disableHaddock ? true
+, captureCompatibility ? false
 }:
 
 let
@@ -205,7 +206,7 @@ let
   # Ordinary shared source recipes retain the existing precedence. Explicit
   # compiler compatibility rows run after the generated source constructor.
   # They receive the selected package, never the stock nixpkgs package.
-  fixPackageByVersion = import ./fixPackageByVersion.nix { inherit lib; };
+  fixPackageByVersion = import ./fixPackageByVersion.nix { inherit lib captureCompatibility; };
   compatibleFirstPartyRegistry = lib.mapAttrs
     (name: entries:
       let
@@ -217,6 +218,7 @@ let
         (entry: entry // {
           exceptionIds = lib.unique ((entry.exceptionIds or [ ])
             ++ lib.concatMap (row: row.exceptionIds or [ ]) compatibility);
+          observedExceptionIds = entry.exceptionIds or [ ];
           patch = args:
             let selected = entry.patch args;
             in (fixPackageByVersion name compatibility args.haskellLib args.pkgs
@@ -231,15 +233,15 @@ let
   extraOverrides =
     if channel == "hackage" then hackageDependencyOverrides
     else (_: _: { });
-  versionLayer = (import ./mkCohortVersionLayer.nix { inherit lib; }) cohortVersions;
+  versionLayer = (import ./mkCohortVersionLayer.nix { inherit lib captureCompatibility; }) cohortVersions;
   cohortPackageConflicts = lib.intersectLists
     (builtins.attrNames cohortVersions.packages)
     selectedPackageNames;
   haskellExtension = mkHaskellExtension {
-    inherit registry extraOverrides versionLayer disableProfiling disableHaddock;
+    inherit registry extraOverrides versionLayer disableProfiling disableHaddock captureCompatibility;
   };
   overlay = mkHaskellOverlay {
-    inherit registry extraOverrides versionLayer disableProfiling disableHaddock;
+    inherit registry extraOverrides versionLayer disableProfiling disableHaddock captureCompatibility;
     compilers = supportedGhcs;
   };
 
