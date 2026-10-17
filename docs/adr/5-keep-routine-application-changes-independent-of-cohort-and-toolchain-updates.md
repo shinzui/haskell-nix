@@ -140,6 +140,15 @@ budget before rollout. Removing unused current exports does not remove checkpoin
 creation or guard replay costs. Preserve defaults until the complete workflow passes;
 warmup-only amortization cannot establish that acceptance.
 
+Package-boundary experiments must preserve source-generation ownership and original public
+imports, and validate consumers that can depend directly on the stable package. Keep tests
+and executable sources with their actual Cabal components; duplicated unbuilt Haskell files
+can lose the formatter's component language settings. Source-inspection tests must follow
+moved modules, and owned inventories must bind a real immutable producer revision. Public
+reexports and matching executable behavior alone cannot replace full suite, ownership and
+complete-cost acceptance. The [Mori core pilot](../evidence/ep18/mori-core-split-pilot.json)
+passes its latency gate but leaves those adoption gates open.
+
 ## Alternatives and consequences
 
 Version checks alone are cheaper to implement but can declare success while duplicate builds

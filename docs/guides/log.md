@@ -1,6 +1,7 @@
 # Bundle Update Log
 
 ## 2026-10-17
+* **Update**: Retain the Mori core/API package-boundary latency result, complete-suite failures and outstanding total-cost/ownership gates; document disposable generation and formatter routing.
 * **Update**: DOC-7 documents explicit checkpoint/consume-only guard replay and the fresh native cost screen: correctness passes but eleven edits exceed the ten-edit budget.
 * **Update**: Add optional retained-runtime project-shell adoption, local override validation, exact scope identities, source-complete Cabal plan evidence and separated cache/edit costs.
 * **Update**: Record successful native Darwin assembly and lazy replaced-seed metadata rejection.

@@ -6,7 +6,7 @@ docId: DOC-7
 tags: [performance, consumers, nix, source-boundaries]
 generated:
   by: process:codex
-  at: 2026-10-17T19:23:30Z
+  at: 2026-10-17T20:46:00Z
 ---
 
 [Guides](README.md)
@@ -361,6 +361,25 @@ module names through Cabal reexports. Its [native five-pair pilot](../evidence/e
 passes all 91 public imports and clean behavior, but median elapsed saving is only 8.08%
 (56.398 → 51.843 s), below the declared 20% target. Production layout adoption is rejected;
 no producing package layout or retained ownership manifest has been changed.
+
+The [Mori core/API pilot](../evidence/ep18/mori-core-split-pilot.json) moves a closed
+573-module foundation while the original core reexports every public module. The API depends
+on that foundation after an import audit. Five fresh pairs reduce full CLI medians from
+229.847 to 84.733 s (63.13%), preserving 2,034 shared graph nodes and unchanged API outputs.
+The real generator and conformance/API/CLI/diagram suites pass; five core tests still fail.
+The receipt retains those failures and all raw measurements. Gross observed setup and
+validation already cost 1,355.42 s, or ten edits, before final rollout and transfer.
+Keep this disposable experiment separate from production adoption.
+
+`scripts/prepare-mori-core-split.py` accepts an explicit closed module inventory and immutable
+producer revision; `--api-foundation` audits API imports before narrowing its two dependency
+names. `scripts/prepare-mori-core-split-workflow.py` stages the existing generator's merged
+source view, original placement, Cabal reexports and formatter/push-gate routing. Its nine
+controlled routing tests pass. A producer variant can use `--trim-unbuilt-foundation-sources`
+to retain required fixtures/SQL while omitting copied test/executable Haskell sources without
+a foundation component. That source differs from the measured pilot and requires fresh
+realization, identity, complete suite and cost validation. No helper updates the production
+checkout or overrides the retained cohort's owned-package validation.
 
 The [matching-input dotfiles rehearsal](../evidence/ep18/dotfiles-package-identity.json) uses
 immutable local Git references and normal producing pins. Build those exact references when
