@@ -1,6 +1,7 @@
 # Bundle Update Log
 
 ## 2026-10-17
+* **Update**: Add optional retained-runtime project-shell adoption, local override validation, exact scope identities, source-complete Cabal plan evidence and separated cache/edit costs.
 * **Update**: Record successful native Darwin assembly and lazy replaced-seed metadata rejection.
 * **Update**: Record rejected package split measurements and native producer/dotfiles output reuse.
 * **Update**: Document native checkpoint origin binding, full core-pilot costs, and conservative package-boundary investigation.

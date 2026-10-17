@@ -1,0 +1,50 @@
+--- a/flake.module.nix
++++ b/flake.module.nix
+@@ -19,7 +19,7 @@
+       };
+       projectShellAvailable = inputs.haskell-nix.lib ? mkProjectDevShell
+         && inputs.haskell-nix-dev.lib.${system} ? mkProjectShell;
+-      projectShell = inputs.haskell-nix.lib.mkProjectDevShell {
++      projectShellArgs = {
+         inherit pkgs ownPackages;
+         runtimeSelection = {
+           name = runtimeSelection.runtime;
+@@ -43,6 +43,14 @@
+           export MORI_PG_CONNECTION_STRING="postgresql://$(${pkgs.jq}/bin/jq -rn --arg x "$PGHOST" '$x|@uri')/$PGDATABASE"
+         '';
+       };
++      mkProjectShell = extra: inputs.haskell-nix.lib.mkProjectDevShell (projectShellArgs // extra);
++      projectShell = mkProjectShell { };
++      shellVariants = {
++        tool = mkProjectShell { extraNativeBuildInputs = projectShellArgs.extraNativeBuildInputs ++ [ pkgs.hello ]; };
++        hook = mkProjectShell { shellHook = projectShellArgs.shellHook + "export EP20_SHELL_HOOK=1\n"; };
++        inherited = mkProjectShell { inputsFrom = [ (pkgs.mkShell { shellHook = "export EP20_INHERITED_HOOK=1"; }) ]; };
++      };
++      priorScope = selectedRuntime.mkApplicationScope pkgs applicationExtension;
+       haskellPackages =
+         if projectShellAvailable then projectShell.applicationScope
+         else selectedRuntime.mkApplicationScope pkgs applicationExtension;
+@@ -65,6 +73,23 @@
+       imports = [
+         (inputs.nixpkgs.lib.optionalAttrs projectShellAvailable {
+           devShells.runtime = projectShell;
++          devShells.runtime-tool = shellVariants.tool;
++          devShells.runtime-hook = shellVariants.hook;
++          devShells.runtime-inherited = shellVariants.inherited;
++          legacyPackages.runtimeShellProbe = {
++            shell = projectShell.drvPath;
++            compiler = projectShell.compilerIdentity;
++            hls = projectShell.hlsIdentity;
++            identity = projectShell.packageSetIdentity;
++            priorOwn = pkgs.lib.genAttrs ownPackages (name: priorScope.${name}.drvPath);
++            variants = pkgs.lib.mapAttrs
++              (_: shell: {
++                shell = shell.drvPath;
++                identity = shell.packageSetIdentity;
++                hls = shell.hlsIdentity;
++              })
++              shellVariants;
++          };
+         })
+         (inputs.nixpkgs.lib.optionalAttrs (inputs.haskell-nix.lib ? mkApplicationIncrementalPackage) {
+           packages.application-incremental = incremental.package;

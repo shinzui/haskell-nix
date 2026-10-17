@@ -4,12 +4,11 @@ okf_version: "0.2"
 
 # Guide
 
-- [Measure and remove avoidable application rebuilds](faster-application-nix-builds.md) - Compare paired source variants and verify real dependency identities before adopting source filters.
-
-- [Compose applications on the Keiro runtime](compose-on-the-keiro-runtime.md) - Select a retained runtime generation, materialize its Cabal imports and compose application recipes in one checked Haskell scope.
-
-- [Create a first-party package set](create-a-package-set.md) - Clone a named set, choose retained group generations, and validate its support level.
 - [Adopt haskell-nix in an existing flake](adopt-in-an-existing-flake.md) - Wire shared Nix inputs and compose a selected haskell-nix extension with a consumer's Haskell overrides.
+- [Compose applications on the Keiro runtime](compose-on-the-keiro-runtime.md) - Select a retained runtime generation, materialize its Cabal imports and compose application recipes in one checked Haskell scope.
+- [Create a first-party package set](create-a-package-set.md) - Clone a named set, choose retained group generations, and validate its support level.
+- [Develop against a retained runtime](develop-against-a-retained-runtime.md) - Add an optional project shell that shares its checked dependency scope with production and verify shell, Nix and Cabal evidence separately.
+- [Measure and remove avoidable application rebuilds](faster-application-nix-builds.md) - Measure source filtering and guarded compiler intermediate reuse with explicit inputs, native correctness and total-cost evidence.
 - [Move from an overlay to extension composition](move-from-an-overlay.md) - Preserve shared haskell-nix patches when a consumer also overrides the same Haskell package set.
 - [Roll out a first-party package set](roll-out-a-package-set.md) - Select a retained first-party generation and source channel, then validate and lock a consumer upgrade.
 

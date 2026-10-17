@@ -1,0 +1,51 @@
+diff --git a/flake.module.nix b/flake.module.nix
+index f89b8839..58b2826e 100644
+--- a/flake.module.nix
++++ b/flake.module.nix
+@@ -17,7 +17,35 @@ in
+         gitRev = inputs.self.shortRev or "dirty";
+         inherit (inputs) mori-schema-src;
+       };
+-      haskellPackages = selectedRuntime.mkApplicationScope pkgs applicationExtension;
++      projectShellAvailable = inputs.haskell-nix.lib ? mkProjectDevShell
++        && inputs.haskell-nix-dev.lib.${system} ? mkProjectShell;
++      projectShell = inputs.haskell-nix.lib.mkProjectDevShell {
++        inherit pkgs ownPackages;
++        runtimeSelection = {
++          name = runtimeSelection.runtime;
++          inherit (runtimeSelection) generation channel;
++          configuration = {
++            compiler = "ghc9124";
++            inherit (runtimeSelection) disableProfiling disableHaddock;
++          };
++        };
++        inherit (runtimeSelection) applicationSelections;
++        applicationOverrides = applicationExtension;
++        toolchainLib = inputs.haskell-nix-dev.lib.${system};
++        extraNativeBuildInputs = [ pkgs.just pkgs.xz pkgs.postgresql_18 pkgs.process-compose ]
++          ++ config.haskellProject.extraDevPackages;
++        extraBuildInputs = [ pkgs.rdkafka pkgs.openssl pkgs.curl ];
++        shellHook = ''
++          export PGHOST="$PWD/db"
++          export PGDATA="$PGHOST/db"
++          export PGLOG="$PGHOST/postgres.log"
++          export PGDATABASE=mori
++          export MORI_PG_CONNECTION_STRING="postgresql://$(${pkgs.jq}/bin/jq -rn --arg x "$PGHOST" '$x|@uri')/$PGDATABASE"
++        '';
++      };
++      haskellPackages =
++        if projectShellAvailable then projectShell.applicationScope
++        else selectedRuntime.mkApplicationScope pkgs applicationExtension;
+       incremental = import ./nix/application-incremental.nix {
+         inherit inputs pkgs selectedRuntime;
+         gitRev = inputs.self.shortRev or "dirty";
+@@ -35,6 +63,9 @@ in
+       packages.default = haskellPackages.mori-cli;
+       packages.application-clean = haskellPackages.mori-cli;
+       imports = [
++        (inputs.nixpkgs.lib.optionalAttrs projectShellAvailable {
++          devShells.runtime = projectShell;
++        })
+         (inputs.nixpkgs.lib.optionalAttrs (inputs.haskell-nix.lib ? mkApplicationIncrementalPackage) {
+           packages.application-incremental = incremental.package;
+           packages.application-seed-intermediates = incremental.checkpoint.intermediates;

@@ -4,6 +4,7 @@ title: Guides
 description: Choose a task-oriented path for consumer adoption or package-set maintenance.
 docId: DOC-1
 tags: [adoption, navigation, consumers]
+timestamp: 2026-10-17T16:22:59Z
 generated:
   by: process:codex
   at: 2026-10-17T04:15:00Z
@@ -22,6 +23,9 @@ For changes in a **consumer repository**, start with the task that matches your 
 
 4. [Compose applications on the Keiro runtime](compose-on-the-keiro-runtime.md) to retain
    the shared dependency closure and add application recipes in one checked scope.
+
+5. [Develop against a retained runtime](develop-against-a-retained-runtime.md) to add an optional
+   project shell and verify scoped compiler, native dependencies and Cabal evidence.
 
 For measured application build work, follow [Measure and remove avoidable application rebuilds](faster-application-nix-builds.md).
 

@@ -77,6 +77,11 @@ This establishes constructor behavior. Real application plan comparison, support
 Cabal test/benchmark configurations, first-entry/re-entry measurements, source-edit
 behavior and fresh-worker reuse remain [plan 20](../plans/20-build-project-development-shells-from-retained-runtime-package-sets.md)
 acceptance. Exposing Nix-built libraries does not imply equal Cabal unit IDs or no
-application recompilation. HLS protocol behavior remains the toolchain smoke plan's
+application recompilation. A normal scoped Cabal plan contains installed non-boot
+packages without source/metadata hashes; the existing comparator must reject those
+rows as source evidence. Obtain a separate fresh plan through the same bare compiler
+and retained source/constraint imports. Compare the complete cohort freeze against
+the complete comparison source manifest, then verify actual Nix identities separately.
+This preserves the existing parser, package authority and evidence requirements. HLS protocol behavior remains the toolchain smoke plan's
 separate responsibility. Linux guest results retain translation and guest
 sandbox/syscall-filter limits; no physical-x86 performance claim is made.
