@@ -19,11 +19,24 @@ let
     root = root.overrideAttrs (_: { postPatch = "echo unrecorded-source-edit"; });
     context = { fixture = true; };
   };
+  sourceGuard = path:
+    let
+      candidate = (import ../lib/mkCohortManifest.nix { inherit lib; }) {
+        inherit pkgs scope root;
+        context.sourceContext.cohort-flags.source = { kind = "github"; inherit path; };
+      };
+    in
+    (builtins.tryEval ((builtins.head candidate.declaration.packages).source.path)).success;
 in
 pkgs.runCommand "cohort-manifest-fixtures"
 {
   nativeBuildInputs = [ pkgs.python3 cohortCompare ];
   manifestFile = manifest;
+  sourceGuards = builtins.toJSON {
+    selectedSource = sourceGuard "${root.src}";
+    differentRepository = sourceGuard "${./fixtures/first-party/root-source}";
+    differentSubdirectory = sourceGuard "${root.src}/src";
+  };
   rejectsUnrecordedOverride =
     if (builtins.tryEval ((builtins.head unrecorded.declaration.packages).metadata.hash)).success
     then "no" else "yes";
@@ -66,6 +79,12 @@ pkgs.runCommand "cohort-manifest-fixtures"
             graph = {'derivationGraph': [{'path': 'app', 'references': ['static-library', 'ghc']},
                 {'path': 'static-library', 'references': ['ghc']}, {'path': 'ghc', 'references': []}]}
             return declaration, graph
+        def test_selected_source_guard_passes(self):
+            self.assertTrue(json.loads(os.environ['sourceGuards'])['selectedSource'])
+        def test_different_repository_source_guard_fails(self):
+            self.assertFalse(json.loads(os.environ['sourceGuards'])['differentRepository'])
+        def test_different_subdirectory_source_guard_fails(self):
+            self.assertFalse(json.loads(os.environ['sourceGuards'])['differentSubdirectory'])
         def test_actual_native_construction(self):
             actual = json.loads(Path(os.environ['manifestFile']).read_text())
             self.assertTrue(actual['graphVerified'])

@@ -37,6 +37,11 @@ let
     captured.cohortManifestArguments;
   sourceFacts = import ./cohortSource.nix { inherit lib; };
   sourceRecord = sourceFacts.record;
+  sourceIdentity = import ./compatibilitySourceIdentity.nix { inherit lib; };
+  # Lazy fetchTree aliases can have different strings for the same source.
+  # The existing metadata projection resolves their contexts without building it.
+  sameSource = actual: expected:
+    toString actual == toString expected || sourceIdentity actual == sourceIdentity expected;
   packageRecord = item:
     let
       package = item.package;
@@ -46,12 +51,12 @@ let
       declared = (context.sourceContext or { }).${package.pname} or null;
       source =
         if origin != null then
-          assert lib.assertMsg ("${rawSource}" == sourceFacts.originPath origin)
+          assert lib.assertMsg (sameSource rawSource (sourceFacts.originPath origin))
             "mkCohortManifest: source origin differs from the actual package source";
           (sourceRecord origin.source) // { path = "${rawSource}"; subdirectory = origin.subdirectory; }
         else if declared != null && declared.source != null && declared.source.kind == "github" then
-          assert lib.assertMsg ("${rawSource}" == declared.source.path)
-            "mkCohortManifest: first-party source differs from its retained snapshot";
+          assert lib.assertMsg (sameSource rawSource declared.source.path)
+            "mkCohortManifest: first-party source differs from its retained snapshot for ${package.pname}: actual ${toString rawSource}, expected ${declared.source.path}";
           declared.source // { hashMode = "recursive"; urls = [ ]; }
         else sourceRecord rawSource;
       roles = lib.unique ((lib.optional (item.key == root.drvPath) "root")

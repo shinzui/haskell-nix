@@ -52,6 +52,12 @@ and asserts compiler resolution and absence of the bare compiler bin.
 [Regression evidence](../evidence/ep20/hls-enabled-shell-entry.json) records the case.
 
 Attach selection, fingerprint and actual dependency identities in passthru.
+Executable manifests compare the existing metadata-only source identity projection
+when lazy source aliases have different strings. Literal path equality remains a
+fast path; changed repositories and subdirectories still fail. The projection is
+never built or added to a production closure. Keep declaration paths contextual
+until Nix materializes them, and retain the complete selected graph and source policy.
+
 Discard Nix output string contexts in diagnostic JSON: exporting a derivation path
 must not request that package's output build. Diagnostic metadata does not alter
 shell or production recipes. Selected package/environment values retain their

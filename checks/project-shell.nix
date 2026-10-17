@@ -57,7 +57,11 @@ let
     buildInputs = [ pkgs.zlib ];
     propagatedNativeBuildInputs = [ pkgs.which ];
     propagatedBuildInputs = [ pkgs.libffi ];
-    shellHook = ''printf 'inherited\n' >> "$PWD/hooks"'';
+    shellHook = ''
+      mkdir -p "$TMPDIR/project-shell-literal-a"
+      export PATH="$TMPDIR/project-shell-literal-*:$PATH"
+      printf 'inherited\n' >> "$PWD/hooks"
+    '';
   };
   shell =
     if mkProjectShell != null then
@@ -118,6 +122,10 @@ let
       test "$(command -v ghc-pkg)" = "$NIX_GHCPKG"
       case ":$PATH:" in
         *":${scope.ghc}/bin:"*) echo "bare compiler leaked onto PATH" >&2; exit 1 ;;
+      esac
+      case ":$PATH:" in
+        *":$TMPDIR/project-shell-literal-*:"*) ;;
+        *) echo "literal PATH wildcard was expanded" >&2; exit 1 ;;
       esac
       ghc-pkg field project-shell-dependency version | grep -F 'version: 1.0'
       pkg-config --exists zlib libffi
