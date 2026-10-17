@@ -18,6 +18,7 @@ import HaskellNix.Update.Cohort.GenerationTypes
 import HaskellNix.Update.Process
 import HaskellNix.Update.Types (UpdateError (..))
 import System.Directory (makeAbsolute)
+import System.FilePath (takeDirectory)
 
 -- The generation owner supplies a classified solved package and the exact Cabal
 -- file selected by its revision resolver. The source is bound separately by the
@@ -62,9 +63,14 @@ convertRecipe runner converter request = runExceptT $ do
             output <- command "nix" ["hash", "file", "--type", "sha256", "--base16", absolute]
             unless (Text.strip output == expected) (failText "recipe conversion: selected Cabal metadata hash changed")
     hash
-    output <- command converter (init arguments <> [absolute])
+    -- recipeArguments always ends with metadataPath; replace that argument
+    -- without a partial list operation before invoking the explicit tool.
+    output <- command converter (take (length arguments - 1) arguments <> [absolute])
     hash
-    unless (not (Text.null (Text.strip output)) && not (Text.pack absolute `Text.isInfixOf` output))
+    let directory = takeDirectory absolute
+        leaked = Text.pack absolute `Text.isInfixOf` output
+            || (directory /= "/" && Text.pack directory `Text.isInfixOf` output)
+    unless (not (Text.null (Text.strip output)) && not leaked)
         (failText "recipe conversion: empty output or transient metadata path leaked into recipe")
     pure (Text.stripEnd output <> "\n")
   where

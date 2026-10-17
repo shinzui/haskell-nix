@@ -46,6 +46,10 @@ tests = testGroup "complete recipe conversion"
         calls <- newIORef []
         result <- convertRecipe (runner calls hash "src = /tmp/selected.cabal;") converter request
         left result
+    , testCase "a scratch directory cannot leak without the metadata filename" $ do
+        calls <- newIORef []
+        result <- convertRecipe (runner calls hash "src = /tmp/work/source;") converter request {metadataPath = "/tmp/work/selected.cabal"}
+        left result
     , testCase "verified conversion returns stable newline-terminated bytes" $ do
         calls <- newIORef []
         result <- convertRecipe (runner calls hash recipe) converter request
