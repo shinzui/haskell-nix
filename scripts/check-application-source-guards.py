@@ -22,6 +22,13 @@ def main():
     parser.add_argument("--component", choices=["cli", "core"], default="cli")
     parser.add_argument("--checkout", type=Path, required=True)
     parser.add_argument("--source", type=Path, required=True)
+    parser.add_argument("--seed-source", type=Path,
+                        help="Explicit fixed checkpoint source; defaults to --source")
+    parser.add_argument("--seed-revision",
+                        help="Checkpoint revision stamp; defaults to the original current stamp")
+    parser.add_argument("--validated-checkpoint-file", type=Path,
+                        help="Reuse a successfully built exact checkpoint declaration")
+    parser.add_argument("--retain-current-intermediates", action=argparse.BooleanOptionalAction, default=True)
     parser.add_argument("--application-revision", required=True)
     parser.add_argument("--alternate-stamp", required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
@@ -43,6 +50,9 @@ def main():
     core_mode = args.component == "core"
     if core_mode and not args.expression:
         parser.error("Core guards require the producing-project --expression")
+    if not args.expression and (args.seed_source or args.seed_revision or args.validated_checkpoint_file
+                                or not args.retain_current_intermediates):
+        parser.error("Explicit checkpoint/retention options require --expression")
     leaf = "src/Rei/Cli/Commands/Help.hs" if application == "rei" else "src/Mori/Command/Help.hs"
     target_leaf = ("src/Rei/Infrastructure/CategoryStream.hs" if application == "rei" else "src/Mori/Automation/ConfigHash.hs") if core_mode else leaf
     original_stamp = args.application_revision[:7]
@@ -52,18 +62,22 @@ def main():
         candidate = Path(temporary) / application
         shutil.copytree(source, candidate, symlinks=True)
 
-        checkpoint_declaration = None
+        checkpoint_declaration = (json.loads(args.validated_checkpoint_file.read_text())
+                                  if args.validated_checkpoint_file else None)
         checkpoint_file = destination / "checkpoint-declaration.json"
+        if checkpoint_declaration is not None:
+            checkpoint_file.write_text(json.dumps(checkpoint_declaration, indent=2) + "\n")
 
         def arguments(policy="incremental", stamp=original_stamp):
             command = ["--impure", "--file",
                        str(args.expression or root / "checks/fixtures/application-builds/pilot.nix")]
-            for name, value in {"source": str(candidate), "seedSource": str(source),
+            for name, value in {"source": str(candidate), "seedSource": str((args.seed_source or source).resolve()),
                                 "application": application, "applicationRevision": args.application_revision,
-                                "revision": stamp, "seedRevision": original_stamp, "policy": policy}.items():
+                                "revision": stamp, "seedRevision": args.seed_revision or original_stamp, "policy": policy}.items():
                 command += ["--argstr", name, value]
             if args.expression:
                 command += ["--argstr", "component", args.component]
+                command += ["--arg", "retainCurrentIntermediates", str(args.retain_current_intermediates).lower()]
                 if checkpoint_declaration is not None:
                     command += ["--argstr", "validatedCheckpointFile", str(checkpoint_file)]
             return command
@@ -115,7 +129,7 @@ def main():
             if not expected_error and outputs["clean"] != outputs["incremental"]:
                 raise ValueError(f"Clean/seeded application behavior differs: {label}")
 
-        if args.expression:
+        if args.expression and checkpoint_declaration is None:
             # Capture the explicitly selected origin once; never recompute it
             # from each mutated candidate's current dependency context.
             checkpoint_declaration = json.loads(subprocess.check_output(
@@ -207,6 +221,9 @@ def main():
                 path.write_bytes(original)
         receipt = {"schema_version": 1, "project_uri": f"mori://shinzui/{application}",
                    "source_revision": args.application_revision, "component": args.component, "baseline": baseline, "probes": rows,
+                   "seed_source": str((args.seed_source or source).resolve()),
+                   "validated_checkpoint": checkpoint_declaration,
+                   "retain_current_intermediates": args.retain_current_intermediates,
                    "native_probes": native,
                    "scope": "Identity guards plus explicitly listed native probes; no timing claim",
                    "status": "passed"}

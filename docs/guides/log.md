@@ -1,6 +1,7 @@
 # Bundle Update Log
 
 ## 2026-10-17
+* **Update**: DOC-7 documents explicit checkpoint/consume-only guard replay and the fresh native cost screen: correctness passes but eleven edits exceed the ten-edit budget.
 * **Update**: Add optional retained-runtime project-shell adoption, local override validation, exact scope identities, source-complete Cabal plan evidence and separated cache/edit costs.
 * **Update**: Record successful native Darwin assembly and lazy replaced-seed metadata rejection.
 * **Update**: Record rejected package split measurements and native producer/dotfiles output reuse.

@@ -133,8 +133,12 @@ another current checkpoint. Keep the clean seed export and exact origin/compatib
 guards. The additive `retainCurrentIntermediates` option defaults to the original
 behavior; its false mode passes native Apple Silicon and translated Linux selective
 reuse/source-error fixtures and real native Mori changed-value/closure checks. This
-bounds per-edit intermediate retention, but does not itself establish a latency or
-checkpoint-budget win. Preserve defaults until the complete measured workflow passes.
+bounds per-edit intermediate retention. Five native pairs for `mori://shinzui/mori`
+also establish lower changed-build latency, but [fresh checkpoint and full validation
+costs](../evidence/ep18/mori-consume-only-full-cost.json) still exceed the ten-edit
+budget before rollout. Removing unused current exports does not remove checkpoint
+creation or guard replay costs. Preserve defaults until the complete workflow passes;
+warmup-only amortization cannot establish that acceptance.
 
 ## Alternatives and consequences
 

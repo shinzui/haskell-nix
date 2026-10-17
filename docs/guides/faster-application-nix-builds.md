@@ -6,7 +6,7 @@ docId: DOC-7
 tags: [performance, consumers, nix, source-boundaries]
 generated:
   by: process:codex
-  at: 2026-10-17T09:20:37Z
+  at: 2026-10-17T19:23:30Z
 ---
 
 [Guides](README.md)
@@ -263,6 +263,12 @@ and the guard rejects it before adding that invalid checkpoint to the current bu
 
 The shared constructor takes `pkgs`, `mkScope`, `overlayFor`, `source`, `seedSource`,
 `packageName`, `revision` and `seedRevision`, plus optional `validatedCheckpoint`, `enabled` and `trackedDataFile`.
+The optional `retainCurrentIntermediates` defaults to true. Setting it to false
+consumes the fixed checkpoint while exporting only the current runtime output.
+The native fixtures and [Mori paired pilot](../evidence/ep18/mori-consume-only-core-pilot.json)
+prove selective reuse and changed behavior. The [fresh-checkpoint cost screen](../evidence/ep18/mori-consume-only-full-cost.json)
+measures 1,055.88 seconds of gross startup/validation, requiring eleven edits
+against the declared budget of ten before final rollout. Keep the policy opt-in.
 `overlayFor` uses the supplied source and revision; `mkScope` is the actual retained-runtime
 constructor. Only the revision literal and root source are normalized in the recipe projection.
 All other recipe inputs remain intact. Cabal/Setup and every non-Haskell file are hashed unless
@@ -277,6 +283,14 @@ embedded help, revision stamps and type-error rejection through the owned factor
 application pins and their cohort checks are tested separately from local channel overrides.
 Retained-runtime parity must compare the selected generation's captured freeze, rather than
 an unrelated newer channel default; the reference validator remains enabled.
+
+To replay guards against a particular successfully built checkpoint, pass
+`--seed-source`, `--seed-revision` and `--validated-checkpoint-file` to
+`scripts/check-application-source-guards.py` with the producing-project
+`--expression`. Add `--no-retain-current-intermediates` to validate the consume-only
+policy. The receipt records these inputs. Omitting them preserves the original
+same-source, export-enabled guard behavior. A declaration must name the actual
+successful checkpoint; these options do not validate or rebuild its origin for you.
 
 Use `--require-idle-compilers` for changed-code timing. It waits up to 60 seconds for other
 compiler processes, recording that wait separately from build latency. If interrupted before
