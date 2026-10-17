@@ -105,6 +105,10 @@ let
       firstPartyPackageSets);
 in
 {
+  application-incremental = import ./application-incremental.nix {
+    pkgs = pkgsPlain;
+    scope = pkgsGithub.haskell.packages.${defaultGhc};
+  };
   cohort-pg-migrate-parity = frozenParity "cohort-pg-migrate-parity" cohortManifest;
   cohort-dhall-parity = frozenParity "cohort-dhall-parity" dhallManifest;
   cohort-cache = import ./cohort-cache.nix { pkgs = pkgsPlain; };

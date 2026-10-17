@@ -27,6 +27,11 @@ provenance:
       at: 2026-10-17T04:03:08Z
       mode: "implement"
       note: "Track the authorized one-application EP-18 measurement and source-invalidation implementation."
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-17T04:34:19Z
+      mode: "implement"
+      note: "Resume all eligible work under the newly authorized full umbrella implementation."
   reviews:
     - model: "gpt-6-astra"
       harness: "codex-cli"
@@ -149,11 +154,13 @@ Shared edits to `flake.nix`, `checks/default.nix`, `lib/`, and updater modules r
 ## Progress
 
 
-EP-18 is In Progress for the user-requested single-application measurement and source-boundary fix in Rei; the other three local children remain Not Started. The scoped native documentation result is accepted: median 153.33 s to 3.38 s at fixed revision stamp, with shared identities and behavior preserved. Full EP-18 milestones remain open. External plans 9 and 16 are Complete locally. EP-18 baselines/source-boundary work, EP-19 conversion experiments and EP-21 policy migration are ready within their declared scope. EP-20 production and DEV-5 remain gated by the unverified DEV-4 contract. The two foreign member statuses and the eight-document publication inventory could not be refreshed during this review.
+EP-18 is In Progress under the full umbrella implementation request. Its native intermediate fixture passes correctness, selective module reuse and source-error rejection; representative application baselines and the remaining milestones are still open; the other three local children remain Not Started. The scoped native documentation result is accepted: median 153.33 s to 3.38 s at fixed revision stamp, with shared identities and behavior preserved. Full EP-18 milestones remain open. External plans 9 and 16 are Complete locally. EP-18 baselines/source-boundary work, EP-19 conversion experiments and EP-21 policy migration are ready within their declared scope. EP-20 production and DEV-5 remain gated by the unverified DEV-4 contract. The two foreign member statuses and the eight-document publication inventory could not be refreshed during this review.
 
 Remaining integration acceptance is the targeted-update/rollback rehearsal, compatible policy/compiler/recipe identities, phase-separated measurements that meet the declared performance budgets, and retained-history/cache proofs. The registry tracks child completion; each child retains its own milestone checklist.
 
 ## Surprises & Discoveries
+
+2026-10-17 continuation: EP-18's raw pinned-builder fixture proves native selective intermediate reuse without changing shared policy or enabling application defaults. Library compilations fall from four to two for leaf/type variants and one for embedded data; unchanged library source compiles none. Setup and executable recompilation remain. Mori is still unavailable and both discovered toolchain checkouts still lack DEV-4/5 and their sub-master. No foreign completion or timing benefit is inferred.
 
 2026-10-17 scoped EP-18 implementation: Rei planning prose invalidated both owned packages, while no shipped component consumed it. The audited source exclusion now preserves all 2,048 shared graph nodes, including 474 Haskell dependency/build-tool instances, through the existing retained-runtime constructor. No new runtime generation or shared recipe change is needed. Five paired fixed-stamp native measurements pass the predeclared 20% threshold (97.8% median reduction); the 153.51 s migration plus 122.68 s final native validation breaks even after two relevant edits. The committed default, overlay and cohort-parity checks pass with truthful version output. The CLI still rebuilds for real revision-stamp changes. [Retained evidence](../evidence/ep18/rei-documentation-rebuild.json) belongs to EP-18; EP-19/21 interfaces are unchanged. Mori discovery still fails because its database is absent, so catalog status is not refreshed.
 
@@ -167,6 +174,8 @@ Source inspection of Mori's current plan model found that parent master-plan IDs
 Mori registration accepts references to unpublished external prerequisites, and its Hard DAG represents them as unresolved terminal nodes. This preserves the user's scoped publication instruction while exposing missing readiness evidence. Both repositories initially published no agent plans. Exact publication-set checks subsequently confirmed five rows for this project and three for the toolchain project; re-publication must preserve that set and all typed edges. No implementation completion or performance evidence is inferred from creating this coordination document.
 
 ## Decision Log
+
+2026-10-17 continuation: The new implementation request authorizes the full umbrella, superseding the earlier single-application session boundary. Follow the existing milestone order and preserve the unverified foreign hard gate.
 
 2026-10-17: Follow the user-requested single-application boundary: EP-18 measures Rei and fixes the largest observed avoidable rebuild before seed work. This scoped result does not complete EP-18 or authorize rolling through the other children. The explicitly supplied implementation skill makes the existing umbrella Intention ID authoritative; EP-18 now inherits it, superseding its earlier declined association for this implementation.
 

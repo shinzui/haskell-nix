@@ -38,6 +38,11 @@ provenance:
       at: 2026-10-17T04:03:08Z
       mode: "implement"
       note: "Begin scoped Rei rebuild measurement and audited source-boundary fix; inherit the explicitly invoked umbrella intention."
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-17T04:34:19Z
+      mode: "implement"
+      note: "Resume umbrella implementation with native intermediate reuse and correctness fixtures."
   reviews:
     - model: "gpt-6-astra"
       harness: "codex-cli"
@@ -65,6 +70,8 @@ This follows [MasterPlan 3](../masterplans/3-align-one-cabal-and-nix-package-set
 
 ## Progress
 
+2026-10-17 full implementation resumed under the new umbrella request. The earlier single-application session boundary is historical, not a restriction on this session. Native GHC 9.12.4 intermediate fixtures now pass: clean/seeded behavior agrees for unchanged, leaf, exported-type and embedded-data variants; both policies reject an incompatible type and a removed module. Seeded library compilation counts are 0/2/2/1 versus 4 for every clean variant. [Fixture receipt](../evidence/ep18/native-intermediate-fixture.json). M1 remains open for representative application baselines; M2 remains gated on those and the scheduled M3 fixes.
+
 2026-10-16 scoped implementation: measure Rei only and remove its largest observed avoidable package rebuild. The scoped M1 baseline and M3 source-boundary fix are accepted; the intermediate spike, second application and wider rollout remain outside this session. Before comparing candidates, require at least a 20% reduction in median end-to-end documentation-edit time over five alternating paired trials, unchanged production settings, exact shared dependency identities and matching database-free CLI behavior. Distinct prose variants must request fresh baseline recipes; a cached candidate is the intended outcome for irrelevant inputs, not a changed-code speedup. Record the source-filter migration build separately.
 
 
@@ -79,6 +86,8 @@ This follows [MasterPlan 3](../masterplans/3-align-one-cabal-and-nix-package-set
 
 ## Surprises & Discoveries
 
+2026-10-17 native feasibility: the unmodified pinned builder reuses all four library modules for unchanged source, retains Stable/Embedded for a leaf or exported-type edit, and recompiles only Embedded for a changed Template Haskell input. The executable component still recompiles Main and relinks because its installed library path changes. Setup compilation also remains. Required source errors are detected even with removed-module intermediates present. This is a correctness/reuse result, not a latency or application speedup claim.
+
 2026-10-17: The largest observed avoidable rebuild is the entire Rei owned closure after editing `mori://shinzui/rei`, project-relative `rei-core/docs/future-enhancements.md` (source-file URI pending): 893 core plus 301 CLI compilation events. The core build phase is larger (80.90 s in the first trial) than the CLI (29.22 s). Broadly excluding `test` would be incorrect: Rei builds a public test-support library and an installed utility from test directories even with Nix tests disabled. Absolute-path filter equality also missed `/tmp` versus `/private/tmp`; the final package-directory predicate and identity probe cover both. These lessons are distilled into ADR 5.
 
 
@@ -90,6 +99,8 @@ At the 2026-10-07 source inspection, `mori://shinzui/rei` had 1,068 Haskell file
 
 
 ## Decision Log
+
+2026-10-17: The new full-umbrella implementation request supersedes the prior session-only scope. Continue M1 application baselines, scheduled M3 source/stamp work and then guarded M2 pilots. Keep the raw builder fixture separate from the eventual compatibility helper so its behavior remains independently observable.
 
 2026-10-17: Accept only the audited Rei planning-prose exclusion within the user's one-application scope. Keep revision stamping and all shared inputs/policies unchanged. Report the fixed-stamp documentation workload separately from per-commit and changed-Haskell builds; do not expand into seed or package splitting. Inherit the umbrella Intention ID under the explicitly supplied implementation skill, superseding this child's earlier declined association for the current implementation.
 
@@ -246,11 +257,14 @@ nix derivation show .#default > application-derivation.json
 
 Use the same commands after a representative leaf edit to measure actual new compilation; an unchanged build is recorded separately. Keep benchmark files outside the source inputs. Do not delete store outputs or change compiler/dependency pins to simulate a source edit. Nix metadata APIs are permitted; direct traversal or inspection of store files is not.
 
-The new fixture/check gate from this repository is:
+The implemented native fixture/check gate from this repository is:
 
 ```bash
 nix build .#checks.aarch64-darwin.application-incremental
+python3 scripts/check-application-intermediates.py --output-dir /tmp/new-application-intermediate-evidence
 ```
+
+The Python command additionally checks compiler-work logs and explicitly builds the four expected-failure candidates. It requires the specific type/missing-source failures, so network or dependency failures cannot satisfy those checks. It writes a bounded native-feasibility receipt and log digests; cached outputs are allowed because it retrieves their original build logs. It makes no performance claim.
 
 After M2 adds the application outputs, compare the same candidate source under both policies from its owning checkout:
 

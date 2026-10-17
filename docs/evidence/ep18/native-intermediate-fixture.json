@@ -1,0 +1,251 @@
+{
+  "schema_version": 1,
+  "project_uri": "mori://shinzui/haskell-nix",
+  "recorded_at": "2026-10-17T04:36:16.176883+00:00",
+  "platform": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "system": "aarch64-darwin",
+  "nix_version": "nix (Determinate Nix 3.23.2) 2.35.3",
+  "lock_sha256": "21947f14e96b0a5ca5220caacdcdcb3b33ea71717dc4700bc7adf93907581b03",
+  "fixture_sha256": {
+    "checks/fixtures/application-incremental/app/Main.hs": "abc72855b63c1abc58d17053ad11d601c4363f6d82e73a3cec57ea719f1a273c",
+    "checks/fixtures/application-incremental/application-incremental.cabal": "7f69de7b7cdda7791b9aa8e0939b569e7928582727cd66d9484178b370c2d4e1",
+    "checks/fixtures/application-incremental/message.txt": "95782de979a9dcfa27f6805aef2c539a4ad57c8e323ba1d9735ea4a4dc91d3b3",
+    "checks/fixtures/application-incremental/src/Combined.hs": "cf51a3d87fd08aad8ea6f1b8a33573b59a680710af4b37877d7190bd32b49e62",
+    "checks/fixtures/application-incremental/src/Embedded.hs": "4e0ff98b9390e48b6c941c797723ae83bcfaf31365bb13b171c1669a4c540204",
+    "checks/fixtures/application-incremental/src/Leaf.hs": "eeae5c7ef61ff3d3cc04393798ea7585d0ca6a05cd2fda36bdf52e0b933d3aa3",
+    "checks/fixtures/application-incremental/src/Stable.hs": "6091b4e0922f24c14594d126b5e1821d12819687d2e8891882c676ccea8265c3"
+  },
+  "scope": "Native builder feasibility and correctness; no timing or application speedup claim",
+  "cache_state": "Existing dependencies/outputs allowed; original build logs fetched with nix log",
+  "results": [
+    {
+      "policy": "clean",
+      "variant": "unchanged",
+      "derivation": "/nix/store/fqfw289ai99q6v8zzqj6a07p5fpk4acy-application-incremental-0.1.0.0.drv",
+      "compilation_events": [
+        "Main",
+        "Embedded",
+        "Leaf",
+        "Stable",
+        "Combined",
+        "Main"
+      ],
+      "library_modules_compiled": [
+        "Combined",
+        "Embedded",
+        "Leaf",
+        "Stable"
+      ],
+      "log": {
+        "file": "clean-unchanged.log",
+        "sha256": "18c8c27aa5dcb0eea92a3c9474ded8cf1d9b2c8c0e1a512f46aa2bf5e3c05cf3"
+      }
+    },
+    {
+      "policy": "clean",
+      "variant": "leaf",
+      "derivation": "/nix/store/qdrz1ynk3bklz8ankci26y23jiqrmgyk-application-incremental-0.1.0.0.drv",
+      "compilation_events": [
+        "Main",
+        "Embedded",
+        "Leaf",
+        "Stable",
+        "Combined",
+        "Main"
+      ],
+      "library_modules_compiled": [
+        "Combined",
+        "Embedded",
+        "Leaf",
+        "Stable"
+      ],
+      "log": {
+        "file": "clean-leaf.log",
+        "sha256": "d7257baef2896aa50acb36979d75d8df110b0820caa269ff88300daeea639621"
+      }
+    },
+    {
+      "policy": "clean",
+      "variant": "interface",
+      "derivation": "/nix/store/wzqksa53z1fjjah7q503jlrs0sngxdnj-application-incremental-0.1.0.0.drv",
+      "compilation_events": [
+        "Main",
+        "Embedded",
+        "Leaf",
+        "Stable",
+        "Combined",
+        "Main"
+      ],
+      "library_modules_compiled": [
+        "Combined",
+        "Embedded",
+        "Leaf",
+        "Stable"
+      ],
+      "log": {
+        "file": "clean-interface.log",
+        "sha256": "cfb5068e6aad36cc31883513c16739745f3f6e9f613d1902225abed554b2700e"
+      }
+    },
+    {
+      "policy": "clean",
+      "variant": "data",
+      "derivation": "/nix/store/chc6h33s1vrg7afplvjz76v3v35ay7a5-application-incremental-0.1.0.0.drv",
+      "compilation_events": [
+        "Main",
+        "Embedded",
+        "Leaf",
+        "Stable",
+        "Combined",
+        "Main"
+      ],
+      "library_modules_compiled": [
+        "Combined",
+        "Embedded",
+        "Leaf",
+        "Stable"
+      ],
+      "log": {
+        "file": "clean-data.log",
+        "sha256": "617bb9ed324933be41c3b050ca88ba4bbe190603b61f65691dfa840f7c91fbc1"
+      }
+    },
+    {
+      "policy": "seeded",
+      "variant": "unchanged",
+      "derivation": "/nix/store/xkj760c5bwpcyniy0vmphrws0l3ida9p-application-incremental-0.1.0.0.drv",
+      "compilation_events": [
+        "Main"
+      ],
+      "library_modules_compiled": [],
+      "log": {
+        "file": "seeded-unchanged.log",
+        "sha256": "4fc2161933f3ac8b9ae817545e079a82c3d0e143b904d461f4dd847eabdc27b4"
+      }
+    },
+    {
+      "policy": "seeded",
+      "variant": "leaf",
+      "derivation": "/nix/store/www1p77030vfz4zngxx1vpbiabh7nb4s-application-incremental-0.1.0.0.drv",
+      "compilation_events": [
+        "Main",
+        "Leaf",
+        "Combined",
+        "Main"
+      ],
+      "library_modules_compiled": [
+        "Combined",
+        "Leaf"
+      ],
+      "log": {
+        "file": "seeded-leaf.log",
+        "sha256": "6f353ea21c8052c7ac2f7abbd417e8b79dcdcdde6f73ba49a83f97319d852955"
+      }
+    },
+    {
+      "policy": "seeded",
+      "variant": "interface",
+      "derivation": "/nix/store/rbk89d5bjmjm01b6y9zim2y6nm55jl9l-application-incremental-0.1.0.0.drv",
+      "compilation_events": [
+        "Main",
+        "Leaf",
+        "Combined",
+        "Main"
+      ],
+      "library_modules_compiled": [
+        "Combined",
+        "Leaf"
+      ],
+      "log": {
+        "file": "seeded-interface.log",
+        "sha256": "a9108b4624de780717dbf93e39a00f6191bc5dcd00868dbaa1324f8332ffbc21"
+      }
+    },
+    {
+      "policy": "seeded",
+      "variant": "data",
+      "derivation": "/nix/store/5mksr0s0h2pvjp0gfbzdpj316m8zv25a-application-incremental-0.1.0.0.drv",
+      "compilation_events": [
+        "Main",
+        "Embedded",
+        "Main"
+      ],
+      "library_modules_compiled": [
+        "Embedded"
+      ],
+      "log": {
+        "file": "seeded-data.log",
+        "sha256": "cff2e26cd87226fd41837d3b7cc478a12e80fc10974f2006b529788545ab80a2"
+      }
+    },
+    {
+      "policy": "clean",
+      "variant": "invalid-interface",
+      "derivation": "/nix/store/am1099vgbs1i4incba8wsp2i3vm1hh34-application-incremental-0.1.0.0.drv",
+      "exit_code": 1,
+      "expected_failure_matched": "Couldn['\u2019]t match",
+      "log": {
+        "file": "clean-invalid-interface.log",
+        "sha256": "a32eb3096a8ec43aaf43ab655d76be9520168500fa1b58fd64b80ca303051dd2"
+      }
+    },
+    {
+      "policy": "seeded",
+      "variant": "invalid-interface",
+      "derivation": "/nix/store/70lbzw398zipd8h77c3w9ixjmm3ka0mz-application-incremental-0.1.0.0.drv",
+      "exit_code": 1,
+      "expected_failure_matched": "Couldn['\u2019]t match",
+      "log": {
+        "file": "seeded-invalid-interface.log",
+        "sha256": "cd9186e55bfafd70ced7c60916c4d924a6bd01193b9ce5ee1ae39857dd09a48b"
+      }
+    },
+    {
+      "policy": "clean",
+      "variant": "removed",
+      "derivation": "/nix/store/pwp7jz7zj9i2ws9414r36bacqv9fmicc-application-incremental-0.1.0.0.drv",
+      "exit_code": 1,
+      "expected_failure_matched": "can['\u2019]t find source for Leaf|Could not find module [\u2018']Leaf",
+      "log": {
+        "file": "clean-removed.log",
+        "sha256": "4326d03c7c99253a58aa4b0512ec7aaed71b9142e8a9a58689cf4a73bcbb8819"
+      }
+    },
+    {
+      "policy": "seeded",
+      "variant": "removed",
+      "derivation": "/nix/store/paiwaxjmrkax3cpymyk2dvw8wnrrhpb2-application-incremental-0.1.0.0.drv",
+      "exit_code": 1,
+      "expected_failure_matched": "can['\u2019]t find source for Leaf|Could not find module [\u2018']Leaf",
+      "log": {
+        "file": "seeded-removed.log",
+        "sha256": "6e521883f5e872c9b0bca0c4010aed63573f08e170a3bf900c780a60f18829a5"
+      }
+    }
+  ],
+  "correctness_check": {
+    "exit_code": 0,
+    "log": {
+      "file": "correctness.log",
+      "sha256": "5282dd6abb7033c21888146582e2f86deaf6bfa96699f0a29c1e137b725b3036"
+    }
+  },
+  "identity": {
+    "clean": {
+      "data": "/nix/store/chc6h33s1vrg7afplvjz76v3v35ay7a5-application-incremental-0.1.0.0.drv",
+      "interface": "/nix/store/wzqksa53z1fjjah7q503jlrs0sngxdnj-application-incremental-0.1.0.0.drv",
+      "leaf": "/nix/store/qdrz1ynk3bklz8ankci26y23jiqrmgyk-application-incremental-0.1.0.0.drv",
+      "unchanged": "/nix/store/fqfw289ai99q6v8zzqj6a07p5fpk4acy-application-incremental-0.1.0.0.drv"
+    },
+    "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+    "seed": "/nix/store/fqfw289ai99q6v8zzqj6a07p5fpk4acy-application-incremental-0.1.0.0.drv",
+    "seeded": {
+      "data": "/nix/store/5mksr0s0h2pvjp0gfbzdpj316m8zv25a-application-incremental-0.1.0.0.drv",
+      "interface": "/nix/store/rbk89d5bjmjm01b6y9zim2y6nm55jl9l-application-incremental-0.1.0.0.drv",
+      "leaf": "/nix/store/www1p77030vfz4zngxx1vpbiabh7nb4s-application-incremental-0.1.0.0.drv",
+      "unchanged": "/nix/store/xkj760c5bwpcyniy0vmphrws0l3ida9p-application-incremental-0.1.0.0.drv"
+    }
+  },
+  "status": "passed",
+  "raw_log_directory": "/tmp/mp4-native-intermediates-final-20261017"
+}
