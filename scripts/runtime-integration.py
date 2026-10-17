@@ -23,12 +23,13 @@ def main():
     parser.add_argument("--runner", required=True)
     parser.add_argument("--output", required=True)
     parser.add_argument("--channel", choices=["github", "hackage"], default="github")
+    parser.add_argument("--generation", type=int, default=1)
     args = parser.parse_args()
     output = Path(args.output).resolve()
     output.mkdir(parents=True, exist_ok=False)
     root = Path(__file__).resolve().parent.parent
-    record = json.loads((root / "packages/runtime-lock.json").read_text())["runtimes"]["keiro-runtime"][0]
-    profile = json.loads((root / f"cabal/runtimes/keiro-runtime/1/{args.channel}-sources.json").read_text())
+    record = next(record for record in json.loads((root / "packages/runtime-lock.json").read_text())["runtimes"]["keiro-runtime"] if record["generation"] == args.generation)
+    profile = json.loads((root / f"cabal/runtimes/keiro-runtime/{args.generation}/{args.channel}-sources.json").read_text())
     results = []
     for index, scenario in enumerate(SCENARIOS):
         command = [args.runner, "run", scenario, "--out", str(output / "runs"),
@@ -43,7 +44,7 @@ def main():
         result = json.loads(completed.stdout)
         assert result["scenario"] == scenario and result["outcome"] == "passed" and not result["blocking"], result
         identity = result["cohort"]
-        assert identity["cohort"] == "keiro-runtime-1" and identity["compiler"] == "ghc-9.12.4", identity
+        assert identity["cohort"] == f"keiro-runtime-{args.generation}" and identity["compiler"] == "ghc-9.12.4", identity
         for component in identity["components"]:
             for package in component["packages"]:
                 expected = profile[package["name"]]
@@ -56,7 +57,7 @@ def main():
         results.append({"scenario": scenario, "runId": result["runId"], "outcome": result["outcome"],
                         "resultSha256": hashlib.sha256(completed.stdout.encode()).hexdigest()})
         print(f"passed {scenario}", flush=True)
-    receipt = {"schemaVersion": 1, "runtime": "keiro-runtime", "generation": 1,
+    receipt = {"schemaVersion": 1, "runtime": "keiro-runtime", "generation": args.generation,
                "runtimeFingerprint": record["fingerprint"],
                "sourceChannel": args.channel, "postgresMajors": [17, 18], "results": results}
     (output / "receipt.json").write_text(json.dumps(receipt, indent=2) + "\n")
