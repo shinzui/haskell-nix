@@ -1,0 +1,9 @@
+cabal-version: 2.4
+name: project-shell-dependency
+version: 1.0
+build-type: Simple
+library
+  exposed-modules: ProjectShell.Dependency
+  hs-source-dirs: src
+  build-depends: base
+  default-language: Haskell2010

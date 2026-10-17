@@ -1,0 +1,9 @@
+cabal-version: 2.4
+name: project-shell-app
+version: 1.0
+build-type: Simple
+executable project-shell-app
+  main-is: Main.hs
+  build-depends: base, project-shell-dependency == 1.0
+  pkgconfig-depends: zlib
+  default-language: Haskell2010

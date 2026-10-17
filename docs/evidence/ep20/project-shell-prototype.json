@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "system": "aarch64-darwin",
+  "nixpkgs_revision": "d5dfd8e6716dde34398bc14bc87c10dece9c8c68",
+  "compiler_version": "9.12.4",
+  "command": [
+    "nix",
+    "build",
+    "--no-link",
+    "--print-build-logs",
+    ".#checks.aarch64-darwin.project-shell",
+    ".#checks.aarch64-darwin.compatibility-policy"
+  ],
+  "exit_code": 0,
+  "checks": {
+    "selected_dependency_version": "1.0",
+    "direct_ghc_output": "42:1.3.2",
+    "nix_application_output": "42:1.3.2",
+    "wrong_scope_output": "9000:1.3.2",
+    "offline_cabal_output": "42:1.3.2",
+    "native_pkgconfig_libraries": [
+      "zlib",
+      "libffi"
+    ],
+    "hooks_each_once": [
+      "scope",
+      "inherited",
+      "caller"
+    ],
+    "input_classes_preserved": [
+      "nativeBuildInputs",
+      "buildInputs",
+      "propagatedNativeBuildInputs",
+      "propagatedBuildInputs"
+    ],
+    "scoped_compiler_environment_preserved": true,
+    "second_bare_compiler_absent": true,
+    "shell_only_change_changes_shell_identity": true
+  },
+  "fixture_sha256": {
+    "checks/project-shell.nix": "04ae4917f54760bdc81490c8b936c22ac2172ff640d14c1882cb383c4f68ff1f",
+    "checks/fixtures/project-shell/dependency/project-shell-dependency.cabal": "3099ea4bff8cea86a29f04288a7a10c3d8b7b5218497e3b84c633b526f6d4ce0",
+    "checks/fixtures/project-shell/application/project-shell-app.cabal": "36c57ef75b22405634deb0a1b206bc7d1aa92c464b7bc13461e8ba2022da1598",
+    "checks/fixtures/project-shell/application/Main.hs": "8613ea900f6ce98c0e333b5b86afe722079af8eb2a0aff492bd9a76007b553d7",
+    "checks/fixtures/project-shell/dependency/src/ProjectShell/Dependency.hs": "08ca2468b1d95c9c2d9889aedfe5087c008c8f62dfd1890166f0556bc4578c09"
+  },
+  "native_log_sha256": "0114f4f025dd247fc46ab306c0f8b9f3476396381a6ede472e316c85a1458df0",
+  "initial_failure": "Prototype incorrectly expected nested env attributes and compared entire multi-output derivations. The pinned stdenv flattens environment variables and selects development outputs for inherited tools. Corrected by preserving flattened NIX_GHC/locale values and comparing drvPath.",
+  "acceptance": "M1 prototype passed on native Apple Silicon. Production helpers remain gated by native DEV-4 acceptance; no Linux or real-consumer claim.",
+  "limits": "Formatting after successful realization does not change Nix semantics; Linux native execution and real-consumer adoption are not covered."
+}

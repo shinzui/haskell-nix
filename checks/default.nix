@@ -42,6 +42,10 @@ let
     pkgs = pkgsPlain;
     scope = pkgsPlain.haskell.packages.${defaultGhc};
   };
+  projectShellFixture = import ./project-shell.nix {
+    pkgs = pkgsPlain;
+    scope = pkgsPlain.haskell.packages.${defaultGhc};
+  };
 
   validateEntry = name: entries:
     builtins.all
@@ -186,6 +190,7 @@ in
     );
 
   first-party-registry = fixture.check;
+  project-shell = projectShellFixture.check;
   compatibility-policy =
     let
       tests = import ./compatibility-policy.nix { inherit lib; };

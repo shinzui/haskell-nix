@@ -28,6 +28,11 @@ provenance:
       at: 2026-10-17T03:25:59Z
       mode: "update"
       note: "Reconcile delivered prerequisites and strengthen maintenance, real-consumer integration, and measured total-cost acceptance."
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-17T06:50:58Z
+      mode: "implement"
+      note: "Prototype selected-scope project shells and native-library fixtures while preserving the DEV-4 production gate."
   reviews:
     - model: "gpt-6-astra"
       harness: "codex-cli"
@@ -51,8 +56,10 @@ This standalone plan requires [plan 16](16-create-the-keiro-runtime-package-set-
 
 ## Progress
 
+2026-10-17 M1 accepted on native Apple Silicon: the selected-scope compiler, direct executable, Nix production package and offline Cabal all resolve dependency 1.0 and print `42:1.3.2`. The deliberately wrong dependency prints `9000:1.3.2`. All four inherited input classes, three hooks exactly once, scoped compiler variables and shell-only identity changes pass. [Receipt](../evidence/ep20/project-shell-prototype.json). DEV-4 native Linux acceptance remains blocked; production helper/adoption work remains gated.
 
-- [ ] M1: Prototype one-scope shell construction with native and shell-input fixtures.
+
+- [x] (2026-10-17) M1: Prototype one-scope shell construction with native and shell-input fixtures.
 - [ ] M2: Add generic toolchain helper and guarded channel/runtime wrapper.
 - [ ] M3: Validate real consumer shell/build/plan consistency on both supported systems.
 - [ ] M4: Document adoption, preserve legacy consumers, and distill the ADR.
@@ -60,7 +67,7 @@ This standalone plan requires [plan 16](16-create-the-keiro-runtime-package-set-
 ## Surprises & Discoveries
 
 
-No shell experiments are recorded. The existing toolchain helper only exposes extra native inputs and a shell hook; the retained runtime factory is now delivered under plan 16. The foreign DEV-4 contract remains unverified in this review because its plan is absent from the available checkout and Mori discovery fails.
+The native prototype passes. The pinned stdenv flattens `env` variables into derivation attributes, and `inputsFrom` does not preserve those arbitrary variables. Forward the scoped `NIX_GHC*` and locale values explicitly. Inherited native tools select development outputs, so compare derivation identity rather than entire multi-output values. No speed measurement is claimed. The existing toolchain helper only exposes extra native inputs and a shell hook; the retained runtime factory is now delivered under plan 16. The user restored the foreign DEV-4 plan and it is pulled locally; policy/capability fixtures pass on Apple Silicon, while native Linux acceptance is blocked by the configured builder authentication. Mori discovery remains unavailable.
 
 ## Decision Log
 
@@ -81,7 +88,7 @@ No shell experiments are recorded. The existing toolchain helper only exposes ex
 ## Outcomes & Retrospective
 
 
-Planning only. Shell constructors, runtime integration, consumer evidence, and documentation remain pending.
+M1 is accepted on native Apple Silicon. Production shell constructors, retained runtime integration, real-consumer native matrix and adoption documentation remain pending behind DEV-4 acceptance.
 
 ## Context and Orientation
 
