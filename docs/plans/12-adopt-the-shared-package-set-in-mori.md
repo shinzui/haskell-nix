@@ -98,7 +98,7 @@ Constrain package sources to their relevant directories plus required shared fil
 
 ## Progress
 
-- [ ] Prerequisite: EP-16 delivers a tested exact runtime generation and composition API; adopt it atomically with Cabal/Nix selectors and prove used runtime dependency identities
+- [x] (2026-10-17) Prerequisite: EP-16 delivers a tested exact runtime generation and composition API; adopt it atomically with Cabal/Nix selectors and prove used runtime dependency identities
 
 - [ ] Atomic adoption and source-boundary proof pass; completed database cutover is verified read-only
 
@@ -110,18 +110,18 @@ Constrain package sources to their relevant directories plus required shared fil
 - [x] (2026-10-05 22:56Z) M1 final Cabal gates: build passed with the private source removed; a full default test retry passed all six suites after preserving and diagnosing the initial cmark native abort described below. All 388 retained package/version pairs remain unchanged.
 - [x] (2026-10-05 23:18Z) M1 final Nix gate: `nix build .#mori` passed in 1,135 seconds (`nix-0.log`), followed by a successful committed-head CLI rebuild in 627.9 seconds (`nix-committed-0.log`). `./result/bin/mori --version` reports `mori v6.0.0.0 (f37c822)`. Query-only metadata proof for final output `07l15ysc6wdx34qhl2x5i372hlss37df-mori-cli-6.0.0.0` and derivation `l4kd4frf2vdd8kr94nr0678vf6d3h152-mori-cli-6.0.0.0.drv` found zero private Hasql paths in the 2,620-path derivation graph and 547-path runtime closure (`nix-metadata.json`).
 - [x] (2026-10-05 23:07Z) M1 policy receipt: ADR-56 and its bundle log are committed as `f37c822364f778ba4a1f385a7ac0f7c4249b6f64`. Strict profile/log validation and `just check-adr` pass for all 56 decisions. Milestone 1 is complete on Mori's retained Effectful 2.6 selectors; all cohort/runtime adoption and deployment milestones remain pending.
-- [ ] M2: Add the `import:` of `cabal/cohort.freeze` at `R` to mori's `cabal.project` and reconcile `index-state`.
-- [ ] M2: Remove version-only `constraints:` the freeze subsumes (`crypton >= 1.1`, `http-client-tls >= 0.4`, `random < 1.3`) and keep the flag stanzas.
-- [ ] M2: Remove the `openapi-hs`, `servant-openapi-hs`, `servant-health` `source-repository-package` pins (Hackage releases now cover them).
-- [ ] M2: Re-justify or delete each remaining `allow-newer` entry per ADR-16 (`haxl:time` expected dead; `proto-lens*` tested by removal; the `hasql-effectful:*` entries are already gone in M1).
-- [ ] M2: Lift every mori bound that plan 8's upgrade report names, including the nine `effectful`/`effectful-core ^>=2.5 || ^>=2.6` bounds to admit 2.7; grep mori for the effectful 2.7 breaking APIs; fix compile breaks.
-- [ ] M2: `cabal build all`, `cabal test all`, `just check-openapi` green; commit.
-- [ ] M3: Pin `haskell-nix` to `R` and `haskell-nix-dev` to `206ecd25`, follow its `flake-parts`/`treefmt-nix`/`pre-commit-hooks`, drop the flake-parts workaround, the three OpenAPI source inputs and `typeid-hs-src` (the channel now builds `typeid-hs`); relock.
-- [ ] M3: Delete every shared override from `nix/haskell-overlay.nix` per plan 10's deletion list (now including `typeid-hs-sql` and `typeid-hs-pg-migrate`), including the `shibuya-pgmq-adapter` 0.16.1.0 override after proving the channel supplies 0.16.1.0.
-- [ ] M3: Drop `doJailbreak` from mori's own five packages so `configure` enforces mori's bounds again.
-- [ ] M3: Expose `legacyPackages.<system>.haskellPackages`; `nix build .#mori` and `nix flake check` green; commit.
-- [ ] M4: Export `mori-types` and `mori-schema-pin` as a flake Haskell extension (plan 11's shape, or the default shape defined here); prove it composes on a bare channel set; commit.
-- [ ] M5: Add `just cohort-check` (freeze rev equals lock rev; Cabal plan and Nix closure equal the freeze); run it clean (only `typeid-hs-sql`/`typeid-hs-pg-migrate` ignored as unfrozen); amend mori ADR-24; `just check-adr`; commit.
+- [x] (2026-10-17) M2: Add the `import:` of `cabal/cohort.freeze` at `R` to mori's `cabal.project` and reconcile `index-state`.
+- [x] (2026-10-17) M2: Remove version-only `constraints:` the freeze subsumes (`crypton >= 1.1`, `http-client-tls >= 0.4`, `random < 1.3`) and keep the flag stanzas.
+- [x] (2026-10-17) M2: Remove the `openapi-hs`, `servant-openapi-hs`, `servant-health` `source-repository-package` pins (Hackage releases now cover them).
+- [x] (2026-10-17) M2: Re-justify or delete each remaining `allow-newer` entry per ADR-16 (`haxl:time` expected dead; `proto-lens*` tested by removal; the `hasql-effectful:*` entries are already gone in M1).
+- [x] (2026-10-17) M2: Lift every mori bound that plan 8's upgrade report names, including the nine `effectful`/`effectful-core ^>=2.5 || ^>=2.6` bounds to admit 2.7; grep mori for the effectful 2.7 breaking APIs; fix compile breaks.
+- [x] (2026-10-17) M2: `cabal build all`, `cabal test all`, `just check-openapi` green; commit.
+- [x] (2026-10-17) M3: Pin `haskell-nix` to `R` and `haskell-nix-dev` to `206ecd25`, follow its `flake-parts`/`treefmt-nix`/`pre-commit-hooks`, drop the flake-parts workaround, the three OpenAPI source inputs and `typeid-hs-src` (the channel now builds `typeid-hs`); relock.
+- [x] (2026-10-17) M3: Delete every shared override from `nix/haskell-overlay.nix` per plan 10's deletion list (now including `typeid-hs-sql` and `typeid-hs-pg-migrate`), including the `shibuya-pgmq-adapter` 0.16.1.0 override after proving the channel supplies 0.16.1.0.
+- [x] (2026-10-17) M3: Drop `doJailbreak` from mori's own five packages so `configure` enforces mori's bounds again.
+- [x] (2026-10-17) M3: Expose `legacyPackages.<system>.haskellPackages`; `nix build .#mori` and `nix flake check` green; commit.
+- [x] (2026-10-17) M4: Export `mori-types` and `mori-schema-pin` as a flake Haskell extension (plan 11's shape, or the default shape defined here); prove it composes on a bare channel set; commit.
+- [x] (2026-10-17) M5: Add `just cohort-check` (freeze rev equals lock rev; Cabal plan and Nix closure equal the freeze); run it clean (only `typeid-hs-sql`/`typeid-hs-pg-migrate` ignored as unfrozen); amend mori ADR-24; `just check-adr`; commit.
 - [ ] M6: Establish the cutover state read-only: mori DB Kiroku ledger row, deployed mori revision, mori history. Record Case A, B or C.
 - [ ] M6: Clone rehearsal with the exact candidate: migrations on a restored clone, self-test, `verify`, full replay audit with the Nix-built binary.
 - [ ] M7: With the user's go-ahead, push mori; in dotfiles `nix flake update mori` only; `./bin/build.sh`; confirm one `mori-cli` in the closure.
@@ -129,6 +129,8 @@ Constrain package sources to their relevant directories plus required shared fil
 - [ ] M7: User activates with `sudo ./bin/darwin-rebuild-sungkyung.sh`; verify agents, binaries, logs, and new appends with `category`; commit the dotfiles lock and the evidence.
 - [ ] Distill: update mori ADR-24 (done in M5), record outcomes here, and update the MasterPlan's registry row and Progress.
 
+
+Source acceptance: candidate `364f9a27f9927d2449e6f1e5ad878020487bab50` in `mori://shinzui/mori` (source artifact URI pending) selects verified generation 2 at R. Both builds, all six suites (3,212 core; 924 CLI; 62 API; 79 types; three diagrams; generated conformance), unchanged OpenAPI plus lint, full flake checks, strict 58-ADR validation and source-aware parity pass. The exported two-library extension builds on the bare retained runtime. Committed build-identity receipts prove documentation stability, CLI isolation and public-library invalidation. The user manifest remains byte-identical. Clean candidate reports `mori v7.0.0.0 (364f9a2)`. Exact-binary clone rehearsal is running; source publication follows its acceptance. Production is read-only inspected at Kiroku `0015 applied`, superseding historical `0012` as the exact current head; Case A remains applicable. No production migration is required.
 
 ## Surprises & Discoveries
 

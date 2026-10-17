@@ -22,6 +22,11 @@ provenance:
       at: 2026-10-04T13:51:42Z
       mode: "update"
       note: "Apply dependency-alignment review: routine update isolation, shared build evidence and applicable cache/ownership corrections; implementation pending."
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-17T01:35:12Z
+      mode: "implement"
+      note: "Begin independent Reiko and Mina baseline capture after verified runtime delivery; retain schema-pin behavior and production activation gates."
   reviews:
     - model: "gpt-6.1-sol"
       harness: "codex-cli"
@@ -94,12 +99,12 @@ The mori global database is already on `0012` and Kiroku 0.9; do not add its com
 
 - [ ] Shared comparator/recursive resolver and atomic adoption pass for both applications
 
-- [ ] M0: Confirm plans 15, 8, 9, 10 and 16 are complete and the channel revision carrying `cabal/cohort.freeze` is pushed; record `<CHANNEL_REV>` and plan 15's released `shikumi`, `shikumi-trace` and `shikumi-cache` versions in the Decision Log.
+- [x] (2026-10-17) M0 prerequisites: plans 15/8/9/10/16 are Complete. Adopt published verified channel `2dd400e7829e586e9a3f1dffe9b781c189a60a07`, runtime generation 2 with the explicit accepted complement. Current frozen Shikumi versions and source/compatibility policy are read from the accepted cohort; baseline tests are running before selector edits.
 - [ ] M0: Record baselines for mina and reiko (current test results, current `plan.json`, current deployed closures) under the scratch directory.
-- [ ] M1: reiko `flake.nix` pins `haskell-nix-dev` to 206ecd25 and `haskell-nix` to `<CHANNEL_REV>`; `flake.lock` relocked.
-- [ ] M1: reiko `cabal.project` imports the freeze at `<CHANNEL_REV>` and no longer carries its own `index-state`.
-- [ ] M1: reiko compiles (including against `effectful` 2.7 if its plan reaches effectful), its tests match the baseline, and `just cohort-check` reports no difference.
-- [ ] M1: reiko `nix build .#reiko` succeeds and its closure matches the freeze; commit.
+- [x] (2026-10-17) M1: reiko `flake.nix` pins `haskell-nix-dev` to 206ecd25 and `haskell-nix` to `<CHANNEL_REV>`; `flake.lock` relocked.
+- [x] (2026-10-17) M1: reiko `cabal.project` imports the freeze at `<CHANNEL_REV>` and no longer carries its own `index-state`.
+- [x] (2026-10-17) M1: reiko compiles (including against `effectful` 2.7 if its plan reaches effectful), its tests match the baseline, and `just cohort-check` reports no difference.
+- [x] (2026-10-17) M1: reiko `nix build .#reiko` succeeds and its closure matches the freeze; commit.
 - [ ] M2: mina `cabal.project` gains `with-compiler` and the freeze import; streamly source pins and the `baikai-trace-otel:streamly-core` allow-newer removed (user decision: streamly from Hackage).
 - [ ] M2: mina bounds moved to baikai 0.7, baikai-trace-otel 0.4.0.1, and plan 15's shikumi and shikumi-trace releases (shikumi-trace-otel to whatever the freeze selects).
 - [ ] M2: mina source breaks fixed (`LLMConfig` literal, provider-error text heuristic, effectful 2.7 sites such as the `interpose` in `withThinking`, any compiler-named sites); `cabal build all` succeeds with `effectful` >= 2.7.1.0 / `effectful-core` >= 2.7.1.1 in `plan.json`.
@@ -112,7 +117,11 @@ The mori global database is already on `0012` and Kiroku 0.9; do not add its com
 - [ ] Close-out: Outcomes & Retrospective written, ADR distillation done, MasterPlan 3 registry and progress updated.
 
 
+Reiko source acceptance: published `0b5da1f221a5ceac50eb35eb0d165b7f6db20c8d` in `mori://shinzui/reiko` (source artifact URI pending), verified generation 2 at R. Both builds, all 108 tests, source-aware parity and full flake checks pass; clean committed executable reports its exact revision. Mina builds and all baseline-count suites pass after recognizing maintained CMark TASKLIST nodes; final checks and structured provider-error negative control are running. Both baseline plans and tests are retained in their `/tmp/mp3-ep13-*-baseline/` directories; historical launchd labels were not loaded, so deployment state still requires fresh target discovery.
+
 ## Surprises & Discoveries
+
+Current implementation baseline (2026-10-17): Reiko is clean at `7a62496`, Mina is clean at `8e0dcb8`. Configuration and prior plan snapshots are retained under `/tmp/mp3-ep13-{reiko,mina}-baseline/`; fresh baseline tests use the pinned GHC/native shell and clear provider credentials, agent overrides and production database environment. No selectors have changed. Current Reiko already follows the family toolchain but pins the older channel `833edbe`; the drafting claim that it floats is stale. Mina already moved to Baikai 0.7.2 and Shikumi 0.4.1, so its target is the accepted Baikai 0.8/OKF 0.10/KDL 1.2 cohort, not the drafting 0.6-to-0.7 port. Preserve its explicit old Mori Schema Pin source and hash behavior. No production deployment or mutation is claimed.
 
 These were found while drafting the plan (2026-09-26) and shaped it.
 
@@ -192,6 +201,8 @@ These were found while drafting the plan (2026-09-26) and shaped it.
 
 
 ## Decision Log
+
+- Decision (2026-10-17): select published `R = 2dd400e7829e586e9a3f1dffe9b781c189a60a07`, verified runtime generation 2 (Cabal TLS enabled), with the explicit complement used by the accepted channel. The actual complete freeze selects Shikumi 0.4.1.1, cache 0.2.0.2, trace 0.3.0.2 and trace-otel 0.1.2.2, superseding the initial EP-15 release floors; Effectful is 2.7.1.0/core 2.7.1.2 and Hackage Streamly remains 0.11.1/core 0.3.1. Use these already accepted patch releases. No dependency release or downgrade is introduced by this child.
 
 - Decision (runtime plan, 2026-10-04): adopt the plan-16 integration contract above. It owns retained runtime selection/composition, while this plan retains its existing solver/generation/policy/consumer/deployment responsibility. Consumer plans 11–13 require runtime delivery before adoption; preparatory shared tools do not depend on consumers.
 

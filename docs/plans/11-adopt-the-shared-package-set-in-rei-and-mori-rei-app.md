@@ -127,6 +127,8 @@ Export the Rei library extension into the consumer's single Haskell scope. Prove
 - [ ] Update the MasterPlan registry row for EP-11 and its two Progress items.
 
 
+Publication acceptance (2026-10-17): Rei adoption remains reachable at approved C after tested merge `99b882ee`; Mori App A and Mori Rei App `3617350` are published. Remote push receipts confirm all three. The user now authorizes any source pushes needed for this initiative; deployment and user activation gates remain unchanged.
+
 ## Surprises & Discoveries
 
 Publication and consumer checkpoint (2026-10-17): the user approved both `C` and `A`. Mori App's remote master is exactly `A`. Rei's remote advanced by four independent commits; clean merge `99b882ee` preserves them and is published after the combined full Cabal build, all eight suites (including 581 API tests), OpenAPI and flake checks pass. The original approved `C` remains the immutable library pin. Mori Rei App resolves the public inputs and its real Nix app/core/manifest/overlay build passes. Its core drv is exactly Rei's `jgq8lzzx5hx2a89azqgnxj730f2mawz7-rei-core-7.1.0.0.drv`. Fresh source-aware Cabal parity passes. Sibling source hashes are independently reproduced using Cabal sdist from the exact committed trees; their hashes match the fresh consumer plan. Full Cabal compilation and private disposable operational-database testing remain pending. No deployment or production mutation has occurred.
