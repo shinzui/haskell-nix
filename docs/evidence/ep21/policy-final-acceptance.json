@@ -210,13 +210,15 @@
   ],
   "raw_archive": {
     "path": "docs/evidence/ep21/policy-final-acceptance.raw.tar.gz",
-    "sha256": "18b53f9a1371b9f0ee359ad28dd19570b9bda13792746f91a42a1c64fb74982d",
+    "sha256": "97396782a945ff3461bbb67f0c3e954e375300bd0fdf3bb69262e997330d50fd",
     "members": {
       "completion/ep21-completion-docs.log": "e5693edd8f8f99f583a4cb6fa6bb29851608f11e68598aae106822672a032b38",
       "completion/ep21-completion-format.log": "99ee4e3b3b7e518983241d076f81b9f7251e2d1c30839ab43b0b58d79ab0c470",
       "completion/ep21-completion-publication-apply.log": "979864a7ab9fb28a3daaa1d0aa98f62347e928281c82ca74b3fa8be4b5a60d6d",
       "completion/ep21-completion-publication-recheck.log": "5becb73b4f6438041dc1710171009b5ff460ebf4104d5bcb962b243211d6859f",
+      "completion/ep21-completion-registration-actual.log": "8860c130646b332695c35fe4ccffdcaabcba3729a242b9722e67b454fe0b913c",
       "completion/ep21-completion-registration.log": "2fcec8d311fb87cad8c88556b8ffaf7f93f939ebb81a87ab6c9f86a6504f26c8",
+      "completion/ep21-completion-registry-readiness.log": "8860c130646b332695c35fe4ccffdcaabcba3729a242b9722e67b454fe0b913c",
       "host/ep21-retirement-docs.log": "e5693edd8f8f99f583a4cb6fa6bb29851608f11e68598aae106822672a032b38",
       "host/ep21-retirement-final-darwin-flake.log": "719ebdb8b814b9d0aed4909a3e912ec519e5297754e53d871cda320fd09203ad",
       "host/ep21-retirement-final-darwin-receipt.json": "ff46b534156156b7ea491944baf4ecda5170fb34e0f57ec1049650e23dff02cb",
@@ -252,6 +254,14 @@
   ],
   "publication": {
     "local_generated_plan_index": "updated and strict dry-run clean",
-    "global_registration": "unavailable: configured Mori database does not exist; no database or service was created"
+    "global_registration": "unavailable: configured Mori database does not exist; no database or service was created",
+    "registration_command": [
+      "mori",
+      "register",
+      "--local",
+      "--path",
+      "/Users/shinzui/Keikaku/bokuno/haskell-nix"
+    ],
+    "readiness": "mori registry list and the actual local registration command both fail because database mori does not exist; the earlier missing just alias is retained as a separate unsuccessful command."
   }
 }
