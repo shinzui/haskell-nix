@@ -1,0 +1,83 @@
+{
+  "candidateRevision": "364f9a27f9927d2449e6f1e5ad878020487bab50",
+  "sourceAccess": "read-only pg_dump",
+  "protectedTables": 177,
+  "decreasedTables": 0,
+  "vanishedTables": 0,
+  "kirokuEvents": 551255,
+  "kirokuStreamEvents": 1102510,
+  "idempotent": true,
+  "injectedRowLossDetected": true,
+  "migrationVerification": {
+    "applied": 194,
+    "pending": 0,
+    "unknown": 0,
+    "projectionCatalog": "compatible"
+  },
+  "replayAudit": [
+    {
+      "category": "app",
+      "streams_selected": 1,
+      "failures": 0,
+      "divergences": 0
+    },
+    {
+      "category": "group",
+      "streams_selected": 9,
+      "failures": 0,
+      "divergences": 0
+    },
+    {
+      "category": "automation",
+      "streams_selected": 25,
+      "failures": 0,
+      "divergences": 0
+    },
+    {
+      "category": "projectRoot",
+      "streams_selected": 232,
+      "failures": 0,
+      "divergences": 0
+    },
+    {
+      "category": "projectArtifactV2",
+      "streams_selected": 20323,
+      "failures": 0,
+      "divergences": 0
+    },
+    {
+      "category": "reaction",
+      "streams_selected": 352,
+      "failures": 0,
+      "divergences": 0
+    },
+    {
+      "category": "patternAssessment",
+      "streams_selected": 0,
+      "failures": 0,
+      "divergences": 0
+    },
+    {
+      "category": "transitionObservation",
+      "streams_selected": 168,
+      "failures": 0,
+      "divergences": 0
+    },
+    {
+      "category": "repository",
+      "streams_selected": 7547,
+      "failures": 0,
+      "divergences": 0
+    },
+    {
+      "category": "workflow",
+      "streams_selected": 141,
+      "failures": 0,
+      "divergences": 0
+    }
+  ],
+  "recordedAt": "2026-10-17",
+  "sourceProjects": [
+    "mori://shinzui/mori"
+  ]
+}

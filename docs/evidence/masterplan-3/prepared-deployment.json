@@ -1,0 +1,31 @@
+{
+  "dotfilesProject": "mori://shinzui/dotfiles.nix",
+  "candidateRevision": "4a25d68",
+  "activated": false,
+  "systemOutput": "/nix/store/8j1rvh175gixdak4w6anbw01mna41lj4-darwin-system-26.11.4cff07d",
+  "systemClosurePaths": 3369,
+  "moriCliCount": 1,
+  "moriCliOutput": "/nix/store/2g8slyx60nvwlmcwnw2cp0vgd1xks98w-mori-cli-7.0.0.0",
+  "applicationWrappers": {
+    "rei": "/nix/store/r3dfsm93h0scprpwdnzp9wxpkc7nahwa-rei",
+    "mori": "/nix/store/c9jhw7lp5hvm2ql4r1fb5jqnh434m1yg-mori",
+    "mori-rei-app": "/nix/store/8f549ip0a9rfqlabd99b0lyfrhbapmyg-mori-rei-app",
+    "mina": "/nix/store/f6yxc2d41zpimsv0qgngks60rpxiv3im-mina",
+    "reiko": "/nix/store/aagqj6bm1pgkkpm6az5hxjnk8x1xki06-reiko"
+  },
+  "unrelatedInputGraphsChanged": false,
+  "reiClone": {
+    "candidateRevision": "e5f26a5e07a2472e0e695607482198865ccc1581",
+    "protectedBucketsChanged": 0,
+    "ledgerChanges": 0,
+    "appliedMigrations": 200,
+    "pendingMigrations": 0,
+    "unknownMigrations": 0,
+    "replayStreams": 13988,
+    "declaredExcludedStreams": 13,
+    "declaredExcludedEvents": 89,
+    "unauditedStreamsReported": 404,
+    "result": "PASS"
+  },
+  "cleanCommittedBuild": true
+}

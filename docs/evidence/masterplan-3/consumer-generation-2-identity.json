@@ -1,0 +1,37 @@
+{
+  "runtime": {
+    "fingerprint": "a9257fa760a9e7cbf2922bebfd4056326eddcc43bb562f87fec3e421cbb8e85f",
+    "generation": 2,
+    "runtime": "keiro-runtime"
+  },
+  "comparisons": [
+    {
+      "applications": [
+        "mori",
+        "reiko"
+      ],
+      "equalUsedRuntimeIdentities": 136
+    },
+    {
+      "applications": [
+        "mori",
+        "mina"
+      ],
+      "equalUsedRuntimeIdentities": 189
+    },
+    {
+      "applications": [
+        "reiko",
+        "mina"
+      ],
+      "equalUsedRuntimeIdentities": 136
+    }
+  ],
+  "declaredNonRuntimeDifference": "Mina retains the explicitly permitted earlier Mori Schema Pin source; it is outside runtime ownership",
+  "recordedAt": "2026-10-17",
+  "sourceProjects": [
+    "mori://shinzui/mori",
+    "mori://shinzui/mina",
+    "mori://shinzui/reiko"
+  ]
+}
