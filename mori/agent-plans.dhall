@@ -113,7 +113,7 @@ in  AgentPlans.AgentPlansCatalog::{
       , AgentPlans.ExposedPlan::{
         , kind = AgentPlans.PlanKind.ExecPlan
         , file = "docs/plans/21-manage-compatibility-exceptions-and-verify-their-continued-necessity.md"
-        , status = AgentPlans.PlanStatus.InProgress
+        , status = AgentPlans.PlanStatus.Complete
         , owner = None Text
         , summary = None Text
         , dependencies =

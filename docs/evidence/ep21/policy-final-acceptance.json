@@ -1,0 +1,257 @@
+{
+  "schema_version": 1,
+  "project_uri": "mori://shinzui/haskell-nix",
+  "revision": "2565350fded53dcb5753d3974f841789fed60595",
+  "status": "EP-21 M4 accepted in its declared scope",
+  "complete_platform_gates": {
+    "aarch64-darwin": {
+      "revision": "2565350fded53dcb5753d3974f841789fed60595",
+      "command": [
+        "nix",
+        "flake",
+        "check",
+        "git+file:///Users/shinzui/Keikaku/bokuno/haskell-nix?rev=2565350fded53dcb5753d3974f841789fed60595",
+        "--print-build-logs",
+        "--no-update-lock-file",
+        "--max-jobs",
+        "1",
+        "--cores",
+        "8",
+        "--builders",
+        ""
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 276.7034234169987
+    },
+    "x86_64-linux": {
+      "revision": "2565350fded53dcb5753d3974f841789fed60595",
+      "before_revision": "22bca73ced6dd20e32c74812878dacba4c1fc6aa",
+      "status": "passed",
+      "cohort": {
+        "cells": 4,
+        "packages_per_cell": 370,
+        "compiler_and_recipes_equal": true
+      },
+      "history": {
+        "generations": [
+          1,
+          2,
+          3
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "owned_entries": 311,
+        "derivations": 274,
+        "explicit_absences": 37,
+        "identities_unchanged": true,
+        "generation_3_reports_unchanged": true
+      },
+      "results": [
+        {
+          "name": "cohort-before",
+          "command": [
+            "nix",
+            "eval",
+            "--impure",
+            "--json",
+            "--file",
+            "/tmp/ep21-retirement-cohort-identities.nix",
+            "--apply",
+            "f: f {root=\"/workspace\";system=\"x86_64-linux\";revision=\"22bca73ced6dd20e32c74812878dacba4c1fc6aa\";}",
+            "--max-jobs",
+            "0",
+            "--builders",
+            ""
+          ],
+          "exit_code": 0,
+          "elapsed_seconds": 5.2330882949900115
+        },
+        {
+          "name": "cohort-after",
+          "command": [
+            "nix",
+            "eval",
+            "--impure",
+            "--json",
+            "--file",
+            "/tmp/ep21-retirement-cohort-identities.nix",
+            "--apply",
+            "f: f {root=\"/workspace\";system=\"x86_64-linux\";revision=\"2565350fded53dcb5753d3974f841789fed60595\";}",
+            "--max-jobs",
+            "0",
+            "--builders",
+            ""
+          ],
+          "exit_code": 0,
+          "elapsed_seconds": 5.397120794004877
+        },
+        {
+          "name": "retained-reports-before",
+          "command": [
+            "nix",
+            "eval",
+            "--impure",
+            "--json",
+            "--file",
+            "/tmp/ep21-runtime-3-reports.nix",
+            "--apply",
+            "f: f {root=\"git+file:///workspace?rev=22bca73ced6dd20e32c74812878dacba4c1fc6aa\";system=\"x86_64-linux\";}",
+            "--max-jobs",
+            "0",
+            "--builders",
+            ""
+          ],
+          "exit_code": 0,
+          "elapsed_seconds": 17.14462392499263
+        },
+        {
+          "name": "retained-reports-after",
+          "command": [
+            "nix",
+            "eval",
+            "--impure",
+            "--json",
+            "--file",
+            "/tmp/ep21-runtime-3-reports.nix",
+            "--apply",
+            "f: f {root=\"git+file:///workspace?rev=2565350fded53dcb5753d3974f841789fed60595\";system=\"x86_64-linux\";}",
+            "--max-jobs",
+            "0",
+            "--builders",
+            ""
+          ],
+          "exit_code": 0,
+          "elapsed_seconds": 17.24798479900346
+        },
+        {
+          "name": "retained-identities",
+          "command": [
+            "nix",
+            "eval",
+            "--impure",
+            "--json",
+            "--file",
+            "/tmp/ep21-runtime-3-identity-matrix.nix",
+            "--apply",
+            "f: f {root=\"git+file:///workspace?rev=2565350fded53dcb5753d3974f841789fed60595\";system=\"x86_64-linux\";}",
+            "--max-jobs",
+            "0",
+            "--builders",
+            ""
+          ],
+          "exit_code": 0,
+          "elapsed_seconds": 17.72447880099935
+        },
+        {
+          "name": "full-flake-check",
+          "command": [
+            "nix",
+            "flake",
+            "check",
+            "git+file:///workspace?rev=2565350fded53dcb5753d3974f841789fed60595",
+            "--print-build-logs",
+            "--no-update-lock-file",
+            "--max-jobs",
+            "1",
+            "--cores",
+            "8",
+            "--builders",
+            ""
+          ],
+          "exit_code": 0,
+          "elapsed_seconds": 534.0273238289956
+        }
+      ],
+      "execution": "User-selected translated Apple amd64 Linux guest; independent warm store, read-only source; sandbox=false/filter-syscalls=false. No physical-x86 performance or fresh-worker claim."
+    }
+  },
+  "policy_narrowing": "Exact-source bytestring-lexing 0.5.0.16/GHC 9.12.4 complete run/enforce policy, native suites/graphs/behavior on both systems and channels; retained generation 3 captures the policy without altering older records.",
+  "real_retirement": "Redundant servant-docs 0.13.1 r3 metadata row retired only after strict spec (20 cases), 88-package graphs, shipped example and exact native replay in all four platform/channel contexts.",
+  "maintenance": "Actual bytestring-lexing before/after impact identifies two affected and thirteen unchanged declarations per channel. Retained generation-3 report contexts remain exactly equal across live retirement. Native receipts are never rebound.",
+  "historical_preservation": {
+    "generations": [
+      1,
+      2,
+      3
+    ],
+    "channels": [
+      "github",
+      "hackage"
+    ],
+    "owned_entries": 311,
+    "evaluated_derivations": 274,
+    "explicit_absences": 37,
+    "compiler_and_package_identities": "unchanged on both systems",
+    "old_records_and_projections": "byte-identical",
+    "generation_3_broad_support": "unverified; focused compatibility acceptance does not satisfy the separate full runtime/cache/service release contract"
+  },
+  "cohort_preservation": {
+    "systems": [
+      "aarch64-darwin",
+      "x86_64-linux"
+    ],
+    "compiler_channel_cells_per_system": 4,
+    "recipes_per_cell": 370,
+    "compiler_and_recipe_identities": "unchanged after metadata retirement"
+  },
+  "checks": {
+    "pure_contracts": 313,
+    "updater_tests": 209,
+    "full_flake_gates": "passed on both systems",
+    "documentation_and_formatting": "passed"
+  },
+  "evidence": [
+    "docs/evidence/ep21/compatibility-migration-matrix.json",
+    "docs/evidence/ep21/bytestring-lexing-policy-selection.json",
+    "docs/evidence/ep21/retained-policy-capture.json",
+    "docs/evidence/ep21/servant-docs-retirement.json"
+  ],
+  "raw_archive": {
+    "path": "docs/evidence/ep21/policy-final-acceptance.raw.tar.gz",
+    "sha256": "18b53f9a1371b9f0ee359ad28dd19570b9bda13792746f91a42a1c64fb74982d",
+    "members": {
+      "completion/ep21-completion-docs.log": "e5693edd8f8f99f583a4cb6fa6bb29851608f11e68598aae106822672a032b38",
+      "completion/ep21-completion-format.log": "99ee4e3b3b7e518983241d076f81b9f7251e2d1c30839ab43b0b58d79ab0c470",
+      "completion/ep21-completion-publication-apply.log": "979864a7ab9fb28a3daaa1d0aa98f62347e928281c82ca74b3fa8be4b5a60d6d",
+      "completion/ep21-completion-publication-recheck.log": "5becb73b4f6438041dc1710171009b5ff460ebf4104d5bcb962b243211d6859f",
+      "completion/ep21-completion-registration.log": "2fcec8d311fb87cad8c88556b8ffaf7f93f939ebb81a87ab6c9f86a6504f26c8",
+      "host/ep21-retirement-docs.log": "e5693edd8f8f99f583a4cb6fa6bb29851608f11e68598aae106822672a032b38",
+      "host/ep21-retirement-final-darwin-flake.log": "719ebdb8b814b9d0aed4909a3e912ec519e5297754e53d871cda320fd09203ad",
+      "host/ep21-retirement-final-darwin-receipt.json": "ff46b534156156b7ea491944baf4ecda5170fb34e0f57ec1049650e23dff02cb",
+      "host/ep21-retirement-format.log": "efa4831debfdc925cf71e799645a9793e5ca28d74a322b9e92d0a3cb1ed60a81",
+      "host/ep21-runtime-3-capture-linux-driver.json": "413f06ab57c18b39dedc193ee3c3b81253a4f16a7975f7f55deeae10c8007af1",
+      "host/ep21-runtime-3-capture-linux.json": "495e61f012f27677c03f7f70efc2e389c84436ac06d92329b528b91843b79e3b",
+      "host/ep21-runtime-3-capture-linux.log": "9a9ca7014bbe13be72c456adf957e27e05a19f442c531b6e6605528da948d468",
+      "linux/cohort-after.json": "a61154e5221d045ebd6628da2e422a67c735af284b9e18328b2c67e5f1163feb",
+      "linux/cohort-after.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linux/cohort-before.json": "a61154e5221d045ebd6628da2e422a67c735af284b9e18328b2c67e5f1163feb",
+      "linux/cohort-before.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linux/cohort-identities.nix": "6dc63833d197e5312625207ab9d70cb121d294ae70c08be01710d71ce5c70bb4",
+      "linux/driver.py": "a07bf4f85dcf7a5176e5d50e2cc62f8dd2d12551a90f7434bdf6a749378927f6",
+      "linux/full-flake-check.log": "89bdb468e5ccc2b88733d05d167ec7dcbc83cabf6cf94d3c247bea790cb5c065",
+      "linux/progress.json": "23c9324371880c7e1690849e8c6db83884a0083ecc48515f1da4a6bc8a1ecf13",
+      "linux/receipt.json": "9d0f52761b579e32eadea6e20335b6f0f614fa880b831021178a2c8519ab79f9",
+      "linux/receipt.normalized.json": "9d0f52761b579e32eadea6e20335b6f0f614fa880b831021178a2c8519ab79f9",
+      "linux/retained-identities.json": "e071bb555e42224dbc79278ab6407e069183a4f87741209155f06ed43cb78b31",
+      "linux/retained-identities.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linux/retained-reports-after.json": "4713be562483e6365616c58ea92db1732771d4dd01f6afdcc198e6430dc73d1f",
+      "linux/retained-reports-after.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linux/retained-reports-before.json": "4713be562483e6365616c58ea92db1732771d4dd01f6afdcc198e6430dc73d1f",
+      "linux/retained-reports-before.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linux/runtime-identities.nix": "b465462cdf5e7d50e7ff3c3b856233bec06e32fc2e4f74388c2112783df2cc8a",
+      "linux/runtime-reports.nix": "49895309987099f473a6638baea5ede9f225688a06c2370dfdd07e3aa67b7f81"
+    }
+  },
+  "receipt_encoding": "Original guest receipts/progress and exact driver are retained. The receipt.normalized.json copy removes only a trailing literal newline marker emitted by the temporary driver; its parsed command results and assertions are unchanged.",
+  "limits": [
+    "Linux uses the user-selected translated Apple amd64 guest, independent warm store, read-only source and sandbox=false/filter-syscalls=false; no physical-x86 performance or fresh-worker claim.",
+    "Other compatibility source guards, waiver necessity and dependency-suite coverage remain unverified until their own exact native checks.",
+    "Generation-3 broad runtime/cache/service support is not promoted, and existing consumers are not advanced."
+  ],
+  "publication": {
+    "local_generated_plan_index": "updated and strict dry-run clean",
+    "global_registration": "unavailable: configured Mori database does not exist; no database or service was created"
+  }
+}

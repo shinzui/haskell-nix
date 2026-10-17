@@ -95,7 +95,7 @@ The numeric rows below are local children, with repository-relative paths and `m
 | 18 | Accelerate application code compilation in Nix builds | docs/plans/18-accelerate-application-code-compilation-in-nix-builds.md | Plans 9 and 16 (Complete locally; consumer rollout evidence still required) | None | In Progress |
 | 19 | Pre-generate complete locked Nix Haskell dependency recipes | docs/plans/19-pre-generate-complete-locked-nix-haskell-dependency-recipes.md | Plans 9 and 16 (Complete locally; consumer rollout evidence still required) | None | In Progress |
 | 20 | Build project development shells from retained runtime package sets | docs/plans/20-build-project-development-shells-from-retained-runtime-package-sets.md | Plan 16 (Complete locally); DEV-4 (Complete) | None | Complete |
-| 21 | Manage compatibility exceptions and verify their continued necessity | docs/plans/21-manage-compatibility-exceptions-and-verify-their-continued-necessity.md | None | None | In Progress |
+| 21 | Manage compatibility exceptions and verify their continued necessity | docs/plans/21-manage-compatibility-exceptions-and-verify-their-continued-necessity.md | None | None | Complete |
 
 ## Cross-repository Exec-Plan Registry
 
@@ -164,6 +164,8 @@ Existing plans 9 and 16 retain ownership of generator contexts, executable graph
 Shared edits to `flake.nix`, `checks/default.nix`, `lib/`, and updater modules require per-plan ownership: EP-19 wires recipe generation, EP-20 wires shell construction, EP-21 wires exception/validation policy, and EP-18 wires application-only incremental helpers. Coordinate merge order and update shared interfaces in both consumers and owners. Each member retains its self-contained implementation and acceptance; this master plan records reconciliation.
 
 ## Progress
+
+2026-10-17 EP-21 is Complete: exact scoped policy/retirement evidence, post-update cohort/history/report identities and both full immutable platform gates pass at `2565350`. There are 313 passing pure contracts and 209 updater tests; documentation and ADR 8 are validated. [Final evidence](../evidence/ep21/policy-final-acceptance.json). Generation-3 broad runtime support remains unverified and existing consumers stay fixed. EP-20/DEV-4 remain Complete; EP-18/19 and hosted DEV-5 acceptance remain In Progress. No performance threshold or publication approval gate is weakened.
 
 2026-10-17 EP-21 retirement checkpoint: the real servant-docs r3 no-entry probe and receipt replays pass in all four Darwin/Linux source-channel contexts. Its redundant live metadata row/catalog binding are retired; four Darwin cohort cells and both retained-generation-3 report contexts preserve exact identities. Native focused checks and 209 updater tests pass. [Evidence](../evidence/ep21/servant-docs-retirement.json). Final immutable Linux/history/full-gate acceptance remains active; generation-3 broad runtime support stays unverified and member status remains In Progress.
 
