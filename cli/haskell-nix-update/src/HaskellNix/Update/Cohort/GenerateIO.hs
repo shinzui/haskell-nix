@@ -73,7 +73,7 @@ resolveGeneratedEntries runner client cutoff classified cached = runExceptT $
   where
     resolve name package = do
         version <- fromText (parseVersion package.selectedPackage.version)
-        expected <- fromText (metadataHash name package.selectedPackage)
+        expected <- fromText (selectedMetadataHash name package.selectedPackage)
         response <- ExceptT (request 3 ("https://hackage.haskell.org/package/" <> name <> "-" <> Text.pack (prettyShow version) <> "/revisions/"))
         unless (response.statusCode == 200) (failText ("Hackage revisions HTTP " <> Text.pack (show response.statusCode) <> " for " <> name))
         revisions <- fromText (decodeRevisions response.body)
@@ -89,9 +89,6 @@ resolveGeneratedEntries runner client cutoff classified cached = runExceptT $
             else pure result
     retryable (Left _) = True
     retryable (Right response) = response.statusCode `elem` [429, 500, 502, 503, 504]
-    metadataHash name package = case [hash | Object fields <- package.identities, Just (String hash) <- [KeyMap.lookup "pkg-cabal-sha256" fields]] of
-        hash : rest | all (== hash) rest && length (hash : rest) == length package.identities -> Right hash
-        _ -> Left ("missing or conflicting Cabal metadata hashes for " <> name)
 
 runGenerate :: ProcessRunner -> HttpClient -> Map Text Version -> GenerateOptions -> IO (Either UpdateError Text)
 runGenerate runner client firstParty options = runExceptT $ do

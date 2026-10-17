@@ -4,6 +4,7 @@ import CohortModelTest qualified
 import CohortCompareTest qualified
 import CohortGenerateTest qualified
 import CohortGenerateIOTest qualified
+import CohortRecipesTest qualified
 import CohortTest qualified
 import AdapterTest qualified
 import Data.ByteString qualified as ByteString
@@ -35,6 +36,7 @@ tests =
       CohortCompareTest.tests,
       CohortGenerateTest.tests,
       CohortGenerateIOTest.tests,
+      CohortRecipesTest.tests,
       CohortTest.tests,
       catalogTests,
       packageLockTests,

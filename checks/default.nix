@@ -38,6 +38,10 @@ let
     inherit lib firstPartyRegistries supportedGhcs;
     pkgs = pkgsGithub;
   };
+  recipeFixture = import ./generated-recipes.nix {
+    pkgs = pkgsPlain;
+    scope = pkgsPlain.haskell.packages.${defaultGhc};
+  };
 
   validateEntry = name: entries:
     builtins.all
@@ -105,6 +109,8 @@ let
       firstPartyPackageSets);
 in
 {
+  generated-recipes = recipeFixture.parity;
+  generated-recipes-no-ifd = recipeFixture.noIfd;
   application-incremental = import ./application-incremental.nix {
     pkgs = pkgsPlain;
     scope = pkgsGithub.haskell.packages.${defaultGhc};

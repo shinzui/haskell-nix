@@ -1,0 +1,382 @@
+{
+  "schema_version": 1,
+  "minimum_saving": 0.2,
+  "context": {
+    "schema_version": 1,
+    "platform": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+    "nix_version": "nix (Determinate Nix 3.23.2) 2.35.3",
+    "command": [
+      "nix",
+      "eval",
+      "--raw",
+      "--impure",
+      "--file",
+      "/Users/shinzui/Keikaku/bokuno/haskell-nix/checks/fixtures/generated-recipes/retained.nix",
+      "--argstr",
+      "selection",
+      "/Users/shinzui/Keikaku/bokuno/rei-project/rei/nix/runtime-selection.json",
+      "--argstr",
+      "applicationSource",
+      "/var/folders/xf/z_902qyd0dg5m6n8pjv1vk300000gn/T/mp4-app-baselines-gqysbxfp/rei",
+      "--option",
+      "eval-cache",
+      "false"
+    ],
+    "cache_state": "Warm source and translation inputs; fresh Nix process; flake evaluation cache disabled; package outputs not built by this measurement",
+    "baseline": [
+      {
+        "query": "scopedLegacy.drvPath",
+        "trial": 1,
+        "elapsed_seconds": 1.5523135420226026,
+        "max_rss_bytes_darwin": 748486656,
+        "output": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+        "stderr_sha256": "7b43c00d4ac46cf1efda6838326fdd5e43edaa5abf9ee0984c40f00ba22b8fbc"
+      },
+      {
+        "query": "scopedLegacy.drvPath",
+        "trial": 2,
+        "elapsed_seconds": 1.4921559170179535,
+        "max_rss_bytes_darwin": 761167872,
+        "output": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+        "stderr_sha256": "d7d0636324a9fc3c559fddf323d0a03ce0222dcc77daf6899b7d1f2ea0123721"
+      },
+      {
+        "query": "scopedLegacy.drvPath",
+        "trial": 3,
+        "elapsed_seconds": 1.5187577080214396,
+        "max_rss_bytes_darwin": 743587840,
+        "output": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+        "stderr_sha256": "9b9235f0284304ae43d24db921809fba22ab20740b77a26392a65f8a13b9e448"
+      },
+      {
+        "query": "scopedLegacy.drvPath",
+        "trial": 4,
+        "elapsed_seconds": 1.5286362920014653,
+        "max_rss_bytes_darwin": 747798528,
+        "output": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+        "stderr_sha256": "9a5b76107fd66b9527d2fe8922f8bf7bb7915c2afe0efc8d75634330842b9743"
+      },
+      {
+        "query": "scopedLegacy.drvPath",
+        "trial": 5,
+        "elapsed_seconds": 1.4862942080071662,
+        "max_rss_bytes_darwin": 742981632,
+        "output": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+        "stderr_sha256": "7ad5e9c2008d0037962a0fab385c18a41b3471ddc24603cdc9ed7cf41639886c"
+      },
+      {
+        "query": "consumerLegacy.drvPath",
+        "trial": 1,
+        "elapsed_seconds": 3.569383124995511,
+        "max_rss_bytes_darwin": 1660502016,
+        "output": "/nix/store/7qwknx1qlsx4f17m28synb782zc86w1x-rei-cli-7.1.0.0.drv",
+        "stderr_sha256": "a039815c3bbc2e1dfea4b2ae4c4682961597cdd96f0dd3286fc10858e72ae787"
+      },
+      {
+        "query": "consumerLegacy.drvPath",
+        "trial": 2,
+        "elapsed_seconds": 3.51397333398927,
+        "max_rss_bytes_darwin": 1674723328,
+        "output": "/nix/store/7qwknx1qlsx4f17m28synb782zc86w1x-rei-cli-7.1.0.0.drv",
+        "stderr_sha256": "6dc3c14d2ba6f6ededee14c2bccc5cc746311d2725aa88a2f7bc138c429edade"
+      },
+      {
+        "query": "consumerLegacy.drvPath",
+        "trial": 3,
+        "elapsed_seconds": 3.4982212079921737,
+        "max_rss_bytes_darwin": 1660125184,
+        "output": "/nix/store/7qwknx1qlsx4f17m28synb782zc86w1x-rei-cli-7.1.0.0.drv",
+        "stderr_sha256": "da2e24faf94db6cb26628facfdbe8a2446a90e13fcc322014eac4ec5872746d8"
+      },
+      {
+        "query": "consumerLegacy.drvPath",
+        "trial": 4,
+        "elapsed_seconds": 3.5507204169989564,
+        "max_rss_bytes_darwin": 1674575872,
+        "output": "/nix/store/7qwknx1qlsx4f17m28synb782zc86w1x-rei-cli-7.1.0.0.drv",
+        "stderr_sha256": "6e60f7155537013e7ac013294f3cfa82e9f4a02b30c960bbc41e6eb250b7e5c6"
+      },
+      {
+        "query": "consumerLegacy.drvPath",
+        "trial": 5,
+        "elapsed_seconds": 3.5261509160045534,
+        "max_rss_bytes_darwin": 1675149312,
+        "output": "/nix/store/7qwknx1qlsx4f17m28synb782zc86w1x-rei-cli-7.1.0.0.drv",
+        "stderr_sha256": "2505a75717fed016c318843e6cac0ee30f5e62790d88874029564d072fb55699"
+      }
+    ]
+  },
+  "pairs": [
+    {
+      "scope": "scoped",
+      "trial": 1,
+      "label": "baseline",
+      "elapsed_seconds": 1.3602297919860575,
+      "max_rss_bytes_darwin": 740245504,
+      "output": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+      "stderr_sha256": "dd5ac3e446230d3f7f41871463ea5e39e1d39cb365b175365fe435f0a9092f37"
+    },
+    {
+      "scope": "scoped",
+      "trial": 1,
+      "label": "candidate",
+      "elapsed_seconds": 1.1050600000016857,
+      "max_rss_bytes_darwin": 625721344,
+      "output": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+      "stderr_sha256": "2fcbe444c3d6b60ada6f8ca5c09bfe4ad478964673e83e0d06f2e9f4ca93d90a"
+    },
+    {
+      "scope": "scoped",
+      "trial": 2,
+      "label": "candidate",
+      "elapsed_seconds": 1.1066778750100639,
+      "max_rss_bytes_darwin": 625639424,
+      "output": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+      "stderr_sha256": "bbfea0958be2fb0fd3891c401fadd7a1ea699b112cfb440280f80f8ebda79f83"
+    },
+    {
+      "scope": "scoped",
+      "trial": 2,
+      "label": "baseline",
+      "elapsed_seconds": 1.4164860000018962,
+      "max_rss_bytes_darwin": 746717184,
+      "output": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+      "stderr_sha256": "67aa62cc97b1311ff09f76ba0ec359047b1fb9ebc1918e6f922eabbbf4de7adb"
+    },
+    {
+      "scope": "scoped",
+      "trial": 3,
+      "label": "baseline",
+      "elapsed_seconds": 1.36274237500038,
+      "max_rss_bytes_darwin": 742866944,
+      "output": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+      "stderr_sha256": "8051de05584bf9e6d75ab68319762feeb448e1ce0fd537aff0a1d01b7de7f6fb"
+    },
+    {
+      "scope": "scoped",
+      "trial": 3,
+      "label": "candidate",
+      "elapsed_seconds": 1.1051321249979082,
+      "max_rss_bytes_darwin": 624934912,
+      "output": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+      "stderr_sha256": "d0346f49b6b4fa9f1cb7dd057b0736116c7eaf89cd8e1f8beb4d120307324474"
+    },
+    {
+      "scope": "scoped",
+      "trial": 4,
+      "label": "candidate",
+      "elapsed_seconds": 1.1011104589852039,
+      "max_rss_bytes_darwin": 624623616,
+      "output": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+      "stderr_sha256": "68b7f45a5d2cb03fc8a156d4fe9e55ca80f721f5357300b88e7ea9bd9b013bb7"
+    },
+    {
+      "scope": "scoped",
+      "trial": 4,
+      "label": "baseline",
+      "elapsed_seconds": 1.4296389579831157,
+      "max_rss_bytes_darwin": 746209280,
+      "output": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+      "stderr_sha256": "661a3d749aec58568ad319343bc5afb9c82bfaf2f7c29c6d0efb5fa437cccf9c"
+    },
+    {
+      "scope": "scoped",
+      "trial": 5,
+      "label": "baseline",
+      "elapsed_seconds": 1.3482358329929411,
+      "max_rss_bytes_darwin": 742375424,
+      "output": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+      "stderr_sha256": "23b043d37dcdedbdc22414962c38158f1fcac616c7104b12b88344d3fbdbce65"
+    },
+    {
+      "scope": "scoped",
+      "trial": 5,
+      "label": "candidate",
+      "elapsed_seconds": 1.10852700000396,
+      "max_rss_bytes_darwin": 629047296,
+      "output": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+      "stderr_sha256": "eb1eec8428ebbe3188b0486aa2e7de4cfcfe7a3a991275fda65afcb8b742c3c0"
+    },
+    {
+      "scope": "consumer",
+      "trial": 1,
+      "label": "baseline",
+      "elapsed_seconds": 3.5522735840058886,
+      "max_rss_bytes_darwin": 1675395072,
+      "output": "/nix/store/7qwknx1qlsx4f17m28synb782zc86w1x-rei-cli-7.1.0.0.drv",
+      "stderr_sha256": "61bca6ab37104510853fe7f72b521f7c796f7f700c4ecdb5e10b21f756a3cf88"
+    },
+    {
+      "scope": "consumer",
+      "trial": 1,
+      "label": "candidate",
+      "elapsed_seconds": 3.641418415994849,
+      "max_rss_bytes_darwin": 1677230080,
+      "output": "/nix/store/7qwknx1qlsx4f17m28synb782zc86w1x-rei-cli-7.1.0.0.drv",
+      "stderr_sha256": "36864ff534a50eff0556c97f2157d2ad1e8f35ac08caf0a09b9bae61e59e4814"
+    },
+    {
+      "scope": "consumer",
+      "trial": 2,
+      "label": "candidate",
+      "elapsed_seconds": 3.591749290993903,
+      "max_rss_bytes_darwin": 1673035776,
+      "output": "/nix/store/7qwknx1qlsx4f17m28synb782zc86w1x-rei-cli-7.1.0.0.drv",
+      "stderr_sha256": "b2ced39792612312dca12cf89c467d852b3a23383c9565c021df39a277a27bf9"
+    },
+    {
+      "scope": "consumer",
+      "trial": 2,
+      "label": "baseline",
+      "elapsed_seconds": 3.8552429160044994,
+      "max_rss_bytes_darwin": 1676034048,
+      "output": "/nix/store/7qwknx1qlsx4f17m28synb782zc86w1x-rei-cli-7.1.0.0.drv",
+      "stderr_sha256": "7b423fd9d65cb3da700858207746f620c39fa7dad496fa0daeebb9f1bc155d1c"
+    },
+    {
+      "scope": "consumer",
+      "trial": 3,
+      "label": "baseline",
+      "elapsed_seconds": 3.5263234590238426,
+      "max_rss_bytes_darwin": 1661976576,
+      "output": "/nix/store/7qwknx1qlsx4f17m28synb782zc86w1x-rei-cli-7.1.0.0.drv",
+      "stderr_sha256": "ee0501aa160081772020647a3311196cc6392c22f9bcb9e7bdeaa07306d280d9"
+    },
+    {
+      "scope": "consumer",
+      "trial": 3,
+      "label": "candidate",
+      "elapsed_seconds": 3.3838560410076752,
+      "max_rss_bytes_darwin": 1673609216,
+      "output": "/nix/store/7qwknx1qlsx4f17m28synb782zc86w1x-rei-cli-7.1.0.0.drv",
+      "stderr_sha256": "fdab10751cfc107eba1ecb589e093241ca7236cd03f8521ecfedee314330332f"
+    },
+    {
+      "scope": "consumer",
+      "trial": 4,
+      "label": "candidate",
+      "elapsed_seconds": 3.2533429169852752,
+      "max_rss_bytes_darwin": 1658716160,
+      "output": "/nix/store/7qwknx1qlsx4f17m28synb782zc86w1x-rei-cli-7.1.0.0.drv",
+      "stderr_sha256": "c390845f5f7ffdaf4eb7c03f10ddec57423958500ddf861ccf630418f7e8ad81"
+    },
+    {
+      "scope": "consumer",
+      "trial": 4,
+      "label": "baseline",
+      "elapsed_seconds": 3.378767666989006,
+      "max_rss_bytes_darwin": 1661190144,
+      "output": "/nix/store/7qwknx1qlsx4f17m28synb782zc86w1x-rei-cli-7.1.0.0.drv",
+      "stderr_sha256": "9deba9995f2e56cdafbcef8a69f4d5b6ba04070e87a58613a7a1ed6001d3d02a"
+    },
+    {
+      "scope": "consumer",
+      "trial": 5,
+      "label": "baseline",
+      "elapsed_seconds": 3.3657881660037674,
+      "max_rss_bytes_darwin": 1660764160,
+      "output": "/nix/store/7qwknx1qlsx4f17m28synb782zc86w1x-rei-cli-7.1.0.0.drv",
+      "stderr_sha256": "5993bbf34ae2d25b211ecbbbf3234b59505f674c99f66810509555f92bbb6cd1"
+    },
+    {
+      "scope": "consumer",
+      "trial": 5,
+      "label": "candidate",
+      "elapsed_seconds": 3.2561303340189625,
+      "max_rss_bytes_darwin": 1675853824,
+      "output": "/nix/store/7qwknx1qlsx4f17m28synb782zc86w1x-rei-cli-7.1.0.0.drv",
+      "stderr_sha256": "6408fed7a9e1a548968c4424538ba265769dc92553afe2e96e45425f97db0a89"
+    }
+  ],
+  "timings": {
+    "scoped": {
+      "baseline": {
+        "median_seconds": 1.36274237500038,
+        "minimum_seconds": 1.3482358329929411,
+        "maximum_seconds": 1.4296389579831157
+      },
+      "candidate": {
+        "median_seconds": 1.1051321249979082,
+        "minimum_seconds": 1.1011104589852039,
+        "maximum_seconds": 1.10852700000396
+      },
+      "saving_fraction": 0.18903811514806668
+    },
+    "consumer": {
+      "baseline": {
+        "median_seconds": 3.5263234590238426,
+        "minimum_seconds": 3.3657881660037674,
+        "maximum_seconds": 3.8552429160044994
+      },
+      "candidate": {
+        "median_seconds": 3.3838560410076752,
+        "minimum_seconds": 3.2533429169852752,
+        "maximum_seconds": 3.641418415994849
+      },
+      "saving_fraction": 0.04040112022383935
+    }
+  },
+  "identity": {
+    "checkedCandidate": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+    "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+    "generated": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+    "legacy": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+    "packageName": "base64-bytestring",
+    "runtime": "da00319eb1423b4372a0a0b050911b7719d1de0867a3e32160dbd327a2762e81",
+    "source": "/nix/store/7xl51c661970j6vsajh1y97y9i063nl9-source",
+    "system": "aarch64-darwin"
+  },
+  "converter": {
+    "drvPath": "/nix/store/v7lg9wjihi6x3khvyqh5r03fnzfvm3ab-cabal2nix-2.21.3-unstable-2026-03-30.drv",
+    "outputs": {
+      "bin": "/nix/store/53ih48jprxhjz2j5yn82wwh7gklqmva3-cabal2nix-2.21.3-unstable-2026-03-30-bin"
+    },
+    "reported_version": "cabal2nix 2.21.3",
+    "upstream_source_revision": "b9ef7e13a1eebdf9cb56518b5010befa1ca505af",
+    "nixpkgs_revision": "d5dfd8e6716dde34398bc14bc87c10dece9c8c68"
+  },
+  "metadata": {
+    "package": "base64-bytestring",
+    "version": "1.2.1.0",
+    "revision": 1,
+    "cabal_sha256": "45305ccf8914c66d385b518721472c7b8c858f1986945377f74f85c1e0d49803"
+  },
+  "recipe_sha256": {
+    "base64-bytestring.nix": "84f3fbe710dc6d3c3bc23a619be6a09103deebed3a3b7ce698a596307180d16d",
+    "bytestring-lexing.nix": "9511dbdd75b32e3edfebbc6bc4e3593dab92205bbe4e3ce04db371c1c35b61fb",
+    "consumer.nix": "5b9ca4fad8c38f0c4eb0126237724a9777408baf5c6f863d141361a71b683b4b",
+    "flagged.nix": "6bd5aac9b4f5315a025e7b5a4d736511121ec01752dd3a5ba6116d903a8d2a80",
+    "leaf.nix": "c8124d5867660e63d6a74fc1fa844460dcafdbdab5577ffdf8b3a26404904b1d",
+    "pinned.nix": "0c8f127825f1d3bcd9fb06ae9dd8e9e44183eb07c68e4a68baa2724175529a29",
+    "revised.nix": "b16321fd343eb1809b5700a48dfbee3c9d0bbeb096345fc36a250127fc54363d"
+  },
+  "validation": {
+    "updater_tests_passed": 173,
+    "fixture_derivations_equal": 9,
+    "native_fixture_build": true,
+    "fixture_consumer_outputs": [
+      "44",
+      "45"
+    ],
+    "scoped_no_ifd": true,
+    "real_root_no_ifd": true,
+    "real_consumer_derivation_equal": true,
+    "full_constructor_no_ifd": false,
+    "first_remaining_translation": "cabal2nix-Diff",
+    "converter_invocations_for_generated_root": 0,
+    "production_adopted": false
+  },
+  "decision": {
+    "scoped_threshold_met": false,
+    "minimum_saving_fraction": 0.2,
+    "reason": "18.9% scoped median reduction misses the predeclared 20% threshold; full consumer median reduction is 4.0%, within its observed timing spread. Retain a correctness prototype; no package-set-wide migration or default adoption justified by this result.",
+    "generation_and_migration_amortization": "not established; no adoption claim",
+    "limitations": [
+      "macOS aarch64 only; native Linux unavailable",
+      "warm source and translation inputs; no cold-cache timing claim",
+      "five alternating pairs per query class; one generated dependency only",
+      "full constructor still validates unconverted retained reference packages",
+      "absolute local paths in command identify raw observations, not portable artifact inputs"
+    ]
+  }
+}

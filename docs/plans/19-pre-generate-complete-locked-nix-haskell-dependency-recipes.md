@@ -28,6 +28,11 @@ provenance:
       at: 2026-10-17T03:25:59Z
       mode: "update"
       note: "Reconcile delivered prerequisites and strengthen maintenance, real-consumer integration, and measured total-cost acceptance."
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-17T05:27:34Z
+      mode: "implement"
+      note: "Prototype exact-metadata conversion with the pinned cabal2nix tool and scoped no-IFD fixtures."
   reviews:
     - model: "gpt-6-astra"
       harness: "codex-cli"
@@ -51,8 +56,12 @@ This is a standalone follow-on to [plan 9](9-generate-the-nix-package-set-from-t
 
 ## Progress
 
+2026-10-17 M1 prototype: generated native fixtures preserve all nine legacy derivations, revised metadata adds the required dependency, the flag changes behavior, and a pinned source retains Custom Setup plus explicit native zlib mapping. The generated fixture evaluates with IFD disabled and all executable checks pass. The shared Haskell conversion adapter verifies metadata before/after invocation and rejects drift, unsupported classifications and scratch-path leakage; all 173 updater tests pass. `base64-bytestring` 1.2.1.0 revision 1 is reachable in Rei's actual graph and preserves the exact retained, generated and checked-constructor derivation. Its generated scoped root evaluates without IFD. An initial bytestring-lexing prototype also matches, but is not reachable in the CLI and is not the sole real-consumer evidence.
 
-- [ ] M1: Prove a complete recipe can be generated from exact locked metadata and evaluated without IFD.
+Five fresh baseline queries (evaluation cache disabled, warm sources/translation outputs) take 1.486–1.552 s for the scoped legacy root and 3.498–3.569 s for the real archived Rei consumer. Before candidate measurement, require at least 20% median saving for the scoped query, above this baseline spread. Report the full checked consumer separately. The captured reference still imports other unconverted packages (first observed: Diff); no whole-constructor no-IFD claim is made. Five alternating pairs preserve identical scoped and real-consumer derivations. Scoped medians are 1.363 s legacy and 1.105 s generated (18.9% reduction), below the predeclared 20% target. Full checked consumer medians are 3.526 s and 3.384 s (4.0%, within observed spread). [The retained receipt](../evidence/ep19/generated-recipe-prototype.json) records all pairs, RSS, exact converter/metadata/recipe identities and limitations. M1 correctness and measurement are established; this result does not justify broad migration or adoption. Generation/migration amortization and native Linux remain unproved.
+
+
+- [x] (2026-10-17) M1: Exact-metadata conversion, native behavior, derivation parity, scoped no-IFD and real-consumer evaluation measured. The predeclared performance target is not met; retain the prototype without production promotion.
 - [ ] M2: Add deterministic recipe generation, source/policy identity validation, and staged promotion.
 - [ ] M3: Integrate a scoped generated recipe layer and verify build and derivation parity.
 - [ ] M4: Adopt one accepted runtime configuration, measure evaluation, and document limits and ADRs.
@@ -60,7 +69,9 @@ This is a standalone follow-on to [plan 9](9-generate-the-nix-package-set-from-t
 ## Surprises & Discoveries
 
 
-No implementation measurements are recorded. The delivered generator renders version/source metadata and is active in production, while full recipe construction still uses evaluation-time cabal2nix paths. The runtime constructor imports captured recipe code and validates the final scope against an independent retained reference; a new recipe layer must cover both paths or its claimed no-IFD runtime evaluation can still fail.
+2026-10-17: Converting one real dependency avoids its translation and preserves exact derivation identity, but the constructor/reference work dominates consumer evaluation. The 18.9% scoped saving misses the 20% target; the 4.0% consumer saving overlaps timing spread. Expanding conversion coverage needs another bounded measured experiment rather than an inference from the toy fixture.
+
+The delivered generator renders version/source metadata and is active in production, while full recipe construction still uses evaluation-time cabal2nix paths. The runtime constructor imports captured recipe code and validates the final scope against an independent retained reference; a new recipe layer must cover both paths or its claimed no-IFD runtime evaluation can still fail.
 
 ## Decision Log
 
@@ -81,7 +92,7 @@ No implementation measurements are recorded. The delivered generator renders ver
 ## Outcomes & Retrospective
 
 
-Planning only. Recipe artifacts, generation commands, production adoption, and performance evidence remain pending.
+M1 delivers a tested exact-metadata adapter, checked-in portable fixture recipes and measured real-root parity. The performance threshold was not met, so generated production artifacts, generation commands, retained-generation adoption and total-cost acceptance remain pending.
 
 ## Context and Orientation
 

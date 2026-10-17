@@ -53,6 +53,7 @@ library
     HaskellNix.Update.Cohort.GenerationTypes
     HaskellNix.Update.Cohort.Revision
     HaskellNix.Update.Cohort.Render
+    HaskellNix.Update.Cohort.Recipes
     HaskellNix.Update.Cohort.Types
     HaskellNix.Update.Git
     HaskellNix.Update.Hackage
@@ -110,6 +111,7 @@ test-suite haskell-nix-update-test
     CohortModelTest
     CohortGenerateTest
     CohortGenerateIOTest
+    CohortRecipesTest
     CohortCompareTest
     PackageSetTest
     Paths_haskell_nix_update

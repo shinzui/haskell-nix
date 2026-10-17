@@ -1,0 +1,15 @@
+cabal-version: 3.0
+name: recipe-pinned
+version: 1.0
+build-type: Custom
+license: BSD-3-Clause
+
+custom-setup
+  setup-depends: base, Cabal
+
+library
+  exposed-modules: RecipePinned
+  hs-source-dirs: src
+  build-depends: base
+  extra-libraries: z
+  default-language: Haskell2010
