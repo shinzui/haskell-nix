@@ -207,6 +207,31 @@ in
       touch "$out"
     '';
 
+  compatibility-report =
+    let
+      tests = import ./compatibility-report.nix { inherit lib; };
+      failures = lib.filterAttrs (_: test: test.expr != test.expected) tests;
+      report = import ../lib/compatibilityReport.nix { inherit lib; };
+      context = import ./fixtures/compatibility-policy/context.nix;
+      declaration = pkgsPlain.writeText "compatibility-context.json" (builtins.toJSON (report context));
+      required = pkgsPlain.writeText "compatibility-required.json" (builtins.toJSON (report (context // {
+        requiredEvidence = [ "legacy-kioku-core-v1" ];
+      })));
+    in
+    assert lib.assertMsg (failures == { }) "compatibility-report: failed pure checks";
+    pkgsPlain.runCommand "compatibility-report" { nativeBuildInputs = [ updater pkgsPlain.jq ]; } ''
+      haskell-nix-update compatibility report --context ${declaration} --json > report.json
+      jq -e '.reportKind == "declaration-only"' report.json
+      haskell-nix-update compatibility check --context ${declaration}
+      if haskell-nix-update compatibility check --context ${required} > required.log 2>&1; then
+        echo "required native evidence was incorrectly accepted" >&2
+        exit 1
+      fi
+      grep -q 'required evidence is unverified' required.log
+      mkdir "$out"
+      cp report.json "$out/"
+    '';
+
   shared-overrides = import ./shared-overrides.nix {
     inherit lib defaultGhc;
     pkgs = pkgsPlain;

@@ -13,6 +13,7 @@ import Data.Text (Text)
 import Data.Text qualified as Text
 import Data.Text.IO qualified as TextIO
 import HaskellNix.Update.Cohort.Cli (CohortCommand, cohortParser, runCohort)
+import HaskellNix.Update.Compatibility.Cli (CompatibilityCommand, compatibilityParser, runCompatibility)
 import HaskellNix.Update.Runtime (RuntimeCommand, runtimeParser, runRuntime)
 import HaskellNix.Update.Types (FamilyName (..), PackageSetCommand (..), PackageSetSupportLevel (..), RefreshTarget (..), SnapshotGeneration (..), UpdateError (..), UpdateGroupName (..))
 import HaskellNix.Update.Workflow
@@ -26,6 +27,7 @@ data Command
   | MigrateLock !MigrateOptions
   | Cohort !CohortCommand
   | Runtime !RuntimeCommand
+  | Compatibility !CompatibilityCommand
   | PackageSetCommand !PackageSetCommand
   deriving stock (Eq, Show)
 
@@ -64,6 +66,7 @@ runCli = do
       runMigrateLockWorkflow environment (defaultWorkflowPaths ".") packageSet importSets dryRun
     Cohort cohortCommand -> runCohort cohortCommand
     Runtime runtimeCommand -> runRuntime runtimeCommand
+    Compatibility compatibilityCommand -> runCompatibility compatibilityCommand
     PackageSetCommand packageSetCommand ->
       runPackageSetCommand environment (defaultWorkflowPaths ".") packageSetCommand
   case result of
@@ -74,7 +77,8 @@ parserInfo :: ParserInfo Command
 parserInfo =
   info
     (commandParser <**> helper)
-    ( fullDesc
+    ( failureCode 2
+        <> fullDesc
         <> header "Refresh first-party Haskell package channels"
         <> progDesc "Refresh or validate GitHub and Hackage package locks"
     )
@@ -82,7 +86,8 @@ parserInfo =
 commandParser :: Parser Command
 commandParser =
   subparser
-    ( command "runtime" (info (Runtime <$> runtimeParser <**> helper) (fullDesc <> progDesc "Capture, check and describe retained runtime generations"))
+    ( command "compatibility" (info (Compatibility <$> compatibilityParser <**> helper) (failureCode 2 <> fullDesc <> progDesc "Report compatibility declarations and required evidence"))
+        <> command "runtime" (info (Runtime <$> runtimeParser <**> helper) (fullDesc <> progDesc "Capture, check and describe retained runtime generations"))
         <> command "cohort" (info (Cohort <$> cohortParser <**> helper) (fullDesc <> progDesc "Inventory, solve and report the shared dependency cohort"))
         <> command
         "refresh"

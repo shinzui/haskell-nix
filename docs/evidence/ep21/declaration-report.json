@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-10-17T13:20:15.426562+00:00",
+  "scope": "EP-21 declaration-only report interchange; controlled fixture, no production fact capture or native dependency necessity claim",
+  "system": "arm64-Darwin",
+  "pureTests": {
+    "count": 229,
+    "failures": []
+  },
+  "updaterTests": {
+    "passed": 181
+  },
+  "nativeCheck": "/nix/store/ng9lyan89p8s2c6jwfa2lwg57qgg1jqb-compatibility-report",
+  "acceptedChecks": [
+    "compatibility-report",
+    "compatibility-policy",
+    "nix-unit",
+    "updater test suite",
+    "documentation profiles",
+    "formatting"
+  ],
+  "publication": "Strict dry-run unchanged: five local publishing entries, 21 cross-repository dependencies; Mori registration unavailable",
+  "sourceSha256": {
+    "lib/compatibilityReport.nix": "bf4b3e73d657373e4293f9fce1fdc31a8706314571dec5bb633b0e469cfa6831",
+    "checks/compatibility-report.nix": "ccd483bf72dd4b4e71d236db24372c67ba928fcb489534341e514351fb9ed6f5",
+    "checks/fixtures/compatibility-policy/context.nix": "2467640c29f4b96475aa73e410df65a5a10327e6c6b8c625f54a437dd67f2e59",
+    "cli/haskell-nix-update/src/HaskellNix/Update/Compatibility/Types.hs": "0624f1c3bb9e776e75f273b230b4304a027a25b48c13da6f961cafb87d8b358c",
+    "cli/haskell-nix-update/src/HaskellNix/Update/Compatibility/Report.hs": "3122c7648e30a472b083a724aea471600124f1caf50bef12130250d9cfdd447c",
+    "cli/haskell-nix-update/src/HaskellNix/Update/Compatibility/Cli.hs": "44fed6ae576a29ea277a21ec2f8bf7c881aefa810460fbde144a2f03cd9ea2d1"
+  },
+  "logSha256": {
+    "mp4-compatibility-tests.log": "91e183d5bbaf2f9818d783a40f91741fd36b1f2794cb5c57a7fac895cde61050",
+    "mp4-compatibility-native-final.log": "a6f5d7a9869a5ca1541360e5546093e347a1269e583d5ecd9005121d104373af",
+    "mp4-compatibility-docs.log": "ba5d9fb7796e4f4f5169550be1dd946302a5e6e04b7a3d8f1ebc257a5a216219",
+    "mp4-compatibility-format-check.log": "a77235477bfc0066469783f9563487b88bee10e8b73988d9c74e7ff12743264d",
+    "mp4-compatibility-publication.log": "5becb73b4f6438041dc1710171009b5ff460ebf4104d5bcb962b243211d6859f"
+  },
+  "remainingGates": [
+    "Automatic selected pre-repair fact capture",
+    "Comparison against actual effective recipe effects",
+    "Exact source/metadata mismatch probes",
+    "Strict native validation and removal receipts",
+    "Real policy-narrowing pilot",
+    "Native Linux matrix: configured SSH key unavailable",
+    "Mori registration: database missing"
+  ]
+}

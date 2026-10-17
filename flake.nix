@@ -208,6 +208,7 @@
           validateCompatibilityPolicy = import ./lib/validateCompatibilityPolicy.nix { inherit lib; };
           selectCompatibilityEntry = import ./lib/selectCompatibilityEntry.nix { inherit lib; };
           compatibilityEntryApplies = import ./lib/compatibilityEntryApplies.nix { inherit lib; };
+          compatibilityReport = import ./lib/compatibilityReport.nix { inherit lib; };
           mkApplicationIncrementalBuild = import ./lib/mkApplicationIncrementalBuild.nix { inherit lib; };
           mkApplicationIncrementalPackage = import ./lib/mkApplicationIncrementalPackage.nix { inherit lib; };
           mkCohortManifest = import ./lib/mkCohortManifest.nix { inherit lib; };

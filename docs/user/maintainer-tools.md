@@ -4,6 +4,7 @@ title: Maintainer tools
 description: Find repository formatting, test, derivation-diff, and validation commands.
 docId: DOC-6
 tags: [maintainers, testing, nix]
+timestamp: 2026-10-17T13:15:43Z
 generated:
   by: human:nadeem
   at: 2026-09-21T14:33:46Z
@@ -16,6 +17,43 @@ overlay logic stays in `lib/`; existing build checks live in `checks/default.nix
 checks live in `nix/tooling.nix`. Both flake-parts and treefmt-nix follow the existing inputs
 of `mori://shinzui/haskell-nix-dev`. Nix-unit and nix-diff come from the same pinned Nixpkgs
 as the development shell. Tool adoption does not update family sources or the compiler pin.
+
+## Compatibility declaration reports
+
+`lib.compatibilityReport` exports a read-only declaration context for an explicit
+package set, compiler, channel, system and optional retained runtime configuration.
+The caller supplies each package's version, source identity, Cabal metadata identity
+and derivation **before its compatibility repair**, plus its selected construction
+profiles and generated-source layer. Do not substitute a final repaired recipe or
+stock Nixpkgs facts for those selected inputs. Automatic capture from real recipe
+construction is still pending; the checked-in example is a controlled fixture.
+
+Run the fixture and its native interchange check from this repository:
+
+```bash
+nix eval --impure --json .#lib.compatibilityReport \
+  --apply 'report: report (import ./checks/fixtures/compatibility-policy/context.nix)' \
+  > /tmp/compatibility-context.json
+nix run .#haskell-nix-update -- compatibility report --context /tmp/compatibility-context.json --json
+nix run .#haskell-nix-update -- compatibility check --context /tmp/compatibility-context.json
+nix build --no-link .#checks.aarch64-darwin.compatibility-report
+```
+
+The report shares the executable registry's row selector and compiler/version
+predicates. It distinguishes inactive rows, inactive scopes and selected unverified
+entries. Entries outside the supplied package subset are listed separately.
+Selected declarations remain unverified: a source assertion in a build hook has
+not passed merely because its compiler/version predicate matches. Retirement
+thresholds produce candidates with unmet checks, never automatic removals.
+
+`check` validates the declaration interchange contract and fails if any explicitly
+required evidence is missing or unverified. A context with no required evidence
+can pass that check while retaining unverified native coverage; this is not a
+dependency-test, bounds-enforcement or retirement receipt. The CLI rejects forged
+pass statuses and inconsistent required-evidence diagnostics. It does not rerun
+Nix selection from JSON, validate arbitrary patch-function effects or authenticate
+caller-supplied input facts. Invalid command arguments exit 2; malformed contexts
+and unmet evidence exit 1. Reports and checks do not change locks or recipes.
 
 ## Formatting
 

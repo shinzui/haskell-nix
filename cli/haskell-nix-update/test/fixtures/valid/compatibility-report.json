@@ -1,0 +1,558 @@
+{
+  "configuration": {
+    "channel": "github",
+    "ghc": {
+      "derivation": "fixture-compiler",
+      "version": "9.14.1"
+    },
+    "packageSet": "report-fixture",
+    "runtimeConfiguration": {
+      "generation": 1,
+      "name": "fixture-runtime"
+    },
+    "system": "aarch64-darwin"
+  },
+  "entries": [
+    {
+      "effects": [
+        "cabal-metadata"
+      ],
+      "evidenceStatus": "unverified",
+      "id": "legacy-cborg-json-v1",
+      "inputs": {
+        "derivation": "fixture-cborg-before-repair",
+        "metadataIdentity": "fixture-cborg-revision",
+        "sourceIdentity": "fixture-cborg-source",
+        "version": "0.2.6.0"
+      },
+      "kind": "compatibility-repair",
+      "owner": "mori://shinzui/haskell-nix",
+      "package": "cborg-json",
+      "reason": "Preserve cborg-json legacy cabal-metadata. Retain the exact compiler/version and metadata or source drift checks in the existing patch; historical comments are evidence pointers, not fresh validation.",
+      "required": false,
+      "retirement": {
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "kind": "admitting-metadata",
+        "threshold": null
+      },
+      "retirementCandidate": false,
+      "sourceGuard": "unverified",
+      "status": "selected-unverified",
+      "unmetChecks": [
+        "native-build",
+        "applicable-package-tests",
+        "declared-bounds",
+        "exact-input-context"
+      ]
+    },
+    {
+      "effects": [
+        "source-replacement"
+      ],
+      "evidenceStatus": "unverified",
+      "id": "legacy-first-party-source-v1",
+      "inputs": {
+        "derivation": "fixture-kioku-before-repair",
+        "metadataIdentity": "fixture-kioku-metadata",
+        "sourceIdentity": "fixture-kioku-source",
+        "version": "0.8.0.2"
+      },
+      "kind": "source-selection",
+      "owner": "mori://shinzui/haskell-nix",
+      "package": "kioku-core",
+      "reason": "The selected immutable family snapshot and channel own source identity; this catalog does not duplicate the source lock.",
+      "required": false,
+      "retirement": {
+        "condition": "Review this legacy policy against the exact selected source, metadata, compiler and test environment; retain it until a native same-input probe succeeds.",
+        "kind": "review",
+        "threshold": null
+      },
+      "retirementCandidate": false,
+      "sourceGuard": "not-required",
+      "status": "selected-unverified",
+      "unmetChecks": [
+        "native-build",
+        "applicable-package-tests",
+        "declared-bounds",
+        "exact-input-context"
+      ]
+    },
+    {
+      "effects": [
+        "bound-relaxation"
+      ],
+      "evidenceStatus": "unverified",
+      "id": "legacy-first-party-v1-bound-relaxation",
+      "inputs": {
+        "derivation": "fixture-kioku-before-repair",
+        "metadataIdentity": "fixture-kioku-metadata",
+        "sourceIdentity": "fixture-kioku-source",
+        "version": "0.8.0.2"
+      },
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "package": "kioku-core",
+      "reason": "Preserve the existing legacy-first-party-v1 bound-relaxation during migration. Legacy builds do not establish that applicable tests ran or original bounds were respected. Fresh scoped evidence is required before narrowing this waiver.",
+      "required": false,
+      "retirement": {
+        "condition": "Review this legacy policy against the exact selected source, metadata, compiler and test environment; retain it until a native same-input probe succeeds.",
+        "kind": "review",
+        "threshold": null
+      },
+      "retirementCandidate": false,
+      "sourceGuard": "not-required",
+      "status": "selected-unverified",
+      "unmetChecks": [
+        "native-build",
+        "applicable-package-tests",
+        "declared-bounds",
+        "exact-input-context"
+      ]
+    },
+    {
+      "effects": [
+        "test-suppression"
+      ],
+      "evidenceStatus": "unverified",
+      "id": "legacy-first-party-v1-test-suppression",
+      "inputs": {
+        "derivation": "fixture-kioku-before-repair",
+        "metadataIdentity": "fixture-kioku-metadata",
+        "sourceIdentity": "fixture-kioku-source",
+        "version": "0.8.0.2"
+      },
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "package": "kioku-core",
+      "reason": "Preserve the existing legacy-first-party-v1 test-suppression during migration. Legacy builds do not establish that applicable tests ran or original bounds were respected. Fresh scoped evidence is required before narrowing this waiver.",
+      "required": false,
+      "retirement": {
+        "condition": "Review this legacy policy against the exact selected source, metadata, compiler and test environment; retain it until a native same-input probe succeeds.",
+        "kind": "review",
+        "threshold": null
+      },
+      "retirementCandidate": false,
+      "sourceGuard": "not-required",
+      "status": "selected-unverified",
+      "unmetChecks": [
+        "native-build",
+        "applicable-package-tests",
+        "declared-bounds",
+        "exact-input-context"
+      ]
+    },
+    {
+      "effects": [
+        "compiler-flags",
+        "source-assertion"
+      ],
+      "evidenceStatus": "unverified",
+      "id": "legacy-kioku-core-v1",
+      "inputs": {
+        "derivation": "fixture-kioku-before-repair",
+        "metadataIdentity": "fixture-kioku-metadata",
+        "sourceIdentity": "fixture-kioku-source",
+        "version": "0.8.0.2"
+      },
+      "kind": "compatibility-repair",
+      "owner": "mori://shinzui/haskell-nix",
+      "package": "kioku-core",
+      "reason": "Preserve kioku-core legacy source-patch, compiler-flags. GHC 9.14.1 panics during KindID coercion optimization for the two guarded released sources; disable only that optimization and retain the source-manifest checks.",
+      "required": false,
+      "retirement": {
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "kind": "compiler-probe",
+        "threshold": null
+      },
+      "retirementCandidate": false,
+      "sourceGuard": "unverified",
+      "status": "selected-unverified",
+      "unmetChecks": [
+        "native-build",
+        "applicable-package-tests",
+        "declared-bounds",
+        "exact-input-context"
+      ]
+    }
+  ],
+  "inputIdentity": "a6f1f819b8f9f53351b8ecd3b841a395c94909df3f354c01d2d25bbb08c3fe07",
+  "policyIdentity": "5559005af8c15dd2a53bc0bb70d4195ece5d148e6857ac28a4c0a3f1775a2350",
+  "problems": [],
+  "reportKind": "declaration-only",
+  "requiredEvidence": [],
+  "schemaVersion": 1,
+  "unselectedEntries": [
+    {
+      "id": "legacy-blake3-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-cabal-gild-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-cborg-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-claude-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-cmark-gfm-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-codd-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-cohort-source-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-cradle-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-crypton-connection-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-dec-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-dhall-json-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-dhall-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-doctest-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-ephemeral-pg-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-errors-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-fourmolu-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-fuzzyfind-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-hasql-dynamic-statements-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-hasql-implicits-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-hasql-migration-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-hasql-notifications-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-hasql-pool-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-hasql-transaction-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-hasql-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-haxl-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-hiedb-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-hlint-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-hs-opentelemetry-api-types-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-hs-opentelemetry-api-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-hs-opentelemetry-exporter-handle-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-hs-opentelemetry-exporter-in-memory-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-hs-opentelemetry-exporter-otlp-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-hs-opentelemetry-instrumentation-servant-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-hs-opentelemetry-instrumentation-wai-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-hs-opentelemetry-otlp-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-hs-opentelemetry-propagator-b3-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-hs-opentelemetry-propagator-datadog-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-hs-opentelemetry-propagator-jaeger-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-hs-opentelemetry-propagator-w3c-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-hs-opentelemetry-propagator-xray-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-hs-opentelemetry-sdk-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-hs-opentelemetry-semantic-conventions-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-http-api-data-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-http-client-tls-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-http-conduit-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-hw-kafka-client-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-hw-kafka-streamly-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-kioku-cli-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-lens-family-core-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-lens-family-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-link-canonical-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-mlkem-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-monad-control-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-openai-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-optparse-applicative-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-ormolu-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-postgresql-binary-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-postgresql-libpq-configure-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-proto-lens-runtime-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-proto-lens-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-ram-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-repline-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-retrie-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-run-relax-v1-bound-relaxation",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-sbv-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-serialise-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-servant-client-core-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-servant-client-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-servant-docs-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-servant-foreign-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-servant-health-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-servant-server-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-servant-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-shibuya-pgmq-adapter-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-singleton-bool-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-skip-enforce-v1-test-suppression",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-skip-relax-v1-bound-relaxation",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-skip-relax-v1-test-suppression",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-streamly-core-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-streamly-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-stylish-haskell-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-tasty-hspec-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-tasty-wai-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-thread-utils-context-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-thread-utils-finalizers-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-tls-session-manager-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-tls-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-typeid-hs-pg-migrate-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-typeid-hs-sql-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-unicode-data-metadata-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-unicode-data-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-validation-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "legacy-wai-app-static-v1",
+      "reason": "no package instance in the supplied scope"
+    }
+  ]
+}

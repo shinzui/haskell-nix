@@ -52,6 +52,16 @@ not that arbitrary patch functions have only their declared effects. Shared exec
 selection/report predicates and strict native removal probes remain EP-21 work.
 No entry is retired automatically, and ordinary builds do not run expensive probes.
 
+The first report interface is explicitly `declaration-only`. It shares executable
+row and applicability selection, requires explicit pre-repair source/metadata facts,
+and keeps source guards and native requirements unverified. Its interchange validator
+rejects fabricated pass labels and inconsistent required-evidence diagnostics, but
+does not authenticate caller facts or prove arbitrary patch effects. Input and policy
+report identities exclude descriptive reason text; changed exact input facts or
+semantic policy change their respective identities. A declaration check with no
+required native evidence is not a strict validation receipt. Automatic selected-scope
+fact capture and native source/metadata probes remain separate acceptance work.
+
 Migration acceptance additionally compares actual production derivations before and
 after the refactor. Native test/bounds claims require separately scoped receipts;
 blocked services and unavailable platforms remain visibly unverified.

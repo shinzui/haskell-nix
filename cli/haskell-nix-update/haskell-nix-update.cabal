@@ -41,6 +41,9 @@ library
     HaskellNix.Update
     HaskellNix.Update.Catalog
     HaskellNix.Update.Cli
+    HaskellNix.Update.Compatibility.Types
+    HaskellNix.Update.Compatibility.Report
+    HaskellNix.Update.Compatibility.Cli
     HaskellNix.Update.Cohort.Cli
     HaskellNix.Update.Cohort.Compare
     HaskellNix.Update.Cohort.Inventory
@@ -112,6 +115,7 @@ test-suite haskell-nix-update-test
     CohortGenerateTest
     CohortGenerateIOTest
     CohortRecipesTest
+    CompatibilityTest
     CohortCompareTest
     PackageSetTest
     Paths_haskell_nix_update

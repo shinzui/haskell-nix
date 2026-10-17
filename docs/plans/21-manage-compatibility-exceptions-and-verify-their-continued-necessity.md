@@ -33,6 +33,11 @@ provenance:
       at: 2026-10-17T06:42:24Z
       mode: "implement"
       note: "Begin explicit legacy compatibility catalog and immutable build-policy migration."
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-17T13:17:55Z
+      mode: "implement"
+      note: "Add declaration-only compatibility reports, read-only CLI checks and native interchange fixtures; keep production capture and strict evidence gates open."
   reviews:
     - model: "gpt-6-astra"
       harness: "codex-cli"
@@ -56,16 +61,21 @@ This is a standalone plan covering exception lifecycle and the validation necess
 
 ## Progress
 
+2026-10-17 report continuation: `lib.compatibilityReport` and updater `compatibility report/check` now exchange a schema-1, explicitly declaration-only context. Reports share row/applicability selection, preserve exact caller-supplied pre-repair inputs and immutable profile waivers, distinguish inactive rows/scopes, and keep source guards/native evidence unverified. Required absent/unverified evidence fails; JSON validation rejects forged pass statuses and inconsistent diagnostics. Pure tests cover channel/compiler/version guards, lazy patch functions, candidate-only retirement, source/metadata identity changes, and descriptive-text stability. All 229 aggregate pure expectations and 181 updater tests pass, as do native Nix-to-CLI, policy and nix-unit checks, documentation profiles and formatting. [Evidence](../evidence/ep21/declaration-report.json). Automatic fact capture from production recipe construction, effective-effect comparison, actual source/metadata mismatch probes, and strict validation receipts remain unimplemented; this is M2 groundwork, not M2 acceptance. The configured Linux builder key is still unreadable on this host.
+
 2026-10-17 M1 in progress: a schema-1 catalog covers 89 executable registry rows plus generated first-party/cohort constructors and named legacy profile waivers (98 entries). Every migrated entry remains unverified. Unicode-data's always-applied test waiver and compiler-guarded metadata repair have separate IDs. Construction helpers preserve their existing operation order and pin legacy profile modes. Validation and pure negative fixtures cover guards, ownership, duplicate IDs, coverage and waiver references. M2 groundwork extracts the lazy first-always/first-matching selector, and production compiler/version/system guards now consume the same catalog predicate. Exact inner package-version guards remain exact rather than being widened to outer registry ranges. All 209 aggregate pure expectations evaluate without failures, including channel ordering and checkpoint-origin regression cases. Four retained Apple Silicon generation/channel cells preserve compiler, fingerprint and package derivations. Current Apple Silicon translation sources were realized after timings. All constructible registry entries preserve exact derivations in four compiler/channel cells. Unfiltered queries encounter the existing retrie broken-package guard in both versions; per-entry queries retain that guard and explicitly exclude blocked entries from identity acceptance. Linux requires unavailable native translation. [Partial evidence](../evidence/ep21/catalog-migration-partial.json). Full matrix/focused native checks remain pending; no policy narrowing or native test claim is made.
 
 
 - [x] (2026-10-17) M1 declaration groundwork: bind all 98 unverified catalog entries and immutable legacy construction profiles; preserve four retained Apple Silicon identities and pass pure validation. Full current/native matrix acceptance remains open below.
 - [ ] M1: Define the exception catalog and explicit build-policy profiles; migrate current entries without changing production derivations.
 - [ ] M2: Share dispatch semantics with selected-configuration reports and retirement-candidate evaluation.
+- [x] (2026-10-17) M2 declaration interchange: implement the pure report adapter, report/check CLI, required-evidence diagnostics and native fixture handoff without claiming verified package behavior.
 - [ ] M3: Add isolated strict validation and exception-removal probes with complete receipts and negative fixtures.
 - [ ] M4: Verify a real dependency pilot, integrate retained policy evidence, and document the workflow and ADR.
 
 ## Surprises & Discoveries
+
+2026-10-17: Source guards remain build-time assertions in several recipes. Reporting a matching compiler/version as a successful guard would fabricate evidence. The first report format therefore accepts explicit pre-repair input facts, labels itself declaration-only, and rejects all verified/native-pass statuses. Production fact capture and effective-effect comparison remain mandatory before full M2 acceptance. The report CLI checks its interchange contract rather than reimplementing version dispatch in Haskell.
 
 
 2026-10-17: Cohort construction also suppresses tests before common registry repair dispatch. Coverage therefore includes that generated constructor as well as hand-written rows and first-party wrapping. A metadata catalog alone cannot establish the effects of an arbitrary patch function; selected-configuration reporting remains M2 acceptance. Reading the real functions found exact inner version guards narrower than their outer half-open registry range; the migrated shared predicates preserve both boundaries. Source-manifest/Cabal assertions remain in build hooks and are never treated as passed merely because a predicate matches.
@@ -93,7 +103,7 @@ Channel applicability now compares membership independently of list order. Pure 
 ## Outcomes & Retrospective
 
 
-M1 declaration and migration work is in progress; acceptance is pending. Structured exception metadata, policy migration, reports, strict-validation outputs, and retirement evidence remain pending.
+M1 declaration/migration and the M2 declaration-report interchange are implemented with passing fixture checks. Full acceptance remains pending: automatic production fact capture, effective-effect comparison, exact source/metadata probes, strict validation and removal receipts, the real narrowing pilot and full native matrix still require evidence. A declaration-only check cannot satisfy those native claims.
 
 ## Context and Orientation
 

@@ -1,6 +1,7 @@
 # Bundle Update Log
 
 ## 2026-10-17
+* **Update**: Document declaration-only compatibility report/check commands, explicit pre-repair facts and remaining native evidence gates.
 * **Update**: Describe compatibility catalog bindings, shared guards, immutable legacy profiles and explicit unverified evidence.
 * **Update**: Record verified generation-1 support for the four declared platform/channel configurations and distinguish future unverified records.
 

@@ -6,6 +6,7 @@ import CohortGenerateTest qualified
 import CohortGenerateIOTest qualified
 import CohortRecipesTest qualified
 import CohortTest qualified
+import CompatibilityTest qualified
 import AdapterTest qualified
 import Data.ByteString qualified as ByteString
 import Data.ByteString.Lazy qualified as LazyByteString
@@ -31,7 +32,8 @@ tests :: TestTree
 tests =
   testGroup
     "haskell-nix-update"
-    [ RuntimeTest.tests,
+    [ CompatibilityTest.tests,
+      RuntimeTest.tests,
       CohortModelTest.tests,
       CohortCompareTest.tests,
       CohortGenerateTest.tests,

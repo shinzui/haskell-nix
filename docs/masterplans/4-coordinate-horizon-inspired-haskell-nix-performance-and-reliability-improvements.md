@@ -32,6 +32,11 @@ provenance:
       at: 2026-10-17T04:34:19Z
       mode: "implement"
       note: "Resume all eligible work under the newly authorized full umbrella implementation."
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-17T13:17:55Z
+      mode: "implement"
+      note: "Coordinate EP-21 declaration report delivery without weakening performance or native verification gates."
   reviews:
     - model: "gpt-6-astra"
       harness: "codex-cli"
@@ -154,6 +159,8 @@ Existing plans 9 and 16 retain ownership of generator contexts, executable graph
 Shared edits to `flake.nix`, `checks/default.nix`, `lib/`, and updater modules require per-plan ownership: EP-19 wires recipe generation, EP-20 wires shell construction, EP-21 wires exception/validation policy, and EP-18 wires application-only incremental helpers. Coordinate merge order and update shared interfaces in both consumers and owners. Each member retains its self-contained implementation and acceptance; this master plan records reconciliation.
 
 ## Progress
+
+2026-10-17 report continuation: EP-21 now exports a declaration-only compatibility report and read-only updater report/check commands, with a native Nix-to-CLI fixture handoff. The current aggregate suite passes 229 pure expectations and 181 updater tests. Matching selection remains unverified, required absent/unverified evidence fails, and descriptive text does not affect semantic report identities. Production fact capture, effective-effect comparison and strict native probes remain EP-21 gates; EP-19 must not treat this declaration report as verified policy evidence. All member statuses remain In Progress/Not Started as recorded in the registries. Strict publication dry-run preserves five local entries and 21 cross-repository dependencies. The missing Mori database and unreadable configured Linux builder key remain current prerequisites.
 
 - [x] (2026-10-17) Reconcile restored foreign contracts, exact eight-document membership, typed dependencies and current owner progress.
 - [ ] Accept the six member outcomes and the cross-repository integration/publication evidence.
