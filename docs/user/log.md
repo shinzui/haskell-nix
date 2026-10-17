@@ -1,6 +1,7 @@
 # Bundle Update Log
 
 ## 2026-10-17
+* **Update**: Record the immutable 218-test updater matrix and bounded real-tool Linux artifact generation, offline checking, drift rejection, no-IFD and retained-root parity.
 * **Update**: Document staged complete Hackage recipe generation/check, verified local source inputs, pinned builder converter, output ownership and bounded runtime parity.
 * **Update**: Document optional cohort generation-context export, staged publication, concurrent-input rejection, and pending complete recipe tooling.
 * **Update**: Preserve retained report contexts and catalog semantics across live metadata retirement.

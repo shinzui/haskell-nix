@@ -4,10 +4,10 @@ title: Maintainer tools
 description: Find repository formatting, test, derivation-diff, and validation commands.
 docId: DOC-6
 tags: [maintainers, testing, nix]
-timestamp: 2026-10-17T23:38:30Z
+timestamp: 2026-10-17T23:46:31Z
 generated:
   by: process:codex
-  at: 2026-10-17T23:38:30Z
+  at: 2026-10-17T23:46:31Z
 ---
 
 # Maintainer tools
@@ -87,7 +87,9 @@ byte-identically after input relocation, and evaluates its scoped root with IFD
 disabled. Other classifications remain explicit in the manifest and retain their
 existing constructors. Source-pin conversion, a retained factory adapter, wider
 native coverage and performance adoption remain EP-19 acceptance work. The earlier
-one-root and five-root evaluation campaigns missed the declared speed target.
+one-root and five-root evaluation campaigns missed the declared speed target. The
+[Linux supplement](../evidence/ep19/recipe-artifacts-native-matrix.json) passes the
+same bounded root and all 218 updater tests in the translated Apple guest.
 
 ## Compatibility declaration reports
 
