@@ -23,11 +23,31 @@ class ImportProof(unittest.TestCase):
         for channel in ("github", "hackage"):
             files = self.prepare(channel=channel)
             for name, value in files.items():
-                if name != "selection.json":
+                if name not in ("selection.json", "comparison-sources.json"):
                     self.assertEqual(value, (ROOT / f"cabal/runtimes/keiro-runtime/1/{name}").read_bytes())
             self.assertIn(b"import: cohort.freeze", files[channel + ".project"])
             self.assertIn("cohort.freeze", files)
             self.assertIn("configuration.project", files)
+
+    def test_comparison_sources_preserve_complement_and_selected_runtime(self):
+        for channel in ("github", "hackage"):
+            files = self.prepare(channel=channel)
+            actual = json.loads(files["comparison-sources.json"])
+            runtime = json.loads(files[channel + "-sources.json"])
+            original = json.loads((ROOT / "cabal/cohort-sources.json").read_bytes())
+            self.assertEqual(actual, original | runtime)
+            self.assertEqual(actual["keiki"], runtime["keiki"])
+            self.assertEqual(actual["cmark-gfm"], original["cmark-gfm"])
+
+    def test_runtime_and_current_cohort_version_conflict_is_rejected(self):
+        def conflict(path, value):
+            if path == "cabal/cohort-sources.json":
+                sources = json.loads(value)
+                sources["keiki"]["version"] = "0.0.0"
+                return json.dumps(sources).encode()
+            return value
+        with self.assertRaisesRegex(ValueError, "runtime/cohort version conflict: keiki"):
+            self.prepare(conflict)
 
     def test_tampered_transport_is_rejected(self):
         with self.assertRaisesRegex(ValueError, "hash mismatch"):

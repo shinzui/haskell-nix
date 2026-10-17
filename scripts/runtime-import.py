@@ -27,7 +27,7 @@ def prepare(revision, runtime, generation, channel, fetch):
         raise ValueError("invalid retained runtime projection identity")
     files = {}
     hashes = {}
-    for name in ("cohort.freeze", "configuration.project", channel + ".project"):
+    for name in ("cohort.freeze", "configuration.project", channel + ".project", channel + "-sources.json"):
         path = prefix + "/" + name
         expected = record["projections"][path]
         content = fetch(path)
@@ -35,6 +35,19 @@ def prepare(revision, runtime, generation, channel, fetch):
             raise ValueError("runtime projection hash mismatch: " + path)
         files[name] = content
         hashes[name] = expected
+    # The shared comparator owns parsing and validation. Supply its expected
+    # source manifest for the selected transport, preserving the complete cohort
+    # outside the retained runtime rather than ignoring intentional Git sources.
+    sources = json.loads(fetch("cabal/cohort-sources.json"))
+    runtime_sources = json.loads(files[channel + "-sources.json"])
+    if set(runtime_sources) != set(record["ownership"]):
+        raise ValueError("runtime source manifest does not match retained ownership")
+    for name, package in runtime_sources.items():
+        if name not in sources or sources[name]["version"] != package["version"]:
+            raise ValueError("runtime/cohort version conflict: " + name)
+    sources.update(runtime_sources)
+    files["comparison-sources.json"] = (json.dumps(sources, indent=2, sort_keys=True) + "\n").encode()
+    hashes["comparison-sources.json"] = hashlib.sha256(files["comparison-sources.json"]).hexdigest()
     metadata = {"schemaVersion": 1, "runtime": runtime, "generation": generation,
                 "channel": channel, "channelRevision": revision,
                 "runtimeFingerprint": record["fingerprint"], "files": hashes}

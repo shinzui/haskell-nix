@@ -6,7 +6,7 @@ docId: DOC-6
 tags: [runtime, composition, adoption]
 generated:
   by: process:codex
-  at: 2026-10-16T23:51:13Z
+  at: 2026-10-17T00:13:15Z
 ---
 
 [Guides](README.md)
@@ -61,7 +61,7 @@ nix run github:shinzui/haskell-nix/REV#runtime-import -- \
   --destination cabal/runtime/keiro-runtime/1
 ```
 
-Commit the four resulting files. Add both imports to `cabal.project`:
+Commit the six resulting files. Add both imports to `cabal.project`:
 
 ```cabal
 import: https://raw.githubusercontent.com/shinzui/haskell-nix/REV/cabal/cohort.freeze
@@ -69,13 +69,24 @@ import: cabal/runtime/keiro-runtime/1/github.project
 ```
 
 The materializer verifies the three original projection files against the retained lock and
-writes a selection receipt. Use the same command with `--check` for no-write verification.
+writes a selection receipt. The selected source projection and `comparison-sources.json`
+provide the complete expected source policy to the existing comparator; unrelated cohort
+entries are preserved and runtime version conflicts fail. Use the same command with `--check` for no-write verification.
 Local projection files preserve Cabal's relative imports; importing the remote runtime project
 alone does not fetch its sibling files. Select `hackage` consistently in both build systems to
 use that channel. Both configurations preserve the declared Kafka and Dhall source exceptions.
 Enable supported application tests and benchmarks after the imports. Retain required
 application-only source/flag policy and compare every non-local dependency with the complete
 cohort through the shared tool.
+
+Check the fresh Cabal plan through the shared parser, using that selected source policy:
+
+```bash
+nix run github:shinzui/haskell-nix/REV#cohort-compare -- \
+  --freeze https://raw.githubusercontent.com/shinzui/haskell-nix/REV/cabal/cohort.freeze \
+  --sources cabal/runtime/keiro-runtime/1/comparison-sources.json \
+  --plan-json dist-newstyle/cache/plan.json
+```
 
 ## 3. Construct one checked scope
 

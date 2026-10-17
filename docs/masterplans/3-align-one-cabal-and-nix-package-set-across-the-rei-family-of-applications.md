@@ -204,7 +204,7 @@ Phase 3 (plan 14) comes last because it is the only place all five meet: the dot
 | 9 | Generate the Nix package set from the cohort freeze and guard version parity | docs/plans/9-generate-the-nix-package-set-from-the-cohort-freeze-and-guard-version-parity.md | EP-8 | None | Complete |
 | 10 | Own the shared third-party overrides in the channel instead of consumer overlays | docs/plans/10-own-the-shared-third-party-overrides-in-the-channel-instead-of-consumer-overlays.md | None | EP-9 | Complete |
 | 16 | Create the Keiro runtime package set and compose applications on it | docs/plans/16-create-the-keiro-runtime-package-set-and-compose-applications-on-it.md | EP-9, EP-10 | None | Complete |
-| 11 | Adopt the shared package set in rei and mori-rei-app | docs/plans/11-adopt-the-shared-package-set-in-rei-and-mori-rei-app.md | EP-9, EP-10, EP-16 | None | Not Started |
+| 11 | Adopt the shared package set in rei and mori-rei-app | docs/plans/11-adopt-the-shared-package-set-in-rei-and-mori-rei-app.md | EP-9, EP-10, EP-16 | None | In Progress |
 | 12 | Adopt the shared package set in mori | docs/plans/12-adopt-the-shared-package-set-in-mori.md | EP-9, EP-10, EP-16 | EP-11 | In Progress |
 | 13 | Bring mina and reiko up to the shared package set | docs/plans/13-bring-mina-and-reiko-up-to-the-shared-package-set.md | EP-9, EP-10, EP-16 | None | Not Started |
 | 14 | Deploy one channel revision from dotfiles and guard closure parity | docs/plans/14-deploy-one-channel-revision-from-dotfiles-and-guard-closure-parity.md | EP-11, EP-12, EP-13 | None | Not Started |
@@ -319,7 +319,7 @@ The goal is less repeated coordination and dependency compilation. Equal version
 
 ## Progress
 
-Current snapshot (2026-10-16): EP-15, EP-8, EP-9, EP-10, EP-17 and EP-16 are Complete. EP-11 is the next eligible child. EP-12 has completed its independent Hasql-removal M1; its adoption work still waits for EP-9/10/16. EP-11/13/14 remain Not Started. The registry records whole-child status; child plans retain implementation and acceptance evidence.
+Current snapshot (2026-10-16): EP-15, EP-8, EP-9, EP-10, EP-17 and EP-16 are Complete. EP-11 is In Progress, adopting retained runtime generation 1 at channel `20f943dc658c0de666588e12ae8509983d683cc1`. EP-12 has completed its independent Hasql-removal M1; its adoption is unblocked and follows the EP-11 extension convention. EP-13/14 remain Not Started. The registry records whole-child status; child plans retain implementation and acceptance evidence.
 
 EP-16 has completed M1–M3: generation 1 retains 311 owned packages and 76 immutable projections, reproduced byte for byte in an independent checkout. Its targeted cohort extension contains 465 selections/370 generated recipes, preserves 461 unrelated identities, and retains the maintained Kafka fixes. Both native runtime source channels pass frozen manifest parity for 272 Haskell instances, with 393-path publications remotely verified per channel. Real application/doc/leaf/interface fixtures prove the shared build boundary. Both full platform checks, actual fixture manifests, all four fresh runtime cache jobs and both native disposable scenario sweeps pass. Generation 1 support evidence is retained and fingerprint-bound; consumer adoption is now unblocked.
 

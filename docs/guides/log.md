@@ -1,5 +1,8 @@
 # Bundle Update Log
 
+## 2026-10-17
+* **Update**: Materialize the selected source policy for shared Cabal plan comparison, preserving the complete complementary cohort.
+
 ## 2026-10-16
 * **Addition**: Add the retained Keiro runtime composition guide with explicit selectors, checked Cabal imports and update/conflict workflow.
 * **Update**: Link runtime composition from the guide navigation.

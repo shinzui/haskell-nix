@@ -22,6 +22,11 @@ provenance:
       at: 2026-10-04T13:51:42Z
       mode: "update"
       note: "Apply dependency-alignment review: routine update isolation, shared build evidence and applicable cache/ownership corrections; implementation pending."
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-17T00:06:03Z
+      mode: "implement"
+      note: "Begin atomic Rei and mori-rei-app adoption after verified runtime generation 1 and both-platform cache acceptance."
   reviews:
     - model: "gpt-6.1-sol"
       harness: "codex-cli"
@@ -99,8 +104,8 @@ Export the Rei library extension into the consumer's single Haskell scope. Prove
 
 - [ ] Documentation/CLI-only edits preserve unchanged library and shared dependency identities
 
-- [ ] Prerequisites: plans 9, 10 and 16 are Complete and pushed (and therefore plans 8 and 15, which plan 9 depends on); record the haskell-nix revision `R`, plan 15's released versions of keiro, keiro-ops, keiro-pgmq, keiro-test-support and kioku-core, and plan 8's upgrade report entries for rei, mori-app and mori-rei-app in Surprises & Discoveries.
-- [ ] Milestone 1 (rei, Cabal): baseline `plan.json` captured before any edit.
+- [x] (2026-10-16) Prerequisites: plans 9, 10 and 16 are Complete and pushed (and therefore plans 8 and 15, which plan 9 depends on); record the haskell-nix revision `R`, plan 15's released versions of keiro, keiro-ops, keiro-pgmq, keiro-test-support and kioku-core, and plan 8's upgrade report entries for rei, mori-app and mori-rei-app in Surprises & Discoveries.
+- [x] (2026-10-16) Milestone 1 (rei, Cabal): baseline `plan.json` captured before selector edits at `/tmp/mp3-ep11-rei-baseline/plan.json`; source/configuration copies and successful solve log retained there.
 - [ ] Milestone 1: `import:` of the freeze at `R` added; `index-state`, `constraints:` and `allow-newer:` reconciled.
 - [ ] Milestone 1: capping bounds lifted (expected `brick`, `vty` in `rei-cli/rei-cli.cabal`, and the keiro/kioku bounds if plan 15 released a new major); source fixed until `cabal build all` passes.
 - [ ] Milestone 1: rei's effectful 2.7 breaks fixed, including the vendored `rei-core/src/Rei/Infrastructure/Hasql/` modules and `rei-core/src/Rei/Infrastructure/Trace.hs`; `plan.json` shows `effectful` >= 2.7.1.0 / `effectful-core` >= 2.7.1.1.
@@ -124,8 +129,9 @@ Export the Rei library extension into the consumer's single Haskell scope. Prove
 
 ## Surprises & Discoveries
 
-Nothing has been implemented yet. The observations below were made while writing the plan
-(2026-09-26) and shape it; re-verify each before relying on it.
+Implementation started 2026-10-16. Plans 9, 10 and 16 are Complete and pushed. The exact adoption revision `R` is `20f943dc658c0de666588e12ae8509983d683cc1`, runtime generation 1 (fingerprint `da00319eb1423b4372a0a0b050911b7719d1de0867a3e32160dbd327a2762e81`), GitHub channel, profiling/Haddock disabled. Its application complement is recorded in `nix/runtime-selection.json` in the channel. Keiro is 0.21.0.0 and Kioku 0.9.0.2; current application bounds already admit those lines. The current upgrade report requires Rei Baikai 0.8, Brick 3.0, Megaparsec 9.8.3 and Vty 6.6; mori-app also needs Effectful 2.7 and ephemeral-pg 0.3, and mori-rei-app needs Effectful 2.7 and Baikai 0.8. Historical drafting observations below require re-verification.
+
+Baseline source/configuration copies and the successful pre-edit Cabal plan are retained at `/tmp/mp3-ep11-rei-baseline`. The host lacks GHC and plain `nix shell` does not establish development pkg-config paths; a minimal `mkShell` using the pinned toolchain/native inputs solves the adopted project with tests and benchmarks enabled. The actual checked Rei scope evaluates successfully, exporting all five packages and its runtime executable manifest; Cabal and Nix builds are running. Adoption selectors remain uncommitted until both paths and required gates pass. The first real comparison exposed that GitHub runtime plans need the retained source projection, not the Hackage-shaped global source inventory. The shared runtime importer now materializes that hash-checked projection and a merged complete comparison manifest (eight tests pass); the existing shared parser remains authoritative. It also caught Rei selecting Hackage CMark instead of the declared maintained cohort fork; the source selector is corrected.
 
 - Observation: Rei's Cabal plan is already at or above the Nix versions for almost everything the
   73-package gap names (hasql 1.10.3.7, aeson 2.2.5.1, tls 2.4.6, sbv 14.8, warp 3.4.16). Rei's
