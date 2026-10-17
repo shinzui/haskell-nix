@@ -302,6 +302,7 @@
             });
           runtimeOutputs = runtimeOutputsFor 1;
           runtimeOutputs2 = runtimeOutputsFor 2;
+          runtimeOutputs3 = runtimeOutputsFor 3;
           runtimeImport = pkgsPlain.writeShellApplication {
             name = "runtime-import";
             runtimeInputs = [ pkgsPlain.python3 ];
@@ -382,6 +383,26 @@
             keiro-runtime-2-manifest = runtimeOutputs2.github.manifest;
             keiro-runtime-2-hackage-manifest = runtimeOutputs2.hackage.manifest;
             keiro-runtime-2-proof = runtimeOutputs2.github.proof;
+            keiro-runtime-3-verifier = import ./checks/runtime-verifier.nix {
+              inherit lib mkRuntimePackageSet;
+              generation = 3;
+              channelRevision = inputs.self.rev or inputs.self.dirtyRev or "uncommitted";
+              pkgs = pkgsPlain;
+            };
+            keiro-runtime-3-hackage-verifier = import ./checks/runtime-verifier.nix {
+              inherit lib mkRuntimePackageSet;
+              generation = 3;
+              channel = "hackage";
+              channelRevision = inputs.self.rev or inputs.self.dirtyRev or "uncommitted";
+              pkgs = pkgsPlain;
+            };
+            keiro-runtime-3 = runtimeOutputs3.github.roots;
+            keiro-runtime-3-hackage = runtimeOutputs3.hackage.roots;
+            keiro-runtime-3-closure = runtimeOutputs3.github.closure;
+            keiro-runtime-3-hackage-closure = runtimeOutputs3.hackage.closure;
+            keiro-runtime-3-manifest = runtimeOutputs3.github.manifest;
+            keiro-runtime-3-hackage-manifest = runtimeOutputs3.hackage.manifest;
+            keiro-runtime-3-proof = runtimeOutputs3.github.proof;
             cohort-manifest = cohortManifest;
             cohort-closure = cohortFarm "cohort-closure" cohortNames;
             cohort-roots = cohortFarm "cohort-roots" [
@@ -487,6 +508,18 @@
               manifest = runtimeOutputs2.hackage.manifest;
               record = runtimeOutputs2.hackage.selected.metadata;
             };
+            runtime-3-github-parity = import ./checks/runtime-parity.nix {
+              inherit lib updater;
+              pkgs = pkgsPlain;
+              manifest = runtimeOutputs3.github.manifest;
+              record = runtimeOutputs3.github.selected.metadata;
+            };
+            runtime-3-hackage-parity = import ./checks/runtime-parity.nix {
+              inherit lib updater;
+              pkgs = pkgsPlain;
+              manifest = runtimeOutputs3.hackage.manifest;
+              record = runtimeOutputs3.hackage.selected.metadata;
+            };
             runtime-import = pkgsPlain.runCommand "runtime-import-fixtures"
               {
                 nativeBuildInputs = [ pkgsPlain.python3 ];
@@ -515,6 +548,30 @@
               generation = 2;
               channel = "hackage";
             };
+            runtime-3-github-composition = import ./checks/runtime-composition.nix {
+              inherit lib mkRuntimePackageSet;
+              pkgs = pkgsPlain;
+              generation = 3;
+              channel = "github";
+            };
+            runtime-3-hackage-composition = import ./checks/runtime-composition.nix {
+              inherit lib mkRuntimePackageSet;
+              pkgs = pkgsPlain;
+              generation = 3;
+              channel = "hackage";
+            };
+            runtime-3-bytestring-lexing-github = (import ./checks/bytestring-lexing-validation.nix {
+              pkgs = pkgsPlain;
+              inherit system;
+              sourceChannel = "github";
+              scope = runtimeOutputs3.github.scope;
+            }).check;
+            runtime-3-bytestring-lexing-hackage = (import ./checks/bytestring-lexing-validation.nix {
+              pkgs = pkgsPlain;
+              inherit system;
+              sourceChannel = "hackage";
+              scope = runtimeOutputs3.hackage.scope;
+            }).check;
             runtime-composition = import ./checks/runtime-composition.nix {
               inherit lib mkRuntimePackageSet;
               pkgs = pkgsPlain;

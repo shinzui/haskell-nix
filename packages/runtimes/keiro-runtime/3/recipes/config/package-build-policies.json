@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "profiles": {
+    "legacy-first-party-v1": {
+      "tests": {
+        "mode": "skip",
+        "services": [],
+        "exceptionIds": [
+          "legacy-first-party-v1-test-suppression"
+        ]
+      },
+      "bounds": {
+        "mode": "relax",
+        "exceptionIds": [
+          "legacy-first-party-v1-bound-relaxation"
+        ]
+      },
+      "construction": "legacy-layer"
+    },
+    "legacy-skip-relax-v1": {
+      "tests": {
+        "mode": "skip",
+        "services": [],
+        "exceptionIds": [
+          "legacy-skip-relax-v1-test-suppression"
+        ]
+      },
+      "bounds": {
+        "mode": "relax",
+        "exceptionIds": [
+          "legacy-skip-relax-v1-bound-relaxation"
+        ]
+      },
+      "construction": "legacy-layer"
+    },
+    "legacy-skip-enforce-v1": {
+      "tests": {
+        "mode": "skip",
+        "services": [],
+        "exceptionIds": [
+          "legacy-skip-enforce-v1-test-suppression"
+        ]
+      },
+      "bounds": {
+        "mode": "enforce",
+        "exceptionIds": []
+      },
+      "construction": "legacy-layer"
+    },
+    "legacy-run-relax-v1": {
+      "tests": {
+        "mode": "run",
+        "services": [],
+        "exceptionIds": []
+      },
+      "bounds": {
+        "mode": "relax",
+        "exceptionIds": [
+          "legacy-run-relax-v1-bound-relaxation"
+        ]
+      },
+      "construction": "legacy-layer"
+    },
+    "strict-v1": {
+      "tests": {
+        "mode": "run",
+        "services": [],
+        "exceptionIds": []
+      },
+      "bounds": {
+        "mode": "enforce",
+        "exceptionIds": []
+      },
+      "construction": "complete"
+    },
+    "verified-bytestring-lexing-ghc9124-v1": {
+      "tests": {
+        "mode": "run",
+        "services": [],
+        "exceptionIds": []
+      },
+      "bounds": {
+        "mode": "enforce",
+        "exceptionIds": []
+      },
+      "construction": "complete"
+    }
+  }
+}

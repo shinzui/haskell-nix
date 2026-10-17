@@ -1,0 +1,4650 @@
+{
+  "schemaVersion": 1,
+  "entries": [
+    {
+      "id": "legacy-blake3-v1",
+      "kind": "compatibility-repair",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve blake3 legacy test-suppression, compiler-flags, platform-policy. Retain the existing narrow repair and source assertions; native necessity is explicitly unverified in this migration.",
+      "upstreamReferences": [],
+      "effects": [
+        "compiler-flags",
+        "platform-policy",
+        "test-suppression"
+      ],
+      "applicability": {
+        "packages": [
+          "blake3"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "blake3",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-cabal-gild-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve cabal-gild legacy test-suppression, bound-relaxation. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation",
+        "test-suppression"
+      ],
+      "applicability": {
+        "packages": [
+          "cabal-gild"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "cabal-gild",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-cborg-json-v1",
+      "kind": "compatibility-repair",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve cborg-json legacy cabal-metadata. Retain the exact compiler/version and metadata or source drift checks in the existing patch; historical comments are evidence pointers, not fresh validation.",
+      "upstreamReferences": [
+        "mori://well-typed/cborg"
+      ],
+      "effects": [
+        "cabal-metadata"
+      ],
+      "applicability": {
+        "packages": [
+          "cborg-json"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": {
+          "min": "9.14",
+          "max": "9.15",
+          "exact": null
+        },
+        "systems": null,
+        "versions": {
+          "min": null,
+          "max": null,
+          "exact": [
+            "0.2.6.0"
+          ]
+        },
+        "sourceGuard": {
+          "status": "enforced-in-recipe",
+          "implementation": [
+            "patches/cborg-json/0.2.6-ghc914.nix"
+          ]
+        },
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "cborg-json",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "admitting-metadata",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-cborg-v1",
+      "kind": "compatibility-repair",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve cborg legacy cabal-metadata. Retain the exact compiler/version and metadata or source drift checks in the existing patch; historical comments are evidence pointers, not fresh validation.",
+      "upstreamReferences": [
+        "mori://well-typed/cborg/packages/cborg"
+      ],
+      "effects": [
+        "cabal-metadata"
+      ],
+      "applicability": {
+        "packages": [
+          "cborg"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": {
+          "min": "9.14",
+          "max": "9.15",
+          "exact": null
+        },
+        "systems": null,
+        "versions": {
+          "min": "0.2.10.0",
+          "max": "0.2.10.1",
+          "exact": null
+        },
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "cborg",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "admitting-metadata",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-claude-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve claude legacy bound-relaxation. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation"
+      ],
+      "applicability": {
+        "packages": [
+          "claude"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "claude",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-cmark-gfm-v1",
+      "kind": "source-selection",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve cmark-gfm legacy test-suppression, source-replacement. The current reviewed source constructor owns this selection; exact pins remain in that constructor or its existing lock, and no alternate source is introduced here.",
+      "upstreamReferences": [
+        "mori://shinzui/cmark-gfm-hs"
+      ],
+      "effects": [
+        "source-replacement",
+        "test-suppression"
+      ],
+      "applicability": {
+        "packages": [
+          "cmark-gfm"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "cmark-gfm",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-codd-v1",
+      "kind": "source-selection",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve codd legacy test-suppression, bound-relaxation, source-replacement. The current reviewed source constructor owns this selection; exact pins remain in that constructor or its existing lock, and no alternate source is introduced here.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation",
+        "source-replacement",
+        "test-suppression"
+      ],
+      "applicability": {
+        "packages": [
+          "codd"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "codd",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-cohort-source-v1",
+      "kind": "source-selection",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "The selected cohort entry supplies its exact archive and Cabal revision. Preserve the delivered generator and retained selection as source authorities.",
+      "upstreamReferences": [],
+      "effects": [
+        "source-replacement",
+        "cabal-metadata"
+      ],
+      "applicability": {
+        "packages": null,
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "generated-cohort",
+        "name": "source-constructor"
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "Review this legacy policy against the exact selected source, metadata, compiler and test environment; retain it until a native same-input probe succeeds.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-cradle-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve cradle legacy unbreaking, test-suppression, bound-relaxation. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation",
+        "test-suppression",
+        "unbreaking"
+      ],
+      "applicability": {
+        "packages": [
+          "cradle"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "cradle",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-crypton-connection-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve crypton-connection legacy bound-relaxation. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation"
+      ],
+      "applicability": {
+        "packages": [
+          "crypton-connection"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "crypton-connection",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-dec-v1",
+      "kind": "compatibility-repair",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve dec legacy cabal-metadata. Retain the exact compiler/version and metadata or source drift checks in the existing patch; historical comments are evidence pointers, not fresh validation.",
+      "upstreamReferences": [
+        "mori://phadej/dec"
+      ],
+      "effects": [
+        "cabal-metadata"
+      ],
+      "applicability": {
+        "packages": [
+          "dec"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": {
+          "min": "9.14",
+          "max": "9.15",
+          "exact": null
+        },
+        "systems": null,
+        "versions": {
+          "min": null,
+          "max": null,
+          "exact": [
+            "0.0.6"
+          ]
+        },
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "dec",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "admitting-metadata",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-dhall-json-v1",
+      "kind": "compatibility-repair",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve dhall-json legacy cabal-metadata. Retain the existing narrow repair and source assertions; native necessity is explicitly unverified in this migration.",
+      "upstreamReferences": [
+        "mori://shinzui/mori-rei-app"
+      ],
+      "effects": [
+        "cabal-metadata"
+      ],
+      "applicability": {
+        "packages": [
+          "dhall-json"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": {
+          "min": "1.7.12",
+          "max": "1.7.13",
+          "exact": null
+        },
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "dhall-json",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-dhall-v1",
+      "kind": "source-selection",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve the exact cohort Git source and its tested HTTPS-import flag. The postPatch assertion checks that selected metadata admits the TLS cohort; it does not rewrite those bounds. Dependency tests remain skipped and freshly unverified.",
+      "upstreamReferences": [
+        "mori://dhall-lang/dhall-haskell"
+      ],
+      "effects": [
+        "source-replacement",
+        "compiler-flags",
+        "source-assertion",
+        "test-suppression"
+      ],
+      "applicability": {
+        "packages": [
+          "dhall"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "dhall",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "admitting-metadata",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-doctest-v1",
+      "kind": "compatibility-repair",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve doctest legacy source-patch. Retain the exact compiler/version and metadata or source drift checks in the existing patch; historical comments are evidence pointers, not fresh validation.",
+      "upstreamReferences": [
+        "mori://sol/doctest"
+      ],
+      "effects": [
+        "source-patch"
+      ],
+      "applicability": {
+        "packages": [
+          "doctest"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": {
+          "min": null,
+          "max": null,
+          "exact": [
+            "9.12.4"
+          ]
+        },
+        "systems": [
+          "x86_64-linux"
+        ],
+        "versions": {
+          "min": null,
+          "max": null,
+          "exact": [
+            "0.24.3"
+          ]
+        },
+        "sourceGuard": {
+          "status": "enforced-in-recipe",
+          "implementation": [
+            "patches/doctest/0.24.3-ghc9124-ticker.nix"
+          ]
+        },
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "doctest",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "compiler-probe",
+        "condition": "A fixed compiler must pass the unchanged released tests without normalizing the ticker EINTR diagnostic, using the same native Linux source and test policy.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-ephemeral-pg-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve ephemeral-pg legacy unbreaking, test-suppression. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "test-suppression",
+        "unbreaking"
+      ],
+      "applicability": {
+        "packages": [
+          "ephemeral-pg"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "ephemeral-pg",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-errors-v1",
+      "kind": "compatibility-repair",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve errors legacy cabal-metadata. Retain the existing narrow repair and source assertions; native necessity is explicitly unverified in this migration.",
+      "upstreamReferences": [],
+      "effects": [
+        "cabal-metadata"
+      ],
+      "applicability": {
+        "packages": [
+          "errors"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": {
+          "min": "2.3.0",
+          "max": "2.3.1",
+          "exact": null
+        },
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "errors",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-first-party-source-v1",
+      "kind": "source-selection",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "The selected immutable family snapshot and channel own source identity; this catalog does not duplicate the source lock.",
+      "upstreamReferences": [],
+      "effects": [
+        "source-replacement"
+      ],
+      "applicability": {
+        "packages": null,
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "generated-first-party",
+        "name": "source-constructor"
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "Review this legacy policy against the exact selected source, metadata, compiler and test environment; retain it until a native same-input probe succeeds.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-first-party-v1-bound-relaxation",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve the existing legacy-first-party-v1 bound-relaxation during migration. Legacy builds do not establish that applicable tests ran or original bounds were respected. Fresh scoped evidence is required before narrowing this waiver.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation"
+      ],
+      "applicability": {
+        "packages": null,
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "profile",
+        "name": "legacy-first-party-v1"
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "Review this legacy policy against the exact selected source, metadata, compiler and test environment; retain it until a native same-input probe succeeds.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-first-party-v1-test-suppression",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve the existing legacy-first-party-v1 test-suppression during migration. Legacy builds do not establish that applicable tests ran or original bounds were respected. Fresh scoped evidence is required before narrowing this waiver.",
+      "upstreamReferences": [],
+      "effects": [
+        "test-suppression"
+      ],
+      "applicability": {
+        "packages": null,
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "profile",
+        "name": "legacy-first-party-v1"
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "Review this legacy policy against the exact selected source, metadata, compiler and test environment; retain it until a native same-input probe succeeds.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-fourmolu-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve fourmolu legacy test-suppression, bound-relaxation. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation",
+        "test-suppression"
+      ],
+      "applicability": {
+        "packages": [
+          "fourmolu"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "fourmolu",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-fuzzyfind-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve fuzzyfind legacy unbreaking, test-suppression, bound-relaxation. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation",
+        "test-suppression",
+        "unbreaking"
+      ],
+      "applicability": {
+        "packages": [
+          "fuzzyfind"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "fuzzyfind",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-hasql-dynamic-statements-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve hasql-dynamic-statements legacy bound-relaxation. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation"
+      ],
+      "applicability": {
+        "packages": [
+          "hasql-dynamic-statements"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "hasql-dynamic-statements",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-hasql-implicits-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve hasql-implicits legacy bound-relaxation. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation"
+      ],
+      "applicability": {
+        "packages": [
+          "hasql-implicits"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "hasql-implicits",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-hasql-migration-v1",
+      "kind": "source-selection",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve hasql-migration legacy test-suppression, bound-relaxation, source-replacement. The current reviewed source constructor owns this selection; exact pins remain in that constructor or its existing lock, and no alternate source is introduced here.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation",
+        "source-replacement",
+        "test-suppression"
+      ],
+      "applicability": {
+        "packages": [
+          "hasql-migration"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "hasql-migration",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-hasql-notifications-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve hasql-notifications legacy bound-relaxation. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation"
+      ],
+      "applicability": {
+        "packages": [
+          "hasql-notifications"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "hasql-notifications",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-hasql-pool-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve hasql-pool legacy bound-relaxation. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation"
+      ],
+      "applicability": {
+        "packages": [
+          "hasql-pool"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "hasql-pool",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-hasql-transaction-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve hasql-transaction legacy bound-relaxation. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation"
+      ],
+      "applicability": {
+        "packages": [
+          "hasql-transaction"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "hasql-transaction",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-hasql-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve hasql legacy bound-relaxation. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation"
+      ],
+      "applicability": {
+        "packages": [
+          "hasql"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "hasql",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-haxl-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve haxl legacy test-suppression, bound-relaxation. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation",
+        "test-suppression"
+      ],
+      "applicability": {
+        "packages": [
+          "haxl"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "haxl",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-hiedb-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve hiedb legacy test-suppression, bound-relaxation. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation",
+        "test-suppression"
+      ],
+      "applicability": {
+        "packages": [
+          "hiedb"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "hiedb",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-hlint-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve hlint legacy test-suppression, bound-relaxation. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation",
+        "test-suppression"
+      ],
+      "applicability": {
+        "packages": [
+          "hlint"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "hlint",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-hs-opentelemetry-api-types-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve hs-opentelemetry-api-types legacy bound-relaxation. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation"
+      ],
+      "applicability": {
+        "packages": [
+          "hs-opentelemetry-api-types"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "hs-opentelemetry-api-types",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-hs-opentelemetry-api-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve hs-opentelemetry-api legacy bound-relaxation. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation"
+      ],
+      "applicability": {
+        "packages": [
+          "hs-opentelemetry-api"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "hs-opentelemetry-api",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-hs-opentelemetry-exporter-handle-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve hs-opentelemetry-exporter-handle legacy bound-relaxation. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation"
+      ],
+      "applicability": {
+        "packages": [
+          "hs-opentelemetry-exporter-handle"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "hs-opentelemetry-exporter-handle",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-hs-opentelemetry-exporter-in-memory-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve hs-opentelemetry-exporter-in-memory legacy bound-relaxation. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation"
+      ],
+      "applicability": {
+        "packages": [
+          "hs-opentelemetry-exporter-in-memory"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "hs-opentelemetry-exporter-in-memory",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-hs-opentelemetry-exporter-otlp-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve hs-opentelemetry-exporter-otlp legacy bound-relaxation. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation"
+      ],
+      "applicability": {
+        "packages": [
+          "hs-opentelemetry-exporter-otlp"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "hs-opentelemetry-exporter-otlp",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-hs-opentelemetry-instrumentation-servant-v1",
+      "kind": "source-selection",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve hs-opentelemetry-instrumentation-servant legacy test-suppression, bound-relaxation, source-replacement. The current reviewed source constructor owns this selection; exact pins remain in that constructor or its existing lock, and no alternate source is introduced here.",
+      "upstreamReferences": [
+        "mori://shinzui/hs-opentelemetry-instrumentation-servant"
+      ],
+      "effects": [
+        "bound-relaxation",
+        "source-replacement",
+        "test-suppression"
+      ],
+      "applicability": {
+        "packages": [
+          "hs-opentelemetry-instrumentation-servant"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "hs-opentelemetry-instrumentation-servant",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-hs-opentelemetry-instrumentation-wai-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve hs-opentelemetry-instrumentation-wai legacy bound-relaxation. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation"
+      ],
+      "applicability": {
+        "packages": [
+          "hs-opentelemetry-instrumentation-wai"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "hs-opentelemetry-instrumentation-wai",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-hs-opentelemetry-otlp-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve hs-opentelemetry-otlp legacy bound-relaxation. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation"
+      ],
+      "applicability": {
+        "packages": [
+          "hs-opentelemetry-otlp"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "hs-opentelemetry-otlp",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-hs-opentelemetry-propagator-b3-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve hs-opentelemetry-propagator-b3 legacy bound-relaxation. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation"
+      ],
+      "applicability": {
+        "packages": [
+          "hs-opentelemetry-propagator-b3"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "hs-opentelemetry-propagator-b3",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-hs-opentelemetry-propagator-datadog-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve hs-opentelemetry-propagator-datadog legacy bound-relaxation. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation"
+      ],
+      "applicability": {
+        "packages": [
+          "hs-opentelemetry-propagator-datadog"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "hs-opentelemetry-propagator-datadog",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-hs-opentelemetry-propagator-jaeger-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve hs-opentelemetry-propagator-jaeger legacy bound-relaxation. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation"
+      ],
+      "applicability": {
+        "packages": [
+          "hs-opentelemetry-propagator-jaeger"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "hs-opentelemetry-propagator-jaeger",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-hs-opentelemetry-propagator-w3c-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve hs-opentelemetry-propagator-w3c legacy bound-relaxation. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation"
+      ],
+      "applicability": {
+        "packages": [
+          "hs-opentelemetry-propagator-w3c"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "hs-opentelemetry-propagator-w3c",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-hs-opentelemetry-propagator-xray-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve hs-opentelemetry-propagator-xray legacy bound-relaxation. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation"
+      ],
+      "applicability": {
+        "packages": [
+          "hs-opentelemetry-propagator-xray"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "hs-opentelemetry-propagator-xray",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-hs-opentelemetry-sdk-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve hs-opentelemetry-sdk legacy bound-relaxation. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation"
+      ],
+      "applicability": {
+        "packages": [
+          "hs-opentelemetry-sdk"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "hs-opentelemetry-sdk",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-hs-opentelemetry-semantic-conventions-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve hs-opentelemetry-semantic-conventions legacy bound-relaxation. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation"
+      ],
+      "applicability": {
+        "packages": [
+          "hs-opentelemetry-semantic-conventions"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "hs-opentelemetry-semantic-conventions",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-http-api-data-v1",
+      "kind": "compatibility-repair",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve http-api-data legacy cabal-metadata. Retain the exact compiler/version and metadata or source drift checks in the existing patch; historical comments are evidence pointers, not fresh validation.",
+      "upstreamReferences": [
+        "mori://fizruk/http-api-data"
+      ],
+      "effects": [
+        "cabal-metadata"
+      ],
+      "applicability": {
+        "packages": [
+          "http-api-data"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": {
+          "min": "9.14",
+          "max": "9.15",
+          "exact": null
+        },
+        "systems": null,
+        "versions": {
+          "min": null,
+          "max": null,
+          "exact": [
+            "0.6.3"
+          ]
+        },
+        "sourceGuard": {
+          "status": "enforced-in-recipe",
+          "implementation": [
+            "patches/http-api-data/0.6.3-ghc914.nix"
+          ]
+        },
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "http-api-data",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "admitting-metadata",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-http-client-tls-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve http-client-tls legacy bound-relaxation. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation"
+      ],
+      "applicability": {
+        "packages": [
+          "http-client-tls"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "http-client-tls",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-http-conduit-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve http-conduit legacy bound-relaxation. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation"
+      ],
+      "applicability": {
+        "packages": [
+          "http-conduit"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "http-conduit",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-hw-kafka-client-v1",
+      "kind": "source-selection",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve hw-kafka-client legacy test-suppression, source-replacement. The current reviewed source constructor owns this selection; exact pins remain in that constructor or its existing lock, and no alternate source is introduced here.",
+      "upstreamReferences": [
+        "mori://shinzui/hw-kafka-client",
+        "mori://shinzui/hw-kafka-streamly."
+      ],
+      "effects": [
+        "source-replacement",
+        "test-suppression"
+      ],
+      "applicability": {
+        "packages": [
+          "hw-kafka-client"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "hw-kafka-client",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-hw-kafka-streamly-v1",
+      "kind": "source-selection",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve hw-kafka-streamly legacy test-suppression, source-replacement. The current reviewed source constructor owns this selection; exact pins remain in that constructor or its existing lock, and no alternate source is introduced here.",
+      "upstreamReferences": [
+        "mori://shinzui/hw-kafka-client",
+        "mori://shinzui/hw-kafka-streamly."
+      ],
+      "effects": [
+        "source-replacement",
+        "test-suppression"
+      ],
+      "applicability": {
+        "packages": [
+          "hw-kafka-streamly"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "hw-kafka-streamly",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-kioku-cli-v1",
+      "kind": "compatibility-repair",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve kioku-cli legacy source-patch, compiler-flags. GHC 9.14.1 panics during KindID coercion optimization for the two guarded released sources; disable only that optimization and retain the source-manifest checks.",
+      "upstreamReferences": [
+        "mori://MMZK1526/mmzk-typeid/upstream-issues/mmzk-typeid-kindid-ghc-9-12-4-profiling-coercionkind-panic",
+        "mori://shinzui/kioku"
+      ],
+      "effects": [
+        "compiler-flags",
+        "source-assertion"
+      ],
+      "applicability": {
+        "packages": [
+          "kioku-cli"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": {
+          "min": null,
+          "max": null,
+          "exact": [
+            "9.14.1"
+          ]
+        },
+        "systems": null,
+        "versions": {
+          "min": null,
+          "max": null,
+          "exact": [
+            "0.8.0.2",
+            "0.9.0.2"
+          ]
+        },
+        "sourceGuard": {
+          "status": "enforced-in-recipe",
+          "implementation": [
+            "patches/kioku-cli/0.8.0.2-ghc9141.nix"
+          ]
+        },
+        "layer": "after-first-party"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "kioku-cli",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "compiler-probe",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-kioku-core-v1",
+      "kind": "compatibility-repair",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve kioku-core legacy source-patch, compiler-flags. GHC 9.14.1 panics during KindID coercion optimization for the two guarded released sources; disable only that optimization and retain the source-manifest checks.",
+      "upstreamReferences": [
+        "mori://MMZK1526/mmzk-typeid/upstream-issues/mmzk-typeid-kindid-ghc-9-12-4-profiling-coercionkind-panic",
+        "mori://shinzui/kioku"
+      ],
+      "effects": [
+        "compiler-flags",
+        "source-assertion"
+      ],
+      "applicability": {
+        "packages": [
+          "kioku-core"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": {
+          "min": null,
+          "max": null,
+          "exact": [
+            "9.14.1"
+          ]
+        },
+        "systems": null,
+        "versions": {
+          "min": null,
+          "max": null,
+          "exact": [
+            "0.8.0.2",
+            "0.9.0.2"
+          ]
+        },
+        "sourceGuard": {
+          "status": "enforced-in-recipe",
+          "implementation": [
+            "patches/kioku-core/0.8.0.2-ghc9141.nix"
+          ]
+        },
+        "layer": "after-first-party"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "kioku-core",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "compiler-probe",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-lens-family-core-v1",
+      "kind": "compatibility-repair",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve lens-family-core legacy cabal-metadata. Retain the exact compiler/version and metadata or source drift checks in the existing patch; historical comments are evidence pointers, not fresh validation.",
+      "upstreamReferences": [
+        "mori://roconnor/lens-family"
+      ],
+      "effects": [
+        "cabal-metadata"
+      ],
+      "applicability": {
+        "packages": [
+          "lens-family-core"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": {
+          "min": "9.14",
+          "max": "9.15",
+          "exact": null
+        },
+        "systems": null,
+        "versions": {
+          "min": null,
+          "max": null,
+          "exact": [
+            "2.1.3"
+          ]
+        },
+        "sourceGuard": {
+          "status": "enforced-in-recipe",
+          "implementation": [
+            "patches/lens-family/2.1.3-ghc914.nix"
+          ]
+        },
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "lens-family-core",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "admitting-metadata",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-lens-family-v1",
+      "kind": "compatibility-repair",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve lens-family legacy cabal-metadata. Retain the exact compiler/version and metadata or source drift checks in the existing patch; historical comments are evidence pointers, not fresh validation.",
+      "upstreamReferences": [
+        "mori://roconnor/lens-family"
+      ],
+      "effects": [
+        "cabal-metadata"
+      ],
+      "applicability": {
+        "packages": [
+          "lens-family"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": {
+          "min": "9.14",
+          "max": "9.15",
+          "exact": null
+        },
+        "systems": null,
+        "versions": {
+          "min": null,
+          "max": null,
+          "exact": [
+            "2.1.3"
+          ]
+        },
+        "sourceGuard": {
+          "status": "enforced-in-recipe",
+          "implementation": [
+            "patches/lens-family/2.1.3-ghc914.nix"
+          ]
+        },
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "lens-family",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "admitting-metadata",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-link-canonical-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve link-canonical legacy test-suppression, bound-relaxation. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation",
+        "test-suppression"
+      ],
+      "applicability": {
+        "packages": [
+          "link-canonical"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "link-canonical",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-mlkem-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve mlkem legacy unbreaking, test-suppression. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "test-suppression",
+        "unbreaking"
+      ],
+      "applicability": {
+        "packages": [
+          "mlkem"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "mlkem",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-monad-control-v1",
+      "kind": "compatibility-repair",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve monad-control legacy cabal-metadata. Retain the existing narrow repair and source assertions; native necessity is explicitly unverified in this migration.",
+      "upstreamReferences": [
+        "mori://basvandijk/monad-control/packages/monad-control."
+      ],
+      "effects": [
+        "cabal-metadata"
+      ],
+      "applicability": {
+        "packages": [
+          "monad-control"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": {
+          "min": "1.0.3.1",
+          "max": "1.0.3.2",
+          "exact": null
+        },
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "monad-control",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-openai-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve openai legacy bound-relaxation. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation"
+      ],
+      "applicability": {
+        "packages": [
+          "openai"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "openai",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-optparse-applicative-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve optparse-applicative legacy bound-relaxation. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation"
+      ],
+      "applicability": {
+        "packages": [
+          "optparse-applicative"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "optparse-applicative",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-ormolu-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve ormolu legacy test-suppression, bound-relaxation. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation",
+        "test-suppression"
+      ],
+      "applicability": {
+        "packages": [
+          "ormolu"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "ormolu",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-postgresql-binary-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve postgresql-binary legacy bound-relaxation. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation"
+      ],
+      "applicability": {
+        "packages": [
+          "postgresql-binary"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "postgresql-binary",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-postgresql-libpq-configure-v1",
+      "kind": "compatibility-repair",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve postgresql-libpq-configure legacy native-input. Retain the existing narrow repair and source assertions; native necessity is explicitly unverified in this migration.",
+      "upstreamReferences": [],
+      "effects": [
+        "native-input"
+      ],
+      "applicability": {
+        "packages": [
+          "postgresql-libpq-configure"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "postgresql-libpq-configure",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-proto-lens-runtime-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve proto-lens-runtime legacy test-suppression, bound-relaxation. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation",
+        "test-suppression"
+      ],
+      "applicability": {
+        "packages": [
+          "proto-lens-runtime"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "proto-lens-runtime",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-proto-lens-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve proto-lens legacy test-suppression, bound-relaxation. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation",
+        "test-suppression"
+      ],
+      "applicability": {
+        "packages": [
+          "proto-lens"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "proto-lens",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-ram-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve ram legacy test-suppression. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "test-suppression"
+      ],
+      "applicability": {
+        "packages": [
+          "ram"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "ram",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-repline-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve repline legacy bound-relaxation. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation"
+      ],
+      "applicability": {
+        "packages": [
+          "repline"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "repline",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-retrie-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve retrie legacy test-suppression, bound-relaxation. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation",
+        "test-suppression"
+      ],
+      "applicability": {
+        "packages": [
+          "retrie"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "retrie",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-run-relax-v1-bound-relaxation",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve the existing legacy-run-relax-v1 bound-relaxation during migration. Legacy builds do not establish that applicable tests ran or original bounds were respected. Fresh scoped evidence is required before narrowing this waiver.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation"
+      ],
+      "applicability": {
+        "packages": null,
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "profile",
+        "name": "legacy-run-relax-v1"
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "Review this legacy policy against the exact selected source, metadata, compiler and test environment; retain it until a native same-input probe succeeds.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-sbv-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve sbv legacy unbreaking, test-suppression, bound-relaxation. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation",
+        "test-suppression",
+        "unbreaking"
+      ],
+      "applicability": {
+        "packages": [
+          "sbv"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "sbv",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-serialise-v1",
+      "kind": "compatibility-repair",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve serialise legacy cabal-metadata. Retain the exact compiler/version and metadata or source drift checks in the existing patch; historical comments are evidence pointers, not fresh validation.",
+      "upstreamReferences": [
+        "mori://well-typed/cborg/packages/serialise"
+      ],
+      "effects": [
+        "cabal-metadata"
+      ],
+      "applicability": {
+        "packages": [
+          "serialise"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": {
+          "min": "9.14",
+          "max": "9.15",
+          "exact": null
+        },
+        "systems": null,
+        "versions": {
+          "min": "0.2.6.1",
+          "max": "0.2.6.2",
+          "exact": null
+        },
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "serialise",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "admitting-metadata",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-servant-client-core-v1",
+      "kind": "compatibility-repair",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve servant-client-core legacy cabal-metadata. Retain the exact compiler/version and metadata or source drift checks in the existing patch; historical comments are evidence pointers, not fresh validation.",
+      "upstreamReferences": [],
+      "effects": [
+        "cabal-metadata"
+      ],
+      "applicability": {
+        "packages": [
+          "servant-client-core"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": {
+          "min": "9.14",
+          "max": "9.15",
+          "exact": null
+        },
+        "systems": null,
+        "versions": {
+          "min": null,
+          "max": null,
+          "exact": [
+            "0.20.3.0"
+          ]
+        },
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "servant-client-core",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "admitting-metadata",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-servant-client-v1",
+      "kind": "compatibility-repair",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve servant-client legacy cabal-metadata. Retain the exact compiler/version and metadata or source drift checks in the existing patch; historical comments are evidence pointers, not fresh validation.",
+      "upstreamReferences": [],
+      "effects": [
+        "cabal-metadata"
+      ],
+      "applicability": {
+        "packages": [
+          "servant-client"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": {
+          "min": "9.14",
+          "max": "9.15",
+          "exact": null
+        },
+        "systems": null,
+        "versions": {
+          "min": null,
+          "max": null,
+          "exact": [
+            "0.20.3.0"
+          ]
+        },
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "servant-client",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "admitting-metadata",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-servant-docs-v1",
+      "kind": "compatibility-repair",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve servant-docs legacy cabal-metadata. Retain the exact compiler/version and metadata or source drift checks in the existing patch; historical comments are evidence pointers, not fresh validation.",
+      "upstreamReferences": [],
+      "effects": [
+        "cabal-metadata"
+      ],
+      "applicability": {
+        "packages": [
+          "servant-docs"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": {
+          "min": "9.14",
+          "max": "9.15",
+          "exact": null
+        },
+        "systems": null,
+        "versions": {
+          "min": null,
+          "max": null,
+          "exact": [
+            "0.13.1"
+          ]
+        },
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "servant-docs",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "admitting-metadata",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-servant-foreign-v1",
+      "kind": "compatibility-repair",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve servant-foreign legacy cabal-metadata. Retain the exact compiler/version and metadata or source drift checks in the existing patch; historical comments are evidence pointers, not fresh validation.",
+      "upstreamReferences": [],
+      "effects": [
+        "cabal-metadata"
+      ],
+      "applicability": {
+        "packages": [
+          "servant-foreign"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": {
+          "min": "9.14",
+          "max": "9.15",
+          "exact": null
+        },
+        "systems": null,
+        "versions": {
+          "min": null,
+          "max": null,
+          "exact": [
+            "0.16.1"
+          ]
+        },
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "servant-foreign",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "admitting-metadata",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-servant-health-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve servant-health legacy bound-relaxation. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation"
+      ],
+      "applicability": {
+        "packages": [
+          "servant-health"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "servant-health",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-servant-server-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve servant-server legacy test-suppression, bound-relaxation. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation",
+        "test-suppression"
+      ],
+      "applicability": {
+        "packages": [
+          "servant-server"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "servant-server",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-servant-v1",
+      "kind": "compatibility-repair",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve servant legacy cabal-metadata. Retain the exact compiler/version and metadata or source drift checks in the existing patch; historical comments are evidence pointers, not fresh validation.",
+      "upstreamReferences": [],
+      "effects": [
+        "cabal-metadata"
+      ],
+      "applicability": {
+        "packages": [
+          "servant"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": {
+          "min": "9.14",
+          "max": "9.15",
+          "exact": null
+        },
+        "systems": null,
+        "versions": {
+          "min": null,
+          "max": null,
+          "exact": [
+            "0.20.3.0"
+          ]
+        },
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "servant",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "admitting-metadata",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-shibuya-pgmq-adapter-v1",
+      "kind": "compatibility-repair",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve shibuya-pgmq-adapter legacy cabal-metadata. Retain the exact compiler/version and metadata or source drift checks in the existing patch; historical comments are evidence pointers, not fresh validation.",
+      "upstreamReferences": [
+        "mori://shinzui/shibuya-pgmq-adapter/packages/shibuya-pgmq-adapter"
+      ],
+      "effects": [
+        "cabal-metadata"
+      ],
+      "applicability": {
+        "packages": [
+          "shibuya-pgmq-adapter"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": {
+          "min": "9.14",
+          "max": "9.15",
+          "exact": null
+        },
+        "systems": null,
+        "versions": {
+          "min": "0.16.1.0",
+          "max": "0.16.1.1",
+          "exact": null
+        },
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "shibuya-pgmq-adapter",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "admitting-metadata",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-singleton-bool-v1",
+      "kind": "compatibility-repair",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve singleton-bool legacy cabal-metadata. Retain the exact compiler/version and metadata or source drift checks in the existing patch; historical comments are evidence pointers, not fresh validation.",
+      "upstreamReferences": [],
+      "effects": [
+        "cabal-metadata"
+      ],
+      "applicability": {
+        "packages": [
+          "singleton-bool"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": {
+          "min": "9.14",
+          "max": "9.15",
+          "exact": null
+        },
+        "systems": null,
+        "versions": {
+          "min": null,
+          "max": null,
+          "exact": [
+            "0.1.8"
+          ]
+        },
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "singleton-bool",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "admitting-metadata",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-skip-enforce-v1-test-suppression",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve the existing legacy-skip-enforce-v1 test-suppression during migration. Legacy builds do not establish that applicable tests ran or original bounds were respected. Fresh scoped evidence is required before narrowing this waiver.",
+      "upstreamReferences": [],
+      "effects": [
+        "test-suppression"
+      ],
+      "applicability": {
+        "packages": null,
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "profile",
+        "name": "legacy-skip-enforce-v1"
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "Review this legacy policy against the exact selected source, metadata, compiler and test environment; retain it until a native same-input probe succeeds.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-skip-relax-v1-bound-relaxation",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve the existing legacy-skip-relax-v1 bound-relaxation during migration. Legacy builds do not establish that applicable tests ran or original bounds were respected. Fresh scoped evidence is required before narrowing this waiver.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation"
+      ],
+      "applicability": {
+        "packages": null,
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "profile",
+        "name": "legacy-skip-relax-v1"
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "Review this legacy policy against the exact selected source, metadata, compiler and test environment; retain it until a native same-input probe succeeds.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-skip-relax-v1-test-suppression",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve the existing legacy-skip-relax-v1 test-suppression during migration. Legacy builds do not establish that applicable tests ran or original bounds were respected. Fresh scoped evidence is required before narrowing this waiver.",
+      "upstreamReferences": [],
+      "effects": [
+        "test-suppression"
+      ],
+      "applicability": {
+        "packages": null,
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "profile",
+        "name": "legacy-skip-relax-v1"
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "Review this legacy policy against the exact selected source, metadata, compiler and test environment; retain it until a native same-input probe succeeds.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-streamly-core-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve streamly-core legacy bound-relaxation. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation"
+      ],
+      "applicability": {
+        "packages": [
+          "streamly-core"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "streamly-core",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-streamly-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve streamly legacy bound-relaxation. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation"
+      ],
+      "applicability": {
+        "packages": [
+          "streamly"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "streamly",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-stylish-haskell-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve stylish-haskell legacy test-suppression, bound-relaxation. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation",
+        "test-suppression"
+      ],
+      "applicability": {
+        "packages": [
+          "stylish-haskell"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "stylish-haskell",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-tasty-hspec-v1",
+      "kind": "compatibility-repair",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve tasty-hspec legacy cabal-metadata. Retain the exact compiler/version and metadata or source drift checks in the existing patch; historical comments are evidence pointers, not fresh validation.",
+      "upstreamReferences": [
+        "mori://UnkindPartition/tasty/packages/tasty-hspec"
+      ],
+      "effects": [
+        "cabal-metadata"
+      ],
+      "applicability": {
+        "packages": [
+          "tasty-hspec"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": {
+          "min": "9.14",
+          "max": "9.15",
+          "exact": null
+        },
+        "systems": null,
+        "versions": {
+          "min": null,
+          "max": null,
+          "exact": [
+            "1.2.0.4"
+          ]
+        },
+        "sourceGuard": {
+          "status": "enforced-in-recipe",
+          "implementation": [
+            "patches/tasty-hspec/1.2.0-ghc914.nix"
+          ]
+        },
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "tasty-hspec",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "admitting-metadata",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-tasty-wai-v1",
+      "kind": "compatibility-repair",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve tasty-wai legacy cabal-metadata. Retain the exact compiler/version and metadata or source drift checks in the existing patch; historical comments are evidence pointers, not fresh validation.",
+      "upstreamReferences": [
+        "mori://UnkindPartition/tasty/packages/tasty-wai"
+      ],
+      "effects": [
+        "cabal-metadata"
+      ],
+      "applicability": {
+        "packages": [
+          "tasty-wai"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": {
+          "min": "9.14",
+          "max": "9.15",
+          "exact": null
+        },
+        "systems": null,
+        "versions": {
+          "min": null,
+          "max": null,
+          "exact": [
+            "0.1.2.0"
+          ]
+        },
+        "sourceGuard": {
+          "status": "enforced-in-recipe",
+          "implementation": [
+            "patches/tasty-wai/0.1.2-ghc914.nix"
+          ]
+        },
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "tasty-wai",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "admitting-metadata",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-thread-utils-context-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve thread-utils-context legacy test-suppression, bound-relaxation. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation",
+        "test-suppression"
+      ],
+      "applicability": {
+        "packages": [
+          "thread-utils-context"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "thread-utils-context",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-thread-utils-finalizers-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve thread-utils-finalizers legacy test-suppression, bound-relaxation. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation",
+        "test-suppression"
+      ],
+      "applicability": {
+        "packages": [
+          "thread-utils-finalizers"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "thread-utils-finalizers",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-tls-session-manager-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve tls-session-manager legacy bound-relaxation. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation"
+      ],
+      "applicability": {
+        "packages": [
+          "tls-session-manager"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "tls-session-manager",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-tls-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve tls legacy bound-relaxation. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation"
+      ],
+      "applicability": {
+        "packages": [
+          "tls"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "tls",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-typeid-hs-pg-migrate-v1",
+      "kind": "source-selection",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve typeid-hs-pg-migrate legacy test-suppression, bound-relaxation, source-replacement. The current reviewed source constructor owns this selection; exact pins remain in that constructor or its existing lock, and no alternate source is introduced here.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation",
+        "source-replacement",
+        "test-suppression"
+      ],
+      "applicability": {
+        "packages": [
+          "typeid-hs-pg-migrate"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "typeid-hs-pg-migrate",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-typeid-hs-sql-v1",
+      "kind": "source-selection",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve typeid-hs-sql legacy test-suppression, bound-relaxation, source-replacement. The current reviewed source constructor owns this selection; exact pins remain in that constructor or its existing lock, and no alternate source is introduced here.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation",
+        "source-replacement",
+        "test-suppression"
+      ],
+      "applicability": {
+        "packages": [
+          "typeid-hs-sql"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "typeid-hs-sql",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-unicode-data-metadata-v1",
+      "kind": "compatibility-repair",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Retain the exact GHC 9.14 metadata-only base repair for unicode-data 0.6.0, including its Cabal hash assertion. Test suppression is an independent always-applied legacy effect.",
+      "upstreamReferences": [
+        "mori://composewell/unicode-data"
+      ],
+      "effects": [
+        "cabal-metadata"
+      ],
+      "applicability": {
+        "packages": [
+          "unicode-data"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": {
+          "min": "9.14",
+          "max": "9.15",
+          "exact": null
+        },
+        "systems": null,
+        "versions": {
+          "min": null,
+          "max": null,
+          "exact": [
+            "0.6.0"
+          ]
+        },
+        "sourceGuard": {
+          "status": "enforced-in-recipe",
+          "implementation": [
+            "patches/unicode-data/0.6-ghc914.nix"
+          ]
+        },
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "unicode-data",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "admitting-metadata",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-unicode-data-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve the always-applied unicode-data dependency test suppression independently of its compiler-guarded metadata repair. Its necessity remains unverified.",
+      "upstreamReferences": [
+        "mori://composewell/unicode-data"
+      ],
+      "effects": [
+        "test-suppression"
+      ],
+      "applicability": {
+        "packages": [
+          "unicode-data"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "unicode-data",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-validation-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve validation legacy bound-relaxation. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation"
+      ],
+      "applicability": {
+        "packages": [
+          "validation"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "validation",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "legacy-wai-app-static-v1",
+      "kind": "build-policy",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve wai-app-static legacy bound-relaxation. The existing selected cohort uses this policy; its necessity and test coverage remain unverified until a scoped native removal probe.",
+      "upstreamReferences": [],
+      "effects": [
+        "bound-relaxation"
+      ],
+      "applicability": {
+        "packages": [
+          "wai-app-static"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "wai-app-static",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    }
+  ]
+}

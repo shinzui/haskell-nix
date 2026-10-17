@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "project_uri": "mori://shinzui/haskell-nix",
+  "implementation_base": "727167e82fc31d696be4abe664ceb0709bbd33f9",
+  "observed_at": "2026-10-17",
+  "status": "native Darwin retention checkpoint; immutable Linux generation-3 and real removal probe pending",
+  "linux_current_policy": {
+    "schema_version": 1,
+    "revision": "727167e82fc31d696be4abe664ceb0709bbd33f9",
+    "command": [
+      "nix",
+      "flake",
+      "check",
+      "--print-build-logs",
+      "--no-update-lock-file",
+      "git+file:///workspace?rev=727167e82fc31d696be4abe664ceb0709bbd33f9",
+      "--max-jobs",
+      "1",
+      "--cores",
+      "8",
+      "--builders",
+      ""
+    ],
+    "exit_code": 0,
+    "elapsed_seconds": 526.0159373280039,
+    "system": "x86_64-linux",
+    "execution": "User-selected Apple amd64 container with translation, independent store and read-only /workspace; sandbox=false/filter-syscalls=false. No physical-x86 performance claim."
+  },
+  "retained_generation": {
+    "generation": 3,
+    "fingerprint": "1454decc0402e63a9c07a86e00fa0bcb0967d666b79a51123aedb7d7dacfee45",
+    "owned_packages": 311,
+    "darwin_evaluated_packages": 274,
+    "darwin_absent_packages": 37,
+    "darwin_owned_identities_equal_generations": [
+      1,
+      2,
+      3
+    ],
+    "darwin_checks_passed": 6,
+    "historical_records_unchanged": true,
+    "support": "unverified; no older runtime support receipt copied or rebound",
+    "snapshot_source_transport": "Process-scoped exact-commit shallow local mirrors of the ten original Git URLs; unchanged source identities and projections; ordinary full-clone attempt timed out."
+  },
+  "real_removal_probe": {
+    "entry_id": "legacy-servant-docs-v1",
+    "system": "aarch64-darwin",
+    "channel": "github",
+    "compiler": "9.14.1",
+    "package": "servant-docs",
+    "version": "0.13.1",
+    "metadata_revision": "3",
+    "metadata_sha256": "69402db0eb641ee31e20c6e449baf58dac5bbe190150d3eb6d7f5fe861275048",
+    "status": "passed",
+    "required_suites": [
+      "spec"
+    ],
+    "bounds": "enforce",
+    "tests": "run",
+    "remaining_waivers": [],
+    "baseline_equals_candidate": true,
+    "native_elapsed_seconds": 614.0753993329708,
+    "behavior": "shipped greet-docs generates GET/POST and greeting markdown; no external service",
+    "retired": false
+  },
+  "raw_archive": {
+    "path": "docs/evidence/ep21/policy-retention-checkpoint.raw.tar.gz",
+    "sha256": "8c6db7374809cdbf01b7bffa548142d3e28dcb4712d7d4cd11b4854ab903beda",
+    "members": {
+      "code/checks/servant-docs-retirement.nix": "952f2f2e052c81a337a4e379aa88cdac975afe43e24600a2b057d88eda2d3a6b",
+      "code/flake.nix": "617cb6c22e68f6007daaf502e5287f13a2d079af0f4f32cb30f6674d4755fa27",
+      "darwin-removal-probe/baseline-behavior-example.log": "871fff0484d5625ae3466e23edc3436a7f6a2af75b6077f77c9223032f9fdc1b",
+      "darwin-removal-probe/baseline-graph.log": "391f1c4cff28cbd5f72da3d0202e706ec1645cf8423994a81f42429e4fc24270",
+      "darwin-removal-probe/baseline-package.log": "7b4ffc4e5fc3ab633f6612170381ae3234c5f6f76eda40a389e58602f2ee8a64",
+      "darwin-removal-probe/baseline-suite.log": "cc1473498341a7af4fa12a7b90309564700f96de89641cf5852c0a70a25f4e3f",
+      "darwin-removal-probe/candidate-behavior-example.log": "ff21d13e29cf54ad7f1a651db054adfabda05f7aa9fc01572fa8a898179446f8",
+      "darwin-removal-probe/candidate-graph.log": "1d2cb36f82c16679099889bc4802f640da1679c88f7d1034279158c69b58cb7b",
+      "darwin-removal-probe/candidate-package.log": "42bdbaf678a6de2d39cf5cf7a327c9e317679ccdf016c5da2c6dcd6b5a4af770",
+      "darwin-removal-probe/candidate-suite.log": "cc1473498341a7af4fa12a7b90309564700f96de89641cf5852c0a70a25f4e3f",
+      "darwin-removal-probe/receipt.json": "9c5b89e9ef07ef830b3e6783a18478a4bc0f932913219ee73b0f417368cb8a75",
+      "host/ep21-runtime-3-check.log": "f9bb7edca37ff11950c3a8abf3958b40608e8f5ca8500356fa39c40cfd62fbf4",
+      "host/ep21-runtime-3-darwin-identities.json": "e0daeb2409ee4f356de9c4c223032f0edfb9310ab6e64898702ee44c937c9756",
+      "host/ep21-runtime-3-darwin-identities.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "host/ep21-runtime-3-identity-matrix.nix": "b465462cdf5e7d50e7ff3c3b856233bec06e32fc2e4f74388c2112783df2cc8a",
+      "host/ep21-runtime-3-mirrored-capture.json": "22f19aa52574aad38f23bbbaed5a53c09d6ca26b2b04bf76c8151882610fda0c",
+      "host/ep21-runtime-3-mirrored-capture.log": "d132da898d36bd0b45bb2ae3ae0c9c848bc34b0dc17145240f0a6f464c3e8a99",
+      "host/ep21-runtime-3-mirrored-dry-run.json": "2dbf771ad50a28053188372005396fbb0b9fd481ce8611d021a0c6b62250e7ad",
+      "host/ep21-runtime-3-mirrored-dry-run.log": "913420412be6225162ebee5515a30aafd236751f1bbf472ae3ffdfa41548e4ec",
+      "host/ep21-runtime-3-native-darwin.json": "3609d0ec91c755da0ada9ee2c7e4f632126d6b513eb1202c8a6990f9f8f23943",
+      "host/ep21-runtime-3-native-darwin.log": "b3b99e65032c3ee96f219f459fe25efb764bc637467444aaac7fee0bc18f234b",
+      "host/ep21-selected-policy-linux-flake-check.log": "9a74df395d25f80e3ab72a759d2dcf9c37922132a6c95a36972037a7c214e2dc",
+      "host/ep21-selected-policy-linux-receipt.json": "3e0e1d77ec6d1c488fe3a73901b710846b389b026cf591ecd761033c7fec6764",
+      "host/ep21-servant-docs-retirement-darwin-context.json": "b97e757fd22633f1b572dd7a830527813edcc20a9d18afa9b38427edb9c41f83",
+      "host/ep21-servant-docs-retirement-darwin-replay.log": "391c22c7c31b3ae8584904c827eac90aad667b2083d7b6c949af8be2d3649d08",
+      "host/ep21-servant-docs-retirement-darwin-verify.json": "ca0c1bd94733cdc96a26e7e44f025c528d060f1fd6cb591c30d8b593af427fc0",
+      "host/ep21-servant-docs-retirement-darwin-verify.log": "2f5387234427b1af9ba0648ecfe7bb8eada8435fdead3793447f5591b63306ad"
+    }
+  },
+  "limits": [
+    "Translated Apple guest establishes checked Linux behavior; no physical-x86 performance or fresh-runner claim.",
+    "Strict root evidence does not establish dependency-suite execution or remaining repair necessity.",
+    "Generation 3 remains unverified until its applicable acceptance evidence is recorded."
+  ]
+}
