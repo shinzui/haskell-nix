@@ -1,0 +1,250 @@
+{
+  "schema_version": 1,
+  "project_uri": "mori://shinzui/haskell-nix",
+  "frozen_pre_retirement_revision": "ce51b8a504670d2847bce731d6c2d6ce71e02ca9",
+  "entry": "legacy-servant-docs-v1",
+  "decision": "Retire the live metadata row only: the selected cohort independently supplies exact servant-docs 0.13.1 revision 3, and strict recipes remain equal without the row. Preserve every historical catalog/profile/projection.",
+  "selected_source": {
+    "package": "servant-docs",
+    "version": "0.13.1",
+    "cabal_revision": "3",
+    "cabal_sha256": "69402db0eb641ee31e20c6e449baf58dac5bbe190150d3eb6d7f5fe861275048",
+    "pins_changed": false,
+    "compiler": "9.14.1",
+    "upstream_project_uri": "mori://haskell-servant/servant",
+    "upstream_release_audit": "Registry metadata and source archive verified; upstream umbrella v0.20.2 at 6014370a99b4a8bb85b7a91895b6186a727b086a contains servant-docs 0.13.1. Project-relative servant-docs/servant-docs.cabal; artifact-level source URI pending."
+  },
+  "native_contexts": [
+    {
+      "system": "aarch64-darwin",
+      "channel": "github",
+      "status": "passed",
+      "entry": "legacy-servant-docs-v1",
+      "root_derivation": "/nix/store/rqvkry6x1lbw9gs20jwq1nrghq26grwb-servant-docs-0.13.1.drv",
+      "baseline_equals_candidate": true,
+      "required_suites": [
+        "spec"
+      ],
+      "test_cases": 20,
+      "graph_haskell_packages": 88,
+      "behavior": "shipped greet-docs emits GET/POST and greeting markdown without services",
+      "root_remaining_waivers": []
+    },
+    {
+      "system": "x86_64-linux",
+      "channel": "github",
+      "status": "passed",
+      "entry": "legacy-servant-docs-v1",
+      "root_derivation": "/nix/store/0d9sam5b0a4fij59lq7ilkp5hhgb5hq2-servant-docs-0.13.1.drv",
+      "baseline_equals_candidate": true,
+      "required_suites": [
+        "spec"
+      ],
+      "test_cases": 20,
+      "graph_haskell_packages": 88,
+      "behavior": "shipped greet-docs emits GET/POST and greeting markdown without services",
+      "root_remaining_waivers": []
+    },
+    {
+      "system": "aarch64-darwin",
+      "channel": "hackage",
+      "status": "passed",
+      "entry": "legacy-servant-docs-v1",
+      "root_derivation": "/nix/store/rqvkry6x1lbw9gs20jwq1nrghq26grwb-servant-docs-0.13.1.drv",
+      "baseline_equals_candidate": true,
+      "required_suites": [
+        "spec"
+      ],
+      "test_cases": 20,
+      "graph_haskell_packages": 88,
+      "behavior": "shipped greet-docs emits GET/POST and greeting markdown without services",
+      "root_remaining_waivers": []
+    },
+    {
+      "system": "x86_64-linux",
+      "channel": "hackage",
+      "status": "passed",
+      "entry": "legacy-servant-docs-v1",
+      "root_derivation": "/nix/store/0d9sam5b0a4fij59lq7ilkp5hhgb5hq2-servant-docs-0.13.1.drv",
+      "baseline_equals_candidate": true,
+      "required_suites": [
+        "spec"
+      ],
+      "test_cases": 20,
+      "graph_haskell_packages": 88,
+      "behavior": "shipped greet-docs emits GET/POST and greeting markdown without services",
+      "root_remaining_waivers": []
+    }
+  ],
+  "linux_execution": "User-selected Apple amd64 container under translation, independent warm store and read-only /workspace; sandbox=false/filter-syscalls=false, builders disabled. No physical-x86 performance or fresh-worker claim.",
+  "linux_maintenance_costs": [
+    {
+      "name": "github-verify",
+      "command": [
+        "nix",
+        "run",
+        "git+file:///workspace?rev=ce51b8a504670d2847bce731d6c2d6ce71e02ca9#haskell-nix-update",
+        "--",
+        "compatibility",
+        "verify",
+        "--context",
+        "/tmp/ep21-retention-linux-ce51b8a/github-context.json",
+        "--entry",
+        "legacy-servant-docs-v1",
+        "--out",
+        "/tmp/ep21-retention-linux-ce51b8a/github-probe"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 2060.678096947013
+    },
+    {
+      "name": "github-replay",
+      "command": [
+        "nix",
+        "run",
+        "git+file:///workspace?rev=ce51b8a504670d2847bce731d6c2d6ce71e02ca9#haskell-nix-update",
+        "--",
+        "compatibility",
+        "verify-receipt",
+        "--context",
+        "/tmp/ep21-retention-linux-ce51b8a/github-context.json",
+        "--receipt",
+        "/tmp/ep21-retention-linux-ce51b8a/github-probe/receipt.json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 3.4429721680062357
+    },
+    {
+      "name": "hackage-verify",
+      "command": [
+        "nix",
+        "run",
+        "git+file:///workspace?rev=ce51b8a504670d2847bce731d6c2d6ce71e02ca9#haskell-nix-update",
+        "--",
+        "compatibility",
+        "verify",
+        "--context",
+        "/tmp/ep21-retention-linux-ce51b8a/hackage-context.json",
+        "--entry",
+        "legacy-servant-docs-v1",
+        "--out",
+        "/tmp/ep21-retention-linux-ce51b8a/hackage-probe"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 6.060963795011048
+    },
+    {
+      "name": "hackage-replay",
+      "command": [
+        "nix",
+        "run",
+        "git+file:///workspace?rev=ce51b8a504670d2847bce731d6c2d6ce71e02ca9#haskell-nix-update",
+        "--",
+        "compatibility",
+        "verify-receipt",
+        "--context",
+        "/tmp/ep21-retention-linux-ce51b8a/hackage-context.json",
+        "--receipt",
+        "/tmp/ep21-retention-linux-ce51b8a/hackage-probe/receipt.json"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 1.4756330009986414
+    }
+  ],
+  "cost_limits": "The first Linux probe includes cold GHC 9.14 dependencies and configuration witnesses under concurrent checks. The second channel reuses the identical physical package and witnesses; no duplicate fresh-build claim.",
+  "integration_status": "Native retirement accepted; post-update Darwin focused/history checks pass; final Linux/current full gates pending.",
+  "post_update": {
+    "catalog_entries": 97,
+    "registry_rows": 88,
+    "darwin_cohort_cells": 4,
+    "cohort_recipes_per_cell": 370,
+    "cohort_and_compiler_identities": "unchanged",
+    "retained_generation_3_reports": "exactly unchanged in both channels, including old catalog policy identity",
+    "historical_records_and_projections": "unchanged; generation-3 broad support remains unverified",
+    "updater_tests": 209
+  },
+  "raw_archive": {
+    "path": "docs/evidence/ep21/servant-docs-retirement.raw.tar.gz",
+    "sha256": "9e6398adcdc10a46224dacfb9198eb7c01807908c54cf69e42c7e2ab831c5fd6",
+    "members": {
+      "darwin-identities/after.json": "55e32eab817e3af338d56164e302edd106f8dedf711025f2e4c508590e1d715c",
+      "darwin-identities/after.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "darwin-identities/before.json": "55e32eab817e3af338d56164e302edd106f8dedf711025f2e4c508590e1d715c",
+      "darwin-identities/before.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "darwin-identities/receipt.json": "3a1b9d5debfef3878176d107304fac85f35c741e2808f0b58268ea9c802c986e",
+      "darwin/github/baseline-behavior-example.log": "871fff0484d5625ae3466e23edc3436a7f6a2af75b6077f77c9223032f9fdc1b",
+      "darwin/github/baseline-graph.log": "391f1c4cff28cbd5f72da3d0202e706ec1645cf8423994a81f42429e4fc24270",
+      "darwin/github/baseline-package.log": "7b4ffc4e5fc3ab633f6612170381ae3234c5f6f76eda40a389e58602f2ee8a64",
+      "darwin/github/baseline-suite.log": "cc1473498341a7af4fa12a7b90309564700f96de89641cf5852c0a70a25f4e3f",
+      "darwin/github/candidate-behavior-example.log": "ff21d13e29cf54ad7f1a651db054adfabda05f7aa9fc01572fa8a898179446f8",
+      "darwin/github/candidate-graph.log": "1d2cb36f82c16679099889bc4802f640da1679c88f7d1034279158c69b58cb7b",
+      "darwin/github/candidate-package.log": "42bdbaf678a6de2d39cf5cf7a327c9e317679ccdf016c5da2c6dcd6b5a4af770",
+      "darwin/github/candidate-suite.log": "cc1473498341a7af4fa12a7b90309564700f96de89641cf5852c0a70a25f4e3f",
+      "darwin/github/receipt.json": "9c5b89e9ef07ef830b3e6783a18478a4bc0f932913219ee73b0f417368cb8a75",
+      "darwin/hackage/baseline-behavior-example.log": "ff21d13e29cf54ad7f1a651db054adfabda05f7aa9fc01572fa8a898179446f8",
+      "darwin/hackage/baseline-graph.log": "6bafb80277eff4d202483b6da2652a8951d735087f0c5d8b7ebfc11cefb16db9",
+      "darwin/hackage/baseline-package.log": "42bdbaf678a6de2d39cf5cf7a327c9e317679ccdf016c5da2c6dcd6b5a4af770",
+      "darwin/hackage/baseline-suite.log": "cc1473498341a7af4fa12a7b90309564700f96de89641cf5852c0a70a25f4e3f",
+      "darwin/hackage/candidate-behavior-example.log": "ff21d13e29cf54ad7f1a651db054adfabda05f7aa9fc01572fa8a898179446f8",
+      "darwin/hackage/candidate-graph.log": "34c36a1f2dedc937d35c8e871515da4e1cf7d6d55c42acb39704edc085fae744",
+      "darwin/hackage/candidate-package.log": "42bdbaf678a6de2d39cf5cf7a327c9e317679ccdf016c5da2c6dcd6b5a4af770",
+      "darwin/hackage/candidate-suite.log": "cc1473498341a7af4fa12a7b90309564700f96de89641cf5852c0a70a25f4e3f",
+      "darwin/hackage/receipt.json": "257bf409413dc7c3d234e384f3f6c3760d6c74066545384120233555c8bf6d4e",
+      "frozen-constructor/checks/servant-docs-retirement.nix": "59bf0b66dea32c9e639e2490829c130996e026dbd8f5fc7f30f4b53501eebdd2",
+      "frozen-constructor/lib/mkCompatibilityProbeContext.nix": "1b91cf5f1662f369257d0ee3fd40a0f169a3a0561783a12818f232dd1bb9ac06",
+      "frozen-constructor/lib/mkPackageValidation.nix": "fe1f55cd2784d0ff62a656e423e96bd28498fc56a6f032f849f010c27c94a0f3",
+      "host/ep21-retention-darwin-fixed-v2-flake.log": "53bc8fccc8bb7c3cb05609e9a4dd8dc9a31d1673416e386be78c7033003f0271",
+      "host/ep21-retention-darwin-fixed-v2-receipt.json": "f03f2e3f83331f16cef2d8fb8fdc15c601d97017220b346d9ac3276be09ae3d4",
+      "host/ep21-retired-servant-docs-descriptor.json": "3e9154eea301798479c2596049cc6a0481a1cfc18e5f5234ef9ec3d6f0c0f1cc",
+      "host/ep21-retirement-cohort-identities.nix": "6dc63833d197e5312625207ab9d70cb121d294ae70c08be01710d71ce5c70bb4",
+      "host/ep21-retirement-darwin-focused.json": "d0ef67c6ec22a7a74c1e02495d2a4c9438272b96e9b3bb972e30f01c081f4295",
+      "host/ep21-retirement-darwin-focused.log": "f3e5e58dd47410da42cf5df23eb5d11195e403c328341852bb8ef986d4a01ea6",
+      "host/ep21-retirement-darwin-retained-reports.json": "392bddfdf3642398779f2186b7598c82ca16ee7e2362b963394863373a25f1f7",
+      "host/ep21-retirement-darwin-retained-reports.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "host/ep21-servant-docs-retirement-darwin-hackage-replay.log": "a633f0f323841ade82251e264b6cb9f32ce3b6dc0696819c52cb146c17e6689c",
+      "host/ep21-servant-docs-retirement-darwin-replay.log": "391c22c7c31b3ae8584904c827eac90aad667b2083d7b6c949af8be2d3649d08",
+      "linux/github-context.json": "290f9eb4490130d52048c9439636f4d069968b4db99befeb25e438e724363380",
+      "linux/github-context.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linux/github-probe/baseline-behavior-example.log": "2331c2a820748c91d7b23154afdf68f430b546fd74c2d5c277bc7962189963b9",
+      "linux/github-probe/baseline-graph.log": "bdf2f1408b0bcf343484f7ba26dd0cf3a75e880f354f2fda4272e825ad546250",
+      "linux/github-probe/baseline-package.log": "43096ba71f59ce08fdfe0634c39ff5cb304669fd858b50b30b620a718e7e9f54",
+      "linux/github-probe/baseline-suite.log": "11b228ff43318098c0105e86f6a2798dd79148ebc999618ded1456cbb0c4ebd9",
+      "linux/github-probe/candidate-behavior-example.log": "ca0b91b5a0c9dd223b00f41c65131b346c93c92e7a829c20e815f6ebb9518e01",
+      "linux/github-probe/candidate-graph.log": "77b86996fdbaa639cddf2a74dbaa9dfadcae80d2d66d1fe08c9df1a9959ce867",
+      "linux/github-probe/candidate-package.log": "a6ad238e0ad4a07db56b8ab18af09b68f04ffea175d0a7d73f90230e48928057",
+      "linux/github-probe/candidate-suite.log": "11b228ff43318098c0105e86f6a2798dd79148ebc999618ded1456cbb0c4ebd9",
+      "linux/github-probe/receipt.json": "d4e51fe263e79476549eeb18cffcf812d86359c47dd8b674b6609a4e17c12d17",
+      "linux/github-replay.log": "5f4392ebec921cf42ecccc7668b4482f3610466968458a30a8043a0c5f33185d",
+      "linux/github-verify.log": "d08b942902c3fcf4725b8ea77270148cf81b960614565d8a79272ca5814ee31c",
+      "linux/hackage-context.json": "c7bc90b27dc3f179d2860ade3d6be17fb3df76c2c06b7af44b16292daaa42ed6",
+      "linux/hackage-context.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linux/hackage-probe/baseline-behavior-example.log": "ca0b91b5a0c9dd223b00f41c65131b346c93c92e7a829c20e815f6ebb9518e01",
+      "linux/hackage-probe/baseline-graph.log": "b790bf567a47858da9c24d1e36686163ecfe6f2fea5d9f6766ac58533b616689",
+      "linux/hackage-probe/baseline-package.log": "a6ad238e0ad4a07db56b8ab18af09b68f04ffea175d0a7d73f90230e48928057",
+      "linux/hackage-probe/baseline-suite.log": "11b228ff43318098c0105e86f6a2798dd79148ebc999618ded1456cbb0c4ebd9",
+      "linux/hackage-probe/candidate-behavior-example.log": "ca0b91b5a0c9dd223b00f41c65131b346c93c92e7a829c20e815f6ebb9518e01",
+      "linux/hackage-probe/candidate-graph.log": "bd37dfd62d0753ab80411edce6356144b45e1a6813418d7989b29f619f4a19f9",
+      "linux/hackage-probe/candidate-package.log": "a6ad238e0ad4a07db56b8ab18af09b68f04ffea175d0a7d73f90230e48928057",
+      "linux/hackage-probe/candidate-suite.log": "11b228ff43318098c0105e86f6a2798dd79148ebc999618ded1456cbb0c4ebd9",
+      "linux/hackage-probe/receipt.json": "9b0884e43e7ac857e9d7892f886ec2e7d9167c697bec7456e1e2b4b187c60b46",
+      "linux/hackage-replay.log": "5f4392ebec921cf42ecccc7668b4482f3610466968458a30a8043a0c5f33185d",
+      "linux/hackage-verify.log": "df876f9697c129dcb90d05cce21dc2ef6ce2a47d12f2471351dc6022828268b6",
+      "linux/native-results.json": "60c0ff8bdac2aa87797752f516ed087282d6f92dc6dfdb1f8bc948324ccc4af8",
+      "upstream-audit/cohort-servant-docs-source.json": "0bd18f30fe79837c4860cc250e131f54b86b56b176f837331ea83e7646737147",
+      "upstream-audit/dec-0.0.6.cabal": "bad2c5f159ee81d2c2fd11e7957d76c4f37f3a40c9866f76014b131575aa35fe",
+      "upstream-audit/receipts.json": "190b7e6c4028b95075e1ea5d1ab272a4e474d82d9d42a0907534d5975272e0e4",
+      "upstream-audit/servant-docs-0.13.1.cabal": "69402db0eb641ee31e20c6e449baf58dac5bbe190150d3eb6d7f5fe861275048",
+      "upstream-audit/servant-docs-0.13.1.tar.gz": "9efc327605bfc831d834d7e2c528d7363842df912ed98caa224b3bdcb22fbbbd",
+      "upstream-audit/servant-docs-upstream-v0.20.2.cabal": "647f9d47cd76d1a3363a40e502d35b22ddaa1cadab51cb2584eab18c14d63f96",
+      "upstream-audit/servant-docs-versions.json": "2e734e84c28fbff756b78f0744b6dee33cd7e2c5d5c891e5a285d246bc630d8d",
+      "upstream-audit/servant-upstream-tags.txt": "a05d627a7ebdbb26b3890e9553a53728996fc4ad253002e41d799034b9b51c18",
+      "upstream-audit/singleton-bool-0.1.8.cabal": "94988e14281fa9c70714fbae5e32031f7008919c13b060ee16c714edb62858c0",
+      "upstream-audit/source-fetch-receipts.json": "eb0ceb3ec467e15105f7803834058aa4cd13b79a60795a5ecfa6075a1d4b28ee"
+    }
+  },
+  "limits": [
+    "Strict root suites/bounds and graph coverage do not establish execution of dependency suites or necessity of other repairs.",
+    "Historical native receipts retain their original expected constructor and context; no receipt is rebound to the live catalog.",
+    "The obsolete ce51b8a Linux full-gate evaluator was deliberately superseded after all four verify/replay commands passed; the final retirement revision requires its own complete gate."
+  ]
+}

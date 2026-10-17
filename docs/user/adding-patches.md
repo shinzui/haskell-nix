@@ -4,10 +4,10 @@ title: Adding compatibility patches
 description: Add and verify shared compatibility patches for the GitHub and Hackage channels.
 docId: DOC-2
 tags: [patches, compatibility, maintainers]
-timestamp: 2026-10-17T21:10:00Z
+timestamp: 2026-10-17T22:40:28Z
 generated:
   by: process:codex
-  at: 2026-10-17T21:10:00Z
+  at: 2026-10-17T22:40:28Z
 ---
 
 [User guide](README.md)
@@ -74,6 +74,14 @@ request; unsupported contexts keep their declared legacy policy. Evidence and re
 do not affect recipe policy identity. The new selected-policy flake checks cover both
 source channels on both declared systems. Generation 3 captures the selection with
 separate retained checks; its broad runtime support remains explicitly unverified.
+
+A real retirement removes the live executable row and its catalog binding only after
+same-input native verification. `legacy-servant-docs-v1` is retired because the selected
+cohort already supplies the exact admitting revision; complete tests, graph and example
+checks pass on both systems and channels. Preserve the pre-retirement constructor and
+receipts and compare ordinary derivations and historical identities after the update.
+[Maintainer tools](maintainer-tools.md#a-verified-metadata-retirement) shows reproduction.
+Do not assign the retired ID to an unrelated repair or edit captured historical catalogs.
 
 Run the focused declaration checks after editing either file:
 

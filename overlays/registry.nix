@@ -155,7 +155,6 @@ in
   servant-client = admittingRevision "servant-client" "0.20.3.0" "0.20.3.1" "4" "c152c3b72328987f10dd0e2007c703404787e29d0947cad7d033a223a506bbd3";
   servant-client-core = admittingRevision "servant-client-core" "0.20.3.0" "0.20.3.1" "5" "6611f79f74626c68483e30ff9f6acd0e14f5fedcef710d8472c14be6318cef7c";
   servant-foreign = admittingRevision "servant-foreign" "0.16.1" "0.16.2" "3" "1b61e76b974e217b33c9c676e950ea15df7ad900dedb54756276bb65d88b7f7d";
-  servant-docs = admittingRevision "servant-docs" "0.13.1" "0.13.2" "3" "69402db0eb641ee31e20c6e449baf58dac5bbe190150d3eb6d7f5fe861275048";
 
   # ── hasql ecosystem ────────────────────────────────────────────────
   hasql = always doJailbreakOnly;

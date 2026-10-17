@@ -4,10 +4,10 @@ title: Package sets
 description: Understand first-party package-set selection, retention, and cache behavior.
 docId: DOC-7
 tags: [package-sets, snapshots, cache]
-timestamp: 2026-10-17T21:53:11Z
+timestamp: 2026-10-17T22:40:28Z
 generated:
   by: process:codex
-  at: 2026-10-17T21:53:11Z
+  at: 2026-10-17T22:40:28Z
 ---
 
 [User guide](README.md)
@@ -322,6 +322,11 @@ the recorded runtime fingerprint. Generation 3 contains those hooks. Generations
 reject capture instead of being reinterpreted through current policy. Capture preserves
 ordinary derivations and remains declaration evidence; native success still requires
 exact package, graph, suite and behavior receipts.
+
+A live registry retirement also leaves the captured catalog intact. Generation 3 retains
+the historical `servant-docs` declaration after the redundant live row is retired; its
+report context and policy identity remain unchanged. Its report adapter never reads a
+later live catalog to reinterpret those observations.
 
 ## Project shells from retained scopes
 

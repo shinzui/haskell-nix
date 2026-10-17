@@ -181,7 +181,7 @@
     }
   ],
   "inputIdentity": "a6f1f819b8f9f53351b8ecd3b841a395c94909df3f354c01d2d25bbb08c3fe07",
-  "policyIdentity": "9a9bc9ddd46fe7e5a1d63fb0e5e1701979a75ea5356c5484c1083cfae035d3a6",
+  "policyIdentity": "e72a5fd15d5518955a3d2fbf57b5b3512dcab1874210c3a676829c55678a26a8",
   "problems": [],
   "reportKind": "declaration-only",
   "requiredEvidence": [],
@@ -457,10 +457,6 @@
     },
     {
       "id": "legacy-servant-client-v1",
-      "reason": "no package instance in the supplied scope"
-    },
-    {
-      "id": "legacy-servant-docs-v1",
       "reason": "no package instance in the supplied scope"
     },
     {

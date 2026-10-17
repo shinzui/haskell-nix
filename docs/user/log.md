@@ -1,6 +1,9 @@
 # Bundle Update Log
 
 ## 2026-10-17
+* **Update**: Preserve retained report contexts and catalog semantics across live metadata retirement.
+* **Update**: Document reviewed live retirement while preserving captured catalog bindings and historical evidence.
+* **Update**: Document the four-context servant-docs retirement, immutable historical probe replay and separate cold/warm maintenance costs.
 * **Update**: Document generation-3 retained compatibility capture, historical rejection and separate native/support evidence.
 * **Update**: Keep accepted cohort policy selections separate from immutable retained generations and fingerprint-bound support.
 * **Update**: Document named bytestring-lexing selection checks, previous/strict recipes and distinct factory/channel-overlay evidence contexts.

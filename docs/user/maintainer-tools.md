@@ -4,10 +4,10 @@ title: Maintainer tools
 description: Find repository formatting, test, derivation-diff, and validation commands.
 docId: DOC-6
 tags: [maintainers, testing, nix]
-timestamp: 2026-10-17T21:10:00Z
+timestamp: 2026-10-17T22:40:28Z
 generated:
   by: process:codex
-  at: 2026-10-17T21:10:00Z
+  at: 2026-10-17T22:40:28Z
 ---
 
 # Maintainer tools
@@ -214,7 +214,7 @@ nix build --impure --no-link --print-build-logs --timeout 900 --expr '
 ```
 
 This builds the complete `test-all` suite, checked dependency graph and parser/serializer
-behavior. No standalone repair is retired. The earlier strict pilot passes 58 tests on
+behavior. The bytestring-lexing change narrows its test policy. The earlier strict pilot passes 58 tests on
 Apple Silicon and the user-selected translated Linux guest. The named current selection passes the actual channel-overlay suites on Apple Silicon
 and the user-selected Linux guest. Generation 3 captures it separately; its focused
 checks and broad runtime support have distinct acceptance evidence.
@@ -246,6 +246,44 @@ image runs through Apple translation; the guest has `sandbox=false`, and its
 seccomp limitation requires `filter-syscalls=false`. Record those facts in Linux
 receipts. These results establish the checked Linux behavior; they do not establish
 performance on physical x86 hardware. Host builder configuration stays unchanged.
+
+## A verified metadata retirement
+
+The current cohort independently selects `servant-docs` 0.13.1 Cabal revision 3.
+Its GHC 9.14.1 strict recipes agree with and without `legacy-servant-docs-v1`.
+All 20 `spec` cases, the 88-package graph, shipped `greet-docs` behavior and exact
+receipt replay pass on Darwin and the translated Linux guest in both source channels.
+The live row and catalog entry are retired; source pins and historical records stay fixed.
+See [the retirement receipt](../evidence/ep21/servant-docs-retirement.json).
+
+Keep a historical probe's constructor, catalog and expected context together. Reproduce
+this probe from its immutable pre-retirement commit in this repository's Git history:
+
+```bash
+nix eval --impure --json --expr '
+  let frozen = builtins.getFlake
+        "git+file://${toString ./.}?rev=ce51b8a504670d2847bce731d6c2d6ce71e02ca9";
+  in (import (frozen.outPath + "/checks/servant-docs-retirement.nix") {
+    channel = frozen;
+    system = builtins.currentSystem;
+    sourceChannel = "github";
+  }).context' > /tmp/servant-docs-context.json
+nix run .#haskell-nix-update -- compatibility verify \
+  --context /tmp/servant-docs-context.json --entry legacy-servant-docs-v1 \
+  --out /tmp/new-servant-docs-proof
+nix run .#haskell-nix-update -- compatibility verify-receipt \
+  --context /tmp/servant-docs-context.json \
+  --receipt /tmp/new-servant-docs-proof/receipt.json
+```
+
+Use a fresh output directory and select `hackage` for the second channel. This verifies
+the recorded historical candidate; it does not reconstruct a removed row from current
+metadata. A changed source/compiler/policy requires a new expected context and its
+applicable native checks. Other repairs and dependency-suite coverage remain unverified.
+The first cold Linux build and graph take 2060.68 seconds; its second-channel verification
+reuses the same physical package in 6.06 seconds, with 3.44/1.48-second receipt replays.
+These are explicit maintenance costs under concurrent work. Ordinary builds and shell
+entry do not run the removal matrix or query current upstream releases.
 
 ## Formatting
 

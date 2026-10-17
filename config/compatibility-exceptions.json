@@ -3445,60 +3445,6 @@
       }
     },
     {
-      "id": "legacy-servant-docs-v1",
-      "kind": "compatibility-repair",
-      "owner": "mori://shinzui/haskell-nix",
-      "reason": "Preserve servant-docs legacy cabal-metadata. Retain the exact compiler/version and metadata or source drift checks in the existing patch; historical comments are evidence pointers, not fresh validation.",
-      "upstreamReferences": [],
-      "effects": [
-        "cabal-metadata"
-      ],
-      "applicability": {
-        "packages": [
-          "servant-docs"
-        ],
-        "channels": [
-          "github",
-          "hackage"
-        ],
-        "compiler": {
-          "min": "9.14",
-          "max": "9.15",
-          "exact": null
-        },
-        "systems": null,
-        "versions": {
-          "min": null,
-          "max": null,
-          "exact": [
-            "0.13.1"
-          ]
-        },
-        "sourceGuard": null,
-        "layer": "selected-source"
-      },
-      "binding": {
-        "kind": "registry-row",
-        "package": "servant-docs",
-        "row": 0
-      },
-      "evidence": {
-        "status": "unverified",
-        "requirements": [
-          "native-build",
-          "applicable-package-tests",
-          "declared-bounds",
-          "exact-input-context"
-        ],
-        "references": []
-      },
-      "retirement": {
-        "kind": "admitting-metadata",
-        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
-        "threshold": null
-      }
-    },
-    {
       "id": "legacy-servant-foreign-v1",
       "kind": "compatibility-repair",
       "owner": "mori://shinzui/haskell-nix",

@@ -1,6 +1,6 @@
 # Declare legacy compatibility effects without inventing evidence
 
-Status: Accepted design; two-system migration/report verification passes. Stronger policy and retained-generation acceptance are scoped separately.
+Status: Accepted; scoped native policy and retirement evidence are required. Broad runtime support remains separately verified.
 
 Date: 2026-10-17
 
@@ -65,7 +65,8 @@ unchanged by the current catalog migration.
 Coverage validation catches missing owners/reasons, malformed guards, duplicate IDs,
 orphan bindings and missing/wrong waiver references. It proves declaration consistency,
 not that arbitrary patch functions have only their declared effects. Shared executable
-selection/report predicates and strict native removal probes remain EP-21 work.
+selection/report predicates bind observations to the actual constructor; strict native
+removal probes establish only their declared source/compiler/platform scope.
 No entry is retired automatically, and ordinary builds do not run expensive probes.
 
 The first report interface is explicitly `declaration-only`. It shares executable
@@ -97,6 +98,21 @@ Admitting-metadata candidates require equal complete recipes as well as selected
 metadata identity. The cborg-json repair demonstrates why: identical revised metadata
 can still require an additional guarded Cabal-bound rewrite in `postPatch`. Neither
 metadata equality nor a matching declaration establishes successful native retirement.
+
+A reviewed retirement removes only the live row and catalog binding after complete native
+checks. The first such retirement is servant-docs 0.13.1 revision 3: its cohort source
+constructor already supplies the exact admitting metadata, and the no-entry strict
+recipe, complete suite, graph and shipped example pass in both channels on both systems.
+Retain the pre-retirement constructor, catalog and receipts together at an immutable
+revision. Replays keep that expected context; never synthesize the deleted row from a
+later catalog or rebind evidence after source/compiler/policy drift.
+
+Retained diagnostic capture uses the generation's own adapters and catalog and names its
+fingerprint. Reject generations without capture hooks instead of replaying old recipes
+through current policy. Live retirement leaves historical recipes, catalog semantics and
+report identities unchanged. A new policy snapshot's focused native evidence does not
+confer broad runtime support: generation 3 remains unverified under the separate complete
+runtime/cache/service contract, and existing consumers keep their accepted generation.
 
 Strict probe construction requests the immutable strict profile before compatibility
 entries are applied and suppresses one requested entry during construction. Require
