@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "project_uri": "mori://shinzui/rei",
+  "source_revision": "bad0388f722af9e29187c2adfef5ed97fd0ca92f",
+  "system": "aarch64-darwin",
+  "status": "Native production compilation and all seven complete owned suites pass. Timing, producer workflow and ownership, total-cost acceptance and adoption remain open.",
+  "module_boundary": {
+    "foundation": 293,
+    "remaining_original": 4,
+    "resources": 7,
+    "source_preparation_receipt": "docs/evidence/ep18/rei-cli-resource-aware-preparation.json"
+  },
+  "validation": {
+    "suites": {
+      "rei-core-test": 3373,
+      "rei-api-client-live-test": 8,
+      "rei-api-test": 581,
+      "rei-api-live-test": 8,
+      "rei-cli-test": 188,
+      "rei-api-contract-test": 53,
+      "rei-api-client-test": 30
+    },
+    "total_cases": 4241,
+    "all_pass": true,
+    "accepted_derivations": {
+      "api": "/nix/store/l8lk577zwlz09dfaizqq9vpl0jn1skdj-rei-api-7.1.0.0.drv",
+      "cli": "/nix/store/rzx0i282jcl5siql5h2ji9ajcd50p0ff-rei-cli-7.1.0.0.drv",
+      "client": "/nix/store/qshibvs479cw3zbj556p6nm7clc2gz6r-rei-api-client-0.2.0.0.drv",
+      "contract": "/nix/store/j5qvjgggqhcfvhs1vj21a9dx0mq6va5v-rei-api-contract-0.2.0.0.drv",
+      "core": "/nix/store/y89zb72wggpdjrjxhwhkgqp8min6yxjg-rei-core-7.1.0.0.drv"
+    },
+    "cli_pass_origin": "owned-tests-v4; exact CLI derivation reused by v5 and final identity evaluation",
+    "suite_selection": "Original complete Setup invocation through original Nixpkgs test wrapper; no source edits or filtering. One Tasty worker; four RTS workers where supported.",
+    "environment": "Disposable owned PostgreSQL/loopback HTTP; Z3 conformance; role-scoped tools; pinned CA supplied to existing API binary; exact repository fixtures around isolated package.",
+    "failed_attempts": {
+      "v1": "Relative Cabal self-build-tool PATH and PostgreSQL concurrency",
+      "v2": "Missing live API binary and PostgreSQL connection budget",
+      "v3": "Live API scrubbed CA environment invokes unavailable macOS security",
+      "v4": "Missing Z3 and repository root fixture paths; CLI already passes"
+    }
+  },
+  "recipe_provenance": {
+    "live_overlay_equals_declared_revision": true,
+    "overlay_sha256": "aa030fe0ddcc4257105db83a018c6b44a9b460402404f8d8e286db081388e55d",
+    "fixture_sha256": "b0a9d4a01daebd661c03b5d3cd8c4014592bec40efc304a33eb14a40d03d3187"
+  },
+  "cost": {
+    "observed_runs_seconds": {
+      "native-calibration": 80.28403687500395,
+      "owned-tests": 112.20867833303055,
+      "owned-tests-v2": 116.45474395802012,
+      "owned-tests-v3": 117.74188208399573,
+      "owned-tests-v4": 269.22124062501825,
+      "owned-tests-v5": 389.11522558302386,
+      "owned-extra-tests": 73.14845604199218
+    },
+    "gross_observed_setup_validation_seconds": 1158.1742635000846,
+    "failed_attempts_included": true,
+    "qualification": "Wall times include compiler contention in earlier runs and reused outputs in later runs; retained as observed setup costs, not routine-edit measurements. No transfer, workflow, ownership or rollout cost yet. No first-build cost inferred from cached outputs."
+  },
+  "production_adoption": false,
+  "raw_archive": {
+    "path": "docs/evidence/ep18/rei-cli-resource-aware-native-validation.raw.tar.gz",
+    "sha256": "4677a5e91d6331e646a8ee5313f8daee4127e5606f8c46946fc0ba98dd21b40a",
+    "members": {
+      "code/split.nix": "b0a9d4a01daebd661c03b5d3cd8c4014592bec40efc304a33eb14a40d03d3187",
+      "host/ep18-rei-resource-aware-final-validation-identities.json": "e3b13b7eb0818b90c4b951c0c1140c510f827e36c4e3dd20d7561f4e28acae4e",
+      "host/ep18-rei-resource-aware-final-validation-identities.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "host/ep18-rei-resource-aware-native-calibration-outputs.json": "4e6cfe0db11c12bf26cbed7779ad4e936108f02041c16e7d9a4882d67eaafda3",
+      "host/ep18-rei-resource-aware-native-calibration-receipt.json": "19d828e621b041fd516ad15b084c0eaf2ee45305d0268af06898ea2f6889eeb7",
+      "host/ep18-rei-resource-aware-native-calibration.log": "73ab789de12e3271e0320714da02a56422112a53149540fd1b06d94e3a36972f",
+      "host/ep18-rei-resource-aware-owned-extra-tests-outputs.json": "457cc8f5c385069a62347f28519970c64fe29e3ab9731e3f0f5c2ce8dd2a5562",
+      "host/ep18-rei-resource-aware-owned-extra-tests-receipt.json": "9823a96f48380ba7a8feae831ba9bd8d4f9b38ea8ee7575a89ce4f0c271bbcac",
+      "host/ep18-rei-resource-aware-owned-extra-tests.log": "8510b5178ffe5d32f3955c5168d474f1f99fef7d8295ada3bbd949f5d1e0ec03",
+      "host/ep18-rei-resource-aware-owned-tests-outputs.json": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "host/ep18-rei-resource-aware-owned-tests-receipt.json": "fc524f3d75c5fbdd37c62ebdb17cdde35c02938913e474cdbec3432209f3af01",
+      "host/ep18-rei-resource-aware-owned-tests-v2-outputs.json": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "host/ep18-rei-resource-aware-owned-tests-v2-receipt.json": "86f395cf24d0327fba39bae040710b15245ce54a584d2140ec8de72280a49b1e",
+      "host/ep18-rei-resource-aware-owned-tests-v2.log": "15fdbd06152cd53868757d8b0035eba039212398a9598fa81d70a10bf1496a1f",
+      "host/ep18-rei-resource-aware-owned-tests-v3-outputs.json": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "host/ep18-rei-resource-aware-owned-tests-v3-receipt.json": "bf5614b36102d32e6a1d1310a3104ec23ec07f4c9f001db4721dc0edf5a10fdb",
+      "host/ep18-rei-resource-aware-owned-tests-v3.log": "46e84c498929a446c193252024aa06b984ed13b204ad5cca24b4ac196d8794f4",
+      "host/ep18-rei-resource-aware-owned-tests-v4-outputs.json": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "host/ep18-rei-resource-aware-owned-tests-v4-receipt.json": "0e92bb173bf2bdd3c83e30ca4fc6e2c2466106f225bb1a34a49c3c6bf8d0efc5",
+      "host/ep18-rei-resource-aware-owned-tests-v4.log": "58ca7ee66f44dac3d6a0eecafc0659ec0292a997fdb636fe22792fc6ae8a2247",
+      "host/ep18-rei-resource-aware-owned-tests-v5-outputs.json": "891e026f22543ebae940d88d0433ec290979c8502c9b788e24e51e69bbd36237",
+      "host/ep18-rei-resource-aware-owned-tests-v5-receipt.json": "6648e1028a213609fac7b519cc4ccae9387676ebeda286cebe6a0caae0808276",
+      "host/ep18-rei-resource-aware-owned-tests-v5.log": "636dcbd900feb46136ba5ea6c5bb1e63719766d746dd7467b2f79ca650663641",
+      "host/ep18-rei-resource-aware-owned-tests.log": "73369c3e8a1e2e367055fe77cdcf637c5c49ad881a9941040055a3b8ba18b703",
+      "prepared/split-manifest.json": "db0d0147d61d3f953b5114d8a7e4bf3a6a7c17648d13c8adb5dadf7639323a91",
+      "producer/overlay.nix": "aa030fe0ddcc4257105db83a018c6b44a9b460402404f8d8e286db081388e55d"
+    }
+  }
+}
