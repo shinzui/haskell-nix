@@ -1,0 +1,37 @@
+{
+  "assertions": [
+    "actual-root derivation graphs verified",
+    "nonempty shared used runtime identities match across applications",
+    "documentation manifests identical",
+    "leaf edits preserve used runtime identities",
+    "runtime interface edits invalidate both dependents and preserve unrelated libraries",
+    "runtime-owned overrides rejected"
+  ],
+  "builds": {
+    "aarch64-darwin": {
+      "runtime-2-github-composition": {
+        "drvPath": "/nix/store/84gpb21c9jqkc6f8a51mvmkri063dn87-runtime-composition-github.drv",
+        "outputPath": "/nix/store/a6cl1p6jhbw768sbk1aijf2zlak5l23c-runtime-composition-github"
+      },
+      "runtime-2-hackage-composition": {
+        "drvPath": "/nix/store/0w5jnxm2lhk2nyq8fwsw7bm003fqis88-runtime-composition-hackage.drv",
+        "outputPath": "/nix/store/i1c8g28vhhmarmqzkcpdizmf2jyqg7m3-runtime-composition-hackage"
+      }
+    },
+    "x86_64-linux": {
+      "runtime-2-github-composition": {
+        "drvPath": "/nix/store/n73fvmphbvd07xp4s53m5fmdv9fcsr2j-runtime-composition-github.drv",
+        "outputPath": "/nix/store/1ap3m2q58hn06fgql2sgbxbgiqd3gw67-runtime-composition-github"
+      },
+      "runtime-2-hackage-composition": {
+        "drvPath": "/nix/store/3qqjcyqc93daq39c614xxivz1zlrng4h-runtime-composition-hackage.drv",
+        "outputPath": "/nix/store/f22252wnggh96scxn7k5510fhklr20h3-runtime-composition-hackage"
+      }
+    }
+  },
+  "generation": 2,
+  "runtime": "keiro-runtime",
+  "runtimeFingerprint": "a9257fa760a9e7cbf2922bebfd4056326eddcc43bb562f87fec3e421cbb8e85f",
+  "schemaVersion": 1,
+  "sourceRevision": "ff555ebe05c1222c0336a12bc48006af3dcfd771"
+}

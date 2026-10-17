@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "runtime": "keiro-runtime",
+  "generation": 2,
+  "runtimeFingerprint": "a9257fa760a9e7cbf2922bebfd4056326eddcc43bb562f87fec3e421cbb8e85f",
+  "sourceChannel": "github",
+  "postgresMajors": [
+    17,
+    18
+  ],
+  "results": [
+    {
+      "scenario": "kiroku/append/correctness/all-order-and-gaps",
+      "runId": "01a1476e-f86d-77ec-9b17-1c1aa9cd53c2",
+      "outcome": "passed",
+      "resultSha256": "81f37e3c33d31cdc3a06482dfb7006fa74c1b9c90bf2efd4476c94401d36a497"
+    },
+    {
+      "scenario": "kiroku/append/correctness/multi-stream-atomicity",
+      "runId": "01a1476f-00ef-714f-994b-dc0f8ff01ad7",
+      "outcome": "passed",
+      "resultSha256": "8596ec69c13da0267cd066e5c800036b60f4662c0e251424f14446789f63210c"
+    },
+    {
+      "scenario": "kiroku/read/correctness/cursor-semantics",
+      "runId": "01a1476f-06b9-7754-a926-36082fee3dfe",
+      "outcome": "passed",
+      "resultSha256": "fb3cd6707131e9777f86fc8ceeddf9a61aa1b1691532fefd1038afc0e99c3f35"
+    },
+    {
+      "scenario": "keiro/workflow/correctness/linear-replay-smoke",
+      "runId": "01a1476f-111c-72c8-9e1a-b7b6373a5c8f",
+      "outcome": "passed",
+      "resultSha256": "9ebf34bcfc2f7b13d0c90fd3a4d8d1797c16da73be000a1212bd8c4484c075d3"
+    },
+    {
+      "scenario": "keiro/workflow/correctness/replay-and-journal-identity",
+      "runId": "01a1476f-175b-7673-9de0-d53446c271fc",
+      "outcome": "passed",
+      "resultSha256": "b6868171f8306c0682e8bfdca5f7c604b96d2a9c9c025bd3c95ed4f6eb97316e"
+    },
+    {
+      "scenario": "keiro/shard/correctness/ack-coupled-handler-variants",
+      "runId": "01a1476f-1f00-713e-aaaf-5dcccaa5a69d",
+      "outcome": "passed",
+      "resultSha256": "d79b4429102cf971f5750432ded6a922c75b17d342c1bdef4cb2f3836bfdeb9b"
+    },
+    {
+      "scenario": "pgmq/ack/correctness/delete-archive-semantics",
+      "runId": "01a1476f-2ba5-7111-9436-b350e4b7841b",
+      "outcome": "passed",
+      "resultSha256": "e43675dbc0a5d138cf033e451bb575272463f0a7c6940aefed2746397e24b717"
+    },
+    {
+      "scenario": "kafka/consumer/concurrency/static-membership-fencing-is-observable",
+      "runId": "01a1476f-3170-720f-8f5e-f3b97ebb78c7",
+      "outcome": "passed",
+      "resultSha256": "ae77f903c75c1967b246e92ff3721876a15a5e64ea824253c76c4d0ec9171dd1"
+    }
+  ]
+}

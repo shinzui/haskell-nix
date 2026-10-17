@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "runtime": "keiro-runtime",
+  "generation": 2,
+  "nativePackages": {
+    "aarch64-darwin": [
+      {
+        "drvPath": "/nix/store/rxqzvyax1mmcd63s7lxp5yf1ak5qlg7k-rdkafka-2.15.0.drv",
+        "name": "rdkafka",
+        "outputPath": "/nix/store/azrzlliy1y3hym04g1w42iygvqp8bq13-rdkafka-2.15.0",
+        "role": "native",
+        "version": "2.15.0"
+      }
+    ],
+    "x86_64-linux": [
+      {
+        "drvPath": "/nix/store/2frccra5x22l57j41ni7d7w6k82hbra4-rdkafka-2.15.0.drv",
+        "name": "rdkafka",
+        "outputPath": "/nix/store/7f8k00avcz5fndgsx7ms8mmrb564xxln-rdkafka-2.15.0",
+        "role": "native",
+        "version": "2.15.0"
+      }
+    ]
+  }
+}

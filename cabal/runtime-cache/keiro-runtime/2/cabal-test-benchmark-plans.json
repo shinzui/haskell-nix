@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "runtime": "keiro-runtime",
+  "generation": 2,
+  "compiler": "ghc-9.12.4",
+  "results": [
+    {
+      "channel": "github",
+      "planSha256": "c3044441f8d08cf7d1dfc9da871bf3e615f690bf45c1ea32371f9f8682194e28",
+      "matchedPackages": 311,
+      "fixtureComponents": [
+        "bench:acceptance-bench",
+        "lib",
+        "test:acceptance"
+      ],
+      "testsEnabled": true,
+      "benchmarksEnabled": true
+    },
+    {
+      "channel": "hackage",
+      "planSha256": "a89d402d43a4b3ac6dd5e10f28574512874e99a8bcccd56112f2ea18ba23b434",
+      "matchedPackages": 311,
+      "fixtureComponents": [
+        "bench:acceptance-bench",
+        "lib",
+        "test:acceptance"
+      ],
+      "testsEnabled": true,
+      "benchmarksEnabled": true
+    }
+  ]
+}

@@ -1,0 +1,104 @@
+{
+  "applicationManifestProofs": "cabal/runtime-cache/keiro-runtime/2/application-manifest-proofs.json",
+  "cabalHttpsEvidence": "cabal/runtime-cache/keiro-runtime/2/cabal-tls-https.json",
+  "cabalPlans": "cabal/runtime-cache/keiro-runtime/2/cabal-test-benchmark-plans.json",
+  "cacheEvidence": [
+    {
+      "configuration": {
+        "channel": "github",
+        "compiler": "ghc9124",
+        "disableHaddock": true,
+        "disableProfiling": true,
+        "system": "aarch64-darwin"
+      },
+      "freshWorkerEvidence": "cabal/runtime-cache/keiro-runtime/2/aarch64-darwin-github-ci.json",
+      "publication": "cabal/runtime-cache/keiro-runtime/2/aarch64-darwin-github.json",
+      "substitutedPaths": 393
+    },
+    {
+      "configuration": {
+        "channel": "hackage",
+        "compiler": "ghc9124",
+        "disableHaddock": true,
+        "disableProfiling": true,
+        "system": "aarch64-darwin"
+      },
+      "freshWorkerEvidence": "cabal/runtime-cache/keiro-runtime/2/aarch64-darwin-hackage-ci.json",
+      "publication": "cabal/runtime-cache/keiro-runtime/2/aarch64-darwin-hackage.json",
+      "substitutedPaths": 393
+    },
+    {
+      "configuration": {
+        "channel": "github",
+        "compiler": "ghc9124",
+        "disableHaddock": true,
+        "disableProfiling": true,
+        "system": "x86_64-linux"
+      },
+      "freshWorkerEvidence": "cabal/runtime-cache/keiro-runtime/2/x86_64-linux-github-ci.json",
+      "publication": "cabal/runtime-cache/keiro-runtime/2/x86_64-linux-github.json",
+      "substitutedPaths": 400
+    },
+    {
+      "configuration": {
+        "channel": "hackage",
+        "compiler": "ghc9124",
+        "disableHaddock": true,
+        "disableProfiling": true,
+        "system": "x86_64-linux"
+      },
+      "freshWorkerEvidence": "cabal/runtime-cache/keiro-runtime/2/x86_64-linux-hackage-ci.json",
+      "publication": "cabal/runtime-cache/keiro-runtime/2/x86_64-linux-hackage.json",
+      "substitutedPaths": 400
+    }
+  ],
+  "configurations": [
+    {
+      "channel": "github",
+      "compiler": "ghc9124",
+      "disableHaddock": true,
+      "disableProfiling": true,
+      "system": "aarch64-darwin"
+    },
+    {
+      "channel": "hackage",
+      "compiler": "ghc9124",
+      "disableHaddock": true,
+      "disableProfiling": true,
+      "system": "aarch64-darwin"
+    },
+    {
+      "channel": "github",
+      "compiler": "ghc9124",
+      "disableHaddock": true,
+      "disableProfiling": true,
+      "system": "x86_64-linux"
+    },
+    {
+      "channel": "hackage",
+      "compiler": "ghc9124",
+      "disableHaddock": true,
+      "disableProfiling": true,
+      "system": "x86_64-linux"
+    }
+  ],
+  "dependencyIdentityRetention": "cabal/runtime-cache/keiro-runtime/2/dependency-identity-retention.json",
+  "generation": 2,
+  "integrationEvidence": {
+    "github": "cabal/runtime-cache/keiro-runtime/2/integration/aarch64-darwin-github/receipt.json",
+    "hackage": "cabal/runtime-cache/keiro-runtime/2/integration/aarch64-darwin-hackage/receipt.json"
+  },
+  "integrationPostgresqlVersions": [
+    "17.11",
+    "18.6"
+  ],
+  "integrationSystems": [
+    "aarch64-darwin"
+  ],
+  "linuxVerification": "Both root/closure builds, frozen parity, full flake checks, application manifest proofs and deterministic Kafka close checks pass in the Apple Linux builder.",
+  "nativeKafka": "cabal/runtime-cache/keiro-runtime/2/native-kafka.json",
+  "runtime": "keiro-runtime",
+  "runtimeFingerprint": "a9257fa760a9e7cbf2922bebfd4056326eddcc43bb562f87fec3e421cbb8e85f",
+  "schemaVersion": 1,
+  "status": "verified"
+}

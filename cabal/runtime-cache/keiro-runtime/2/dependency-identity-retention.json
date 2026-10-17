@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "generation": 2,
+  "baselineGeneration": 1,
+  "aarch64-darwin": {
+    "changed": [],
+    "compared": 273,
+    "compilerEqual": true,
+    "newFingerprint": "a9257fa760a9e7cbf2922bebfd4056326eddcc43bb562f87fec3e421cbb8e85f",
+    "oldFingerprint": "da00319eb1423b4372a0a0b050911b7719d1de0867a3e32160dbd327a2762e81",
+    "ownershipEqual": true
+  },
+  "x86_64-linux": {
+    "changed": [],
+    "compared": 273
+  }
+}

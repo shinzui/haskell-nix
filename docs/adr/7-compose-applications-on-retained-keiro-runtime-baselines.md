@@ -1,6 +1,6 @@
 # Compose applications on retained Keiro runtime baselines
 
-Status: Accepted; generation 1 and its declared GHC 9.12.4 platform/channel matrix are implemented and verified.
+Status: Accepted; generations 1 and 2 and their declared GHC 9.12.4 platform/channel matrices are implemented and verified.
 
 Date: 2026-10-04
 
@@ -100,8 +100,9 @@ Append generation 2 with the same versions, index and sources and Cabal TLS enab
 never rewrite generation 1 or override a runtime-owned flag in an application.
 The native comparison proves every one of the 273 non-Boot Nix derivations is unchanged.
 A newly built Cabal executable successfully evaluates a published remote profile with a
-fresh private cache. Generation 2 remains unverified until its declared support evidence
-is complete. Generation-qualified build outputs and a CI generation input let both
+fresh private cache. Generation 2 passes its declared matrix, actual application composition proofs, both
+native integration sweeps and fresh-worker substitution with zero builds. Its fingerprint-bound
+support evidence is retained in `cabal/runtime-cache/keiro-runtime/2/support.json`. Generation-qualified build outputs and a CI generation input let both
 retained configurations be checked independently without moving existing output aliases.
 
 ## Alternatives and consequences

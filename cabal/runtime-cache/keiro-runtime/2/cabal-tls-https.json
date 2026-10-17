@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "runtime": "keiro-runtime",
+  "generation": 2,
+  "runtimeFingerprint": "a9257fa760a9e7cbf2922bebfd4056326eddcc43bb562f87fec3e421cbb8e85f",
+  "system": "aarch64-darwin",
+  "cabalDhallVersion": "1.42.3",
+  "tlsEnabled": true,
+  "coldPrivateCache": true,
+  "importUrl": "https://raw.githubusercontent.com/shinzui/okf-profiles/v0.7.0/package.dhall",
+  "importSemanticHash": "sha256:3a785b2ee66301e2bcd6466352e9480e71b7fafdca62256b4a2038cace5d0bb8",
+  "exitCode": 0,
+  "normalizedOutputSha256": "d46de9afadeae4ab3ea8d49a0b10d973988389916144db838495d61aa26b6542"
+}

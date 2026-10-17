@@ -6,7 +6,7 @@ docId: DOC-6
 tags: [runtime, composition, adoption]
 generated:
   by: process:codex
-  at: 2026-10-17T00:22:13Z
+  at: 2026-10-17T01:23:52Z
 ---
 
 [Guides](README.md)
@@ -19,6 +19,13 @@ Generation 1 retains 311 package identities and 35 roots across
 `mori://shinzui/pg-migrate` and `mori://shinzui/hw-kafka-client`.
 The closure includes Keiki's JSON codec, PGMQ/Kiroku/Kafka adapters and the maintained
 Kafka streaming fork. Applications build only the components they use.
+
+Generation 2 retains the same membership, versions and native Nix dependency identities,
+and enables Dhall HTTPS imports in Cabal. Both generations are verified for the same matrix.
+Applications requiring Cabal HTTPS imports select generation 2 explicitly and use `2` in
+both the selector and materialized import paths below. Existing unqualified runtime build
+outputs continue to select generation 1; generation 2 has `keiro-runtime-2` build outputs.
+The fingerprint-bound support receipts live under `cabal/runtime-cache/keiro-runtime/`.
 
 ## 1. Pin the channel and record selections
 
