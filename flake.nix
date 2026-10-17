@@ -200,6 +200,7 @@
         };
 
         lib = {
+          mkApplicationIncrementalBuild = import ./lib/mkApplicationIncrementalBuild.nix { inherit lib; };
           mkCohortManifest = import ./lib/mkCohortManifest.nix { inherit lib; };
           parseCohortFreeze = import ./lib/parseCohortFreeze.nix { inherit lib; };
           # Retained cohort data used by generation, parity and consumer tools.

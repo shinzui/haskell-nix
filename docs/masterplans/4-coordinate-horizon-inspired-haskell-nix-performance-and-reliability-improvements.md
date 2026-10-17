@@ -138,6 +138,8 @@ EP-20 fixtures can proceed, but production shell delivery still requires the act
 
 ## Integration Points
 
+EP-18 now exports opt-in `lib.mkApplicationIncrementalBuild`, with an explicit caller `pkgs` context and schema-1 compatibility records. Source-independent effective recipe identities retain all tools, flags, hooks and dependency inputs; separate metadata/layout/generated-source guards constrain eligible edits. This does not alter retained runtime or shared dependency recipes. Native fixture and pure guard checks pass; application adoption still requires paired timings, behavioral/test evidence and total-cost acceptance.
+
 
 DEV-4 owns the toolchain declaration/capability schema; DEV-5 owns native tool execution and fresh-worker cache evidence. EP-20 consumes the delivered compiler identity to construct a compatible shell, preserving the independent HLS closure. The toolchain flake receives no reverse application dependency. Both toolchain children remain under their existing local master plan and retain their own intentions.
 
@@ -154,7 +156,7 @@ Shared edits to `flake.nix`, `checks/default.nix`, `lib/`, and updater modules r
 ## Progress
 
 
-EP-18 is In Progress under the full umbrella implementation request. Its native intermediate fixture passes correctness, selective module reuse and source-error rejection; representative application baselines and the remaining milestones are still open; the other three local children remain Not Started. The scoped native documentation result is accepted: median 153.33 s to 3.38 s at fixed revision stamp, with shared identities and behavior preserved. Full EP-18 milestones remain open. External plans 9 and 16 are Complete locally. EP-18 baselines/source-boundary work, EP-19 conversion experiments and EP-21 policy migration are ready within their declared scope. EP-20 production and DEV-5 remain gated by the unverified DEV-4 contract. The two foreign member statuses and the eight-document publication inventory could not be refreshed during this review.
+EP-18 is In Progress under the full umbrella implementation request. Its native intermediate fixture passes correctness, selective module reuse and source-error rejection; M1 now has real native leaf baselines for Rei (52.98 s) and Mori (49.26 s), and guarded paired application pilots are running; the remaining milestones are still open; the other three local children remain Not Started. The scoped native documentation result is accepted: median 153.33 s to 3.38 s at fixed revision stamp, with shared identities and behavior preserved. Full EP-18 milestones remain open. External plans 9 and 16 are Complete locally. EP-18 baselines/source-boundary work, EP-19 conversion experiments and EP-21 policy migration are ready within their declared scope. EP-20 production and DEV-5 remain gated by the unverified DEV-4 contract. The two foreign member statuses and the eight-document publication inventory could not be refreshed during this review.
 
 Remaining integration acceptance is the targeted-update/rollback rehearsal, compatible policy/compiler/recipe identities, phase-separated measurements that meet the declared performance budgets, and retained-history/cache proofs. The registry tracks child completion; each child retains its own milestone checklist.
 

@@ -101,6 +101,17 @@ build identities warn, so a single-application hotfix remains possible. A mismat
 an application's own freeze or missing/unverifiable build evidence fails. Initial alignment
 acceptance separately requires equal identities where shared inputs are intended to match.
 
+Application intermediate reuse is opt-in and uses an explicitly selected clean seed, never
+an unbounded chain of previous candidates or a mutable external cache. Compare exact
+source-independent recipe identities, retaining native/compiler tools, Setup/Cabal,
+optimization/build ways, hooks and dependency inputs. Guard Cabal/Setup contents, source
+layout and the declared generated-source writer separately. Only audited generated-source
+content may be normalized. Invalid or mismatched records return the ordinary clean recipe
+without evaluating an incompatible seed. Callers own truthful compatibility records; a
+reported package version alone cannot establish safety. Native fixtures now prove selective
+module reuse and error detection for the pinned GHC 9.12.4 builder, while real application
+latency, retention and rollout acceptance remain independent gates.
+
 ## Alternatives and consequences
 
 Version checks alone are cheaper to implement but can declare success while duplicate builds

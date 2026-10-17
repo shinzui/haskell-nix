@@ -1,0 +1,343 @@
+{
+  "schema_version": 1,
+  "scope": "Initial native leaf-edit baselines before source-local stamp and seed pilots; one trial per application, no speedup claim",
+  "hardware": {
+    "memory_bytes": 274877906944,
+    "logical_cpus": 36,
+    "jobs": 1,
+    "requested_cores": 16
+  },
+  "memory": "Host free-memory sample after these baselines was 96%; builder peak RSS was not instrumented. Paired pilots add sampled host compiler RSS.",
+  "next_experiment": {
+    "minimum_median_saving": 0.2,
+    "pairs_per_application": 5,
+    "order": "alternating clean/seeded",
+    "workload": "Haskell implementation edit of an embedded help text value; exact changed behavior compared after trials",
+    "budget": "10 leaf edits per seed checkpoint; charge seed creation plus every returned output; no default adoption without positive total-cost budget"
+  },
+  "projects": {
+    "mori://shinzui/rei": {
+      "source_revision": "4f209d3f2bab381dfab7301bd04779f89a77009f",
+      "fixed_displayed_stamp": "99b882e",
+      "raw_log_directory": "/tmp/mp4-rei-leaf-baseline-20261017",
+      "measurements": [
+        {
+          "trial": 1,
+          "stage": "leaf",
+          "label": "baseline",
+          "command": [
+            "nix",
+            "build",
+            "--impure",
+            "--file",
+            "/Users/shinzui/Keikaku/bokuno/haskell-nix/checks/fixtures/application-builds/rei.nix",
+            "--argstr",
+            "source",
+            "/var/folders/xf/z_902qyd0dg5m6n8pjv1vk300000gn/T/mp4-app-baselines-gqysbxfp/rei",
+            "package",
+            "--no-link",
+            "--json",
+            "--print-build-logs",
+            "--max-jobs",
+            "1",
+            "--cores",
+            "16"
+          ],
+          "source_variant_sha256": "8d79db22e61d18f5592be2363eca702f233e702d32b2ab3d7dc384af890555f2",
+          "identity": {
+            "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+            "core": "/nix/store/q81gkiznk4n6hmya2d3ndqpnjg7pqcz5-rei-core-7.1.0.0.drv",
+            "root": "/nix/store/4lvaixfay2c3d1jxzc7adch26na70phq-rei-cli-7.1.0.0.drv"
+          },
+          "elapsed_seconds": 52.97809887499898,
+          "exit_code": 0,
+          "compiled_modules": {
+            "rei-cli": 301
+          },
+          "phase_events": [
+            {
+              "elapsed_seconds": 6.250558333005756,
+              "message": "rei-cli> Running phase: setupCompilerEnvironmentPhase"
+            },
+            {
+              "elapsed_seconds": 12.380376124987379,
+              "message": "rei-cli> Running phase: unpackPhase"
+            },
+            {
+              "elapsed_seconds": 12.44496279201121,
+              "message": "rei-cli> Running phase: patchPhase"
+            },
+            {
+              "elapsed_seconds": 12.457528458005982,
+              "message": "rei-cli> Running phase: compileBuildDriverPhase"
+            },
+            {
+              "elapsed_seconds": 13.202149582997663,
+              "message": "rei-cli> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+            },
+            {
+              "elapsed_seconds": 13.218582000001334,
+              "message": "rei-cli> Running phase: configurePhase"
+            },
+            {
+              "elapsed_seconds": 15.603617499989923,
+              "message": "rei-cli> Running phase: buildPhase"
+            },
+            {
+              "elapsed_seconds": 43.68268804199761,
+              "message": "rei-cli> Running phase: haddockPhase"
+            },
+            {
+              "elapsed_seconds": 43.692425042012474,
+              "message": "rei-cli> Running phase: installPhase"
+            },
+            {
+              "elapsed_seconds": 46.71219312498579,
+              "message": "rei-cli> Running phase: fixupPhase"
+            }
+          ],
+          "build_result": [
+            {
+              "drvPath": "/nix/store/4lvaixfay2c3d1jxzc7adch26na70phq-rei-cli-7.1.0.0.drv",
+              "outputs": {
+                "out": "/nix/store/2fhyjzxfy7699i869wmkxv08zh3sdj1c-rei-cli-7.1.0.0"
+              }
+            }
+          ],
+          "cache_state": "warm dependencies; initial build plan and actual compilations recorded in build log",
+          "log": "leaf-1-baseline.log",
+          "phase_limits": "No separate linker, test, memory or transfer instrumentation; phase events are builder log boundaries.",
+          "log_sha256": "b3c68539a222c5d06f36dae1cd9727456c91168913874475614f935f30577ef5"
+        },
+        {
+          "trial": 0,
+          "stage": "warmup",
+          "label": "baseline",
+          "command": [
+            "nix",
+            "build",
+            "--impure",
+            "--file",
+            "/Users/shinzui/Keikaku/bokuno/haskell-nix/checks/fixtures/application-builds/rei.nix",
+            "--argstr",
+            "source",
+            "/var/folders/xf/z_902qyd0dg5m6n8pjv1vk300000gn/T/mp4-app-baselines-gqysbxfp/rei",
+            "package",
+            "--no-link",
+            "--json",
+            "--print-build-logs",
+            "--max-jobs",
+            "1",
+            "--cores",
+            "16"
+          ],
+          "source_variant_sha256": "0d0b178b13322df196b4cc7887366ea05348edaebba26eaca9e58d0495b97757",
+          "identity": {
+            "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+            "core": "/nix/store/q81gkiznk4n6hmya2d3ndqpnjg7pqcz5-rei-core-7.1.0.0.drv",
+            "root": "/nix/store/9n8vh6s8b3a9r0x0w1ffarb0nc9m5h5q-rei-cli-7.1.0.0.drv"
+          },
+          "elapsed_seconds": 3.441374083980918,
+          "exit_code": 0,
+          "compiled_modules": {},
+          "phase_events": [],
+          "build_result": [
+            {
+              "drvPath": "/nix/store/9n8vh6s8b3a9r0x0w1ffarb0nc9m5h5q-rei-cli-7.1.0.0.drv",
+              "outputs": {
+                "out": "/nix/store/hpfj57jgy42wrk1jl2rbmxy5b6pgqgag-rei-cli-7.1.0.0"
+              }
+            }
+          ],
+          "cache_state": "warm dependencies; initial build plan and actual compilations recorded in build log",
+          "log": "warmup-0-baseline.log",
+          "phase_limits": "No separate linker, test, memory or transfer instrumentation; phase events are builder log boundaries.",
+          "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ]
+    },
+    "mori://shinzui/mori": {
+      "source_revision": "364f9a27f9927d2449e6f1e5ad878020487bab50",
+      "fixed_displayed_stamp": "364f9a2",
+      "raw_log_directory": "/tmp/mp4-mori-leaf-baseline-20261017",
+      "measurements": [
+        {
+          "trial": 1,
+          "stage": "leaf",
+          "label": "baseline",
+          "command": [
+            "nix",
+            "build",
+            "--impure",
+            "--file",
+            "/Users/shinzui/Keikaku/bokuno/haskell-nix/checks/fixtures/application-builds/mori.nix",
+            "--argstr",
+            "source",
+            "/var/folders/xf/z_902qyd0dg5m6n8pjv1vk300000gn/T/mp4-app-baselines-gqysbxfp/mori",
+            "package",
+            "--no-link",
+            "--json",
+            "--print-build-logs",
+            "--max-jobs",
+            "1",
+            "--cores",
+            "16"
+          ],
+          "source_variant_sha256": "3fb0e11f8566261f851dfcc8f63a0c5603db96a711762da5558a52cfd5fa8f99",
+          "identity": {
+            "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+            "core": "/nix/store/81j2lmq5fhbqqn5s2v1kssb0bngdxbr5-mori-core-7.0.0.0.drv",
+            "root": "/nix/store/c3pdfwz7dsxm8qp4mjkbpjbbhgm0am0w-mori-cli-7.0.0.0.drv"
+          },
+          "elapsed_seconds": 49.26248654202209,
+          "exit_code": 0,
+          "compiled_modules": {
+            "mori-cli": 92
+          },
+          "phase_events": [
+            {
+              "elapsed_seconds": 6.486357667017728,
+              "message": "mori-cli> Running phase: setupCompilerEnvironmentPhase"
+            },
+            {
+              "elapsed_seconds": 12.545037459000014,
+              "message": "mori-cli> Running phase: unpackPhase"
+            },
+            {
+              "elapsed_seconds": 12.607692917023087,
+              "message": "mori-cli> Running phase: patchPhase"
+            },
+            {
+              "elapsed_seconds": 12.735434542002622,
+              "message": "mori-cli> Running phase: compileBuildDriverPhase"
+            },
+            {
+              "elapsed_seconds": 13.488187875016592,
+              "message": "mori-cli> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+            },
+            {
+              "elapsed_seconds": 13.504662874998758,
+              "message": "mori-cli> Running phase: configurePhase"
+            },
+            {
+              "elapsed_seconds": 15.839806459000101,
+              "message": "mori-cli> Running phase: buildPhase"
+            },
+            {
+              "elapsed_seconds": 42.190754250012105,
+              "message": "mori-cli> Running phase: haddockPhase"
+            },
+            {
+              "elapsed_seconds": 42.200483791995794,
+              "message": "mori-cli> Running phase: installPhase"
+            },
+            {
+              "elapsed_seconds": 44.081277167017106,
+              "message": "mori-cli> Running phase: fixupPhase"
+            }
+          ],
+          "build_result": [
+            {
+              "drvPath": "/nix/store/c3pdfwz7dsxm8qp4mjkbpjbbhgm0am0w-mori-cli-7.0.0.0.drv",
+              "outputs": {
+                "out": "/nix/store/7hb1n2s79mh2gkqs7jd89n73msb28qa4-mori-cli-7.0.0.0"
+              }
+            }
+          ],
+          "cache_state": "warm dependencies; initial build plan and actual compilations recorded in build log",
+          "log": "leaf-1-baseline.log",
+          "phase_limits": "No separate linker, test, memory or transfer instrumentation; phase events are builder log boundaries.",
+          "log_sha256": "46546a2b29382a3a26192d79522a12e79f380c353398158ce8519b86cb58c6e4"
+        },
+        {
+          "trial": 0,
+          "stage": "warmup",
+          "label": "baseline",
+          "command": [
+            "nix",
+            "build",
+            "--impure",
+            "--file",
+            "/Users/shinzui/Keikaku/bokuno/haskell-nix/checks/fixtures/application-builds/mori.nix",
+            "--argstr",
+            "source",
+            "/var/folders/xf/z_902qyd0dg5m6n8pjv1vk300000gn/T/mp4-app-baselines-gqysbxfp/mori",
+            "package",
+            "--no-link",
+            "--json",
+            "--print-build-logs",
+            "--max-jobs",
+            "1",
+            "--cores",
+            "16"
+          ],
+          "source_variant_sha256": "98d27bf75185246e48b22fa027e0ca11fa9c0a4927c0ba33e5fc16898959696b",
+          "identity": {
+            "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+            "core": "/nix/store/81j2lmq5fhbqqn5s2v1kssb0bngdxbr5-mori-core-7.0.0.0.drv",
+            "root": "/nix/store/0p642yl0amwf7xn7nz1ls96r02yayc8n-mori-cli-7.0.0.0.drv"
+          },
+          "elapsed_seconds": 47.659471291990485,
+          "exit_code": 0,
+          "compiled_modules": {
+            "mori-cli": 92
+          },
+          "phase_events": [
+            {
+              "elapsed_seconds": 5.2788273750047665,
+              "message": "mori-cli> Running phase: setupCompilerEnvironmentPhase"
+            },
+            {
+              "elapsed_seconds": 11.311116917000618,
+              "message": "mori-cli> Running phase: unpackPhase"
+            },
+            {
+              "elapsed_seconds": 11.37928745901445,
+              "message": "mori-cli> Running phase: patchPhase"
+            },
+            {
+              "elapsed_seconds": 11.522362292016624,
+              "message": "mori-cli> Running phase: compileBuildDriverPhase"
+            },
+            {
+              "elapsed_seconds": 12.267727166996337,
+              "message": "mori-cli> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+            },
+            {
+              "elapsed_seconds": 12.285032792016864,
+              "message": "mori-cli> Running phase: configurePhase"
+            },
+            {
+              "elapsed_seconds": 14.663638792000711,
+              "message": "mori-cli> Running phase: buildPhase"
+            },
+            {
+              "elapsed_seconds": 40.63701125001535,
+              "message": "mori-cli> Running phase: haddockPhase"
+            },
+            {
+              "elapsed_seconds": 40.646519792004256,
+              "message": "mori-cli> Running phase: installPhase"
+            },
+            {
+              "elapsed_seconds": 42.46276779199252,
+              "message": "mori-cli> Running phase: fixupPhase"
+            }
+          ],
+          "build_result": [
+            {
+              "drvPath": "/nix/store/0p642yl0amwf7xn7nz1ls96r02yayc8n-mori-cli-7.0.0.0.drv",
+              "outputs": {
+                "out": "/nix/store/sznck79pk0ma7l44v8vpw8agppjr3wrb-mori-cli-7.0.0.0"
+              }
+            }
+          ],
+          "cache_state": "warm dependencies; initial build plan and actual compilations recorded in build log",
+          "log": "warmup-0-baseline.log",
+          "phase_limits": "No separate linker, test, memory or transfer instrumentation; phase events are builder log boundaries.",
+          "log_sha256": "a6a5b3128c8bbc7b3f190a1a95df9a1224c0f0518b13a634b765ea7a0911b3f2"
+        }
+      ]
+    }
+  }
+}

@@ -70,14 +70,14 @@ This follows [MasterPlan 3](../masterplans/3-align-one-cabal-and-nix-package-set
 
 ## Progress
 
-2026-10-17 full implementation resumed under the new umbrella request. The earlier single-application session boundary is historical, not a restriction on this session. Native GHC 9.12.4 intermediate fixtures now pass: clean/seeded behavior agrees for unchanged, leaf, exported-type and embedded-data variants; both policies reject an incompatible type and a removed module. Seeded library compilation counts are 0/2/2/1 versus 4 for every clean variant. [Fixture receipt](../evidence/ep18/native-intermediate-fixture.json). M1 remains open for representative application baselines; M2 remains gated on those and the scheduled M3 fixes.
+2026-10-17 full implementation resumed under the new umbrella request. The earlier single-application session boundary is historical, not a restriction on this session. Native GHC 9.12.4 intermediate fixtures now pass: clean/seeded behavior agrees for unchanged, leaf, exported-type and embedded-data variants; both policies reject an incompatible type and a removed module. Seeded library compilation counts are 0/2/2/1 versus 4 for every clean variant. [Fixture receipt](../evidence/ep18/native-intermediate-fixture.json). The subsequently recorded real baselines accept M1; M2 remains gated on the scheduled M3 fixes and its own paired acceptance.
 
 2026-10-16 scoped implementation: measure Rei only and remove its largest observed avoidable package rebuild. The scoped M1 baseline and M3 source-boundary fix are accepted; the intermediate spike, second application and wider rollout remain outside this session. Before comparing candidates, require at least a 20% reduction in median end-to-end documentation-edit time over five alternating paired trials, unchanged production settings, exact shared dependency identities and matching database-free CLI behavior. Distinct prose variants must request fresh baseline recipes; a cached candidate is the intended outcome for irrelevant inputs, not a changed-code speedup. Record the source-filter migration build separately.
 
 
 - [x] (2026-10-17 UTC) User-requested scoped M1/M3 result: measure one application and remove its largest observed avoidable rebuild. Rei planning prose invalidated the entire owned core/CLI closure; five paired native trials fall from median 153.33 s to 3.38 s at a fixed revision stamp, with 1,194 GHC events avoided and all 2,048 shared graph nodes (474 Haskell instances) unchanged. [Receipt](../evidence/ep18/rei-documentation-rebuild.json), [workflow](../guides/faster-application-nix-builds.md). The full milestones below remain open.
 
-- [ ] M1: Establish compilation baselines and decide intermediate-reuse feasibility with a small native fixture.
+- [x] (2026-10-17 UTC) M1: Establish native leaf-edit baselines and decide intermediate-reuse feasibility. Rei takes 52.98 s/301 compilation events; Mori takes 49.26 s/92 events, with unchanged core/compiler identities. Native fixtures prove correct selective reuse and source-error rejection. [Baseline contexts](../evidence/ep18/application-leaf-baselines.json), [fixture receipt](../evidence/ep18/native-intermediate-fixture.json). These are initial single-trial baselines, not speedup statistics; M2 requires five alternating pairs after the stamp fix.
 - [ ] M2: Pilot guarded Nix intermediate reuse in Rei and Mori and compare changed-code builds against clean builds.
 - [ ] M3: Remove unrelated source and revision invalidation while preserving embedded resources and truthful provenance.
 - [ ] M4: Measure bounded compiler parallelism and, if necessary, pilot smaller independently cached Cabal packages.
@@ -99,6 +99,8 @@ At the 2026-10-07 source inspection, `mori://shinzui/rei` had 1,068 Haskell file
 
 
 ## Decision Log
+
+2026-10-17 pilot contract: compare five alternating native pairs per application at production optimization and unchanged dependencies, with a minimum 20% median total-time saving and a ten-leaf-edit seed checkpoint budget. A source-independent recipe projection captures tools, flags, ways, hooks and dependency identities; Cabal/Setup bytes, source layout and the normalized revision-source writer are separate guards. Add explicit `pkgs` to the new helper input so it uses the caller's pinned `overrideCabal`. This additive helper API has no existing consumers. Reject malformed/mismatched records and keep the unmodified clean recipe on rejection.
 
 2026-10-17: The new full-umbrella implementation request supersedes the prior session-only scope. Continue M1 application baselines, scheduled M3 source/stamp work and then guarded M2 pilots. Keep the raw builder fixture separate from the eventual compatibility helper so its behavior remains independently observable.
 
@@ -311,7 +313,7 @@ Use disposable checkouts and preserve foreign changes. In particular, the workin
 ## Interfaces and Dependencies
 
 
-`lib/mkApplicationIncrementalBuild.nix` accepts `{ package, seedPackage, currentCompatibility, seedCompatibility, enabled ? true }` and returns `{ package, seed, compatibilityReport }`. It uses the pinned Nixpkgs Haskell builder's intermediate options after M1 validation. The returned package is a normal source-built Haskell derivation; the report names accepted/rejected compatibility conditions. The seed recipe must not depend on the returned package or another incremental predecessor.
+`lib/mkApplicationIncrementalBuild.nix` accepts `{ pkgs, package, seedPackage, currentCompatibility, seedCompatibility, enabled ? true }` and returns `{ package, seed, compatibilityReport }`. It uses the pinned Nixpkgs Haskell builder's intermediate options after M1 validation. The returned package is a normal source-built Haskell derivation; the report names accepted/rejected compatibility conditions. The seed recipe must not depend on the returned package or another incremental predecessor.
 
 Application exports initially include `application-incremental`, `application-clean`, and the explicit seed intermediate output. Real applications may additionally expose package-specific outputs for core/CLI/API experiments. Application metadata, recipes, and compatibility computation are owned in their project; common validation/fixture machinery lives here. Source filters and provenance changes coordinate with MP-3 plans 11–13. Cohort/runtime/manifests still use MP-3's shared interfaces.
 

@@ -521,4 +521,5 @@ in
   (name: candidate: lib.nameValuePair "testRejectPackageSet-${name}" (rejectsPackageSet packageSetConfig candidate))
   invalidPackageSetCases // import ./cohort-freeze-parser.nix { inherit lib; }
 // import ./cohort-generated.nix { inherit lib; }
-  // import ./cohort-layer.nix { inherit lib; }
+// import ./cohort-layer.nix { inherit lib; }
+  // import ./application-incremental-policy.nix { inherit lib; }

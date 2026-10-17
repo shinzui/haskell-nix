@@ -1,12 +1,12 @@
 ---
 type: Guide
 title: Measure and remove avoidable application rebuilds
-description: Compare fresh prose variants, preserve true build inputs and verify shared dependency identity before adopting a source filter.
+description: Measure source filtering and guarded compiler intermediate reuse with explicit inputs, native correctness and total-cost evidence.
 docId: DOC-7
 tags: [performance, consumers, nix, source-boundaries]
 generated:
   by: process:codex
-  at: 2026-10-17T04:22:50Z
+  at: 2026-10-17T04:45:02Z
 ---
 
 [Guides](README.md)
@@ -131,3 +131,83 @@ A real new Git commit still changes the CLI's provenance stamp and rebuilds that
 This fix removes the expensive core invalidation; the fixed-stamp timing does not measure
 per-commit delivery or faster changed-Haskell compilation. EP-18 remains In Progress for
 its intermediate-reuse, changed-code, second-application and deployment acceptance.
+
+
+## Verify native intermediate reuse
+
+The pinned builder supports explicit saved intermediates. The native fixture proves the
+mechanism before application adoption:
+
+```bash
+nix build .#checks.aarch64-darwin.application-incremental --no-link
+python3 scripts/check-application-intermediates.py --output-dir /tmp/new-intermediate-receipt
+```
+
+The second command compares executable behavior, retrieves original build logs through Nix,
+and builds expected source failures explicitly. A missing service or download cannot satisfy
+an expected type error. It never reads store files directly. The
+[retained native receipt](../evidence/ep18/native-intermediate-fixture.json) records:
+
+| Variant | Clean library modules compiled | Seeded library modules compiled |
+|---|---|---|
+| Unchanged | All four | None |
+| Leaf implementation | All four | Leaf, Combined |
+| Exported type and adapted consumer | All four | Leaf, Combined |
+| Embedded data | All four | Embedded |
+| Incompatible exported type | Type error | Same type error |
+| Removed module | Missing-source error | Same missing-source error |
+
+Setup compilation and executable relinking remain. These fixture results establish selective
+reuse and correct invalidation, without establishing an application speedup.
+
+`lib.mkApplicationIncrementalBuild` takes `pkgs`, `package`, `seedPackage`,
+`currentCompatibility`, `seedCompatibility`, and optional `enabled` (default true). It returns
+`package`, `seed`, and `compatibilityReport`. Disabled or incompatible inputs return the
+original clean recipe and no seed. Accepted seeds are reconstructed with no predecessor,
+saved intermediates and a separate intermediates output. The candidate consumes that explicit
+seed. No cache directory or historical-seed search participates.
+
+Both compatibility records have `schemaVersion: 1` and nonempty string fields:
+`packageName`, `packageVersion`, `compilerIdentity`, `recipeIdentity`, `metadataIdentity`,
+`sourceLayoutIdentity`, and `generatedInputPolicy`. Unknown fields reject reuse. Package and
+compiler fields must match the actual recipes. The caller owns the remaining evidence:
+project the actual recipe onto a fixed dummy source, preserving compiler/native tools,
+Setup/Cabal, flags, ways, hooks and dependency identities, and use its derivation identity
+as `recipeIdentity`. Never build that dummy projection. Separately fingerprint Cabal/Setup
+bytes and source-file layout. Only an explicitly audited generated-source transformation
+may normalize its varying content; its normalized writer belongs in the policy fingerprint.
+A version string alone cannot establish compatibility. An inaccurate caller-supplied record
+cannot provide safe reuse.
+
+## Measure real leaf edits
+
+The [initial baselines](../evidence/ep18/application-leaf-baselines.json) use a real Haskell
+implementation edit to an embedded help value in `mori://shinzui/rei` and
+`mori://shinzui/mori`. One initial trial took 52.98 and 49.26 seconds respectively, compiling
+301 and 92 events. Those are baseline observations, not repeated speedup statistics.
+
+For paired Haskell trials, the measurement script also accepts
+`--replace BEFORE AFTER`. BEFORE must occur exactly once in each disposable source file;
+AFTER must include `{trial}` so each pair requests distinct changed source. Both policies
+receive identical edited bytes, and the file is restored on exit. The
+[experimental adapter](../../checks/fixtures/application-builds/pilot.nix) uses each
+application's locked inputs and checked retained-runtime constructor. Its clean and seeded
+paths move the revision literal into the one source module that consumes it, preserving
+version output while removing the global CPP flag. It remains a prototype until its
+application acceptance is recorded. Per-copy `.mp4-pilot.json` configuration is read by
+[pair.nix](../../checks/fixtures/application-builds/pair.nix) outside owned package sources;
+it names application, exact application revision, seed source and clean/incremental policy.
+
+Keep the seed copy fixed and both edited copies disposable. Export
+`MP4_APPLICATION_CHECKOUT` to the owning application checkout. Record full configuration and
+commands with receipts. Predeclare the threshold and checkpoint budget: the current pilot
+uses five alternating pairs, a 20% median saving threshold, and ten leaf edits per checkpoint.
+Charge seed creation and first use, transfers, retained bytes and final validation before
+adopting a default. Compare changed behavior, tests and exact shared graphs. Keep an opt-in
+output when the total-cost budget or required correctness evidence does not pass.
+
+New trials sample host compiler RSS every 250 milliseconds using process names, without
+reading command arguments or store files. This can include unrelated concurrent compilers;
+receipts identify processes already present at the first sample. Treat it as sampled host
+memory, not exact isolated builder accounting. Phase events still do not separate linker,
+network or test time. Keep all production settings fixed when comparing policies.

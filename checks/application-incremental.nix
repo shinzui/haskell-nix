@@ -25,22 +25,24 @@ let
       rm "$out/src/Leaf.hs"
     ''}
   '';
-  recipe = variant: previousIntermediates: scope.mkDerivation {
-    pname = "application-incremental";
-    version = "0.1.0.0";
-    src = source variant;
-    isLibrary = true;
-    isExecutable = true;
-    libraryHaskellDepends = [ scope.base scope.template-haskell ];
-    executableHaskellDepends = [ scope.base ];
-    license = lib.licenses.mit;
-    doCheck = false;
-    doHaddock = false;
-    enableLibraryProfiling = false;
-    doInstallIntermediates = true;
-    enableSeparateIntermediatesOutput = true;
-    inherit previousIntermediates;
-  };
+  recipe = variant: previousIntermediates: scope.callPackage
+    ({ mkDerivation, base, template-haskell }: mkDerivation {
+      pname = "application-incremental";
+      version = "0.1.0.0";
+      src = source variant;
+      isLibrary = true;
+      isExecutable = true;
+      libraryHaskellDepends = [ base template-haskell ];
+      executableHaskellDepends = [ base ];
+      license = lib.licenses.mit;
+      doCheck = false;
+      doHaddock = false;
+      enableLibraryProfiling = false;
+      doInstallIntermediates = true;
+      enableSeparateIntermediatesOutput = true;
+      inherit previousIntermediates;
+    })
+    { };
   seed = recipe "seed" null;
   variants = [ "unchanged" "leaf" "interface" "data" ];
   clean = lib.genAttrs variants (variant: recipe variant null);
@@ -51,7 +53,30 @@ let
     interface = "44:seed-data";
     data = "42:changed-data";
   };
+  compatibility = {
+    schemaVersion = 1;
+    packageName = seed.pname;
+    packageVersion = seed.version;
+    compilerIdentity = seed.compiler.drvPath;
+    # The fixture constructor differs only in src and previousIntermediates.
+    recipeIdentity = seed.drvPath;
+    metadataIdentity = builtins.hashFile "sha256" (base + "/application-incremental.cabal");
+    sourceLayoutIdentity = "app/Main.hs;src/Combined.hs;src/Embedded.hs;src/Leaf.hs;src/Stable.hs;message.txt";
+    generatedInputPolicy = "tracked TH dependent file";
+  };
+  guarded = extra: (import ../lib/mkApplicationIncrementalBuild.nix { inherit lib; }) ({
+    inherit pkgs;
+    package = clean.leaf;
+    seedPackage = seed;
+    currentCompatibility = compatibility;
+    seedCompatibility = compatibility;
+  } // extra);
 in
+assert (guarded { }).package.drvPath == seeded.leaf.drvPath;
+assert (guarded { enabled = false; }).package.drvPath == clean.leaf.drvPath;
+assert (guarded {
+  seedCompatibility = compatibility // { recipeIdentity = "different effective flags or dependencies"; };
+}).package.drvPath == clean.leaf.drvPath;
 pkgs.runCommand "application-incremental-correctness"
 {
   passthru = {
