@@ -1,0 +1,3753 @@
+{
+  "acceptance": "45.92% latency saving and exact behavior/settings/unchanged dependency identities pass. Candidates export no intermediate output. Defaults and pins remain unchanged; total-cost and rollout gates stay open.",
+  "compiler_events": {
+    "baseline": [
+      589,
+      589,
+      589,
+      589,
+      589
+    ],
+    "candidate": [
+      4,
+      4,
+      4,
+      4,
+      4
+    ]
+  },
+  "cost_decision": {
+    "expected_edits_per_checkpoint": 10,
+    "limits": "The declared checkpoint was already warm. The runner warmup-only two-edit figure excludes mandatory costs and cannot establish the workflow budget. Historical full-cost results remain unaccepted. This campaign compares consume-only against clean, not against export-enabled incremental builds.",
+    "maximum_break_even_edits": 10,
+    "median_per_edit_saving_seconds": 102.75705712498166,
+    "minimum_saving_fraction": 0.2,
+    "observed_partial_cost_seconds": 558.7877917069709,
+    "observed_warm_startup_seconds": 345.5974176659947,
+    "partial_cost_break_even_floor_edits": 6,
+    "remaining": [
+      "fresh seed creation and missing-seed first use",
+      "complete guard and origin validation",
+      "fresh-worker transfer and retention costs",
+      "final producer-path rollout"
+    ],
+    "status": "incomplete; no adoption or ten-edit acceptance",
+    "whole_pair_verification_seconds": 213.19037404097617
+  },
+  "graph_witness": {
+    "file": "mori-consume-only-graph-witness.json.gz",
+    "sha256": "88037de9a78b109f56325f5aad0e687e75d4a76b51402e6e3e6764350ff0ab18",
+    "unchanged_haskell_instances": 466,
+    "unchanged_nodes": 2034,
+    "uncompressed_sha256": "8da4537c5e737a069c18c2a4b5c1d7b34ddd90fc6f1ebed61a5e5c2c91f6d4f7"
+  },
+  "hardware": {
+    "hw.logicalcpu": "36",
+    "hw.memsize": "274877906944",
+    "hw.physicalcpu": "36",
+    "machdep.cpu.brand_string": "Apple M5 Ultra"
+  },
+  "implementation_declaration": {
+    "codeSha256": {
+      "checks/fixtures/application-builds/owned.nix": "e54928996cb58899135e4e0699988373ed5a325a27440b4866d4af37f09abe6d",
+      "lib/mkApplicationIncrementalBuild.nix": "cfa03c3c881354d26b7cef841491e916013e1c7a1c2044bda79ab42c1cab008e",
+      "lib/mkApplicationIncrementalPackage.nix": "f6dc579f19a6f4fd6875ae6495fd0fb06b87c82f32e4f45682dd617d866fcea7",
+      "scripts/measure-application-nix-builds.py": "7709e3d5d770510f43b3a027a189e8f3635baf578e907cf4f09ecff007606a74"
+    },
+    "cores": 16,
+    "costQualification": "The declared checkpoint is already available. Warmups cannot prove seed creation cost; fresh checkpoint creation/origin validation, transfer, retention and final rollout accounting remain separate required acceptance before adoption.",
+    "expectedEditsPerCheckpoint": 10,
+    "implementationRevision": "6ed02aef10945c11aca1d2a5e4eba472f41e1dae",
+    "maxJobs": 1,
+    "maximumBreakEvenEdits": 10,
+    "minimumSavingFraction": 0.2,
+    "project": "mori://shinzui/mori",
+    "scope": "Native aarch64-darwin consume-only core experiment; defaults unchanged",
+    "seedSourceBase": "364f9a27f9927d2449e6f1e5ad878020487bab50",
+    "sourceBase": "05f1e808fd35ace2816b19e920b92753fa625547",
+    "sourceEdit": [
+      "\"sha256:\"",
+      "\"MP4 core {trial}:consume-only-20261017v2:\""
+    ],
+    "trials": 5,
+    "validatedCheckpoint": {
+      "compatibility": {
+        "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+        "generatedInputPolicy": "912b079b6b798e4415201ced57e2bf3768ba398319af4d9d972f4c78265fa34c",
+        "metadataIdentity": "7b343563c012bf750b49d32037915888cfc03d891639c49588ec7c7822daa67c",
+        "packageName": "mori-core",
+        "packageVersion": "7.0.0.0",
+        "recipeIdentity": "/nix/store/w0d99iw1bnpkxl4a7rjg57fhbivvb9zv-mori-core-7.0.0.0.drv",
+        "schemaVersion": 1,
+        "sourceLayoutIdentity": "66efd7665de4f1741d0aa7997ba67807a4fb022d6f42cb43863919f6becbb882"
+      },
+      "derivation": "/nix/store/kvqh2jbvj499ibc38d1ypsymf0d8n21b-mori-core-7.0.0.0.drv",
+      "schemaVersion": 1
+    }
+  },
+  "interruptions": "Initial launch stopped before measured pairs because another host compiler was active. Identity-checked resume preserved warmups and the complete prefix. All five retained pairs compiled fresh targets and passed verification.",
+  "measurement": {
+    "break_even_edits": 2,
+    "compiler_count_semantics": "GHC Compiling events, including Setup and repeated module names across components",
+    "cores": 16,
+    "cost_limits": "migration_cost_seconds is the candidate warmup only, retained for receipt compatibility. Cached warmups cannot establish seed creation cost. Include independently measured seed creation, source/recipe migration, final validation, transfer and retention before any adoption decision; break_even_edits excludes those additional costs.",
+    "evaluation_cache": "Nix expression evaluation, fresh process per invocation; no flake output evaluation cache",
+    "expression_sha256": "ec12f6651eea90edd551df3d70e0e7cd8eecf6e514818bf1bea1e2a5e90650df",
+    "lock_sha256": {
+      "baseline": "448fdd2bc38d7be5330f46992a3d89e9c13a262c52c484cb78fd496e4386214d",
+      "candidate": "448fdd2bc38d7be5330f46992a3d89e9c13a262c52c484cb78fd496e4386214d"
+    },
+    "max_jobs": 1,
+    "migration_cost_seconds": 121.00141441600863,
+    "minimum_saving": 0.2,
+    "nix_version": "nix (Determinate Nix 3.23.2) 2.35.3",
+    "platform": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+    "project_uri": "mori://shinzui/mori",
+    "replacement": [
+      "\"sha256:\"",
+      "\"MP4 core {trial}:consume-only-20261017v2:\""
+    ],
+    "require_idle_compilers": true,
+    "resumptions": [
+      "2026-10-17T17:56:05.044970+00:00"
+    ],
+    "saving_fraction": 0.4591628987154557,
+    "schema_version": 1,
+    "source_revision": "05f1e808fd35ace2816b19e920b92753fa625547",
+    "started_at": "2026-10-17T17:47:48.317989+00:00",
+    "timing_threshold_passed": true,
+    "timings": {
+      "baseline": {
+        "max_seconds": 226.24789291701745,
+        "median_seconds": 223.7921605000156,
+        "min_seconds": 223.21657433302607
+      },
+      "candidate": {
+        "max_seconds": 126.26814350002678,
+        "median_seconds": 121.03510337503394,
+        "min_seconds": 119.9911575000151
+      }
+    },
+    "trials": [
+      {
+        "build_result": [
+          {
+            "drvPath": "/nix/store/00s3yw7zvmn47ybmw27x805wl8kga6h3-mori-cli-7.0.0.0.drv",
+            "outputs": {
+              "out": "/nix/store/z0pwrv9b2vb9fszvkal45nymjdlac1q4-mori-cli-7.0.0.0"
+            }
+          }
+        ],
+        "cache_state": "warm dependencies; initial build plan and actual compilations recorded in build log",
+        "command": [
+          "nix",
+          "build",
+          "--impure",
+          "--file",
+          "/Users/shinzui/Keikaku/bokuno/haskell-nix/checks/fixtures/application-builds/owned-pair.nix",
+          "--argstr",
+          "source",
+          "/private/tmp/ep18-consume-only-mori-campaign-v2/baseline",
+          "package",
+          "--no-link",
+          "--json",
+          "--print-build-logs",
+          "--max-jobs",
+          "1",
+          "--cores",
+          "16"
+        ],
+        "compiled_modules": {
+          "mori-api": 30,
+          "mori-cli": 92,
+          "mori-core": 589
+        },
+        "compilers_observed_before_wait": [],
+        "elapsed_seconds": 226.24789291701745,
+        "exit_code": 0,
+        "identity": {
+          "behaviorProbe": "/nix/store/2rksnc5d3plqcikkp0ziwxxh6f1b852h-core-probe-1.0.drv",
+          "compatibilityReport": {
+            "accepted": false,
+            "differences": [],
+            "enabled": false,
+            "reason": "disabled",
+            "schemaVersion": 1
+          },
+          "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+          "component": "core",
+          "core": "/nix/store/hclrzbwhxv2ff0c7w91c7wd8dyzc4v4s-mori-core-7.0.0.0.drv",
+          "currentCompatibility": {
+            "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+            "generatedInputPolicy": "912b079b6b798e4415201ced57e2bf3768ba398319af4d9d972f4c78265fa34c",
+            "metadataIdentity": "7b343563c012bf750b49d32037915888cfc03d891639c49588ec7c7822daa67c",
+            "packageName": "mori-core",
+            "packageVersion": "7.0.0.0",
+            "recipeIdentity": "/nix/store/w0d99iw1bnpkxl4a7rjg57fhbivvb9zv-mori-core-7.0.0.0.drv",
+            "schemaVersion": 1,
+            "sourceLayoutIdentity": "66efd7665de4f1741d0aa7997ba67807a4fb022d6f42cb43863919f6becbb882"
+          },
+          "retainCurrentIntermediates": false,
+          "root": "/nix/store/00s3yw7zvmn47ybmw27x805wl8kga6h3-mori-cli-7.0.0.0.drv",
+          "seedCompatibility": {
+            "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+            "generatedInputPolicy": "912b079b6b798e4415201ced57e2bf3768ba398319af4d9d972f4c78265fa34c",
+            "metadataIdentity": "7b343563c012bf750b49d32037915888cfc03d891639c49588ec7c7822daa67c",
+            "packageName": "mori-core",
+            "packageVersion": "7.0.0.0",
+            "recipeIdentity": "/nix/store/w0d99iw1bnpkxl4a7rjg57fhbivvb9zv-mori-core-7.0.0.0.drv",
+            "schemaVersion": 1,
+            "sourceLayoutIdentity": "66efd7665de4f1741d0aa7997ba67807a4fb022d6f42cb43863919f6becbb882"
+          }
+        },
+        "idle_wait_seconds": 0.032035207957960665,
+        "label": "baseline",
+        "log": "paired-1-baseline.log",
+        "order": 1,
+        "phase_events": [
+          {
+            "elapsed_seconds": 7.158508458000142,
+            "message": "mori-core> Running phase: setupCompilerEnvironmentPhase"
+          },
+          {
+            "elapsed_seconds": 13.518937875051051,
+            "message": "mori-core> Running phase: unpackPhase"
+          },
+          {
+            "elapsed_seconds": 13.814372667053249,
+            "message": "mori-core> Running phase: patchPhase"
+          },
+          {
+            "elapsed_seconds": 13.847752417030279,
+            "message": "mori-core> Running phase: compileBuildDriverPhase"
+          },
+          {
+            "elapsed_seconds": 14.674015083000995,
+            "message": "mori-core> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+          },
+          {
+            "elapsed_seconds": 14.705579500005115,
+            "message": "mori-core> Running phase: configurePhase"
+          },
+          {
+            "elapsed_seconds": 17.48265583300963,
+            "message": "mori-core> Running phase: buildPhase"
+          },
+          {
+            "elapsed_seconds": 141.88920154201332,
+            "message": "mori-core> Running phase: haddockPhase"
+          },
+          {
+            "elapsed_seconds": 141.89785195799777,
+            "message": "mori-core> Running phase: installPhase"
+          },
+          {
+            "elapsed_seconds": 144.83415504201548,
+            "message": "mori-core> Running phase: fixupPhase"
+          },
+          {
+            "elapsed_seconds": 152.71908925002208,
+            "message": "mori-api> Running phase: setupCompilerEnvironmentPhase"
+          },
+          {
+            "elapsed_seconds": 159.0686195830349,
+            "message": "mori-api> Running phase: unpackPhase"
+          },
+          {
+            "elapsed_seconds": 159.10409516701475,
+            "message": "mori-api> Running phase: patchPhase"
+          },
+          {
+            "elapsed_seconds": 159.11812495801132,
+            "message": "mori-api> Running phase: compileBuildDriverPhase"
+          },
+          {
+            "elapsed_seconds": 159.85767816699808,
+            "message": "mori-api> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+          },
+          {
+            "elapsed_seconds": 159.87085558305262,
+            "message": "mori-api> Running phase: configurePhase"
+          },
+          {
+            "elapsed_seconds": 162.49599620804656,
+            "message": "mori-api> Running phase: buildPhase"
+          },
+          {
+            "elapsed_seconds": 174.70617691701045,
+            "message": "mori-api> Running phase: haddockPhase"
+          },
+          {
+            "elapsed_seconds": 174.72045412502484,
+            "message": "mori-api> Running phase: installPhase"
+          },
+          {
+            "elapsed_seconds": 176.00814170803642,
+            "message": "mori-api> Running phase: fixupPhase"
+          },
+          {
+            "elapsed_seconds": 181.5362857080181,
+            "message": "mori-cli> Running phase: setupCompilerEnvironmentPhase"
+          },
+          {
+            "elapsed_seconds": 188.20912054204382,
+            "message": "mori-cli> Running phase: unpackPhase"
+          },
+          {
+            "elapsed_seconds": 188.26999237504788,
+            "message": "mori-cli> Running phase: patchPhase"
+          },
+          {
+            "elapsed_seconds": 188.39621550001903,
+            "message": "mori-cli> Running phase: compileBuildDriverPhase"
+          },
+          {
+            "elapsed_seconds": 189.15107850002823,
+            "message": "mori-cli> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+          },
+          {
+            "elapsed_seconds": 189.16818987502484,
+            "message": "mori-cli> Running phase: configurePhase"
+          },
+          {
+            "elapsed_seconds": 191.4756616250379,
+            "message": "mori-cli> Running phase: buildPhase"
+          },
+          {
+            "elapsed_seconds": 218.64612791704712,
+            "message": "mori-cli> Running phase: haddockPhase"
+          },
+          {
+            "elapsed_seconds": 218.65704987500794,
+            "message": "mori-cli> Running phase: installPhase"
+          },
+          {
+            "elapsed_seconds": 220.4711756670149,
+            "message": "mori-cli> Running phase: fixupPhase"
+          }
+        ],
+        "phase_limits": "No separate linker, test or transfer instrumentation; memory is sampled host compiler RSS, not isolated builder accounting; phase events are builder log boundaries.",
+        "sampled_host_compiler_memory": {
+          "errors": [],
+          "peak_kib": 10675536,
+          "preexisting_processes": [],
+          "samples": 748,
+          "scope": "Host compiler RSS sum sampled every 250 ms; may include concurrent unrelated compilers; not exact builder peak"
+        },
+        "source_variant_sha256": "217c93e2e72b1d5edba61fc1b35ff69456f3fc298c49385e3205d051a56ea330",
+        "stage": "paired",
+        "trial": 1
+      },
+      {
+        "build_result": [
+          {
+            "drvPath": "/nix/store/gzshi5c1h9fyyk4xv2ya7y5nshbhqvwg-mori-cli-7.0.0.0.drv",
+            "outputs": {
+              "out": "/nix/store/p239mgj7xpky99d0y9fig7pnanksgh1k-mori-cli-7.0.0.0"
+            }
+          }
+        ],
+        "cache_state": "warm dependencies; initial build plan and actual compilations recorded in build log",
+        "command": [
+          "nix",
+          "build",
+          "--impure",
+          "--file",
+          "/Users/shinzui/Keikaku/bokuno/haskell-nix/checks/fixtures/application-builds/owned-pair.nix",
+          "--argstr",
+          "source",
+          "/private/tmp/ep18-consume-only-mori-campaign-v2/candidate",
+          "package",
+          "--no-link",
+          "--json",
+          "--print-build-logs",
+          "--max-jobs",
+          "1",
+          "--cores",
+          "16"
+        ],
+        "compiled_modules": {
+          "mori-api": 30,
+          "mori-cli": 92,
+          "mori-core": 4
+        },
+        "compilers_observed_before_wait": [],
+        "elapsed_seconds": 120.02481145900674,
+        "exit_code": 0,
+        "identity": {
+          "behaviorProbe": "/nix/store/cvhsrjyi9xw6rn31ar40x6is756a097i-core-probe-1.0.drv",
+          "compatibilityReport": {
+            "accepted": true,
+            "differences": [],
+            "enabled": true,
+            "reason": "compatible explicit seed",
+            "schemaVersion": 1
+          },
+          "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+          "component": "core",
+          "core": "/nix/store/6qxnbjcgvfmdf0g3prchw3ny9lr7c21d-mori-core-7.0.0.0.drv",
+          "currentCompatibility": {
+            "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+            "generatedInputPolicy": "912b079b6b798e4415201ced57e2bf3768ba398319af4d9d972f4c78265fa34c",
+            "metadataIdentity": "7b343563c012bf750b49d32037915888cfc03d891639c49588ec7c7822daa67c",
+            "packageName": "mori-core",
+            "packageVersion": "7.0.0.0",
+            "recipeIdentity": "/nix/store/w0d99iw1bnpkxl4a7rjg57fhbivvb9zv-mori-core-7.0.0.0.drv",
+            "schemaVersion": 1,
+            "sourceLayoutIdentity": "66efd7665de4f1741d0aa7997ba67807a4fb022d6f42cb43863919f6becbb882"
+          },
+          "retainCurrentIntermediates": false,
+          "root": "/nix/store/gzshi5c1h9fyyk4xv2ya7y5nshbhqvwg-mori-cli-7.0.0.0.drv",
+          "seedCompatibility": {
+            "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+            "generatedInputPolicy": "912b079b6b798e4415201ced57e2bf3768ba398319af4d9d972f4c78265fa34c",
+            "metadataIdentity": "7b343563c012bf750b49d32037915888cfc03d891639c49588ec7c7822daa67c",
+            "packageName": "mori-core",
+            "packageVersion": "7.0.0.0",
+            "recipeIdentity": "/nix/store/w0d99iw1bnpkxl4a7rjg57fhbivvb9zv-mori-core-7.0.0.0.drv",
+            "schemaVersion": 1,
+            "sourceLayoutIdentity": "66efd7665de4f1741d0aa7997ba67807a4fb022d6f42cb43863919f6becbb882"
+          }
+        },
+        "idle_wait_seconds": 0.02973254199605435,
+        "label": "candidate",
+        "log": "paired-1-candidate.log",
+        "order": 2,
+        "phase_events": [
+          {
+            "elapsed_seconds": 11.442312541999854,
+            "message": "mori-core> Running phase: setupCompilerEnvironmentPhase"
+          },
+          {
+            "elapsed_seconds": 17.493926291994285,
+            "message": "mori-core> Running phase: unpackPhase"
+          },
+          {
+            "elapsed_seconds": 17.73668162501417,
+            "message": "mori-core> Running phase: patchPhase"
+          },
+          {
+            "elapsed_seconds": 17.76677316700807,
+            "message": "mori-core> Running phase: compileBuildDriverPhase"
+          },
+          {
+            "elapsed_seconds": 18.585436624998692,
+            "message": "mori-core> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+          },
+          {
+            "elapsed_seconds": 18.61730779201025,
+            "message": "mori-core> Running phase: configurePhase"
+          },
+          {
+            "elapsed_seconds": 21.644506584038027,
+            "message": "mori-core> Running phase: buildPhase"
+          },
+          {
+            "elapsed_seconds": 35.278686208999716,
+            "message": "mori-core> Running phase: haddockPhase"
+          },
+          {
+            "elapsed_seconds": 35.29152179200901,
+            "message": "mori-core> Running phase: installPhase"
+          },
+          {
+            "elapsed_seconds": 38.229687084036414,
+            "message": "mori-core> Running phase: fixupPhase"
+          },
+          {
+            "elapsed_seconds": 46.0251083340263,
+            "message": "mori-api> Running phase: setupCompilerEnvironmentPhase"
+          },
+          {
+            "elapsed_seconds": 52.45694570901105,
+            "message": "mori-api> Running phase: unpackPhase"
+          },
+          {
+            "elapsed_seconds": 52.4959229590022,
+            "message": "mori-api> Running phase: patchPhase"
+          },
+          {
+            "elapsed_seconds": 52.51043466699775,
+            "message": "mori-api> Running phase: compileBuildDriverPhase"
+          },
+          {
+            "elapsed_seconds": 53.29312375001609,
+            "message": "mori-api> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+          },
+          {
+            "elapsed_seconds": 53.30915174999973,
+            "message": "mori-api> Running phase: configurePhase"
+          },
+          {
+            "elapsed_seconds": 55.906168874993455,
+            "message": "mori-api> Running phase: buildPhase"
+          },
+          {
+            "elapsed_seconds": 68.04603679204592,
+            "message": "mori-api> Running phase: haddockPhase"
+          },
+          {
+            "elapsed_seconds": 68.05849329201737,
+            "message": "mori-api> Running phase: installPhase"
+          },
+          {
+            "elapsed_seconds": 69.29862200003117,
+            "message": "mori-api> Running phase: fixupPhase"
+          },
+          {
+            "elapsed_seconds": 74.79978558403673,
+            "message": "mori-cli> Running phase: setupCompilerEnvironmentPhase"
+          },
+          {
+            "elapsed_seconds": 81.9659630000242,
+            "message": "mori-cli> Running phase: unpackPhase"
+          },
+          {
+            "elapsed_seconds": 82.02895412500948,
+            "message": "mori-cli> Running phase: patchPhase"
+          },
+          {
+            "elapsed_seconds": 82.16024841699982,
+            "message": "mori-cli> Running phase: compileBuildDriverPhase"
+          },
+          {
+            "elapsed_seconds": 82.95010870904662,
+            "message": "mori-cli> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+          },
+          {
+            "elapsed_seconds": 82.96797308401437,
+            "message": "mori-cli> Running phase: configurePhase"
+          },
+          {
+            "elapsed_seconds": 85.3078730420093,
+            "message": "mori-cli> Running phase: buildPhase"
+          },
+          {
+            "elapsed_seconds": 112.54228062502807,
+            "message": "mori-cli> Running phase: haddockPhase"
+          },
+          {
+            "elapsed_seconds": 112.55252800002927,
+            "message": "mori-cli> Running phase: installPhase"
+          },
+          {
+            "elapsed_seconds": 114.32391920901136,
+            "message": "mori-cli> Running phase: fixupPhase"
+          }
+        ],
+        "phase_limits": "No separate linker, test or transfer instrumentation; memory is sampled host compiler RSS, not isolated builder accounting; phase events are builder log boundaries.",
+        "sampled_host_compiler_memory": {
+          "errors": [],
+          "peak_kib": 8495280,
+          "preexisting_processes": [],
+          "samples": 397,
+          "scope": "Host compiler RSS sum sampled every 250 ms; may include concurrent unrelated compilers; not exact builder peak"
+        },
+        "source_variant_sha256": "217c93e2e72b1d5edba61fc1b35ff69456f3fc298c49385e3205d051a56ea330",
+        "stage": "paired",
+        "trial": 1
+      },
+      {
+        "build_result": [
+          {
+            "drvPath": "/nix/store/m95xn49b8d46sgarlkjkhb85mspchz55-mori-cli-7.0.0.0.drv",
+            "outputs": {
+              "out": "/nix/store/k64xsria13pkgmh65qcqf1ghv2jjy7gq-mori-cli-7.0.0.0"
+            }
+          }
+        ],
+        "cache_state": "warm dependencies; initial build plan and actual compilations recorded in build log",
+        "command": [
+          "nix",
+          "build",
+          "--impure",
+          "--file",
+          "/Users/shinzui/Keikaku/bokuno/haskell-nix/checks/fixtures/application-builds/owned-pair.nix",
+          "--argstr",
+          "source",
+          "/private/tmp/ep18-consume-only-mori-campaign-v2/candidate",
+          "package",
+          "--no-link",
+          "--json",
+          "--print-build-logs",
+          "--max-jobs",
+          "1",
+          "--cores",
+          "16"
+        ],
+        "compiled_modules": {
+          "mori-api": 30,
+          "mori-cli": 92,
+          "mori-core": 4
+        },
+        "compilers_observed_before_wait": [],
+        "elapsed_seconds": 121.03510337503394,
+        "exit_code": 0,
+        "identity": {
+          "behaviorProbe": "/nix/store/57bic7d8lbkrbpzdka7yv544x3qxqjdd-core-probe-1.0.drv",
+          "compatibilityReport": {
+            "accepted": true,
+            "differences": [],
+            "enabled": true,
+            "reason": "compatible explicit seed",
+            "schemaVersion": 1
+          },
+          "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+          "component": "core",
+          "core": "/nix/store/dvqdgdhrfdjl03j0v8wr3r5jfkzqqcfk-mori-core-7.0.0.0.drv",
+          "currentCompatibility": {
+            "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+            "generatedInputPolicy": "912b079b6b798e4415201ced57e2bf3768ba398319af4d9d972f4c78265fa34c",
+            "metadataIdentity": "7b343563c012bf750b49d32037915888cfc03d891639c49588ec7c7822daa67c",
+            "packageName": "mori-core",
+            "packageVersion": "7.0.0.0",
+            "recipeIdentity": "/nix/store/w0d99iw1bnpkxl4a7rjg57fhbivvb9zv-mori-core-7.0.0.0.drv",
+            "schemaVersion": 1,
+            "sourceLayoutIdentity": "66efd7665de4f1741d0aa7997ba67807a4fb022d6f42cb43863919f6becbb882"
+          },
+          "retainCurrentIntermediates": false,
+          "root": "/nix/store/m95xn49b8d46sgarlkjkhb85mspchz55-mori-cli-7.0.0.0.drv",
+          "seedCompatibility": {
+            "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+            "generatedInputPolicy": "912b079b6b798e4415201ced57e2bf3768ba398319af4d9d972f4c78265fa34c",
+            "metadataIdentity": "7b343563c012bf750b49d32037915888cfc03d891639c49588ec7c7822daa67c",
+            "packageName": "mori-core",
+            "packageVersion": "7.0.0.0",
+            "recipeIdentity": "/nix/store/w0d99iw1bnpkxl4a7rjg57fhbivvb9zv-mori-core-7.0.0.0.drv",
+            "schemaVersion": 1,
+            "sourceLayoutIdentity": "66efd7665de4f1741d0aa7997ba67807a4fb022d6f42cb43863919f6becbb882"
+          }
+        },
+        "idle_wait_seconds": 0.029829542036168277,
+        "label": "candidate",
+        "log": "paired-2-candidate.log",
+        "order": 1,
+        "phase_events": [
+          {
+            "elapsed_seconds": 12.080156417039689,
+            "message": "mori-core> Running phase: setupCompilerEnvironmentPhase"
+          },
+          {
+            "elapsed_seconds": 18.269840500026476,
+            "message": "mori-core> Running phase: unpackPhase"
+          },
+          {
+            "elapsed_seconds": 18.52519337501144,
+            "message": "mori-core> Running phase: patchPhase"
+          },
+          {
+            "elapsed_seconds": 18.555755542009138,
+            "message": "mori-core> Running phase: compileBuildDriverPhase"
+          },
+          {
+            "elapsed_seconds": 19.37680716702016,
+            "message": "mori-core> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+          },
+          {
+            "elapsed_seconds": 19.408077542029787,
+            "message": "mori-core> Running phase: configurePhase"
+          },
+          {
+            "elapsed_seconds": 21.989588416996412,
+            "message": "mori-core> Running phase: buildPhase"
+          },
+          {
+            "elapsed_seconds": 35.612272583006416,
+            "message": "mori-core> Running phase: haddockPhase"
+          },
+          {
+            "elapsed_seconds": 35.62647366698366,
+            "message": "mori-core> Running phase: installPhase"
+          },
+          {
+            "elapsed_seconds": 38.54031237500021,
+            "message": "mori-core> Running phase: fixupPhase"
+          },
+          {
+            "elapsed_seconds": 46.232717792037874,
+            "message": "mori-api> Running phase: setupCompilerEnvironmentPhase"
+          },
+          {
+            "elapsed_seconds": 52.661235750012565,
+            "message": "mori-api> Running phase: unpackPhase"
+          },
+          {
+            "elapsed_seconds": 52.69934600003762,
+            "message": "mori-api> Running phase: patchPhase"
+          },
+          {
+            "elapsed_seconds": 52.7144139999873,
+            "message": "mori-api> Running phase: compileBuildDriverPhase"
+          },
+          {
+            "elapsed_seconds": 53.53810308303218,
+            "message": "mori-api> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+          },
+          {
+            "elapsed_seconds": 53.55670116702095,
+            "message": "mori-api> Running phase: configurePhase"
+          },
+          {
+            "elapsed_seconds": 56.327000999997836,
+            "message": "mori-api> Running phase: buildPhase"
+          },
+          {
+            "elapsed_seconds": 68.49667462502839,
+            "message": "mori-api> Running phase: haddockPhase"
+          },
+          {
+            "elapsed_seconds": 68.50770625000587,
+            "message": "mori-api> Running phase: installPhase"
+          },
+          {
+            "elapsed_seconds": 69.89341358299134,
+            "message": "mori-api> Running phase: fixupPhase"
+          },
+          {
+            "elapsed_seconds": 75.42337841703556,
+            "message": "mori-cli> Running phase: setupCompilerEnvironmentPhase"
+          },
+          {
+            "elapsed_seconds": 82.003308208019,
+            "message": "mori-cli> Running phase: unpackPhase"
+          },
+          {
+            "elapsed_seconds": 82.06259033299284,
+            "message": "mori-cli> Running phase: patchPhase"
+          },
+          {
+            "elapsed_seconds": 82.18757912499132,
+            "message": "mori-cli> Running phase: compileBuildDriverPhase"
+          },
+          {
+            "elapsed_seconds": 82.95237304200418,
+            "message": "mori-cli> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+          },
+          {
+            "elapsed_seconds": 82.97161429200787,
+            "message": "mori-cli> Running phase: configurePhase"
+          },
+          {
+            "elapsed_seconds": 85.66428429202642,
+            "message": "mori-cli> Running phase: buildPhase"
+          },
+          {
+            "elapsed_seconds": 113.00528441701317,
+            "message": "mori-cli> Running phase: haddockPhase"
+          },
+          {
+            "elapsed_seconds": 113.0161548749893,
+            "message": "mori-cli> Running phase: installPhase"
+          },
+          {
+            "elapsed_seconds": 114.89246695803013,
+            "message": "mori-cli> Running phase: fixupPhase"
+          }
+        ],
+        "phase_limits": "No separate linker, test or transfer instrumentation; memory is sampled host compiler RSS, not isolated builder accounting; phase events are builder log boundaries.",
+        "sampled_host_compiler_memory": {
+          "errors": [],
+          "peak_kib": 4796720,
+          "preexisting_processes": [],
+          "samples": 399,
+          "scope": "Host compiler RSS sum sampled every 250 ms; may include concurrent unrelated compilers; not exact builder peak"
+        },
+        "source_variant_sha256": "4ae977ba20dd4034b80c11b1053d02e69f057b3068393ca44ad12f04d0782ec1",
+        "stage": "paired",
+        "trial": 2
+      },
+      {
+        "build_result": [
+          {
+            "drvPath": "/nix/store/slf1lapk9qcr1dj4q9f8niknf5yw1vzx-mori-cli-7.0.0.0.drv",
+            "outputs": {
+              "out": "/nix/store/alzkn4wm7lw403k2zgxjrqn96q8h6d3m-mori-cli-7.0.0.0"
+            }
+          }
+        ],
+        "cache_state": "warm dependencies; initial build plan and actual compilations recorded in build log",
+        "command": [
+          "nix",
+          "build",
+          "--impure",
+          "--file",
+          "/Users/shinzui/Keikaku/bokuno/haskell-nix/checks/fixtures/application-builds/owned-pair.nix",
+          "--argstr",
+          "source",
+          "/private/tmp/ep18-consume-only-mori-campaign-v2/baseline",
+          "package",
+          "--no-link",
+          "--json",
+          "--print-build-logs",
+          "--max-jobs",
+          "1",
+          "--cores",
+          "16"
+        ],
+        "compiled_modules": {
+          "mori-api": 30,
+          "mori-cli": 92,
+          "mori-core": 589
+        },
+        "compilers_observed_before_wait": [],
+        "elapsed_seconds": 223.21657433302607,
+        "exit_code": 0,
+        "identity": {
+          "behaviorProbe": "/nix/store/bsgd6gkj6ij6ndfbscd2wq1ggiy93z27-core-probe-1.0.drv",
+          "compatibilityReport": {
+            "accepted": false,
+            "differences": [],
+            "enabled": false,
+            "reason": "disabled",
+            "schemaVersion": 1
+          },
+          "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+          "component": "core",
+          "core": "/nix/store/z6zgzjd8kdyylbc77mlspm1x1qzrv2rn-mori-core-7.0.0.0.drv",
+          "currentCompatibility": {
+            "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+            "generatedInputPolicy": "912b079b6b798e4415201ced57e2bf3768ba398319af4d9d972f4c78265fa34c",
+            "metadataIdentity": "7b343563c012bf750b49d32037915888cfc03d891639c49588ec7c7822daa67c",
+            "packageName": "mori-core",
+            "packageVersion": "7.0.0.0",
+            "recipeIdentity": "/nix/store/w0d99iw1bnpkxl4a7rjg57fhbivvb9zv-mori-core-7.0.0.0.drv",
+            "schemaVersion": 1,
+            "sourceLayoutIdentity": "66efd7665de4f1741d0aa7997ba67807a4fb022d6f42cb43863919f6becbb882"
+          },
+          "retainCurrentIntermediates": false,
+          "root": "/nix/store/slf1lapk9qcr1dj4q9f8niknf5yw1vzx-mori-cli-7.0.0.0.drv",
+          "seedCompatibility": {
+            "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+            "generatedInputPolicy": "912b079b6b798e4415201ced57e2bf3768ba398319af4d9d972f4c78265fa34c",
+            "metadataIdentity": "7b343563c012bf750b49d32037915888cfc03d891639c49588ec7c7822daa67c",
+            "packageName": "mori-core",
+            "packageVersion": "7.0.0.0",
+            "recipeIdentity": "/nix/store/w0d99iw1bnpkxl4a7rjg57fhbivvb9zv-mori-core-7.0.0.0.drv",
+            "schemaVersion": 1,
+            "sourceLayoutIdentity": "66efd7665de4f1741d0aa7997ba67807a4fb022d6f42cb43863919f6becbb882"
+          }
+        },
+        "idle_wait_seconds": 0.02911654202034697,
+        "label": "baseline",
+        "log": "paired-2-baseline.log",
+        "order": 2,
+        "phase_events": [
+          {
+            "elapsed_seconds": 5.874282375036273,
+            "message": "mori-core> Running phase: setupCompilerEnvironmentPhase"
+          },
+          {
+            "elapsed_seconds": 11.99783212505281,
+            "message": "mori-core> Running phase: unpackPhase"
+          },
+          {
+            "elapsed_seconds": 12.312896250048652,
+            "message": "mori-core> Running phase: patchPhase"
+          },
+          {
+            "elapsed_seconds": 12.343174917041324,
+            "message": "mori-core> Running phase: compileBuildDriverPhase"
+          },
+          {
+            "elapsed_seconds": 13.141590583021753,
+            "message": "mori-core> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+          },
+          {
+            "elapsed_seconds": 13.170648667030036,
+            "message": "mori-core> Running phase: configurePhase"
+          },
+          {
+            "elapsed_seconds": 15.883338917046785,
+            "message": "mori-core> Running phase: buildPhase"
+          },
+          {
+            "elapsed_seconds": 138.22543866705382,
+            "message": "mori-core> Running phase: haddockPhase"
+          },
+          {
+            "elapsed_seconds": 138.24049395800103,
+            "message": "mori-core> Running phase: installPhase"
+          },
+          {
+            "elapsed_seconds": 141.23476591700455,
+            "message": "mori-core> Running phase: fixupPhase"
+          },
+          {
+            "elapsed_seconds": 149.74581375002163,
+            "message": "mori-api> Running phase: setupCompilerEnvironmentPhase"
+          },
+          {
+            "elapsed_seconds": 156.5279800830176,
+            "message": "mori-api> Running phase: unpackPhase"
+          },
+          {
+            "elapsed_seconds": 156.56633895804407,
+            "message": "mori-api> Running phase: patchPhase"
+          },
+          {
+            "elapsed_seconds": 156.57990333304042,
+            "message": "mori-api> Running phase: compileBuildDriverPhase"
+          },
+          {
+            "elapsed_seconds": 157.3487262080307,
+            "message": "mori-api> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+          },
+          {
+            "elapsed_seconds": 157.36726020800415,
+            "message": "mori-api> Running phase: configurePhase"
+          },
+          {
+            "elapsed_seconds": 159.74159158300608,
+            "message": "mori-api> Running phase: buildPhase"
+          },
+          {
+            "elapsed_seconds": 171.88130833301693,
+            "message": "mori-api> Running phase: haddockPhase"
+          },
+          {
+            "elapsed_seconds": 171.8960565419984,
+            "message": "mori-api> Running phase: installPhase"
+          },
+          {
+            "elapsed_seconds": 173.23387491703033,
+            "message": "mori-api> Running phase: fixupPhase"
+          },
+          {
+            "elapsed_seconds": 178.75438845803728,
+            "message": "mori-cli> Running phase: setupCompilerEnvironmentPhase"
+          },
+          {
+            "elapsed_seconds": 185.34322862501722,
+            "message": "mori-cli> Running phase: unpackPhase"
+          },
+          {
+            "elapsed_seconds": 185.40488516702317,
+            "message": "mori-cli> Running phase: patchPhase"
+          },
+          {
+            "elapsed_seconds": 185.536734000023,
+            "message": "mori-cli> Running phase: compileBuildDriverPhase"
+          },
+          {
+            "elapsed_seconds": 186.33710979204625,
+            "message": "mori-cli> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+          },
+          {
+            "elapsed_seconds": 186.35496154200519,
+            "message": "mori-cli> Running phase: configurePhase"
+          },
+          {
+            "elapsed_seconds": 188.8581782920519,
+            "message": "mori-cli> Running phase: buildPhase"
+          },
+          {
+            "elapsed_seconds": 215.6720646250178,
+            "message": "mori-cli> Running phase: haddockPhase"
+          },
+          {
+            "elapsed_seconds": 215.68701258301735,
+            "message": "mori-cli> Running phase: installPhase"
+          },
+          {
+            "elapsed_seconds": 217.5532098330441,
+            "message": "mori-cli> Running phase: fixupPhase"
+          }
+        ],
+        "phase_limits": "No separate linker, test or transfer instrumentation; memory is sampled host compiler RSS, not isolated builder accounting; phase events are builder log boundaries.",
+        "sampled_host_compiler_memory": {
+          "errors": [],
+          "peak_kib": 6455904,
+          "preexisting_processes": [],
+          "samples": 730,
+          "scope": "Host compiler RSS sum sampled every 250 ms; may include concurrent unrelated compilers; not exact builder peak"
+        },
+        "source_variant_sha256": "4ae977ba20dd4034b80c11b1053d02e69f057b3068393ca44ad12f04d0782ec1",
+        "stage": "paired",
+        "trial": 2
+      },
+      {
+        "build_result": [
+          {
+            "drvPath": "/nix/store/qhjjagsmq45ndmz7qk87wcxc77ymn0s5-mori-cli-7.0.0.0.drv",
+            "outputs": {
+              "out": "/nix/store/xl82d7g0pmisf4z7qcdm9w05f4xhsgm9-mori-cli-7.0.0.0"
+            }
+          }
+        ],
+        "cache_state": "warm dependencies; initial build plan and actual compilations recorded in build log",
+        "command": [
+          "nix",
+          "build",
+          "--impure",
+          "--file",
+          "/Users/shinzui/Keikaku/bokuno/haskell-nix/checks/fixtures/application-builds/owned-pair.nix",
+          "--argstr",
+          "source",
+          "/private/tmp/ep18-consume-only-mori-campaign-v2/baseline",
+          "package",
+          "--no-link",
+          "--json",
+          "--print-build-logs",
+          "--max-jobs",
+          "1",
+          "--cores",
+          "16"
+        ],
+        "compiled_modules": {
+          "mori-api": 30,
+          "mori-cli": 92,
+          "mori-core": 589
+        },
+        "compilers_observed_before_wait": [],
+        "elapsed_seconds": 225.55623175000073,
+        "exit_code": 0,
+        "identity": {
+          "behaviorProbe": "/nix/store/2dg0m99mb3yq8a8bjiw0sripyln5phj5-core-probe-1.0.drv",
+          "compatibilityReport": {
+            "accepted": false,
+            "differences": [],
+            "enabled": false,
+            "reason": "disabled",
+            "schemaVersion": 1
+          },
+          "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+          "component": "core",
+          "core": "/nix/store/pfxd86gppfvzzl092m4j9x6qscn8ljsj-mori-core-7.0.0.0.drv",
+          "currentCompatibility": {
+            "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+            "generatedInputPolicy": "912b079b6b798e4415201ced57e2bf3768ba398319af4d9d972f4c78265fa34c",
+            "metadataIdentity": "7b343563c012bf750b49d32037915888cfc03d891639c49588ec7c7822daa67c",
+            "packageName": "mori-core",
+            "packageVersion": "7.0.0.0",
+            "recipeIdentity": "/nix/store/w0d99iw1bnpkxl4a7rjg57fhbivvb9zv-mori-core-7.0.0.0.drv",
+            "schemaVersion": 1,
+            "sourceLayoutIdentity": "66efd7665de4f1741d0aa7997ba67807a4fb022d6f42cb43863919f6becbb882"
+          },
+          "retainCurrentIntermediates": false,
+          "root": "/nix/store/qhjjagsmq45ndmz7qk87wcxc77ymn0s5-mori-cli-7.0.0.0.drv",
+          "seedCompatibility": {
+            "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+            "generatedInputPolicy": "912b079b6b798e4415201ced57e2bf3768ba398319af4d9d972f4c78265fa34c",
+            "metadataIdentity": "7b343563c012bf750b49d32037915888cfc03d891639c49588ec7c7822daa67c",
+            "packageName": "mori-core",
+            "packageVersion": "7.0.0.0",
+            "recipeIdentity": "/nix/store/w0d99iw1bnpkxl4a7rjg57fhbivvb9zv-mori-core-7.0.0.0.drv",
+            "schemaVersion": 1,
+            "sourceLayoutIdentity": "66efd7665de4f1741d0aa7997ba67807a4fb022d6f42cb43863919f6becbb882"
+          }
+        },
+        "idle_wait_seconds": 0.03322599997045472,
+        "label": "baseline",
+        "log": "paired-3-baseline.log",
+        "order": 1,
+        "phase_events": [
+          {
+            "elapsed_seconds": 8.28874241700396,
+            "message": "mori-core> Running phase: setupCompilerEnvironmentPhase"
+          },
+          {
+            "elapsed_seconds": 14.44215608300874,
+            "message": "mori-core> Running phase: unpackPhase"
+          },
+          {
+            "elapsed_seconds": 14.721924458048306,
+            "message": "mori-core> Running phase: patchPhase"
+          },
+          {
+            "elapsed_seconds": 14.754725875041913,
+            "message": "mori-core> Running phase: compileBuildDriverPhase"
+          },
+          {
+            "elapsed_seconds": 15.522191625030246,
+            "message": "mori-core> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+          },
+          {
+            "elapsed_seconds": 15.55148441705387,
+            "message": "mori-core> Running phase: configurePhase"
+          },
+          {
+            "elapsed_seconds": 18.188314375001937,
+            "message": "mori-core> Running phase: buildPhase"
+          },
+          {
+            "elapsed_seconds": 140.22733191703446,
+            "message": "mori-core> Running phase: haddockPhase"
+          },
+          {
+            "elapsed_seconds": 140.23716379201505,
+            "message": "mori-core> Running phase: installPhase"
+          },
+          {
+            "elapsed_seconds": 143.16075008304324,
+            "message": "mori-core> Running phase: fixupPhase"
+          },
+          {
+            "elapsed_seconds": 151.54422700003488,
+            "message": "mori-api> Running phase: setupCompilerEnvironmentPhase"
+          },
+          {
+            "elapsed_seconds": 158.33947670803173,
+            "message": "mori-api> Running phase: unpackPhase"
+          },
+          {
+            "elapsed_seconds": 158.38498575001722,
+            "message": "mori-api> Running phase: patchPhase"
+          },
+          {
+            "elapsed_seconds": 158.39941258303588,
+            "message": "mori-api> Running phase: compileBuildDriverPhase"
+          },
+          {
+            "elapsed_seconds": 159.19546012504725,
+            "message": "mori-api> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+          },
+          {
+            "elapsed_seconds": 159.20944516704185,
+            "message": "mori-api> Running phase: configurePhase"
+          },
+          {
+            "elapsed_seconds": 161.81194637500448,
+            "message": "mori-api> Running phase: buildPhase"
+          },
+          {
+            "elapsed_seconds": 174.0287897080416,
+            "message": "mori-api> Running phase: haddockPhase"
+          },
+          {
+            "elapsed_seconds": 174.03954912500922,
+            "message": "mori-api> Running phase: installPhase"
+          },
+          {
+            "elapsed_seconds": 175.23966637504054,
+            "message": "mori-api> Running phase: fixupPhase"
+          },
+          {
+            "elapsed_seconds": 180.77006300003268,
+            "message": "mori-cli> Running phase: setupCompilerEnvironmentPhase"
+          },
+          {
+            "elapsed_seconds": 187.38710791704943,
+            "message": "mori-cli> Running phase: unpackPhase"
+          },
+          {
+            "elapsed_seconds": 187.45496025000466,
+            "message": "mori-cli> Running phase: patchPhase"
+          },
+          {
+            "elapsed_seconds": 187.57999795803335,
+            "message": "mori-cli> Running phase: compileBuildDriverPhase"
+          },
+          {
+            "elapsed_seconds": 188.32719483302208,
+            "message": "mori-cli> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+          },
+          {
+            "elapsed_seconds": 188.34334016701905,
+            "message": "mori-cli> Running phase: configurePhase"
+          },
+          {
+            "elapsed_seconds": 190.70752537500812,
+            "message": "mori-cli> Running phase: buildPhase"
+          },
+          {
+            "elapsed_seconds": 217.97627220803406,
+            "message": "mori-cli> Running phase: haddockPhase"
+          },
+          {
+            "elapsed_seconds": 217.98705233301735,
+            "message": "mori-cli> Running phase: installPhase"
+          },
+          {
+            "elapsed_seconds": 219.8461428330047,
+            "message": "mori-cli> Running phase: fixupPhase"
+          }
+        ],
+        "phase_limits": "No separate linker, test or transfer instrumentation; memory is sampled host compiler RSS, not isolated builder accounting; phase events are builder log boundaries.",
+        "sampled_host_compiler_memory": {
+          "errors": [],
+          "peak_kib": 6385920,
+          "preexisting_processes": [],
+          "samples": 739,
+          "scope": "Host compiler RSS sum sampled every 250 ms; may include concurrent unrelated compilers; not exact builder peak"
+        },
+        "source_variant_sha256": "9199805a79e8c8a5894851280a4673248452d3210f1690c148bd2a35496f58c0",
+        "stage": "paired",
+        "trial": 3
+      },
+      {
+        "build_result": [
+          {
+            "drvPath": "/nix/store/rcccw83j5j8xasaidk4ji7c19cc5bp02-mori-cli-7.0.0.0.drv",
+            "outputs": {
+              "out": "/nix/store/wknn23gg2sl5xi2zlw24663rfin1m512-mori-cli-7.0.0.0"
+            }
+          }
+        ],
+        "cache_state": "warm dependencies; initial build plan and actual compilations recorded in build log",
+        "command": [
+          "nix",
+          "build",
+          "--impure",
+          "--file",
+          "/Users/shinzui/Keikaku/bokuno/haskell-nix/checks/fixtures/application-builds/owned-pair.nix",
+          "--argstr",
+          "source",
+          "/private/tmp/ep18-consume-only-mori-campaign-v2/candidate",
+          "package",
+          "--no-link",
+          "--json",
+          "--print-build-logs",
+          "--max-jobs",
+          "1",
+          "--cores",
+          "16"
+        ],
+        "compiled_modules": {
+          "mori-api": 30,
+          "mori-cli": 92,
+          "mori-core": 4
+        },
+        "compilers_observed_before_wait": [],
+        "elapsed_seconds": 121.32305370899849,
+        "exit_code": 0,
+        "identity": {
+          "behaviorProbe": "/nix/store/9vlv58mr37q60fl85l5cda0mvf5ikb8a-core-probe-1.0.drv",
+          "compatibilityReport": {
+            "accepted": true,
+            "differences": [],
+            "enabled": true,
+            "reason": "compatible explicit seed",
+            "schemaVersion": 1
+          },
+          "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+          "component": "core",
+          "core": "/nix/store/m0f7qfr83kfpz2z6jh5lqryz4w6q76nj-mori-core-7.0.0.0.drv",
+          "currentCompatibility": {
+            "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+            "generatedInputPolicy": "912b079b6b798e4415201ced57e2bf3768ba398319af4d9d972f4c78265fa34c",
+            "metadataIdentity": "7b343563c012bf750b49d32037915888cfc03d891639c49588ec7c7822daa67c",
+            "packageName": "mori-core",
+            "packageVersion": "7.0.0.0",
+            "recipeIdentity": "/nix/store/w0d99iw1bnpkxl4a7rjg57fhbivvb9zv-mori-core-7.0.0.0.drv",
+            "schemaVersion": 1,
+            "sourceLayoutIdentity": "66efd7665de4f1741d0aa7997ba67807a4fb022d6f42cb43863919f6becbb882"
+          },
+          "retainCurrentIntermediates": false,
+          "root": "/nix/store/rcccw83j5j8xasaidk4ji7c19cc5bp02-mori-cli-7.0.0.0.drv",
+          "seedCompatibility": {
+            "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+            "generatedInputPolicy": "912b079b6b798e4415201ced57e2bf3768ba398319af4d9d972f4c78265fa34c",
+            "metadataIdentity": "7b343563c012bf750b49d32037915888cfc03d891639c49588ec7c7822daa67c",
+            "packageName": "mori-core",
+            "packageVersion": "7.0.0.0",
+            "recipeIdentity": "/nix/store/w0d99iw1bnpkxl4a7rjg57fhbivvb9zv-mori-core-7.0.0.0.drv",
+            "schemaVersion": 1,
+            "sourceLayoutIdentity": "66efd7665de4f1741d0aa7997ba67807a4fb022d6f42cb43863919f6becbb882"
+          }
+        },
+        "idle_wait_seconds": 0.029778832977171987,
+        "label": "candidate",
+        "log": "paired-3-candidate.log",
+        "order": 2,
+        "phase_events": [
+          {
+            "elapsed_seconds": 10.786124334030319,
+            "message": "mori-core> Running phase: setupCompilerEnvironmentPhase"
+          },
+          {
+            "elapsed_seconds": 16.97925762500381,
+            "message": "mori-core> Running phase: unpackPhase"
+          },
+          {
+            "elapsed_seconds": 17.223461084009614,
+            "message": "mori-core> Running phase: patchPhase"
+          },
+          {
+            "elapsed_seconds": 17.25461995904334,
+            "message": "mori-core> Running phase: compileBuildDriverPhase"
+          },
+          {
+            "elapsed_seconds": 18.056646209035534,
+            "message": "mori-core> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+          },
+          {
+            "elapsed_seconds": 18.08622329204809,
+            "message": "mori-core> Running phase: configurePhase"
+          },
+          {
+            "elapsed_seconds": 20.802138834027573,
+            "message": "mori-core> Running phase: buildPhase"
+          },
+          {
+            "elapsed_seconds": 34.86429512500763,
+            "message": "mori-core> Running phase: haddockPhase"
+          },
+          {
+            "elapsed_seconds": 34.872907750017475,
+            "message": "mori-core> Running phase: installPhase"
+          },
+          {
+            "elapsed_seconds": 38.023643667052966,
+            "message": "mori-core> Running phase: fixupPhase"
+          },
+          {
+            "elapsed_seconds": 46.43229250004515,
+            "message": "mori-api> Running phase: setupCompilerEnvironmentPhase"
+          },
+          {
+            "elapsed_seconds": 52.85129058401799,
+            "message": "mori-api> Running phase: unpackPhase"
+          },
+          {
+            "elapsed_seconds": 52.88882591703441,
+            "message": "mori-api> Running phase: patchPhase"
+          },
+          {
+            "elapsed_seconds": 52.90271862503141,
+            "message": "mori-api> Running phase: compileBuildDriverPhase"
+          },
+          {
+            "elapsed_seconds": 53.72455287503544,
+            "message": "mori-api> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+          },
+          {
+            "elapsed_seconds": 53.73916908400133,
+            "message": "mori-api> Running phase: configurePhase"
+          },
+          {
+            "elapsed_seconds": 55.86996187502518,
+            "message": "mori-api> Running phase: buildPhase"
+          },
+          {
+            "elapsed_seconds": 68.4050494999974,
+            "message": "mori-api> Running phase: haddockPhase"
+          },
+          {
+            "elapsed_seconds": 68.41505516704638,
+            "message": "mori-api> Running phase: installPhase"
+          },
+          {
+            "elapsed_seconds": 69.66636958403978,
+            "message": "mori-api> Running phase: fixupPhase"
+          },
+          {
+            "elapsed_seconds": 75.33631958405022,
+            "message": "mori-cli> Running phase: setupCompilerEnvironmentPhase"
+          },
+          {
+            "elapsed_seconds": 82.07935850002104,
+            "message": "mori-cli> Running phase: unpackPhase"
+          },
+          {
+            "elapsed_seconds": 82.14936854201369,
+            "message": "mori-cli> Running phase: patchPhase"
+          },
+          {
+            "elapsed_seconds": 82.28436383401277,
+            "message": "mori-cli> Running phase: compileBuildDriverPhase"
+          },
+          {
+            "elapsed_seconds": 83.15765641705366,
+            "message": "mori-cli> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+          },
+          {
+            "elapsed_seconds": 83.1754100000253,
+            "message": "mori-cli> Running phase: configurePhase"
+          },
+          {
+            "elapsed_seconds": 85.22482095903251,
+            "message": "mori-cli> Running phase: buildPhase"
+          },
+          {
+            "elapsed_seconds": 113.44903058401542,
+            "message": "mori-cli> Running phase: haddockPhase"
+          },
+          {
+            "elapsed_seconds": 113.45877920900239,
+            "message": "mori-cli> Running phase: installPhase"
+          },
+          {
+            "elapsed_seconds": 115.48997083405266,
+            "message": "mori-cli> Running phase: fixupPhase"
+          }
+        ],
+        "phase_limits": "No separate linker, test or transfer instrumentation; memory is sampled host compiler RSS, not isolated builder accounting; phase events are builder log boundaries.",
+        "sampled_host_compiler_memory": {
+          "errors": [],
+          "peak_kib": 4806768,
+          "preexisting_processes": [],
+          "samples": 413,
+          "scope": "Host compiler RSS sum sampled every 250 ms; may include concurrent unrelated compilers; not exact builder peak"
+        },
+        "source_variant_sha256": "9199805a79e8c8a5894851280a4673248452d3210f1690c148bd2a35496f58c0",
+        "stage": "paired",
+        "trial": 3
+      },
+      {
+        "build_result": [
+          {
+            "drvPath": "/nix/store/nr0k0n1k19iz8bp71w243n1vpd9jfg12-mori-cli-7.0.0.0.drv",
+            "outputs": {
+              "out": "/nix/store/p2xpipbyn4i3q2h647rc2v3820zkwbcn-mori-cli-7.0.0.0"
+            }
+          }
+        ],
+        "cache_state": "warm dependencies; initial build plan and actual compilations recorded in build log",
+        "command": [
+          "nix",
+          "build",
+          "--impure",
+          "--file",
+          "/Users/shinzui/Keikaku/bokuno/haskell-nix/checks/fixtures/application-builds/owned-pair.nix",
+          "--argstr",
+          "source",
+          "/private/tmp/ep18-consume-only-mori-campaign-v2/candidate",
+          "package",
+          "--no-link",
+          "--json",
+          "--print-build-logs",
+          "--max-jobs",
+          "1",
+          "--cores",
+          "16"
+        ],
+        "compiled_modules": {
+          "mori-api": 30,
+          "mori-cli": 92,
+          "mori-core": 4
+        },
+        "compilers_observed_before_wait": [],
+        "elapsed_seconds": 126.26814350002678,
+        "exit_code": 0,
+        "identity": {
+          "behaviorProbe": "/nix/store/1b4444f8b4qnxby04l7qyq4rhsywqnvy-core-probe-1.0.drv",
+          "compatibilityReport": {
+            "accepted": true,
+            "differences": [],
+            "enabled": true,
+            "reason": "compatible explicit seed",
+            "schemaVersion": 1
+          },
+          "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+          "component": "core",
+          "core": "/nix/store/gkb6hsd7laj9hmishmhjqyjvldxq428h-mori-core-7.0.0.0.drv",
+          "currentCompatibility": {
+            "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+            "generatedInputPolicy": "912b079b6b798e4415201ced57e2bf3768ba398319af4d9d972f4c78265fa34c",
+            "metadataIdentity": "7b343563c012bf750b49d32037915888cfc03d891639c49588ec7c7822daa67c",
+            "packageName": "mori-core",
+            "packageVersion": "7.0.0.0",
+            "recipeIdentity": "/nix/store/w0d99iw1bnpkxl4a7rjg57fhbivvb9zv-mori-core-7.0.0.0.drv",
+            "schemaVersion": 1,
+            "sourceLayoutIdentity": "66efd7665de4f1741d0aa7997ba67807a4fb022d6f42cb43863919f6becbb882"
+          },
+          "retainCurrentIntermediates": false,
+          "root": "/nix/store/nr0k0n1k19iz8bp71w243n1vpd9jfg12-mori-cli-7.0.0.0.drv",
+          "seedCompatibility": {
+            "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+            "generatedInputPolicy": "912b079b6b798e4415201ced57e2bf3768ba398319af4d9d972f4c78265fa34c",
+            "metadataIdentity": "7b343563c012bf750b49d32037915888cfc03d891639c49588ec7c7822daa67c",
+            "packageName": "mori-core",
+            "packageVersion": "7.0.0.0",
+            "recipeIdentity": "/nix/store/w0d99iw1bnpkxl4a7rjg57fhbivvb9zv-mori-core-7.0.0.0.drv",
+            "schemaVersion": 1,
+            "sourceLayoutIdentity": "66efd7665de4f1741d0aa7997ba67807a4fb022d6f42cb43863919f6becbb882"
+          }
+        },
+        "idle_wait_seconds": 0.032052041962742805,
+        "label": "candidate",
+        "log": "paired-4-candidate.log",
+        "order": 1,
+        "phase_events": [
+          {
+            "elapsed_seconds": 13.406704665976577,
+            "message": "mori-core> Running phase: setupCompilerEnvironmentPhase"
+          },
+          {
+            "elapsed_seconds": 19.716781082970556,
+            "message": "mori-core> Running phase: unpackPhase"
+          },
+          {
+            "elapsed_seconds": 20.00638987502316,
+            "message": "mori-core> Running phase: patchPhase"
+          },
+          {
+            "elapsed_seconds": 20.096830833004788,
+            "message": "mori-core> Running phase: compileBuildDriverPhase"
+          },
+          {
+            "elapsed_seconds": 21.50441845797468,
+            "message": "mori-core> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+          },
+          {
+            "elapsed_seconds": 21.535986458009575,
+            "message": "mori-core> Running phase: configurePhase"
+          },
+          {
+            "elapsed_seconds": 24.12125195801491,
+            "message": "mori-core> Running phase: buildPhase"
+          },
+          {
+            "elapsed_seconds": 38.54295137501322,
+            "message": "mori-core> Running phase: haddockPhase"
+          },
+          {
+            "elapsed_seconds": 38.551757625013124,
+            "message": "mori-core> Running phase: installPhase"
+          },
+          {
+            "elapsed_seconds": 41.93919470801484,
+            "message": "mori-core> Running phase: fixupPhase"
+          },
+          {
+            "elapsed_seconds": 50.05047783302143,
+            "message": "mori-api> Running phase: setupCompilerEnvironmentPhase"
+          },
+          {
+            "elapsed_seconds": 56.566844665969256,
+            "message": "mori-api> Running phase: unpackPhase"
+          },
+          {
+            "elapsed_seconds": 56.60641916602617,
+            "message": "mori-api> Running phase: patchPhase"
+          },
+          {
+            "elapsed_seconds": 56.62130574998446,
+            "message": "mori-api> Running phase: compileBuildDriverPhase"
+          },
+          {
+            "elapsed_seconds": 57.96649487497052,
+            "message": "mori-api> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+          },
+          {
+            "elapsed_seconds": 57.98218795802677,
+            "message": "mori-api> Running phase: configurePhase"
+          },
+          {
+            "elapsed_seconds": 60.62970883300295,
+            "message": "mori-api> Running phase: buildPhase"
+          },
+          {
+            "elapsed_seconds": 73.20323733298574,
+            "message": "mori-api> Running phase: haddockPhase"
+          },
+          {
+            "elapsed_seconds": 73.21316024998669,
+            "message": "mori-api> Running phase: installPhase"
+          },
+          {
+            "elapsed_seconds": 74.61909095797455,
+            "message": "mori-api> Running phase: fixupPhase"
+          },
+          {
+            "elapsed_seconds": 80.23585549998097,
+            "message": "mori-cli> Running phase: setupCompilerEnvironmentPhase"
+          },
+          {
+            "elapsed_seconds": 86.91718574997503,
+            "message": "mori-cli> Running phase: unpackPhase"
+          },
+          {
+            "elapsed_seconds": 86.98485025000991,
+            "message": "mori-cli> Running phase: patchPhase"
+          },
+          {
+            "elapsed_seconds": 87.12530895799864,
+            "message": "mori-cli> Running phase: compileBuildDriverPhase"
+          },
+          {
+            "elapsed_seconds": 88.04395612498047,
+            "message": "mori-cli> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+          },
+          {
+            "elapsed_seconds": 88.06139312498271,
+            "message": "mori-cli> Running phase: configurePhase"
+          },
+          {
+            "elapsed_seconds": 90.28626020799857,
+            "message": "mori-cli> Running phase: buildPhase"
+          },
+          {
+            "elapsed_seconds": 118.44564291602,
+            "message": "mori-cli> Running phase: haddockPhase"
+          },
+          {
+            "elapsed_seconds": 118.45636912499322,
+            "message": "mori-cli> Running phase: installPhase"
+          },
+          {
+            "elapsed_seconds": 120.43517583300127,
+            "message": "mori-cli> Running phase: fixupPhase"
+          }
+        ],
+        "phase_limits": "No separate linker, test or transfer instrumentation; memory is sampled host compiler RSS, not isolated builder accounting; phase events are builder log boundaries.",
+        "sampled_host_compiler_memory": {
+          "errors": [],
+          "peak_kib": 4288064,
+          "preexisting_processes": [],
+          "samples": 433,
+          "scope": "Host compiler RSS sum sampled every 250 ms; may include concurrent unrelated compilers; not exact builder peak"
+        },
+        "source_variant_sha256": "362142a524d154ff4726ddc0243013c872b7a1648312cea7bd8a92705c820429",
+        "stage": "paired",
+        "trial": 4
+      },
+      {
+        "build_result": [
+          {
+            "drvPath": "/nix/store/2pmk0ryahrav0x3i1jgjm5c5bbrxh85h-mori-cli-7.0.0.0.drv",
+            "outputs": {
+              "out": "/nix/store/rrdyp2f43pzjqf1v5zgpjlf6rh12scng-mori-cli-7.0.0.0"
+            }
+          }
+        ],
+        "cache_state": "warm dependencies; initial build plan and actual compilations recorded in build log",
+        "command": [
+          "nix",
+          "build",
+          "--impure",
+          "--file",
+          "/Users/shinzui/Keikaku/bokuno/haskell-nix/checks/fixtures/application-builds/owned-pair.nix",
+          "--argstr",
+          "source",
+          "/private/tmp/ep18-consume-only-mori-campaign-v2/baseline",
+          "package",
+          "--no-link",
+          "--json",
+          "--print-build-logs",
+          "--max-jobs",
+          "1",
+          "--cores",
+          "16"
+        ],
+        "compiled_modules": {
+          "mori-api": 30,
+          "mori-cli": 92,
+          "mori-core": 589
+        },
+        "compilers_observed_before_wait": [],
+        "elapsed_seconds": 223.35963716596598,
+        "exit_code": 0,
+        "identity": {
+          "behaviorProbe": "/nix/store/iydgmfxd3vw4ygpw971xjr48m71rbshs-core-probe-1.0.drv",
+          "compatibilityReport": {
+            "accepted": false,
+            "differences": [],
+            "enabled": false,
+            "reason": "disabled",
+            "schemaVersion": 1
+          },
+          "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+          "component": "core",
+          "core": "/nix/store/7n2zk9i3h3vspmvk8im1sc83zhiffg50-mori-core-7.0.0.0.drv",
+          "currentCompatibility": {
+            "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+            "generatedInputPolicy": "912b079b6b798e4415201ced57e2bf3768ba398319af4d9d972f4c78265fa34c",
+            "metadataIdentity": "7b343563c012bf750b49d32037915888cfc03d891639c49588ec7c7822daa67c",
+            "packageName": "mori-core",
+            "packageVersion": "7.0.0.0",
+            "recipeIdentity": "/nix/store/w0d99iw1bnpkxl4a7rjg57fhbivvb9zv-mori-core-7.0.0.0.drv",
+            "schemaVersion": 1,
+            "sourceLayoutIdentity": "66efd7665de4f1741d0aa7997ba67807a4fb022d6f42cb43863919f6becbb882"
+          },
+          "retainCurrentIntermediates": false,
+          "root": "/nix/store/2pmk0ryahrav0x3i1jgjm5c5bbrxh85h-mori-cli-7.0.0.0.drv",
+          "seedCompatibility": {
+            "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+            "generatedInputPolicy": "912b079b6b798e4415201ced57e2bf3768ba398319af4d9d972f4c78265fa34c",
+            "metadataIdentity": "7b343563c012bf750b49d32037915888cfc03d891639c49588ec7c7822daa67c",
+            "packageName": "mori-core",
+            "packageVersion": "7.0.0.0",
+            "recipeIdentity": "/nix/store/w0d99iw1bnpkxl4a7rjg57fhbivvb9zv-mori-core-7.0.0.0.drv",
+            "schemaVersion": 1,
+            "sourceLayoutIdentity": "66efd7665de4f1741d0aa7997ba67807a4fb022d6f42cb43863919f6becbb882"
+          }
+        },
+        "idle_wait_seconds": 0.02963875001296401,
+        "label": "baseline",
+        "log": "paired-4-baseline.log",
+        "order": 2,
+        "phase_events": [
+          {
+            "elapsed_seconds": 6.116930332966149,
+            "message": "mori-core> Running phase: setupCompilerEnvironmentPhase"
+          },
+          {
+            "elapsed_seconds": 12.31619945797138,
+            "message": "mori-core> Running phase: unpackPhase"
+          },
+          {
+            "elapsed_seconds": 12.601290708000306,
+            "message": "mori-core> Running phase: patchPhase"
+          },
+          {
+            "elapsed_seconds": 12.632009624969214,
+            "message": "mori-core> Running phase: compileBuildDriverPhase"
+          },
+          {
+            "elapsed_seconds": 13.492100125004072,
+            "message": "mori-core> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+          },
+          {
+            "elapsed_seconds": 13.521884582994971,
+            "message": "mori-core> Running phase: configurePhase"
+          },
+          {
+            "elapsed_seconds": 16.315359750005882,
+            "message": "mori-core> Running phase: buildPhase"
+          },
+          {
+            "elapsed_seconds": 138.78463449998526,
+            "message": "mori-core> Running phase: haddockPhase"
+          },
+          {
+            "elapsed_seconds": 138.79463474999648,
+            "message": "mori-core> Running phase: installPhase"
+          },
+          {
+            "elapsed_seconds": 141.73333516600542,
+            "message": "mori-core> Running phase: fixupPhase"
+          },
+          {
+            "elapsed_seconds": 149.59504924999783,
+            "message": "mori-api> Running phase: setupCompilerEnvironmentPhase"
+          },
+          {
+            "elapsed_seconds": 155.9857239999692,
+            "message": "mori-api> Running phase: unpackPhase"
+          },
+          {
+            "elapsed_seconds": 156.02301595796598,
+            "message": "mori-api> Running phase: patchPhase"
+          },
+          {
+            "elapsed_seconds": 156.0382446660078,
+            "message": "mori-api> Running phase: compileBuildDriverPhase"
+          },
+          {
+            "elapsed_seconds": 156.80498708301457,
+            "message": "mori-api> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+          },
+          {
+            "elapsed_seconds": 156.82096158299828,
+            "message": "mori-api> Running phase: configurePhase"
+          },
+          {
+            "elapsed_seconds": 159.38490341597935,
+            "message": "mori-api> Running phase: buildPhase"
+          },
+          {
+            "elapsed_seconds": 171.70707025000593,
+            "message": "mori-api> Running phase: haddockPhase"
+          },
+          {
+            "elapsed_seconds": 171.71655904100044,
+            "message": "mori-api> Running phase: installPhase"
+          },
+          {
+            "elapsed_seconds": 173.02336166601162,
+            "message": "mori-api> Running phase: fixupPhase"
+          },
+          {
+            "elapsed_seconds": 178.57617283298168,
+            "message": "mori-cli> Running phase: setupCompilerEnvironmentPhase"
+          },
+          {
+            "elapsed_seconds": 185.18177629099227,
+            "message": "mori-cli> Running phase: unpackPhase"
+          },
+          {
+            "elapsed_seconds": 185.24281833297573,
+            "message": "mori-cli> Running phase: patchPhase"
+          },
+          {
+            "elapsed_seconds": 185.370129790972,
+            "message": "mori-cli> Running phase: compileBuildDriverPhase"
+          },
+          {
+            "elapsed_seconds": 186.19673229096225,
+            "message": "mori-cli> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+          },
+          {
+            "elapsed_seconds": 186.21473191597033,
+            "message": "mori-cli> Running phase: configurePhase"
+          },
+          {
+            "elapsed_seconds": 188.9009207499912,
+            "message": "mori-cli> Running phase: buildPhase"
+          },
+          {
+            "elapsed_seconds": 215.84951841598377,
+            "message": "mori-cli> Running phase: haddockPhase"
+          },
+          {
+            "elapsed_seconds": 215.85893737501465,
+            "message": "mori-cli> Running phase: installPhase"
+          },
+          {
+            "elapsed_seconds": 217.6570200829883,
+            "message": "mori-cli> Running phase: fixupPhase"
+          }
+        ],
+        "phase_limits": "No separate linker, test or transfer instrumentation; memory is sampled host compiler RSS, not isolated builder accounting; phase events are builder log boundaries.",
+        "sampled_host_compiler_memory": {
+          "errors": [],
+          "peak_kib": 6505760,
+          "preexisting_processes": [],
+          "samples": 730,
+          "scope": "Host compiler RSS sum sampled every 250 ms; may include concurrent unrelated compilers; not exact builder peak"
+        },
+        "source_variant_sha256": "362142a524d154ff4726ddc0243013c872b7a1648312cea7bd8a92705c820429",
+        "stage": "paired",
+        "trial": 4
+      },
+      {
+        "build_result": [
+          {
+            "drvPath": "/nix/store/z8s1qkwqdci5jr5lpdk9nxw2787567di-mori-cli-7.0.0.0.drv",
+            "outputs": {
+              "out": "/nix/store/ill1vs8mdr2m2nxdyv8rgy0zm7qafyi7-mori-cli-7.0.0.0"
+            }
+          }
+        ],
+        "cache_state": "warm dependencies; initial build plan and actual compilations recorded in build log",
+        "command": [
+          "nix",
+          "build",
+          "--impure",
+          "--file",
+          "/Users/shinzui/Keikaku/bokuno/haskell-nix/checks/fixtures/application-builds/owned-pair.nix",
+          "--argstr",
+          "source",
+          "/private/tmp/ep18-consume-only-mori-campaign-v2/baseline",
+          "package",
+          "--no-link",
+          "--json",
+          "--print-build-logs",
+          "--max-jobs",
+          "1",
+          "--cores",
+          "16"
+        ],
+        "compiled_modules": {
+          "mori-api": 30,
+          "mori-cli": 92,
+          "mori-core": 589
+        },
+        "compilers_observed_before_wait": [],
+        "elapsed_seconds": 223.7921605000156,
+        "exit_code": 0,
+        "identity": {
+          "behaviorProbe": "/nix/store/hyccc8b0l2a7aahgwxrv0pdfm712lyn7-core-probe-1.0.drv",
+          "compatibilityReport": {
+            "accepted": false,
+            "differences": [],
+            "enabled": false,
+            "reason": "disabled",
+            "schemaVersion": 1
+          },
+          "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+          "component": "core",
+          "core": "/nix/store/snyx84ni8f30abakhx1g4akas5m6mabk-mori-core-7.0.0.0.drv",
+          "currentCompatibility": {
+            "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+            "generatedInputPolicy": "912b079b6b798e4415201ced57e2bf3768ba398319af4d9d972f4c78265fa34c",
+            "metadataIdentity": "7b343563c012bf750b49d32037915888cfc03d891639c49588ec7c7822daa67c",
+            "packageName": "mori-core",
+            "packageVersion": "7.0.0.0",
+            "recipeIdentity": "/nix/store/w0d99iw1bnpkxl4a7rjg57fhbivvb9zv-mori-core-7.0.0.0.drv",
+            "schemaVersion": 1,
+            "sourceLayoutIdentity": "66efd7665de4f1741d0aa7997ba67807a4fb022d6f42cb43863919f6becbb882"
+          },
+          "retainCurrentIntermediates": false,
+          "root": "/nix/store/z8s1qkwqdci5jr5lpdk9nxw2787567di-mori-cli-7.0.0.0.drv",
+          "seedCompatibility": {
+            "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+            "generatedInputPolicy": "912b079b6b798e4415201ced57e2bf3768ba398319af4d9d972f4c78265fa34c",
+            "metadataIdentity": "7b343563c012bf750b49d32037915888cfc03d891639c49588ec7c7822daa67c",
+            "packageName": "mori-core",
+            "packageVersion": "7.0.0.0",
+            "recipeIdentity": "/nix/store/w0d99iw1bnpkxl4a7rjg57fhbivvb9zv-mori-core-7.0.0.0.drv",
+            "schemaVersion": 1,
+            "sourceLayoutIdentity": "66efd7665de4f1741d0aa7997ba67807a4fb022d6f42cb43863919f6becbb882"
+          }
+        },
+        "idle_wait_seconds": 0.029990874987561256,
+        "label": "baseline",
+        "log": "paired-5-baseline.log",
+        "order": 1,
+        "phase_events": [
+          {
+            "elapsed_seconds": 7.073039458016865,
+            "message": "mori-core> Running phase: setupCompilerEnvironmentPhase"
+          },
+          {
+            "elapsed_seconds": 13.132374292006716,
+            "message": "mori-core> Running phase: unpackPhase"
+          },
+          {
+            "elapsed_seconds": 13.379273833008483,
+            "message": "mori-core> Running phase: patchPhase"
+          },
+          {
+            "elapsed_seconds": 13.408189792011399,
+            "message": "mori-core> Running phase: compileBuildDriverPhase"
+          },
+          {
+            "elapsed_seconds": 14.141613291983958,
+            "message": "mori-core> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+          },
+          {
+            "elapsed_seconds": 14.171202249999624,
+            "message": "mori-core> Running phase: configurePhase"
+          },
+          {
+            "elapsed_seconds": 16.716944458021317,
+            "message": "mori-core> Running phase: buildPhase"
+          },
+          {
+            "elapsed_seconds": 139.17824787501013,
+            "message": "mori-core> Running phase: haddockPhase"
+          },
+          {
+            "elapsed_seconds": 139.19387324998388,
+            "message": "mori-core> Running phase: installPhase"
+          },
+          {
+            "elapsed_seconds": 142.14676945802057,
+            "message": "mori-core> Running phase: fixupPhase"
+          },
+          {
+            "elapsed_seconds": 150.19903683301527,
+            "message": "mori-api> Running phase: setupCompilerEnvironmentPhase"
+          },
+          {
+            "elapsed_seconds": 156.7758970829891,
+            "message": "mori-api> Running phase: unpackPhase"
+          },
+          {
+            "elapsed_seconds": 156.811479875003,
+            "message": "mori-api> Running phase: patchPhase"
+          },
+          {
+            "elapsed_seconds": 156.8247952919919,
+            "message": "mori-api> Running phase: compileBuildDriverPhase"
+          },
+          {
+            "elapsed_seconds": 157.64689012500457,
+            "message": "mori-api> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+          },
+          {
+            "elapsed_seconds": 157.66402120800922,
+            "message": "mori-api> Running phase: configurePhase"
+          },
+          {
+            "elapsed_seconds": 160.51176045800094,
+            "message": "mori-api> Running phase: buildPhase"
+          },
+          {
+            "elapsed_seconds": 172.66648104198975,
+            "message": "mori-api> Running phase: haddockPhase"
+          },
+          {
+            "elapsed_seconds": 172.68035779200727,
+            "message": "mori-api> Running phase: installPhase"
+          },
+          {
+            "elapsed_seconds": 173.97009041701676,
+            "message": "mori-api> Running phase: fixupPhase"
+          },
+          {
+            "elapsed_seconds": 179.37501991697354,
+            "message": "mori-cli> Running phase: setupCompilerEnvironmentPhase"
+          },
+          {
+            "elapsed_seconds": 185.87473216699436,
+            "message": "mori-cli> Running phase: unpackPhase"
+          },
+          {
+            "elapsed_seconds": 185.93583087500883,
+            "message": "mori-cli> Running phase: patchPhase"
+          },
+          {
+            "elapsed_seconds": 186.0575680420152,
+            "message": "mori-cli> Running phase: compileBuildDriverPhase"
+          },
+          {
+            "elapsed_seconds": 186.87226079200627,
+            "message": "mori-cli> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+          },
+          {
+            "elapsed_seconds": 186.88879583298694,
+            "message": "mori-cli> Running phase: configurePhase"
+          },
+          {
+            "elapsed_seconds": 189.39516879199073,
+            "message": "mori-cli> Running phase: buildPhase"
+          },
+          {
+            "elapsed_seconds": 216.17805083299754,
+            "message": "mori-cli> Running phase: haddockPhase"
+          },
+          {
+            "elapsed_seconds": 216.19352883298416,
+            "message": "mori-cli> Running phase: installPhase"
+          },
+          {
+            "elapsed_seconds": 218.08084479201352,
+            "message": "mori-cli> Running phase: fixupPhase"
+          }
+        ],
+        "phase_limits": "No separate linker, test or transfer instrumentation; memory is sampled host compiler RSS, not isolated builder accounting; phase events are builder log boundaries.",
+        "sampled_host_compiler_memory": {
+          "errors": [],
+          "peak_kib": 6332560,
+          "preexisting_processes": [],
+          "samples": 731,
+          "scope": "Host compiler RSS sum sampled every 250 ms; may include concurrent unrelated compilers; not exact builder peak"
+        },
+        "source_variant_sha256": "70c3f0cecb413f217dd47bb7d7b0682441819b6deb504101a062a7b721c30e50",
+        "stage": "paired",
+        "trial": 5
+      },
+      {
+        "build_result": [
+          {
+            "drvPath": "/nix/store/xfbcgwndvfcp0sw2bn4swggva1f985sy-mori-cli-7.0.0.0.drv",
+            "outputs": {
+              "out": "/nix/store/5nq48frlrv6b23mfbjc2ym58706gbwh0-mori-cli-7.0.0.0"
+            }
+          }
+        ],
+        "cache_state": "warm dependencies; initial build plan and actual compilations recorded in build log",
+        "command": [
+          "nix",
+          "build",
+          "--impure",
+          "--file",
+          "/Users/shinzui/Keikaku/bokuno/haskell-nix/checks/fixtures/application-builds/owned-pair.nix",
+          "--argstr",
+          "source",
+          "/private/tmp/ep18-consume-only-mori-campaign-v2/candidate",
+          "package",
+          "--no-link",
+          "--json",
+          "--print-build-logs",
+          "--max-jobs",
+          "1",
+          "--cores",
+          "16"
+        ],
+        "compiled_modules": {
+          "mori-api": 30,
+          "mori-cli": 92,
+          "mori-core": 4
+        },
+        "compilers_observed_before_wait": [],
+        "elapsed_seconds": 119.9911575000151,
+        "exit_code": 0,
+        "identity": {
+          "behaviorProbe": "/nix/store/bc9ljw3p56syn7krq25ns6bbydy5rvcf-core-probe-1.0.drv",
+          "compatibilityReport": {
+            "accepted": true,
+            "differences": [],
+            "enabled": true,
+            "reason": "compatible explicit seed",
+            "schemaVersion": 1
+          },
+          "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+          "component": "core",
+          "core": "/nix/store/ql9p2rib4rqj809d1fv5z6m80a9941xv-mori-core-7.0.0.0.drv",
+          "currentCompatibility": {
+            "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+            "generatedInputPolicy": "912b079b6b798e4415201ced57e2bf3768ba398319af4d9d972f4c78265fa34c",
+            "metadataIdentity": "7b343563c012bf750b49d32037915888cfc03d891639c49588ec7c7822daa67c",
+            "packageName": "mori-core",
+            "packageVersion": "7.0.0.0",
+            "recipeIdentity": "/nix/store/w0d99iw1bnpkxl4a7rjg57fhbivvb9zv-mori-core-7.0.0.0.drv",
+            "schemaVersion": 1,
+            "sourceLayoutIdentity": "66efd7665de4f1741d0aa7997ba67807a4fb022d6f42cb43863919f6becbb882"
+          },
+          "retainCurrentIntermediates": false,
+          "root": "/nix/store/xfbcgwndvfcp0sw2bn4swggva1f985sy-mori-cli-7.0.0.0.drv",
+          "seedCompatibility": {
+            "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+            "generatedInputPolicy": "912b079b6b798e4415201ced57e2bf3768ba398319af4d9d972f4c78265fa34c",
+            "metadataIdentity": "7b343563c012bf750b49d32037915888cfc03d891639c49588ec7c7822daa67c",
+            "packageName": "mori-core",
+            "packageVersion": "7.0.0.0",
+            "recipeIdentity": "/nix/store/w0d99iw1bnpkxl4a7rjg57fhbivvb9zv-mori-core-7.0.0.0.drv",
+            "schemaVersion": 1,
+            "sourceLayoutIdentity": "66efd7665de4f1741d0aa7997ba67807a4fb022d6f42cb43863919f6becbb882"
+          }
+        },
+        "idle_wait_seconds": 0.029405208013486117,
+        "label": "candidate",
+        "log": "paired-5-candidate.log",
+        "order": 2,
+        "phase_events": [
+          {
+            "elapsed_seconds": 11.161908207985107,
+            "message": "mori-core> Running phase: setupCompilerEnvironmentPhase"
+          },
+          {
+            "elapsed_seconds": 17.19045350002125,
+            "message": "mori-core> Running phase: unpackPhase"
+          },
+          {
+            "elapsed_seconds": 17.446314374974463,
+            "message": "mori-core> Running phase: patchPhase"
+          },
+          {
+            "elapsed_seconds": 17.475271540984977,
+            "message": "mori-core> Running phase: compileBuildDriverPhase"
+          },
+          {
+            "elapsed_seconds": 18.212280999985524,
+            "message": "mori-core> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+          },
+          {
+            "elapsed_seconds": 18.240402000024915,
+            "message": "mori-core> Running phase: configurePhase"
+          },
+          {
+            "elapsed_seconds": 20.964282082975842,
+            "message": "mori-core> Running phase: buildPhase"
+          },
+          {
+            "elapsed_seconds": 34.83460150001338,
+            "message": "mori-core> Running phase: haddockPhase"
+          },
+          {
+            "elapsed_seconds": 34.84868841600837,
+            "message": "mori-core> Running phase: installPhase"
+          },
+          {
+            "elapsed_seconds": 37.84361587499734,
+            "message": "mori-core> Running phase: fixupPhase"
+          },
+          {
+            "elapsed_seconds": 45.68139166600304,
+            "message": "mori-api> Running phase: setupCompilerEnvironmentPhase"
+          },
+          {
+            "elapsed_seconds": 52.14781483297702,
+            "message": "mori-api> Running phase: unpackPhase"
+          },
+          {
+            "elapsed_seconds": 52.2053787909681,
+            "message": "mori-api> Running phase: patchPhase"
+          },
+          {
+            "elapsed_seconds": 52.22646708297543,
+            "message": "mori-api> Running phase: compileBuildDriverPhase"
+          },
+          {
+            "elapsed_seconds": 52.97736920800526,
+            "message": "mori-api> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+          },
+          {
+            "elapsed_seconds": 52.99156408297131,
+            "message": "mori-api> Running phase: configurePhase"
+          },
+          {
+            "elapsed_seconds": 55.72936320799636,
+            "message": "mori-api> Running phase: buildPhase"
+          },
+          {
+            "elapsed_seconds": 67.9311480409815,
+            "message": "mori-api> Running phase: haddockPhase"
+          },
+          {
+            "elapsed_seconds": 67.94177712500095,
+            "message": "mori-api> Running phase: installPhase"
+          },
+          {
+            "elapsed_seconds": 69.2095788330189,
+            "message": "mori-api> Running phase: fixupPhase"
+          },
+          {
+            "elapsed_seconds": 74.62265837501036,
+            "message": "mori-cli> Running phase: setupCompilerEnvironmentPhase"
+          },
+          {
+            "elapsed_seconds": 81.23616095801117,
+            "message": "mori-cli> Running phase: unpackPhase"
+          },
+          {
+            "elapsed_seconds": 81.29884662502445,
+            "message": "mori-cli> Running phase: patchPhase"
+          },
+          {
+            "elapsed_seconds": 81.42499412497273,
+            "message": "mori-cli> Running phase: compileBuildDriverPhase"
+          },
+          {
+            "elapsed_seconds": 82.22564441600116,
+            "message": "mori-cli> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+          },
+          {
+            "elapsed_seconds": 82.2443970409804,
+            "message": "mori-cli> Running phase: configurePhase"
+          },
+          {
+            "elapsed_seconds": 84.74120908300392,
+            "message": "mori-cli> Running phase: buildPhase"
+          },
+          {
+            "elapsed_seconds": 112.11282083299011,
+            "message": "mori-cli> Running phase: haddockPhase"
+          },
+          {
+            "elapsed_seconds": 112.12368920800509,
+            "message": "mori-cli> Running phase: installPhase"
+          },
+          {
+            "elapsed_seconds": 114.0519266250194,
+            "message": "mori-cli> Running phase: fixupPhase"
+          }
+        ],
+        "phase_limits": "No separate linker, test or transfer instrumentation; memory is sampled host compiler RSS, not isolated builder accounting; phase events are builder log boundaries.",
+        "sampled_host_compiler_memory": {
+          "errors": [],
+          "peak_kib": 6015600,
+          "preexisting_processes": [],
+          "samples": 397,
+          "scope": "Host compiler RSS sum sampled every 250 ms; may include concurrent unrelated compilers; not exact builder peak"
+        },
+        "source_variant_sha256": "70c3f0cecb413f217dd47bb7d7b0682441819b6deb504101a062a7b721c30e50",
+        "stage": "paired",
+        "trial": 5
+      }
+    ],
+    "warmup": [
+      {
+        "build_result": [
+          {
+            "drvPath": "/nix/store/hjlcsw1ya539di75fsprfzn5fimff29w-mori-cli-7.0.0.0.drv",
+            "outputs": {
+              "out": "/nix/store/5b0f5z41hjjfyzjq743zpxy1adxc7ac2-mori-cli-7.0.0.0"
+            }
+          }
+        ],
+        "cache_state": "warm dependencies; initial build plan and actual compilations recorded in build log",
+        "command": [
+          "nix",
+          "build",
+          "--impure",
+          "--file",
+          "/Users/shinzui/Keikaku/bokuno/haskell-nix/checks/fixtures/application-builds/owned-pair.nix",
+          "--argstr",
+          "source",
+          "/private/tmp/ep18-consume-only-mori-campaign-v2/baseline",
+          "package",
+          "--no-link",
+          "--json",
+          "--print-build-logs",
+          "--max-jobs",
+          "1",
+          "--cores",
+          "16"
+        ],
+        "compiled_modules": {
+          "mori-api": 30,
+          "mori-cli": 92,
+          "mori-core": 589
+        },
+        "compilers_observed_before_wait": [],
+        "elapsed_seconds": 224.5960032499861,
+        "exit_code": 0,
+        "identity": {
+          "behaviorProbe": "/nix/store/9spyka5p1jzwb9zykv8kwk3ml05z50ll-core-probe-1.0.drv",
+          "compatibilityReport": {
+            "accepted": false,
+            "differences": [],
+            "enabled": false,
+            "reason": "disabled",
+            "schemaVersion": 1
+          },
+          "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+          "component": "core",
+          "core": "/nix/store/pcjwg5ykkaqngjzavq2j6vp2j44f5mdp-mori-core-7.0.0.0.drv",
+          "currentCompatibility": {
+            "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+            "generatedInputPolicy": "912b079b6b798e4415201ced57e2bf3768ba398319af4d9d972f4c78265fa34c",
+            "metadataIdentity": "7b343563c012bf750b49d32037915888cfc03d891639c49588ec7c7822daa67c",
+            "packageName": "mori-core",
+            "packageVersion": "7.0.0.0",
+            "recipeIdentity": "/nix/store/w0d99iw1bnpkxl4a7rjg57fhbivvb9zv-mori-core-7.0.0.0.drv",
+            "schemaVersion": 1,
+            "sourceLayoutIdentity": "66efd7665de4f1741d0aa7997ba67807a4fb022d6f42cb43863919f6becbb882"
+          },
+          "retainCurrentIntermediates": false,
+          "root": "/nix/store/hjlcsw1ya539di75fsprfzn5fimff29w-mori-cli-7.0.0.0.drv",
+          "seedCompatibility": {
+            "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+            "generatedInputPolicy": "912b079b6b798e4415201ced57e2bf3768ba398319af4d9d972f4c78265fa34c",
+            "metadataIdentity": "7b343563c012bf750b49d32037915888cfc03d891639c49588ec7c7822daa67c",
+            "packageName": "mori-core",
+            "packageVersion": "7.0.0.0",
+            "recipeIdentity": "/nix/store/w0d99iw1bnpkxl4a7rjg57fhbivvb9zv-mori-core-7.0.0.0.drv",
+            "schemaVersion": 1,
+            "sourceLayoutIdentity": "66efd7665de4f1741d0aa7997ba67807a4fb022d6f42cb43863919f6becbb882"
+          }
+        },
+        "idle_wait_seconds": 0.028535459015984088,
+        "label": "baseline",
+        "log": "warmup-0-baseline.log",
+        "phase_events": [
+          {
+            "elapsed_seconds": 7.227464959025383,
+            "message": "mori-core> Running phase: setupCompilerEnvironmentPhase"
+          },
+          {
+            "elapsed_seconds": 13.262108125025406,
+            "message": "mori-core> Running phase: unpackPhase"
+          },
+          {
+            "elapsed_seconds": 13.534539250016678,
+            "message": "mori-core> Running phase: patchPhase"
+          },
+          {
+            "elapsed_seconds": 13.566887042019516,
+            "message": "mori-core> Running phase: compileBuildDriverPhase"
+          },
+          {
+            "elapsed_seconds": 14.36803129198961,
+            "message": "mori-core> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+          },
+          {
+            "elapsed_seconds": 14.398387291992549,
+            "message": "mori-core> Running phase: configurePhase"
+          },
+          {
+            "elapsed_seconds": 17.422454666986596,
+            "message": "mori-core> Running phase: buildPhase"
+          },
+          {
+            "elapsed_seconds": 139.1489912919933,
+            "message": "mori-core> Running phase: haddockPhase"
+          },
+          {
+            "elapsed_seconds": 139.1602590419934,
+            "message": "mori-core> Running phase: installPhase"
+          },
+          {
+            "elapsed_seconds": 142.14577541698236,
+            "message": "mori-core> Running phase: fixupPhase"
+          },
+          {
+            "elapsed_seconds": 150.18204325000988,
+            "message": "mori-api> Running phase: setupCompilerEnvironmentPhase"
+          },
+          {
+            "elapsed_seconds": 156.6406280840165,
+            "message": "mori-api> Running phase: unpackPhase"
+          },
+          {
+            "elapsed_seconds": 156.67973741702735,
+            "message": "mori-api> Running phase: patchPhase"
+          },
+          {
+            "elapsed_seconds": 156.69419216702227,
+            "message": "mori-api> Running phase: compileBuildDriverPhase"
+          },
+          {
+            "elapsed_seconds": 157.4934073750046,
+            "message": "mori-api> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+          },
+          {
+            "elapsed_seconds": 157.5116480839788,
+            "message": "mori-api> Running phase: configurePhase"
+          },
+          {
+            "elapsed_seconds": 160.58968500001356,
+            "message": "mori-api> Running phase: buildPhase"
+          },
+          {
+            "elapsed_seconds": 172.59665804199176,
+            "message": "mori-api> Running phase: haddockPhase"
+          },
+          {
+            "elapsed_seconds": 172.60836295899935,
+            "message": "mori-api> Running phase: installPhase"
+          },
+          {
+            "elapsed_seconds": 173.90304779197322,
+            "message": "mori-api> Running phase: fixupPhase"
+          },
+          {
+            "elapsed_seconds": 179.4458314999938,
+            "message": "mori-cli> Running phase: setupCompilerEnvironmentPhase"
+          },
+          {
+            "elapsed_seconds": 186.10269008402247,
+            "message": "mori-cli> Running phase: unpackPhase"
+          },
+          {
+            "elapsed_seconds": 186.17342800000915,
+            "message": "mori-cli> Running phase: patchPhase"
+          },
+          {
+            "elapsed_seconds": 186.30788833397673,
+            "message": "mori-cli> Running phase: compileBuildDriverPhase"
+          },
+          {
+            "elapsed_seconds": 187.13965720898705,
+            "message": "mori-cli> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+          },
+          {
+            "elapsed_seconds": 187.16004804201657,
+            "message": "mori-cli> Running phase: configurePhase"
+          },
+          {
+            "elapsed_seconds": 189.93257574999006,
+            "message": "mori-cli> Running phase: buildPhase"
+          },
+          {
+            "elapsed_seconds": 216.80904929200187,
+            "message": "mori-cli> Running phase: haddockPhase"
+          },
+          {
+            "elapsed_seconds": 216.82384083402576,
+            "message": "mori-cli> Running phase: installPhase"
+          },
+          {
+            "elapsed_seconds": 218.73263495898573,
+            "message": "mori-cli> Running phase: fixupPhase"
+          }
+        ],
+        "phase_limits": "No separate linker, test or transfer instrumentation; memory is sampled host compiler RSS, not isolated builder accounting; phase events are builder log boundaries.",
+        "sampled_host_compiler_memory": {
+          "errors": [],
+          "peak_kib": 6551872,
+          "preexisting_processes": [],
+          "samples": 733,
+          "scope": "Host compiler RSS sum sampled every 250 ms; may include concurrent unrelated compilers; not exact builder peak"
+        },
+        "source_variant_sha256": "600a0911db26ac9f53557371b5952ef3002fc477d656ea0112bd90c56803fa58",
+        "stage": "warmup",
+        "trial": 0
+      },
+      {
+        "build_result": [
+          {
+            "drvPath": "/nix/store/2a0iiqw25v8dy7nan98axgpj2hdp5acq-mori-cli-7.0.0.0.drv",
+            "outputs": {
+              "out": "/nix/store/l3qrcm47566iii1xy6dhkz2lkv4akbvj-mori-cli-7.0.0.0"
+            }
+          }
+        ],
+        "cache_state": "warm dependencies; initial build plan and actual compilations recorded in build log",
+        "command": [
+          "nix",
+          "build",
+          "--impure",
+          "--file",
+          "/Users/shinzui/Keikaku/bokuno/haskell-nix/checks/fixtures/application-builds/owned-pair.nix",
+          "--argstr",
+          "source",
+          "/private/tmp/ep18-consume-only-mori-campaign-v2/candidate",
+          "package",
+          "--no-link",
+          "--json",
+          "--print-build-logs",
+          "--max-jobs",
+          "1",
+          "--cores",
+          "16"
+        ],
+        "compiled_modules": {
+          "mori-api": 30,
+          "mori-cli": 92,
+          "mori-core": 3
+        },
+        "compilers_observed_before_wait": [],
+        "elapsed_seconds": 121.00141441600863,
+        "exit_code": 0,
+        "identity": {
+          "behaviorProbe": "/nix/store/cffqs4dsqxcs0x1wa96fzdbcqiglj4y7-core-probe-1.0.drv",
+          "compatibilityReport": {
+            "accepted": true,
+            "differences": [],
+            "enabled": true,
+            "reason": "compatible explicit seed",
+            "schemaVersion": 1
+          },
+          "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+          "component": "core",
+          "core": "/nix/store/fnw0kdgbrz1m7wq860kvg28523sb37i3-mori-core-7.0.0.0.drv",
+          "currentCompatibility": {
+            "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+            "generatedInputPolicy": "912b079b6b798e4415201ced57e2bf3768ba398319af4d9d972f4c78265fa34c",
+            "metadataIdentity": "7b343563c012bf750b49d32037915888cfc03d891639c49588ec7c7822daa67c",
+            "packageName": "mori-core",
+            "packageVersion": "7.0.0.0",
+            "recipeIdentity": "/nix/store/w0d99iw1bnpkxl4a7rjg57fhbivvb9zv-mori-core-7.0.0.0.drv",
+            "schemaVersion": 1,
+            "sourceLayoutIdentity": "66efd7665de4f1741d0aa7997ba67807a4fb022d6f42cb43863919f6becbb882"
+          },
+          "retainCurrentIntermediates": false,
+          "root": "/nix/store/2a0iiqw25v8dy7nan98axgpj2hdp5acq-mori-cli-7.0.0.0.drv",
+          "seedCompatibility": {
+            "compilerIdentity": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+            "generatedInputPolicy": "912b079b6b798e4415201ced57e2bf3768ba398319af4d9d972f4c78265fa34c",
+            "metadataIdentity": "7b343563c012bf750b49d32037915888cfc03d891639c49588ec7c7822daa67c",
+            "packageName": "mori-core",
+            "packageVersion": "7.0.0.0",
+            "recipeIdentity": "/nix/store/w0d99iw1bnpkxl4a7rjg57fhbivvb9zv-mori-core-7.0.0.0.drv",
+            "schemaVersion": 1,
+            "sourceLayoutIdentity": "66efd7665de4f1741d0aa7997ba67807a4fb022d6f42cb43863919f6becbb882"
+          }
+        },
+        "idle_wait_seconds": 0.032442916999571025,
+        "label": "candidate",
+        "log": "warmup-0-candidate.log",
+        "phase_events": [
+          {
+            "elapsed_seconds": 10.717581166012678,
+            "message": "mori-core> Running phase: setupCompilerEnvironmentPhase"
+          },
+          {
+            "elapsed_seconds": 16.812413291016128,
+            "message": "mori-core> Running phase: unpackPhase"
+          },
+          {
+            "elapsed_seconds": 17.057138332980685,
+            "message": "mori-core> Running phase: patchPhase"
+          },
+          {
+            "elapsed_seconds": 17.086496124975383,
+            "message": "mori-core> Running phase: compileBuildDriverPhase"
+          },
+          {
+            "elapsed_seconds": 17.890806291019544,
+            "message": "mori-core> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+          },
+          {
+            "elapsed_seconds": 17.92217887501465,
+            "message": "mori-core> Running phase: configurePhase"
+          },
+          {
+            "elapsed_seconds": 21.09176475001732,
+            "message": "mori-core> Running phase: buildPhase"
+          },
+          {
+            "elapsed_seconds": 34.91593366599409,
+            "message": "mori-core> Running phase: haddockPhase"
+          },
+          {
+            "elapsed_seconds": 34.931311332969926,
+            "message": "mori-core> Running phase: installPhase"
+          },
+          {
+            "elapsed_seconds": 37.787358583009336,
+            "message": "mori-core> Running phase: fixupPhase"
+          },
+          {
+            "elapsed_seconds": 45.60092062497279,
+            "message": "mori-api> Running phase: setupCompilerEnvironmentPhase"
+          },
+          {
+            "elapsed_seconds": 52.040144165977836,
+            "message": "mori-api> Running phase: unpackPhase"
+          },
+          {
+            "elapsed_seconds": 52.077027249964885,
+            "message": "mori-api> Running phase: patchPhase"
+          },
+          {
+            "elapsed_seconds": 52.09106333297677,
+            "message": "mori-api> Running phase: compileBuildDriverPhase"
+          },
+          {
+            "elapsed_seconds": 52.83599091600627,
+            "message": "mori-api> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+          },
+          {
+            "elapsed_seconds": 52.85225366597297,
+            "message": "mori-api> Running phase: configurePhase"
+          },
+          {
+            "elapsed_seconds": 55.565758707991336,
+            "message": "mori-api> Running phase: buildPhase"
+          },
+          {
+            "elapsed_seconds": 67.67049295798643,
+            "message": "mori-api> Running phase: haddockPhase"
+          },
+          {
+            "elapsed_seconds": 67.684616249986,
+            "message": "mori-api> Running phase: installPhase"
+          },
+          {
+            "elapsed_seconds": 68.9619443329866,
+            "message": "mori-api> Running phase: fixupPhase"
+          },
+          {
+            "elapsed_seconds": 74.64371112501249,
+            "message": "mori-cli> Running phase: setupCompilerEnvironmentPhase"
+          },
+          {
+            "elapsed_seconds": 81.27939791599056,
+            "message": "mori-cli> Running phase: unpackPhase"
+          },
+          {
+            "elapsed_seconds": 81.34112512500724,
+            "message": "mori-cli> Running phase: patchPhase"
+          },
+          {
+            "elapsed_seconds": 81.46755579096498,
+            "message": "mori-cli> Running phase: compileBuildDriverPhase"
+          },
+          {
+            "elapsed_seconds": 82.27985112497117,
+            "message": "mori-cli> Running phase: updateAutotoolsGnuConfigScriptsPhase"
+          },
+          {
+            "elapsed_seconds": 82.29893779096892,
+            "message": "mori-cli> Running phase: configurePhase"
+          },
+          {
+            "elapsed_seconds": 84.74734512501163,
+            "message": "mori-cli> Running phase: buildPhase"
+          },
+          {
+            "elapsed_seconds": 112.7203488330124,
+            "message": "mori-cli> Running phase: haddockPhase"
+          },
+          {
+            "elapsed_seconds": 112.73046404100023,
+            "message": "mori-cli> Running phase: installPhase"
+          },
+          {
+            "elapsed_seconds": 114.75587483297568,
+            "message": "mori-cli> Running phase: fixupPhase"
+          }
+        ],
+        "phase_limits": "No separate linker, test or transfer instrumentation; memory is sampled host compiler RSS, not isolated builder accounting; phase events are builder log boundaries.",
+        "sampled_host_compiler_memory": {
+          "errors": [],
+          "peak_kib": 6684896,
+          "preexisting_processes": [],
+          "samples": 401,
+          "scope": "Host compiler RSS sum sampled every 250 ms; may include concurrent unrelated compilers; not exact builder peak"
+        },
+        "source_variant_sha256": "600a0911db26ac9f53557371b5952ef3002fc477d656ea0112bd90c56803fa58",
+        "stage": "warmup",
+        "trial": 0
+      }
+    ],
+    "workload": "source edit: mori-core/src/Mori/Automation/ConfigHash.hs"
+  },
+  "memory": {
+    "baseline": {
+      "maximum_sampled_host_compiler_rss_kib": 10675536,
+      "median_sampled_host_compiler_rss_kib": 6455904
+    },
+    "candidate": {
+      "maximum_sampled_host_compiler_rss_kib": 8495280,
+      "median_sampled_host_compiler_rss_kib": 4806768
+    }
+  },
+  "project_uri": "mori://shinzui/mori",
+  "raw_evidence": {
+    "archive": "mori-consume-only-raw-evidence.tar.gz",
+    "files": {
+      "checkpoint-root.json": "95eeedd044a8743e44ac97b9433ba055ee3d7e3949dea3104c4bed870a98c5fc",
+      "declaration.json": "408ea5eafce6c4e90e9b6196270f1d3ed03af101032ea761cd442ac731638978",
+      "driver.log": "0799300903af0f7eb60550a691c1cc6914b040184510f7b6513946f4bcd8b5fa",
+      "host-hardware.txt": "0b074af839f5bbc883e65dcfa9850efe602a3e31275e2b9cc0a0739310051458",
+      "measurements/paired-1-baseline.build.json": "dcd52f1aaa846cbfe619d22df52f89f8d2f704db1abbd8bae4ee4ef858035265",
+      "measurements/paired-1-baseline.log": "718726f5d96264e7ee422ffb4470cc3920196491e688d936a28b4a98194ae2e0",
+      "measurements/paired-1-baseline.receipt.json": "a0bacb36ad30a7c7fab1c5b6a7b943c025da24408652efe0404592a118c31732",
+      "measurements/paired-1-candidate.build.json": "2cd70823d5b203ea0c467f8fa5ca8d9155dda05b1805925def84606ebf8a79ea",
+      "measurements/paired-1-candidate.log": "387edb65dd8d7807d54954bef2775993a27a7137756d003b73d259956467e57c",
+      "measurements/paired-1-candidate.receipt.json": "bc7492205d48ed5cbe108d590f0cdff46b63f6325fc883c93c126d4a8daed75b",
+      "measurements/paired-2-baseline.build.json": "7c512c7d650f845ead040980a8262d67b4f81daad58f5bfde3f9dd9fc24b13c8",
+      "measurements/paired-2-baseline.log": "50084d99154fa28c627d21ec3fbd8b6342e31038f3446e783952ffaf498333f1",
+      "measurements/paired-2-baseline.receipt.json": "26744358c03fb90fc998946e7efb2d679b17f856542c470448605200f6e3fb7f",
+      "measurements/paired-2-candidate.build.json": "17d513ead99921cbcedcd366e90a62f2d8b032a8ec864a9758d37bc69ea06ae2",
+      "measurements/paired-2-candidate.log": "2c86383c64ad134306ed5cabb47c4f256385e0e3ff2dd33dc71652c673339b11",
+      "measurements/paired-2-candidate.receipt.json": "8739b54c8b0825fe8338e74d93ee381ec4023198a60488722ee91daf6a5ff6c2",
+      "measurements/paired-3-baseline.build.json": "48a761d80f53e15451c6d10c60fb05ac84cd68bcde9b0a0b5fc22a82a2fddf86",
+      "measurements/paired-3-baseline.log": "22324df55e3ee430030f7c7a8736573c47c60de2f65f3ebfec46ee40065227e9",
+      "measurements/paired-3-baseline.receipt.json": "51a9feb9c86e07c968e4dc5eb363de5242e0c466ab90baf9e142a60fb0d952ed",
+      "measurements/paired-3-candidate.build.json": "b21beb1bcf1e116f0df0c54dfe45ce682883fd4b816f81301a238fce493bff90",
+      "measurements/paired-3-candidate.log": "e3530e6133ea88cb686a8fbd1fb742a3ae328f512bf20f48c8f23d1440bb1d19",
+      "measurements/paired-3-candidate.receipt.json": "2048db5ef659de6dd9ec71e92cb25b97d3e3292ae4ba7e77358fc3d941df87db",
+      "measurements/paired-4-baseline.build.json": "e1def83e943fa72cf37c0406384d5df1a2f286786aed77a0fd7ef094801dd521",
+      "measurements/paired-4-baseline.log": "e9bf871ebcc4fba16c9d63a4b782079243a87da0cc03504eda0bbe8210298a6d",
+      "measurements/paired-4-baseline.receipt.json": "e1c648f077249d7aa60d5e482ee30a73c201e440510f48e5611f9d010feb70e7",
+      "measurements/paired-4-candidate.build.json": "c751423993f8702b31fdc44f7861d140f71f10e417a9828b8b9ccbf6dc65ba6c",
+      "measurements/paired-4-candidate.log": "b7663445fb742fd68fd15cfaf52be0a296b633ec6fddb9a276c33e336243205d",
+      "measurements/paired-4-candidate.receipt.json": "82a25082e6bbfce19aa737c6fe15554fe8646f68f4dbb10a59a5a7868e262a1a",
+      "measurements/paired-5-baseline.build.json": "954a8ea1f79b6a2fffca87922371fbdadbe83781f3bff3e29fa408dd099cba44",
+      "measurements/paired-5-baseline.log": "25dceef2da384b3b93c61e51a1ae9ed27a961d0d7949fa7ab4cbe616e5412b75",
+      "measurements/paired-5-baseline.receipt.json": "3c2c7f0191645d30bd8dd001f22d805ea36cf068a6271ae3224bd1ce51b89488",
+      "measurements/paired-5-candidate.build.json": "8786a24c79c86578fca09a126f1d1487f1a503d7a366c8da20d9d45b31d586ef",
+      "measurements/paired-5-candidate.log": "6836bac838f845368a6e6be306131e31086b4b73569b6ec2a4b2eaf3e8a34487",
+      "measurements/paired-5-candidate.receipt.json": "ce2c3e2fb5b7e56cd8b9dece9bfa0f86ccf0a55718451b5f5b28027e7ad0eb4d",
+      "measurements/summary.json": "6cfa863aa8e3eda66bc769e4f1a33273392a41250630711e223ca8f12c5973ee",
+      "measurements/warmup-0-baseline.build.json": "b280a23daa699389be904a46062b3654e702c5251b2b675c0232e73cb7b6bf67",
+      "measurements/warmup-0-baseline.log": "5aa5d71fb47bcd31fee6d9ebfd00b29118b66a59cba7e6f97b2dd880d7a6dd79",
+      "measurements/warmup-0-baseline.receipt.json": "41254b0c9a34dd564b84abfd5c997a144b99a0994fba4c3c5f2b42b69add82a9",
+      "measurements/warmup-0-candidate.build.json": "4e7d8041f0a865ab5fe0eb77f5589733cd7c6a2d15e38d5d2b6f76c4673ea06c",
+      "measurements/warmup-0-candidate.log": "9425a5cc0b7d15aeaaffa826d3607616be6889770a897062d9887dde9f8bc6b5",
+      "measurements/warmup-0-candidate.receipt.json": "d101ca4c175c07afc49d4305fd2c8e2594dab6b270d141eeb596d3e0a8641ad4",
+      "resume-1.log": "ec79231bc055f837ed3afe5d84ff70ee3cd3e97924cba7048c8194fa2c952ff4",
+      "verification-driver.log": "837c8ae08b77e07fe460437ea63751b59094999d0f3c27a84b184adf053f4977",
+      "verification/receipt.json": "25da9d2b9b643c0632d53cfb509443e8d81aac6094a3fa726415a9104199430d"
+    },
+    "sha256": "ac1fcfe0a5eb6e4459417d980155110caf20c838588a6950354c059c2c81b891"
+  },
+  "retention": {
+    "current_core_outputs": [
+      "out"
+    ],
+    "fixed_clean_checkpoint_only": true,
+    "marginal_checkpoint_closure_nar_bytes": 3013747080,
+    "runtime_checkpoint_and_intermediates_absent": true
+  },
+  "schema_version": 1,
+  "scope": "Native aarch64-darwin consume-only Mori core leaf edits, full CLI output; latency and total-cost gates remain separate",
+  "source_revision": "05f1e808fd35ace2816b19e920b92753fa625547",
+  "verification": {
+    "component": "core",
+    "experiment_mode": "intermediates",
+    "pairs": [
+      {
+        "behavior": [
+          {
+            "command": [
+              "--version"
+            ],
+            "exit_code": 0,
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout_sha256": "5184034266c8f02e813e0e646d57580ba8bf2e917f2e0db76a583a5a5657947b"
+          },
+          {
+            "command": [
+              "--help"
+            ],
+            "exit_code": 0,
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout_sha256": "c820db54b2deb9e3c5a38f2853648ad154c16fa7af62326ec5145fec6f839854"
+          },
+          {
+            "command": [
+              "help",
+              "sealed-evaluation"
+            ],
+            "exit_code": 0,
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout_sha256": "30045c5c04636b8e8a6ff5159df55688e43415ed4c2f78dec28fc9e65e1150c6"
+          },
+          {
+            "command": [
+              "--bash-completion-script",
+              "mori"
+            ],
+            "exit_code": 0,
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout_sha256": "a8cf940a294789ed255d17eaa939ea8007d2890a57af721c65e60a83f84a9e1f"
+          },
+          {
+            "command": [
+              "core-probe"
+            ],
+            "exit_code": 0,
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout_sha256": "05d4c03f575357053e2ac968dfe03d1187e9f06fe13085678417d7da93daff7f"
+          }
+        ],
+        "roots": {
+          "baseline": {
+            "derivation": "/nix/store/00s3yw7zvmn47ybmw27x805wl8kga6h3-mori-cli-7.0.0.0.drv",
+            "graph_sha256": "f028eb06752f9452f5c68877495e383d35f505a5b9e1dd6acd60cf94b0d21c0f",
+            "intermediates_absent_from_runtime_closure": true,
+            "output": "/nix/store/z0pwrv9b2vb9fszvkal45nymjdlac1q4-mori-cli-7.0.0.0",
+            "runtime_closure_nar_bytes": 9889579200,
+            "seed_outputs_absent_from_runtime_closure": true
+          },
+          "candidate": {
+            "all_intermediate_roots_marginal_closure_nar_bytes": 3013747080,
+            "derivation": "/nix/store/gzshi5c1h9fyyk4xv2ya7y5nshbhqvwg-mori-cli-7.0.0.0.drv",
+            "graph_sha256": "1495fab63a54dccce8b4c6a4abe2ebfcf8616e27816f1c73f531357d8cd5ce1c",
+            "intermediate_nar_bytes": {
+              "/nix/store/fac9x7lxb02cr6y4mfwrmndjyjm8ck6i-mori-core-7.0.0.0-intermediates": 2170429968
+            },
+            "intermediates_absent_from_runtime_closure": true,
+            "output": "/nix/store/p239mgj7xpky99d0y9fig7pnanksgh1k-mori-cli-7.0.0.0",
+            "runtime_closure_nar_bytes": 9889617152,
+            "seed_outputs_absent_from_runtime_closure": true
+          }
+        },
+        "seed_chain": "one clean seed; no predecessor",
+        "settings": {
+          "buildWays": {
+            "doHaddock": null,
+            "enableExecutableProfiling": null,
+            "enableLibraryProfiling": null,
+            "enableParallelBuilding": null,
+            "enableSharedExecutables": null,
+            "enableSharedLibraries": null,
+            "enableStaticExecutables": null,
+            "enableStaticLibraries": null
+          },
+          "builder": "/nix/store/yqk6qhawnigv832m2zhcbs25nb37r73i-bash-5.3p15/bin/bash",
+          "configureFlags": "",
+          "doCheck": "",
+          "owned": {
+            "mori-api": {
+              "buildWays": {
+                "doHaddock": null,
+                "enableExecutableProfiling": null,
+                "enableLibraryProfiling": null,
+                "enableParallelBuilding": null,
+                "enableSharedExecutables": null,
+                "enableSharedLibraries": null,
+                "enableStaticExecutables": null,
+                "enableStaticLibraries": null
+              },
+              "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+              "configureFlags": "",
+              "doCheck": "",
+              "recipeHooks": {
+                "buildFlags": "",
+                "doBenchmark": null,
+                "postBuild": null,
+                "postConfigure": null,
+                "postInstall": null,
+                "postPatch": "",
+                "preBuild": null,
+                "preConfigure": null,
+                "preInstall": null,
+                "prePatch": "\nsed -i -e 's/\\r$//' *.cabal\n",
+                "setupCompileFlags": null
+              },
+              "source": "/nix/store/l31gk9f712ln35lq6s7cq5l4pzlivbrm-mori-api-source"
+            },
+            "mori-cli": {
+              "buildWays": {
+                "doHaddock": null,
+                "enableExecutableProfiling": null,
+                "enableLibraryProfiling": null,
+                "enableParallelBuilding": null,
+                "enableSharedExecutables": null,
+                "enableSharedLibraries": null,
+                "enableStaticExecutables": null,
+                "enableStaticLibraries": null
+              },
+              "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+              "configureFlags": "",
+              "doCheck": "",
+              "recipeHooks": {
+                "buildFlags": "",
+                "doBenchmark": null,
+                "postBuild": null,
+                "postConfigure": null,
+                "postInstall": null,
+                "postPatch": "substituteInPlace src/Mori/Version.hs \\\n  --replace-fail '#ifdef GIT_HASH' '#if 1' \\\n  --replace-fail 'nixGitHash = Just GIT_HASH' 'nixGitHash = Just \"05f1e80\"'\n",
+                "preBuild": null,
+                "preConfigure": null,
+                "preInstall": null,
+                "prePatch": "cp -r /nix/store/zl73ghjsdj939r7ilcj900pf3d962i9w-source ../schema\nmkdir -p ../mori-core/test\ncp -r /nix/store/k380dgb576is8i79r172hqa08plsi28q-mori-core-fixtures ../mori-core/test/fixtures\n\nsed -i -e 's/\\r$//' *.cabal\n",
+                "setupCompileFlags": null
+              },
+              "source": "/nix/store/pxc70qwxh6n4fbh4g3acnvkwd9jzni1v-mori-cli-source"
+            },
+            "mori-core": {
+              "buildWays": {
+                "doHaddock": null,
+                "enableExecutableProfiling": null,
+                "enableLibraryProfiling": null,
+                "enableParallelBuilding": null,
+                "enableSharedExecutables": null,
+                "enableSharedLibraries": null,
+                "enableStaticExecutables": null,
+                "enableStaticLibraries": null
+              },
+              "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+              "configureFlags": "",
+              "doCheck": "",
+              "recipeHooks": {
+                "buildFlags": "",
+                "doBenchmark": null,
+                "postBuild": null,
+                "postConfigure": null,
+                "postInstall": null,
+                "postPatch": "",
+                "preBuild": null,
+                "preConfigure": null,
+                "preInstall": null,
+                "prePatch": "cp -r /nix/store/zl73ghjsdj939r7ilcj900pf3d962i9w-source ../schema\n\nsed -i -e 's/\\r$//' *.cabal\n",
+                "setupCompileFlags": null
+              },
+              "source": "/nix/store/lsajdhri6qks3rppyjnh0hn1yzjhkxls-mori-core-source"
+            }
+          },
+          "recipeHooks": {
+            "buildFlags": "",
+            "doBenchmark": null,
+            "postBuild": null,
+            "postConfigure": null,
+            "postInstall": null,
+            "postPatch": "substituteInPlace src/Mori/Version.hs \\\n  --replace-fail '#ifdef GIT_HASH' '#if 1' \\\n  --replace-fail 'nixGitHash = Just GIT_HASH' 'nixGitHash = Just \"05f1e80\"'\n",
+            "preBuild": null,
+            "preConfigure": null,
+            "preInstall": null,
+            "prePatch": "cp -r /nix/store/zl73ghjsdj939r7ilcj900pf3d962i9w-source ../schema\nmkdir -p ../mori-core/test\ncp -r /nix/store/k380dgb576is8i79r172hqa08plsi28q-mori-core-fixtures ../mori-core/test/fixtures\n\nsed -i -e 's/\\r$//' *.cabal\n",
+            "setupCompileFlags": null
+          },
+          "source": "/nix/store/pxc70qwxh6n4fbh4g3acnvkwd9jzni1v-mori-cli-source",
+          "system": "aarch64-darwin"
+        },
+        "shared_graph_nodes_unchanged": 2034,
+        "shared_haskell_instances_unchanged": 466,
+        "trial": 1
+      },
+      {
+        "behavior": [
+          {
+            "command": [
+              "--version"
+            ],
+            "exit_code": 0,
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout_sha256": "5184034266c8f02e813e0e646d57580ba8bf2e917f2e0db76a583a5a5657947b"
+          },
+          {
+            "command": [
+              "--help"
+            ],
+            "exit_code": 0,
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout_sha256": "c820db54b2deb9e3c5a38f2853648ad154c16fa7af62326ec5145fec6f839854"
+          },
+          {
+            "command": [
+              "help",
+              "sealed-evaluation"
+            ],
+            "exit_code": 0,
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout_sha256": "30045c5c04636b8e8a6ff5159df55688e43415ed4c2f78dec28fc9e65e1150c6"
+          },
+          {
+            "command": [
+              "--bash-completion-script",
+              "mori"
+            ],
+            "exit_code": 0,
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout_sha256": "a8cf940a294789ed255d17eaa939ea8007d2890a57af721c65e60a83f84a9e1f"
+          },
+          {
+            "command": [
+              "core-probe"
+            ],
+            "exit_code": 0,
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout_sha256": "b3740ac44a13e10eb37af8049dfbcbf87cbbac27060aa65a1c7ec709e460eeaa"
+          }
+        ],
+        "roots": {
+          "baseline": {
+            "derivation": "/nix/store/slf1lapk9qcr1dj4q9f8niknf5yw1vzx-mori-cli-7.0.0.0.drv",
+            "graph_sha256": "1b80325924b306fbc5e025efbb3b6f5a26301da163817d602ced1d8e3880747a",
+            "intermediates_absent_from_runtime_closure": true,
+            "output": "/nix/store/alzkn4wm7lw403k2zgxjrqn96q8h6d3m-mori-cli-7.0.0.0",
+            "runtime_closure_nar_bytes": 9889579184,
+            "seed_outputs_absent_from_runtime_closure": true
+          },
+          "candidate": {
+            "all_intermediate_roots_marginal_closure_nar_bytes": 3013747080,
+            "derivation": "/nix/store/m95xn49b8d46sgarlkjkhb85mspchz55-mori-cli-7.0.0.0.drv",
+            "graph_sha256": "3a2abff418c936bb2685d0c1bffe45b67c172c158e154a7d2ded33539a71763e",
+            "intermediate_nar_bytes": {
+              "/nix/store/fac9x7lxb02cr6y4mfwrmndjyjm8ck6i-mori-core-7.0.0.0-intermediates": 2170429968
+            },
+            "intermediates_absent_from_runtime_closure": true,
+            "output": "/nix/store/k64xsria13pkgmh65qcqf1ghv2jjy7gq-mori-cli-7.0.0.0",
+            "runtime_closure_nar_bytes": 9889617128,
+            "seed_outputs_absent_from_runtime_closure": true
+          }
+        },
+        "seed_chain": "one clean seed; no predecessor",
+        "settings": {
+          "buildWays": {
+            "doHaddock": null,
+            "enableExecutableProfiling": null,
+            "enableLibraryProfiling": null,
+            "enableParallelBuilding": null,
+            "enableSharedExecutables": null,
+            "enableSharedLibraries": null,
+            "enableStaticExecutables": null,
+            "enableStaticLibraries": null
+          },
+          "builder": "/nix/store/yqk6qhawnigv832m2zhcbs25nb37r73i-bash-5.3p15/bin/bash",
+          "configureFlags": "",
+          "doCheck": "",
+          "owned": {
+            "mori-api": {
+              "buildWays": {
+                "doHaddock": null,
+                "enableExecutableProfiling": null,
+                "enableLibraryProfiling": null,
+                "enableParallelBuilding": null,
+                "enableSharedExecutables": null,
+                "enableSharedLibraries": null,
+                "enableStaticExecutables": null,
+                "enableStaticLibraries": null
+              },
+              "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+              "configureFlags": "",
+              "doCheck": "",
+              "recipeHooks": {
+                "buildFlags": "",
+                "doBenchmark": null,
+                "postBuild": null,
+                "postConfigure": null,
+                "postInstall": null,
+                "postPatch": "",
+                "preBuild": null,
+                "preConfigure": null,
+                "preInstall": null,
+                "prePatch": "\nsed -i -e 's/\\r$//' *.cabal\n",
+                "setupCompileFlags": null
+              },
+              "source": "/nix/store/l31gk9f712ln35lq6s7cq5l4pzlivbrm-mori-api-source"
+            },
+            "mori-cli": {
+              "buildWays": {
+                "doHaddock": null,
+                "enableExecutableProfiling": null,
+                "enableLibraryProfiling": null,
+                "enableParallelBuilding": null,
+                "enableSharedExecutables": null,
+                "enableSharedLibraries": null,
+                "enableStaticExecutables": null,
+                "enableStaticLibraries": null
+              },
+              "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+              "configureFlags": "",
+              "doCheck": "",
+              "recipeHooks": {
+                "buildFlags": "",
+                "doBenchmark": null,
+                "postBuild": null,
+                "postConfigure": null,
+                "postInstall": null,
+                "postPatch": "substituteInPlace src/Mori/Version.hs \\\n  --replace-fail '#ifdef GIT_HASH' '#if 1' \\\n  --replace-fail 'nixGitHash = Just GIT_HASH' 'nixGitHash = Just \"05f1e80\"'\n",
+                "preBuild": null,
+                "preConfigure": null,
+                "preInstall": null,
+                "prePatch": "cp -r /nix/store/zl73ghjsdj939r7ilcj900pf3d962i9w-source ../schema\nmkdir -p ../mori-core/test\ncp -r /nix/store/k380dgb576is8i79r172hqa08plsi28q-mori-core-fixtures ../mori-core/test/fixtures\n\nsed -i -e 's/\\r$//' *.cabal\n",
+                "setupCompileFlags": null
+              },
+              "source": "/nix/store/pxc70qwxh6n4fbh4g3acnvkwd9jzni1v-mori-cli-source"
+            },
+            "mori-core": {
+              "buildWays": {
+                "doHaddock": null,
+                "enableExecutableProfiling": null,
+                "enableLibraryProfiling": null,
+                "enableParallelBuilding": null,
+                "enableSharedExecutables": null,
+                "enableSharedLibraries": null,
+                "enableStaticExecutables": null,
+                "enableStaticLibraries": null
+              },
+              "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+              "configureFlags": "",
+              "doCheck": "",
+              "recipeHooks": {
+                "buildFlags": "",
+                "doBenchmark": null,
+                "postBuild": null,
+                "postConfigure": null,
+                "postInstall": null,
+                "postPatch": "",
+                "preBuild": null,
+                "preConfigure": null,
+                "preInstall": null,
+                "prePatch": "cp -r /nix/store/zl73ghjsdj939r7ilcj900pf3d962i9w-source ../schema\n\nsed -i -e 's/\\r$//' *.cabal\n",
+                "setupCompileFlags": null
+              },
+              "source": "/nix/store/cmhv5xd7zb12ks62fwryiflmaf6kjyah-mori-core-source"
+            }
+          },
+          "recipeHooks": {
+            "buildFlags": "",
+            "doBenchmark": null,
+            "postBuild": null,
+            "postConfigure": null,
+            "postInstall": null,
+            "postPatch": "substituteInPlace src/Mori/Version.hs \\\n  --replace-fail '#ifdef GIT_HASH' '#if 1' \\\n  --replace-fail 'nixGitHash = Just GIT_HASH' 'nixGitHash = Just \"05f1e80\"'\n",
+            "preBuild": null,
+            "preConfigure": null,
+            "preInstall": null,
+            "prePatch": "cp -r /nix/store/zl73ghjsdj939r7ilcj900pf3d962i9w-source ../schema\nmkdir -p ../mori-core/test\ncp -r /nix/store/k380dgb576is8i79r172hqa08plsi28q-mori-core-fixtures ../mori-core/test/fixtures\n\nsed -i -e 's/\\r$//' *.cabal\n",
+            "setupCompileFlags": null
+          },
+          "source": "/nix/store/pxc70qwxh6n4fbh4g3acnvkwd9jzni1v-mori-cli-source",
+          "system": "aarch64-darwin"
+        },
+        "shared_graph_nodes_unchanged": 2034,
+        "shared_haskell_instances_unchanged": 466,
+        "trial": 2
+      },
+      {
+        "behavior": [
+          {
+            "command": [
+              "--version"
+            ],
+            "exit_code": 0,
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout_sha256": "5184034266c8f02e813e0e646d57580ba8bf2e917f2e0db76a583a5a5657947b"
+          },
+          {
+            "command": [
+              "--help"
+            ],
+            "exit_code": 0,
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout_sha256": "c820db54b2deb9e3c5a38f2853648ad154c16fa7af62326ec5145fec6f839854"
+          },
+          {
+            "command": [
+              "help",
+              "sealed-evaluation"
+            ],
+            "exit_code": 0,
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout_sha256": "30045c5c04636b8e8a6ff5159df55688e43415ed4c2f78dec28fc9e65e1150c6"
+          },
+          {
+            "command": [
+              "--bash-completion-script",
+              "mori"
+            ],
+            "exit_code": 0,
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout_sha256": "a8cf940a294789ed255d17eaa939ea8007d2890a57af721c65e60a83f84a9e1f"
+          },
+          {
+            "command": [
+              "core-probe"
+            ],
+            "exit_code": 0,
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout_sha256": "5743bd91a8a0a169e03d8874728d468323b5e4a00f65e8dda1fdd9c23877d420"
+          }
+        ],
+        "roots": {
+          "baseline": {
+            "derivation": "/nix/store/qhjjagsmq45ndmz7qk87wcxc77ymn0s5-mori-cli-7.0.0.0.drv",
+            "graph_sha256": "96090bd4cf37689a81b4534a2e0c57df5ab38aa7f919eda0402f4858d5f5668b",
+            "intermediates_absent_from_runtime_closure": true,
+            "output": "/nix/store/xl82d7g0pmisf4z7qcdm9w05f4xhsgm9-mori-cli-7.0.0.0",
+            "runtime_closure_nar_bytes": 9889579208,
+            "seed_outputs_absent_from_runtime_closure": true
+          },
+          "candidate": {
+            "all_intermediate_roots_marginal_closure_nar_bytes": 3013747080,
+            "derivation": "/nix/store/rcccw83j5j8xasaidk4ji7c19cc5bp02-mori-cli-7.0.0.0.drv",
+            "graph_sha256": "73154544ea4e716a18c9b9a0adbc3de2f750b0f6df7d862002181e5a8b566a92",
+            "intermediate_nar_bytes": {
+              "/nix/store/fac9x7lxb02cr6y4mfwrmndjyjm8ck6i-mori-core-7.0.0.0-intermediates": 2170429968
+            },
+            "intermediates_absent_from_runtime_closure": true,
+            "output": "/nix/store/wknn23gg2sl5xi2zlw24663rfin1m512-mori-cli-7.0.0.0",
+            "runtime_closure_nar_bytes": 9889617168,
+            "seed_outputs_absent_from_runtime_closure": true
+          }
+        },
+        "seed_chain": "one clean seed; no predecessor",
+        "settings": {
+          "buildWays": {
+            "doHaddock": null,
+            "enableExecutableProfiling": null,
+            "enableLibraryProfiling": null,
+            "enableParallelBuilding": null,
+            "enableSharedExecutables": null,
+            "enableSharedLibraries": null,
+            "enableStaticExecutables": null,
+            "enableStaticLibraries": null
+          },
+          "builder": "/nix/store/yqk6qhawnigv832m2zhcbs25nb37r73i-bash-5.3p15/bin/bash",
+          "configureFlags": "",
+          "doCheck": "",
+          "owned": {
+            "mori-api": {
+              "buildWays": {
+                "doHaddock": null,
+                "enableExecutableProfiling": null,
+                "enableLibraryProfiling": null,
+                "enableParallelBuilding": null,
+                "enableSharedExecutables": null,
+                "enableSharedLibraries": null,
+                "enableStaticExecutables": null,
+                "enableStaticLibraries": null
+              },
+              "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+              "configureFlags": "",
+              "doCheck": "",
+              "recipeHooks": {
+                "buildFlags": "",
+                "doBenchmark": null,
+                "postBuild": null,
+                "postConfigure": null,
+                "postInstall": null,
+                "postPatch": "",
+                "preBuild": null,
+                "preConfigure": null,
+                "preInstall": null,
+                "prePatch": "\nsed -i -e 's/\\r$//' *.cabal\n",
+                "setupCompileFlags": null
+              },
+              "source": "/nix/store/l31gk9f712ln35lq6s7cq5l4pzlivbrm-mori-api-source"
+            },
+            "mori-cli": {
+              "buildWays": {
+                "doHaddock": null,
+                "enableExecutableProfiling": null,
+                "enableLibraryProfiling": null,
+                "enableParallelBuilding": null,
+                "enableSharedExecutables": null,
+                "enableSharedLibraries": null,
+                "enableStaticExecutables": null,
+                "enableStaticLibraries": null
+              },
+              "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+              "configureFlags": "",
+              "doCheck": "",
+              "recipeHooks": {
+                "buildFlags": "",
+                "doBenchmark": null,
+                "postBuild": null,
+                "postConfigure": null,
+                "postInstall": null,
+                "postPatch": "substituteInPlace src/Mori/Version.hs \\\n  --replace-fail '#ifdef GIT_HASH' '#if 1' \\\n  --replace-fail 'nixGitHash = Just GIT_HASH' 'nixGitHash = Just \"05f1e80\"'\n",
+                "preBuild": null,
+                "preConfigure": null,
+                "preInstall": null,
+                "prePatch": "cp -r /nix/store/zl73ghjsdj939r7ilcj900pf3d962i9w-source ../schema\nmkdir -p ../mori-core/test\ncp -r /nix/store/k380dgb576is8i79r172hqa08plsi28q-mori-core-fixtures ../mori-core/test/fixtures\n\nsed -i -e 's/\\r$//' *.cabal\n",
+                "setupCompileFlags": null
+              },
+              "source": "/nix/store/pxc70qwxh6n4fbh4g3acnvkwd9jzni1v-mori-cli-source"
+            },
+            "mori-core": {
+              "buildWays": {
+                "doHaddock": null,
+                "enableExecutableProfiling": null,
+                "enableLibraryProfiling": null,
+                "enableParallelBuilding": null,
+                "enableSharedExecutables": null,
+                "enableSharedLibraries": null,
+                "enableStaticExecutables": null,
+                "enableStaticLibraries": null
+              },
+              "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+              "configureFlags": "",
+              "doCheck": "",
+              "recipeHooks": {
+                "buildFlags": "",
+                "doBenchmark": null,
+                "postBuild": null,
+                "postConfigure": null,
+                "postInstall": null,
+                "postPatch": "",
+                "preBuild": null,
+                "preConfigure": null,
+                "preInstall": null,
+                "prePatch": "cp -r /nix/store/zl73ghjsdj939r7ilcj900pf3d962i9w-source ../schema\n\nsed -i -e 's/\\r$//' *.cabal\n",
+                "setupCompileFlags": null
+              },
+              "source": "/nix/store/hd3xgs0cxnw9cdzvpk14m2am0czbmnrg-mori-core-source"
+            }
+          },
+          "recipeHooks": {
+            "buildFlags": "",
+            "doBenchmark": null,
+            "postBuild": null,
+            "postConfigure": null,
+            "postInstall": null,
+            "postPatch": "substituteInPlace src/Mori/Version.hs \\\n  --replace-fail '#ifdef GIT_HASH' '#if 1' \\\n  --replace-fail 'nixGitHash = Just GIT_HASH' 'nixGitHash = Just \"05f1e80\"'\n",
+            "preBuild": null,
+            "preConfigure": null,
+            "preInstall": null,
+            "prePatch": "cp -r /nix/store/zl73ghjsdj939r7ilcj900pf3d962i9w-source ../schema\nmkdir -p ../mori-core/test\ncp -r /nix/store/k380dgb576is8i79r172hqa08plsi28q-mori-core-fixtures ../mori-core/test/fixtures\n\nsed -i -e 's/\\r$//' *.cabal\n",
+            "setupCompileFlags": null
+          },
+          "source": "/nix/store/pxc70qwxh6n4fbh4g3acnvkwd9jzni1v-mori-cli-source",
+          "system": "aarch64-darwin"
+        },
+        "shared_graph_nodes_unchanged": 2034,
+        "shared_haskell_instances_unchanged": 466,
+        "trial": 3
+      },
+      {
+        "behavior": [
+          {
+            "command": [
+              "--version"
+            ],
+            "exit_code": 0,
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout_sha256": "5184034266c8f02e813e0e646d57580ba8bf2e917f2e0db76a583a5a5657947b"
+          },
+          {
+            "command": [
+              "--help"
+            ],
+            "exit_code": 0,
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout_sha256": "c820db54b2deb9e3c5a38f2853648ad154c16fa7af62326ec5145fec6f839854"
+          },
+          {
+            "command": [
+              "help",
+              "sealed-evaluation"
+            ],
+            "exit_code": 0,
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout_sha256": "30045c5c04636b8e8a6ff5159df55688e43415ed4c2f78dec28fc9e65e1150c6"
+          },
+          {
+            "command": [
+              "--bash-completion-script",
+              "mori"
+            ],
+            "exit_code": 0,
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout_sha256": "a8cf940a294789ed255d17eaa939ea8007d2890a57af721c65e60a83f84a9e1f"
+          },
+          {
+            "command": [
+              "core-probe"
+            ],
+            "exit_code": 0,
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout_sha256": "79dad921486c75b845f72dd66cb06dcf1d46f4a385d1bd593c67e2ec6a25b2a6"
+          }
+        ],
+        "roots": {
+          "baseline": {
+            "derivation": "/nix/store/2pmk0ryahrav0x3i1jgjm5c5bbrxh85h-mori-cli-7.0.0.0.drv",
+            "graph_sha256": "41d1f172c6310ba01f040af6cb25762a5f72c024d769f897e615af61a6a8223b",
+            "intermediates_absent_from_runtime_closure": true,
+            "output": "/nix/store/rrdyp2f43pzjqf1v5zgpjlf6rh12scng-mori-cli-7.0.0.0",
+            "runtime_closure_nar_bytes": 9889579192,
+            "seed_outputs_absent_from_runtime_closure": true
+          },
+          "candidate": {
+            "all_intermediate_roots_marginal_closure_nar_bytes": 3013747080,
+            "derivation": "/nix/store/nr0k0n1k19iz8bp71w243n1vpd9jfg12-mori-cli-7.0.0.0.drv",
+            "graph_sha256": "e9e8e593085423d3617881ac5f6d0a015d7d28f05f97eab3c4f366a48e2dae41",
+            "intermediate_nar_bytes": {
+              "/nix/store/fac9x7lxb02cr6y4mfwrmndjyjm8ck6i-mori-core-7.0.0.0-intermediates": 2170429968
+            },
+            "intermediates_absent_from_runtime_closure": true,
+            "output": "/nix/store/p2xpipbyn4i3q2h647rc2v3820zkwbcn-mori-cli-7.0.0.0",
+            "runtime_closure_nar_bytes": 9889617152,
+            "seed_outputs_absent_from_runtime_closure": true
+          }
+        },
+        "seed_chain": "one clean seed; no predecessor",
+        "settings": {
+          "buildWays": {
+            "doHaddock": null,
+            "enableExecutableProfiling": null,
+            "enableLibraryProfiling": null,
+            "enableParallelBuilding": null,
+            "enableSharedExecutables": null,
+            "enableSharedLibraries": null,
+            "enableStaticExecutables": null,
+            "enableStaticLibraries": null
+          },
+          "builder": "/nix/store/yqk6qhawnigv832m2zhcbs25nb37r73i-bash-5.3p15/bin/bash",
+          "configureFlags": "",
+          "doCheck": "",
+          "owned": {
+            "mori-api": {
+              "buildWays": {
+                "doHaddock": null,
+                "enableExecutableProfiling": null,
+                "enableLibraryProfiling": null,
+                "enableParallelBuilding": null,
+                "enableSharedExecutables": null,
+                "enableSharedLibraries": null,
+                "enableStaticExecutables": null,
+                "enableStaticLibraries": null
+              },
+              "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+              "configureFlags": "",
+              "doCheck": "",
+              "recipeHooks": {
+                "buildFlags": "",
+                "doBenchmark": null,
+                "postBuild": null,
+                "postConfigure": null,
+                "postInstall": null,
+                "postPatch": "",
+                "preBuild": null,
+                "preConfigure": null,
+                "preInstall": null,
+                "prePatch": "\nsed -i -e 's/\\r$//' *.cabal\n",
+                "setupCompileFlags": null
+              },
+              "source": "/nix/store/l31gk9f712ln35lq6s7cq5l4pzlivbrm-mori-api-source"
+            },
+            "mori-cli": {
+              "buildWays": {
+                "doHaddock": null,
+                "enableExecutableProfiling": null,
+                "enableLibraryProfiling": null,
+                "enableParallelBuilding": null,
+                "enableSharedExecutables": null,
+                "enableSharedLibraries": null,
+                "enableStaticExecutables": null,
+                "enableStaticLibraries": null
+              },
+              "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+              "configureFlags": "",
+              "doCheck": "",
+              "recipeHooks": {
+                "buildFlags": "",
+                "doBenchmark": null,
+                "postBuild": null,
+                "postConfigure": null,
+                "postInstall": null,
+                "postPatch": "substituteInPlace src/Mori/Version.hs \\\n  --replace-fail '#ifdef GIT_HASH' '#if 1' \\\n  --replace-fail 'nixGitHash = Just GIT_HASH' 'nixGitHash = Just \"05f1e80\"'\n",
+                "preBuild": null,
+                "preConfigure": null,
+                "preInstall": null,
+                "prePatch": "cp -r /nix/store/zl73ghjsdj939r7ilcj900pf3d962i9w-source ../schema\nmkdir -p ../mori-core/test\ncp -r /nix/store/k380dgb576is8i79r172hqa08plsi28q-mori-core-fixtures ../mori-core/test/fixtures\n\nsed -i -e 's/\\r$//' *.cabal\n",
+                "setupCompileFlags": null
+              },
+              "source": "/nix/store/pxc70qwxh6n4fbh4g3acnvkwd9jzni1v-mori-cli-source"
+            },
+            "mori-core": {
+              "buildWays": {
+                "doHaddock": null,
+                "enableExecutableProfiling": null,
+                "enableLibraryProfiling": null,
+                "enableParallelBuilding": null,
+                "enableSharedExecutables": null,
+                "enableSharedLibraries": null,
+                "enableStaticExecutables": null,
+                "enableStaticLibraries": null
+              },
+              "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+              "configureFlags": "",
+              "doCheck": "",
+              "recipeHooks": {
+                "buildFlags": "",
+                "doBenchmark": null,
+                "postBuild": null,
+                "postConfigure": null,
+                "postInstall": null,
+                "postPatch": "",
+                "preBuild": null,
+                "preConfigure": null,
+                "preInstall": null,
+                "prePatch": "cp -r /nix/store/zl73ghjsdj939r7ilcj900pf3d962i9w-source ../schema\n\nsed -i -e 's/\\r$//' *.cabal\n",
+                "setupCompileFlags": null
+              },
+              "source": "/nix/store/358cdl3gzxs9xcdpq150hhqzf8gizc3q-mori-core-source"
+            }
+          },
+          "recipeHooks": {
+            "buildFlags": "",
+            "doBenchmark": null,
+            "postBuild": null,
+            "postConfigure": null,
+            "postInstall": null,
+            "postPatch": "substituteInPlace src/Mori/Version.hs \\\n  --replace-fail '#ifdef GIT_HASH' '#if 1' \\\n  --replace-fail 'nixGitHash = Just GIT_HASH' 'nixGitHash = Just \"05f1e80\"'\n",
+            "preBuild": null,
+            "preConfigure": null,
+            "preInstall": null,
+            "prePatch": "cp -r /nix/store/zl73ghjsdj939r7ilcj900pf3d962i9w-source ../schema\nmkdir -p ../mori-core/test\ncp -r /nix/store/k380dgb576is8i79r172hqa08plsi28q-mori-core-fixtures ../mori-core/test/fixtures\n\nsed -i -e 's/\\r$//' *.cabal\n",
+            "setupCompileFlags": null
+          },
+          "source": "/nix/store/pxc70qwxh6n4fbh4g3acnvkwd9jzni1v-mori-cli-source",
+          "system": "aarch64-darwin"
+        },
+        "shared_graph_nodes_unchanged": 2034,
+        "shared_haskell_instances_unchanged": 466,
+        "trial": 4
+      },
+      {
+        "behavior": [
+          {
+            "command": [
+              "--version"
+            ],
+            "exit_code": 0,
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout_sha256": "5184034266c8f02e813e0e646d57580ba8bf2e917f2e0db76a583a5a5657947b"
+          },
+          {
+            "command": [
+              "--help"
+            ],
+            "exit_code": 0,
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout_sha256": "c820db54b2deb9e3c5a38f2853648ad154c16fa7af62326ec5145fec6f839854"
+          },
+          {
+            "command": [
+              "help",
+              "sealed-evaluation"
+            ],
+            "exit_code": 0,
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout_sha256": "30045c5c04636b8e8a6ff5159df55688e43415ed4c2f78dec28fc9e65e1150c6"
+          },
+          {
+            "command": [
+              "--bash-completion-script",
+              "mori"
+            ],
+            "exit_code": 0,
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout_sha256": "a8cf940a294789ed255d17eaa939ea8007d2890a57af721c65e60a83f84a9e1f"
+          },
+          {
+            "command": [
+              "core-probe"
+            ],
+            "exit_code": 0,
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout_sha256": "591560708abff4980365049fad7f5ce3af521da3773d0c843ff50a4cd4f4bce2"
+          }
+        ],
+        "roots": {
+          "baseline": {
+            "derivation": "/nix/store/z8s1qkwqdci5jr5lpdk9nxw2787567di-mori-cli-7.0.0.0.drv",
+            "graph_sha256": "dbfd0574bb14b861a59e0a202b18c26f54cf1e64514173ded66cd570a83dfd65",
+            "intermediates_absent_from_runtime_closure": true,
+            "output": "/nix/store/ill1vs8mdr2m2nxdyv8rgy0zm7qafyi7-mori-cli-7.0.0.0",
+            "runtime_closure_nar_bytes": 9889579200,
+            "seed_outputs_absent_from_runtime_closure": true
+          },
+          "candidate": {
+            "all_intermediate_roots_marginal_closure_nar_bytes": 3013747080,
+            "derivation": "/nix/store/xfbcgwndvfcp0sw2bn4swggva1f985sy-mori-cli-7.0.0.0.drv",
+            "graph_sha256": "58e2937bdea5f49fe102e9bc19b7ff5b0bebdf71a13c3917f01d7a9bb66bc08b",
+            "intermediate_nar_bytes": {
+              "/nix/store/fac9x7lxb02cr6y4mfwrmndjyjm8ck6i-mori-core-7.0.0.0-intermediates": 2170429968
+            },
+            "intermediates_absent_from_runtime_closure": true,
+            "output": "/nix/store/5nq48frlrv6b23mfbjc2ym58706gbwh0-mori-cli-7.0.0.0",
+            "runtime_closure_nar_bytes": 9889617144,
+            "seed_outputs_absent_from_runtime_closure": true
+          }
+        },
+        "seed_chain": "one clean seed; no predecessor",
+        "settings": {
+          "buildWays": {
+            "doHaddock": null,
+            "enableExecutableProfiling": null,
+            "enableLibraryProfiling": null,
+            "enableParallelBuilding": null,
+            "enableSharedExecutables": null,
+            "enableSharedLibraries": null,
+            "enableStaticExecutables": null,
+            "enableStaticLibraries": null
+          },
+          "builder": "/nix/store/yqk6qhawnigv832m2zhcbs25nb37r73i-bash-5.3p15/bin/bash",
+          "configureFlags": "",
+          "doCheck": "",
+          "owned": {
+            "mori-api": {
+              "buildWays": {
+                "doHaddock": null,
+                "enableExecutableProfiling": null,
+                "enableLibraryProfiling": null,
+                "enableParallelBuilding": null,
+                "enableSharedExecutables": null,
+                "enableSharedLibraries": null,
+                "enableStaticExecutables": null,
+                "enableStaticLibraries": null
+              },
+              "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+              "configureFlags": "",
+              "doCheck": "",
+              "recipeHooks": {
+                "buildFlags": "",
+                "doBenchmark": null,
+                "postBuild": null,
+                "postConfigure": null,
+                "postInstall": null,
+                "postPatch": "",
+                "preBuild": null,
+                "preConfigure": null,
+                "preInstall": null,
+                "prePatch": "\nsed -i -e 's/\\r$//' *.cabal\n",
+                "setupCompileFlags": null
+              },
+              "source": "/nix/store/l31gk9f712ln35lq6s7cq5l4pzlivbrm-mori-api-source"
+            },
+            "mori-cli": {
+              "buildWays": {
+                "doHaddock": null,
+                "enableExecutableProfiling": null,
+                "enableLibraryProfiling": null,
+                "enableParallelBuilding": null,
+                "enableSharedExecutables": null,
+                "enableSharedLibraries": null,
+                "enableStaticExecutables": null,
+                "enableStaticLibraries": null
+              },
+              "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+              "configureFlags": "",
+              "doCheck": "",
+              "recipeHooks": {
+                "buildFlags": "",
+                "doBenchmark": null,
+                "postBuild": null,
+                "postConfigure": null,
+                "postInstall": null,
+                "postPatch": "substituteInPlace src/Mori/Version.hs \\\n  --replace-fail '#ifdef GIT_HASH' '#if 1' \\\n  --replace-fail 'nixGitHash = Just GIT_HASH' 'nixGitHash = Just \"05f1e80\"'\n",
+                "preBuild": null,
+                "preConfigure": null,
+                "preInstall": null,
+                "prePatch": "cp -r /nix/store/zl73ghjsdj939r7ilcj900pf3d962i9w-source ../schema\nmkdir -p ../mori-core/test\ncp -r /nix/store/k380dgb576is8i79r172hqa08plsi28q-mori-core-fixtures ../mori-core/test/fixtures\n\nsed -i -e 's/\\r$//' *.cabal\n",
+                "setupCompileFlags": null
+              },
+              "source": "/nix/store/pxc70qwxh6n4fbh4g3acnvkwd9jzni1v-mori-cli-source"
+            },
+            "mori-core": {
+              "buildWays": {
+                "doHaddock": null,
+                "enableExecutableProfiling": null,
+                "enableLibraryProfiling": null,
+                "enableParallelBuilding": null,
+                "enableSharedExecutables": null,
+                "enableSharedLibraries": null,
+                "enableStaticExecutables": null,
+                "enableStaticLibraries": null
+              },
+              "compiler": "/nix/store/09j558h3q1pcl27nhy5hsg07xc3myzp7-ghc-9.12.4.drv",
+              "configureFlags": "",
+              "doCheck": "",
+              "recipeHooks": {
+                "buildFlags": "",
+                "doBenchmark": null,
+                "postBuild": null,
+                "postConfigure": null,
+                "postInstall": null,
+                "postPatch": "",
+                "preBuild": null,
+                "preConfigure": null,
+                "preInstall": null,
+                "prePatch": "cp -r /nix/store/zl73ghjsdj939r7ilcj900pf3d962i9w-source ../schema\n\nsed -i -e 's/\\r$//' *.cabal\n",
+                "setupCompileFlags": null
+              },
+              "source": "/nix/store/5p705yx6rgbazrvwfpb2hcarqv1bqlji-mori-core-source"
+            }
+          },
+          "recipeHooks": {
+            "buildFlags": "",
+            "doBenchmark": null,
+            "postBuild": null,
+            "postConfigure": null,
+            "postInstall": null,
+            "postPatch": "substituteInPlace src/Mori/Version.hs \\\n  --replace-fail '#ifdef GIT_HASH' '#if 1' \\\n  --replace-fail 'nixGitHash = Just GIT_HASH' 'nixGitHash = Just \"05f1e80\"'\n",
+            "preBuild": null,
+            "preConfigure": null,
+            "preInstall": null,
+            "prePatch": "cp -r /nix/store/zl73ghjsdj939r7ilcj900pf3d962i9w-source ../schema\nmkdir -p ../mori-core/test\ncp -r /nix/store/k380dgb576is8i79r172hqa08plsi28q-mori-core-fixtures ../mori-core/test/fixtures\n\nsed -i -e 's/\\r$//' *.cabal\n",
+            "setupCompileFlags": null
+          },
+          "source": "/nix/store/pxc70qwxh6n4fbh4g3acnvkwd9jzni1v-mori-cli-source",
+          "system": "aarch64-darwin"
+        },
+        "shared_graph_nodes_unchanged": 2034,
+        "shared_haskell_instances_unchanged": 466,
+        "trial": 5
+      }
+    ],
+    "project_uri": "mori://shinzui/mori",
+    "schema_version": 1,
+    "status": "passed",
+    "summary_sha256": "6cfa863aa8e3eda66bc769e4f1a33273392a41250630711e223ca8f12c5973ee",
+    "total_validation_elapsed_seconds": 213.19037404097617,
+    "validation_observations": [
+      {
+        "core": "/nix/store/hclrzbwhxv2ff0c7w91c7wd8dyzc4v4s-mori-core-7.0.0.0.drv",
+        "derivation": "/nix/store/2rksnc5d3plqcikkp0ziwxxh6f1b852h-core-probe-1.0.drv",
+        "elapsed_seconds": 19.00838308298262,
+        "label": "baseline",
+        "trial": 1
+      },
+      {
+        "core": "/nix/store/6qxnbjcgvfmdf0g3prchw3ny9lr7c21d-mori-core-7.0.0.0.drv",
+        "derivation": "/nix/store/cvhsrjyi9xw6rn31ar40x6is756a097i-core-probe-1.0.drv",
+        "elapsed_seconds": 18.478591249964666,
+        "label": "candidate",
+        "trial": 1
+      },
+      {
+        "core": "/nix/store/z6zgzjd8kdyylbc77mlspm1x1qzrv2rn-mori-core-7.0.0.0.drv",
+        "derivation": "/nix/store/bsgd6gkj6ij6ndfbscd2wq1ggiy93z27-core-probe-1.0.drv",
+        "elapsed_seconds": 18.633819542010315,
+        "label": "baseline",
+        "trial": 2
+      },
+      {
+        "core": "/nix/store/dvqdgdhrfdjl03j0v8wr3r5jfkzqqcfk-mori-core-7.0.0.0.drv",
+        "derivation": "/nix/store/57bic7d8lbkrbpzdka7yv544x3qxqjdd-core-probe-1.0.drv",
+        "elapsed_seconds": 18.425742041959893,
+        "label": "candidate",
+        "trial": 2
+      },
+      {
+        "core": "/nix/store/pfxd86gppfvzzl092m4j9x6qscn8ljsj-mori-core-7.0.0.0.drv",
+        "derivation": "/nix/store/2dg0m99mb3yq8a8bjiw0sripyln5phj5-core-probe-1.0.drv",
+        "elapsed_seconds": 18.833097624999937,
+        "label": "baseline",
+        "trial": 3
+      },
+      {
+        "core": "/nix/store/m0f7qfr83kfpz2z6jh5lqryz4w6q76nj-mori-core-7.0.0.0.drv",
+        "derivation": "/nix/store/9vlv58mr37q60fl85l5cda0mvf5ikb8a-core-probe-1.0.drv",
+        "elapsed_seconds": 18.61484766699141,
+        "label": "candidate",
+        "trial": 3
+      },
+      {
+        "core": "/nix/store/7n2zk9i3h3vspmvk8im1sc83zhiffg50-mori-core-7.0.0.0.drv",
+        "derivation": "/nix/store/iydgmfxd3vw4ygpw971xjr48m71rbshs-core-probe-1.0.drv",
+        "elapsed_seconds": 18.024657499976456,
+        "label": "baseline",
+        "trial": 4
+      },
+      {
+        "core": "/nix/store/gkb6hsd7laj9hmishmhjqyjvldxq428h-mori-core-7.0.0.0.drv",
+        "derivation": "/nix/store/1b4444f8b4qnxby04l7qyq4rhsywqnvy-core-probe-1.0.drv",
+        "elapsed_seconds": 18.409700333024375,
+        "label": "candidate",
+        "trial": 4
+      },
+      {
+        "core": "/nix/store/snyx84ni8f30abakhx1g4akas5m6mabk-mori-core-7.0.0.0.drv",
+        "derivation": "/nix/store/hyccc8b0l2a7aahgwxrv0pdfm712lyn7-core-probe-1.0.drv",
+        "elapsed_seconds": 18.504926791996695,
+        "label": "baseline",
+        "trial": 5
+      },
+      {
+        "core": "/nix/store/ql9p2rib4rqj809d1fv5z6m80a9941xv-mori-core-7.0.0.0.drv",
+        "derivation": "/nix/store/bc9ljw3p56syn7krq25ns6bbydy5rvcf-core-probe-1.0.drv",
+        "elapsed_seconds": 17.975106875004712,
+        "label": "candidate",
+        "trial": 5
+      }
+    ]
+  }
+}
