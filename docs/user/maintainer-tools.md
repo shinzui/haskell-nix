@@ -4,7 +4,7 @@ title: Maintainer tools
 description: Find repository formatting, test, derivation-diff, and validation commands.
 docId: DOC-6
 tags: [maintainers, testing, nix]
-timestamp: 2026-10-18T02:33:22Z
+timestamp: 2026-10-18T03:30:51Z
 generated:
   by: process:codex
   at: 2026-10-18T02:33:22Z
@@ -250,6 +250,23 @@ keeps 1.0.2 because the pinned Dhall source excludes 2.0.1. A deliberately force
 conflict preserves accepted outputs and never widens constraints automatically.
 [The diagnostic receipt](../evidence/ep19/targeted-maintenance-diagnostics.json)
 does not establish positive update/rollback or evaluation-performance acceptance.
+
+When a reviewed target was uploaded after the recorded cutoff, an explicit transition
+can retain every unrelated package identity:
+
+```bash
+nix develop .#cohort-inventory --command python3 scripts/cohort-update.py http2 \
+  --runtime-freeze packages/runtimes/keiro-runtime/4/recipes/cabal/cohort.freeze \
+  --update-runtime --advance-index-state 2026-10-17T11:06:56Z
+```
+
+The cutoff must be a canonical elapsed UTC timestamp strictly later than the old
+cutoff. Original captured inputs and freeze validation remain intact. The matching
+freeze, sources, reports, common configuration and inventory record publish together;
+identity, concurrent-input or publication failures preserve accepted inputs.
+The [disposable http2 solve](../evidence/ep19/explicit-index-transition.json) changes
+only 5.4.8 to 5.4.9. Recipe generation, real-consumer acceptance and selecting the
+prior retained generation for rollback remain separate checks.
 
 ## Compatibility declaration reports
 

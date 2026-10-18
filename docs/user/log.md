@@ -1,6 +1,7 @@
 # Bundle Update Log
 
 ## 2026-10-18
+* **Update**: Document the explicit guarded index transition, coherent publication and disposable http2-only solve; retain separate consumer, rollback and performance gates.
 * **Update**: Record bounded generation-4 Rei CLI cache publication, exact Linux guest-to-host transfer, and zero-build empty-store substitution on both systems, with explicit support and cost limits.
 * **Update**: Explain the early stock-compiler preflight, disposable targeted-update command, verified no-op and conflict preservation, and remaining positive update/performance acceptance.
 * **Update**: Record both immutable generation-4 full platform gates, 225 updater tests, 356 pure contracts and bounded M3 acceptance; keep performance and broad support unverified.

@@ -1,0 +1,130 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-10-18T03:33:00Z",
+  "connection": "Existing user-selected PostgreSQL UNIX socket tunnel configured by mori://shinzui/dotfiles.nix; no service or SSH configuration change.",
+  "scope": "Only the two initiative-owning projects were registered; all eight opted-in documents and existing typed edges preserved.",
+  "mainCatalogEntries": [
+    {
+      "id": 18,
+      "intention": "intention_01m4xq1t11ezha3http0erjxt2",
+      "kind": "exec-plan",
+      "owner": null,
+      "parentMasterId": 4,
+      "projectName": "haskell-nix",
+      "projectNamespace": "shinzui",
+      "slug": "accelerate-application-code-compilation-in-nix-builds",
+      "source": "mori://shinzui/haskell-nix/plans/18-accelerate-application-code-compilation-in-nix-builds",
+      "status": "InProgress",
+      "summary": null,
+      "title": "Accelerate application code compilation in Nix builds"
+    },
+    {
+      "id": 20,
+      "intention": "intention_01m4xg1zg2e4wvbjgaagz3aqpz",
+      "kind": "exec-plan",
+      "owner": null,
+      "parentMasterId": 4,
+      "projectName": "haskell-nix",
+      "projectNamespace": "shinzui",
+      "slug": "build-project-development-shells-from-retained-runtime-package-sets",
+      "source": "mori://shinzui/haskell-nix/plans/20-build-project-development-shells-from-retained-runtime-package-sets",
+      "status": "Complete",
+      "summary": null,
+      "title": "Build project development shells from retained runtime package sets"
+    },
+    {
+      "id": 21,
+      "intention": "intention_01m4xnts6yewd84gx1ymajdzdv",
+      "kind": "exec-plan",
+      "owner": null,
+      "parentMasterId": 4,
+      "projectName": "haskell-nix",
+      "projectNamespace": "shinzui",
+      "slug": "manage-compatibility-exceptions-and-verify-their-continued-necessity",
+      "source": "mori://shinzui/haskell-nix/plans/21-manage-compatibility-exceptions-and-verify-their-continued-necessity",
+      "status": "Complete",
+      "summary": null,
+      "title": "Manage compatibility exceptions and verify their continued necessity"
+    },
+    {
+      "id": 19,
+      "intention": "intention_01m4xg1xp3ekf9m1dbc5fpsq9k",
+      "kind": "exec-plan",
+      "owner": null,
+      "parentMasterId": 4,
+      "projectName": "haskell-nix",
+      "projectNamespace": "shinzui",
+      "slug": "pre-generate-complete-locked-nix-haskell-dependency-recipes",
+      "source": "mori://shinzui/haskell-nix/plans/19-pre-generate-complete-locked-nix-haskell-dependency-recipes",
+      "status": "InProgress",
+      "summary": null,
+      "title": "Pre-generate complete locked Nix Haskell dependency recipes"
+    },
+    {
+      "id": 4,
+      "intention": "intention_01m4xq1t11ezha3http0erjxt2",
+      "kind": "master-plan",
+      "owner": null,
+      "parentMasterId": null,
+      "projectName": "haskell-nix",
+      "projectNamespace": "shinzui",
+      "slug": "coordinate-horizon-inspired-haskell-nix-performance-and-reliability-improvements",
+      "source": "mori://shinzui/haskell-nix/masterplans/4-coordinate-horizon-inspired-haskell-nix-performance-and-reliability-improvements",
+      "status": "InProgress",
+      "summary": null,
+      "title": "Coordinate Horizon-inspired Haskell Nix performance and reliability improvements"
+    }
+  ],
+  "toolchainCatalogEntries": [
+    {
+      "id": 5,
+      "intention": "intention_01m4xg230yehq8za2t8m1zzvdt",
+      "kind": "exec-plan",
+      "owner": null,
+      "parentMasterId": 2,
+      "projectName": "haskell-nix-dev",
+      "projectNamespace": "shinzui",
+      "slug": "exercise-ghc-cabal-and-hls-in-toolchain-compatibility-checks",
+      "source": "mori://shinzui/haskell-nix-dev/plans/5-exercise-ghc-cabal-and-hls-in-toolchain-compatibility-checks",
+      "status": "Complete",
+      "summary": null,
+      "title": "Exercise GHC Cabal and HLS in toolchain compatibility checks"
+    },
+    {
+      "id": 4,
+      "intention": "intention_01m4xg217reb6bzf3pd7xqqqy0",
+      "kind": "exec-plan",
+      "owner": null,
+      "parentMasterId": 2,
+      "projectName": "haskell-nix-dev",
+      "projectNamespace": "shinzui",
+      "slug": "publish-compiler-capabilities-and-an-explicit-platform-support-matrix",
+      "source": "mori://shinzui/haskell-nix-dev/plans/4-publish-compiler-capabilities-and-an-explicit-platform-support-matrix",
+      "status": "Complete",
+      "summary": null,
+      "title": "Publish compiler capabilities and an explicit platform support matrix"
+    },
+    {
+      "id": 2,
+      "intention": "intention_01m4xg13mwe84s9h3adshtdapx",
+      "kind": "master-plan",
+      "owner": null,
+      "parentMasterId": null,
+      "projectName": "haskell-nix-dev",
+      "projectNamespace": "shinzui",
+      "slug": "publish-verified-haskell-toolchain-capabilities-and-support-evidence",
+      "source": "mori://shinzui/haskell-nix-dev/masterplans/2-publish-verified-haskell-toolchain-capabilities-and-support-evidence",
+      "status": "Complete",
+      "summary": null,
+      "title": "Publish verified Haskell toolchain capabilities and support evidence"
+    }
+  ],
+  "typedDependencies": {
+    "mori://shinzui/haskell-nix": 21,
+    "mori://shinzui/haskell-nix-dev": 4
+  },
+  "registration": {
+    "mori://shinzui/haskell-nix": "Project updated: shinzui/haskell-nix\n  Extensions: agent-plans\n",
+    "mori://shinzui/haskell-nix-dev": "Project updated: shinzui/haskell-nix-dev\n  Extensions: agent-plans\n"
+  }
+}

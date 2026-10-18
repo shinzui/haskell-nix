@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Stage a targeted Cabal solve; retain recorded inputs and never auto-unlock."""
 import argparse
+from datetime import datetime, timezone
 import json
 import os
 from pathlib import Path
@@ -11,6 +12,20 @@ from cohort_toolchain import compiler_args, compiler_environment
 
 def run(args, **kwargs):
     return subprocess.run(args, check=True, **kwargs)
+
+
+def selected_index_state(previous, requested):
+    if requested is None:
+        return previous
+    pattern = "%Y-%m-%dT%H:%M:%SZ"
+    try:
+        old = datetime.strptime(previous, pattern).replace(tzinfo=timezone.utc)
+        new = datetime.strptime(requested, pattern).replace(tzinfo=timezone.utc)
+    except ValueError as error:
+        raise SystemExit("Index transition requires a UTC timestamp YYYY-MM-DDTHH:MM:SSZ") from error
+    if new.strftime(pattern) != requested or not old < new <= datetime.now(timezone.utc):
+        raise SystemExit("Index transition must advance to an explicit, already elapsed UTC timestamp")
+    return requested
 
 
 def capture_inputs(root, runtime_freeze=None):
@@ -65,6 +80,7 @@ def main():
     parser.add_argument("packages", nargs="+")
     parser.add_argument("--runtime-freeze", type=Path)
     parser.add_argument("--update-runtime", action="store_true")
+    parser.add_argument("--advance-index-state", help="Explicitly advance the cutoff while retaining every unrelated package identity")
     args = parser.parse_args()
     selected_compiler = compiler_args()
     root = Path.cwd().resolve()
@@ -72,10 +88,19 @@ def main():
     runtime_freeze = args.runtime_freeze.resolve() if args.runtime_freeze else None
     baseline = capture_inputs(root, runtime_freeze)
     inputs = json.loads(baseline[cabal / "inventory-inputs.json"])
+    cutoff = selected_index_state(inputs["indexState"], args.advance_index_state)
     stage = Path(tempfile.mkdtemp(prefix="cohort-update-", dir="/tmp"))
     print(f"Targeted candidate and diagnostic logs: {stage}", flush=True)
     captured, runtime = stage_inputs(root, stage, baseline, runtime_freeze)
     previous = captured / "cabal"
+    if args.advance_index_state is not None:
+        old_field = "index-state: hackage.haskell.org " + inputs["indexState"] + "\n"
+        common = baseline[cabal / "common.config"].decode()
+        if common.count(old_field) != 1:
+            raise SystemExit("Recorded common.config index-state differs; no transition staged")
+        (stage / "common.config").write_text(common.replace(old_field, "index-state: hackage.haskell.org " + cutoff + "\n", 1))
+        next_inputs = dict(inputs, indexState=cutoff)
+        (stage / "inventory-inputs.json").write_text(json.dumps(next_inputs, indent=2) + "\n")
     run(["cabal", "build", "exe:haskell-nix-update"])
     cli = subprocess.check_output(["cabal", "list-bin", "exe:haskell-nix-update"], text=True).strip()
     retained = [cli, "cohort", "update-constraints", "--freeze", str(previous / "cohort.freeze"),
@@ -89,7 +114,7 @@ def main():
     run(retained)
     (stage / "cohort.project").write_text("packages: rei-family-cohort\nimport: floors.config\n"
                                          "import: retained.config\nimport: common.config\n")
-    selected_index = "--index-state=" + inputs["indexState"]
+    selected_index = "--index-state=" + cutoff
     solve = ["cabal", "build", "all", "--dry-run", "--project-file=cohort.project", selected_index, *selected_compiler]
     with (stage / "solve.log").open("w") as log:
         result = subprocess.run(solve, cwd=stage, stdout=log, stderr=subprocess.STDOUT, env=compiler_environment())
@@ -100,7 +125,7 @@ def main():
     run(["cabal", "freeze", "--project-file=cohort.project", selected_index, *selected_compiler], cwd=stage, env=compiler_environment())
     run([cli, "cohort", "normalise-freeze", "--in", str(stage / "cohort.project.freeze"),
          "--out", str(stage / "cohort.freeze"), "--plan", str(stage / "dist-newstyle/cache/plan.json"),
-         "--index-state", inputs["indexState"], "--haskell-nix-rev", inputs["channelRevision"],
+         "--index-state", cutoff, "--haskell-nix-rev", inputs["channelRevision"],
          "--compiler", inputs["compiler"]])
     run([cli, "cohort", "report", "--freeze", str(stage / "cohort.freeze"),
          "--inventory", str(previous / "inventory"),
@@ -126,6 +151,8 @@ def main():
     if not unchanged:
         raise SystemExit("Recorded inputs changed during this solve. Candidate retained; no files promoted.")
     outputs = ["cohort.freeze", "cohort-sources.json", "cohort-report.txt", "cohort-impact.txt"]
+    if args.advance_index_state is not None:
+        outputs += ["common.config", "inventory-inputs.json"]
     originals = {name: (cabal / name).read_bytes() if (cabal / name).exists() else None for name in outputs}
     try:
         for name in outputs:
@@ -139,7 +166,10 @@ def main():
             else:
                 (cabal / name).write_bytes(content)
         raise
-    print("Promoted targeted freeze, source manifest and reports; contributor revisions and index-state retained.")
+    if args.advance_index_state is None:
+        print("Promoted targeted freeze, source manifest and reports; contributor revisions and index-state retained.")
+    else:
+        print("Promoted targeted candidate and explicit index transition; unrelated package identities retained.")
 
 
 if __name__ == "__main__":

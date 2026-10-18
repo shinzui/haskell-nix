@@ -39,6 +39,7 @@ class SnapshotTests(unittest.TestCase):
             "compiler": "ghc-9.12.4",
         }))
         (self.root / "cabal/policy-roots.json").write_text("[]\n")
+        (self.root / "cabal/common.config").write_text("index-state: hackage.haskell.org 2026-10-05T22:39:44Z\n")
         self.runtime.write_text("original runtime")
 
     def test_changed_removed_and_added_inputs_invalidate_snapshot(self):
@@ -87,8 +88,17 @@ class SnapshotTests(unittest.TestCase):
         self.assertEqual((captured / "cabal/cohort.freeze").read_bytes(), baseline[runtime])
         self.assertEqual(staged_runtime.read_bytes(), baseline[runtime])
 
-    def run_workflow(self, mutate=None, reject_retained=False):
+    def run_workflow(self, mutate=None, reject_retained=False, advance=None, fail_replace_at=None):
         commands = []
+        actual_replace = updater.os.replace
+        replacements = 0
+
+        def replace(source, destination):
+            nonlocal replacements
+            replacements += 1
+            if replacements == fail_replace_at:
+                raise OSError("injected publication failure")
+            return actual_replace(source, destination)
 
         def option(command, name):
             return Path(command[command.index(name) + 1])
@@ -116,13 +126,17 @@ class SnapshotTests(unittest.TestCase):
                 mutate()
             return subprocess.CompletedProcess(command, 0)
 
+        arguments = ["cohort-update.py", "leaf", "--runtime-freeze", str(self.runtime)]
+        if advance is not None:
+            arguments += ["--advance-index-state", advance]
         with patch.object(updater.Path, "cwd", return_value=self.root), \
              patch.object(updater.tempfile, "mkdtemp", return_value=str(self.stage)), \
              patch.object(updater, "run", side_effect=fake_run), \
              patch.object(updater.subprocess, "run", side_effect=fake_solve), \
              patch.object(updater.subprocess, "check_output", return_value="/fake/cli\n"), \
+             patch.object(updater.os, "replace", side_effect=replace), \
              patch.dict("os.environ", {"COHORT_GHC": "/fake/compiler/ghc", "COHORT_GHC_PKG": "/fake/compiler/ghc-pkg", "GHC_PACKAGE_PATH": "/unrelated/package-db"}), \
-             patch("sys.argv", ["cohort-update.py", "leaf", "--runtime-freeze", str(self.runtime)]):
+             patch("sys.argv", arguments):
             updater.main()
         return commands
 
@@ -155,6 +169,47 @@ class SnapshotTests(unittest.TestCase):
         with self.assertRaises(subprocess.CalledProcessError):
             self.run_workflow(reject_retained=True)
         self.assertEqual((self.root / "cabal/cohort.freeze").read_bytes(), original)
+
+    def test_explicit_index_transition_keeps_original_guard_and_publishes_consistent_inputs(self):
+        original = updater.capture_inputs(self.root, self.runtime)
+        requested = "2026-10-06T00:00:00Z"
+        commands = self.run_workflow(advance=requested)
+        retained = next(c for c in commands if c[2] == "update-constraints")
+        self.assertEqual(retained[retained.index("--index-state") + 1], "2026-10-05T22:39:44Z")
+        for command in commands:
+            if "--dry-run" in command or command[:2] == ["cabal", "freeze"]:
+                self.assertIn("--index-state=" + requested, command)
+            if command[2] == "normalise-freeze":
+                self.assertEqual(command[command.index("--index-state") + 1], requested)
+        self.assertEqual((self.root / "cabal/common.config").read_text(), "index-state: hackage.haskell.org " + requested + "\n")
+        inputs = json.loads((self.root / "cabal/inventory-inputs.json").read_text())
+        self.assertEqual(inputs, dict(json.loads(original[self.root / "cabal/inventory-inputs.json"]), indexState=requested))
+        self.assertEqual((self.stage / "inputs/cabal/common.config").read_bytes(), original[self.root / "cabal/common.config"])
+        self.assertEqual(self.runtime.read_bytes(), original[self.runtime])
+
+    def test_index_transition_identity_failure_preserves_every_recorded_input(self):
+        before = updater.capture_inputs(self.root, self.runtime)
+        with self.assertRaises(subprocess.CalledProcessError):
+            self.run_workflow(advance="2026-10-06T00:00:00Z", reject_retained=True)
+        self.assertEqual(updater.capture_inputs(self.root, self.runtime), before)
+
+    def test_index_transition_partial_publication_failure_restores_all_outputs(self):
+        before = updater.capture_inputs(self.root, self.runtime)
+        with self.assertRaisesRegex(OSError, "injected publication failure"):
+            self.run_workflow(advance="2026-10-06T00:00:00Z", fail_replace_at=5)
+        self.assertEqual(updater.capture_inputs(self.root, self.runtime), before)
+        self.assertFalse((self.root / "cabal/cohort-report.txt").exists())
+        self.assertFalse((self.root / "cabal/cohort-impact.txt").exists())
+
+    def test_invalid_index_transition_stops_before_staging_or_running_tools(self):
+        for cutoff in ["2026-10-05T22:39:44Z", "2026-10-01T00:00:00Z", "2099-01-01T00:00:00Z", "2026-10-6T00:00:00Z", "HEAD"]:
+            with self.subTest(cutoff=cutoff), \
+                 patch.object(updater.tempfile, "mkdtemp", side_effect=AssertionError("staging must not run")), \
+                 patch.object(updater.Path, "cwd", return_value=self.root), \
+                 patch.dict("os.environ", {"COHORT_GHC": "/fake/ghc", "COHORT_GHC_PKG": "/fake/ghc-pkg"}), \
+                 patch("sys.argv", ["cohort-update.py", "leaf", "--advance-index-state", cutoff]), \
+                 self.assertRaises(SystemExit):
+                updater.main()
 
 
 if __name__ == "__main__":
