@@ -1,0 +1,3867 @@
+{
+  "schemaVersion": 1,
+  "projectUri": "mori://shinzui/rei",
+  "sourceRevision": "bad0388f722af9e29187c2adfef5ed97fd0ca92f",
+  "status": "Entire fourth campaign excluded after independent Cabal work started; no accepted timing or amortization claim.",
+  "driver": {
+    "command": [
+      "python3",
+      "scripts/measure-application-nix-builds.py",
+      "--expression",
+      "checks/fixtures/application-builds/split.nix",
+      "--baseline-source",
+      "/tmp/ep18-rei-resource-aware-split-v2/baseline",
+      "--candidate-source",
+      "/tmp/ep18-rei-resource-aware-split-v2/candidate",
+      "--edit",
+      "rei-cli/src/Rei/Cli/Commands/Help.hs",
+      "--replace",
+      "timeTopicContent = $(embedStringFile",
+      "timeTopicContent = \"MP4 paired leaf {trial} resource-aware-v4\\n\" <> $(embedStringFile",
+      "--project-uri",
+      "mori://shinzui/rei",
+      "--source-revision",
+      "bad0388f722af9e29187c2adfef5ed97fd0ca92f",
+      "--output-dir",
+      "/tmp/ep18-rei-resource-aware-paired-v4",
+      "--require-idle-compilers"
+    ],
+    "exit_code": -2,
+    "elapsed_seconds": 299.65972008300014,
+    "preflight_elapsed_seconds": 210.20543258398538,
+    "preflight_foreign_observations": [
+      {
+        "elapsed_seconds": 0.031443624990060925,
+        "processes": [
+          {
+            "pid": 79252,
+            "name": "cabal"
+          },
+          {
+            "pid": 79257,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 79267,
+            "name": "rei-api-client-live-test"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 0.5671605420066044,
+        "processes": [
+          {
+            "pid": 79252,
+            "name": "cabal"
+          },
+          {
+            "pid": 79257,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 79267,
+            "name": "rei-api-client-live-test"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 1.123030334012583,
+        "processes": [
+          {
+            "pid": 79252,
+            "name": "cabal"
+          },
+          {
+            "pid": 79257,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 79267,
+            "name": "rei-api-client-live-test"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 1.658979374973569,
+        "processes": [
+          {
+            "pid": 79252,
+            "name": "cabal"
+          },
+          {
+            "pid": 79257,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 79267,
+            "name": "rei-api-client-live-test"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 2.2004012090037577,
+        "processes": [
+          {
+            "pid": 79252,
+            "name": "cabal"
+          },
+          {
+            "pid": 79257,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 79267,
+            "name": "rei-api-client-live-test"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 2.7443931669695303,
+        "processes": [
+          {
+            "pid": 79252,
+            "name": "cabal"
+          },
+          {
+            "pid": 79257,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 79267,
+            "name": "rei-api-client-live-test"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 3.2995581249706447,
+        "processes": [
+          {
+            "pid": 79252,
+            "name": "cabal"
+          },
+          {
+            "pid": 79257,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 79267,
+            "name": "rei-api-client-live-test"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 3.859982499969192,
+        "processes": [
+          {
+            "pid": 79252,
+            "name": "cabal"
+          },
+          {
+            "pid": 79257,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 79267,
+            "name": "rei-api-client-live-test"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 4.399024209007621,
+        "processes": [
+          {
+            "pid": 80643,
+            "name": "cabal"
+          },
+          {
+            "pid": 80644,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 4.938924291986041,
+        "processes": [
+          {
+            "pid": 80643,
+            "name": "cabal"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 5.478653708996717,
+        "processes": [
+          {
+            "pid": 80643,
+            "name": "cabal"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 6.017917541961651,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 6.5572699590120465,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80668,
+            "name": ".cabal-wrapped"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 7.096115666965488,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80668,
+            "name": ".cabal-wrapped"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 7.634536499972455,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 8.175034834013786,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          },
+          {
+            "pid": 80750,
+            "name": "clang"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 8.715183166961651,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 9.255026541999541,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 9.795835958968382,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 10.335667999985162,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 10.875152041960973,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 11.41539041697979,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 11.95550350000849,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 12.49571945896605,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 13.035920624970458,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 13.577075916982722,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 14.117235458979849,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 14.657259874977171,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 15.19683441700181,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 15.737731291970704,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 16.27770924998913,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 16.81855720898602,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 17.357924917014316,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 17.8985489999759,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 18.438965792011004,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 18.979063541977666,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 19.518864499987103,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 20.058756458980497,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 20.594309041975066,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 21.126319458999205,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 21.666301666991785,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 22.20630754198646,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 22.745397249993403,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          },
+          {
+            "pid": 80824,
+            "name": "clang"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 23.285481333965436,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          },
+          {
+            "pid": 80824,
+            "name": "clang"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 23.825358500005677,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 24.358800249989145,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          },
+          {
+            "pid": 80837,
+            "name": "clang"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 24.89817449997645,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 25.438200792006683,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 25.979071541980375,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 26.519416249997448,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 27.058897249982692,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          },
+          {
+            "pid": 80898,
+            "name": "clang"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 27.59984258399345,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 28.140303124964703,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 28.68072437500814,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 29.22146883397363,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 29.760805375000928,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 30.301503999973647,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 30.8417136669741,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 31.381116083997767,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 31.920650292013306,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 32.459330999990925,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 33.00004337501014,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 33.54039329197258,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 34.07931699999608,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 34.619227209012024,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 35.159340791986324,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 35.699028500006534,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 36.23930241697235,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 36.77926633396419,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 37.319281708972994,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 37.859450833988376,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 38.39943837496685,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 38.94141845899867,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 39.48501929198392,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 40.025330292002764,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 40.56484487501439,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 41.10527150001144,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 41.6457022500108,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 42.18550112500088,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 42.72500733396737,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 43.26615979196504,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 43.80601691699121,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 44.34622141701402,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 44.8861001249752,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 45.422524916997645,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 45.9625179169816,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 46.50356808397919,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 47.04684254201129,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 47.586506749968976,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 48.126357916975394,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 48.66574029199546,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 49.20641841698671,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 49.74738370900741,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 50.28781595895998,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 50.83052354201209,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 51.36958070896799,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          },
+          {
+            "pid": 81210,
+            "name": "clang"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 51.90879733400652,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          },
+          {
+            "pid": 81210,
+            "name": "clang"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 52.44050408399198,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          },
+          {
+            "pid": 81210,
+            "name": "clang"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 52.97877599997446,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          },
+          {
+            "pid": 81210,
+            "name": "clang"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 53.51885499997297,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 54.0587589169736,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 54.598140249960124,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 55.13805274997139,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 55.677805083978456,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          },
+          {
+            "pid": 81238,
+            "name": "clang"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 56.21694612497231,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          },
+          {
+            "pid": 81238,
+            "name": "clang"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 56.756072208983824,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          },
+          {
+            "pid": 81238,
+            "name": "clang"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 57.29667758400319,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 57.83658341696719,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 58.375877292011864,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 58.91639312496409,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 59.46062512497883,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 60.00276608398417,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 60.54510704200948,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 61.084491541958414,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 61.62384758400731,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          },
+          {
+            "pid": 81311,
+            "name": "clang"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 62.164028291997965,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 62.70440545899328,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 63.244842708983924,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 63.78708662500139,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 64.32878904195968,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          },
+          {
+            "pid": 81336,
+            "name": "clang"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 64.86946812499082,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 65.41294983396074,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 65.95542308397125,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 66.49895220895996,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 67.03940758400131,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 67.58092070900602,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 68.11792799999239,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 68.65751779195853,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          },
+          {
+            "pid": 81366,
+            "name": "clang"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 69.19709170900751,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 69.7358088750043,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          },
+          {
+            "pid": 81389,
+            "name": "clang"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 70.27497262496036,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 80737,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 70.81489266699646,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 80733,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 81421,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 71.35334262496326,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 81445,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 81447,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 71.8948550419882,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 81445,
+            "name": ".cabal-wrapped"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 72.43824620899977,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 81445,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 81481,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 72.9797644999926,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 81515,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 81517,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 73.5199851669604,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 81515,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 81517,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 74.06106058397563,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 81515,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 81517,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 74.60104220896028,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 81515,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 81517,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 75.14208462496754,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 81515,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 81517,
+            "name": "ghc-9.12.4"
+          },
+          {
+            "pid": 81553,
+            "name": "clang"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 75.67884562496329,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 81515,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 81517,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 76.22421412495896,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 81515,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 81570,
+            "name": "ghc-9.12.4"
+          },
+          {
+            "pid": 81579,
+            "name": "clang"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 76.75674774998333,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 81594,
+            "name": ".cabal-wrapped"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 77.29756291699596,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 81594,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 81607,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 77.83935962500982,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 81594,
+            "name": ".cabal-wrapped"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 78.3822823750088,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 81664,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 81666,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 78.92077341699041,
+        "processes": [
+          {
+            "pid": 80665,
+            "name": "cabal"
+          },
+          {
+            "pid": 81664,
+            "name": ".cabal-wrapped"
+          },
+          {
+            "pid": 81672,
+            "name": "ghc-9.12.4"
+          },
+          {
+            "pid": 81685,
+            "name": "clang"
+          },
+          {
+            "pid": 81689,
+            "name": "ld"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 89.9138146250043,
+        "processes": [
+          {
+            "pid": 82682,
+            "name": "ghc-9.12.4"
+          },
+          {
+            "pid": 82700,
+            "name": "clang"
+          },
+          {
+            "pid": 82704,
+            "name": "ld"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 90.47367908398155,
+        "processes": [
+          {
+            "pid": 82721,
+            "name": "Setup"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 91.03353224997409,
+        "processes": [
+          {
+            "pid": 82721,
+            "name": "Setup"
+          },
+          {
+            "pid": 82728,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 91.59358404198429,
+        "processes": [
+          {
+            "pid": 82721,
+            "name": "Setup"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 92.15234224998858,
+        "processes": [
+          {
+            "pid": 82721,
+            "name": "Setup"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 93.26831808401039,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 93.82800549996318,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 94.38766187499277,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 94.94705508399056,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 95.5026244999608,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 96.06092941696988,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 96.62079320900375,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 97.17392550001387,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 97.72998991695931,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 98.28589549998287,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 98.84525516699068,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 99.40436200000113,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 99.96359545900486,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 100.52066429198021,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 101.08027537498856,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 101.64269433397567,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 102.20318595896242,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 102.75984045898076,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 103.31857908400707,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 103.87508866697317,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          },
+          {
+            "pid": 82898,
+            "name": "clang"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 104.43336833396461,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 104.98410529200919,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          },
+          {
+            "pid": 82905,
+            "name": "clang"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 105.54390162497293,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 106.10230870899977,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 106.65920129197184,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          },
+          {
+            "pid": 82925,
+            "name": "clang"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 107.21090808400186,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          },
+          {
+            "pid": 82935,
+            "name": "clang"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 107.77101645898074,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          },
+          {
+            "pid": 82961,
+            "name": "clang"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 108.33210916700773,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 108.89130079199094,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          },
+          {
+            "pid": 82971,
+            "name": "clang"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 109.44882866699481,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 110.00525766698411,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 110.56561820895877,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 111.1246717919712,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 111.6848515419988,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 112.24466475000372,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          },
+          {
+            "pid": 82989,
+            "name": "clang"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 112.80407687497791,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 113.36564112501219,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          },
+          {
+            "pid": 82999,
+            "name": "clang"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 113.92419158399571,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 114.4821848339634,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 115.0367997919675,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 115.59336620901013,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 116.15314904198749,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 116.71376179199433,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 117.26083583396394,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 117.81914166698698,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 118.3795028339955,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 118.9383343749796,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 119.48976224998478,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 120.04909154196503,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 120.60831312497612,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 121.16823795897653,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 121.7270529170055,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 122.28523491701344,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 122.8448319589952,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 123.40296470897738,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 123.96278583398089,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          },
+          {
+            "pid": 83075,
+            "name": "clang"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 124.51857095898595,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          },
+          {
+            "pid": 83075,
+            "name": "clang"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 125.08125437499257,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          },
+          {
+            "pid": 83075,
+            "name": "clang"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 125.63605683395872,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 126.19537512498209,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 126.75508370896569,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 127.28831520897802,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 127.85103879199596,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          },
+          {
+            "pid": 83154,
+            "name": "clang"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 128.41409620898776,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          },
+          {
+            "pid": 83154,
+            "name": "clang"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 128.94597574998625,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          },
+          {
+            "pid": 83154,
+            "name": "clang"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 129.4867951250053,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 130.04519162495853,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 130.60616204200778,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 131.16232758399565,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 131.71844466699986,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 82798,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 132.2748140419717,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 83323,
+            "name": "ghc-9.12.4"
+          },
+          {
+            "pid": 83331,
+            "name": "clang"
+          },
+          {
+            "pid": 83336,
+            "name": "ld"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 132.8256625419599,
+        "processes": [
+          {
+            "pid": 82796,
+            "name": "Setup"
+          },
+          {
+            "pid": 83345,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 133.3817670000135,
+        "processes": [
+          {
+            "pid": 83358,
+            "name": "Setup"
+          },
+          {
+            "pid": 83359,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 139.4694087500102,
+        "processes": [
+          {
+            "pid": 85314,
+            "name": "ghc-9.12.4"
+          },
+          {
+            "pid": 85331,
+            "name": "clang"
+          },
+          {
+            "pid": 85335,
+            "name": "ld"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 140.02865670900792,
+        "processes": [
+          {
+            "pid": 85350,
+            "name": "Setup"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 140.58857966697542,
+        "processes": [
+          {
+            "pid": 85350,
+            "name": "Setup"
+          },
+          {
+            "pid": 85353,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 141.14904699998442,
+        "processes": [
+          {
+            "pid": 85350,
+            "name": "Setup"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 141.70844862499507,
+        "processes": [
+          {
+            "pid": 85350,
+            "name": "Setup"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 142.26820458396105,
+        "processes": [
+          {
+            "pid": 85350,
+            "name": "Setup"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 142.827070291969,
+        "processes": [
+          {
+            "pid": 85425,
+            "name": "Setup"
+          },
+          {
+            "pid": 85428,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 143.38404174998868,
+        "processes": [
+          {
+            "pid": 85425,
+            "name": "Setup"
+          },
+          {
+            "pid": 85428,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 143.94004883395974,
+        "processes": [
+          {
+            "pid": 85425,
+            "name": "Setup"
+          },
+          {
+            "pid": 85428,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 144.49807616695762,
+        "processes": [
+          {
+            "pid": 85425,
+            "name": "Setup"
+          },
+          {
+            "pid": 85428,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 145.05715004197555,
+        "processes": [
+          {
+            "pid": 85425,
+            "name": "Setup"
+          },
+          {
+            "pid": 85428,
+            "name": "ghc-9.12.4"
+          },
+          {
+            "pid": 85468,
+            "name": "clang"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 145.6229414169793,
+        "processes": [
+          {
+            "pid": 85425,
+            "name": "Setup"
+          },
+          {
+            "pid": 85471,
+            "name": "ghc-9.12.4"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 146.18279383401386,
+        "processes": [
+          {
+            "pid": 85425,
+            "name": "Setup"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 148.945166666992,
+        "processes": [
+          {
+            "pid": 86611,
+            "name": "cabal"
+          }
+        ]
+      },
+      {
+        "elapsed_seconds": 149.48792254197178,
+        "processes": [
+          {
+            "pid": 86611,
+            "name": "cabal"
+          }
+        ]
+      }
+    ],
+    "overlay_sha256": "aa030fe0ddcc4257105db83a018c6b44a9b460402404f8d8e286db081388e55d",
+    "overlay_unchanged_after": true,
+    "foreign_test_process_observations": [
+      {
+        "elapsed_seconds": 299.149542249972,
+        "processes": [
+          {
+            "pid": 18113,
+            "name": "cabal"
+          }
+        ]
+      }
+    ],
+    "auto_interrupted_for_foreign_work": true
+  },
+  "completeDiagnosticPairs": 2,
+  "bothDisposableLeavesRestoredToImmutableSource": true,
+  "producerOverlayUnchanged": true,
+  "cost": {
+    "priorGrossObservedSeconds": 1602.89,
+    "fourthInterruptedCampaignSeconds": 299.65972008300014,
+    "grossObservedSecondsIncludingFourth": 1902.5497200830002,
+    "fourthIdlePreflightSecondsSeparatelyReported": 210.20543258398538,
+    "qualification": "Gross observed setup/validation and interruption time, including failures; final producer workflow, transfer and rollout still unmeasured."
+  },
+  "remaining": "Five uninterrupted paired measurements, graph/behavior verification, producer ownership/workflow and total-cost adoption gates. No automatic campaign restart while independent work continues.",
+  "rawArchive": {
+    "path": "rei-cli-resource-aware-fourth-interruption.raw.tar.gz",
+    "bytes": 72360,
+    "sha256": "904734e108649fee1da278f40cf144d66df5f74087a095a9dcfe8fca46b4f31a",
+    "members": {
+      "campaign/paired-1-baseline.build.json": "7a7beca0dc36bf2c3f41f4edbf7404274f0d77d68d532101742f4036ad5153d5",
+      "campaign/paired-1-baseline.log": "cf5f0662f82f5f4801f3b412c5da5340d431420792762f287ad89279505020f0",
+      "campaign/paired-1-baseline.receipt.json": "68c7f2605618ef8a2a4a6b0f6cb445ded96912f54cb694926786f2db08f1f5ca",
+      "campaign/paired-1-candidate.build.json": "cd84a69490757469e2046565a9c2c7465b259045cff4c734d76defece6c2ed03",
+      "campaign/paired-1-candidate.log": "7f591da6005db1c219b0aa4e286abc065c0d340b05005e5afc7f62a2a243d71a",
+      "campaign/paired-1-candidate.receipt.json": "b40c301f4b125922160b0b148154a32ae2aa45d0ac0e1446eb298131009d84d3",
+      "campaign/paired-2-baseline.build.json": "13f845c5d57545f88ff7def32dfa0ec02f55dc587bd0f4a79b8911be56768d36",
+      "campaign/paired-2-baseline.log": "7da90e37484bb492d196961a2c56d077fd406fecd9d04ebb6b234a56e8ed0417",
+      "campaign/paired-2-baseline.receipt.json": "89c6e4b6ae729a6dbf33e359439ae67b615ffdac494600b6a9f9378f9ff4b37c",
+      "campaign/paired-2-candidate.build.json": "7df2be94ead9e705cb6cf9a54ac541c5bc1eb1633c367979dfe536a54b33f0c8",
+      "campaign/paired-2-candidate.log": "c0e873993cc496cb1a8c91ed6279e3ae376b42815be7d15e80cfa193e45bd5ec",
+      "campaign/paired-2-candidate.receipt.json": "564025a1084896fd6c96f7d98b613d95473a51d9f5a3689a233a99318e4505f8",
+      "campaign/paired-3-baseline.build.json": "d95749992d167b34ce2e56707b0445c9d7469f873cf1524cb00a8cd8051f0526",
+      "campaign/paired-3-baseline.log": "3d5f506209d0f6a0900a4b8388d2735ddf7bbbb70528db21aed3c82340673021",
+      "campaign/summary.json": "03d577dd24c73aed40f972383dde1c0fcdde684280914e851baf000698505032",
+      "campaign/warmup-0-baseline.build.json": "2d5963730c3bdfbed5967df1a81606b4c81ea6b463bdab61a793276f479191d9",
+      "campaign/warmup-0-baseline.log": "86cdaf7d5a5a0a0467e15a807b0da465e1b1c9d50e5f77e01f152f6b0a03b01d",
+      "campaign/warmup-0-baseline.receipt.json": "c9714598b964d02706f6c8cac0a3c5b3c39fc8b82a3b0f4d4541e4df0043066b",
+      "campaign/warmup-0-candidate.build.json": "4e6cfe0db11c12bf26cbed7779ad4e936108f02041c16e7d9a4882d67eaafda3",
+      "campaign/warmup-0-candidate.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "campaign/warmup-0-candidate.receipt.json": "ee24c57192fefcbdde49318b706406ed3f9b2215f71516843fe30c111d03ae6a",
+      "host/ep18-rei-resource-aware-paired-v4-driver-receipt.json": "ab4289ddd008fdc57e70bb3a2a3d404d46aab179c88fe278df2722f4b8a266bd",
+      "host/ep18-rei-resource-aware-paired-v4-driver.log": "25806560d7b8e619318e804704eb7184ef4a9e6c1c09c6687c9399872c48d82e",
+      "host/ep18-rei-resource-aware-v4-driver.py": "38d2bce132420876c6613e1f4e466ef7ec7eefcf3ffe1a3b593553c8241ec596",
+      "host/mp4-authorized-ep18-campaign.log": "ba34ed7fe7586904ebefd6de76f7cdf1ba1176f3599e5d15c6bf95cd8ab88abf",
+      "source/checks/fixtures/application-builds/split.nix": "b0a9d4a01daebd661c03b5d3cd8c4014592bec40efc304a33eb14a40d03d3187",
+      "source/scripts/measure-application-nix-builds.py": "7709e3d5d770510f43b3a027a189e8f3635baf578e907cf4f09ecff007606a74",
+      "source/scripts/verify-application-build-pairs.py": "2815dee034a7205c381be819ca5ddf6d5808d19448c555637a2d0fd3ad39f4e9"
+    }
+  }
+}
