@@ -1,6 +1,6 @@
 # Keep routine application changes independent of cohort and toolchain updates
 
-Status: Accepted; native Rei source isolation and executable-artifact tuning are verified; intermediate reuse remains opt-in.
+Status: Accepted; native Rei source isolation and Rei/Mori executable-artifact tuning are verified; intermediate reuse remains opt-in.
 
 Date: 2026-10-04
 

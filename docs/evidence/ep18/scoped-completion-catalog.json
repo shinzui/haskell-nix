@@ -1,0 +1,244 @@
+{
+  "published_effort_documents": 8,
+  "local_entries": 5,
+  "toolchain_entries": 3,
+  "ep18": "Complete",
+  "ep19": "InProgress; deferred by user",
+  "membership_expanded": false,
+  "plans": [
+    {
+      "id": 18,
+      "intention": "intention_01m4xq1t11ezha3http0erjxt2",
+      "kind": "exec-plan",
+      "owner": null,
+      "parentMasterId": 4,
+      "projectName": "haskell-nix",
+      "projectNamespace": "shinzui",
+      "slug": "accelerate-application-code-compilation-in-nix-builds",
+      "source": "mori://shinzui/haskell-nix/plans/18-accelerate-application-code-compilation-in-nix-builds",
+      "status": "Complete",
+      "summary": null,
+      "title": "Accelerate application code compilation in Nix builds"
+    },
+    {
+      "id": 20,
+      "intention": "intention_01m4xg1zg2e4wvbjgaagz3aqpz",
+      "kind": "exec-plan",
+      "owner": null,
+      "parentMasterId": 4,
+      "projectName": "haskell-nix",
+      "projectNamespace": "shinzui",
+      "slug": "build-project-development-shells-from-retained-runtime-package-sets",
+      "source": "mori://shinzui/haskell-nix/plans/20-build-project-development-shells-from-retained-runtime-package-sets",
+      "status": "Complete",
+      "summary": null,
+      "title": "Build project development shells from retained runtime package sets"
+    },
+    {
+      "id": 21,
+      "intention": "intention_01m4xnts6yewd84gx1ymajdzdv",
+      "kind": "exec-plan",
+      "owner": null,
+      "parentMasterId": 4,
+      "projectName": "haskell-nix",
+      "projectNamespace": "shinzui",
+      "slug": "manage-compatibility-exceptions-and-verify-their-continued-necessity",
+      "source": "mori://shinzui/haskell-nix/plans/21-manage-compatibility-exceptions-and-verify-their-continued-necessity",
+      "status": "Complete",
+      "summary": null,
+      "title": "Manage compatibility exceptions and verify their continued necessity"
+    },
+    {
+      "id": 19,
+      "intention": "intention_01m4xg1xp3ekf9m1dbc5fpsq9k",
+      "kind": "exec-plan",
+      "owner": null,
+      "parentMasterId": 4,
+      "projectName": "haskell-nix",
+      "projectNamespace": "shinzui",
+      "slug": "pre-generate-complete-locked-nix-haskell-dependency-recipes",
+      "source": "mori://shinzui/haskell-nix/plans/19-pre-generate-complete-locked-nix-haskell-dependency-recipes",
+      "status": "InProgress",
+      "summary": null,
+      "title": "Pre-generate complete locked Nix Haskell dependency recipes"
+    },
+    {
+      "id": 4,
+      "intention": "intention_01m4xq1t11ezha3http0erjxt2",
+      "kind": "master-plan",
+      "owner": null,
+      "parentMasterId": null,
+      "projectName": "haskell-nix",
+      "projectNamespace": "shinzui",
+      "slug": "coordinate-horizon-inspired-haskell-nix-performance-and-reliability-improvements",
+      "source": "mori://shinzui/haskell-nix/masterplans/4-coordinate-horizon-inspired-haskell-nix-performance-and-reliability-improvements",
+      "status": "InProgress",
+      "summary": null,
+      "title": "Coordinate Horizon-inspired Haskell Nix performance and reliability improvements"
+    },
+    {
+      "id": 5,
+      "intention": "intention_01m4xg230yehq8za2t8m1zzvdt",
+      "kind": "exec-plan",
+      "owner": null,
+      "parentMasterId": 2,
+      "projectName": "haskell-nix-dev",
+      "projectNamespace": "shinzui",
+      "slug": "exercise-ghc-cabal-and-hls-in-toolchain-compatibility-checks",
+      "source": "mori://shinzui/haskell-nix-dev/plans/5-exercise-ghc-cabal-and-hls-in-toolchain-compatibility-checks",
+      "status": "Complete",
+      "summary": null,
+      "title": "Exercise GHC Cabal and HLS in toolchain compatibility checks"
+    },
+    {
+      "id": 4,
+      "intention": "intention_01m4xg217reb6bzf3pd7xqqqy0",
+      "kind": "exec-plan",
+      "owner": null,
+      "parentMasterId": 2,
+      "projectName": "haskell-nix-dev",
+      "projectNamespace": "shinzui",
+      "slug": "publish-compiler-capabilities-and-an-explicit-platform-support-matrix",
+      "source": "mori://shinzui/haskell-nix-dev/plans/4-publish-compiler-capabilities-and-an-explicit-platform-support-matrix",
+      "status": "Complete",
+      "summary": null,
+      "title": "Publish compiler capabilities and an explicit platform support matrix"
+    },
+    {
+      "id": 2,
+      "intention": "intention_01m4xg13mwe84s9h3adshtdapx",
+      "kind": "master-plan",
+      "owner": null,
+      "parentMasterId": null,
+      "projectName": "haskell-nix-dev",
+      "projectNamespace": "shinzui",
+      "slug": "publish-verified-haskell-toolchain-capabilities-and-support-evidence",
+      "source": "mori://shinzui/haskell-nix-dev/masterplans/2-publish-verified-haskell-toolchain-capabilities-and-support-evidence",
+      "status": "Complete",
+      "summary": null,
+      "title": "Publish verified Haskell toolchain capabilities and support evidence"
+    }
+  ],
+  "graph": {
+    "contractVersion": 1,
+    "edges": [
+      {
+        "dependencyRef": "mori://shinzui/haskell-nix-dev/plans/4-publish-compiler-capabilities-and-an-explicit-platform-support-matrix",
+        "dependentRef": "mori://shinzui/haskell-nix-dev/plans/5-exercise-ghc-cabal-and-hls-in-toolchain-compatibility-checks"
+      },
+      {
+        "dependencyRef": "mori://shinzui/haskell-nix-dev/plans/4-publish-compiler-capabilities-and-an-explicit-platform-support-matrix",
+        "dependentRef": "mori://shinzui/haskell-nix/plans/20-build-project-development-shells-from-retained-runtime-package-sets"
+      },
+      {
+        "dependencyRef": "mori://shinzui/haskell-nix/plans/16-create-the-keiro-runtime-package-set-and-compose-applications-on-it",
+        "dependentRef": "mori://shinzui/haskell-nix/plans/18-accelerate-application-code-compilation-in-nix-builds"
+      },
+      {
+        "dependencyRef": "mori://shinzui/haskell-nix/plans/16-create-the-keiro-runtime-package-set-and-compose-applications-on-it",
+        "dependentRef": "mori://shinzui/haskell-nix/plans/19-pre-generate-complete-locked-nix-haskell-dependency-recipes"
+      },
+      {
+        "dependencyRef": "mori://shinzui/haskell-nix/plans/16-create-the-keiro-runtime-package-set-and-compose-applications-on-it",
+        "dependentRef": "mori://shinzui/haskell-nix/plans/20-build-project-development-shells-from-retained-runtime-package-sets"
+      },
+      {
+        "dependencyRef": "mori://shinzui/haskell-nix/plans/9-generate-the-nix-package-set-from-the-cohort-freeze-and-guard-version-parity",
+        "dependentRef": "mori://shinzui/haskell-nix/plans/18-accelerate-application-code-compilation-in-nix-builds"
+      },
+      {
+        "dependencyRef": "mori://shinzui/haskell-nix/plans/9-generate-the-nix-package-set-from-the-cohort-freeze-and-guard-version-parity",
+        "dependentRef": "mori://shinzui/haskell-nix/plans/19-pre-generate-complete-locked-nix-haskell-dependency-recipes"
+      }
+    ],
+    "nodes": [
+      {
+        "kind": "plan",
+        "planKind": "master-plan",
+        "projectRef": "mori://shinzui/haskell-nix-dev",
+        "ref": "mori://shinzui/haskell-nix-dev/masterplans/2-publish-verified-haskell-toolchain-capabilities-and-support-evidence",
+        "status": "Complete"
+      },
+      {
+        "kind": "plan",
+        "planKind": "exec-plan",
+        "projectRef": "mori://shinzui/haskell-nix-dev",
+        "ref": "mori://shinzui/haskell-nix-dev/plans/4-publish-compiler-capabilities-and-an-explicit-platform-support-matrix",
+        "status": "Complete"
+      },
+      {
+        "kind": "plan",
+        "planKind": "exec-plan",
+        "projectRef": "mori://shinzui/haskell-nix-dev",
+        "ref": "mori://shinzui/haskell-nix-dev/plans/5-exercise-ghc-cabal-and-hls-in-toolchain-compatibility-checks",
+        "status": "Complete"
+      },
+      {
+        "kind": "plan",
+        "planKind": "master-plan",
+        "projectRef": "mori://shinzui/haskell-nix",
+        "ref": "mori://shinzui/haskell-nix/masterplans/4-coordinate-horizon-inspired-haskell-nix-performance-and-reliability-improvements",
+        "status": "InProgress"
+      },
+      {
+        "expectedKind": "plan",
+        "kind": "unresolved",
+        "projectRef": "mori://shinzui/haskell-nix",
+        "ref": "mori://shinzui/haskell-nix/plans/16-create-the-keiro-runtime-package-set-and-compose-applications-on-it"
+      },
+      {
+        "kind": "plan",
+        "planKind": "exec-plan",
+        "projectRef": "mori://shinzui/haskell-nix",
+        "ref": "mori://shinzui/haskell-nix/plans/18-accelerate-application-code-compilation-in-nix-builds",
+        "status": "Complete"
+      },
+      {
+        "kind": "plan",
+        "planKind": "exec-plan",
+        "projectRef": "mori://shinzui/haskell-nix",
+        "ref": "mori://shinzui/haskell-nix/plans/19-pre-generate-complete-locked-nix-haskell-dependency-recipes",
+        "status": "InProgress"
+      },
+      {
+        "kind": "plan",
+        "planKind": "exec-plan",
+        "projectRef": "mori://shinzui/haskell-nix",
+        "ref": "mori://shinzui/haskell-nix/plans/20-build-project-development-shells-from-retained-runtime-package-sets",
+        "status": "Complete"
+      },
+      {
+        "kind": "plan",
+        "planKind": "exec-plan",
+        "projectRef": "mori://shinzui/haskell-nix",
+        "ref": "mori://shinzui/haskell-nix/plans/21-manage-compatibility-exceptions-and-verify-their-continued-necessity",
+        "status": "Complete"
+      },
+      {
+        "expectedKind": "plan",
+        "kind": "unresolved",
+        "projectRef": "mori://shinzui/haskell-nix",
+        "ref": "mori://shinzui/haskell-nix/plans/9-generate-the-nix-package-set-from-the-cohort-freeze-and-guard-version-parity"
+      }
+    ],
+    "scope": {
+      "edgeCount": 7,
+      "nodeCount": 10,
+      "rootPlanRefs": [
+        "mori://shinzui/haskell-nix-dev/masterplans/2-publish-verified-haskell-toolchain-capabilities-and-support-evidence",
+        "mori://shinzui/haskell-nix-dev/plans/4-publish-compiler-capabilities-and-an-explicit-platform-support-matrix",
+        "mori://shinzui/haskell-nix-dev/plans/5-exercise-ghc-cabal-and-hls-in-toolchain-compatibility-checks",
+        "mori://shinzui/haskell-nix/masterplans/4-coordinate-horizon-inspired-haskell-nix-performance-and-reliability-improvements",
+        "mori://shinzui/haskell-nix/plans/18-accelerate-application-code-compilation-in-nix-builds",
+        "mori://shinzui/haskell-nix/plans/19-pre-generate-complete-locked-nix-haskell-dependency-recipes",
+        "mori://shinzui/haskell-nix/plans/20-build-project-development-shells-from-retained-runtime-package-sets",
+        "mori://shinzui/haskell-nix/plans/21-manage-compatibility-exceptions-and-verify-their-continued-necessity"
+      ]
+    }
+  },
+  "verified_at": "2026-10-18T19:52:14.124879+00:00",
+  "hard_graph_acyclic": true,
+  "hard_graph_nodes": 10,
+  "hard_graph_edges": 7,
+  "qualification": "Exactly five channel-owned and three toolchain-owned effort documents remain published. External prerequisite nodes are unresolved catalog terminals; their locally accepted contracts are not newly published. Seihou companion remains outside this membership."
+}

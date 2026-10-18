@@ -107,7 +107,7 @@ The numeric rows below are local children, with repository-relative paths and `m
 
 | # | Title | Path | Hard Deps | Soft Deps | Status |
 |---|-------|------|-----------|-----------|--------|
-| 18 | Accelerate application code compilation in Nix builds | docs/plans/18-accelerate-application-code-compilation-in-nix-builds.md | Plans 9 and 16 (Complete locally; consumer rollout evidence still required) | None | In Progress |
+| 18 | Accelerate application code compilation in Nix builds | docs/plans/18-accelerate-application-code-compilation-in-nix-builds.md | Plans 9 and 16 (Complete locally; consumer rollout verified) | None | Complete |
 | 19 | Pre-generate complete locked Nix Haskell dependency recipes | docs/plans/19-pre-generate-complete-locked-nix-haskell-dependency-recipes.md | Plans 9 and 16 (Complete locally; consumer rollout evidence still required) | None | In Progress |
 | 20 | Build project development shells from retained runtime package sets | docs/plans/20-build-project-development-shells-from-retained-runtime-package-sets.md | Plan 16 (Complete locally); DEV-4 (Complete) | None | Complete |
 | 21 | Manage compatibility exceptions and verify their continued necessity | docs/plans/21-manage-compatibility-exceptions-and-verify-their-continued-necessity.md | None | None | Complete |
@@ -163,8 +163,8 @@ Native suites, SDK/public imports, source guards, the ten-edit differential-cost
 independent local transfer and actual Darwin output reuse pass. The producer change is
 committed at `mori://shinzui/rei` revision `98a5047d`. The integrated resource-aware split
 and dynamic executable alternatives are rejected for recurring-build and startup costs.
-Finish the equivalent Mori decision and EP-18 evidence/ADR/catalog closure, then the
-Seihou companion. EP-19 remains deferred with its performance outcome unmet.
+The independent Mori decision and EP-18 evidence/ADR/catalog closure are complete;
+continue with the Seihou companion. EP-19 remains deferred with its performance outcome unmet.
 
 Compare representative CLI, core/API, documentation and revision-stamp edits through the
 normal affected targets. A CLI-leaf win does not establish faster core/API builds; report
@@ -224,20 +224,19 @@ Shared edits to `flake.nix`, `checks/default.nix`, `lib/`, and updater modules r
 
 ## Progress
 
-2026-10-18 EP-18 producer screen: the resource-aware foundation is integrated and
-validated only in isolation. Fresh package creation costs 63.551 s monolithic versus
-91.543 s split, and 24/40 recent commits invalidate the foundation. Keep the actual
-producer unchanged; leaf savings alone do not justify this recurring cost. EP-18 next
-screens monolithic executable linking under the existing performance/runtime/cost gates.
-The Seihou companion remains next and EP-19 is deferred by the user's current scope.
-
-2026-10-18 outcome correction: prioritize production delivery of the measured Rei build
-improvement over additional mechanism/coverage work. EP-18 next owns current-source
-producer/ownership/generator integration, differential workflow cost and ordinary-build/
-deployment reuse. EP-19's generated-recipe expansion is deprioritized after the failed
-consumer-latency result; performance acceptance stays open. No child is marked Complete
-from prototype timing or passing verification alone. Active foreign producer edits are
-preserved through an isolated integration copy.
+2026-10-18 EP-18 Complete: ordinary native Apple Silicon builds improve 27.71% for Rei
+and 27.57% for Mori by omitting unused executable library artifacts. Complete SDKs, native
+suites, input/resource guards, unchanged shared graphs, ten-edit required-cost gates and
+actual producer/dotfiles reuse pass. Producer commits are `mori://shinzui/rei` at `98a5047d`
+and `mori://shinzui/mori` at `48b63f3f`; the combined Darwin system builds without activation
+or lock changes. [Rei evidence](../evidence/ep18/rei-executable-artifacts.json) and
+[Mori evidence](../evidence/ep18/mori-executable-artifacts.json) retain raw history, exact
+qualification and costs, including Mori's optional diagnostic outside its supported SDK.
+Scoped publication/readback retains exactly five channel and three toolchain documents
+and the acyclic ten-node/seven-edge Hard graph. [Catalog receipt](../evidence/ep18/scoped-completion-catalog.json).
+Five of six members are Complete. EP-19 remains deferred with its performance gate unmet.
+Next implement the separately authorized Seihou companion; it is outside the eight-document
+publication membership. The dated entries below preserve earlier states.
 
 2026-10-18 Mac Studio campaigns complete: EP-18's 293-module resource-aware Rei boundary
 passes five fresh alternating pairs (57.285 → 39.897 s, 30.35%), all behavior/public-import/
@@ -324,6 +323,13 @@ Remaining integration acceptance is the targeted-update/rollback rehearsal, comp
 
 ## Surprises & Discoveries
 
+2026-10-18: The useful ordinary-build change is an executable artifact policy rather than
+a new package boundary or checkpoint. Keep the full checked SDK scope for EP-20 shells and
+Seihou consumers; derive the executable outside that scope and bind its manifest to the
+actual output. Exact reconstructed references and native configure logs protect production
+optimization and dependency identity. Other platforms retain their original policy.
+
+
 2026-10-17 final experiment handoff: projected records computed in a changed current scope cannot prove an old checkpoint’s origin. EP-18 now binds exact successful native checkpoint derivations and rejects a changed context before forcing old source, as distilled in ADR 5. Both applications reuse their immutable normal producer outputs through actual dotfiles wrappers with no GHC compilation; this cache-identity result is distinct from the unaccepted changed-code performance defaults. Read-only compatibility queries preserve existing broken-package guards rather than weakening them to force a matrix pass.
 
 2026-10-17 restored prerequisites: After the user pushed the missing foreign plans, pulling `mori://shinzui/haskell-nix-dev` restored both children and their existing sub-master. DEV-4 now supplies the additive schema-1 policy/capability contract without changing tools, bundles or shells. The channel discovers compiler names through that policy with a compatibility adapter for old pins. Existing Linux bundles substitute, but Nix cannot execute the new native Linux check because `/etc/nix/builder_ed25519` is absent. Keep native validation, cached availability and fresh-worker claims separate.
@@ -378,7 +384,7 @@ campaigns excluded and retain the independent performance/correctness/cost thres
 ## Outcomes & Retrospective
 
 
-Coordination and scoped registration were established on 2026-10-14. Initial registration recorded exactly eight effort documents: six member ExecPlans and two master plans. The recorded Hard graph had ten nodes (eight published members and two unresolved external prerequisites) and seven edges, with no cycles. All six implementation plans were Not Started at registration; EP-20, EP-21 and DEV-4 are Complete; EP-18/19 remain In Progress, and DEV-5 is Complete with native hosted behavior and separate fresh-worker retrieval accepted. At initial registration, ready-work queries returned HN-21 and DEV-4; each retains its independent fixture work and acceptance. The 2026-10-16 update corrects local prerequisite readiness and adds maintenance and performance acceptance; the user-selected tunnel now permits scoped registration/readback of all eight effort documents, and DEV-4/5 completion is verified against retained native/hosted evidence. Completion requires the six independently verified outcomes, real native evidence on every claimed supported platform, compatible shared identity contracts, and ADR distillation in the owning repositories. Registry publication and a successful acyclic graph alone do not complete this initiative.
+Coordination and scoped registration were established on 2026-10-14. Initial registration recorded exactly eight effort documents: six member ExecPlans and two master plans. The recorded Hard graph had ten nodes (eight published members and two unresolved external prerequisites) and seven edges, with no cycles. All six implementation plans were Not Started at registration; EP-20, EP-21 and DEV-4 are Complete; EP-18 is Complete, EP-19 remains In Progress and deferred, and DEV-5 is Complete with native hosted behavior and separate fresh-worker retrieval accepted. At initial registration, ready-work queries returned HN-21 and DEV-4; each retains its independent fixture work and acceptance. The 2026-10-16 update corrects local prerequisite readiness and adds maintenance and performance acceptance; the user-selected tunnel now permits scoped registration/readback of all eight effort documents, and DEV-4/5 completion is verified against retained native/hosted evidence. Completion requires the six independently verified outcomes, real native evidence on every claimed supported platform, compatible shared identity contracts, and ADR distillation in the owning repositories. Registry publication and a successful acyclic graph alone do not complete this initiative.
 
 ## Tracking and Registration
 

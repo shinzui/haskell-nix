@@ -1978,24 +1978,25 @@
   },
   "cost": {
     "charged_seconds": {
-      "fresh_candidate_build_full_cost": 46.99613687500823,
+      "additional_setup": 0,
+      "fresh_sdk_wrapper_construction": 41.377755958004855,
       "additional_complete_production_profile_qualification": 65.11738083400996,
       "public_sdk_checks": 3.1355657499516383,
       "exact_graph_verification": 22.998611332965083,
       "additional_transfer": 0
     },
-    "conservative_total_seconds": 138.24769479193492,
-    "break_even_edits": 10,
+    "conservative_total_seconds": 132.62931387493154,
+    "break_even_edits": 9,
     "maximum_edits": 10,
     "budget_passed": true,
-    "common_costs": "Complete family suites, native source guards and deployment assembly exist on both paths. Both guards and transfer are measured; neither saving is credited. Charge the entire 46.996-second fresh candidate build rather than taking credit for the baseline build it replaces. Optional simultaneous full-SDK/executable builds add cost and are outside the ordinary executable workflow.",
+    "common_costs": "Complete family suites, native source guards and deployment assembly exist on both paths. Both guards and transfer are measured; neither saving is credited. The first ordinary application build occurs in both workflows; the 46.996-second candidate build replaces an ordinary original build and requires no additional seed or migration artifact. Charge both fresh SDK wrappers and the complete extra production-profile qualification. Optional simultaneous full-SDK/executable builds add cost and are outside the ordinary executable workflow.",
     "recurring_seed_generation_migration_or_extra_dependency_cost": "None; no new package/source move/pin or checkpoint.",
     "history": "Failed and alternative experiments retained in the raw archive are research history, not charged on every adoption/edit."
   },
   "artifacts": {
     "archive": "rei-executable-artifacts-raw-evidence.tar.gz",
-    "sha256": "2ad0d13b9833351c91963b902a0d3652fdb238021044c54376bb71a228c13f80",
-    "bytes": 22656920
+    "sha256": "044d28ab6ed144f6fbf8ac58dd73d52e50d9532185c9f5eef32598e101d09373",
+    "bytes": 34193457
   },
   "limits": [
     "Native Apple Silicon measurements only; other platform defaults preserved.",

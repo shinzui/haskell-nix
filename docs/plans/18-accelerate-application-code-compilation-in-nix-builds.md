@@ -103,15 +103,29 @@ output without compilation or lock/activation changes. The accepted change is co
 in `mori://shinzui/rei` at `98a5047d`; full qualification is bound to the frozen equivalent
 candidate `5d183f72`. Active producer API/core work is preserved.
 
-Conservatively charge the complete fresh candidate build (46.996 s), additional full
-production-profile qualification (65.117 s), SDK checks (3.136 s) and graph verification
-(22.999 s): 138.248 s / 15.147 s saved = ten edits, within the declared budget. Common
-native source guards take 108.141/74.856 s and marginal local output transfer 0.933/0.797 s;
-count no saving credit from either. Complete family tests and system assembly remain
-common workflow costs; both full SDK and executable variants incur extra optional costs
-when requested together. No checkpoint, generation, extra dependency or recurring manual
-maintenance is introduced. Raw research and failed-attempt costs remain separately retained.
-Mori's equivalent small artifact experiment is running independently before M4/M5 closure.
+The final additional-cost quote includes fresh SDK compiler wrappers (41.378 s), SDK
+checks (3.136 s), additional complete production-profile qualification (65.117 s) and exact
+graph verification (22.999 s): 132.629 s / 15.147 s saved = nine edits, within ten.
+The first ordinary application build occurs in both workflows: the 46.996-second candidate
+build needs no extra checkpoint or migration artifact. Common native source guards take
+108.141/74.856 s and marginal local output transfer 0.933/0.797 s; count no saving credit.
+Complete family tests and system assembly remain common workflow costs. Requesting both
+the full SDK and executable adds optional build/retention cost. Raw research and failures
+remain separately retained. This supersedes the preliminary 138.248-second quote, which
+charged a full ordinary candidate build but measured SDK checks only after wrapper setup.
+Mori independently passes five ordinary-default pairs: 55.611 → 40.278 s (27.57%),
+with all 92 compiler events and unchanged shared dependency identities. All 89 supported
+SDK imports/GHCi and complete owned suites pass: types 79, core 3,212, diagrams three,
+API 62 and SDK/production CLI 924 each. Required qualification is 142.194 s, repaid after
+ten edits; the separate private executable-library import diagnostic adds 18.998 s
+(161.192 s / eleven edits including that optional research probe). The supported SDK is
+the unchanged full recipe; the executable artifact promises installed commands. Both
+quotes remain visible. Native source guards cost 107.468/76.643 s, and local transfer
+adds no cost. The actual promoted source at `mori://shinzui/mori` revision `48b63f3f`
+builds in 36.133 s, reports its truthful stamp and reuses that exact output in dotfiles.
+[Final Mori evidence](../evidence/ep18/mori-executable-artifacts.json) retains all receipts
+and the complete cost allocation. This is native Apple Silicon acceptance only.
+
 
 The integrated 293-module split is rejected: although its isolated leaf pilot was faster,
 a fresh equivalent build takes 63.551/91.543 s and 24 of forty recent commits invalidate
@@ -186,10 +200,10 @@ Consume-only paired handoff: `/tmp/ep18-consume-only-mori-campaign-v2` contains 
 - [x] (2026-10-17 UTC) User-requested scoped M1/M3 result: measure one application and remove its largest observed avoidable rebuild. Rei planning prose invalidated the entire owned core/CLI closure; five paired native trials fall from median 153.33 s to 3.38 s at a fixed revision stamp, with 1,194 GHC events avoided and all 2,048 shared graph nodes (474 Haskell instances) unchanged. [Receipt](../evidence/ep18/rei-documentation-rebuild.json), [workflow](../guides/faster-application-nix-builds.md). The full milestones below remain open.
 
 - [x] (2026-10-17 UTC) M1: Establish native leaf-edit baselines and decide intermediate-reuse feasibility. Rei takes 52.98 s/301 compilation events; Mori takes 49.26 s/92 events, with unchanged core/compiler identities. Native fixtures prove correct selective reuse and source-error rejection. [Baseline contexts](../evidence/ep18/application-leaf-baselines.json), [fixture receipt](../evidence/ep18/native-intermediate-fixture.json). These are initial single-trial baselines, not speedup statistics; M2 requires five alternating pairs after the stamp fix.
-- [ ] M2: Pilot guarded Nix intermediate reuse in Rei and Mori and compare changed-code builds against clean builds.
+- [x] (2026-10-18 UTC) M2: Complete CLI/core intermediate pilots in both applications, including selective reuse, native errors, origin checks and five-pair comparisons. Latency improves, but full checkpoint budgets fail; keep reuse opt-in and adopt no checkpoint default. [Pilot](../evidence/ep18/application-core-intermediate-pilots.json), [full Mori cost](../evidence/ep18/mori-consume-only-full-cost.json).
 - [x] (2026-10-17 UTC) M3: Remove unrelated source/revision invalidation. Both apps isolate the stamp in its consuming module; native changed help/stamps and source errors are correct. Prose/sibling/dependency probes pass, Mori path aliases select identical intended sources, and retained cohort parity works with local overrides. No shared policy or pin changes.
-- [ ] M4: Finish package-boundary correctness and total-cost acceptance. The bounded worker and Rei CLI pilots are complete negative results; the Mori core/API boundary passes the five-pair latency gate, with full core, ownership and final-cost checks open.
-- [ ] M5: Roll out the validated policy and record application-build and dotfiles identity evidence.
+- [x] (2026-10-18 UTC) M4: Complete measured tuning and split decisions. Reject worker-cap, dynamic-linking and package-split alternatives; accept the ordinary executable-artifact variant independently in Rei and Mori with full SDK preservation, native suites, exact graphs and the unchanged 20%/ten-edit gates.
+- [x] (2026-10-18 UTC) M5: Commit accepted Apple Silicon settings in both producers, verify truthful ordinary builds, exact actual dotfiles wrapper reuse and the combined Darwin system build, preserve locks/services and distill ADRs. [Rei](../evidence/ep18/rei-executable-artifacts.json), [Mori](../evidence/ep18/mori-executable-artifacts.json).
 
 
 ## Surprises & Discoveries
@@ -217,6 +231,16 @@ At the 2026-10-07 source inspection, `mori://shinzui/rei` had 1,068 Haskell file
 
 
 ## Decision Log
+
+2026-10-18 final decision: adopt only the measured Apple Silicon executable-artifact
+settings in each producer. Preserve the original checked SDK scope, every source boundary,
+optimization/dependency pin and other platform default. Reject the integrated split for
+recurring costs and dynamic executable linking for startup regression; intermediate reuse
+remains opt-in after its failed checkpoint budgets. The final required quotes include
+fresh supported-SDK construction and complete profile qualification. Mori's extra private
+executable-library import remains a separately recorded research probe, including the
+explicit eleven-edit all-probe quote; it is outside the supported SDK interface.
+
 
 2026-10-18 producer cost screen: the fully integrated Rei foundation is a negative
 adoption result for the observed edit mix. One fresh equivalent source-comment pair
@@ -257,6 +281,34 @@ and Darwin handling. This remains M4 tuning within the existing acceptance gates
 
 ## Outcomes & Retrospective
 
+Completed on native Apple Silicon. Ordinary changed-source Nix builds are 27.71% faster
+for Rei and 27.57% faster for Mori, with unchanged production optimization, static executable
+linking and shared dependency identities. Full SDK recipes remain available to shells and
+library consumers; only the normal executable omits unused shared/combined library artifacts.
+Required incremental adoption quotes are 132.629 s/nine edits and 142.194 s/ten edits.
+The optional Mori executable-library import diagnostic is explicitly outside supported-SDK
+qualification and raises its all-probe quote to eleven edits. No claim hides that cost.
+
+Both actual producer commits build with truthful revisions and are reused without CLI
+compilation by the real dotfiles overlay. The combined Darwin system builds without
+activation or lock changes. Native suites, SDK imports/interpreters, source/resource errors,
+unchanged graphs and independent local-store reuse pass. Other platforms keep their original
+recipes. No remote publication or hosted application-cache performance is claimed. The
+ordinary commit shell briefly initialized an empty local Mori development cluster; it was
+moved outside the working repository without starting a server or changing existing data.
+
+Checkpoint and package-split experiments remain useful feasibility evidence but are not
+production defaults: complete recurring costs and ownership matter more than a leaf pilot.
+The durable artifact/scope distinction is in local ADR 5,
+`mori://shinzui/rei/okf/adrs/concepts/ADR-68` and
+`mori://shinzui/mori/okf/adrs/concepts/ADR-59`. Seihou follows as the separately authorized
+companion; EP-19 remains deferred. Historical reuse pilots compare full SDK build ways and do not establish savings over the
+new executable default; requalify matching artifact policy before future reuse adoption.
+Scoped catalog publication/readback preserves exactly five local and three toolchain
+documents with an acyclic ten-node/seven-edge Hard graph. [Catalog receipt](../evidence/ep18/scoped-completion-catalog.json).
+The earlier scoped outcome below is retained history.
+
+
 
 The earlier single-application slice was implemented in `mori://shinzui/rei`, revision `4f209d3f`, project-relative `nix/haskell-overlay.nix` (source-file URI pending). Audit found that planning prose under `rei-core/docs` was included despite having no Cabal/compile-time consumer. Excluding only that directory preserves all other sources and assets. The normal retained-runtime constructor remains in use, and no pins, shared policies, optimization or test settings change.
 
@@ -278,7 +330,7 @@ Relevant local ADRs were read. [ADR 4](../adr/4-consumer-overlays-define-only-th
 
 Cross-project file references below use a canonical project URI plus its project-relative path; file-level Mori handles are pending. Resolve checkout locations with `mori registry show PROJECT --full`. Never search or inspect `/nix/store` for source or intermediates. Use Nix metadata APIs and build logs as evidence; the Nix builder handles its own declared inputs.
 
-In `mori://shinzui/rei` and `mori://shinzui/mori`, `flake.module.nix` constructs the Haskell scope and exports package outputs. `nix/haskell-overlay.nix` uses `callCabal2nix` for owned packages. The CLI package contains a library of command modules plus a small executable entry point. Both overlays pass a repository-wide `-DGIT_HASH` configure flag to the CLI. Mori's `mori-cli/src/Mori/Version.hs` and Rei's `rei-cli/src/Rei/Cli/Commands/Info.hs` also use GitHash Template Haskell, which evaluates code during compilation. Package metadata and Git stamping therefore need deliberate invalidation tests.
+In `mori://shinzui/rei` and `mori://shinzui/mori`, `flake.module.nix` constructs the Haskell scope and exports package outputs. `nix/haskell-overlay.nix` uses `callCabal2nix` for owned packages. The CLI package contains a library of command modules plus a small executable entry point. At the original baseline both overlays passed a repository-wide `-DGIT_HASH` configure flag to the CLI; M3 now substitutes the truthful stamp only in its consuming module. Mori's `mori-cli/src/Mori/Version.hs` and Rei's `rei-cli/src/Rei/Cli/Commands/Info.hs` also use GitHash Template Haskell, which evaluates code during compilation. Package metadata and Git stamping therefore need deliberate invalidation tests.
 
 Mori embeds schema data from outside the CLI/core directories. Both projects embed help/prompts or generated declarations. In `mori://shinzui/mori`, `mori-cli/mori-cli.cabal` lists embedded help files explicitly so edits rebuild their text. In `mori://shinzui/rei`, `rei-core/rei-core.cabal` includes migrations and prompt/template files and treats missing listed modules as errors. Those inputs must survive any filter or package split. Generated Keiro module ownership/scaffolding paths must remain consistent.
 

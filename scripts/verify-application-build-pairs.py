@@ -28,6 +28,15 @@ def source_directory(row):
     return Path(row.get("source_directory") or row["command"][row["command"].index("source") + 1]).resolve()
 
 
+def leaf_marker(summary, trial):
+    replacement = summary.get("replacement")
+    if replacement:
+        marker = re.search(r'"(MP4 paired [^"\n]*\{trial\}[^"\n]*)\\n"', replacement[1])
+        if marker:
+            return marker[1].replace("{trial}", str(trial)).encode()
+    return f"MP4 paired leaf {trial}".encode()
+
+
 def graph(drv):
     exported = query(["nix", "derivation", "show", "--recursive", drv])
     directory = str(Path(drv).parent)
@@ -164,7 +173,7 @@ def main():
                                             env=environment, timeout=30)
                     if result.returncode:
                         raise ValueError(f"Behavior probe failed: {label} {command}: {result.stderr[-500:]!r}")
-                    if component == "cli" and command == ["help", topic] and f"MP4 paired leaf {trial}".encode() not in result.stdout:
+                    if component == "cli" and command == ["help", topic] and leaf_marker(summary, trial) not in result.stdout:
                         raise ValueError("Changed leaf behavior missing or stale")
                     behavior[label].append({"command": command, "exit_code": result.returncode,
                                             "stdout_sha256": digest(result.stdout), "stderr_sha256": digest(result.stderr)})

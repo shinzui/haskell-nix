@@ -6,7 +6,7 @@ docId: DOC-7
 tags: [performance, consumers, nix, source-boundaries]
 generated:
   by: process:codex
-  at: 2026-10-18T19:25:00Z
+  at: 2026-10-18T19:53:07Z
 ---
 
 [Guides](README.md)
@@ -48,9 +48,9 @@ It excludes only that directory and preserves the source name and all other filt
 
 ## Avoid unnecessary executable library artifacts
 
-The accepted native Apple Silicon Rei executable derives from the same checked recipe
+The accepted native Apple Silicon Rei and Mori executables derive from the same checked recipe
 with `enableSharedLibraries = false` and `enableStaticLibraries = false`. The full SDK
-remains in the application scope and is exported as `rei-cli-library`. Vanilla libraries,
+remains in the application scope and is exported as `rei-cli-library` or `mori-cli-library`. Vanilla libraries,
 static executable linking, optimization and dependencies remain unchanged. The executable
 manifest selects the derived normal default; shells keep the original scope. Other
 platforms retain their original recipe pending their own qualification.
@@ -64,6 +64,21 @@ it requires exact reconstructed recipe identities and native build flags, as wel
 unchanged shared graphs and matching executable behavior. Complete owned native suites
 are available through `checks/fixtures/application-builds/producer-tests.nix`; they retain
 the original Setup invocation and real disposable service harnesses.
+
+Mori's five pairs measure 55.611 → 40.278 seconds (27.57%) with the same 92 compiler
+events and unchanged shared dependencies. Use `producer-mori.nix` for ordinary-default
+measurement and `producer-mori-tests.nix` for full suite qualification. The latter exports
+`coreRunner` as a compilation artifact: execute its complete core suites externally from
+a disposable full repository through its ordinary shell. This preserves the real Nix
+integration and pinned schema. Building the runner alone is not test acceptance. Its
+3,212 core cases and three diagram cases pass; types, API and both CLI variants also pass.
+
+SDK qualification imports the supported full recipe and exercises its interpreter. A
+separate import probe against an executable artifact is diagnostic; its cost and result
+remain separately visible. The required native Mori adoption quote is 142.194 seconds
+(ten measured edits); including that optional probe totals 161.192 seconds (eleven).
+Both quotes and their allocation are retained in the evidence rather than treating all
+probe costs as recurring application work.
 
 Count additional adoption costs relative to the existing workflow. Compare common source
 guards and transfer on both sides; do not charge them only to the candidate. Retain full
@@ -270,7 +285,13 @@ network or test time. Keep all production settings fixed when comparing policies
 
 ## Use the application-owned opt-in outputs
 
-Both producing projects now expose `application-clean` as the ordinary build. When their
+Both producing projects now expose `application-clean` as the ordinary build. On Apple
+Silicon that now selects the accepted executable artifact. Historical intermediate pilots
+use the full SDK recipe: compare their settings with `rei-cli-library` or
+`mori-cli-library`, and remeasure against the current executable default before making a
+new practical speedup claim. The older paired receipts do not establish a benefit over
+today's faster default. Keep artifact ways equal in a controlled reuse comparison.
+ When their
 channel input provides `lib.mkApplicationIncrementalPackage`, they additionally expose
 `application-incremental` and `application-seed-intermediates`, with the report under
 `legacyPackages.<system>.applicationIncremental.compatibilityReport`. Existing input pins

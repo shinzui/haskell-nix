@@ -1,0 +1,2033 @@
+{
+  "schema_version": 1,
+  "project_uri": "mori://shinzui/mori",
+  "baseline_revision": "ab5c11278c0bc7ce2597e2b44209148561548c56",
+  "qualified_revision": "6fd93ae7ed870d192f345d8b9a86202b7a0ad6ea",
+  "promoted_revision": "48b63f3f372ea9047a8eefd8738f42669956ae3e",
+  "system": "aarch64-darwin",
+  "decision": "Adopt the ordinary executable-artifact variant on Apple Silicon; preserve the full SDK recipe and other platform defaults. Keep checkpoint/split experiments out of production.",
+  "policy": {
+    "enableSharedLibraries": false,
+    "enableStaticLibraries": false,
+    "vanilla_library": true,
+    "dynamic_executable": false,
+    "optimization_dependencies_pins_and_public_sources": "unchanged; exact reconstructed derivation equality",
+    "supported_sdk_output": "mori-cli-library"
+  },
+  "measurement": {
+    "seconds": {
+      "baseline": [
+        59.58318312501069,
+        53.68780199997127,
+        58.325945499993395,
+        55.61087645799853,
+        55.38947162497789
+      ],
+      "candidate": [
+        38.73016358399764,
+        40.27780499996152,
+        43.66868445801083,
+        41.792355499987025,
+        37.99791712500155
+      ]
+    },
+    "median_seconds": {
+      "baseline": 55.61087645799853,
+      "candidate": 40.27780499996152
+    },
+    "saving_fraction": 0.27572073009166986,
+    "saving_per_edit_seconds": 15.333071458037011,
+    "compiled_events_per_build": 92,
+    "normal_default": true,
+    "normal_evaluation_cache": true,
+    "hardware": {
+      "platform": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+      "logical_cpus": 36,
+      "model": "Mac17,15",
+      "memory_bytes": 274877906944
+    },
+    "resource_policy": {
+      "name": "mac-studio-headroom-v1",
+      "minimum_cpu_idle_percent": 10,
+      "minimum_memory_free_percent": 10,
+      "sustained_pressure_seconds": 15,
+      "maximum_relative_timing_range": 0.25,
+      "concurrent_compilers": "record; process presence alone never rejects a run",
+      "limits": "Host-wide samples, not CPU affinity or isolated builder accounting. Disk contention and thermal effects are not isolated; timing spread is checked separately."
+    },
+    "headroom_accepted": true,
+    "timing_threshold_passed": true
+  },
+  "verification": {
+    "schema_version": 1,
+    "project_uri": "mori://shinzui/mori",
+    "summary_sha256": "065d7f5a2b77b71ccd022d44899adf071a46a5170a743063496d05efd8610815",
+    "component": "cli",
+    "experiment_mode": "executable",
+    "pairs": [
+      {
+        "trial": 1,
+        "behavior": [
+          {
+            "command": [
+              "--version"
+            ],
+            "exit_code": 0,
+            "stdout_sha256": "7cef54f198362611c28cd9970367e68a138e8eaf029c6b2d62765e0ac82f0704",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "command": [
+              "--help"
+            ],
+            "exit_code": 0,
+            "stdout_sha256": "c820db54b2deb9e3c5a38f2853648ad154c16fa7af62326ec5145fec6f839854",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "command": [
+              "help",
+              "sealed-evaluation"
+            ],
+            "exit_code": 0,
+            "stdout_sha256": "814bfacf7350a473175ea4a8070f9abc4cdeea1771e233c3252b6f06f32d3589",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "command": [
+              "--bash-completion-script",
+              "mori"
+            ],
+            "exit_code": 0,
+            "stdout_sha256": "a8cf940a294789ed255d17eaa939ea8007d2890a57af721c65e60a83f84a9e1f",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        ],
+        "roots": {
+          "baseline": {
+            "derivation": "/nix/store/l4b82h34ydbwqkdpvx8in1fi38q8yj0b-mori-cli-7.0.0.0.drv",
+            "output": "/nix/store/r66dj6swh0bndr3dkwq7wk2qbx5wx3y8-mori-cli-7.0.0.0",
+            "graph_sha256": "b62cb4c2333eca6bf62d8102ed95ff27e21e2b461f63b37a130eb2bb9b2d2230",
+            "runtime_closure_nar_bytes": 9889580664,
+            "intermediates_absent_from_runtime_closure": true,
+            "seed_outputs_absent_from_runtime_closure": true
+          },
+          "candidate": {
+            "derivation": "/nix/store/vjxir6qrd7pb9fwaq3jbflyi7m157dr6-mori-cli-7.0.0.0.drv",
+            "output": "/nix/store/0wj1dbwj163q59gjlkpvglazskp7wwir-mori-cli-7.0.0.0",
+            "graph_sha256": "67463f9febb587aac3d759f5f3a17a1f88e65421cff7bb0fa960d953fc1dc9ed",
+            "runtime_closure_nar_bytes": 9859710312,
+            "intermediates_absent_from_runtime_closure": true,
+            "seed_outputs_absent_from_runtime_closure": true
+          }
+        },
+        "settings": {
+          "configureFlags": "",
+          "doCheck": "",
+          "system": "aarch64-darwin",
+          "builder": "/nix/store/yqk6qhawnigv832m2zhcbs25nb37r73i-bash-5.3p15/bin/bash",
+          "source": "/nix/store/n5r97anbfaa605p2l53pq91j0cbxb24q-mori-cli-source",
+          "buildWays": {
+            "doHaddock": null,
+            "enableLibraryProfiling": null,
+            "enableExecutableProfiling": null,
+            "enableSharedLibraries": null,
+            "enableSharedExecutables": null,
+            "enableStaticLibraries": null,
+            "enableStaticExecutables": null,
+            "enableParallelBuilding": null
+          },
+          "recipeHooks": {
+            "prePatch": "cp -r /nix/store/zl73ghjsdj939r7ilcj900pf3d962i9w-source ../schema\nmkdir -p ../mori-core/test\ncp -r /nix/store/k380dgb576is8i79r172hqa08plsi28q-mori-core-fixtures ../mori-core/test/fixtures\n\nsed -i -e 's/\\r$//' *.cabal\n",
+            "postPatch": "substituteInPlace src/Mori/Version.hs \\\n  --replace-fail '#ifdef GIT_HASH' '#if 1' \\\n  --replace-fail 'nixGitHash = Just GIT_HASH' 'nixGitHash = Just \"dirty\"'\n",
+            "preConfigure": null,
+            "postConfigure": null,
+            "preBuild": null,
+            "postBuild": null,
+            "preInstall": null,
+            "postInstall": null,
+            "buildFlags": "",
+            "setupCompileFlags": null,
+            "doBenchmark": null
+          }
+        },
+        "shared_graph_nodes_unchanged": 2036,
+        "shared_haskell_instances_unchanged": 468,
+        "seed_chain": "no seed"
+      },
+      {
+        "trial": 2,
+        "behavior": [
+          {
+            "command": [
+              "--version"
+            ],
+            "exit_code": 0,
+            "stdout_sha256": "7cef54f198362611c28cd9970367e68a138e8eaf029c6b2d62765e0ac82f0704",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "command": [
+              "--help"
+            ],
+            "exit_code": 0,
+            "stdout_sha256": "c820db54b2deb9e3c5a38f2853648ad154c16fa7af62326ec5145fec6f839854",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "command": [
+              "help",
+              "sealed-evaluation"
+            ],
+            "exit_code": 0,
+            "stdout_sha256": "9fd9001b4eb63fb816238a9f8e5e7de7de860dbdc6f8ae8d0fd46fac78a5fb72",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "command": [
+              "--bash-completion-script",
+              "mori"
+            ],
+            "exit_code": 0,
+            "stdout_sha256": "a8cf940a294789ed255d17eaa939ea8007d2890a57af721c65e60a83f84a9e1f",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        ],
+        "roots": {
+          "baseline": {
+            "derivation": "/nix/store/r2mgqr2w7ml030asba1kr0gcc9x4s13b-mori-cli-7.0.0.0.drv",
+            "output": "/nix/store/nqvpyjjfgn25ji4vh1w8li8zr2lagmgh-mori-cli-7.0.0.0",
+            "graph_sha256": "b2215f121d24cd7a5018ed76202b0adc348cb0b4791422b79e95c4cc453343c9",
+            "runtime_closure_nar_bytes": 9889580608,
+            "intermediates_absent_from_runtime_closure": true,
+            "seed_outputs_absent_from_runtime_closure": true
+          },
+          "candidate": {
+            "derivation": "/nix/store/bxfiamab0999ymlm7p4qcv6cx2xccvmv-mori-cli-7.0.0.0.drv",
+            "output": "/nix/store/l4h75fcxgb2z1wz1rzw9vapskjxgw1mb-mori-cli-7.0.0.0",
+            "graph_sha256": "3e5e49072bb351331de75cb373d897b3cb68f449683785fddb89cdbad1cc78eb",
+            "runtime_closure_nar_bytes": 9859710296,
+            "intermediates_absent_from_runtime_closure": true,
+            "seed_outputs_absent_from_runtime_closure": true
+          }
+        },
+        "settings": {
+          "configureFlags": "",
+          "doCheck": "",
+          "system": "aarch64-darwin",
+          "builder": "/nix/store/yqk6qhawnigv832m2zhcbs25nb37r73i-bash-5.3p15/bin/bash",
+          "source": "/nix/store/4jhvsh79srqf7b0ilmkhrlranqvrv9lh-mori-cli-source",
+          "buildWays": {
+            "doHaddock": null,
+            "enableLibraryProfiling": null,
+            "enableExecutableProfiling": null,
+            "enableSharedLibraries": null,
+            "enableSharedExecutables": null,
+            "enableStaticLibraries": null,
+            "enableStaticExecutables": null,
+            "enableParallelBuilding": null
+          },
+          "recipeHooks": {
+            "prePatch": "cp -r /nix/store/zl73ghjsdj939r7ilcj900pf3d962i9w-source ../schema\nmkdir -p ../mori-core/test\ncp -r /nix/store/k380dgb576is8i79r172hqa08plsi28q-mori-core-fixtures ../mori-core/test/fixtures\n\nsed -i -e 's/\\r$//' *.cabal\n",
+            "postPatch": "substituteInPlace src/Mori/Version.hs \\\n  --replace-fail '#ifdef GIT_HASH' '#if 1' \\\n  --replace-fail 'nixGitHash = Just GIT_HASH' 'nixGitHash = Just \"dirty\"'\n",
+            "preConfigure": null,
+            "postConfigure": null,
+            "preBuild": null,
+            "postBuild": null,
+            "preInstall": null,
+            "postInstall": null,
+            "buildFlags": "",
+            "setupCompileFlags": null,
+            "doBenchmark": null
+          }
+        },
+        "shared_graph_nodes_unchanged": 2036,
+        "shared_haskell_instances_unchanged": 468,
+        "seed_chain": "no seed"
+      },
+      {
+        "trial": 3,
+        "behavior": [
+          {
+            "command": [
+              "--version"
+            ],
+            "exit_code": 0,
+            "stdout_sha256": "7cef54f198362611c28cd9970367e68a138e8eaf029c6b2d62765e0ac82f0704",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "command": [
+              "--help"
+            ],
+            "exit_code": 0,
+            "stdout_sha256": "c820db54b2deb9e3c5a38f2853648ad154c16fa7af62326ec5145fec6f839854",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "command": [
+              "help",
+              "sealed-evaluation"
+            ],
+            "exit_code": 0,
+            "stdout_sha256": "9f9adaea55ab07d0a3ee1d73d08bcd922cc623af61e1576966d6fe7a4aa9cabf",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "command": [
+              "--bash-completion-script",
+              "mori"
+            ],
+            "exit_code": 0,
+            "stdout_sha256": "a8cf940a294789ed255d17eaa939ea8007d2890a57af721c65e60a83f84a9e1f",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        ],
+        "roots": {
+          "baseline": {
+            "derivation": "/nix/store/jxv1zja0q13spmjq1al9nw20idr3h5r8-mori-cli-7.0.0.0.drv",
+            "output": "/nix/store/cxkaq2v5j0v2gs25qi4mgj2dagy309dw-mori-cli-7.0.0.0",
+            "graph_sha256": "b6c2d76337ebc4106b8efc5f4ed3e417e5e072ae58fe0f7fad5e7d7d6bd7b7bc",
+            "runtime_closure_nar_bytes": 9889580640,
+            "intermediates_absent_from_runtime_closure": true,
+            "seed_outputs_absent_from_runtime_closure": true
+          },
+          "candidate": {
+            "derivation": "/nix/store/y083g1a2ndxwf4iaqcv9if414rz4p27p-mori-cli-7.0.0.0.drv",
+            "output": "/nix/store/vbsxm812nwmxj8mrbmjx0l1n1ch9sa4l-mori-cli-7.0.0.0",
+            "graph_sha256": "5c980e9041563936c7066424f75618f8ccd99a900e12c135041977ade49bb314",
+            "runtime_closure_nar_bytes": 9859710320,
+            "intermediates_absent_from_runtime_closure": true,
+            "seed_outputs_absent_from_runtime_closure": true
+          }
+        },
+        "settings": {
+          "configureFlags": "",
+          "doCheck": "",
+          "system": "aarch64-darwin",
+          "builder": "/nix/store/yqk6qhawnigv832m2zhcbs25nb37r73i-bash-5.3p15/bin/bash",
+          "source": "/nix/store/npanac00v84pgcj6acaimpwxzdsg1hdy-mori-cli-source",
+          "buildWays": {
+            "doHaddock": null,
+            "enableLibraryProfiling": null,
+            "enableExecutableProfiling": null,
+            "enableSharedLibraries": null,
+            "enableSharedExecutables": null,
+            "enableStaticLibraries": null,
+            "enableStaticExecutables": null,
+            "enableParallelBuilding": null
+          },
+          "recipeHooks": {
+            "prePatch": "cp -r /nix/store/zl73ghjsdj939r7ilcj900pf3d962i9w-source ../schema\nmkdir -p ../mori-core/test\ncp -r /nix/store/k380dgb576is8i79r172hqa08plsi28q-mori-core-fixtures ../mori-core/test/fixtures\n\nsed -i -e 's/\\r$//' *.cabal\n",
+            "postPatch": "substituteInPlace src/Mori/Version.hs \\\n  --replace-fail '#ifdef GIT_HASH' '#if 1' \\\n  --replace-fail 'nixGitHash = Just GIT_HASH' 'nixGitHash = Just \"dirty\"'\n",
+            "preConfigure": null,
+            "postConfigure": null,
+            "preBuild": null,
+            "postBuild": null,
+            "preInstall": null,
+            "postInstall": null,
+            "buildFlags": "",
+            "setupCompileFlags": null,
+            "doBenchmark": null
+          }
+        },
+        "shared_graph_nodes_unchanged": 2036,
+        "shared_haskell_instances_unchanged": 468,
+        "seed_chain": "no seed"
+      },
+      {
+        "trial": 4,
+        "behavior": [
+          {
+            "command": [
+              "--version"
+            ],
+            "exit_code": 0,
+            "stdout_sha256": "7cef54f198362611c28cd9970367e68a138e8eaf029c6b2d62765e0ac82f0704",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "command": [
+              "--help"
+            ],
+            "exit_code": 0,
+            "stdout_sha256": "c820db54b2deb9e3c5a38f2853648ad154c16fa7af62326ec5145fec6f839854",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "command": [
+              "help",
+              "sealed-evaluation"
+            ],
+            "exit_code": 0,
+            "stdout_sha256": "49970dddf39afb73b86f2f33a515b681b270b19b32d6e18674ee8b4ebcbe73dc",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "command": [
+              "--bash-completion-script",
+              "mori"
+            ],
+            "exit_code": 0,
+            "stdout_sha256": "a8cf940a294789ed255d17eaa939ea8007d2890a57af721c65e60a83f84a9e1f",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        ],
+        "roots": {
+          "baseline": {
+            "derivation": "/nix/store/889xin53mk4n3vi0v6hg9x6g4nxhm0sl-mori-cli-7.0.0.0.drv",
+            "output": "/nix/store/2ws02pvv90fss5dk60m94qchapdx1157-mori-cli-7.0.0.0",
+            "graph_sha256": "49094d15e6fa9596fb44c871944aa973273e6251b576e81fd79caf0c9a340ffd",
+            "runtime_closure_nar_bytes": 9889580656,
+            "intermediates_absent_from_runtime_closure": true,
+            "seed_outputs_absent_from_runtime_closure": true
+          },
+          "candidate": {
+            "derivation": "/nix/store/nkfn8br4ydw2d6y7jxyawz4bsywyb7kb-mori-cli-7.0.0.0.drv",
+            "output": "/nix/store/5d6skf2yrcflz90rmcwn0gh309chh7xr-mori-cli-7.0.0.0",
+            "graph_sha256": "bab774a4787c1b97d446225a78f7dd09774d7b1febd9cea296d36edaae504ad4",
+            "runtime_closure_nar_bytes": 9859710320,
+            "intermediates_absent_from_runtime_closure": true,
+            "seed_outputs_absent_from_runtime_closure": true
+          }
+        },
+        "settings": {
+          "configureFlags": "",
+          "doCheck": "",
+          "system": "aarch64-darwin",
+          "builder": "/nix/store/yqk6qhawnigv832m2zhcbs25nb37r73i-bash-5.3p15/bin/bash",
+          "source": "/nix/store/ra1vmabdfrdyx36kv3w49d4gp4h13qzk-mori-cli-source",
+          "buildWays": {
+            "doHaddock": null,
+            "enableLibraryProfiling": null,
+            "enableExecutableProfiling": null,
+            "enableSharedLibraries": null,
+            "enableSharedExecutables": null,
+            "enableStaticLibraries": null,
+            "enableStaticExecutables": null,
+            "enableParallelBuilding": null
+          },
+          "recipeHooks": {
+            "prePatch": "cp -r /nix/store/zl73ghjsdj939r7ilcj900pf3d962i9w-source ../schema\nmkdir -p ../mori-core/test\ncp -r /nix/store/k380dgb576is8i79r172hqa08plsi28q-mori-core-fixtures ../mori-core/test/fixtures\n\nsed -i -e 's/\\r$//' *.cabal\n",
+            "postPatch": "substituteInPlace src/Mori/Version.hs \\\n  --replace-fail '#ifdef GIT_HASH' '#if 1' \\\n  --replace-fail 'nixGitHash = Just GIT_HASH' 'nixGitHash = Just \"dirty\"'\n",
+            "preConfigure": null,
+            "postConfigure": null,
+            "preBuild": null,
+            "postBuild": null,
+            "preInstall": null,
+            "postInstall": null,
+            "buildFlags": "",
+            "setupCompileFlags": null,
+            "doBenchmark": null
+          }
+        },
+        "shared_graph_nodes_unchanged": 2036,
+        "shared_haskell_instances_unchanged": 468,
+        "seed_chain": "no seed"
+      },
+      {
+        "trial": 5,
+        "behavior": [
+          {
+            "command": [
+              "--version"
+            ],
+            "exit_code": 0,
+            "stdout_sha256": "7cef54f198362611c28cd9970367e68a138e8eaf029c6b2d62765e0ac82f0704",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "command": [
+              "--help"
+            ],
+            "exit_code": 0,
+            "stdout_sha256": "c820db54b2deb9e3c5a38f2853648ad154c16fa7af62326ec5145fec6f839854",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "command": [
+              "help",
+              "sealed-evaluation"
+            ],
+            "exit_code": 0,
+            "stdout_sha256": "c65250ec5e249c085f5660a949a4313095d2ce5f9af04bfe78a5e16327943cd9",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          {
+            "command": [
+              "--bash-completion-script",
+              "mori"
+            ],
+            "exit_code": 0,
+            "stdout_sha256": "a8cf940a294789ed255d17eaa939ea8007d2890a57af721c65e60a83f84a9e1f",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        ],
+        "roots": {
+          "baseline": {
+            "derivation": "/nix/store/y9bds957fdzrsbvm8sf37105wpc1rr17-mori-cli-7.0.0.0.drv",
+            "output": "/nix/store/4mkcs2jgf8jxq7rgmv87xq8jsg2k0mp7-mori-cli-7.0.0.0",
+            "graph_sha256": "e2b3a4c6d8ea78e2ba4dd9f9644ce5fdc03f133e2d1fdb5ff0d12273d1f96957",
+            "runtime_closure_nar_bytes": 9889580584,
+            "intermediates_absent_from_runtime_closure": true,
+            "seed_outputs_absent_from_runtime_closure": true
+          },
+          "candidate": {
+            "derivation": "/nix/store/mrhbqccvj6189h730p6j3vnhg623xfs6-mori-cli-7.0.0.0.drv",
+            "output": "/nix/store/lvvi1mcc3qjvlvzsxzwc3iv2999sxsmq-mori-cli-7.0.0.0",
+            "graph_sha256": "f25ed10c4affab4cba8d3c4af15c15dc50f4dcecf2692d3e76321a6098e6e092",
+            "runtime_closure_nar_bytes": 9859710304,
+            "intermediates_absent_from_runtime_closure": true,
+            "seed_outputs_absent_from_runtime_closure": true
+          }
+        },
+        "settings": {
+          "configureFlags": "",
+          "doCheck": "",
+          "system": "aarch64-darwin",
+          "builder": "/nix/store/yqk6qhawnigv832m2zhcbs25nb37r73i-bash-5.3p15/bin/bash",
+          "source": "/nix/store/mmfi5s3wfv04qhlpw6j3biki9rgqx3gq-mori-cli-source",
+          "buildWays": {
+            "doHaddock": null,
+            "enableLibraryProfiling": null,
+            "enableExecutableProfiling": null,
+            "enableSharedLibraries": null,
+            "enableSharedExecutables": null,
+            "enableStaticLibraries": null,
+            "enableStaticExecutables": null,
+            "enableParallelBuilding": null
+          },
+          "recipeHooks": {
+            "prePatch": "cp -r /nix/store/zl73ghjsdj939r7ilcj900pf3d962i9w-source ../schema\nmkdir -p ../mori-core/test\ncp -r /nix/store/k380dgb576is8i79r172hqa08plsi28q-mori-core-fixtures ../mori-core/test/fixtures\n\nsed -i -e 's/\\r$//' *.cabal\n",
+            "postPatch": "substituteInPlace src/Mori/Version.hs \\\n  --replace-fail '#ifdef GIT_HASH' '#if 1' \\\n  --replace-fail 'nixGitHash = Just GIT_HASH' 'nixGitHash = Just \"dirty\"'\n",
+            "preConfigure": null,
+            "postConfigure": null,
+            "preBuild": null,
+            "postBuild": null,
+            "preInstall": null,
+            "postInstall": null,
+            "buildFlags": "",
+            "setupCompileFlags": null,
+            "doBenchmark": null
+          }
+        },
+        "shared_graph_nodes_unchanged": 2036,
+        "shared_haskell_instances_unchanged": 468,
+        "seed_chain": "no seed"
+      }
+    ],
+    "executable_validation": [
+      {
+        "trial": 1,
+        "settings": {
+          "baseline": {
+            "configureFlags": "",
+            "doCheck": "",
+            "system": "aarch64-darwin",
+            "builder": "/nix/store/yqk6qhawnigv832m2zhcbs25nb37r73i-bash-5.3p15/bin/bash",
+            "source": "/nix/store/n5r97anbfaa605p2l53pq91j0cbxb24q-mori-cli-source",
+            "buildWays": {
+              "doHaddock": null,
+              "enableLibraryProfiling": null,
+              "enableExecutableProfiling": null,
+              "enableSharedLibraries": null,
+              "enableSharedExecutables": null,
+              "enableStaticLibraries": null,
+              "enableStaticExecutables": null,
+              "enableParallelBuilding": null
+            },
+            "recipeHooks": {
+              "prePatch": "cp -r /nix/store/zl73ghjsdj939r7ilcj900pf3d962i9w-source ../schema\nmkdir -p ../mori-core/test\ncp -r /nix/store/k380dgb576is8i79r172hqa08plsi28q-mori-core-fixtures ../mori-core/test/fixtures\n\nsed -i -e 's/\\r$//' *.cabal\n",
+              "postPatch": "substituteInPlace src/Mori/Version.hs \\\n  --replace-fail '#ifdef GIT_HASH' '#if 1' \\\n  --replace-fail 'nixGitHash = Just GIT_HASH' 'nixGitHash = Just \"dirty\"'\n",
+              "preConfigure": null,
+              "postConfigure": null,
+              "preBuild": null,
+              "postBuild": null,
+              "preInstall": null,
+              "postInstall": null,
+              "buildFlags": "",
+              "setupCompileFlags": null,
+              "doBenchmark": null
+            }
+          },
+          "candidate": {
+            "configureFlags": "",
+            "doCheck": "",
+            "system": "aarch64-darwin",
+            "builder": "/nix/store/yqk6qhawnigv832m2zhcbs25nb37r73i-bash-5.3p15/bin/bash",
+            "source": "/nix/store/n5r97anbfaa605p2l53pq91j0cbxb24q-mori-cli-source",
+            "buildWays": {
+              "doHaddock": null,
+              "enableLibraryProfiling": null,
+              "enableExecutableProfiling": null,
+              "enableSharedLibraries": null,
+              "enableSharedExecutables": null,
+              "enableStaticLibraries": null,
+              "enableStaticExecutables": null,
+              "enableParallelBuilding": null
+            },
+            "recipeHooks": {
+              "prePatch": "cp -r /nix/store/zl73ghjsdj939r7ilcj900pf3d962i9w-source ../schema\nmkdir -p ../mori-core/test\ncp -r /nix/store/k380dgb576is8i79r172hqa08plsi28q-mori-core-fixtures ../mori-core/test/fixtures\n\nsed -i -e 's/\\r$//' *.cabal\n",
+              "postPatch": "substituteInPlace src/Mori/Version.hs \\\n  --replace-fail '#ifdef GIT_HASH' '#if 1' \\\n  --replace-fail 'nixGitHash = Just GIT_HASH' 'nixGitHash = Just \"dirty\"'\n",
+              "preConfigure": null,
+              "postConfigure": null,
+              "preBuild": null,
+              "postBuild": null,
+              "preInstall": null,
+              "postInstall": null,
+              "buildFlags": "",
+              "setupCompileFlags": null,
+              "doBenchmark": null
+            }
+          }
+        },
+        "native_configure_flags": {
+          "baseline": "--verbose --prefix=/nix/store/r66dj6swh0bndr3dkwq7wk2qbx5wx3y8-mori-cli-7.0.0.0 --libdir=$prefix/lib/$compiler/lib --libsubdir=$abi/$libname --with-gcc=clang --package-db=/nix/var/nix/builds/nix-94884-2491475623/tmp.NLpIZDNsPu/package.conf.d --ghc-option=-j16 --ghc-option=+RTS --ghc-option=-A64M --ghc-option=-RTS --disable-library-profiling --disable-profiling --enable-shared --disable-coverage --enable-static --disable-executable-dynamic --disable-tests --disable-benchmarks --enable-library-vanilla --disable-library-for-ghci --disable-split-sections --enable-library-stripping --enable-executable-stripping --ghc-option=-fobject-determinism --extra-lib-dirs=/nix/store/cpz4ihmdnnvwip57v8mhfzljng1vxky4-ncurses-6.6/lib --extra-lib-dirs=/nix/store/9ihp157s1yjwa9vcfvbskbik18djv53q-libffi-40/lib --extra-lib-dirs=/nix/store/4qp5gjs1sd6z22pknk5ff24494ikn0wy-gmp-with-cxx-6.3.0/lib --extra-lib-dirs=/nix/store/0iavzb323r97k7sps762r5kj1f2bny0b-libiconv-115.100.1/lib --extra-include-dirs=/nix/store/klydx0x6ay8islhglaxarjg4c6j2m8y3-libcxx-21.1.6+apple-sdk-26.5/include --extra-lib-dirs=/nix/store/klydx0x6ay8islhglaxarjg4c6j2m8y3-libcxx-21.1.6+apple-sdk-26.5/lib --extra-include-dirs=/nix/store/xya34xj3ryybbxq0nkv2072fir91ac9n-compiler-rt-libc-21.1.8-dev/include --extra-lib-dirs=/nix/store/hlyaqc922qhg55ic36hfza4wxfmvl6w8-compiler-rt-libc-21.1.8/lib --extra-lib-dirs=/nix/store/g1qpr9sf56sr9znrqk05wxqrbgnnyanj-ghc-9.12.4/lib --extra-include-dirs=/nix/store/rqkvy96rrfm4nxy5lmiz7a2wjbag9fl9-libiconv-115.100.1-dev/include --extra-lib-dirs=/nix/store/0iavzb323r97k7sps762r5kj1f2bny0b-libiconv-115.100.1/lib --extra-include-dirs=/nix/store/n9da7ps350qkwbk0f79azc7yb38ddilz-libresolv-96-dev/include --extra-lib-dirs=/nix/store/byn0bp1h0mmnc53zqjhda2h9gli4y4ab-libresolv-96/lib --extra-include-dirs=/nix/store/8gs0fxk65pyapdksbr4s3jhjyd895rln-libsbuf-14.1.0-dev/include --extra-lib-dirs=/nix/store/rj8snl4hdv2ddxrcnb30vyysmnaaz219-libsbuf-14.1.0/lib --extra-lib-dirs=/nix/store/0gj9biwbjcf76zrn50blvk1zsk4x8fsv-libutil-73/lib",
+          "candidate": "--verbose --prefix=/nix/store/0wj1dbwj163q59gjlkpvglazskp7wwir-mori-cli-7.0.0.0 --libdir=$prefix/lib/$compiler/lib --libsubdir=$abi/$libname --with-gcc=clang --package-db=/nix/var/nix/builds/nix-8605-2820479512/tmp.BVF6LmuDoL/package.conf.d --ghc-option=-j16 --ghc-option=+RTS --ghc-option=-A64M --ghc-option=-RTS --disable-library-profiling --disable-profiling --disable-shared --disable-coverage --disable-static --disable-executable-dynamic --disable-tests --disable-benchmarks --enable-library-vanilla --disable-library-for-ghci --disable-split-sections --enable-library-stripping --enable-executable-stripping --ghc-option=-fobject-determinism --extra-lib-dirs=/nix/store/cpz4ihmdnnvwip57v8mhfzljng1vxky4-ncurses-6.6/lib --extra-lib-dirs=/nix/store/9ihp157s1yjwa9vcfvbskbik18djv53q-libffi-40/lib --extra-lib-dirs=/nix/store/4qp5gjs1sd6z22pknk5ff24494ikn0wy-gmp-with-cxx-6.3.0/lib --extra-lib-dirs=/nix/store/0iavzb323r97k7sps762r5kj1f2bny0b-libiconv-115.100.1/lib --extra-include-dirs=/nix/store/klydx0x6ay8islhglaxarjg4c6j2m8y3-libcxx-21.1.6+apple-sdk-26.5/include --extra-lib-dirs=/nix/store/klydx0x6ay8islhglaxarjg4c6j2m8y3-libcxx-21.1.6+apple-sdk-26.5/lib --extra-include-dirs=/nix/store/xya34xj3ryybbxq0nkv2072fir91ac9n-compiler-rt-libc-21.1.8-dev/include --extra-lib-dirs=/nix/store/hlyaqc922qhg55ic36hfza4wxfmvl6w8-compiler-rt-libc-21.1.8/lib --extra-lib-dirs=/nix/store/g1qpr9sf56sr9znrqk05wxqrbgnnyanj-ghc-9.12.4/lib --extra-include-dirs=/nix/store/rqkvy96rrfm4nxy5lmiz7a2wjbag9fl9-libiconv-115.100.1-dev/include --extra-lib-dirs=/nix/store/0iavzb323r97k7sps762r5kj1f2bny0b-libiconv-115.100.1/lib --extra-include-dirs=/nix/store/n9da7ps350qkwbk0f79azc7yb38ddilz-libresolv-96-dev/include --extra-lib-dirs=/nix/store/byn0bp1h0mmnc53zqjhda2h9gli4y4ab-libresolv-96/lib --extra-include-dirs=/nix/store/8gs0fxk65pyapdksbr4s3jhjyd895rln-libsbuf-14.1.0-dev/include --extra-lib-dirs=/nix/store/rj8snl4hdv2ddxrcnb30vyysmnaaz219-libsbuf-14.1.0/lib --extra-lib-dirs=/nix/store/0gj9biwbjcf76zrn50blvk1zsk4x8fsv-libutil-73/lib"
+        },
+        "unchanged_full_library": "/nix/store/l4b82h34ydbwqkdpvx8in1fi38q8yj0b-mori-cli-7.0.0.0.drv",
+        "executable_reference": "/nix/store/vjxir6qrd7pb9fwaq3jbflyi7m157dr6-mori-cli-7.0.0.0.drv",
+        "scope": "Only shared/combined library artifacts are omitted from the executable output; full SDK recipe preserved"
+      },
+      {
+        "trial": 2,
+        "settings": {
+          "baseline": {
+            "configureFlags": "",
+            "doCheck": "",
+            "system": "aarch64-darwin",
+            "builder": "/nix/store/yqk6qhawnigv832m2zhcbs25nb37r73i-bash-5.3p15/bin/bash",
+            "source": "/nix/store/4jhvsh79srqf7b0ilmkhrlranqvrv9lh-mori-cli-source",
+            "buildWays": {
+              "doHaddock": null,
+              "enableLibraryProfiling": null,
+              "enableExecutableProfiling": null,
+              "enableSharedLibraries": null,
+              "enableSharedExecutables": null,
+              "enableStaticLibraries": null,
+              "enableStaticExecutables": null,
+              "enableParallelBuilding": null
+            },
+            "recipeHooks": {
+              "prePatch": "cp -r /nix/store/zl73ghjsdj939r7ilcj900pf3d962i9w-source ../schema\nmkdir -p ../mori-core/test\ncp -r /nix/store/k380dgb576is8i79r172hqa08plsi28q-mori-core-fixtures ../mori-core/test/fixtures\n\nsed -i -e 's/\\r$//' *.cabal\n",
+              "postPatch": "substituteInPlace src/Mori/Version.hs \\\n  --replace-fail '#ifdef GIT_HASH' '#if 1' \\\n  --replace-fail 'nixGitHash = Just GIT_HASH' 'nixGitHash = Just \"dirty\"'\n",
+              "preConfigure": null,
+              "postConfigure": null,
+              "preBuild": null,
+              "postBuild": null,
+              "preInstall": null,
+              "postInstall": null,
+              "buildFlags": "",
+              "setupCompileFlags": null,
+              "doBenchmark": null
+            }
+          },
+          "candidate": {
+            "configureFlags": "",
+            "doCheck": "",
+            "system": "aarch64-darwin",
+            "builder": "/nix/store/yqk6qhawnigv832m2zhcbs25nb37r73i-bash-5.3p15/bin/bash",
+            "source": "/nix/store/4jhvsh79srqf7b0ilmkhrlranqvrv9lh-mori-cli-source",
+            "buildWays": {
+              "doHaddock": null,
+              "enableLibraryProfiling": null,
+              "enableExecutableProfiling": null,
+              "enableSharedLibraries": null,
+              "enableSharedExecutables": null,
+              "enableStaticLibraries": null,
+              "enableStaticExecutables": null,
+              "enableParallelBuilding": null
+            },
+            "recipeHooks": {
+              "prePatch": "cp -r /nix/store/zl73ghjsdj939r7ilcj900pf3d962i9w-source ../schema\nmkdir -p ../mori-core/test\ncp -r /nix/store/k380dgb576is8i79r172hqa08plsi28q-mori-core-fixtures ../mori-core/test/fixtures\n\nsed -i -e 's/\\r$//' *.cabal\n",
+              "postPatch": "substituteInPlace src/Mori/Version.hs \\\n  --replace-fail '#ifdef GIT_HASH' '#if 1' \\\n  --replace-fail 'nixGitHash = Just GIT_HASH' 'nixGitHash = Just \"dirty\"'\n",
+              "preConfigure": null,
+              "postConfigure": null,
+              "preBuild": null,
+              "postBuild": null,
+              "preInstall": null,
+              "postInstall": null,
+              "buildFlags": "",
+              "setupCompileFlags": null,
+              "doBenchmark": null
+            }
+          }
+        },
+        "native_configure_flags": {
+          "baseline": "--verbose --prefix=/nix/store/nqvpyjjfgn25ji4vh1w8li8zr2lagmgh-mori-cli-7.0.0.0 --libdir=$prefix/lib/$compiler/lib --libsubdir=$abi/$libname --with-gcc=clang --package-db=/nix/var/nix/builds/nix-21980-3710284867/tmp.exLqY3kWqt/package.conf.d --ghc-option=-j16 --ghc-option=+RTS --ghc-option=-A64M --ghc-option=-RTS --disable-library-profiling --disable-profiling --enable-shared --disable-coverage --enable-static --disable-executable-dynamic --disable-tests --disable-benchmarks --enable-library-vanilla --disable-library-for-ghci --disable-split-sections --enable-library-stripping --enable-executable-stripping --ghc-option=-fobject-determinism --extra-lib-dirs=/nix/store/cpz4ihmdnnvwip57v8mhfzljng1vxky4-ncurses-6.6/lib --extra-lib-dirs=/nix/store/9ihp157s1yjwa9vcfvbskbik18djv53q-libffi-40/lib --extra-lib-dirs=/nix/store/4qp5gjs1sd6z22pknk5ff24494ikn0wy-gmp-with-cxx-6.3.0/lib --extra-lib-dirs=/nix/store/0iavzb323r97k7sps762r5kj1f2bny0b-libiconv-115.100.1/lib --extra-include-dirs=/nix/store/klydx0x6ay8islhglaxarjg4c6j2m8y3-libcxx-21.1.6+apple-sdk-26.5/include --extra-lib-dirs=/nix/store/klydx0x6ay8islhglaxarjg4c6j2m8y3-libcxx-21.1.6+apple-sdk-26.5/lib --extra-include-dirs=/nix/store/xya34xj3ryybbxq0nkv2072fir91ac9n-compiler-rt-libc-21.1.8-dev/include --extra-lib-dirs=/nix/store/hlyaqc922qhg55ic36hfza4wxfmvl6w8-compiler-rt-libc-21.1.8/lib --extra-lib-dirs=/nix/store/g1qpr9sf56sr9znrqk05wxqrbgnnyanj-ghc-9.12.4/lib --extra-include-dirs=/nix/store/rqkvy96rrfm4nxy5lmiz7a2wjbag9fl9-libiconv-115.100.1-dev/include --extra-lib-dirs=/nix/store/0iavzb323r97k7sps762r5kj1f2bny0b-libiconv-115.100.1/lib --extra-include-dirs=/nix/store/n9da7ps350qkwbk0f79azc7yb38ddilz-libresolv-96-dev/include --extra-lib-dirs=/nix/store/byn0bp1h0mmnc53zqjhda2h9gli4y4ab-libresolv-96/lib --extra-include-dirs=/nix/store/8gs0fxk65pyapdksbr4s3jhjyd895rln-libsbuf-14.1.0-dev/include --extra-lib-dirs=/nix/store/rj8snl4hdv2ddxrcnb30vyysmnaaz219-libsbuf-14.1.0/lib --extra-lib-dirs=/nix/store/0gj9biwbjcf76zrn50blvk1zsk4x8fsv-libutil-73/lib",
+          "candidate": "--verbose --prefix=/nix/store/l4h75fcxgb2z1wz1rzw9vapskjxgw1mb-mori-cli-7.0.0.0 --libdir=$prefix/lib/$compiler/lib --libsubdir=$abi/$libname --with-gcc=clang --package-db=/nix/var/nix/builds/nix-15672-1782497003/tmp.HOH5k6k2o2/package.conf.d --ghc-option=-j16 --ghc-option=+RTS --ghc-option=-A64M --ghc-option=-RTS --disable-library-profiling --disable-profiling --disable-shared --disable-coverage --disable-static --disable-executable-dynamic --disable-tests --disable-benchmarks --enable-library-vanilla --disable-library-for-ghci --disable-split-sections --enable-library-stripping --enable-executable-stripping --ghc-option=-fobject-determinism --extra-lib-dirs=/nix/store/cpz4ihmdnnvwip57v8mhfzljng1vxky4-ncurses-6.6/lib --extra-lib-dirs=/nix/store/9ihp157s1yjwa9vcfvbskbik18djv53q-libffi-40/lib --extra-lib-dirs=/nix/store/4qp5gjs1sd6z22pknk5ff24494ikn0wy-gmp-with-cxx-6.3.0/lib --extra-lib-dirs=/nix/store/0iavzb323r97k7sps762r5kj1f2bny0b-libiconv-115.100.1/lib --extra-include-dirs=/nix/store/klydx0x6ay8islhglaxarjg4c6j2m8y3-libcxx-21.1.6+apple-sdk-26.5/include --extra-lib-dirs=/nix/store/klydx0x6ay8islhglaxarjg4c6j2m8y3-libcxx-21.1.6+apple-sdk-26.5/lib --extra-include-dirs=/nix/store/xya34xj3ryybbxq0nkv2072fir91ac9n-compiler-rt-libc-21.1.8-dev/include --extra-lib-dirs=/nix/store/hlyaqc922qhg55ic36hfza4wxfmvl6w8-compiler-rt-libc-21.1.8/lib --extra-lib-dirs=/nix/store/g1qpr9sf56sr9znrqk05wxqrbgnnyanj-ghc-9.12.4/lib --extra-include-dirs=/nix/store/rqkvy96rrfm4nxy5lmiz7a2wjbag9fl9-libiconv-115.100.1-dev/include --extra-lib-dirs=/nix/store/0iavzb323r97k7sps762r5kj1f2bny0b-libiconv-115.100.1/lib --extra-include-dirs=/nix/store/n9da7ps350qkwbk0f79azc7yb38ddilz-libresolv-96-dev/include --extra-lib-dirs=/nix/store/byn0bp1h0mmnc53zqjhda2h9gli4y4ab-libresolv-96/lib --extra-include-dirs=/nix/store/8gs0fxk65pyapdksbr4s3jhjyd895rln-libsbuf-14.1.0-dev/include --extra-lib-dirs=/nix/store/rj8snl4hdv2ddxrcnb30vyysmnaaz219-libsbuf-14.1.0/lib --extra-lib-dirs=/nix/store/0gj9biwbjcf76zrn50blvk1zsk4x8fsv-libutil-73/lib"
+        },
+        "unchanged_full_library": "/nix/store/r2mgqr2w7ml030asba1kr0gcc9x4s13b-mori-cli-7.0.0.0.drv",
+        "executable_reference": "/nix/store/bxfiamab0999ymlm7p4qcv6cx2xccvmv-mori-cli-7.0.0.0.drv",
+        "scope": "Only shared/combined library artifacts are omitted from the executable output; full SDK recipe preserved"
+      },
+      {
+        "trial": 3,
+        "settings": {
+          "baseline": {
+            "configureFlags": "",
+            "doCheck": "",
+            "system": "aarch64-darwin",
+            "builder": "/nix/store/yqk6qhawnigv832m2zhcbs25nb37r73i-bash-5.3p15/bin/bash",
+            "source": "/nix/store/npanac00v84pgcj6acaimpwxzdsg1hdy-mori-cli-source",
+            "buildWays": {
+              "doHaddock": null,
+              "enableLibraryProfiling": null,
+              "enableExecutableProfiling": null,
+              "enableSharedLibraries": null,
+              "enableSharedExecutables": null,
+              "enableStaticLibraries": null,
+              "enableStaticExecutables": null,
+              "enableParallelBuilding": null
+            },
+            "recipeHooks": {
+              "prePatch": "cp -r /nix/store/zl73ghjsdj939r7ilcj900pf3d962i9w-source ../schema\nmkdir -p ../mori-core/test\ncp -r /nix/store/k380dgb576is8i79r172hqa08plsi28q-mori-core-fixtures ../mori-core/test/fixtures\n\nsed -i -e 's/\\r$//' *.cabal\n",
+              "postPatch": "substituteInPlace src/Mori/Version.hs \\\n  --replace-fail '#ifdef GIT_HASH' '#if 1' \\\n  --replace-fail 'nixGitHash = Just GIT_HASH' 'nixGitHash = Just \"dirty\"'\n",
+              "preConfigure": null,
+              "postConfigure": null,
+              "preBuild": null,
+              "postBuild": null,
+              "preInstall": null,
+              "postInstall": null,
+              "buildFlags": "",
+              "setupCompileFlags": null,
+              "doBenchmark": null
+            }
+          },
+          "candidate": {
+            "configureFlags": "",
+            "doCheck": "",
+            "system": "aarch64-darwin",
+            "builder": "/nix/store/yqk6qhawnigv832m2zhcbs25nb37r73i-bash-5.3p15/bin/bash",
+            "source": "/nix/store/npanac00v84pgcj6acaimpwxzdsg1hdy-mori-cli-source",
+            "buildWays": {
+              "doHaddock": null,
+              "enableLibraryProfiling": null,
+              "enableExecutableProfiling": null,
+              "enableSharedLibraries": null,
+              "enableSharedExecutables": null,
+              "enableStaticLibraries": null,
+              "enableStaticExecutables": null,
+              "enableParallelBuilding": null
+            },
+            "recipeHooks": {
+              "prePatch": "cp -r /nix/store/zl73ghjsdj939r7ilcj900pf3d962i9w-source ../schema\nmkdir -p ../mori-core/test\ncp -r /nix/store/k380dgb576is8i79r172hqa08plsi28q-mori-core-fixtures ../mori-core/test/fixtures\n\nsed -i -e 's/\\r$//' *.cabal\n",
+              "postPatch": "substituteInPlace src/Mori/Version.hs \\\n  --replace-fail '#ifdef GIT_HASH' '#if 1' \\\n  --replace-fail 'nixGitHash = Just GIT_HASH' 'nixGitHash = Just \"dirty\"'\n",
+              "preConfigure": null,
+              "postConfigure": null,
+              "preBuild": null,
+              "postBuild": null,
+              "preInstall": null,
+              "postInstall": null,
+              "buildFlags": "",
+              "setupCompileFlags": null,
+              "doBenchmark": null
+            }
+          }
+        },
+        "native_configure_flags": {
+          "baseline": "--verbose --prefix=/nix/store/cxkaq2v5j0v2gs25qi4mgj2dagy309dw-mori-cli-7.0.0.0 --libdir=$prefix/lib/$compiler/lib --libsubdir=$abi/$libname --with-gcc=clang --package-db=/nix/var/nix/builds/nix-33930-3476231858/tmp.ZRDxd3evTR/package.conf.d --ghc-option=-j16 --ghc-option=+RTS --ghc-option=-A64M --ghc-option=-RTS --disable-library-profiling --disable-profiling --enable-shared --disable-coverage --enable-static --disable-executable-dynamic --disable-tests --disable-benchmarks --enable-library-vanilla --disable-library-for-ghci --disable-split-sections --enable-library-stripping --enable-executable-stripping --ghc-option=-fobject-determinism --extra-lib-dirs=/nix/store/cpz4ihmdnnvwip57v8mhfzljng1vxky4-ncurses-6.6/lib --extra-lib-dirs=/nix/store/9ihp157s1yjwa9vcfvbskbik18djv53q-libffi-40/lib --extra-lib-dirs=/nix/store/4qp5gjs1sd6z22pknk5ff24494ikn0wy-gmp-with-cxx-6.3.0/lib --extra-lib-dirs=/nix/store/0iavzb323r97k7sps762r5kj1f2bny0b-libiconv-115.100.1/lib --extra-include-dirs=/nix/store/klydx0x6ay8islhglaxarjg4c6j2m8y3-libcxx-21.1.6+apple-sdk-26.5/include --extra-lib-dirs=/nix/store/klydx0x6ay8islhglaxarjg4c6j2m8y3-libcxx-21.1.6+apple-sdk-26.5/lib --extra-include-dirs=/nix/store/xya34xj3ryybbxq0nkv2072fir91ac9n-compiler-rt-libc-21.1.8-dev/include --extra-lib-dirs=/nix/store/hlyaqc922qhg55ic36hfza4wxfmvl6w8-compiler-rt-libc-21.1.8/lib --extra-lib-dirs=/nix/store/g1qpr9sf56sr9znrqk05wxqrbgnnyanj-ghc-9.12.4/lib --extra-include-dirs=/nix/store/rqkvy96rrfm4nxy5lmiz7a2wjbag9fl9-libiconv-115.100.1-dev/include --extra-lib-dirs=/nix/store/0iavzb323r97k7sps762r5kj1f2bny0b-libiconv-115.100.1/lib --extra-include-dirs=/nix/store/n9da7ps350qkwbk0f79azc7yb38ddilz-libresolv-96-dev/include --extra-lib-dirs=/nix/store/byn0bp1h0mmnc53zqjhda2h9gli4y4ab-libresolv-96/lib --extra-include-dirs=/nix/store/8gs0fxk65pyapdksbr4s3jhjyd895rln-libsbuf-14.1.0-dev/include --extra-lib-dirs=/nix/store/rj8snl4hdv2ddxrcnb30vyysmnaaz219-libsbuf-14.1.0/lib --extra-lib-dirs=/nix/store/0gj9biwbjcf76zrn50blvk1zsk4x8fsv-libutil-73/lib",
+          "candidate": "--verbose --prefix=/nix/store/vbsxm812nwmxj8mrbmjx0l1n1ch9sa4l-mori-cli-7.0.0.0 --libdir=$prefix/lib/$compiler/lib --libsubdir=$abi/$libname --with-gcc=clang --package-db=/nix/var/nix/builds/nix-46610-520258305/tmp.DrWVlrwt06/package.conf.d --ghc-option=-j16 --ghc-option=+RTS --ghc-option=-A64M --ghc-option=-RTS --disable-library-profiling --disable-profiling --disable-shared --disable-coverage --disable-static --disable-executable-dynamic --disable-tests --disable-benchmarks --enable-library-vanilla --disable-library-for-ghci --disable-split-sections --enable-library-stripping --enable-executable-stripping --ghc-option=-fobject-determinism --extra-lib-dirs=/nix/store/cpz4ihmdnnvwip57v8mhfzljng1vxky4-ncurses-6.6/lib --extra-lib-dirs=/nix/store/9ihp157s1yjwa9vcfvbskbik18djv53q-libffi-40/lib --extra-lib-dirs=/nix/store/4qp5gjs1sd6z22pknk5ff24494ikn0wy-gmp-with-cxx-6.3.0/lib --extra-lib-dirs=/nix/store/0iavzb323r97k7sps762r5kj1f2bny0b-libiconv-115.100.1/lib --extra-include-dirs=/nix/store/klydx0x6ay8islhglaxarjg4c6j2m8y3-libcxx-21.1.6+apple-sdk-26.5/include --extra-lib-dirs=/nix/store/klydx0x6ay8islhglaxarjg4c6j2m8y3-libcxx-21.1.6+apple-sdk-26.5/lib --extra-include-dirs=/nix/store/xya34xj3ryybbxq0nkv2072fir91ac9n-compiler-rt-libc-21.1.8-dev/include --extra-lib-dirs=/nix/store/hlyaqc922qhg55ic36hfza4wxfmvl6w8-compiler-rt-libc-21.1.8/lib --extra-lib-dirs=/nix/store/g1qpr9sf56sr9znrqk05wxqrbgnnyanj-ghc-9.12.4/lib --extra-include-dirs=/nix/store/rqkvy96rrfm4nxy5lmiz7a2wjbag9fl9-libiconv-115.100.1-dev/include --extra-lib-dirs=/nix/store/0iavzb323r97k7sps762r5kj1f2bny0b-libiconv-115.100.1/lib --extra-include-dirs=/nix/store/n9da7ps350qkwbk0f79azc7yb38ddilz-libresolv-96-dev/include --extra-lib-dirs=/nix/store/byn0bp1h0mmnc53zqjhda2h9gli4y4ab-libresolv-96/lib --extra-include-dirs=/nix/store/8gs0fxk65pyapdksbr4s3jhjyd895rln-libsbuf-14.1.0-dev/include --extra-lib-dirs=/nix/store/rj8snl4hdv2ddxrcnb30vyysmnaaz219-libsbuf-14.1.0/lib --extra-lib-dirs=/nix/store/0gj9biwbjcf76zrn50blvk1zsk4x8fsv-libutil-73/lib"
+        },
+        "unchanged_full_library": "/nix/store/jxv1zja0q13spmjq1al9nw20idr3h5r8-mori-cli-7.0.0.0.drv",
+        "executable_reference": "/nix/store/y083g1a2ndxwf4iaqcv9if414rz4p27p-mori-cli-7.0.0.0.drv",
+        "scope": "Only shared/combined library artifacts are omitted from the executable output; full SDK recipe preserved"
+      },
+      {
+        "trial": 4,
+        "settings": {
+          "baseline": {
+            "configureFlags": "",
+            "doCheck": "",
+            "system": "aarch64-darwin",
+            "builder": "/nix/store/yqk6qhawnigv832m2zhcbs25nb37r73i-bash-5.3p15/bin/bash",
+            "source": "/nix/store/ra1vmabdfrdyx36kv3w49d4gp4h13qzk-mori-cli-source",
+            "buildWays": {
+              "doHaddock": null,
+              "enableLibraryProfiling": null,
+              "enableExecutableProfiling": null,
+              "enableSharedLibraries": null,
+              "enableSharedExecutables": null,
+              "enableStaticLibraries": null,
+              "enableStaticExecutables": null,
+              "enableParallelBuilding": null
+            },
+            "recipeHooks": {
+              "prePatch": "cp -r /nix/store/zl73ghjsdj939r7ilcj900pf3d962i9w-source ../schema\nmkdir -p ../mori-core/test\ncp -r /nix/store/k380dgb576is8i79r172hqa08plsi28q-mori-core-fixtures ../mori-core/test/fixtures\n\nsed -i -e 's/\\r$//' *.cabal\n",
+              "postPatch": "substituteInPlace src/Mori/Version.hs \\\n  --replace-fail '#ifdef GIT_HASH' '#if 1' \\\n  --replace-fail 'nixGitHash = Just GIT_HASH' 'nixGitHash = Just \"dirty\"'\n",
+              "preConfigure": null,
+              "postConfigure": null,
+              "preBuild": null,
+              "postBuild": null,
+              "preInstall": null,
+              "postInstall": null,
+              "buildFlags": "",
+              "setupCompileFlags": null,
+              "doBenchmark": null
+            }
+          },
+          "candidate": {
+            "configureFlags": "",
+            "doCheck": "",
+            "system": "aarch64-darwin",
+            "builder": "/nix/store/yqk6qhawnigv832m2zhcbs25nb37r73i-bash-5.3p15/bin/bash",
+            "source": "/nix/store/ra1vmabdfrdyx36kv3w49d4gp4h13qzk-mori-cli-source",
+            "buildWays": {
+              "doHaddock": null,
+              "enableLibraryProfiling": null,
+              "enableExecutableProfiling": null,
+              "enableSharedLibraries": null,
+              "enableSharedExecutables": null,
+              "enableStaticLibraries": null,
+              "enableStaticExecutables": null,
+              "enableParallelBuilding": null
+            },
+            "recipeHooks": {
+              "prePatch": "cp -r /nix/store/zl73ghjsdj939r7ilcj900pf3d962i9w-source ../schema\nmkdir -p ../mori-core/test\ncp -r /nix/store/k380dgb576is8i79r172hqa08plsi28q-mori-core-fixtures ../mori-core/test/fixtures\n\nsed -i -e 's/\\r$//' *.cabal\n",
+              "postPatch": "substituteInPlace src/Mori/Version.hs \\\n  --replace-fail '#ifdef GIT_HASH' '#if 1' \\\n  --replace-fail 'nixGitHash = Just GIT_HASH' 'nixGitHash = Just \"dirty\"'\n",
+              "preConfigure": null,
+              "postConfigure": null,
+              "preBuild": null,
+              "postBuild": null,
+              "preInstall": null,
+              "postInstall": null,
+              "buildFlags": "",
+              "setupCompileFlags": null,
+              "doBenchmark": null
+            }
+          }
+        },
+        "native_configure_flags": {
+          "baseline": "--verbose --prefix=/nix/store/2ws02pvv90fss5dk60m94qchapdx1157-mori-cli-7.0.0.0 --libdir=$prefix/lib/$compiler/lib --libsubdir=$abi/$libname --with-gcc=clang --package-db=/nix/var/nix/builds/nix-61973-3019701573/tmp.9FsCDS65Uc/package.conf.d --ghc-option=-j16 --ghc-option=+RTS --ghc-option=-A64M --ghc-option=-RTS --disable-library-profiling --disable-profiling --enable-shared --disable-coverage --enable-static --disable-executable-dynamic --disable-tests --disable-benchmarks --enable-library-vanilla --disable-library-for-ghci --disable-split-sections --enable-library-stripping --enable-executable-stripping --ghc-option=-fobject-determinism --extra-lib-dirs=/nix/store/cpz4ihmdnnvwip57v8mhfzljng1vxky4-ncurses-6.6/lib --extra-lib-dirs=/nix/store/9ihp157s1yjwa9vcfvbskbik18djv53q-libffi-40/lib --extra-lib-dirs=/nix/store/4qp5gjs1sd6z22pknk5ff24494ikn0wy-gmp-with-cxx-6.3.0/lib --extra-lib-dirs=/nix/store/0iavzb323r97k7sps762r5kj1f2bny0b-libiconv-115.100.1/lib --extra-include-dirs=/nix/store/klydx0x6ay8islhglaxarjg4c6j2m8y3-libcxx-21.1.6+apple-sdk-26.5/include --extra-lib-dirs=/nix/store/klydx0x6ay8islhglaxarjg4c6j2m8y3-libcxx-21.1.6+apple-sdk-26.5/lib --extra-include-dirs=/nix/store/xya34xj3ryybbxq0nkv2072fir91ac9n-compiler-rt-libc-21.1.8-dev/include --extra-lib-dirs=/nix/store/hlyaqc922qhg55ic36hfza4wxfmvl6w8-compiler-rt-libc-21.1.8/lib --extra-lib-dirs=/nix/store/g1qpr9sf56sr9znrqk05wxqrbgnnyanj-ghc-9.12.4/lib --extra-include-dirs=/nix/store/rqkvy96rrfm4nxy5lmiz7a2wjbag9fl9-libiconv-115.100.1-dev/include --extra-lib-dirs=/nix/store/0iavzb323r97k7sps762r5kj1f2bny0b-libiconv-115.100.1/lib --extra-include-dirs=/nix/store/n9da7ps350qkwbk0f79azc7yb38ddilz-libresolv-96-dev/include --extra-lib-dirs=/nix/store/byn0bp1h0mmnc53zqjhda2h9gli4y4ab-libresolv-96/lib --extra-include-dirs=/nix/store/8gs0fxk65pyapdksbr4s3jhjyd895rln-libsbuf-14.1.0-dev/include --extra-lib-dirs=/nix/store/rj8snl4hdv2ddxrcnb30vyysmnaaz219-libsbuf-14.1.0/lib --extra-lib-dirs=/nix/store/0gj9biwbjcf76zrn50blvk1zsk4x8fsv-libutil-73/lib",
+          "candidate": "--verbose --prefix=/nix/store/5d6skf2yrcflz90rmcwn0gh309chh7xr-mori-cli-7.0.0.0 --libdir=$prefix/lib/$compiler/lib --libsubdir=$abi/$libname --with-gcc=clang --package-db=/nix/var/nix/builds/nix-54801-3337950827/tmp.UB6CaKhsLA/package.conf.d --ghc-option=-j16 --ghc-option=+RTS --ghc-option=-A64M --ghc-option=-RTS --disable-library-profiling --disable-profiling --disable-shared --disable-coverage --disable-static --disable-executable-dynamic --disable-tests --disable-benchmarks --enable-library-vanilla --disable-library-for-ghci --disable-split-sections --enable-library-stripping --enable-executable-stripping --ghc-option=-fobject-determinism --extra-lib-dirs=/nix/store/cpz4ihmdnnvwip57v8mhfzljng1vxky4-ncurses-6.6/lib --extra-lib-dirs=/nix/store/9ihp157s1yjwa9vcfvbskbik18djv53q-libffi-40/lib --extra-lib-dirs=/nix/store/4qp5gjs1sd6z22pknk5ff24494ikn0wy-gmp-with-cxx-6.3.0/lib --extra-lib-dirs=/nix/store/0iavzb323r97k7sps762r5kj1f2bny0b-libiconv-115.100.1/lib --extra-include-dirs=/nix/store/klydx0x6ay8islhglaxarjg4c6j2m8y3-libcxx-21.1.6+apple-sdk-26.5/include --extra-lib-dirs=/nix/store/klydx0x6ay8islhglaxarjg4c6j2m8y3-libcxx-21.1.6+apple-sdk-26.5/lib --extra-include-dirs=/nix/store/xya34xj3ryybbxq0nkv2072fir91ac9n-compiler-rt-libc-21.1.8-dev/include --extra-lib-dirs=/nix/store/hlyaqc922qhg55ic36hfza4wxfmvl6w8-compiler-rt-libc-21.1.8/lib --extra-lib-dirs=/nix/store/g1qpr9sf56sr9znrqk05wxqrbgnnyanj-ghc-9.12.4/lib --extra-include-dirs=/nix/store/rqkvy96rrfm4nxy5lmiz7a2wjbag9fl9-libiconv-115.100.1-dev/include --extra-lib-dirs=/nix/store/0iavzb323r97k7sps762r5kj1f2bny0b-libiconv-115.100.1/lib --extra-include-dirs=/nix/store/n9da7ps350qkwbk0f79azc7yb38ddilz-libresolv-96-dev/include --extra-lib-dirs=/nix/store/byn0bp1h0mmnc53zqjhda2h9gli4y4ab-libresolv-96/lib --extra-include-dirs=/nix/store/8gs0fxk65pyapdksbr4s3jhjyd895rln-libsbuf-14.1.0-dev/include --extra-lib-dirs=/nix/store/rj8snl4hdv2ddxrcnb30vyysmnaaz219-libsbuf-14.1.0/lib --extra-lib-dirs=/nix/store/0gj9biwbjcf76zrn50blvk1zsk4x8fsv-libutil-73/lib"
+        },
+        "unchanged_full_library": "/nix/store/889xin53mk4n3vi0v6hg9x6g4nxhm0sl-mori-cli-7.0.0.0.drv",
+        "executable_reference": "/nix/store/nkfn8br4ydw2d6y7jxyawz4bsywyb7kb-mori-cli-7.0.0.0.drv",
+        "scope": "Only shared/combined library artifacts are omitted from the executable output; full SDK recipe preserved"
+      },
+      {
+        "trial": 5,
+        "settings": {
+          "baseline": {
+            "configureFlags": "",
+            "doCheck": "",
+            "system": "aarch64-darwin",
+            "builder": "/nix/store/yqk6qhawnigv832m2zhcbs25nb37r73i-bash-5.3p15/bin/bash",
+            "source": "/nix/store/mmfi5s3wfv04qhlpw6j3biki9rgqx3gq-mori-cli-source",
+            "buildWays": {
+              "doHaddock": null,
+              "enableLibraryProfiling": null,
+              "enableExecutableProfiling": null,
+              "enableSharedLibraries": null,
+              "enableSharedExecutables": null,
+              "enableStaticLibraries": null,
+              "enableStaticExecutables": null,
+              "enableParallelBuilding": null
+            },
+            "recipeHooks": {
+              "prePatch": "cp -r /nix/store/zl73ghjsdj939r7ilcj900pf3d962i9w-source ../schema\nmkdir -p ../mori-core/test\ncp -r /nix/store/k380dgb576is8i79r172hqa08plsi28q-mori-core-fixtures ../mori-core/test/fixtures\n\nsed -i -e 's/\\r$//' *.cabal\n",
+              "postPatch": "substituteInPlace src/Mori/Version.hs \\\n  --replace-fail '#ifdef GIT_HASH' '#if 1' \\\n  --replace-fail 'nixGitHash = Just GIT_HASH' 'nixGitHash = Just \"dirty\"'\n",
+              "preConfigure": null,
+              "postConfigure": null,
+              "preBuild": null,
+              "postBuild": null,
+              "preInstall": null,
+              "postInstall": null,
+              "buildFlags": "",
+              "setupCompileFlags": null,
+              "doBenchmark": null
+            }
+          },
+          "candidate": {
+            "configureFlags": "",
+            "doCheck": "",
+            "system": "aarch64-darwin",
+            "builder": "/nix/store/yqk6qhawnigv832m2zhcbs25nb37r73i-bash-5.3p15/bin/bash",
+            "source": "/nix/store/mmfi5s3wfv04qhlpw6j3biki9rgqx3gq-mori-cli-source",
+            "buildWays": {
+              "doHaddock": null,
+              "enableLibraryProfiling": null,
+              "enableExecutableProfiling": null,
+              "enableSharedLibraries": null,
+              "enableSharedExecutables": null,
+              "enableStaticLibraries": null,
+              "enableStaticExecutables": null,
+              "enableParallelBuilding": null
+            },
+            "recipeHooks": {
+              "prePatch": "cp -r /nix/store/zl73ghjsdj939r7ilcj900pf3d962i9w-source ../schema\nmkdir -p ../mori-core/test\ncp -r /nix/store/k380dgb576is8i79r172hqa08plsi28q-mori-core-fixtures ../mori-core/test/fixtures\n\nsed -i -e 's/\\r$//' *.cabal\n",
+              "postPatch": "substituteInPlace src/Mori/Version.hs \\\n  --replace-fail '#ifdef GIT_HASH' '#if 1' \\\n  --replace-fail 'nixGitHash = Just GIT_HASH' 'nixGitHash = Just \"dirty\"'\n",
+              "preConfigure": null,
+              "postConfigure": null,
+              "preBuild": null,
+              "postBuild": null,
+              "preInstall": null,
+              "postInstall": null,
+              "buildFlags": "",
+              "setupCompileFlags": null,
+              "doBenchmark": null
+            }
+          }
+        },
+        "native_configure_flags": {
+          "baseline": "--verbose --prefix=/nix/store/4mkcs2jgf8jxq7rgmv87xq8jsg2k0mp7-mori-cli-7.0.0.0 --libdir=$prefix/lib/$compiler/lib --libsubdir=$abi/$libname --with-gcc=clang --package-db=/nix/var/nix/builds/nix-92629-3152105532/tmp.MJM80LNl54/package.conf.d --ghc-option=-j16 --ghc-option=+RTS --ghc-option=-A64M --ghc-option=-RTS --disable-library-profiling --disable-profiling --enable-shared --disable-coverage --enable-static --disable-executable-dynamic --disable-tests --disable-benchmarks --enable-library-vanilla --disable-library-for-ghci --disable-split-sections --enable-library-stripping --enable-executable-stripping --ghc-option=-fobject-determinism --extra-lib-dirs=/nix/store/cpz4ihmdnnvwip57v8mhfzljng1vxky4-ncurses-6.6/lib --extra-lib-dirs=/nix/store/9ihp157s1yjwa9vcfvbskbik18djv53q-libffi-40/lib --extra-lib-dirs=/nix/store/4qp5gjs1sd6z22pknk5ff24494ikn0wy-gmp-with-cxx-6.3.0/lib --extra-lib-dirs=/nix/store/0iavzb323r97k7sps762r5kj1f2bny0b-libiconv-115.100.1/lib --extra-include-dirs=/nix/store/klydx0x6ay8islhglaxarjg4c6j2m8y3-libcxx-21.1.6+apple-sdk-26.5/include --extra-lib-dirs=/nix/store/klydx0x6ay8islhglaxarjg4c6j2m8y3-libcxx-21.1.6+apple-sdk-26.5/lib --extra-include-dirs=/nix/store/xya34xj3ryybbxq0nkv2072fir91ac9n-compiler-rt-libc-21.1.8-dev/include --extra-lib-dirs=/nix/store/hlyaqc922qhg55ic36hfza4wxfmvl6w8-compiler-rt-libc-21.1.8/lib --extra-lib-dirs=/nix/store/g1qpr9sf56sr9znrqk05wxqrbgnnyanj-ghc-9.12.4/lib --extra-include-dirs=/nix/store/rqkvy96rrfm4nxy5lmiz7a2wjbag9fl9-libiconv-115.100.1-dev/include --extra-lib-dirs=/nix/store/0iavzb323r97k7sps762r5kj1f2bny0b-libiconv-115.100.1/lib --extra-include-dirs=/nix/store/n9da7ps350qkwbk0f79azc7yb38ddilz-libresolv-96-dev/include --extra-lib-dirs=/nix/store/byn0bp1h0mmnc53zqjhda2h9gli4y4ab-libresolv-96/lib --extra-include-dirs=/nix/store/8gs0fxk65pyapdksbr4s3jhjyd895rln-libsbuf-14.1.0-dev/include --extra-lib-dirs=/nix/store/rj8snl4hdv2ddxrcnb30vyysmnaaz219-libsbuf-14.1.0/lib --extra-lib-dirs=/nix/store/0gj9biwbjcf76zrn50blvk1zsk4x8fsv-libutil-73/lib",
+          "candidate": "--verbose --prefix=/nix/store/lvvi1mcc3qjvlvzsxzwc3iv2999sxsmq-mori-cli-7.0.0.0 --libdir=$prefix/lib/$compiler/lib --libsubdir=$abi/$libname --with-gcc=clang --package-db=/nix/var/nix/builds/nix-73692-3024628250/tmp.pg01CEKSQ0/package.conf.d --ghc-option=-j16 --ghc-option=+RTS --ghc-option=-A64M --ghc-option=-RTS --disable-library-profiling --disable-profiling --disable-shared --disable-coverage --disable-static --disable-executable-dynamic --disable-tests --disable-benchmarks --enable-library-vanilla --disable-library-for-ghci --disable-split-sections --enable-library-stripping --enable-executable-stripping --ghc-option=-fobject-determinism --extra-lib-dirs=/nix/store/cpz4ihmdnnvwip57v8mhfzljng1vxky4-ncurses-6.6/lib --extra-lib-dirs=/nix/store/9ihp157s1yjwa9vcfvbskbik18djv53q-libffi-40/lib --extra-lib-dirs=/nix/store/4qp5gjs1sd6z22pknk5ff24494ikn0wy-gmp-with-cxx-6.3.0/lib --extra-lib-dirs=/nix/store/0iavzb323r97k7sps762r5kj1f2bny0b-libiconv-115.100.1/lib --extra-include-dirs=/nix/store/klydx0x6ay8islhglaxarjg4c6j2m8y3-libcxx-21.1.6+apple-sdk-26.5/include --extra-lib-dirs=/nix/store/klydx0x6ay8islhglaxarjg4c6j2m8y3-libcxx-21.1.6+apple-sdk-26.5/lib --extra-include-dirs=/nix/store/xya34xj3ryybbxq0nkv2072fir91ac9n-compiler-rt-libc-21.1.8-dev/include --extra-lib-dirs=/nix/store/hlyaqc922qhg55ic36hfza4wxfmvl6w8-compiler-rt-libc-21.1.8/lib --extra-lib-dirs=/nix/store/g1qpr9sf56sr9znrqk05wxqrbgnnyanj-ghc-9.12.4/lib --extra-include-dirs=/nix/store/rqkvy96rrfm4nxy5lmiz7a2wjbag9fl9-libiconv-115.100.1-dev/include --extra-lib-dirs=/nix/store/0iavzb323r97k7sps762r5kj1f2bny0b-libiconv-115.100.1/lib --extra-include-dirs=/nix/store/n9da7ps350qkwbk0f79azc7yb38ddilz-libresolv-96-dev/include --extra-lib-dirs=/nix/store/byn0bp1h0mmnc53zqjhda2h9gli4y4ab-libresolv-96/lib --extra-include-dirs=/nix/store/8gs0fxk65pyapdksbr4s3jhjyd895rln-libsbuf-14.1.0-dev/include --extra-lib-dirs=/nix/store/rj8snl4hdv2ddxrcnb30vyysmnaaz219-libsbuf-14.1.0/lib --extra-lib-dirs=/nix/store/0gj9biwbjcf76zrn50blvk1zsk4x8fsv-libutil-73/lib"
+        },
+        "unchanged_full_library": "/nix/store/y9bds957fdzrsbvm8sf37105wpc1rr17-mori-cli-7.0.0.0.drv",
+        "executable_reference": "/nix/store/mrhbqccvj6189h730p6j3vnhg623xfs6-mori-cli-7.0.0.0.drv",
+        "scope": "Only shared/combined library artifacts are omitted from the executable output; full SDK recipe preserved"
+      }
+    ],
+    "total_validation_elapsed_seconds": 25.063599749992136,
+    "status": "passed"
+  },
+  "supported_sdk": {
+    "public_module_count": 89,
+    "imports": {
+      "label": "baseline",
+      "compiler": "/nix/store/hsib9b8p5w59zkl4wz04yp35200rn1c2-ghc-9.12.4-with-packages.drv",
+      "passed": true,
+      "elapsed_seconds": 22.33938020898495
+    },
+    "ghci": {
+      "compiler": "/nix/store/hsib9b8p5w59zkl4wz04yp35200rn1c2-ghc-9.12.4-with-packages.drv",
+      "passed": true,
+      "elapsed_seconds": 2.161694540991448
+    },
+    "identity": "Both sdkRegistrationCompiler identities equal the original full-recipe registrationCompiler; the supported SDK recipe is unchanged."
+  },
+  "optional_executable_library_diagnostic": {
+    "label": "candidate",
+    "compiler": "/nix/store/p8cnjzg66mwjlpknzl48h10g5xwhr3xc-ghc-9.12.4-with-packages.drv",
+    "passed": true,
+    "elapsed_seconds": 18.998232375015505
+  },
+  "native_suites": {
+    "sdk_cli_api_types_batch": {
+      "command": [
+        "nix",
+        "build",
+        "--impure",
+        "--file",
+        "/tmp/ep18-rei-delivery/mori-producer-tests.nix",
+        "--argstr",
+        "source",
+        "/tmp/ep18-mori-executable-candidate",
+        "cli",
+        "sdk",
+        "api",
+        "types",
+        "--json",
+        "--no-link",
+        "--print-build-logs",
+        "--max-jobs",
+        "1",
+        "--cores",
+        "16"
+      ],
+      "cwd": "/tmp/ep18-mori-executable-candidate",
+      "start": 1792351598.541404,
+      "elapsed_seconds": 309.78872062504524,
+      "exit_code": 0
+    },
+    "frozen_production_cli": {
+      "command": [
+        "nix",
+        "build",
+        "--impure",
+        "--file",
+        "/tmp/ep18-rei-delivery/mori-producer-tests.nix",
+        "--argstr",
+        "source",
+        "/tmp/ep18-mori-executable-candidate",
+        "--argstr",
+        "revision",
+        "6fd93ae7ed870d192f345d8b9a86202b7a0ad6ea",
+        "--argstr",
+        "qualificationLabel",
+        "ep18-mori-final-qualification-v1",
+        "cli",
+        "--json",
+        "--no-link",
+        "--print-build-logs",
+        "--max-jobs",
+        "1",
+        "--cores",
+        "16"
+      ],
+      "cwd": "/tmp/ep18-mori-executable-candidate",
+      "start": 1792352189.521248,
+      "elapsed_seconds": 92.62927708402276,
+      "exit_code": 0
+    },
+    "core_runner_build": {
+      "command": [
+        "nix",
+        "build",
+        "--impure",
+        "--file",
+        "/tmp/ep18-rei-delivery/mori-producer-tests.nix",
+        "--argstr",
+        "source",
+        "/tmp/ep18-mori-executable-candidate",
+        "coreRunner",
+        "--json",
+        "--no-link",
+        "--print-build-logs",
+        "--max-jobs",
+        "1",
+        "--cores",
+        "16"
+      ],
+      "cwd": "/tmp/ep18-mori-executable-candidate",
+      "start": 1792351697.0887208,
+      "elapsed_seconds": 195.62378220801475,
+      "exit_code": 0
+    },
+    "external_core_suite": {
+      "command": [
+        "nix",
+        "develop",
+        "--no-write-lock-file",
+        "--command",
+        "sh",
+        "-c",
+        "cd mori-core && export SSL_CERT_FILE=\"${NIX_SSL_CERT_FILE:-/etc/ssl/cert.pem}\" && exec \"$1\" --num-threads=1 +RTS -N4 -RTS",
+        "mori-native-suite",
+        "/nix/store/dqdwr64q1miw03jvvazq719kd4cfp4hf-mori-core-7.0.0.0/bin/mori-core-test"
+      ],
+      "cwd": "/tmp/ep18-mori-native-suite-source",
+      "start": 1792351900.8193479,
+      "elapsed_seconds": 87.85807424999075,
+      "exit_code": 0
+    },
+    "external_diagrams_suite": {
+      "command": [
+        "nix",
+        "develop",
+        "--no-write-lock-file",
+        "--command",
+        "sh",
+        "-c",
+        "cd mori-core && export SSL_CERT_FILE=\"${NIX_SSL_CERT_FILE:-/etc/ssl/cert.pem}\" && exec \"$1\" --num-threads=1",
+        "mori-native-suite",
+        "/nix/store/dqdwr64q1miw03jvvazq719kd4cfp4hf-mori-core-7.0.0.0/bin/mori-core-diagrams"
+      ],
+      "cwd": "/tmp/ep18-mori-native-suite-source",
+      "start": 1792352079.556562,
+      "elapsed_seconds": 1.9934557079686783,
+      "exit_code": 0
+    },
+    "counts": {
+      "types": 79,
+      "core": 3212,
+      "diagrams": 3,
+      "api": 62,
+      "sdk_cli": 924,
+      "production_cli": 924
+    },
+    "total": 5204,
+    "qualification": "The runner build exports complete compiled core suites; it does not establish a test pass. Unmodified suites execute through the ordinary shell from a disposable full repository with its exact schema submodule. Types/API/core source and dependency recipes equal the frozen candidate; the final production-profile CLI qualification uses the immutable frozen revision."
+  },
+  "native_guard_seconds": {
+    "baseline": 107.46799220802495,
+    "candidate": 76.64281649905024
+  },
+  "native_guards_status": {
+    "baseline": "passed",
+    "candidate": "passed"
+  },
+  "runtime": {
+    "qualification": "Twenty warm alternating startup observations per command; both use the identical measured leaf edit. No build-speed acceptance is inferred.",
+    "commands": [
+      {
+        "arguments": [
+          "--version"
+        ],
+        "seconds": {
+          "baseline": [
+            0.04899066698271781,
+            0.06386845902306959,
+            0.05224466696381569,
+            0.058848750020843,
+            0.06027404102496803,
+            0.06668562500271946,
+            0.06000024999957532,
+            0.06483141705393791,
+            0.06599729199660942,
+            0.058391916973050684,
+            0.06860125000821427,
+            0.06464941700687632,
+            0.05647137499181554,
+            0.07401412498438731,
+            0.06769799999892712,
+            0.06393975001992658,
+            0.07373379199998453,
+            0.060190790973138064,
+            0.08499195799231529,
+            0.07607633399311453
+          ],
+          "candidate": [
+            0.05526608298532665,
+            0.053001124993897974,
+            0.052064000046812,
+            0.0496688749990426,
+            0.05948679195716977,
+            0.07468712498666719,
+            0.06475545797729865,
+            0.07429341698298231,
+            0.06375195801956579,
+            0.054097209009341896,
+            0.052756582968868315,
+            0.05705487501109019,
+            0.07053683302365243,
+            0.05701879196567461,
+            0.05316995800239965,
+            0.06438945804256946,
+            0.06922658300027251,
+            0.0756160420132801,
+            0.06814220902742818,
+            0.053424458019435406
+          ]
+        },
+        "median_seconds": {
+          "baseline": 0.06429458351340145,
+          "candidate": 0.05827083348412998
+        },
+        "matching_behavior": true
+      },
+      {
+        "arguments": [
+          "--help"
+        ],
+        "seconds": {
+          "baseline": [
+            0.06618012499529868,
+            0.048965665977448225,
+            0.07453012495534495,
+            0.049436874978709966,
+            0.06570579204708338,
+            0.05554116697749123,
+            0.05758466699626297,
+            0.06357349996687844,
+            0.04964537499472499,
+            0.05532220803434029,
+            0.05442045797826722,
+            0.05779450002592057,
+            0.04617112496634945,
+            0.05761774996062741,
+            0.057453124958556145,
+            0.07607566704973578,
+            0.05798620800487697,
+            0.07371695799520239,
+            0.07860491704195738,
+            0.07325258298078552
+          ],
+          "candidate": [
+            0.06792916700942442,
+            0.08030087494989857,
+            0.07010212499881163,
+            0.06125616596546024,
+            0.059979583020322025,
+            0.062328958010766655,
+            0.05308783403597772,
+            0.06715462502324954,
+            0.06866787496255711,
+            0.059403999999631196,
+            0.07727316702948883,
+            0.059547083044890314,
+            0.05629512498853728,
+            0.062287333013955504,
+            0.06365133402869105,
+            0.05982841702643782,
+            0.06956983299460262,
+            0.05684899998595938,
+            0.06266687501920387,
+            0.0665525000076741
+          ]
+        },
+        "median_seconds": {
+          "baseline": 0.05770612499327399,
+          "candidate": 0.06249791651498526
+        },
+        "matching_behavior": true
+      },
+      {
+        "arguments": [
+          "help",
+          "sealed-evaluation"
+        ],
+        "seconds": {
+          "baseline": [
+            0.07295270799659193,
+            0.08195529202930629,
+            0.0705858749570325,
+            0.05882974999258295,
+            0.0634057919960469,
+            0.07759412500308827,
+            0.0838189169880934,
+            0.08154420799110085,
+            0.07984583295183256,
+            0.044891041005030274,
+            0.07612029201118276,
+            0.08533233299385756,
+            0.07264620799105614,
+            0.07263029203750193,
+            0.0664983750320971,
+            0.06554837495787069,
+            0.041758625011425465,
+            0.051272917015012354,
+            0.05156308400910348,
+            0.04843204200733453
+          ],
+          "candidate": [
+            0.0560112499515526,
+            0.04344412498176098,
+            0.05855825002072379,
+            0.06507370801409706,
+            0.06923470896435902,
+            0.05974341602995992,
+            0.05723408400081098,
+            0.06579466699622571,
+            0.07422875001793727,
+            0.06192775000818074,
+            0.06888724997406825,
+            0.07717858400428668,
+            0.05979983299039304,
+            0.04394608398433775,
+            0.08406016696244478,
+            0.07352662499761209,
+            0.05301220796536654,
+            0.05107162497006357,
+            0.05188524996628985,
+            0.04528862499864772
+          ]
+        },
+        "median_seconds": {
+          "baseline": 0.07160808349726722,
+          "candidate": 0.05977162451017648
+        },
+        "matching_behavior": true
+      },
+      {
+        "arguments": [
+          "--bash-completion-script",
+          "mori"
+        ],
+        "seconds": {
+          "baseline": [
+            0.04802695900434628,
+            0.04569558298680931,
+            0.04686875001061708,
+            0.048014124971814454,
+            0.04404591699130833,
+            0.043640792020596564,
+            0.04393483401509002,
+            0.0452416249900125,
+            0.044077625032514334,
+            0.04040637501748279,
+            0.04490887495921925,
+            0.04549150000093505,
+            0.04354983399389312,
+            0.04473779199179262,
+            0.04523225000593811,
+            0.04488875000970438,
+            0.048700249986723065,
+            0.044571583974175155,
+            0.04359512502560392,
+            0.04572745901532471
+          ],
+          "candidate": [
+            0.04577837500255555,
+            0.04750074999174103,
+            0.04502666700864211,
+            0.044605249946471304,
+            0.04401387501275167,
+            0.03894429199863225,
+            0.04484704101923853,
+            0.04015137499663979,
+            0.04554849996929988,
+            0.04429424996487796,
+            0.04055566695751622,
+            0.040992582973558456,
+            0.045434792002197355,
+            0.04540354199707508,
+            0.04538541700458154,
+            0.04566245898604393,
+            0.04635525000048801,
+            0.042604791990015656,
+            0.04561029199976474,
+            0.045886749983765185
+          ]
+        },
+        "median_seconds": {
+          "baseline": 0.044898812484461814,
+          "candidate": 0.045206042006611824
+        },
+        "matching_behavior": true
+      }
+    ],
+    "closure": {
+      "baseline": {
+        "paths": 454,
+        "nar_bytes": 9889580664
+      },
+      "candidate": {
+        "paths": 454,
+        "nar_bytes": 9859710312
+      }
+    }
+  },
+  "worker_transfer": {
+    "status": "passed",
+    "qualification": "Independent local store seeded with the exact shared runtime closure. Missing outputs fail with builders and substituters disabled; copied original outputs then realise with matching NAR hashes and no compilation. Local transfer is not an internet-cache performance or cross-platform claim.",
+    "project_uri": "mori://shinzui/mori",
+    "roots": {
+      "baseline": "/nix/store/r66dj6swh0bndr3dkwq7wk2qbx5wx3y8-mori-cli-7.0.0.0",
+      "candidate": "/nix/store/0wj1dbwj163q59gjlkpvglazskp7wwir-mori-cli-7.0.0.0"
+    },
+    "common_paths": 453,
+    "records": {
+      "preseed_common": {
+        "command": [
+          "nix",
+          "copy",
+          "--no-check-sigs",
+          "--to",
+          "local?root=/private/tmp/ep18-rei-delivery/mori-worker-transfer/worker",
+          "/nix/store/01hqn2dk5y54lim1bbcnm6dps7xn1gzj-http-date-0.0.11",
+          "/nix/store/04dkag7q0mxlz5m9hnzcgd0h1ikp837v-crypton-x509-validation-1.9.1",
+          "/nix/store/08650fq79rrj0prxrkm76vqxvasjxi4f-curl-8.21.0-dev",
+          "/nix/store/0a483npd9jfmlfbxd9m67vf7zqyk0jmc-zstd-1.5.7-dev",
+          "/nix/store/0b857cs3zy06nfjympag9rls4klwgkgc-libev-4.33",
+          "/nix/store/0bmrpfsr6h0dq0gikm7f7yp0hi0p58fd-find-xml-catalogs-hook",
+          "/nix/store/0cnp84iacgcvh0mqxijr0blpm9p7k6f3-mono-traversable-1.0.21.0",
+          "/nix/store/0d63j9ma2simwi7ahsibd3a7vpca99ws-bootstrap-tools",
+          "/nix/store/0d6h3rws2frxx0d67kyxklcfgx93cm2j-libedit-20260508-3.1",
+          "/nix/store/0fgzmg2wbkdxpnvb7dqdf68za7xp21pc-random-1.3.1",
+          "/nix/store/0gj9biwbjcf76zrn50blvk1zsk4x8fsv-libutil-73",
+          "/nix/store/0gx0vpgksni26c6bwl44cj2762xrhw0r-zstd-1.5.7",
+          "/nix/store/0i0j692bjd3h4vqb1xlcjzx4vijyf1dq-character-ps-0.1",
+          "/nix/store/0iavzb323r97k7sps762r5kj1f2bny0b-libiconv-115.100.1",
+          "/nix/store/0ksiaxxw5jh1n7cavh78fwcz09x321hv-cereal-0.5.8.3",
+          "/nix/store/0l6d7w7q5sxl2v2017d80zrk818fc2zq-call-stack-0.4.0",
+          "/nix/store/0r7nklsn87mvr3nsl95bjbhgd5dj61na-gettext-1.0",
+          "/nix/store/0rwrcdjxs3x4l14633509ppsgam6lv65-libidn2-2.3.8-bin",
+          "/nix/store/0s2iw4hx5y4crbi6p2js4b1sq4py31j2-tls-2.4.6",
+          "/nix/store/11jzibcj6qigph2cgs56ymdkv9a15clb-regex-base-0.94.0.3",
+          "/nix/store/15cm3gdi22ndrsl566pxrcndk316jbf3-baikai-kit-0.4.0.1",
+          "/nix/store/18v1hadyph7qyxbwk2jgak1mha6j5jaq-parsers-0.12.12",
+          "/nix/store/19sp0bhs2zc67cnl1l8x8fv653irclmq-hs-opentelemetry-api-types-1.0.0.0",
+          "/nix/store/1a0kx0xvsq0xcqvr5wv6qa9arxzjmjcd-warp-3.4.16",
+          "/nix/store/1ajzb4nlm5w2fpgbln9zcpzpklpm05al-appar-0.1.8",
+          "/nix/store/1b3cmxbsgx8kykkycq2zicz3077hr1n5-servant-client-0.20.3.0",
+          "/nix/store/1b7z2qsm9503vxw9agfkvgbs5bj5a0am-vector-builder-0.3.8.7",
+          "/nix/store/1bcrwg67xiwnpq54qnq2l0jidni2xw26-proto-lens-0.7.1.7",
+          "/nix/store/1ckqdwmb55hdqki5w4kvf0cj51gvd07x-th-lift-0.8.7",
+          "/nix/store/1fank1bhal4q7x5c9zmlvx3drr8fkzqr-assoc-1.1.1",
+          "/nix/store/1m7bvzb2iyvs2sfqs4z8winl3a1gagb1-semigroupoids-6.0.2",
+          "/nix/store/1n96fpad775ak7fr6763qzs30kapb0ih-lens-5.3.6",
+          "/nix/store/20is18gm6j28l57pc6x0x9pv2kbvhcmr-toml-parser-2.0.2.0",
+          "/nix/store/21kn04dq1ncz3ji9z4hfazjk8kymvgnd-ncurses-6.6-man",
+          "/nix/store/21x14x3bfh9zzbg3zz90l2fmfcs5b7wb-libxslt-1.1.45",
+          "/nix/store/26djsmhjshvixx8608m5l727lax8hklm-relay-pagination-servant-0.1.1.2",
+          "/nix/store/278ldfyb2pdvl3cr130961qva5gbgvy3-unliftio-0.2.25.1",
+          "/nix/store/2af3cj9xmj1c1pyxxz3821n7nfijdj00-vector-0.13.2.0",
+          "/nix/store/2bgqr33z01k2ij428mv28z8l3fzp1v11-servant-server-0.20.3.0",
+          "/nix/store/2fmbnj12ac3xcy0ry6nknnwcc0g1lg23-crypton-socks-0.6.2",
+          "/nix/store/2i9gmnnw4942s2rbrw9qk8a2j2q9bvzs-kan-extensions-5.2.8",
+          "/nix/store/2id572n9kxagwr0gwvnd1lm739l0ddbf-word8-0.1.3",
+          "/nix/store/2jckn1dyf2namrasj5qg2hjajbs001ii-mori-core-7.0.0.0",
+          "/nix/store/2xkgyjwslv22lkpcdv04b2f8lifnrknk-pg-migrate-cli-1.2.0.0",
+          "/nix/store/2y2xbzsjz2lc0ik3j22wvi4yxyx0gvs7-crypton-x509-store-1.9.0",
+          "/nix/store/2zmmc25cmvn6jz7k559hiw9qx6p88d6c-semialign-1.4",
+          "/nix/store/30v8v3kadr2nz1hdj83xk3936js9spbi-servant-multipart-api-0.13.0",
+          "/nix/store/31dcgq11986ipy2vf7mxm17fcp3mqffl-cborg-0.2.10.0",
+          "/nix/store/320q1h7yqhi0il4zxa0ap3kcdnkd6m8c-hspec-2.11.18",
+          "/nix/store/33007lwxvyhzv5cz0882k79mkcvgl6fm-krb5-1.22.2-dev",
+          "/nix/store/333y1m0xiz3ssg60nnpraxki6r30gc6y-shikumi-cache-0.2.0.2",
+          "/nix/store/35djb812x3f00w59hi8lh7fxg9614w8j-shibuya-core-0.10.0.1",
+          "/nix/store/3fvjjv9jswk78hhiirv4zi2d77qxib6f-regex-tdfa-1.3.2.6",
+          "/nix/store/3jndjkyxx640yjpcapd594fg0xhhrcd6-pg-migrate-1.2.0.0",
+          "/nix/store/3kng3lq3x887gb3f3ml6c95yqndp1igh-llvm-21.1.8",
+          "/nix/store/3p3an1bnxa8czsxinfmhc986pli4lb64-lockfree-queue-0.2.4",
+          "/nix/store/3pc4dvb4yr1rrsvpah0v6x7fcj1wk9dl-pg-migrate-cli-1.2.0.0-data",
+          "/nix/store/3q9yabmj9zry9hy77dq9ajhi6chpxf3d-xcbuild-0.1.1-unstable-2019-11-20-xcrun",
+          "/nix/store/3qqgcspjlkan1ng2wxc68bvazraimmy4-dotgen-0.4.3",
+          "/nix/store/3rzmgdwm5aknw9fd31514zpcb5l530vk-blaze-markup-0.8.3.0",
+          "/nix/store/3vwv26mw5q5pf4mrn436y6q7bd3k79n5-db-5.3.28",
+          "/nix/store/3wc1vvi6a5pylfmk42rkn3x7r058xq77-kioku-core-0.9.0.2",
+          "/nix/store/3yhakiws9zys6rwm2m01az2k1d35g56y-find-xml-catalogs-hook",
+          "/nix/store/401wfz3g4kmjhi96qq29qbqz4143bwdq-bash-interactive-5.3p15",
+          "/nix/store/41dzz5p8mfyvddir4r379hz54bbkb0mg-tasty-1.5.4",
+          "/nix/store/44b0f6cl1d4gdyp83l0vy151mqfla2v9-lens-family-core-2.1.3",
+          "/nix/store/455s8qn42dw0lziqvc84a1s14zvvkv11-cradle-0.0.0.0",
+          "/nix/store/4cgls6q6j2s4kjqj8mgnnm951ngh705f-pgmq-migration-0.6.1.1",
+          "/nix/store/4czi5s6rqvdk060p98mzp6cihxq13chs-cctools-binutils-darwin-1010.6",
+          "/nix/store/4kxwx257d4slc8ygl82dxdp45cvjlvqr-rdkafka-2.15.0-dev",
+          "/nix/store/4nip74ajhakqh50658jslwba1vk6ijbs-tree-view-0.5.1",
+          "/nix/store/4qp5gjs1sd6z22pknk5ff24494ikn0wy-gmp-with-cxx-6.3.0",
+          "/nix/store/4yz506xyrspyv42dv0m3krddrwa7scx5-text-manipulate-0.3.1.0",
+          "/nix/store/52kwxj456mb1ygjn9nkgm93a17si3ks4-apple-sdk-14.4",
+          "/nix/store/54ixzb3cpqqy9sfggvgsvjdn6q4dlv43-unix-compat-0.7.4.1",
+          "/nix/store/57mc29w4al143niy8di0d86mqc13x8nb-libedit-20260508-3.1-dev",
+          "/nix/store/5j4b6an8cw0n8j5v6kairspgmhsv4yr6-postgresql-libpq-0.11.0.0",
+          "/nix/store/5m39zai0jpaaj1j7c10i3cxdnm2g1pg4-servant-foreign-0.16.1",
+          "/nix/store/5p2j7gx245hi9p77j7j9fpci8awiki1x-pg-migrate-import-codd-1.2.0.0",
+          "/nix/store/5x1fbzljsagywypvkfq8cdry3hdms699-easy-file-0.2.5",
+          "/nix/store/5x581b78y1ijshdysca97fcfb672ggkc-attoparsec-0.14.4",
+          "/nix/store/60qs7w8brnxsa5h156302cgx4ghl4byv-primitive-0.9.1.0",
+          "/nix/store/68h4mc92fgk727i40237ijgx4sc1bp2k-hs-opentelemetry-semantic-conventions-1.40.0.0",
+          "/nix/store/6cyxsr51kwjkpl5ynz4axa3n2alpjplc-baikai-0.8.0.0",
+          "/nix/store/6d329zskjd50c6kbznnchby7fddgb5j0-distributive-0.6.3",
+          "/nix/store/6f9n7lj52gjrri4j00sqawh47r6k4lpv-nghttp3-1.16.0",
+          "/nix/store/6fgrwdc1iwn27zqi1gvkgvzjginbr9k6-clang-21.1.8",
+          "/nix/store/6hhp7y5y5n665wyszssmn8d4vc539lqh-network-info-0.2.1",
+          "/nix/store/6khayjn0l36a5drnv2wz5hybc73v2zwp-cryptohash-md5-0.11.101.0",
+          "/nix/store/6m8ga51h8qs85la2wja9cvazp8n1mvvj-blake3-0.3.1",
+          "/nix/store/6ngjr477cc5x2lb01y8944nlf845p4gd-splitmix-0.1.3.2",
+          "/nix/store/6pnyvrwczy50vzc66lw49f02y23jzcbr-publicsuffix-list-0-unstable-2026-08-14",
+          "/nix/store/6wbs7c0zza6gvkkq42xkwa8kxdh41hm1-monad-control-1.0.3.1",
+          "/nix/store/6wfw7cbw37lpmvckk8689v1543psbk1i-cyrus-sasl-2.1.28",
+          "/nix/store/72n2w9ag4l6b0h09qzx7mv500n0i9vmv-hspec-core-2.11.18",
+          "/nix/store/759m6w0clm64s763qasjs0q7ga2dp4ih-githash-0.1.7.0",
+          "/nix/store/78nkgvliak0f3mhqnmylc3k0pmfwddyi-hasql-notifications-0.2.5.0",
+          "/nix/store/7b6ppmzfvm452r7833hv37m512v6ivzm-temporary-1.3",
+          "/nix/store/7ch0iy2gyfbv91n5grnlx59sw4jzwpgg-hasql-1.10.3.7",
+          "/nix/store/7dbsba4va84nvwlw14d5a8xvpixw5ngn-vector-algorithms-0.9.1.0",
+          "/nix/store/7js172sd8ibm0xx55blx1kqh2wh1r76i-zlib-1.3.2-dev",
+          "/nix/store/7mzmp58h7318xkb3zsfhc3xqk76xqd9s-libidn2-2.3.8-dev",
+          "/nix/store/7rv4fkw3q0b1piwyayrbaxvmvzlrrp5a-libxml2-2.15.3-bin",
+          "/nix/store/7s0kx31yqx0dpgmcd48ph736dy99sg9b-readline-8.3p3",
+          "/nix/store/7s5qyv353lnr5bp6zzwwh9zcv58zamh3-network-uri-2.6.4.2",
+          "/nix/store/7sp8v1l9jh4i4wkii1nsd4sfpp6zk96c-curl-8.21.0-bin",
+          "/nix/store/803yh5ybljxpwyd829470lkjgd2ybj06-yaml-0.11.11.2",
+          "/nix/store/81nq17c5qm7798bngi2i2gwm3hbpg95v-direct-sqlite-2.3.29",
+          "/nix/store/88bm728szy60i47xh58h7i7qa21xw9mf-shibuya-kiroku-adapter-0.6.0.1",
+          "/nix/store/8brxv8pqsginwjrrr6yzsfaaqvgcz6dh-nghttp2-1.70.0-dev",
+          "/nix/store/8bspjyf9m1i32z3hjadv0910w8z5psns-strict-mutable-base-2.0.0.0",
+          "/nix/store/8f06iy2ifzqiff6ijnfy46s6xyrhi7m3-wai-extra-3.1.18",
+          "/nix/store/8f107x8i32kiw7cq5nk9lmrnysi6fg78-hs-opentelemetry-propagator-xray-1.0.0.0",
+          "/nix/store/8fm59wxy5yfh0kildn18ng0madxfj0v6-openai-2.5.4",
+          "/nix/store/8gs0fxk65pyapdksbr4s3jhjyd895rln-libsbuf-14.1.0-dev",
+          "/nix/store/8i9lpc9zdg6gvz3lb93hi2r7fkzvsk2x-uuid-1.3.16.1",
+          "/nix/store/8jalxfqn70wp693m3xld1gr2174ax6aj-atomic-primops-0.8.8",
+          "/nix/store/8zlj9b38fcchz7vdl9mqj6a8y9rpc36z-contravariant-extras-0.3.5.4",
+          "/nix/store/92r5ls6qbl37gakmggksjrshcg215m34-http-conduit-2.3.9.1",
+          "/nix/store/93xh0rqlwq7ypvg6c2sgdmkki7378b0v-llvm-21.1.8-lib",
+          "/nix/store/95qgnlqls9mdr65pb1iyf6fdgqsm1lsz-hasql-implicits-0.2.0.3",
+          "/nix/store/97mhj2yvrqycnl26i2j7q35xy9frlw0v-kioku-migrations-0.9.0.2",
+          "/nix/store/99ffwy6qxfxxsiwajl61v64pa8v33bi3-generic-lens-core-2.3.0.0",
+          "/nix/store/9babphia110x150d6icvcmi6kid4d57m-servant-health-0.1.0.0",
+          "/nix/store/9dzn7g88cnylpfgzjpszgsp7i04w09ri-filelock-0.1.1.9",
+          "/nix/store/9f3w3mn2w3vdldmdyxj7wsk8j7wkb9fx-th-expand-syns-0.4.12.0",
+          "/nix/store/9fih4pzp0gq5mpavgxc5fkivwln7mf1q-proto-lens-runtime-0.7.0.8",
+          "/nix/store/9ihp157s1yjwa9vcfvbskbik18djv53q-libffi-40",
+          "/nix/store/9jbpnypiyqy6jh5m97f68ahwkcs700y6-resourcet-1.3.0",
+          "/nix/store/9jg9rkh38gl9lsx9aihcw4i64gczqi43-libiconv-1.19",
+          "/nix/store/9ms93gkkik57032fn37zwgnphl8xy9lv-postgresql-binary-0.15.0.1",
+          "/nix/store/9nrs44d7nzi2g7ip3m8qa18j7k342lqp-integer-logarithms-1.0.5",
+          "/nix/store/9q96jl86l886nj87608yq2p4qsm83hfi-relay-pagination-0.1.1.2",
+          "/nix/store/a5ksjdp4g11g1kp82phvjgyx1j495gwl-ld64-957.1-lib",
+          "/nix/store/a7523w35991b7lhhrkccam2bhavh2zq9-libxml2-2.15.3",
+          "/nix/store/abs8hkbf6sk5h9hc0rf5vlzr0cr8g9sr-nghttp2-1.70.0-lib",
+          "/nix/store/ad2p097hgigm5nk09rgs0hw8xkba35c9-vault-0.3.2.0",
+          "/nix/store/ad4bgrlcmp9631dwixgy0gdgznpngs2q-old-locale-1.0.0.7",
+          "/nix/store/ad9la89r27hb661f5r288w5qibi26i3v-libpq-18.6",
+          "/nix/store/afzqgzasnhy9l07ahf5dkc7l6909j94g-http-api-data-0.7",
+          "/nix/store/ahll7vl15sfg7gp6phr6pk6y0fisqd77-curl-8.21.0-man",
+          "/nix/store/ajplclzygmzryalid9cv5qhrdxhilw9g-wai-logger-2.5.0",
+          "/nix/store/al0bagd63jcmkcpybygvjwwjr3bhn39v-time-manager-0.3.2",
+          "/nix/store/an55s65m48vrkg47iyvcxsl33rz19m8a-adjunctions-4.4.4",
+          "/nix/store/anqkgyrnxabjza3bfb7ahw73m31v0bh4-wai-app-static-3.2.1",
+          "/nix/store/aq68m1y9pzs216i30bpih7hph90pw67k-generics-sop-0.5.1.4",
+          "/nix/store/asm8xmw81qhyy9ps8wyh8mh6mx3jfna2-hspec-expectations-0.8.4",
+          "/nix/store/ayl6n5a8ky3j9ws2z0s0ss4r3n0r1d3y-tasty-hunit-0.10.2",
+          "/nix/store/azm8sf80psxpfwwj5clwazk750if0igh-abstract-deque-0.3",
+          "/nix/store/azrzlliy1y3hym04g1w42iygvqp8bq13-rdkafka-2.15.0",
+          "/nix/store/b1ymknsm0b97dj56nxm74spdfrvnbfs4-prettyprinter-1.7.2",
+          "/nix/store/b246066l5bqg29gb9914xfds0imrqnfs-postgresql-connection-string-0.1.0.6",
+          "/nix/store/b6f60fnrjbaj7fg21a14imbmi8ywnhc5-krb5-1.22.2",
+          "/nix/store/b6g6plik5mai869vfc88b0snp18q4khv-cookie-0.5.1",
+          "/nix/store/b9jnqvr5c4b59ivrknl7ggklpfv8anil-libssh2-1.11.1-dev",
+          "/nix/store/bb5lglblfx1gp9wbvlg41zswl4nc632b-HUnit-1.6.2.0",
+          "/nix/store/bc06xjid5qh3hcfsfr40qg85108pnhi3-servant-multipart-0.13.0",
+          "/nix/store/bd40l2i8c2fmz3rgkz3b7lxfzfd7zlba-cborg-json-0.2.6.0",
+          "/nix/store/bdz7qar6ix8xy4xsmgpp9cii4jkpi4x4-crypton-x509-system-1.9.0",
+          "/nix/store/bfh01wyyzfqd2ykpsxfhmzj09j7l0nkb-relay-pagination-hasql-0.1.1.2",
+          "/nix/store/bgpwn0hfddmv9sbcnkc23331xc2bxdng-keiro-migrations-0.21.0.0",
+          "/nix/store/blv2f0l8nk4ir28pj4amrdg7zgrfdi97-pgmq-hasql-0.6.1.1",
+          "/nix/store/bnk5pysbl348w1r7ffj81z5s3xy7mk7f-text-short-0.1.6.1",
+          "/nix/store/bnqa0ndi7svkrw0jv49xhnapxcpi9cn4-crypton-1.1.5",
+          "/nix/store/bnqgy0fgy9hy6qzb2wk39m2mpadr8w23-constraints-0.14.4",
+          "/nix/store/bprwvj17dxhichjj54axc0d7qhgss3z4-kiroku-metrics-0.3.0.0",
+          "/nix/store/bvcbxjb3ipvrqldhq4vzh9lvvzh8jabn-text-builder-core-0.1.1.3",
+          "/nix/store/byk986883iqwm7rxfkrql15zm5knpr7v-pgmq-effectful-0.6.1.1",
+          "/nix/store/byn0bp1h0mmnc53zqjhda2h9gli4y4ab-libresolv-96",
+          "/nix/store/c6yh0wb58pjai994lxs7jqyrp3gp4y2d-crypton-asn1-types-0.4.1",
+          "/nix/store/c9r9xsm109pmgdq37bqinwansxkic572-entropy-0.4.1.11",
+          "/nix/store/cd16rh93fb19cdjp8amqaj4asr4bbvq5-unliftio-core-0.2.1.0",
+          "/nix/store/cg3vcva9ypvl5h800z0z81kww9wkfyhb-wai-websockets-3.0.1.2",
+          "/nix/store/ciig25rak31ijqsbr2mw1i83z8g3kl2h-split-0.2.5.1",
+          "/nix/store/cj182l5ws95zh56myjaln7g4xvw4nm8j-dhall-1.42.3-data",
+          "/nix/store/cpffy4nv0cjgk9z6d0k9m53qqkcy3xlx-ncurses-6.6-dev",
+          "/nix/store/cpz4ihmdnnvwip57v8mhfzljng1vxky4-ncurses-6.6",
+          "/nix/store/cr6l4z4qp68rq0pxh31hicb0yrp35dys-safe-0.3.21",
+          "/nix/store/cy1m9abw46n84i3263finqrbf9q2sfr8-crypton-asn1-parse-0.10.0",
+          "/nix/store/cz8dmhwg7bz6h44xn27rhafdaigg1p4d-th-reify-many-0.1.10",
+          "/nix/store/czp0399bv437zf8x5v0bvrnn53k80qyi-brotli-1.2.0-dev",
+          "/nix/store/d037izn72hcs622j2lvhl7lhj19yr0hr-aeson-2.2.5.1",
+          "/nix/store/d2m8fcpjjwvd5pmw4zlfm3nyzwg48b81-repline-0.4.3.0",
+          "/nix/store/d3dj7sdq52nas9pf5zgiy5mghs7kl734-frontmatter-0.1.0.2",
+          "/nix/store/d7ifilqs4z4ylpahyqxsdi2ill7has6a-mori-schema-pin-0.2.0.0",
+          "/nix/store/d9ij6f6ngm1ysn65jllvc4yazd0j2cln-keiro-ops-0.21.0.0",
+          "/nix/store/dcsh87jmkhihlr544h8s0fvp3jg2z6fl-th-lift-instances-0.1.20",
+          "/nix/store/dd0nmg9fcl28r6m9405qagmyba8n79yd-text-builder-1.0.0.5",
+          "/nix/store/dd2916f74wka7369l9q6za1h1bna30bn-http-semantics-0.4.1",
+          "/nix/store/dh6jbfi22kvchql6f5xrzyr2gw8afvxs-microlens-0.5.0.0",
+          "/nix/store/dh7vg7jjcnb56i9wdwpglzhnpkh6nxp2-openssl-3.6.3-bin",
+          "/nix/store/dki2psavjfdqf3x7kmgg6h7sqalxll8w-cmark-gfm-0.2.6",
+          "/nix/store/dp05c3q2yf2wznx0g5jaja8a0nyp69zr-kiroku-store-migrations-0.7.1.0",
+          "/nix/store/drv5vcfxqh6568bram0q1r1acl7bhv9j-blaze-builder-0.4.4.1",
+          "/nix/store/dydvy91fm0fr017nw44dm22jc8qx4678-libpsl-0.21.5",
+          "/nix/store/f87q9bark402062flaa4xyfa8glxk931-charset-0.3.12",
+          "/nix/store/f8iixxy5n9q3pzzsq8idf7sxvzjy8308-ngtcp2-1.23.0",
+          "/nix/store/f8ki6kn1r2f0kkfw44czx609h93xf5ma-libyaml-0.1.4",
+          "/nix/store/fa441lbqwj8v917v361gpwhi87mbbm3w-crypton-asn1-encoding-0.10.0",
+          "/nix/store/fdsxn8ipfbiks5chsjknnsif4l8dsccq-http2-5.4.8",
+          "/nix/store/fh3y1vs3fdfbc4n2ccj5kygfqgk29az5-QuickCheck-2.18.0.0",
+          "/nix/store/fhjwzfqsninsazppfjxdaghydjypbgb2-hs-opentelemetry-otlp-1.0.0.0",
+          "/nix/store/fhyfl4fxwhbg7w3zn9zkcmwv1bzgv0j6-streamly-0.11.1",
+          "/nix/store/fjd5h8aw1ljgxwzn5ja2z1fd8xgzx6l8-mmorph-1.2.2",
+          "/nix/store/fk8dbxjdnizkhklczkqdh9m9by94ab7k-bzip2-1.0.8",
+          "/nix/store/fw1iw1n980spirkif0bwvm7gpxcgzp89-base64-bytestring-1.2.1.0",
+          "/nix/store/fwrrp61arak6x22dhr0iwp7wfcfqf0s3-safe-exceptions-0.1.7.4",
+          "/nix/store/fya09lsi65fmdzkyfps433fs5bqdgmxf-libSystem-B",
+          "/nix/store/fya9xdmyimgj25ks7nrfaznl14icd449-tzdata-2026c",
+          "/nix/store/g06apskfgai9pcp84cn1ig4b7l1rasjx-cctools-binutils-darwin-wrapper-1010.6",
+          "/nix/store/g0xpqg79yd0vca74ygxc6lpca6fvy2pm-ghc-9.12.4-doc",
+          "/nix/store/g11jbgsp4z7c5c2ijkwx3mrdyn308nz7-base16-1.0",
+          "/nix/store/g1qpr9sf56sr9znrqk05wxqrbgnnyanj-ghc-9.12.4",
+          "/nix/store/g2jq4kfszjmvvkxz7d1cdb2ms8p7ccrg-thread-utils-context-0.4.1.1",
+          "/nix/store/g3pkcz08gkyipxjlg933grkhk611birj-unix-time-0.5.0",
+          "/nix/store/g4l1p02fh56m295zql7qa3ly29j82gqs-libunistring-1.4.2",
+          "/nix/store/g4ljsixjyjkp0kx6280lr7i92d6fvi5j-cups-headers-2.4.19",
+          "/nix/store/g61shmjxj3y81g7s8ca934ck4q9shy15-template-haskell-compat-v0208-0.1.9.6",
+          "/nix/store/g9m78ksn6ny5jlb9jfran7drf6di33kz-witherable-0.5",
+          "/nix/store/gacsszcap2lf0daghnlr28fvdy3xklyh-data-default-class-0.2.0.0",
+          "/nix/store/gis64bs4yzzd54868dw9mflalw651y95-libxslt-1.1.45-bin",
+          "/nix/store/gjv48s39ild2f85wjal2wvlgyrdzbhvl-openssl-3.6.3",
+          "/nix/store/glhz0gq7np7sphwh5cz7rxlxi8c60202-indexed-traversable-instances-0.1.2.1",
+          "/nix/store/gnawfnxpl6mcwgwfgsfb3a7dgiarv46x-indexed-profunctors-0.1.1.1",
+          "/nix/store/gnqs8086vfj0fvmxvz70gr9m4aiqzccc-pretty-simple-4.1.4.0",
+          "/nix/store/grqniqhaigddkyc2vxffa6xq30b48rdv-streaming-commons-0.2.3.1",
+          "/nix/store/gw0w36q9mi050rb2nbrg2zg778jsfkgj-simple-sendfile-0.2.32",
+          "/nix/store/gxmx87ilbxmg1x0w56ryy1shm3ygm4y0-uuid-types-1.0.6.1",
+          "/nix/store/gxyhnckh4cqdc3jxvcn8hm8hfdm6yl41-libunistring-1.4.2-dev",
+          "/nix/store/gyr7qvmwzhjy5zmlvwbz00607lqhqx9k-lens-family-2.1.3",
+          "/nix/store/gyv23g1l5bf73gavn0lxi7fdhz6x5cy3-fusion-plugin-types-0.1.0",
+          "/nix/store/gyvvqx69fvrgxf0hr4jmb3rc7szg1c79-zlib-1.3.2",
+          "/nix/store/h1a3dg8dbvdazcqld8lda29i3i0wl8lk-ram-0.22.1",
+          "/nix/store/h1qqnzhzvqs8zw15kh93xq0xw0k4wmma-unique-0.0.2",
+          "/nix/store/h3sv1mx2cqq5wyhf6i3r2fk4fc8ldw44-c-ares-1.34.8",
+          "/nix/store/h4ga1ir464bq95ldizzb9cak2lrfhvkz-network-3.2.9.0",
+          "/nix/store/h66n4bs1yv6mnj80dkq429c57rs6w2ir-attoparsec-aeson-2.2.2.0",
+          "/nix/store/hapn6zdhg535hn1bg32z0q5h3gwq82x7-hspec-discover-2.11.18",
+          "/nix/store/hfnsa1iz6qg1250vybizqn147dx6j70c-base-orphans-0.9.4",
+          "/nix/store/hlxmk2mlj96ivipnsxja40x51y6d9arz-mime-types-0.1.2.2",
+          "/nix/store/hlyaqc922qhg55ic36hfza4wxfmvl6w8-compiler-rt-libc-21.1.8",
+          "/nix/store/hm3nr6lrjda6v4928q5yhf1dfwsvryzi-cryptohash-sha256-0.11.102.1",
+          "/nix/store/hrlpqk28fw8gvh3mgv69pl0aszlc9x3z-hasql-pool-1.4.2.3",
+          "/nix/store/hryq5dpkm3lz8w48npvzkbpihgf3hkil-parser-combinators-1.3.1",
+          "/nix/store/hw7nl4chxy3klqcr9w4qp7lb7jmrggzh-boring-0.2.2.1",
+          "/nix/store/hwn5mdxad2bkq3parb91vyn2fhjgycsm-sop-core-0.5.0.2",
+          "/nix/store/i69q16hlfw0rk0nz5abarf51r98ajkp6-xz-5.8.3",
+          "/nix/store/i7k4gk824gi9f9m4gd42rc9ka7k5z2sa-mori-api-7.0.0.0",
+          "/nix/store/i922lx4awgjrbc2g8w1shdp8isgc6pdp-free-5.2",
+          "/nix/store/idbwm41la67q2zrl4gc6kz26h6b20v2a-network-control-0.1.7",
+          "/nix/store/ipy80igs78ii5d0wigzlrxgvazvg6m11-aeson-casing-0.2.0.0",
+          "/nix/store/ishhihm6pz6w6im4r4jpapa7q1ymn817-bitvec-1.1.6.0",
+          "/nix/store/ix068lcgah4nlq9pvbidm7kffz3qxvvy-libxslt-1.1.45-dev",
+          "/nix/store/j2hi6ipg7kndnmwzz8m5n78f31zsg2c3-servant-client-core-0.20.3.0",
+          "/nix/store/j6cl6yqsjmg8gjh9g9qf3dn4vd84gqad-bsb-http-chunked-0.0.0.4",
+          "/nix/store/j6hkrc9vknz5nzkzl33x0qzmc8634831-utf8-string-1.0.2",
+          "/nix/store/j6qlvyib61ywlsv3mwf8n9pq8z0drlps-curl-8.21.0",
+          "/nix/store/j77dbg8zmnfrja0pinnw6iwg2vbwr7vx-shikumi-0.4.1.1",
+          "/nix/store/j8khndvb2y9chhr4xvky8gjqwlds27sl-servant-openapi-hs-5.1.0",
+          "/nix/store/jry4sns2fk4sybi4m93cm9jjs7k59hg3-hs-opentelemetry-exporter-handle-1.0.0.0",
+          "/nix/store/jzp2rfdrcaqlljjg2wb6czd1rv9i23zp-zstd-1.5.7-bin",
+          "/nix/store/k358bck4b89sygh25y5vzd3gvhg7ghmy-pgmq-config-0.6.1.1",
+          "/nix/store/k39fyh16i954rywdfb49004c7mqh0mzl-data-default-0.8.0.2",
+          "/nix/store/k9h51ixb9gxnqwy9zwbivynn6hzhgwdq-async-2.2.6",
+          "/nix/store/ka6ixr1cp65slw9ss6j1nm4yzqcvyacj-http-media-0.8.1.1",
+          "/nix/store/kf55ckydkxfs5r44nqql1g5xl7fkwi54-heaps-0.4.1",
+          "/nix/store/klydx0x6ay8islhglaxarjg4c6j2m8y3-libcxx-21.1.6+apple-sdk-26.5",
+          "/nix/store/kmlzpy5bb7n8qj7qy0a3f65w4sp277hn-hw-kafka-client-5.3.0",
+          "/nix/store/kp3gcp335vsma24qxbvxm2wg48mqkpy6-krb5-1.22.2-lib",
+          "/nix/store/kp4b17fj3cx7sb4vda1kcrsd6dbgsy3c-haskell-src-exts-1.24.0",
+          "/nix/store/kq2xwg0ik4mryfn01x2gxl715n1bama1-nothunks-0.3.2",
+          "/nix/store/ksh7sazfc1yriwg48smb0vb9qgs6yhgp-string-conversions-0.4.0.1",
+          "/nix/store/l1w4bwvjdz5lipb68pm98r29vg0ppjr7-tagged-0.8.11",
+          "/nix/store/l4q3x06nfh8b92d8lvdx4b9wk0fj22x5-crypton-connection-0.4.6",
+          "/nix/store/l9gqpy08lv2g6mi2iphggjpdnkfcpvs7-colour-2.3.7",
+          "/nix/store/la8l0nrq9bbz61wk152ax0rqabbi7bkx-pg-migrate-import-hasql-migration-1.2.0.0",
+          "/nix/store/lb58kv25wf84nkswm9i2pc93v5l4g4sk-contravariant-1.5.6",
+          "/nix/store/lbmglf97zqhr2ixc4ax6w007qcggy0kl-some-1.1",
+          "/nix/store/ldbcfcxcigbl5ddxb7bk3nlxb600f9yv-gnugrep-3.12",
+          "/nix/store/lfhnfca1sa4x2b59f3xkljcvilhwbqmm-mori-types-7.0.0.0",
+          "/nix/store/limf6l6hnw8wy9c32cw8rn7iln2b701w-fast-logger-3.2.8",
+          "/nix/store/ljyc2np871kbrrs3iw2drxihgr174dh4-invariant-0.6.5",
+          "/nix/store/lp1swfpc0z4kgmidd50livd86irx0km6-base64-2.0",
+          "/nix/store/lphkrjf3wzrh8nvfqnkqxs4fx3z23n32-kiroku-store-0.11.0.0",
+          "/nix/store/lprq51dyhbzblmiypnv8jpnq9hkv00v8-aeson-pretty-0.8.11",
+          "/nix/store/lqirzznh1dy4jzx61s5xkbcgc8grgk44-vector-stream-0.1.0.1",
+          "/nix/store/lsslsgbh4h9kbxnx1xwqxi02bw3v178p-baikai-openai-0.7.1.1",
+          "/nix/store/lxyw1s7qkc1ybr4hl5kjr6957iswwl32-sbv-14.8",
+          "/nix/store/ly6ixbs834d853zww4w8wcdvaa0pd425-libBF-0.6.9",
+          "/nix/store/m0gr4804g9ms34l0q06s2c3i2gwfjvm9-shibuya-pgmq-adapter-0.16.1.0",
+          "/nix/store/m5ci53ja4kpfw567qxwhvxv363ksc424-OneTuple-0.4.3",
+          "/nix/store/m6crfxlsw4lkmcfry4qgsvi2p97i734s-streamly-core-0.3.1",
+          "/nix/store/m770nskgfmhk45i8sycj7v900f31v5hq-prettyprinter-ansi-terminal-1.1.4",
+          "/nix/store/m8ywzjrbkf7rncyhd3nvfjrmi113y7hw-claude-1.5.0",
+          "/nix/store/m9ip5g0ashl0d17a0afm7b2cjms8mn5l-Diff-1.0.2",
+          "/nix/store/mgwfyn50m3b8g4psdyxg4lxvhi7yisk0-wai-3.2.5",
+          "/nix/store/mj5ipl83y1mw470dyhvqj1gi8s4wsy0z-hashable-1.5.1.0",
+          "/nix/store/mna7bp7y5v81ww0x8v3w8j5aq57g32kc-brotli-1.2.0-lib",
+          "/nix/store/mqaiwn7iwhsr1f5w1zbh0gxznpwf0rxl-mlkem-0.2.3.0",
+          "/nix/store/mqlq2nfqf9hn9i7s1pyyx7zk1f5njh6j-xcbuild-0.1.1-unstable-2019-11-20",
+          "/nix/store/ms2fj667x4965p76zacm2hbcn1449xck-cmdargs-0.10.22",
+          "/nix/store/n13f558lya19fy16sz8p36rqkf1y6ylp-generic-lens-2.3.0.0",
+          "/nix/store/n3924ffxc0x72frypzk1rnh07mm1ci0c-clock-0.8.4",
+          "/nix/store/n5pd81z4mrzldywhpgvkf39bhxz38a66-http-types-0.12.6",
+          "/nix/store/n9da7ps350qkwbk0f79azc7yb38ddilz-libresolv-96-dev",
+          "/nix/store/ni2f5nlvjqv8axaj048k4yk0v6jqrx7w-baikai-claude-0.7.1.1",
+          "/nix/store/ni3wb68q0qm631zpxvjq9mki5rba9nr4-serialise-0.2.6.1",
+          "/nix/store/nljjdjjzg59rjl2mri0aljikrpbwjhvz-base-compat-batteries-0.15.0",
+          "/nix/store/nppgvpycf1kk7i4ngnccpkxzl3j9hkzv-mmzk-typeid-0.7.1.2",
+          "/nix/store/nsh0vazm0a57qs2n7kqsi1n0g8q3yhyn-servant-0.20.3.0",
+          "/nix/store/nwifj85zj1kaakjjx33i2dd5c1778j30-ld64-957.1",
+          "/nix/store/nzz6dv8fkbsmvggkcxh88qydphdf1nak-uniplate-1.6.13",
+          "/nix/store/p1r9wrkhi63l4bwabk9vja9pyrw23rnd-parallel-3.3.0.0",
+          "/nix/store/p48mfdyrxwgd56s5vvwl3pxb06b8qiv3-microlens-mtl-0.2.1.1",
+          "/nix/store/p95f2vb7ilzlcgdqixi1779rkgv16qzm-keiki-codec-json-0.9.1.0",
+          "/nix/store/pb8q7vjmq0mvwcc3srkl99w7b96a8d0k-iproute-1.7.15",
+          "/nix/store/pf4krwlbz8nbva08dpavggzvxxm57ff9-wherefrom-compat-0.2.0.0",
+          "/nix/store/pinz9b7zixa9hv9xcidb74nnfhv9ni4r-StateVar-1.2.2",
+          "/nix/store/piqkyfjfw61cqxwlpv2rds4n332x17x5-text-iso8601-0.1.1.2",
+          "/nix/store/pk7k2xb8p50q460j1v623gr2gq6akzpv-hs-opentelemetry-propagator-b3-1.0.0.0",
+          "/nix/store/pkkaxypbk9bcmf0idcmjx69qybbd7mqx-keiki-0.9.1.0",
+          "/nix/store/pkpd4pbq86zhjx8kyz4cka684l7k28xw-cctools-1010.6-libtool",
+          "/nix/store/pm9b3l0a77c25wspy0xrgn349371djfj-hs-opentelemetry-exporter-otlp-1.0.0.0",
+          "/nix/store/pndrr6s1v1wazrkdjkrdcz5riip29jx3-postgresql-libpq-configure-0.11",
+          "/nix/store/ps0dd9mx8n7r198xp4yqdh33p0psfl2v-xar-minimal-503-lib",
+          "/nix/store/pvyq17ylljc3rw322qsj3ckym9ich3vq-integer-conversion-0.1.1",
+          "/nix/store/pziivpz99j6k53ccsf7ckqp5xp60r7nh-baikai-effectful-0.4.0.3",
+          "/nix/store/q0517vlvmk9r7wmqk93va40ygmrbfrjv-libyaml-clib-0.2.5",
+          "/nix/store/q0iacd5qg1z6dw9xi0fc72155j6gchjg-ansi-terminal-1.1.5",
+          "/nix/store/q1aak5qhsijhrgpsr81r9fxdgpi1bnh7-websockets-0.13.0.0",
+          "/nix/store/q3wmw7n4j7r581s2wxyq17qplz0hqm8z-typed-process-0.2.13.0",
+          "/nix/store/q5fm76ljl27nai13va4ya1y8n9sf3n87-coreutils-9.11",
+          "/nix/store/q7is9psxjzlrcakhjjflg0vh89qw38fs-file-embed-0.0.16.0",
+          "/nix/store/q9wqvbvj0v8b9ixgh70s1qrfakvd4zll-blaze-html-0.9.2.0",
+          "/nix/store/qaix5sk46jhp1rpnqi7m062hx9lm57qv-http-client-0.7.19",
+          "/nix/store/qavs4krziikirbqxj2y5mspshg53hx42-libidn2-2.3.8",
+          "/nix/store/qbjjg70hrlaggvg3zzy12qffy45cdv1d-bytestring-strict-builder-0.4.5.8",
+          "/nix/store/qbm3asj0gn3ggffngki2xsyy4ijr22vv-effectful-core-2.7.1.2",
+          "/nix/store/qhw9mw4x03jhh7310j888p1f90ihs0y6-dec-0.0.6",
+          "/nix/store/qn739g7nbzin01wkr0yqbjb81vgdf51f-case-insensitive-1.2.1.0",
+          "/nix/store/qpf25npm25slj1kb5zidv5g55g99klzf-universe-base-1.1.4",
+          "/nix/store/qr4la7kj7iws92br8632x72awl7frcx7-thread-utils-finalizers-0.1.1.0",
+          "/nix/store/qr539g9pyrq8p76cvq8bwnxiiixsk6zk-syb-0.7.4",
+          "/nix/store/qv32wwwhbrg2yz4q88rl1rpqfwjcalcr-libpq-18.6-dev",
+          "/nix/store/qvyir6h6w19pimiyqkjwwa4mhbqss1fs-libxml2-2.15.3-dev",
+          "/nix/store/r0apa3492541j7amfnqmqx6nhzfzqqqf-optparse-applicative-0.19.0.0",
+          "/nix/store/r11vp4vglaphkq5m97ni6nf72dr87spf-network-bsd-2.8.1.0",
+          "/nix/store/r3fi65xp82z5dwj0s2h28zklg13mihdx-libpsl-0.21.5-dev",
+          "/nix/store/rav7q571ilra8pia98gs5marnjqjfxjx-hasql-transaction-1.2.3.1",
+          "/nix/store/raw996qvx9g9pgclcsx86xgbp24dda0d-base-compat-0.15.0",
+          "/nix/store/rg1qs0grw3qrn10qyndcnbwnr94jhcf2-servant-multipart-client-0.13.0",
+          "/nix/store/rj8a7nnqz6lab7vvyr6gx0bjsp17vayx-servant-docs-0.13.1",
+          "/nix/store/rj8snl4hdv2ddxrcnb30vyysmnaaz219-libsbuf-14.1.0",
+          "/nix/store/rlwqxz37a6xsg2wckjxpm0rrgvwy5sw5-libffi-40-dev",
+          "/nix/store/rn4c0z9wg047b32f6h7h34pxva8lijv8-cryptohash-sha512-0.11.103.0",
+          "/nix/store/rqdb2nwsr4yq3jj1ddrn0kidxs5dcjlq-libssh2-1.11.1",
+          "/nix/store/rqkvy96rrfm4nxy5lmiz7a2wjbag9fl9-libiconv-115.100.1-dev",
+          "/nix/store/rwfgriprbdkng58zqhic8p1n4syhqikq-cryptohash-sha1-0.11.101.0",
+          "/nix/store/rwzg1xbjv04ll1vjcld1qf9g8bxydfhz-indexed-traversable-0.1.5",
+          "/nix/store/s1k9d1603dndhl0j8h4f9bql8lp2842p-bash-5.3p15-dev",
+          "/nix/store/s48iakzrjvcz7wq39bkwixrngdzkrah1-megaparsec-9.8.3",
+          "/nix/store/s781c61sx37wxlr92j7d2mqfy293hghm-kiroku-cli-0.2.0.10",
+          "/nix/store/s7mqkmivpdxlak3awbra4i64zlpz31ha-cctools-1010.6",
+          "/nix/store/sa6hbcd6bs06j2kam9pqvzrbggvpjdm2-hs-opentelemetry-propagator-w3c-1.0.0.0",
+          "/nix/store/sar8lzkfcyrar8hi67nk629fqwmisy5r-hs-opentelemetry-sdk-1.0.0.0",
+          "/nix/store/scpagn27hvlmg8hrd9gxx4rymsnzjq9b-unordered-containers-0.2.21",
+          "/nix/store/sg97i9xjncjlzk2a3ppgn8l3pgmwyvv5-openssl-3.6.3-dev",
+          "/nix/store/sq1bxsa4i8yj9qv97gcxv2idljqhrb0b-okf-core-0.10.0.0",
+          "/nix/store/sq2hz5g1jba7i1da40kl573mniq5q54s-these-1.2.1",
+          "/nix/store/sqd2y4bcp8kfdghmjvgwlw92n9v8z4x4-effectful-2.7.1.0",
+          "/nix/store/svfvlrg6ijlm2yd6vrajsxm1bar9hq8n-ech-config-0.0.1",
+          "/nix/store/v3d6n7i9xvqvk5gjmn4yxrlah0bvgff6-Glob-0.10.2",
+          "/nix/store/v3lf7z3rk51d2cwcvpp4ld92n911szvg-c-ares-1.34.8-dev",
+          "/nix/store/v58r6rs63hidqpkg8pwf3dvf7mbqg7jy-hs-opentelemetry-propagator-jaeger-1.0.0.0",
+          "/nix/store/v6cdrqjs3q1wakhgmvrydsmd3ywhvvvv-hpke-0.2.0",
+          "/nix/store/v6f4nan70xsgjgc6bak0ikg6xlsginzq-recv-0.1.2",
+          "/nix/store/v86qpj5cv7a1z8ydyqhgsiyx0h7fwhd8-transformers-base-0.4.6.1",
+          "/nix/store/v8q1x2liwa57rj5ibijy8bx920glf3df-strict-0.5.1",
+          "/nix/store/vcszfxjm49cki6v31pkmk1m5hci1jcjc-typeid-hs-pg-migrate-0.1.0.0",
+          "/nix/store/vgayryzdxd2hhdwr6gp1phqdxhhk7pyi-hasql-dynamic-statements-0.5.1.2",
+          "/nix/store/vi01xpj2xrhipjrj5halp0sxvpa4y665-SHA-1.6.4.4",
+          "/nix/store/vkfsbyki0ykmzsbs39yd39q91lhav7vn-haskell-lexer-1.2.1",
+          "/nix/store/vl92q2ixjkah91afq14cy53p7jyp0y97-pcre2-10.47",
+          "/nix/store/vlld65qsa1rgmjpk2n42ql1j5vpryny3-binary-parser-0.5.7.7",
+          "/nix/store/vmxmqyrrhh9ir7m3kby3ihjlpslzw0s7-th-abstraction-0.7.2.0",
+          "/nix/store/vwd5hpqzx477xc6b5nah0rf17fq6jqj1-zlib-0.7.1.1",
+          "/nix/store/vznsgvp9drr4pms8iij8pn8agapgc8sd-kiroku-store-0.11.0.0-data",
+          "/nix/store/vzq0hmplsx0knabmgm0dlbgs6a7na28x-openapi-hs-5.0.0",
+          "/nix/store/w0d1n8iard7gqzdaxmg61zi1l3g4fip9-network-byte-order-0.1.8",
+          "/nix/store/w1294ypgy2yx6rp4vw0hppvdfgwgnjrs-time-hourglass-0.3.0",
+          "/nix/store/w4qg2z0li0x73qm47cs0aqr9vxpbir23-clang-21.1.8-lib",
+          "/nix/store/w6aa8pwsi5bl29pvd47n9qcm0sgcvw07-crypton-pem-0.3.0",
+          "/nix/store/w9pg5nn6zpzsmqwnxqcsv9k010f22xfc-brotli-1.2.0",
+          "/nix/store/wb78by5mga1710s8hrxcg0waqya60c0v-comonad-5.0.10",
+          "/nix/store/wcx1026karw52cngi4yx07sdd1263j7j-data-fix-0.3.4",
+          "/nix/store/whpdw5ysg1c9a1c77p9br93kxmympvfl-auto-update-0.2.8",
+          "/nix/store/winv68qc9cqaf1pvz1fk275f925s9zpn-haskell-src-meta-0.8.16",
+          "/nix/store/wj1jjmhlzgb7c2j7wqlyg78lkl7ghp2r-transformers-compat-0.8",
+          "/nix/store/wjl753dkf1v0lrfyasnaywyla7w5r58z-nghttp2-1.70.0",
+          "/nix/store/wk15wx3yrl6br4p0axr0gx7p65yhjzn5-ngtcp2-1.23.0-dev",
+          "/nix/store/wn4qncvjw1rf3vh8kyrwyhx6f08dd0x1-byteorder-1.0.4",
+          "/nix/store/wvzifhd4zfmf2d09magsmcvfywd96b46-profunctors-5.6.3",
+          "/nix/store/wwgz2k7qxbayi030ngz775mi03cd8lpd-bytestring-tree-builder-0.2.7.13",
+          "/nix/store/wzf3fkm0p4193cq92bhzs1hhf20pzj57-proto-lens-0.7.1.7-data",
+          "/nix/store/x1g85xy0a9wzpxs7gpw03lw66gj0x7lp-singleton-bool-0.1.8",
+          "/nix/store/x2pzym51fc0hb8c9d343qwdw544rnacy-zlib-1.3.2-static",
+          "/nix/store/x38q6x4axn4xs4k1z3cliwhw0qvay86f-atomic-write-0.2.1.1",
+          "/nix/store/x4h2vghxh0xmvw9bxzksp6wy7ksz5i6q-hs-opentelemetry-propagator-datadog-1.0.0.0",
+          "/nix/store/x5a42jk00gpgx8gafxaas0kfrr310zrg-sbv-14.8-data",
+          "/nix/store/x7fwyj9rw0qwralng9i1cnslj0df5v4p-scientific-0.3.9.0",
+          "/nix/store/x9ql7ddhvq9qx8gp2liy7zl71naglrg0-th-orphans-0.13.17",
+          "/nix/store/xflm1zy64zrfjnd15bxy8pgyafmwc12n-colour-2.3.7-data",
+          "/nix/store/xlr7bxfg5392ngs5580p51xlgzzzx0a0-keiro-core-0.21.0.0",
+          "/nix/store/xpmibf1726nyfayz9q2ax628h1z2hzqm-kioku-api-0.9.0.2",
+          "/nix/store/xpwf46sfssskwzrfsd5ffxiv83kn9r8v-conduit-extra-1.3.8",
+          "/nix/store/xqkzzrhax2qj3rrcs9xsi7pniqav0f5q-time-compat-1.9.9",
+          "/nix/store/xswyw3v1fg6ld88r66wwj6frn0fxfmh2-reflection-2.1.9",
+          "/nix/store/xvvli93ivwynj8m6kh0r1jyn0wv5sjj2-keiro-pgmq-0.21.0.0",
+          "/nix/store/xx3w4r1mh4fmdccb8anmpm8268bx8pfm-nqe-0.6.6",
+          "/nix/store/xya34xj3ryybbxq0nkv2072fir91ac9n-compiler-rt-libc-21.1.8-dev",
+          "/nix/store/y1x2n1mm5yd198y9z9i482x6m1qlhyd1-hs-opentelemetry-instrumentation-wai-1.0.0.0",
+          "/nix/store/y4bdc7ig67rmd6kgd1s7b06n5mkds1jr-pg-migrate-embed-1.2.0.0",
+          "/nix/store/y5h2lz4ml8g1656hjxqdk0d7qjkjvzi6-pgmq-core-0.6.1.1",
+          "/nix/store/y80irgfajyag63zch3swdn6v3h5cv0q1-dhall-1.42.3",
+          "/nix/store/ya65zl2jbcvpvqrd49mam3a3f8ifmxli-nghttp3-1.16.0-dev",
+          "/nix/store/yb3s9kjh4c9yzdhwsci2wk4dgg9zf6km-libxcrypt-4.5.2",
+          "/nix/store/ybcdacp3p1s5ad6qhnjjcb5b7nph2ikj-quickcheck-io-0.2.0",
+          "/nix/store/yd7kgbyn3k0chgypk1hh3630f6qvfxxq-unicode-data-0.9.0",
+          "/nix/store/ydr5ya1lvzdr1adp20gs78rmb51n0phs-gmp-with-cxx-6.3.0-dev",
+          "/nix/store/yhqcb5prsh9rdw0sfsnjcfngwhp5bmkm-keiro-test-support-0.21.0.0",
+          "/nix/store/yim7729x784rmnyh3cidqyi0zj9qcw9i-conduit-1.3.6.1",
+          "/nix/store/ylakvjhv6rvnr60hm63r5047h0556a0i-dlist-1.0",
+          "/nix/store/ylwfp7iaivbysx6a7n6k5vcyijcv52fj-psqueues-0.2.8.3",
+          "/nix/store/ypplgsmx6jxyx89zkkfx436sdkvr9j38-expand-response-params",
+          "/nix/store/yqk6qhawnigv832m2zhcbs25nb37r73i-bash-5.3p15",
+          "/nix/store/yriakf8wsqhzm0mizq83sfhidyi42ndn-bifunctors-5.6.3",
+          "/nix/store/yv31c303yph3hcps2awa3kr2jxgbmj06-shikumi-trace-0.3.0.2",
+          "/nix/store/ywnmmygd16jw8h59k8y9wk7kgaq3mjjn-pg-migrate-embed-1.2.0.0-data",
+          "/nix/store/yzbrhc890ln3chy7lhqwdgrz89h4v7qh-crypton-x509-1.9.1",
+          "/nix/store/z5ry9dim6ip8y152ap06h7n9jzc1vmjf-either-5.0.3",
+          "/nix/store/z6d4arb2y530kwpmznx34qs7h6cqmamb-ephemeral-pg-0.3.1.0",
+          "/nix/store/zajggh6fwqnkr1gi0hfhi9sw08ld8szi-typeid-hs-sql-0.1.0.0",
+          "/nix/store/zb4dn54dd83q4vch99hy18kg0n8p9nwb-clang-wrapper-21.1.8",
+          "/nix/store/zg0cgw4714km9363ahybsl0qlisz19ls-terminal-size-0.3.4",
+          "/nix/store/zhfzbaigbp6x50zc562smr4g9hadn6zl-half-0.3.3",
+          "/nix/store/ziprydlj00d72afvz7n2yx22ii2kyl2s-base16-bytestring-1.0.2.0",
+          "/nix/store/zlm0fxd4ghk5s3y415165ndhmswjqvsm-keiro-0.21.0.0",
+          "/nix/store/zm4djca20i4q6cpm8bl7b0x5dar1yyri-atf-0.23",
+          "/nix/store/zmpdjzfjrknpqw74pr26bzgkg67s770y-hs-opentelemetry-api-1.0.0.0",
+          "/nix/store/zqgdg8r2m7r4kg7kn0mi1981n6d6i1mn-th-compat-0.1.7",
+          "/nix/store/zssln1xcn3vf9g04kllcl9l5x1q1f8bj-http-client-tls-0.4.0",
+          "/nix/store/zxivxy57ps1jsf7mc7g105zi731036cw-ansi-terminal-types-1.1.3",
+          "/nix/store/zyha2k7yxssxjvq3kdzg5agim0rgcj1v-kiroku-otel-0.2.0.12"
+        ],
+        "elapsed_seconds": 13.476775792019907,
+        "exit_code": 0
+      },
+      "baseline_missing": {
+        "command": [
+          "nix",
+          "build",
+          "--store",
+          "local?root=/private/tmp/ep18-rei-delivery/mori-worker-transfer/worker",
+          "--option",
+          "substituters",
+          "",
+          "--option",
+          "builders",
+          "",
+          "/nix/store/r66dj6swh0bndr3dkwq7wk2qbx5wx3y8-mori-cli-7.0.0.0",
+          "--no-link"
+        ],
+        "elapsed_seconds": 0.06752866599708796,
+        "exit_code": 1
+      },
+      "baseline_copy": {
+        "command": [
+          "nix",
+          "copy",
+          "--no-check-sigs",
+          "--to",
+          "local?root=/private/tmp/ep18-rei-delivery/mori-worker-transfer/worker",
+          "/nix/store/r66dj6swh0bndr3dkwq7wk2qbx5wx3y8-mori-cli-7.0.0.0"
+        ],
+        "elapsed_seconds": 0.40378962497925386,
+        "exit_code": 0,
+        "marginal_paths": [
+          "/nix/store/r66dj6swh0bndr3dkwq7wk2qbx5wx3y8-mori-cli-7.0.0.0"
+        ],
+        "marginal_nar_bytes": 416312184,
+        "full_closure_nar_bytes": 9889580664
+      },
+      "baseline_reuse": {
+        "command": [
+          "nix",
+          "build",
+          "--store",
+          "local?root=/private/tmp/ep18-rei-delivery/mori-worker-transfer/worker",
+          "--option",
+          "substituters",
+          "",
+          "--option",
+          "builders",
+          "",
+          "/nix/store/r66dj6swh0bndr3dkwq7wk2qbx5wx3y8-mori-cli-7.0.0.0",
+          "--no-link"
+        ],
+        "elapsed_seconds": 0.06342533300630748,
+        "exit_code": 0
+      },
+      "baseline_identity": {
+        "command": [
+          "nix",
+          "path-info",
+          "--store",
+          "local?root=/private/tmp/ep18-rei-delivery/mori-worker-transfer/worker",
+          "--json",
+          "/nix/store/r66dj6swh0bndr3dkwq7wk2qbx5wx3y8-mori-cli-7.0.0.0"
+        ],
+        "elapsed_seconds": 0.06082041701301932,
+        "exit_code": 0
+      },
+      "candidate_missing": {
+        "command": [
+          "nix",
+          "build",
+          "--store",
+          "local?root=/private/tmp/ep18-rei-delivery/mori-worker-transfer/worker",
+          "--option",
+          "substituters",
+          "",
+          "--option",
+          "builders",
+          "",
+          "/nix/store/0wj1dbwj163q59gjlkpvglazskp7wwir-mori-cli-7.0.0.0",
+          "--no-link"
+        ],
+        "elapsed_seconds": 0.06185850000474602,
+        "exit_code": 1
+      },
+      "candidate_copy": {
+        "command": [
+          "nix",
+          "copy",
+          "--no-check-sigs",
+          "--to",
+          "local?root=/private/tmp/ep18-rei-delivery/mori-worker-transfer/worker",
+          "/nix/store/0wj1dbwj163q59gjlkpvglazskp7wwir-mori-cli-7.0.0.0"
+        ],
+        "elapsed_seconds": 0.33121245901566,
+        "exit_code": 0,
+        "marginal_paths": [
+          "/nix/store/0wj1dbwj163q59gjlkpvglazskp7wwir-mori-cli-7.0.0.0"
+        ],
+        "marginal_nar_bytes": 386441832,
+        "full_closure_nar_bytes": 9859710312
+      },
+      "candidate_reuse": {
+        "command": [
+          "nix",
+          "build",
+          "--store",
+          "local?root=/private/tmp/ep18-rei-delivery/mori-worker-transfer/worker",
+          "--option",
+          "substituters",
+          "",
+          "--option",
+          "builders",
+          "",
+          "/nix/store/0wj1dbwj163q59gjlkpvglazskp7wwir-mori-cli-7.0.0.0",
+          "--no-link"
+        ],
+        "elapsed_seconds": 0.06434754200745374,
+        "exit_code": 0
+      },
+      "candidate_identity": {
+        "command": [
+          "nix",
+          "path-info",
+          "--store",
+          "local?root=/private/tmp/ep18-rei-delivery/mori-worker-transfer/worker",
+          "--json",
+          "/nix/store/0wj1dbwj163q59gjlkpvglazskp7wwir-mori-cli-7.0.0.0"
+        ],
+        "elapsed_seconds": 0.0637275839690119,
+        "exit_code": 0
+      }
+    },
+    "additional_transfer_seconds": 0
+  },
+  "qualified_default_and_checks": {
+    "command": [
+      "nix",
+      "build",
+      "git+file:///tmp/ep18-mori-executable-candidate?rev=6fd93ae7ed870d192f345d8b9a86202b7a0ad6ea#default",
+      "git+file:///tmp/ep18-mori-executable-candidate?rev=6fd93ae7ed870d192f345d8b9a86202b7a0ad6ea#checks.aarch64-darwin.consumer-overlay",
+      "git+file:///tmp/ep18-mori-executable-candidate?rev=6fd93ae7ed870d192f345d8b9a86202b7a0ad6ea#checks.aarch64-darwin.cohort-parity",
+      "git+file:///tmp/ep18-mori-executable-candidate?rev=6fd93ae7ed870d192f345d8b9a86202b7a0ad6ea#checks.aarch64-darwin.library-extension",
+      "--no-write-lock-file",
+      "--no-link",
+      "--json",
+      "--print-build-logs",
+      "--max-jobs",
+      "1",
+      "--cores",
+      "16"
+    ],
+    "cwd": "/tmp/ep18-mori-executable-candidate",
+    "start": 1792352429.127841,
+    "elapsed_seconds": 120.06719999999041,
+    "exit_code": 0
+  },
+  "promoted_default": {
+    "command": [
+      "nix",
+      "build",
+      "git+file:///Users/shinzui/Keikaku/bokuno/mori-project/mori?rev=48b63f3f372ea9047a8eefd8738f42669956ae3e#default",
+      "--no-write-lock-file",
+      "--no-link",
+      "--json",
+      "--print-build-logs",
+      "--max-jobs",
+      "1",
+      "--cores",
+      "16"
+    ],
+    "cwd": "/Users/shinzui/Keikaku/bokuno/mori-project/mori",
+    "start": 1792352713.937302,
+    "elapsed_seconds": 36.13252345798537,
+    "exit_code": 0
+  },
+  "dotfiles": {
+    "producer_project": "mori://shinzui/mori",
+    "consumer_project": "mori://shinzui/dotfiles.nix",
+    "revision": "48b63f3f372ea9047a8eefd8738f42669956ae3e",
+    "producer": {
+      "drvPath": "/nix/store/2xarsga75gzm49i76v0r49r9k702qqh0-mori-cli-7.0.0.0.drv",
+      "outputs": {
+        "out": "/nix/store/4lilix5j18sqy3w4mmdxfxzfn86sg8cz-mori-cli-7.0.0.0"
+      }
+    },
+    "wrapper": {
+      "drvPath": "/nix/store/455bjzwi1n4dnvy49ximd2dyg3vplbbr-mori.drv",
+      "outputs": {
+        "out": "/nix/store/k5l6vl0vf0spr77w2bmx098bdy2a5q2j-mori"
+      }
+    },
+    "sole_actual_cli_derivation": "2xarsga75gzm49i76v0r49r9k702qqh0-mori-cli-7.0.0.0.drv",
+    "matching_truthful_version": true,
+    "wrapper_ghc_compilations": 0,
+    "dotfiles_lock_unchanged": true,
+    "scope": "Actual yujin package overlay, normal project pins with a read-only immutable source override; no activation."
+  },
+  "combined_system": {
+    "status": "passed",
+    "producer_roots": {
+      "rei": "/nix/store/s0yk1alwvhv5ni1awlh8vbgzp59bpx68-rei-cli-7.1.0.0.drv",
+      "mori": "/nix/store/2xarsga75gzm49i76v0r49r9k702qqh0-mori-cli-7.0.0.0.drv"
+    },
+    "system": {
+      "drvPath": "/nix/store/j32jvqvacjc80si38z3cjn2ckfc6sggf-darwin-system-26.11.4cff07d.drv",
+      "outputs": {
+        "out": "/nix/store/k6j3nrvk8a7hfbr1qwa6scp5ciywahxh-darwin-system-26.11.4cff07d"
+      }
+    },
+    "cli_compilation_events": 0,
+    "lock_unchanged": true,
+    "activated": false,
+    "qualification": "Actual yujin Darwin system graph contains exactly each producing CLI derivation under immutable source overrides; no activation or remote publication."
+  },
+  "system_build": {
+    "command": [
+      "nix",
+      "build",
+      "path:/Users/shinzui/.config/dotfiles.nix#darwinConfigurations.yujin.system",
+      "--override-input",
+      "mori",
+      "git+file:///Users/shinzui/Keikaku/bokuno/mori-project/mori?rev=48b63f3f372ea9047a8eefd8738f42669956ae3e",
+      "--override-input",
+      "rei",
+      "git+file:///Users/shinzui/Keikaku/bokuno/rei-project/rei?rev=98a5047da9ac99a54a899405bc166a42a073355d",
+      "--no-write-lock-file",
+      "--no-link",
+      "--json",
+      "--print-build-logs",
+      "--max-jobs",
+      "1",
+      "--cores",
+      "16"
+    ],
+    "cwd": "/Users/shinzui/.config/dotfiles.nix",
+    "start": 1792352757.95104,
+    "elapsed_seconds": 30.51160083396826,
+    "exit_code": 0
+  },
+  "cost": {
+    "charged_seconds": {
+      "additional_setup": 0,
+      "fresh_supported_sdk_wrapper_and_public_imports": 22.33938020898495,
+      "supported_sdk_ghci": 2.161694540991448,
+      "complete_frozen_production_profile_qualification": 92.62927708402276,
+      "exact_graph_verification": 25.063599749992136,
+      "additional_transfer": 0
+    },
+    "required_total_seconds": 142.1939515839913,
+    "required_break_even_edits": 10,
+    "maximum_edits": 10,
+    "budget_passed": true,
+    "optional_executable_library_import_seconds": 18.998232375015505,
+    "all_probes_total_seconds": 161.1921839590068,
+    "all_probes_break_even_edits": 11,
+    "allocation": "The supported SDK is the unchanged full recipe: charge its complete fresh wrapper/import and interpreter checks, plus all frozen production-profile qualification and graph verification. The private executable-artifact library import is an extra research probe outside that supported SDK contract; retain its cost separately, including the all-probe eleven-edit quote. Ordinary first builds, complete existing family suites, source guards and system assembly occur in both workflows; no new seed/migration output, generation or recurring manual maintenance is introduced. Baseline/candidate native guards and local transfers are measured, and no saving credit is taken. Optional simultaneous SDK/executable builds incur additional build and retention cost."
+  },
+  "producer_workspace_preservation": {
+    "sha256": "84e5ce10209d8b908a1c292d0a6274ddcb07026e6f8c358db80685d221d2762a",
+    "index_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "recovered_commit_shell_side_effect": {
+    "event": "Existing default-shell hook initialized a new empty local development cluster during commit preparation. No server started and no existing cluster occupied that path.",
+    "recovery": "Moved only the newly initialized cluster outside the repository, retaining it without deletion.",
+    "database_server_started": false,
+    "existing_database_data_changed": false
+  },
+  "artifacts": {
+    "archive": "mori-executable-artifacts-raw-evidence.tar.gz",
+    "sha256": "51b62923da9533825285371687e8c4b0b6e8108370f8b5982689ede4692547eb",
+    "bytes": 28771781
+  },
+  "limits": [
+    "Native Apple Silicon evidence only; other platform defaults unchanged.",
+    "Independent local-store copy with per-command trust for locally built outputs is not hosted CI, internet transfer, cache publication or changed daemon trust.",
+    "No production service activation or existing database mutation; an empty cluster initialized by the commit shell was relocated without starting a server.",
+    "No remote Git or application-cache publication; actual immutable local producer overrides are verified.",
+    "All 92 compiler events remain: this reduces artifact-generation work, not source-module reuse."
+  ]
+}
