@@ -4,7 +4,7 @@ title: Maintainer tools
 description: Find repository formatting, test, derivation-diff, and validation commands.
 docId: DOC-6
 tags: [maintainers, testing, nix]
-timestamp: 2026-10-18T03:30:51Z
+timestamp: 2026-10-18T03:53:53Z
 generated:
   by: process:codex
   at: 2026-10-18T02:33:22Z
@@ -266,7 +266,10 @@ freeze, sources, reports, common configuration and inventory record publish toge
 identity, concurrent-input or publication failures preserve accepted inputs.
 The [disposable http2 solve](../evidence/ep19/explicit-index-transition.json) changes
 only 5.4.8 to 5.4.9. Recipe generation, real-consumer acceptance and selecting the
-prior retained generation for rollback remain separate checks.
+prior retained generation for rollback remain separate checks. The
+[Darwin continuation](../evidence/ep19/targeted-http2-rehearsal.json) now passes
+those consumer, publication, empty-store and exact-generation rollback checks;
+Linux consumer compilation and transitive no-IFD/performance adoption remain open.
 
 ## Compatibility declaration reports
 

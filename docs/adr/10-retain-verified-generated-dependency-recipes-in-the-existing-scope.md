@@ -78,7 +78,7 @@ Require deterministic regeneration/relocation, rejection without writes, scoped
 no-IFD, native converter freshness and exact dependency/consumer derivation parity.
 Keep the independent runtime validator active. Whole-constructor no-IFD remains
 limited by explicitly unconverted roots; `Diff` is the first observed boundary in
-the generation-4 public constructor probe.
+the generation-4 public constructor probe. A converted root can still require IFD through an unconverted dependency: the disposable http2 update reaches async. Root-level no-IFD therefore requires the appropriate dependency closure; generating one raw function alone does not establish it.
 
 Generation 4 captures the bounded base64-bytestring configuration for both systems
 and source channels. Its public constructors preserve all 273 non-boot runtime

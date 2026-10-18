@@ -1,0 +1,990 @@
+{
+  "archive": {
+    "bytes": 6334634,
+    "members": {
+      "execution/ep19-http2-5.4.8.cabal": {
+        "bytes": 10670,
+        "sha256": "a75c02eb2cccb36160b1e17dff580358de60e0d77f9d2bee6f81aa615e25281b"
+      },
+      "execution/ep19-http2-5.4.9-page.txt": {
+        "bytes": 222593,
+        "sha256": "835184a18b667e6af4be2972ee9a05bd9e11c9a518dad404558916d86b9939fc"
+      },
+      "execution/ep19-http2-5.4.9-revisions.json": {
+        "bytes": 142,
+        "sha256": "6b0c9a790e5e5ead0368affa332e797e427278534aa68b1e943a55490d6b4cf8"
+      },
+      "execution/ep19-http2-5.4.9.cabal": {
+        "bytes": 10670,
+        "sha256": "7ee1e7754881853cf11eef77038cd3228d2c8fa67612bc710cfaff612ff8613c"
+      },
+      "execution/ep19-http2-5.4.9.html": {
+        "bytes": 238080,
+        "sha256": "65fe42808639cffc53ed195211fe6c958a39a84256d940b0d3890b737dba1368"
+      },
+      "execution/ep19-http2-after-graph-v2.json": {
+        "bytes": 23174,
+        "sha256": "1b62354b851fb2c21e9e017ffe79dafc263160f431d9fefde2ed6a255821e823"
+      },
+      "execution/ep19-http2-after-graph-v2.log": {
+        "bytes": 189,
+        "sha256": "de44af3a47082765e2ad97fe5ae9b30d6f6a2da5f1367390701256033d56e759"
+      },
+      "execution/ep19-http2-after-graph.json": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution/ep19-http2-after-graph.log": {
+        "bytes": 568,
+        "sha256": "a04baa645b0cc4658137ce5579818e74f21e452f85d795d8b2bbf2826681d3a0"
+      },
+      "execution/ep19-http2-after-policy.json": {
+        "bytes": 80098,
+        "sha256": "32814498175cc505b5a52d623064026d0ce750a1334477cd9776a698df030e26"
+      },
+      "execution/ep19-http2-after-policy.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution/ep19-http2-archive-darwin-checkpoint.py": {
+        "bytes": 8514,
+        "sha256": "1d9fb44b8bbdf5cc5b5b08575d9a5b9d0c733b01085392877d1fac18fc634bdf"
+      },
+      "execution/ep19-http2-artifacts-aarch64-darwin-github-0.log": {
+        "bytes": 21,
+        "sha256": "37484defd585af5f2db5b63cbd9627b5fc41d45fa2631663f997fc15ce2a5041"
+      },
+      "execution/ep19-http2-artifacts-aarch64-darwin-github-1.log": {
+        "bytes": 20,
+        "sha256": "02046dc687b511303229a6b2fa058a04a546b13b56b12119a48b43d6d1c8642a"
+      },
+      "execution/ep19-http2-artifacts-aarch64-darwin-github-2.log": {
+        "bytes": 21,
+        "sha256": "37484defd585af5f2db5b63cbd9627b5fc41d45fa2631663f997fc15ce2a5041"
+      },
+      "execution/ep19-http2-artifacts-aarch64-darwin-hackage-3.log": {
+        "bytes": 21,
+        "sha256": "37484defd585af5f2db5b63cbd9627b5fc41d45fa2631663f997fc15ce2a5041"
+      },
+      "execution/ep19-http2-artifacts-aarch64-darwin-hackage-4.log": {
+        "bytes": 20,
+        "sha256": "02046dc687b511303229a6b2fa058a04a546b13b56b12119a48b43d6d1c8642a"
+      },
+      "execution/ep19-http2-artifacts-aarch64-darwin-hackage-5.log": {
+        "bytes": 21,
+        "sha256": "37484defd585af5f2db5b63cbd9627b5fc41d45fa2631663f997fc15ce2a5041"
+      },
+      "execution/ep19-http2-base64-no-ifd.json": {
+        "bytes": 76,
+        "sha256": "cf181f51cb6f44b164f71f54624e952694e76c53c19d277903bc6f763719dc1d"
+      },
+      "execution/ep19-http2-base64-no-ifd.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution/ep19-http2-before-graph-v2.json": {
+        "bytes": 23174,
+        "sha256": "25aba327a06a7a82bb3a0fac5861437bb0509cc8724077b1eb8bd334061005cd"
+      },
+      "execution/ep19-http2-before-graph-v2.log": {
+        "bytes": 80,
+        "sha256": "2baba159a2b07718df493efe225005cfe53873d56d70d1319202101d11c6eef3"
+      },
+      "execution/ep19-http2-before-graph.json": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution/ep19-http2-before-graph.log": {
+        "bytes": 659,
+        "sha256": "ab014102f3988cfeb8413d69de1305de564ec2f5ef2815b29f74ad1a4d27e738"
+      },
+      "execution/ep19-http2-before-policy.json": {
+        "bytes": 80054,
+        "sha256": "fc4c27eb6f2352ae8fb2e2262b8757f274f1c761e3ac87447b4ac079b574a36a"
+      },
+      "execution/ep19-http2-before-policy.log": {
+        "bytes": 109,
+        "sha256": "66c9603375d0fc3d33afe8cf1b6f35ca350cb1963ec776f2487e4358b601da9f"
+      },
+      "execution/ep19-http2-build-artifacts.py": {
+        "bytes": 2608,
+        "sha256": "1d37b5f3e35763bad69e69d3ad546557ed7adc34c50c7d05ca7b7dd2499329da"
+      },
+      "execution/ep19-http2-candidate-bundle-verify.log": {
+        "bytes": 231,
+        "sha256": "d0eb1f6962c42121a3c6c7ee71d3bfc8aeb9489500f17ef4cf7c91ad7b9769b1"
+      },
+      "execution/ep19-http2-candidate.bundle": {
+        "bytes": 5613321,
+        "sha256": "5443b6eb0030baa5cc761d3c3751bbbf128a79e540b739c11c0574643f426ce1"
+      },
+      "execution/ep19-http2-capture-runtime.py": {
+        "bytes": 1420,
+        "sha256": "a813c868a1ee59e20117276e6baad96958cc5af2304ee96c1c6b1503ffdf0f72"
+      },
+      "execution/ep19-http2-consumer-view.json": {
+        "bytes": 142,
+        "sha256": "61f0e7062823e623defa98af1fd946cfd5fffca797360e1ae2239ae72927d685"
+      },
+      "execution/ep19-http2-consumer-view.log": {
+        "bytes": 80,
+        "sha256": "2baba159a2b07718df493efe225005cfe53873d56d70d1319202101d11c6eef3"
+      },
+      "execution/ep19-http2-consumer.nix": {
+        "bytes": 1337,
+        "sha256": "daac01385df344404376329a3b1e5eee6dc6d71d4ee691a1bee6f18366ac7d60"
+      },
+      "execution/ep19-http2-darwin-artifacts-receipt.json": {
+        "bytes": 4489,
+        "sha256": "46a6a2963f343217a39e8b53352d1dc00ba104437be1e1b4bdc1b76c58751966"
+      },
+      "execution/ep19-http2-darwin-behavior-0-baseline.stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution/ep19-http2-darwin-behavior-0-baseline.stdout": {
+        "bytes": 22,
+        "sha256": "ceb9946b7d9a4b5d747ad754a0df97d300ec252be7b4c965beed9d505a2724cb"
+      },
+      "execution/ep19-http2-darwin-behavior-0-candidate.stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution/ep19-http2-darwin-behavior-0-candidate.stdout": {
+        "bytes": 22,
+        "sha256": "ceb9946b7d9a4b5d747ad754a0df97d300ec252be7b4c965beed9d505a2724cb"
+      },
+      "execution/ep19-http2-darwin-behavior-1-baseline.stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution/ep19-http2-darwin-behavior-1-baseline.stdout": {
+        "bytes": 3759,
+        "sha256": "0eafee80c6251dfd461391c7fcc802148d5ff912cdebcc6cebf661b27a16f048"
+      },
+      "execution/ep19-http2-darwin-behavior-1-candidate.stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution/ep19-http2-darwin-behavior-1-candidate.stdout": {
+        "bytes": 3759,
+        "sha256": "0eafee80c6251dfd461391c7fcc802148d5ff912cdebcc6cebf661b27a16f048"
+      },
+      "execution/ep19-http2-darwin-behavior-2-baseline.stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution/ep19-http2-darwin-behavior-2-baseline.stdout": {
+        "bytes": 1833,
+        "sha256": "b6cc04edc06c5cdca856f452bcd3acc4ebc546b8eee465693dee6a68ece15348"
+      },
+      "execution/ep19-http2-darwin-behavior-2-candidate.stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution/ep19-http2-darwin-behavior-2-candidate.stdout": {
+        "bytes": 1833,
+        "sha256": "b6cc04edc06c5cdca856f452bcd3acc4ebc546b8eee465693dee6a68ece15348"
+      },
+      "execution/ep19-http2-darwin-behavior-3-baseline.stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution/ep19-http2-darwin-behavior-3-baseline.stdout": {
+        "bytes": 282,
+        "sha256": "f7414ece722cc984da96cb5fe7a5fcc2addd4b92b39590e1de9caaa3ed36eae9"
+      },
+      "execution/ep19-http2-darwin-behavior-3-candidate.stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution/ep19-http2-darwin-behavior-3-candidate.stdout": {
+        "bytes": 282,
+        "sha256": "f7414ece722cc984da96cb5fe7a5fcc2addd4b92b39590e1de9caaa3ed36eae9"
+      },
+      "execution/ep19-http2-darwin-behavior.json": {
+        "bytes": 3685,
+        "sha256": "1700cc026b9b85e3d5f82039fc3e0acc845cf399701feca484493116721f6a27"
+      },
+      "execution/ep19-http2-darwin-consumer-build.json": {
+        "bytes": 160,
+        "sha256": "4f771c74fe15f803806746e2a57af2cf10d5189ab0ca77ee696fbd65f26534f3"
+      },
+      "execution/ep19-http2-darwin-consumer-build.log": {
+        "bytes": 910095,
+        "sha256": "3b12def068d0aef2f2d208f80ca3bc9a42aee800ab34f684727c1244ee4b4ea8"
+      },
+      "execution/ep19-http2-darwin-finalize.py": {
+        "bytes": 1666,
+        "sha256": "fad50cac31bb5c542f1d25a4fdd4035693df567b3f35998be07afae1d3b38965"
+      },
+      "execution/ep19-http2-darwin-publication-driver.json": {
+        "bytes": 294,
+        "sha256": "e2f445a2163fad0bf35fbde0b5076faf973b40cf7f12eacc470bd4937359c107"
+      },
+      "execution/ep19-http2-darwin-publication.json": {
+        "bytes": 1435124,
+        "sha256": "0576d2433ef4f4a8eff17c9c27448ea400a718358c8dea7a8f822d622d0728fc"
+      },
+      "execution/ep19-http2-darwin-publication.log": {
+        "bytes": 2094,
+        "sha256": "f19c6ae1f5a6e9d6e5d5760048a565f5542b095be247c79db0d157c479f0821d"
+      },
+      "execution/ep19-http2-darwin-substitution-driver.json": {
+        "bytes": 346,
+        "sha256": "68ab7076a8f7b008ecba9573a1b66ee56efba7b4247baf92ce724d120eac2f26"
+      },
+      "execution/ep19-http2-darwin-substitution.json": {
+        "bytes": 1477006,
+        "sha256": "27bed8ac919cce44a41cefa28db269cd088d6eda15d846abfae4619fd2871c5f"
+      },
+      "execution/ep19-http2-darwin-substitution.log": {
+        "bytes": 82849,
+        "sha256": "103acf3b90ea3c4ef414a4d5c075b268482b390d34fc00e37f2b11261b69a672"
+      },
+      "execution/ep19-http2-darwin-substitution.py": {
+        "bytes": 958,
+        "sha256": "4657c6a096f89fe9efd8d17cb36fdac6a3630712daa11f9468d977ac15e44c75"
+      },
+      "execution/ep19-http2-generate-receipt.json": {
+        "bytes": 527,
+        "sha256": "ef8a773b5cc353791ea3a4d85eb9fe444a3a467cfe09455dca03bb5ca2a312b4"
+      },
+      "execution/ep19-http2-generate.log": {
+        "bytes": 61,
+        "sha256": "0ebaaa436a97f45dc46c4a9cb21405e70fbc7ede459f8ae57ccb7c274f4230a4"
+      },
+      "execution/ep19-http2-generated-entry.json": {
+        "bytes": 99,
+        "sha256": "dc78d998e05e896a9bd3ae7bb3c9c13f25ce46375cd0cfc3645d29296c5e2036"
+      },
+      "execution/ep19-http2-generation-context.json": {
+        "bytes": 601584,
+        "sha256": "8fda5040bca74d7c0f8a765af2646b566d0305721a18f273427c2cf3ed9b5900"
+      },
+      "execution/ep19-http2-index-proposal.diff": {
+        "bytes": 676,
+        "sha256": "07a9f2686c5c91817574c9b6aa3219d3c63df86d65bf326d7bdb9b62a825d68d"
+      },
+      "execution/ep19-http2-index-rejection.json": {
+        "bytes": 645,
+        "sha256": "26ba1ffdd82e016b84334085209905127b9b8dffb87fc95573aad3fb41bf7796"
+      },
+      "execution/ep19-http2-index-rejection.log": {
+        "bytes": 92,
+        "sha256": "9ba306baf80a91d1098990432c6aa0c4b4e0d3dac2b211c495e7446e51ca0e29"
+      },
+      "execution/ep19-http2-linux-artifacts-receipt.json": {
+        "bytes": 5940,
+        "sha256": "1059d6e357a96c3aae6898baae3768dc4cb9363a91221e01d1d25a02cb6992e0"
+      },
+      "execution/ep19-http2-linux-artifacts.log": {
+        "bytes": 47,
+        "sha256": "26f9b6357ddd801d62464db40c161b658fb2ba2f3d5687ef3a12594b4a47f483"
+      },
+      "execution/ep19-http2-linux-artifacts.py": {
+        "bytes": 1109,
+        "sha256": "17af03bdf08e3c58972d4fdb64ee6f1efb47131e763aea0fb513ebf9292b4a1d"
+      },
+      "execution/ep19-http2-linux-cli-path.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution/ep19-http2-linux-cli-path.txt": {
+        "bytes": 71,
+        "sha256": "c6111e22e10e0d1f55f3048b1dd6dad4899c0637e699e488626a1368f9f9565d"
+      },
+      "execution/ep19-http2-linux-compiler-progress.json": {
+        "bytes": 5832,
+        "sha256": "7a87e1acee6eb4567959696a29a31ab33caa4512ea96c10966a48f8908e346e5"
+      },
+      "execution/ep19-http2-linux-consumer-driver.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution/ep19-http2-linux-consumer.nix": {
+        "bytes": 1295,
+        "sha256": "57a3bff65eff3fd3271c0709032fe24faa4f50f776b8f49e7416440c13dd42db"
+      },
+      "execution/ep19-http2-no-ifd.json": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution/ep19-http2-no-ifd.log": {
+        "bytes": 711,
+        "sha256": "cd2476673c2f1728b79f3d54a71d468c9e2137bbf82036492f94902a558281ad"
+      },
+      "execution/ep19-http2-no-ifd.nix": {
+        "bytes": 88,
+        "sha256": "3a3e4d00fd7dbb75b33e01f8f585e23bf71a2144ab7ec951875890ad7ab62530"
+      },
+      "execution/ep19-http2-policy-comparison.json": {
+        "bytes": 1559,
+        "sha256": "5d3c08efcdbc37bf33dbffd95cfe71b27b71b3e998a29a1f38f474e0b576bf38"
+      },
+      "execution/ep19-http2-policy.nix": {
+        "bytes": 1552,
+        "sha256": "9db8e3b6b49e07662321d25072bc47902a013f94a9ef0ce99897d734577b9fe6"
+      },
+      "execution/ep19-http2-post-benchmark-generate.py": {
+        "bytes": 1090,
+        "sha256": "458f3cd063836e8f10b199da682bbab4762ef8e9ad2bd85c3f9afe78261723a7"
+      },
+      "execution/ep19-http2-rollback-build.json": {
+        "bytes": 160,
+        "sha256": "2d5963730c3bdfbed5967df1a81606b4c81ea6b463bdab61a793276f479191d9"
+      },
+      "execution/ep19-http2-rollback-build.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution/ep19-http2-rollback-receipt.json": {
+        "bytes": 444,
+        "sha256": "b7afceedc0179be24b5c86d34bdf5d023f97a89462dd061ed89a7ccf64ae4ea3"
+      },
+      "execution/ep19-http2-rollback-view.json": {
+        "bytes": 142,
+        "sha256": "c0db8beae5202e9baa15e42a67cbad66c80d3bf65a0e23a627e00c26f1ef9cd8"
+      },
+      "execution/ep19-http2-rollback-view.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution/ep19-http2-runtime-capture-receipt.json": {
+        "bytes": 374,
+        "sha256": "e702e25acc2fe5dbcf497045482ac5d21679ea740e49aaac63fdd26a40c91301"
+      },
+      "execution/ep19-http2-runtime-capture.log": {
+        "bytes": 5800,
+        "sha256": "fa9f30e78df27c7135d6f91ba1de1145bcf9084a3277df363823468a24dccfcc"
+      },
+      "execution/ep19-http2-runtime-check.log": {
+        "bytes": 56,
+        "sha256": "3c8428037631417f7cd5261b1cf895b70de7ae7d3af8b2775167d3527794727f"
+      },
+      "execution/ep19-http2-runtime-impact.json": {
+        "bytes": 891,
+        "sha256": "af1e439fb5cfa7f4f5bfa7efca04f7da1a0dcd9a047b355667f4e6378998ea66"
+      },
+      "execution/ep19-http2-runtime-repeat.log": {
+        "bytes": 46,
+        "sha256": "1e67d1a2bbe7689eee7a56e9def3b49452ca3ecbb6e4e04330945158a6effb3c"
+      },
+      "execution/ep19-http2-stale-metadata-receipt.json": {
+        "bytes": 1178,
+        "sha256": "c4e6cba71a49648e9e5f0cb3eea00c7ecb9225e18537a6bcf8e0a3501deb4333"
+      },
+      "execution/ep19-http2-stale-metadata.log": {
+        "bytes": 56,
+        "sha256": "be19c4476a37ccafdf5594ac9266662c4907d58fc2298cd1cda7cdd66db874ba"
+      },
+      "execution/ep19-http2-upstream-tags.txt": {
+        "bytes": 580,
+        "sha256": "e721e99d6f18197737f4f49236c3597fffba10b8da595c827df7388b2045d293"
+      },
+      "owners/lib/mkGeneratedRecipeExtension.nix": {
+        "bytes": 6320,
+        "sha256": "581fc0f49f91015c097930c08d66a1b09bd1e000ebd777783066ad19e2325786"
+      },
+      "owners/lib/mkRuntimeGeneratedRecipes.nix": {
+        "bytes": 3503,
+        "sha256": "a56ba0f232f4807f8c7f689173f6f638be2e97f04e5e491f9a3f19eaf7f92005"
+      },
+      "owners/lib/mkRuntimePackageSet.nix": {
+        "bytes": 10797,
+        "sha256": "f8cb7d2957a431ea30f7bd453ba463ab3db6369d990ab3c68c15659b7cf11943"
+      },
+      "owners/scripts/cohort-cache.py": {
+        "bytes": 8815,
+        "sha256": "f78efd1d3b1b287eb5c8731d3ee5c99832a0d22c0e1bb67310a8b1dd5e895cea"
+      },
+      "owners/scripts/cohort-update.py": {
+        "bytes": 9504,
+        "sha256": "5327580d8a210bddb913dfdbf9b71fdebe98cc1012ecf31d7da37f471d466ff0"
+      }
+    },
+    "path": "targeted-http2-rehearsal.raw.tar.gz",
+    "sha256": "26a71843f8d52ce20625d4cecd079b10c7a7cf011ed588d387a21bd54b3648c2"
+  },
+  "artifactMatrix": {
+    "base64RawRecipeUnchanged": true,
+    "darwin": [
+      {
+        "channel": "github",
+        "command": [
+          "/tmp/ep19-targeted-update-rehearsal/dist-newstyle/build/aarch64-osx/ghc-9.12.4/haskell-nix-update-0.1.0.0/x/haskell-nix-update/build/haskell-nix-update/haskell-nix-update",
+          "cohort",
+          "recipes",
+          "generate",
+          "--context",
+          "/tmp/ep19-targeted-update-rehearsal/config/generated-recipes/keiro-runtime/aarch64-darwin/github/inputs/context.json",
+          "--out",
+          "/tmp/ep19-targeted-update-rehearsal/config/generated-recipes/keiro-runtime/aarch64-darwin/github/recipes"
+        ],
+        "elapsed_seconds": 1.1644709160318598,
+        "exit_code": 0,
+        "log": "/tmp/ep19-http2-artifacts-aarch64-darwin-github-0.log",
+        "mode": "generate",
+        "system": "aarch64-darwin"
+      },
+      {
+        "channel": "github",
+        "command": [
+          "/tmp/ep19-targeted-update-rehearsal/dist-newstyle/build/aarch64-osx/ghc-9.12.4/haskell-nix-update-0.1.0.0/x/haskell-nix-update/build/haskell-nix-update/haskell-nix-update",
+          "cohort",
+          "recipes",
+          "check",
+          "--context",
+          "/tmp/ep19-targeted-update-rehearsal/config/generated-recipes/keiro-runtime/aarch64-darwin/github/inputs/context.json",
+          "--out",
+          "/tmp/ep19-targeted-update-rehearsal/config/generated-recipes/keiro-runtime/aarch64-darwin/github/recipes"
+        ],
+        "elapsed_seconds": 1.268209416011814,
+        "exit_code": 0,
+        "log": "/tmp/ep19-http2-artifacts-aarch64-darwin-github-1.log",
+        "mode": "check",
+        "system": "aarch64-darwin"
+      },
+      {
+        "channel": "github",
+        "command": [
+          "/tmp/ep19-targeted-update-rehearsal/dist-newstyle/build/aarch64-osx/ghc-9.12.4/haskell-nix-update-0.1.0.0/x/haskell-nix-update/build/haskell-nix-update/haskell-nix-update",
+          "cohort",
+          "recipes",
+          "generate",
+          "--context",
+          "/tmp/ep19-targeted-update-rehearsal/config/generated-recipes/keiro-runtime/aarch64-darwin/github/inputs/context.json",
+          "--out",
+          "/tmp/ep19-targeted-update-rehearsal/config/generated-recipes/keiro-runtime/aarch64-darwin/github/recipes"
+        ],
+        "elapsed_seconds": 1.1178822499932721,
+        "exit_code": 0,
+        "log": "/tmp/ep19-http2-artifacts-aarch64-darwin-github-2.log",
+        "mode": "generate",
+        "system": "aarch64-darwin"
+      },
+      {
+        "channel": "hackage",
+        "command": [
+          "/tmp/ep19-targeted-update-rehearsal/dist-newstyle/build/aarch64-osx/ghc-9.12.4/haskell-nix-update-0.1.0.0/x/haskell-nix-update/build/haskell-nix-update/haskell-nix-update",
+          "cohort",
+          "recipes",
+          "generate",
+          "--context",
+          "/tmp/ep19-targeted-update-rehearsal/config/generated-recipes/keiro-runtime/aarch64-darwin/hackage/inputs/context.json",
+          "--out",
+          "/tmp/ep19-targeted-update-rehearsal/config/generated-recipes/keiro-runtime/aarch64-darwin/hackage/recipes"
+        ],
+        "elapsed_seconds": 1.155411833024118,
+        "exit_code": 0,
+        "log": "/tmp/ep19-http2-artifacts-aarch64-darwin-hackage-3.log",
+        "mode": "generate",
+        "system": "aarch64-darwin"
+      },
+      {
+        "channel": "hackage",
+        "command": [
+          "/tmp/ep19-targeted-update-rehearsal/dist-newstyle/build/aarch64-osx/ghc-9.12.4/haskell-nix-update-0.1.0.0/x/haskell-nix-update/build/haskell-nix-update/haskell-nix-update",
+          "cohort",
+          "recipes",
+          "check",
+          "--context",
+          "/tmp/ep19-targeted-update-rehearsal/config/generated-recipes/keiro-runtime/aarch64-darwin/hackage/inputs/context.json",
+          "--out",
+          "/tmp/ep19-targeted-update-rehearsal/config/generated-recipes/keiro-runtime/aarch64-darwin/hackage/recipes"
+        ],
+        "elapsed_seconds": 1.1841119160526432,
+        "exit_code": 0,
+        "log": "/tmp/ep19-http2-artifacts-aarch64-darwin-hackage-4.log",
+        "mode": "check",
+        "system": "aarch64-darwin"
+      },
+      {
+        "channel": "hackage",
+        "command": [
+          "/tmp/ep19-targeted-update-rehearsal/dist-newstyle/build/aarch64-osx/ghc-9.12.4/haskell-nix-update-0.1.0.0/x/haskell-nix-update/build/haskell-nix-update/haskell-nix-update",
+          "cohort",
+          "recipes",
+          "generate",
+          "--context",
+          "/tmp/ep19-targeted-update-rehearsal/config/generated-recipes/keiro-runtime/aarch64-darwin/hackage/inputs/context.json",
+          "--out",
+          "/tmp/ep19-targeted-update-rehearsal/config/generated-recipes/keiro-runtime/aarch64-darwin/hackage/recipes"
+        ],
+        "elapsed_seconds": 1.1231225420488045,
+        "exit_code": 0,
+        "log": "/tmp/ep19-http2-artifacts-aarch64-darwin-hackage-5.log",
+        "mode": "generate",
+        "system": "aarch64-darwin"
+      }
+    ],
+    "generatedHttp2Flags": "Explicit devel=false and h2spec=false match the exact selected metadata defaults; raw converter bytes are unedited.",
+    "rawFunctionsIdenticalAcrossSystemsAndChannels": true,
+    "translatedLinux": [
+      {
+        "artifacts": {
+          ".recipe-artifacts": "3b68af8188320bdd757a7ee818e27d6211e4103aeeea8fbe1bc8491b21f505d8",
+          "extension.nix": "1f765cf0e5748e4a9d4c10989f8dac8ff78a6cc377f15ebb80f409b8d04c92c6",
+          "manifest.json": "fbe9810729882b48787d256f65c3a7eb718d23474c014ab37af2b15ce4d4f652",
+          "packages/base64-bytestring.nix": "84f3fbe710dc6d3c3bc23a619be6a09103deebed3a3b7ce698a596307180d16d",
+          "packages/http2.nix": "078783b51c3caad01094711f9e98905bc77a1895a38844e9b3184390539d1cec"
+        },
+        "channel": "github",
+        "command": [
+          "/nix/store/dc4vdm9x1hrplps9ynzb9nah9mp13v24-haskell-nix-update-0.1.0.0/bin/haskell-nix-update",
+          "cohort",
+          "recipes",
+          "generate",
+          "--context",
+          "/tmp/ep19-http2-cells/github/inputs/context.json",
+          "--out",
+          "/tmp/ep19-http2-cells/github/recipes"
+        ],
+        "elapsed_seconds": 1.8717630009923596,
+        "exit_code": 0,
+        "log": "/tmp/ep19-http2-linux-github-0.log",
+        "mode": "generate"
+      },
+      {
+        "artifacts": {
+          ".recipe-artifacts": "3b68af8188320bdd757a7ee818e27d6211e4103aeeea8fbe1bc8491b21f505d8",
+          "extension.nix": "1f765cf0e5748e4a9d4c10989f8dac8ff78a6cc377f15ebb80f409b8d04c92c6",
+          "manifest.json": "fbe9810729882b48787d256f65c3a7eb718d23474c014ab37af2b15ce4d4f652",
+          "packages/base64-bytestring.nix": "84f3fbe710dc6d3c3bc23a619be6a09103deebed3a3b7ce698a596307180d16d",
+          "packages/http2.nix": "078783b51c3caad01094711f9e98905bc77a1895a38844e9b3184390539d1cec"
+        },
+        "channel": "github",
+        "command": [
+          "/nix/store/dc4vdm9x1hrplps9ynzb9nah9mp13v24-haskell-nix-update-0.1.0.0/bin/haskell-nix-update",
+          "cohort",
+          "recipes",
+          "check",
+          "--context",
+          "/tmp/ep19-http2-cells/github/inputs/context.json",
+          "--out",
+          "/tmp/ep19-http2-cells/github/recipes"
+        ],
+        "elapsed_seconds": 1.491198458999861,
+        "exit_code": 0,
+        "log": "/tmp/ep19-http2-linux-github-1.log",
+        "mode": "check"
+      },
+      {
+        "artifacts": {
+          ".recipe-artifacts": "3b68af8188320bdd757a7ee818e27d6211e4103aeeea8fbe1bc8491b21f505d8",
+          "extension.nix": "1f765cf0e5748e4a9d4c10989f8dac8ff78a6cc377f15ebb80f409b8d04c92c6",
+          "manifest.json": "fbe9810729882b48787d256f65c3a7eb718d23474c014ab37af2b15ce4d4f652",
+          "packages/base64-bytestring.nix": "84f3fbe710dc6d3c3bc23a619be6a09103deebed3a3b7ce698a596307180d16d",
+          "packages/http2.nix": "078783b51c3caad01094711f9e98905bc77a1895a38844e9b3184390539d1cec"
+        },
+        "channel": "github",
+        "command": [
+          "/nix/store/dc4vdm9x1hrplps9ynzb9nah9mp13v24-haskell-nix-update-0.1.0.0/bin/haskell-nix-update",
+          "cohort",
+          "recipes",
+          "generate",
+          "--context",
+          "/tmp/ep19-http2-cells/github/inputs/context.json",
+          "--out",
+          "/tmp/ep19-http2-cells/github/recipes"
+        ],
+        "elapsed_seconds": 1.492333541988046,
+        "exit_code": 0,
+        "log": "/tmp/ep19-http2-linux-github-2.log",
+        "mode": "generate"
+      },
+      {
+        "artifacts": {
+          ".recipe-artifacts": "3b68af8188320bdd757a7ee818e27d6211e4103aeeea8fbe1bc8491b21f505d8",
+          "extension.nix": "1f765cf0e5748e4a9d4c10989f8dac8ff78a6cc377f15ebb80f409b8d04c92c6",
+          "manifest.json": "cd1308cf882ce956a86b329e1fc2a28239bdc638fb4f139aa5a86031f4749024",
+          "packages/base64-bytestring.nix": "84f3fbe710dc6d3c3bc23a619be6a09103deebed3a3b7ce698a596307180d16d",
+          "packages/http2.nix": "078783b51c3caad01094711f9e98905bc77a1895a38844e9b3184390539d1cec"
+        },
+        "channel": "hackage",
+        "command": [
+          "/nix/store/dc4vdm9x1hrplps9ynzb9nah9mp13v24-haskell-nix-update-0.1.0.0/bin/haskell-nix-update",
+          "cohort",
+          "recipes",
+          "generate",
+          "--context",
+          "/tmp/ep19-http2-cells/hackage/inputs/context.json",
+          "--out",
+          "/tmp/ep19-http2-cells/hackage/recipes"
+        ],
+        "elapsed_seconds": 1.4931583349971334,
+        "exit_code": 0,
+        "log": "/tmp/ep19-http2-linux-hackage-3.log",
+        "mode": "generate"
+      },
+      {
+        "artifacts": {
+          ".recipe-artifacts": "3b68af8188320bdd757a7ee818e27d6211e4103aeeea8fbe1bc8491b21f505d8",
+          "extension.nix": "1f765cf0e5748e4a9d4c10989f8dac8ff78a6cc377f15ebb80f409b8d04c92c6",
+          "manifest.json": "cd1308cf882ce956a86b329e1fc2a28239bdc638fb4f139aa5a86031f4749024",
+          "packages/base64-bytestring.nix": "84f3fbe710dc6d3c3bc23a619be6a09103deebed3a3b7ce698a596307180d16d",
+          "packages/http2.nix": "078783b51c3caad01094711f9e98905bc77a1895a38844e9b3184390539d1cec"
+        },
+        "channel": "hackage",
+        "command": [
+          "/nix/store/dc4vdm9x1hrplps9ynzb9nah9mp13v24-haskell-nix-update-0.1.0.0/bin/haskell-nix-update",
+          "cohort",
+          "recipes",
+          "check",
+          "--context",
+          "/tmp/ep19-http2-cells/hackage/inputs/context.json",
+          "--out",
+          "/tmp/ep19-http2-cells/hackage/recipes"
+        ],
+        "elapsed_seconds": 1.5150634590099799,
+        "exit_code": 0,
+        "log": "/tmp/ep19-http2-linux-hackage-4.log",
+        "mode": "check"
+      },
+      {
+        "artifacts": {
+          ".recipe-artifacts": "3b68af8188320bdd757a7ee818e27d6211e4103aeeea8fbe1bc8491b21f505d8",
+          "extension.nix": "1f765cf0e5748e4a9d4c10989f8dac8ff78a6cc377f15ebb80f409b8d04c92c6",
+          "manifest.json": "cd1308cf882ce956a86b329e1fc2a28239bdc638fb4f139aa5a86031f4749024",
+          "packages/base64-bytestring.nix": "84f3fbe710dc6d3c3bc23a619be6a09103deebed3a3b7ce698a596307180d16d",
+          "packages/http2.nix": "078783b51c3caad01094711f9e98905bc77a1895a38844e9b3184390539d1cec"
+        },
+        "channel": "hackage",
+        "command": [
+          "/nix/store/dc4vdm9x1hrplps9ynzb9nah9mp13v24-haskell-nix-update-0.1.0.0/bin/haskell-nix-update",
+          "cohort",
+          "recipes",
+          "generate",
+          "--context",
+          "/tmp/ep19-http2-cells/hackage/inputs/context.json",
+          "--out",
+          "/tmp/ep19-http2-cells/hackage/recipes"
+        ],
+        "elapsed_seconds": 1.518741042993497,
+        "exit_code": 0,
+        "log": "/tmp/ep19-http2-linux-hackage-5.log",
+        "mode": "generate"
+      }
+    ]
+  },
+  "candidateBundle": {
+    "member": "execution/ep19-http2-candidate.bundle",
+    "qualification": "Git bundle preserves exact candidate source and new runtime projections; verify/import it into a checkout containing its prerequisite commit before reproducing."
+  },
+  "candidateRevision": "0738c3ea5c474b3aeae628210e3104554d1ab38b",
+  "candidateScope": "Disposable detached checkout only; no production generation, alias, runtime support or consumer selection changed.",
+  "compatibility": {
+    "changedInputRows": [
+      {
+        "id": "legacy-cohort-source-v1",
+        "package": "http2"
+      },
+      {
+        "id": "legacy-cohort-source-v1",
+        "package": "wai-app-static"
+      },
+      {
+        "id": "legacy-cohort-source-v1",
+        "package": "wai-extra"
+      },
+      {
+        "id": "legacy-cohort-source-v1",
+        "package": "wai-websockets"
+      },
+      {
+        "id": "legacy-cohort-source-v1",
+        "package": "warp"
+      },
+      {
+        "id": "legacy-first-party-source-v1",
+        "package": "kiroku-metrics"
+      },
+      {
+        "id": "legacy-first-party-v1-bound-relaxation",
+        "package": "kiroku-metrics"
+      },
+      {
+        "id": "legacy-first-party-v1-test-suppression",
+        "package": "kiroku-metrics"
+      },
+      {
+        "id": "legacy-skip-enforce-v1-test-suppression",
+        "package": "http2"
+      },
+      {
+        "id": "legacy-skip-enforce-v1-test-suppression",
+        "package": "wai-app-static"
+      },
+      {
+        "id": "legacy-skip-enforce-v1-test-suppression",
+        "package": "wai-extra"
+      },
+      {
+        "id": "legacy-skip-enforce-v1-test-suppression",
+        "package": "wai-websockets"
+      },
+      {
+        "id": "legacy-skip-enforce-v1-test-suppression",
+        "package": "warp"
+      },
+      {
+        "id": "legacy-wai-app-static-v1",
+        "package": "wai-app-static"
+      }
+    ],
+    "declarationsSelectionEffectsRetirementAndEvidenceStatusUnchanged": true,
+    "qualification": "Read-only declaration contexts; existing selected-unverified statuses remain unverified. No new policy or native exception receipt is inferred.",
+    "rows": 14
+  },
+  "darwin": {
+    "behaviorCommands": [
+      {
+        "arguments": [
+          "--version"
+        ],
+        "observations": [
+          {
+            "command": [
+              "/nix/store/n3i540rdai30hdxx66mybxqjsai89g59-rei-cli-7.1.0.0/bin/rei",
+              "--version"
+            ],
+            "exit_code": 0,
+            "label": "baseline",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout_sha256": "ceb9946b7d9a4b5d747ad754a0df97d300ec252be7b4c965beed9d505a2724cb"
+          },
+          {
+            "command": [
+              "/nix/store/0mc43srwyx4mybfq9nmxicib1r41h6kw-rei-cli-7.1.0.0/bin/rei",
+              "--version"
+            ],
+            "exit_code": 0,
+            "label": "candidate",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout_sha256": "ceb9946b7d9a4b5d747ad754a0df97d300ec252be7b4c965beed9d505a2724cb"
+          }
+        ],
+        "outputsIdentical": true
+      },
+      {
+        "arguments": [
+          "--help"
+        ],
+        "observations": [
+          {
+            "command": [
+              "/nix/store/n3i540rdai30hdxx66mybxqjsai89g59-rei-cli-7.1.0.0/bin/rei",
+              "--help"
+            ],
+            "exit_code": 0,
+            "label": "baseline",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout_sha256": "0eafee80c6251dfd461391c7fcc802148d5ff912cdebcc6cebf661b27a16f048"
+          },
+          {
+            "command": [
+              "/nix/store/0mc43srwyx4mybfq9nmxicib1r41h6kw-rei-cli-7.1.0.0/bin/rei",
+              "--help"
+            ],
+            "exit_code": 0,
+            "label": "candidate",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout_sha256": "0eafee80c6251dfd461391c7fcc802148d5ff912cdebcc6cebf661b27a16f048"
+          }
+        ],
+        "outputsIdentical": true
+      },
+      {
+        "arguments": [
+          "help",
+          "time"
+        ],
+        "observations": [
+          {
+            "command": [
+              "/nix/store/n3i540rdai30hdxx66mybxqjsai89g59-rei-cli-7.1.0.0/bin/rei",
+              "help",
+              "time"
+            ],
+            "exit_code": 0,
+            "label": "baseline",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout_sha256": "b6cc04edc06c5cdca856f452bcd3acc4ebc546b8eee465693dee6a68ece15348"
+          },
+          {
+            "command": [
+              "/nix/store/0mc43srwyx4mybfq9nmxicib1r41h6kw-rei-cli-7.1.0.0/bin/rei",
+              "help",
+              "time"
+            ],
+            "exit_code": 0,
+            "label": "candidate",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout_sha256": "b6cc04edc06c5cdca856f452bcd3acc4ebc546b8eee465693dee6a68ece15348"
+          }
+        ],
+        "outputsIdentical": true
+      },
+      {
+        "arguments": [
+          "--bash-completion-script",
+          "rei"
+        ],
+        "observations": [
+          {
+            "command": [
+              "/nix/store/n3i540rdai30hdxx66mybxqjsai89g59-rei-cli-7.1.0.0/bin/rei",
+              "--bash-completion-script",
+              "rei"
+            ],
+            "exit_code": 0,
+            "label": "baseline",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout_sha256": "f7414ece722cc984da96cb5fe7a5fcc2addd4b92b39590e1de9caaa3ed36eae9"
+          },
+          {
+            "command": [
+              "/nix/store/0mc43srwyx4mybfq9nmxicib1r41h6kw-rei-cli-7.1.0.0/bin/rei",
+              "--bash-completion-script",
+              "rei"
+            ],
+            "exit_code": 0,
+            "label": "candidate",
+            "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout_sha256": "f7414ece722cc984da96cb5fe7a5fcc2addd4b92b39590e1de9caaa3ed36eae9"
+          }
+        ],
+        "outputsIdentical": true
+      }
+    ],
+    "build": [
+      {
+        "drvPath": "/nix/store/1fd6z1jjg2x61wysxddkk4jr0w0r3csw-rei-cli-7.1.0.0.drv",
+        "outputs": {
+          "out": "/nix/store/0mc43srwyx4mybfq9nmxicib1r41h6kw-rei-cli-7.1.0.0"
+        }
+      }
+    ],
+    "buildExitCode": 0,
+    "buildsPerformed": 0,
+    "cache": "tan",
+    "initialExpectedPaths": 0,
+    "publicationElapsedSeconds": 39.43126783298794,
+    "publicationExitCode": 0,
+    "publishedPaths": 462,
+    "substitutedPaths": 462,
+    "substitutionElapsedSeconds": 56.89592541696038
+  },
+  "limits": [
+    "Linux artifact generate/check/repeat passes in the translated Apple guest; its actual updated native consumer build is still running at this checkpoint. No Linux consumer acceptance is claimed.",
+    "The original base64 root retains exact no-IFD derivation identity. The new http2 root still encounters unconverted async; whole transitive closure no-IFD and performance acceptance remain open.",
+    "Four direct CLI behavior commands have byte-identical stdout against retained generation 4; this is not a new complete owned test-suite run.",
+    "Maintenance uses the unchanged existing cache publisher and new empty alternate store. No physical fresh-machine or new hosted application run is inferred.",
+    "The real native Darwin build duration was not instrumented. Retain explicit operational timings for instrumented phases; no complete migration-cost or amortization claim.",
+    "Earlier actual Diff conflict and concurrent-input rejection evidence remain applicable; this batch adds real target metadata-drift rejection without accepted writes."
+  ],
+  "rollback": {
+    "command": [
+      "nix",
+      "build",
+      "--no-link",
+      "--json",
+      "--builders",
+      "",
+      "--max-jobs",
+      "0",
+      "/nix/store/l6afxry8yviihkab53lb13n3awn371iy-rei-cli-7.1.0.0.drv^out"
+    ],
+    "elapsed_seconds": 0.0692903749877587,
+    "exit_code": 0,
+    "generation": 4,
+    "previousExactConsumerDerivationRestored": true,
+    "qualification": "Explicit retained selection in disposable rehearsal; production selections never moved."
+  },
+  "runtime": {
+    "fingerprint": "07737cdc877ca5a0dc05c57b83bb5eeba29498c6d17e7d1a1663fd31aaf62d22",
+    "generation": 5,
+    "name": "keiro-runtime",
+    "previousFourRecordsAndProjectionsUnchanged": true,
+    "previousGeneration": 4,
+    "repeatCapture": "Runtime keiro-runtime generation 5: unchanged"
+  },
+  "runtimeDerivationImpact": {
+    "changedOutsideSolvedReverseDependencyClosure": [],
+    "changedRuntimeDerivations": [
+      "http2",
+      "kiroku-metrics",
+      "wai-app-static",
+      "wai-extra",
+      "wai-websockets",
+      "warp"
+    ],
+    "runtimeEntries": 273,
+    "solvedReverseDependencyClosure": [
+      "baikai",
+      "baikai-claude",
+      "baikai-effectful",
+      "baikai-kit",
+      "baikai-openai",
+      "baikai-trace-otel",
+      "hs-opentelemetry-instrumentation-servant",
+      "http2",
+      "kioku-core",
+      "kiroku-metrics",
+      "openai",
+      "relay-pagination-servant",
+      "servant-health",
+      "servant-multipart",
+      "servant-multipart-client",
+      "servant-server",
+      "servant-swagger-ui",
+      "servant-swagger-ui-core",
+      "shikumi",
+      "shikumi-cache",
+      "shikumi-trace",
+      "shikumi-trace-otel",
+      "wai-app-static",
+      "wai-extra",
+      "wai-websockets",
+      "warp"
+    ],
+    "unchangedRuntimeDerivations": 267
+  },
+  "schemaVersion": 1,
+  "sourceProject": "mori://shinzui/haskell-nix",
+  "staleMetadataRejection": {
+    "acceptedRecipeHashes": {
+      ".recipe-artifacts": "3b68af8188320bdd757a7ee818e27d6211e4103aeeea8fbe1bc8491b21f505d8",
+      "extension.nix": "a1a15947f1cb3e566f21cd4d8d6825ecfcd5cf359f1416e8cc550c363ca0505a",
+      "manifest.json": "e15308451f48d9c8c4b7e04737be06ce27ed5fb9336544b00adea7d276655dc5",
+      "packages/base64-bytestring.nix": "84f3fbe710dc6d3c3bc23a619be6a09103deebed3a3b7ce698a596307180d16d",
+      "packages/http2.nix": "078783b51c3caad01094711f9e98905bc77a1895a38844e9b3184390539d1cec"
+    },
+    "acceptedRecipesUnchanged": true,
+    "command": [
+      "/tmp/ep19-targeted-update-rehearsal/dist-newstyle/build/aarch64-osx/ghc-9.12.4/haskell-nix-update-0.1.0.0/x/haskell-nix-update/build/haskell-nix-update/haskell-nix-update",
+      "cohort",
+      "recipes",
+      "generate",
+      "--context",
+      "/tmp/ep19-targeted-update-rehearsal/config/generated-recipes/keiro-runtime/aarch64-darwin/github/inputs/context.json",
+      "--out",
+      "/tmp/ep19-targeted-update-rehearsal/config/generated-recipes/keiro-runtime/aarch64-darwin/github/recipes"
+    ],
+    "elapsed_seconds": 1.0006887919735163,
+    "exit_code": 1,
+    "originalMetadataRestored": true,
+    "staleMetadataRejected": true
+  },
+  "status": "Darwin positive targeted update, retained rollback, publication and empty-store substitution accepted. Linux native consumer build and performance adoption remain open.",
+  "target": {
+    "after": "5.4.9",
+    "allUnrelatedSolvedIdentitiesUnchanged": true,
+    "approvedIndexState": "2026-10-17T11:06:56Z",
+    "before": "5.4.8",
+    "name": "http2",
+    "oldIndexState": "2026-10-16T12:29:59Z",
+    "project": "mori://kazu-yamamoto/http2",
+    "upstreamTag": "fd352c5af5922a06370d4e65a0eb7e15e1d40153"
+  }
+}
