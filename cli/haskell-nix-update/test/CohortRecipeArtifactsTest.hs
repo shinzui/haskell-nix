@@ -4,7 +4,7 @@ module CohortRecipeArtifactsTest (tests) where
 
 import Control.Exception (IOException, try)
 import Control.Monad (forM_)
-import Data.Aeson (Value (..), encode, object, (.=))
+import Data.Aeson (Value (..), encode, object, eitherDecodeStrict', (.=))
 import Data.Aeson.KeyMap qualified as KeyMap
 import Data.ByteString qualified as BS
 import Data.ByteString.Lazy qualified as LBS
@@ -95,6 +95,50 @@ tests = testGroup "staged complete recipe artifacts"
                 Left (_ :: IOException) -> pure ()
                 Right value -> assertFailure ("expected refusal to replace unowned directory: " <> show value)
             TextIO.readFile (root </> "unowned/sentinel") >>= (@?= "preserve user file\n")
+    , testCase "fixed source metadata is verified without inventing a Hackage revision" $
+        pinFixture $ \root options -> do
+            _ <- runArtifacts (pinRunner root) options >>= right
+            first <- artifacts root
+            _ <- runArtifacts (pinRunner root) options{checkOnly = True} >>= right
+            artifacts root >>= (@?= first)
+            value <- BS.readFile (root </> "out/manifest.json") >>= either assertFailure pure . eitherDecodeStrict'
+            case value of
+                Object manifest -> do
+                    case KeyMap.lookup "packages" manifest of
+                        Just (Object packages) -> case KeyMap.lookup "example" packages of
+                            Just (Object package) -> KeyMap.lookup "revision" package @?= Just Null
+                            _ -> assertFailure "missing pinned package"
+                        _ -> assertFailure "missing package manifest"
+                    case KeyMap.lookup "generationContext" manifest of
+                        Just generation -> generation @?= either (error . show) id (generationContextValue pinGenerationContext)
+                        _ -> assertFailure "missing original solved source context"
+                _ -> assertFailure "invalid artifact manifest"
+    , testCase "source pin subdirectories bind the exact archive member" $
+        fixture $ \root options -> do
+            context <- pinContextAt "https://github.com/shinzui/example" "packages/example" >>= right
+            LBS.writeFile (root </> "context.json") (encode context)
+            let inspect = ProcessRunner $ \spec -> do
+                    if spec.executable == extractorExecutable && spec.arguments /= ["--version"]
+                        then spec.arguments @?= ["--extract", "--to-stdout", "--file", root </> "source.tar.gz", "--", "example-" <> replicate 40 'a' <> "/packages/example/example.cabal"]
+                        else pure ()
+                    (pinRunner root).runProcess spec
+            _ <- runArtifacts inspect options >>= right
+            pure ()
+    , testCase "source pin declaration and extracted metadata drift leave publication intact" $
+        pinFixture $ \root options -> do
+            _ <- runArtifacts (pinRunner root) options >>= right
+            first <- artifacts root
+            original <- BS.readFile (root </> "context.json")
+            changed <- pinContext "https://github.com/shinzui/other" >>= right
+            LBS.writeFile (root </> "context.json") (encode changed)
+            runArtifacts (pinRunner root) options >>= left
+            artifacts root >>= (@?= first)
+            BS.writeFile (root </> "context.json") original
+            let altered = ProcessRunner $ \spec ->
+                    if spec.executable == extractorExecutable && spec.arguments /= ["--version"]
+                        then pure (Right (ProcessResult ExitSuccess "changed source metadata\n" "")) else (pinRunner root).runProcess spec
+            runArtifacts altered options >>= left
+            artifacts root >>= (@?= first)
     , testCase "metadata containment and exact converter output are required" $
         fixture $ \root options -> do
             let wrongOutput = ProcessRunner $ \spec ->
@@ -175,3 +219,54 @@ right = either (assertFailure . show) pure
 
 left :: Show a => Either e a -> IO ()
 left = either (const (pure ())) (assertFailure . ("expected failure: " <>) . show)
+
+pinGenerationContext :: GenerationContext
+pinGenerationContext = pinGenerationContextAt "."
+
+pinGenerationContextAt :: Text -> GenerationContext
+pinGenerationContextAt subdirectory = generationContext
+    { sources = Map.singleton "example" (PlanPackage "1" SourcePin [object
+        ["pkg-src-sha256" .= hash, "flags" .= object [], "component-name" .= ("lib" :: Text)
+        , "pkg-src" .= object ["type" .= ("source-repo" :: Text), "source-repo" .= object
+            (["type" .= ("git" :: Text), "tag" .= Text.replicate 40 "a", "location" .= ("https://github.com/shinzui/example" :: Text)]
+                <> ["subdir" .= subdirectory | subdirectory /= "."])]]] ["base"])
+    , policy = GenerationPolicy Map.empty (Map.singleton "example" (OwnedPolicy "Fixed source fixture" "mori://shinzui/haskell-nix"))
+    }
+
+pinContext :: Text -> IO (Either Text Value)
+pinContext repository = pinContextAt repository "."
+
+pinContextAt :: Text -> Text -> IO (Either Text Value)
+pinContextAt repository subdirectory = pure $ do
+    generation <- generationContextValue (pinGenerationContextAt subdirectory)
+    let cfg = case configuration "aarch64-darwin" of
+            Object fields -> Object (KeyMap.insert "extractor" (object
+                ["derivation" .= ("/nix/store/fixed-tar.drv" :: Text), "output" .= ("/nix/store/fixed-tar" :: Text), "version" .= ("tar (GNU tar) 1.35" :: Text)]) fields)
+            other -> other
+        packages = object ["example" .= object
+            [ "metadataPath" .= ("example.cabal" :: Text), "archivePath" .= ("source.tar.gz" :: Text)
+            , "unpackedHash" .= ("sha256-" <> Text.replicate 43 "a" <> "="), "revision" .= Null
+            , "nativeArguments" .= object []
+            , "sourcePin" .= object ["repository" .= repository, "revision" .= Text.replicate 40 "a", "subdirectory" .= subdirectory
+                , "archiveSha256" .= Text.replicate 64 "b", "metadataSha256" .= hash]
+            ]]
+    pure (object ["schemaVersion" .= (1 :: Int), "generationContext" .= generation, "configuration" .= cfg, "packages" .= packages])
+
+pinFixture :: (FilePath -> ArtifactOptions -> IO a) -> IO a
+pinFixture action = fixture $ \root options -> do
+    context <- pinContext "https://github.com/shinzui/example" >>= right
+    LBS.writeFile (root </> "context.json") (encode context)
+    action root options
+
+extractorExecutable :: FilePath
+extractorExecutable = "/nix/store/fixed-tar/bin/tar"
+
+pinRunner :: FilePath -> ProcessRunner
+pinRunner root = ProcessRunner $ \spec ->
+    if spec.executable == "nix" && spec.arguments == ["--offline", "derivation", "show", "/nix/store/fixed-tar.drv"]
+        then pure (Right (ProcessResult ExitSuccess "{\"fixed-tar.drv\":{\"outputs\":{\"out\":{\"path\":\"/nix/store/fixed-tar\"}}}}" ""))
+    else if spec.executable == "nix" && spec.arguments == ["hash", "file", "--type", "sha256", "--base16", root </> "source.tar.gz"]
+        then pure (Right (ProcessResult ExitSuccess (Text.replicate 64 "b") ""))
+    else if spec.executable == extractorExecutable
+        then pure (Right (ProcessResult ExitSuccess (if spec.arguments == ["--version"] then "tar (GNU tar) 1.35\n" else "metadata\n") ""))
+    else runner.runProcess spec

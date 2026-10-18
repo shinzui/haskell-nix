@@ -63,9 +63,9 @@ cohortParser =
             <> command "verify-import" (info (verifyImportParser <**> helper) (fullDesc <> progDesc "Verify the Cabal cohort import against this application's locked channel"))
             <> command "comparison-context" (info (contextParser <**> helper) (fullDesc <> progDesc "Emit validated frozen source, flag and ownership context for shared Nix comparison"))
             <> command "recipes" (info (subparser
-                (command "generate" (info (recipesParser False <**> helper) (fullDesc <> progDesc "Stage and generate explicit full Hackage recipes"))
+                (command "generate" (info (recipesParser False <**> helper) (fullDesc <> progDesc "Stage explicit Hackage and declared GitHub source recipes"))
                 <> command "check" (info (recipesParser True <**> helper) (fullDesc <> progDesc "Reconvert local metadata and check artifacts without publication"))))
-                (fullDesc <> progDesc "Generate or check portable recipes for an explicit context"))
+                (fullDesc <> progDesc "Generate or check portable dependency recipes for an explicit context"))
             <> command "generate" (info (generateParser <**> helper) (fullDesc <> progDesc "Generate retained Nix recipes from the frozen sources and metadata cutoff"))
             <> command "compare-plan" (info (compareParser <**> helper) (fullDesc <> progDesc "Check a consumer subset against frozen versions and source evidence"))
             <> command "inventory" (info (inventoryParser <**> helper) (fullDesc <> progDesc "Record a contributor's fresh Cabal plan and component bounds"))

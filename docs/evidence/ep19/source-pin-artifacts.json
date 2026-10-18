@@ -1,0 +1,309 @@
+{
+  "schema_version": 1,
+  "status": "Declared GitHub source-pin generation and Darwin native integration pass; general M2/M3/M4 acceptance remains open",
+  "system": "aarch64-darwin",
+  "project_uri": "mori://shinzui/cmark-gfm-hs",
+  "source_revision": "a9014e8c4974d636e7c8f85cd97812905d217faf",
+  "package": "cmark-gfm",
+  "version": "0.2.6",
+  "input_context": {
+    "retained_generation": 1,
+    "classified_packages": 40,
+    "boot_records": 38,
+    "converted_packages": [
+      "base64-bytestring",
+      "cmark-gfm"
+    ],
+    "solved_git_observations_preserved": true,
+    "cabal_solved_source_sha256": "8531ceb213bfe58c590d9c135f67d8dcb70d0a106ce99b759f1581bb54e07102",
+    "independent_archive_and_metadata": {
+      "nativeArguments": {},
+      "recipeSha256": "dd795331ec37a0e158ce6e944db9c623f203f9ceaf0fea71e55105aeb78506e6",
+      "revision": null,
+      "sourcePin": {
+        "archiveSha256": "5ce3f559333e61ee534f57400fdce29200e899c2405d26c7e85e80936a2a519c",
+        "metadataSha256": "ed52f082c176d2f21e481a5b9c6ab02bd1ad7f6cf4044dd8bc9cd25dafb29853",
+        "repository": "https://github.com/shinzui/cmark-gfm-hs",
+        "revision": "a9014e8c4974d636e7c8f85cd97812905d217faf",
+        "subdirectory": "."
+      },
+      "unpackedHash": "sha256-NPzWjJQH/4IInSezr2nqI8sn0HtjBhqGP7oIP5FcPec="
+    },
+    "hackage_revision": null
+  },
+  "results": {
+    "updater_tests": 221,
+    "hackage_only_backward_check": true,
+    "source_pin_subdirectory_member_test": true,
+    "repeat_relocation_and_offline_check": {
+      "status": "passed",
+      "results": [
+        {
+          "name": "repeat",
+          "command": [
+            "/Users/shinzui/Keikaku/bokuno/haskell-nix/dist-newstyle/build/aarch64-osx/ghc-9.12.4/haskell-nix-update-0.1.0.0/x/haskell-nix-update/build/haskell-nix-update/haskell-nix-update",
+            "cohort",
+            "recipes",
+            "generate",
+            "--context",
+            "/tmp/ep19-source-pin-context-inputs/context.json",
+            "--out",
+            "/tmp/ep19-source-pin-artifacts-v1"
+          ],
+          "exit_code": 0,
+          "elapsed_seconds": 1.1371355829760432
+        },
+        {
+          "name": "check",
+          "command": [
+            "/Users/shinzui/Keikaku/bokuno/haskell-nix/dist-newstyle/build/aarch64-osx/ghc-9.12.4/haskell-nix-update-0.1.0.0/x/haskell-nix-update/build/haskell-nix-update/haskell-nix-update",
+            "cohort",
+            "recipes",
+            "check",
+            "--context",
+            "/tmp/ep19-source-pin-context-inputs/context.json",
+            "--out",
+            "/tmp/ep19-source-pin-artifacts-v1"
+          ],
+          "exit_code": 0,
+          "elapsed_seconds": 1.1292050000047311
+        },
+        {
+          "name": "relocated",
+          "command": [
+            "/Users/shinzui/Keikaku/bokuno/haskell-nix/dist-newstyle/build/aarch64-osx/ghc-9.12.4/haskell-nix-update-0.1.0.0/x/haskell-nix-update/build/haskell-nix-update/haskell-nix-update",
+            "cohort",
+            "recipes",
+            "generate",
+            "--context",
+            "/tmp/ep19-source-pin-context-relocated/context.json",
+            "--out",
+            "/tmp/ep19-source-pin-artifacts-relocated"
+          ],
+          "exit_code": 0,
+          "elapsed_seconds": 1.1550425839959644
+        },
+        {
+          "name": "reject-cmark-gfm.cabal",
+          "command": [
+            "/Users/shinzui/Keikaku/bokuno/haskell-nix/dist-newstyle/build/aarch64-osx/ghc-9.12.4/haskell-nix-update-0.1.0.0/x/haskell-nix-update/build/haskell-nix-update/haskell-nix-update",
+            "cohort",
+            "recipes",
+            "generate",
+            "--context",
+            "/tmp/ep19-source-pin-context-inputs/context.json",
+            "--out",
+            "/tmp/ep19-source-pin-artifacts-v1"
+          ],
+          "exit_code": 1,
+          "elapsed_seconds": 0.9336097910418175
+        },
+        {
+          "name": "reject-cmark-gfm-hs-a9014e8.tar.gz",
+          "command": [
+            "/Users/shinzui/Keikaku/bokuno/haskell-nix/dist-newstyle/build/aarch64-osx/ghc-9.12.4/haskell-nix-update-0.1.0.0/x/haskell-nix-update/build/haskell-nix-update/haskell-nix-update",
+            "cohort",
+            "recipes",
+            "generate",
+            "--context",
+            "/tmp/ep19-source-pin-context-inputs/context.json",
+            "--out",
+            "/tmp/ep19-source-pin-artifacts-v1"
+          ],
+          "exit_code": 1,
+          "elapsed_seconds": 0.8221863330109045
+        },
+        {
+          "name": "reject-revision",
+          "command": [
+            "/Users/shinzui/Keikaku/bokuno/haskell-nix/dist-newstyle/build/aarch64-osx/ghc-9.12.4/haskell-nix-update-0.1.0.0/x/haskell-nix-update/build/haskell-nix-update/haskell-nix-update",
+            "cohort",
+            "recipes",
+            "generate",
+            "--context",
+            "/tmp/ep19-source-pin-context-inputs/context.json",
+            "--out",
+            "/tmp/ep19-source-pin-artifacts-v1"
+          ],
+          "exit_code": 1,
+          "elapsed_seconds": 0.05025500000920147
+        }
+      ],
+      "artifact_tree_sha256s": {
+        ".recipe-artifacts": "3b68af8188320bdd757a7ee818e27d6211e4103aeeea8fbe1bc8491b21f505d8",
+        "extension.nix": "ef13b7496ca0b1d71896462fe0cb658db60b2bb89d0a38362299d9a678c147d5",
+        "manifest.json": "3328abe3ec623d3add6506aadad6f2994c3dfd2d001465c1a8952b6697e4c628",
+        "packages/base64-bytestring.nix": "84f3fbe710dc6d3c3bc23a619be6a09103deebed3a3b7ce698a596307180d16d",
+        "packages/cmark-gfm.nix": "dd795331ec37a0e158ce6e944db9c623f203f9ceaf0fea71e55105aeb78506e6"
+      },
+      "repeat_and_relocation_byte_identical": true,
+      "changed_metadata_archive_revision_rejected": true,
+      "accepted_outputs_unchanged": true,
+      "network": "Unreachable HTTP proxies; all source verification and checking uses supplied local inputs."
+    },
+    "native": {
+      "status": "passed",
+      "results": [
+        {
+          "name": "no-ifd",
+          "command": [
+            "nix",
+            "eval",
+            "--json",
+            "--impure",
+            "--file",
+            "/tmp/ep19-source-pin-parity.nix",
+            "scoped",
+            "--option",
+            "allow-import-from-derivation",
+            "false",
+            "--max-jobs",
+            "0",
+            "--cores",
+            "16",
+            "--builders",
+            ""
+          ],
+          "exit_code": 0,
+          "elapsed_seconds": 1.1480397920240648
+        },
+        {
+          "name": "strict-tests",
+          "command": [
+            "nix",
+            "build",
+            "--no-link",
+            "--json",
+            "-L",
+            "--impure",
+            "--file",
+            "/tmp/ep19-source-pin-parity.nix",
+            "validation",
+            "--max-jobs",
+            "1",
+            "--cores",
+            "16",
+            "--builders",
+            ""
+          ],
+          "exit_code": 0,
+          "elapsed_seconds": 29.337358249991667
+        }
+      ],
+      "identity": {
+        "base64-bytestring": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+        "candidate": "/nix/store/d3vb7xcx7rarrf65s0jjpcnamfcs5syb-cmark-gfm-0.2.6.drv",
+        "consumerCandidate": "/nix/store/l6afxry8yviihkab53lb13n3awn371iy-rei-cli-7.1.0.0.drv",
+        "consumerLegacy": "/nix/store/l6afxry8yviihkab53lb13n3awn371iy-rei-cli-7.1.0.0.drv",
+        "legacy": "/nix/store/d3vb7xcx7rarrf65s0jjpcnamfcs5syb-cmark-gfm-0.2.6.drv",
+        "legacyConfigureFlags": [],
+        "normalizedConfigureFlags": [],
+        "origin": {
+          "hash": "sha256-NPzWjJQH/4IInSezr2nqI8sn0HtjBhqGP7oIP5FcPec=",
+          "hashMode": "recursive",
+          "path": "/nix/store/dds0lw82rk1gnfagrpfm5h04lb4f9j6k-source",
+          "revision": "a9014e8c4974d636e7c8f85cd97812905d217faf",
+          "urls": [
+            "https://github.com/shinzui/cmark-gfm-hs/archive/a9014e8c4974d636e7c8f85cd97812905d217faf.tar.gz"
+          ]
+        },
+        "rawCandidate": "/nix/store/lsh7d8ajjvw85vp6gg5gm2fxs53ksxa7-cmark-gfm-0.2.6.drv",
+        "rawConfigureFlags": [
+          "-f-pkgconfig"
+        ],
+        "validation": "/nix/store/wqvff7xkbx616jkvs1vvdyi1q327yv1m-cmark-gfm-0.2.6.drv"
+      },
+      "scope": "Complete strict cmark-gfm test suite with original bounds; baseline/candidate validation derivations equal. Raw converter output preserved; reviewed metadata-guarded removal of the redundant default-false flag reproduces legacy constructor inputs."
+    },
+    "full_original_bounds_enforced_test_cases": 22
+  },
+  "constructor_bridge": {
+    "raw_configure_flags": [
+      "-f-pkgconfig"
+    ],
+    "legacy_configure_flags": [],
+    "normalized_configure_flags": [],
+    "guard_metadata_sha256": "ed52f082c176d2f21e481a5b9c6ab02bd1ad7f6cf4044dd8bc9cd25dafb29853",
+    "default_and_solved_pkgconfig": false,
+    "raw_function_hand_edited": false,
+    "normalized_package_and_real_rei_derivations_equal": true,
+    "scope": "Experimental caller-reviewed constructor adapter reproduces the retained source recipe; no live policy or consumer selection changed."
+  },
+  "release_verification": {
+    "hackage_preferred": "0.2.6",
+    "upstream_project": "mori://kivikakk/cmark-gfm-hs",
+    "fork_project": "mori://shinzui/cmark-gfm-hs",
+    "observed_tag": "refs/tags/0.2.6",
+    "tag_ref_object": "b4e72bb4123cb4bbc2bd30e12955a92ea72f105e",
+    "selected_fork_commit_unchanged": true
+  },
+  "limits": [
+    "Initial Git transport supports explicit HTTPS GitHub archives only.",
+    "Linux source-pin integration and broader compiler configurations pending.",
+    "General retained context/factory adapters, component-role artifact inventory, selected effective Nix flag policy, update/rollback and performance/cost adoption remain open.",
+    "Dhall recorded source profiles both retain TLS=false while the Nix hook enables it. Raw solved flags alone cannot establish that recipe dependency graph; do not broaden this source-pin result to it.",
+    "No production source pins, policies, runtime generations or consumers adopted."
+  ],
+  "raw_archive": {
+    "path": "docs/evidence/ep19/source-pin-artifacts.raw.tar.gz",
+    "sha256": "238c8550d3464d548d6331693fcd337e36e3c80ed2cc643ec84f971cc7362ca2",
+    "members": {
+      "artifacts/.recipe-artifacts": "3b68af8188320bdd757a7ee818e27d6211e4103aeeea8fbe1bc8491b21f505d8",
+      "artifacts/extension.nix": "ef13b7496ca0b1d71896462fe0cb658db60b2bb89d0a38362299d9a678c147d5",
+      "artifacts/manifest.json": "3328abe3ec623d3add6506aadad6f2994c3dfd2d001465c1a8952b6697e4c628",
+      "artifacts/packages/base64-bytestring.nix": "84f3fbe710dc6d3c3bc23a619be6a09103deebed3a3b7ce698a596307180d16d",
+      "artifacts/packages/cmark-gfm.nix": "dd795331ec37a0e158ce6e944db9c623f203f9ceaf0fea71e55105aeb78506e6",
+      "code/cli/haskell-nix-update/src/HaskellNix/Update/Cohort/Cli.hs": "da3d4e74bf4e431eae657fcd7649259e45ebb1a02b121ca2badb74f831238b90",
+      "code/cli/haskell-nix-update/src/HaskellNix/Update/Cohort/RecipeArtifacts.hs": "b700ecde5c28756f33a642921257e8d3802e570daa426f4979c3bbd332295f0c",
+      "code/cli/haskell-nix-update/test/CohortRecipeArtifactsTest.hs": "d860cb279376b5e76f711baa4065576c969c01b163d155ea63fa75f820b90a9d",
+      "code/packages/runtimes/keiro-runtime/1/recipes/patches/cmark-gfm/source.nix": "f48156c5cb795f647db7f84a8141319b5b07c95dfe87494b1fa05b8e92836202",
+      "drivers/ep19-export-source-pin-context.hs": "aaa7fcf85a49575f3f46c45b8dd7b242f2a11bf9933a6d20d373c6633b0a1d7d",
+      "drivers/ep19-export-source-pin-context.log": "078b1b4ec0d1e02a377b6cdb953e16bb7a64cae617230e6df65bfb399d4f2a0f",
+      "drivers/ep19-hackage-backward-check.log": "1a704889a82775c4496874ea7f6dd12b56eead4f79707506d12e516003c2a865",
+      "exercise/check.log": "02046dc687b511303229a6b2fa058a04a546b13b56b12119a48b43d6d1c8642a",
+      "exercise/receipt.json": "57120fa3327a54ee3a177cb972b8d7ec3549d2f62cc655da304e637c3b06c5a9",
+      "exercise/reject-cmark-gfm-hs-a9014e8.tar.gz.log": "dd6ec146319d78ac9b49389ebc8b9a0c0f2e102d69ed3b1d9b8ffb5c56ef6edf",
+      "exercise/reject-cmark-gfm.cabal.log": "184fbe941e73c3177d672e0f780236b3705a5cb54af341d264a51677d9fa5f06",
+      "exercise/reject-revision.log": "da8ea5c70f0563294957064348357f4660132257f3cbab40af943a3d5c3bd446",
+      "exercise/relocated.log": "37484defd585af5f2db5b63cbd9627b5fc41d45fa2631663f997fc15ce2a5041",
+      "exercise/repeat.log": "37484defd585af5f2db5b63cbd9627b5fc41d45fa2631663f997fc15ce2a5041",
+      "host/ep19-source-pin-check.log": "02046dc687b511303229a6b2fa058a04a546b13b56b12119a48b43d6d1c8642a",
+      "host/ep19-source-pin-cli-build.log": "55236fc17b4ffb860c2099158fe21dc3cf73801259dba4359366e625d807593e",
+      "host/ep19-source-pin-exercise-driver.log": "0fe2cfa322892ec6b1b30a11cf28fd4156429c26f804ac7aa500192cc67a3fc2",
+      "host/ep19-source-pin-exercise.py": "4ddd91162ff4d010fb42b0254d9574e738c467dae5022d06c233c7889909b587",
+      "host/ep19-source-pin-initial-tests.log": "4594351a95f205e3c9667049089801d3beab21ea44ac313f2b9c5d6c76d11b78",
+      "host/ep19-source-pin-mori-lookup.log": "8860c130646b332695c35fe4ccffdcaabcba3729a242b9722e67b454fe0b913c",
+      "host/ep19-source-pin-native-progress.json": "6286ab795d921149fd82ffe05bab5dd6224da749e06d62134c1c21fc3437d030",
+      "host/ep19-source-pin-native-receipt.json": "958ae7dc712b38c7d5bd24a96e64c5af8e712ca9f76e9bce4bf3517b83accb6a",
+      "host/ep19-source-pin-no-ifd.json": "f267e4aecb3e303d38ee37e496987f1139812fa7e509565a9274b32f2eea43d2",
+      "host/ep19-source-pin-no-ifd.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "host/ep19-source-pin-parity.json": "f7182ec43617151cdb4f0e96d47b08ad6b95a489c5cfafb6df37c3bd9a6a7290",
+      "host/ep19-source-pin-parity.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "host/ep19-source-pin-parity.nix": "3b6e167e42847154e9b569bc2f5fa04bf20aab0cb863224a0364cadde29eed84",
+      "host/ep19-source-pin-real-generate.log": "e4dd98c6df93980fbd8590a0458e09cd2fb9bd66b9753131330dd32e83cd500a",
+      "host/ep19-source-pin-strict-tests.json": "a37d75aecf724472b46fe1f87ecb23622f604d271a7f1f703e56a5d3ffe632ed",
+      "host/ep19-source-pin-strict-tests.log": "c1e0cdf0fb02d34e7c8a712996fb073008a41cd82aec7d5b8559249072749bd7",
+      "host/ep19-source-pin-tests-final.log": "fcc155e92cb00289e09bdba7fb9eb965b2f864a5a69db8c0cf27c9dd85f49371",
+      "host/ep19-source-pin-tests-v2.log": "5e984246b08b4583a61bd85469ddbe8ed362a6ca9e216d4efb8977dbe4567ce5",
+      "inputs/base64-bytestring-1.2.1.0.tar.gz": "fbf8ed30edde271eb605352021431d8f1b055f95a56af31fe2eacf6bdfdc49c9",
+      "inputs/base64-bytestring.cabal": "45305ccf8914c66d385b518721472c7b8c858f1986945377f74f85c1e0d49803",
+      "inputs/cmark-gfm-hs-a9014e8.tar.gz": "5ce3f559333e61ee534f57400fdce29200e899c2405d26c7e85e80936a2a519c",
+      "inputs/cmark-gfm.cabal": "ed52f082c176d2f21e481a5b9c6ab02bd1ad7f6cf4044dd8bc9cd25dafb29853",
+      "inputs/context.json": "7f2d68348bf1f7bf41bc4abdccad1f40503ab656b0888727d2e5e413e787287d",
+      "inputs/generation-context.json": "fd711ed5e49882bb4eacf2f3eb8bddc0677fb712da4e81700e0c5ad573c7fb29",
+      "inputs/selected-revision.json": "e4b5b89c4b6bd01e5f76123d32e5a64a4a7ecf4d08ba4e664101e9a44559b10d",
+      "primary/cmark-gfm-hs-a9014e8.tar.gz": "5ce3f559333e61ee534f57400fdce29200e899c2405d26c7e85e80936a2a519c",
+      "primary/cmark-gfm.cabal": "ed52f082c176d2f21e481a5b9c6ab02bd1ad7f6cf4044dd8bc9cd25dafb29853",
+      "primary/extractor-help.txt": "c72871532d0dce249e65f9b8ee6f3497a0c3f283915c9e28ff1942e6d255d0f4",
+      "primary/extractor.json": "cddafbcfb5581ee6a74817452791374907cde027be0fc2c1757b8130ca25ae31",
+      "primary/extractor.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "primary/fetch.json": "39ad8357735ae197f5987a9ead3c96e311eb08668e6f623e5d2dbf69196bc143",
+      "primary/fork-release-tags.txt": "37aa8a220fa266916f507451620757f6a43ea8e38665e4f0b2b844e081239d67",
+      "primary/hackage-preferred.json": "2b8241ca38fe800d3d85fa6d5fc8b3fe640dccbaf067ca659a32d9edd2783539",
+      "primary/mori-gnutar.log": "8860c130646b332695c35fe4ccffdcaabcba3729a242b9722e67b454fe0b913c",
+      "primary/nar-proof.json": "1a0f9441567763106abddb7bb87c09fcb7ed3d70b484d43c16f8ed7eba641243",
+      "primary/nar-proof.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "primary/upstream-release-tags.txt": "37aa8a220fa266916f507451620757f6a43ea8e38665e4f0b2b844e081239d67"
+    }
+  }
+}

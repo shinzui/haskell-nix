@@ -4,10 +4,10 @@ title: Maintainer tools
 description: Find repository formatting, test, derivation-diff, and validation commands.
 docId: DOC-6
 tags: [maintainers, testing, nix]
-timestamp: 2026-10-17T23:46:31Z
+timestamp: 2026-10-18T00:10:32Z
 generated:
   by: process:codex
-  at: 2026-10-17T23:46:31Z
+  at: 2026-10-18T00:10:32Z
 ---
 
 # Maintainer tools
@@ -42,12 +42,14 @@ existing generator still resolves metadata and source inputs through its normal
 workflow. All selected outputs are staged before publication, and a changed
 freeze, source manifest, ownership policy or lock rejects publication. Complete
 recipe artifacts are available for explicitly scoped generated Hackage inputs
-through the commands below. Source-pinned package conversion remains pending.
+through the commands below. Declared GitHub source pins also require verified
+archive metadata and a pinned extractor.
 
-## Staging complete Hackage recipes
+## Staging complete dependency recipes
 
 `cohort recipes generate --context FILE --out DIR` converts every generated
-Hackage selection in a versioned explicit recipe context. The context wraps the
+Hackage selection and each explicitly declared GitHub source pin in a versioned
+recipe context. The context wraps the
 exported generation inputs with compiler/system/channel, Nixpkgs and reviewed
 policy identities, the pinned builder converter's derivation/output/version, and
 one input record per generated package. Each record supplies relative paths to a
@@ -69,6 +71,23 @@ reported version must match the context. `check` reconverts the supplied local
 inputs with offline Nix calls and compares all artifact bytes without rewriting
 the output. Invalid arguments exit 2; drift or unverified identities exit 1.
 
+A source-pinned input uses `revision: null` and a `sourcePin` record containing
+its solved Git repository/revision/subdirectory, archive SHA256 and verified
+Cabal-file SHA256. Supply an `extractor` derivation/output/version in the
+configuration. The pinned GNU tar reads the exact GitHub archive member; its
+bytes must equal the supplied metadata. The manifest retains Cabal's solved Git
+observations alongside archive, unpacked NAR and metadata identities. Original
+solved observations remain unchanged.
+
+The [fixed-source example](../evidence/ep19/source-pin-artifacts.json) converts
+`mori://shinzui/cmark-gfm-hs` at its existing commit. Its raw function preserves
+the solved `pkgconfig = false` flag. A metadata-hash-guarded constructor adapter
+removes the redundant spelling of this default-false flag and reproduces the
+legacy package and actual Rei CLI derivations. All 22 original package tests
+pass with bounds enforced, and both selected roots evaluate with IFD disabled.
+Broader selected Nix flag policy needs an explicit handoff before conversion;
+Dhall's recorded Cabal TLS flag differs from its intentional Nix policy.
+
 A successful directory contains `manifest.json`, `extension.nix`, `packages/`
 functions and the `.recipe-artifacts` ownership marker. Replacement is staged
 and accepts only an existing directory owned by this generator. Changed context
@@ -85,7 +104,8 @@ The bounded generation-1 `base64-bytestring` example preserves its dependency
 and actual Rei CLI derivations through the existing runtime validator, regenerates
 byte-identically after input relocation, and evaluates its scoped root with IFD
 disabled. Other classifications remain explicit in the manifest and retain their
-existing constructors. Source-pin conversion, a retained factory adapter, wider
+existing constructors. Additional source transports, an explicit effective-flag
+policy handoff, a retained factory adapter, wider
 native coverage and performance adoption remain EP-19 acceptance work. The earlier
 one-root and five-root evaluation campaigns missed the declared speed target. The
 [Linux supplement](../evidence/ep19/recipe-artifacts-native-matrix.json) passes the

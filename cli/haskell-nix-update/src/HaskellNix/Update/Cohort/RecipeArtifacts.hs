@@ -6,7 +6,7 @@ module HaskellNix.Update.Cohort.RecipeArtifacts (
 ) where
 
 import Control.Exception (onException)
-import Control.Monad (unless, forM)
+import Control.Monad (unless, forM, forM_)
 import Control.Monad.Trans.Class (lift)
 import Control.Monad.Trans.Except (ExceptT (..), runExceptT)
 import Data.Aeson (Value (..), eitherDecodeStrict', object, withObject, (.:), (.=))
@@ -46,11 +46,21 @@ data Configuration = Configuration
     { compilerKey :: !Text, compilerVersion :: !Version, system :: !Text
     , channel :: !Text, nixpkgsRevision :: !Text, policyIdentity :: !Text
     , converterDerivation :: !Text, converterOutput :: !Text, converterVersion :: !Text
+    , extractor :: !(Maybe ToolIdentity)
+    } deriving stock (Eq, Show)
+
+data ToolIdentity = ToolIdentity
+    { toolDerivation :: !Text, toolOutput :: !Text, toolVersion :: !Text }
+    deriving stock (Eq, Show)
+
+data PinInput = PinInput
+    { repository :: !Text, gitRevision :: !Text, subdirectory :: !Text
+    , archiveSha256 :: !Text, metadataSha256 :: !Text
     } deriving stock (Eq, Show)
 
 data PackageInput = PackageInput
     { metadataPath :: !FilePath, archivePath :: !FilePath, unpackedHash :: !Text
-    , revisionNumber :: !Int, revisionSha256 :: !Text, revisionTime :: !UTCTime
+    , revision :: !(Maybe HackageRevision), sourcePin :: !(Maybe PinInput)
     , nativeArguments :: !(Map Text Text)
     } deriving stock (Eq, Show)
 
@@ -59,18 +69,20 @@ data Context = Context
     , packages :: !(Map Text PackageInput)
     } deriving stock (Eq, Show)
 
--- This bounded artifact format converts the existing classifier's generated
--- Hackage selections. Every other classification is retained explicitly in the
--- manifest. Shared source-pin construction stays with its existing owner.
+-- Generated Hackage coverage is complete. Source pins require a separate,
+-- explicit verified GitHub archive declaration; other constructors stay owned
+-- by the original classifier and are never silently converted.
 decodeContext :: BS.ByteString -> Either Text Context
 decodeContext bytes = do
     value <- either (Left . Text.pack) Right (eitherDecodeStrict' bytes)
     context <- either (Left . Text.pack) Right (parseEither parser value)
     classified <- classifyCohort context.generation
-    let expected = Map.keysSet (Map.filter ((== CohortGenerated) . (.packageClassification)) classified)
-        cfg = context.configuration
-    unless (Map.keysSet context.packages == expected && not (Map.null context.packages))
-        (Left "recipe context must cover every generated Hackage selection exactly once")
+    let cfg = context.configuration
+        supplied = Map.keysSet context.packages
+        eligible = Map.keysSet (Map.filter (\p -> case p.packageClassification of CohortSourcePinned _ -> True; CohortGenerated -> True; _ -> False) classified)
+    unless (all (`Map.member` context.packages) (Map.keys (Map.filter ((== CohortGenerated) . (.packageClassification)) classified))
+        && all (`elem` eligible) supplied && not (Map.null context.packages))
+        (Left "recipe context must cover every generated Hackage selection and only explicitly owned source pins")
     unless (cfg.system `elem` ["aarch64-darwin", "x86_64-linux"]
         && prettyShow cfg.compilerVersion `elem` ["9.12.4", "9.14.1"]
         && cfg.compilerKey == "ghc" <> Text.replace "." "" (Text.pack (prettyShow cfg.compilerVersion))
@@ -83,8 +95,11 @@ decodeContext bytes = do
         (Left "recipe context requires exact nixpkgs, policy and converter identities")
     cutoff <- maybe (Left "invalid recipe metadata cutoff") Right
         (parseTimeM True defaultTimeLocale "%Y-%m-%dT%H:%M:%SZ" (Text.unpack context.generation.document.freezeIndexState) :: Maybe UTCTime)
-    unless (all ((<= cutoff) . (.revisionTime)) (Map.elems context.packages))
+    unless (all ((<= cutoff) . (.revisionTime)) [r | input <- Map.elems context.packages, Just r <- [input.revision]])
         (Left "recipe metadata revision is newer than the frozen index-state")
+    unless (all validTool (maybe [] pure cfg.extractor)) (Left "invalid pinned extractor identity")
+    unless (not (any (maybe False (const True) . (.sourcePin)) (Map.elems context.packages)) || maybe False validTool cfg.extractor)
+        (Left "source-pin conversion requires an exact pinned tar extractor")
     mapM_ (validatePackage classified) (Map.toAscList context.packages)
     pure context
   where
@@ -96,19 +111,28 @@ decodeContext bytes = do
         generation <- either (fail . Text.unpack) pure (decodeGenerationContext (encodeUtf8 (canonicalJSON raw)))
         Context generation <$> (o .: "configuration" >>= parseConfiguration) <*> (o .: "packages" >>= traverse parsePackage)
     parseConfiguration = withObject "recipe configuration" $ \o -> do
-        exact ["compilerKey", "compilerVersion", "system", "channel", "nixpkgsRevision", "policyIdentity", "converter"] o
+        exact (["compilerKey", "compilerVersion", "system", "channel", "nixpkgsRevision", "policyIdentity", "converter"] <> ["extractor" | KeyMap.member "extractor" o]) o
         compiler <- o .: "compilerVersion" >>= either (fail . Text.unpack) pure . parseVersion
         (drv, output, version) <- o .: "converter" >>= withObject "recipe converter" (\c -> do
             exact ["derivation", "output", "version"] c
             (,,) <$> c .: "derivation" <*> c .: "output" <*> c .: "version")
         Configuration <$> o .: "compilerKey" <*> pure compiler <*> o .: "system" <*> o .: "channel"
             <*> o .: "nixpkgsRevision" <*> o .: "policyIdentity" <*> pure drv <*> pure output <*> pure version
+            <*> traverse parseTool (KeyMap.lookup "extractor" o)
+    parseTool = withObject "pinned artifact tool" $ \o -> do
+        exact ["derivation", "output", "version"] o
+        ToolIdentity <$> o .: "derivation" <*> o .: "output" <*> o .: "version"
     parsePackage = withObject "recipe package input" $ \o -> do
-        exact ["metadataPath", "archivePath", "unpackedHash", "revision", "nativeArguments"] o
-        (number, hash, timestamp) <- o .: "revision" >>= withObject "selected metadata revision" (\r -> do
-            exact ["number", "sha256", "time"] r
-            (,,) <$> r .: "number" <*> r .: "sha256" <*> r .: "time")
-        PackageInput <$> o .: "metadataPath" <*> o .: "archivePath" <*> o .: "unpackedHash" <*> pure number <*> pure hash <*> pure timestamp <*> o .: "nativeArguments"
+        exact (["metadataPath", "archivePath", "unpackedHash", "revision", "nativeArguments"] <> ["sourcePin" | KeyMap.member "sourcePin" o]) o
+        selected <- o .: "revision" >>= \value -> case value of
+            Null -> pure Nothing
+            _ -> Just <$> withObject "selected metadata revision" (\r -> do
+                exact ["number", "sha256", "time"] r
+                HackageRevision <$> r .: "number" <*> r .: "time" <*> r .: "sha256") value
+        pin <- traverse (withObject "fixed GitHub source archive" $ \g -> do
+            exact ["repository", "revision", "subdirectory", "archiveSha256", "metadataSha256"] g
+            PinInput <$> g .: "repository" <*> g .: "revision" <*> g .: "subdirectory" <*> g .: "archiveSha256" <*> g .: "metadataSha256") (KeyMap.lookup "sourcePin" o)
+        PackageInput <$> o .: "metadataPath" <*> o .: "archivePath" <*> o .: "unpackedHash" <*> pure selected <*> pure pin <*> o .: "nativeArguments"
     exact keys fields = unless (length keys == KeyMap.size fields && all (`KeyMap.member` fields) keys)
         (fail "missing or unknown recipe context fields")
     hex c = c `elem` ("0123456789abcdefABCDEF" :: String)
@@ -116,16 +140,55 @@ decodeContext bytes = do
     validatePackage classified (name, input) = do
         unless (identifier name && all (\path -> not (null path) && not (isAbsolute path)
             && all (`notElem` ["..", ".", ""]) (splitDirectories path)) [input.metadataPath, input.archivePath]
-            && validSriHash input.unpackedHash && input.revisionNumber >= 0
+            && validSriHash input.unpackedHash
             && all identifier (Map.keys input.nativeArguments)
             && all (`notElem` ["src", "mkDerivation", "lib"]) (Map.keys input.nativeArguments)
             && all (all identifier . Text.splitOn ".") (Map.elems input.nativeArguments))
             (Left ("invalid portable recipe package inputs: " <> name))
         package <- maybe (Left "missing classified recipe package") Right (Map.lookup name classified)
-        expected <- selectedMetadataHash name package.selectedPackage
         _ <- selectedPackageFlags name package.selectedPackage
-        _ <- selectedArchiveHash package.selectedPackage
-        unless (input.revisionSha256 == expected) (Left ("selected revision metadata differs from solved identity: " <> name))
+        case (package.packageClassification, input.sourcePin, input.revision) of
+            (CohortGenerated, Nothing, Just r) -> do
+                expected <- selectedMetadataHash name package.selectedPackage
+                _ <- selectedArchiveHash package.selectedPackage
+                unless (r.revisionNumber >= 0 && r.revisionSha256 == expected)
+                    (Left ("selected revision metadata differs from solved identity: " <> name))
+            (CohortSourcePinned _, Just pin, Nothing) -> do
+                _ <- githubParts pin.repository
+                unless (validHash pin.archiveSha256 && validHash pin.metadataSha256
+                    && Text.length pin.gitRevision == 40 && Text.all hex pin.gitRevision
+                    && (pin.subdirectory == "." || (not (Text.null pin.subdirectory) && not (Text.isPrefixOf "/" pin.subdirectory)
+                        && all (\part -> identifier part && part /= "." && part /= "..") (Text.splitOn "/" pin.subdirectory))))
+                    (Left "incomplete fixed source archive, metadata or subdirectory identity")
+                unless (all (matchesPin pin) package.selectedPackage.identities)
+                    (Left "fixed source declaration disagrees with solved Git revision/location/subdirectory")
+                mapM_ (\identity -> case identity of
+                    Object fields -> case KeyMap.lookup "pkg-cabal-sha256" fields of
+                        Nothing -> Right ()
+                        Just (String hash) | hash == pin.metadataSha256 -> Right ()
+                        _ -> Left "solved pin metadata conflicts with verified source metadata"
+                    _ -> Left "invalid solved pin identity") package.selectedPackage.identities
+            _ -> Left "recipe source classification, archive declaration and metadata revision disagree"
+    validTool tool = Text.isPrefixOf "/nix/store/" tool.toolDerivation && Text.isSuffixOf ".drv" tool.toolDerivation
+        && Text.isPrefixOf "/nix/store/" tool.toolOutput && not (Text.null tool.toolVersion)
+    matchesPin pin (Object fields) = case KeyMap.lookup "pkg-src" fields of
+        Just (Object source) -> case KeyMap.lookup "source-repo" source of
+            Just (Object repo) -> KeyMap.lookup "tag" repo == Just (String pin.gitRevision)
+                && KeyMap.lookup "location" repo == Just (String pin.repository)
+                && maybe (pin.subdirectory == ".") (== String pin.subdirectory) (KeyMap.lookup "subdir" repo)
+            _ -> False
+        _ -> False
+    matchesPin _ _ = False
+
+githubParts :: Text -> Either Text (Text, Text)
+githubParts location = case Text.stripPrefix "https://github.com/" location of
+    Just path -> case Text.splitOn "/" (maybe path id (Text.stripSuffix ".git" path)) of
+        [owner, repo] | all valid [owner, repo] -> Right (owner, repo)
+        _ -> Left "fixed source conversion requires a canonical GitHub owner/repository URL"
+    _ -> Left "fixed source conversion currently supports explicit HTTPS GitHub archives"
+  where
+    valid part = not (Text.null part) && part /= "." && part /= ".."
+        && Text.all (\c -> isAscii c && (isAlphaNum c || c `elem` ['-', '_', '.'])) part
 
 runArtifacts :: ProcessRunner -> ArtifactOptions -> IO (Either UpdateError Text)
 runArtifacts runner options = runExceptT $ do
@@ -142,6 +205,12 @@ runArtifacts runner options = runExceptT $ do
     unless (cfg.converterOutput `elem` outputs) (failText "converter output is not an output of the declared derivation")
     version <- Text.strip <$> command executable ["--version"]
     unless (version == cfg.converterVersion) (failText "converter version differs from the explicit context")
+    forM_ cfg.extractor $ \tool -> do
+        toolProof <- command "nix" ["--offline", "derivation", "show", Text.unpack tool.toolDerivation]
+        toolOutputs <- fromText (converterOutputs toolProof)
+        unless (tool.toolOutput `elem` toolOutputs) (failText "extractor output is not from the declared derivation")
+        reported <- Text.strip . Text.takeWhile (/= '\n') <$> command (Text.unpack tool.toolOutput </> "bin/tar") ["--version"]
+        unless (reported == tool.toolVersion) (failText "extractor version differs from the context")
     classified <- fromText (classifyCohort context.generation)
     inputs <- forM (Map.toAscList context.packages) $ \(name, input) -> do
         snapshots <- forM [input.metadataPath, input.archivePath] $ \relative -> do
@@ -168,7 +237,7 @@ runArtifacts runner options = runExceptT $ do
             input <- maybe (failText "missing package input") pure (Map.lookup name context.packages)
             let metadata = takeDirectory contextFile </> input.metadataPath
                 archive = takeDirectory contextFile </> input.archivePath
-            expected <- fromText (selectedArchiveHash package.selectedPackage)
+            expected <- fromText (case input.sourcePin of Just pin -> Right pin.archiveSha256; Nothing -> selectedArchiveHash package.selectedPackage)
             rawHash <- Text.strip <$> command "nix" ["hash", "file", "--type", "sha256", "--base16", archive]
             unless (rawHash == expected) (failText ("selected source archive hash changed: " <> name))
             unpacked <- command "nix" ["--offline", "store", "prefetch-file", "--json", "--unpack", "--expected-hash", Text.unpack input.unpackedHash, fileUrl archive]
@@ -176,7 +245,23 @@ runArtifacts runner options = runExceptT $ do
             unless (actual == input.unpackedHash) (failText ("unpacked source hash changed: " <> name))
             stable <- lift (and <$> traverse (\(path, bytes) -> (== bytes) <$> BS.readFile path) snapshots)
             unless stable (failText "recipe inputs changed during source verification")
-            recipe <- ExceptT (convertRecipe runner executable (RecipeConversion name package cfg.compilerVersion cfg.system metadata))
+            selectedPackage <- case input.sourcePin of
+                Nothing -> pure package
+                Just pin -> do
+                    (_, repo) <- fromText (githubParts pin.repository)
+                    tool <- maybe (failText "missing pinned source metadata extractor") pure cfg.extractor
+                    let member = Text.unpack (repo <> "-" <> pin.gitRevision <> "/"
+                            <> (if pin.subdirectory == "." then "" else pin.subdirectory <> "/") <> name <> ".cabal")
+                    extracted <- command (Text.unpack tool.toolOutput </> "bin/tar") ["--extract", "--to-stdout", "--file", archive, "--", member]
+                    supplied <- lift (BS.readFile metadata)
+                    unless (encodeUtf8 extracted == supplied) (failText "source-pin Cabal metadata differs from the verified archive member")
+                    let bind (Object fields) = Object (KeyMap.insert "pkg-cabal-sha256" (String pin.metadataSha256) fields)
+                        bind value = value
+                        facts = package.selectedPackage
+                    -- Preserve the original solved identities in the manifest;
+                    -- this conversion-only hash is derived from the fixed source.
+                    pure package{selectedPackage = facts{identities = map bind facts.identities}}
+            recipe <- ExceptT (convertRecipe runner executable (RecipeConversion name selectedPackage cfg.compilerVersion cfg.system metadata))
             let output = stage </> "packages" </> Text.unpack name <> ".nix"
             lift (TextIO.writeFile output recipe)
             hash <- Text.strip <$> command "nix" ["hash", "file", "--type", "sha256", "--base16", output]
@@ -242,11 +327,18 @@ renderManifest context generation classified hashes = object
     ]
   where
     entry name input = object
-        [ "recipeSha256" .= (hashes Map.! name), "unpackedHash" .= input.unpackedHash
-        , "revision" .= object ["number" .= input.revisionNumber, "sha256" .= input.revisionSha256, "time" .= input.revisionTime]
-        , "nativeArguments" .= input.nativeArguments
-        ]
+        ([ "recipeSha256" .= (hashes Map.! name), "unpackedHash" .= input.unpackedHash
+         , "revision" .= maybe Null revisionValue input.revision
+         , "nativeArguments" .= input.nativeArguments
+         ] <> ["sourcePin" .= pinValue pin | pin <- maybe [] pure input.sourcePin])
 
+revisionValue :: HackageRevision -> Value
+revisionValue r = object ["number" .= r.revisionNumber, "sha256" .= r.revisionSha256, "time" .= r.revisionTime]
+
+pinValue :: PinInput -> Value
+pinValue pin = object
+    ["repository" .= pin.repository, "revision" .= pin.gitRevision, "subdirectory" .= pin.subdirectory,
+     "archiveSha256" .= pin.archiveSha256, "metadataSha256" .= pin.metadataSha256]
 
 classificationValue :: Classification -> Value
 classificationValue classification = case classification of
@@ -262,12 +354,12 @@ classificationValue classification = case classification of
         (["kind" .= kind] <> ["ownership" .= object ["reason" .= owner.policyReason, "owner" .= owner.policyOwner] | owner <- maybe [] pure ownership])
 
 configurationValue :: Configuration -> Value
-configurationValue cfg = object
+configurationValue cfg = object $
     [ "compilerKey" .= cfg.compilerKey, "compilerVersion" .= Text.pack (prettyShow cfg.compilerVersion)
     , "system" .= cfg.system, "channel" .= cfg.channel, "nixpkgsRevision" .= cfg.nixpkgsRevision
     , "policyIdentity" .= cfg.policyIdentity
     , "converter" .= object ["derivation" .= cfg.converterDerivation, "output" .= cfg.converterOutput, "version" .= cfg.converterVersion]
-    ]
+    ] <> ["extractor" .= object ["derivation" .= tool.toolDerivation, "output" .= tool.toolOutput, "version" .= tool.toolVersion] | tool <- maybe [] pure cfg.extractor]
 
 renderExtension :: Context -> Text
 renderExtension context = Text.unlines $
@@ -283,11 +375,25 @@ renderExtension context = Text.unlines $
         let version = (context.generation.sources Map.! name).version
             packageVersion = name <> "-" <> version
             arguments = Text.concat [" " <> quote key <> " = pkgs." <> value <> ";" | (key, value) <- Map.toAscList input.nativeArguments]
-            revision = if input.revisionNumber == 0 then "" else
-                "revision = " <> quote (Text.pack (show input.revisionNumber)) <> "; editedCabalFile = " <> quote input.revisionSha256 <> ";"
-        in "  " <> quote name <> " = assert final.ghc.version == " <> quote (Text.pack (prettyShow cfg.compilerVersion)) <> "; haskellLib.overrideCabal (_: { " <> revision <> " }) (final.callPackage ./packages/" <> name <> ".nix { src = pkgs.fetchzip { url = "
-            <> quote ("mirror://hackage/" <> packageVersion <> "/" <> packageVersion <> ".tar.gz")
-            <> "; sha256 = " <> quote input.unpackedHash <> "; };" <> arguments <> " });"
+            revision = case input.revision of
+                Just r | r.revisionNumber /= 0 -> "revision = " <> quote (Text.pack (show r.revisionNumber)) <> "; editedCabalFile = " <> quote r.revisionSha256 <> ";"
+                _ -> ""
+            source = case input.sourcePin of
+                Nothing -> "pkgs.fetchzip { url = " <> quote ("mirror://hackage/" <> packageVersion <> "/" <> packageVersion <> ".tar.gz")
+                    <> "; sha256 = " <> quote input.unpackedHash <> "; }"
+                Just pin -> case githubParts pin.repository of
+                    Right (owner, repo) -> "pkgs.fetchFromGitHub { owner = " <> quote owner <> "; repo = " <> quote repo
+                        <> "; rev = " <> quote pin.gitRevision <> "; hash = " <> quote input.unpackedHash <> "; }"
+                    Left _ -> "throw \"invalid verified GitHub source\""
+            sourcePath = case input.sourcePin of
+                Just pin | pin.subdirectory /= "." -> "(" <> source <> " + " <> quote ("/" <> pin.subdirectory) <> ")"
+                _ -> source
+            origin = case input.sourcePin of
+                Nothing -> ""
+                Just pin -> " passthru = (args.passthru or { }) // { cohortSourceOrigin = { source = " <> source <> "; subdirectory = " <> quote pin.subdirectory <> "; }; };"
+            override = if input.sourcePin == Nothing then "_: { " <> revision <> " }" else "args: {" <> origin <> " }"
+        in "  " <> quote name <> " = assert final.ghc.version == " <> quote (Text.pack (prettyShow cfg.compilerVersion)) <> "; haskellLib.overrideCabal (" <> override <> ") (final.callPackage ./packages/" <> name <> ".nix { src = "
+            <> sourcePath <> ";" <> arguments <> " });"
     quote = Text.replace "${" "\\${" . canonicalJSON . String
 
 sameArtifacts :: FilePath -> FilePath -> [Text] -> IO Bool
