@@ -87,6 +87,15 @@ pass, with 225 updater tests, 356 pure contracts, converter freshness and retain
 parity. Apple-container execution of Linux binaries is
 translated correctness evidence; it does not establish physical x86 performance.
 
+The same GitHub-channel native CLI artifacts pass the existing cohort cache owner:
+publication verifies the declared private/upstream providers, then new empty
+alternate stores substitute 462 Darwin and 469 Linux paths with zero builds and
+matching metadata. The Linux worker is the translated Apple guest. Its original
+derivation and completed output cross a temporary binary cache to the host
+publisher; all 2,933 build-closure metadata records agree after import. Preserve
+these as bounded availability receipts, separate from broad runtime support,
+hosted CI and the positive dependency-update rehearsal.
+
 [EP-19](../plans/19-pre-generate-complete-locked-nix-haskell-dependency-recipes.md)
 still owns targeted update/rollback, evaluation thresholds, total-cost accounting,
 cache publication and production adoption. Retain failed experiments and keep

@@ -1,0 +1,172 @@
+{
+  "schema_version": 1,
+  "revision": "3453274d8dd718c016549b64f8cc3d8345864220",
+  "status": "Bounded generation-4 GitHub-channel native CLI publication and empty-store substitution pass on both systems",
+  "runtime": "keiro-runtime",
+  "generation": 4,
+  "fingerprint": "c89b34a59b00cfbb8e08040beee3c540f61af8e7da8cc399a776817628183b76",
+  "consumer": {
+    "project": "mori://shinzui/rei",
+    "revision": "bad0388f722af9e29187c2adfef5ed97fd0ca92f",
+    "package": "rei-cli",
+    "compiler": "ghc9124",
+    "disableProfiling": true,
+    "disableHaddock": true
+  },
+  "publisher": "scripts/cohort-cache.py, unchanged existing owner",
+  "cells": {
+    "aarch64-darwin": {
+      "channel": "github",
+      "build": {
+        "drvPath": "/nix/store/l6afxry8yviihkab53lb13n3awn371iy-rei-cli-7.1.0.0.drv",
+        "outputs": {
+          "out": "/nix/store/n3i540rdai30hdxx66mybxqjsai89g59-rei-cli-7.1.0.0"
+        }
+      },
+      "runtime_fingerprint": "c89b34a59b00cfbb8e08040beee3c540f61af8e7da8cc399a776817628183b76",
+      "published_paths": 462,
+      "nar_bytes": 9466320328,
+      "remote_verified": true,
+      "initial_expected_paths": 0,
+      "builds_performed": 0,
+      "substituted_paths": 462,
+      "worker_scope": "Empty alternate store on native Darwin host; existing owner verifies exact closure and forbids builds.",
+      "elapsed_seconds": {
+        "publication": 67.05112299998291,
+        "substitution": 67.79171725001652
+      }
+    },
+    "x86_64-linux": {
+      "channel": "github",
+      "build": {
+        "drvPath": "/nix/store/gswfags3naialnr46c7dqhbcy0sv4xiy-rei-cli-7.1.0.0.drv",
+        "outputs": {
+          "out": "/nix/store/dg97m5ypp1742m19hp2wjsavsklb31ki-rei-cli-7.1.0.0"
+        }
+      },
+      "runtime_fingerprint": "c89b34a59b00cfbb8e08040beee3c540f61af8e7da8cc399a776817628183b76",
+      "published_paths": 469,
+      "nar_bytes": 6482846408,
+      "remote_verified": true,
+      "initial_expected_paths": 0,
+      "builds_performed": 0,
+      "substituted_paths": 469,
+      "worker_scope": "New empty alternate store in translated x86_64 Linux Apple guest; existing owner verifies exact published closure with builds disabled.",
+      "elapsed_seconds": {
+        "publication": 52.95317029196303,
+        "substitution": 55.80981198301015
+      }
+    }
+  },
+  "linux_bridge": {
+    "metadata_equal_to_original_guest": true,
+    "build_closure_paths": 2933,
+    "build_closure_nar_bytes": 6792707624,
+    "advertised_archives": 2933,
+    "advertised_compressed_archive_bytes": 912039230,
+    "all_bridge_file_bytes_including_interrupted_export_remnants": 1134909158,
+    "transport": "container copy of temporary local binary cache, then Nix copy; no guest cache-upload credential provisioning"
+  },
+  "linux_bridge_observed_commands": [
+    {
+      "command": [
+        "container",
+        "copy",
+        "mp3-linux-builder:/tmp/ep19-linux-publication-bridge",
+        "/tmp/ep19-linux-publication-bridge-host"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 13.621096417016815
+    },
+    {
+      "command": [
+        "nix",
+        "copy",
+        "--from",
+        "file:///tmp/ep19-linux-publication-bridge-host",
+        "--no-check-sigs",
+        "/nix/store/gswfags3naialnr46c7dqhbcy0sv4xiy-rei-cli-7.1.0.0.drv",
+        "/nix/store/dg97m5ypp1742m19hp2wjsavsklb31ki-rei-cli-7.1.0.0"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 8.151502666005399
+    },
+    {
+      "command": [
+        "nix",
+        "build",
+        "--no-link",
+        "--json",
+        "--builders",
+        "",
+        "/nix/store/gswfags3naialnr46c7dqhbcy0sv4xiy-rei-cli-7.1.0.0.drv^out"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 0.06350629200460389
+    }
+  ],
+  "transfer_options_primary_reference": {
+    "project": "mori://nixos/nix",
+    "reference": "https://nix.dev/manual/nix/2.35/store/types/local-binary-cache-store.html",
+    "artifact_level_uri": "pending"
+  },
+  "prior_native_and_help_evidence": "retained-recipe-capture.json",
+  "limits": [
+    "Only the declared generation-4 GitHub-channel Rei CLI artifact and its actual output closure are published here. Broad runtime support and other source-channel publication are unverified.",
+    "Verification uses newly empty alternate stores on the native Darwin host and inside the translated Linux Apple guest; these are not new physical machines or hosted-CI jobs.",
+    "Linux build/execution uses Rosetta with guest sandbox/syscall filtering disabled. No physical x86 performance claim.",
+    "The Linux original derivation and output are copied through a temporary local binary cache. All 2933 original build-closure metadata records match after host import. Cache upload credentials remain on the host.",
+    "Initial default-compression guest export was interrupted to resume with single-thread zstd. Its elapsed time and the original native builds were not measured; retained partial-transfer files are counted separately from advertised archives. No full migration cost or amortization claim.",
+    "Published uncompressed NAR sizes are metadata totals, not measured network byte counts. Publication/substitution elapsed times are observed operational costs, not controlled performance measurements.",
+    "The real targeted update remains a no-op/conflict at the fixed index. Positive update/rollback, evaluation thresholds and production adoption remain open; no defaults, aliases, support receipts or consumer selections moved."
+  ],
+  "raw_archive": {
+    "path": "docs/evidence/ep19/retained-recipe-cache-publication.raw.tar.gz",
+    "sha256": "5806d3b5592e5981d39e4761833fe31e1692236b90c209a9fea8677599bd5138",
+    "members": {
+      "context/consumer-selection-before-explicit-generation-4.json": "470e9bb5177937ac6fe9e261258922436a7680b2d93ddbfd26f190ce8c6b8a8b",
+      "context/runtime-lock.json": "2cfd2c28525d9b945ded2ceb71cc0f539072e547b627453d8b97eaf4eca8b60f",
+      "darwin/original-native-build.json": "2d5963730c3bdfbed5967df1a81606b4c81ea6b463bdab61a793276f479191d9",
+      "darwin/public-generation-identity.json": "4a3176a5f514982aa49692288568c359d76726f0f3cd30a6087bd5116f9cc4fd",
+      "darwin/publication-driver.json": "f21e6bb239545850d8556edec02057ff4abcec7d1d61929d5aa79db6aea1e959",
+      "darwin/publication.json": "2315799f66e458baa19d9ed424b69c4c93198893de6d43134379e799828d2c2d",
+      "darwin/publication.log": "e32cbef253be0c6480c25ad26d333d1680f1c1856f67f9288d8d9edd5c8c74ac",
+      "darwin/substitution-driver.json": "6acd97289d0499ac4f1c6891fdb293ed3ba8aa48adafe209203feb3516a5ea8b",
+      "darwin/substitution.json": "b93d0e12484b867b335c4f8fdeca732b78bbbcd26c17f53f2cf9d57509e3ec17",
+      "darwin/substitution.log": "7423d650672eaaf5ecb72ba7341c3fb8eeabef6a19f1a5f495446d2c6cdbd854",
+      "host/ep19-linux-copy-help.txt": "9b214c9f5ee1dc22eb4e19d62ea777b468de9d448942e5e2f0d7c42747c544ea",
+      "host/ep19-linux-publication-bridge-cancellation.json": "b8726157d9ef22301ce37928c7c35dd618302d716102db1080495b083f280401",
+      "host/ep19-linux-publication-bridge-host-0.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "host/ep19-linux-publication-bridge-host-0.out": "41df6925de58ee901d852caa37554052c7276ef1e58b44c2845150593d66b274",
+      "host/ep19-linux-publication-bridge-host-1.log": "7ee3df8ae1bf9c3ddc82befcb729e31f22c10147458ce68aa5832671c09b74e4",
+      "host/ep19-linux-publication-bridge-host-1.out": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "host/ep19-linux-publication-bridge-host-2.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "host/ep19-linux-publication-bridge-host-2.out": "fce318bf18f97e91172b2bf729d88d95dc78be31924d868c818cc2d4df26b020",
+      "host/ep19-linux-publication-bridge-host-driver.json": "c3fb62b07381be9fe7ece5bc9f6c0dd2990e4253a3dfbd2bfeafafa39b4cd66e",
+      "host/ep19-linux-publication-bridge-processes.json": "f52404de17febd14e2c731bce0297fe276f611475815dfc23edc3e8189f8b651",
+      "host/ep19-linux-publication-bridge-verification.json": "dc67c8cb780c03645a99f23608a0b2dca92fcd7aecfd33e87edc7ba2e3280792",
+      "host/ep19-linux-publication-bridge-verified-metadata.json": "7fd18a263b91ffa29cb68f49734ccfeb21d2f2fc59b1037777dc4d8723dae167",
+      "host/ep19-linux-publication-bridge-zstd.log": "4a9ae6015420bbedbb9bcdb7006f66d230f7568c426429d3c21107854c46eb8a",
+      "host/ep19-linux-publication-bridge.log": "8e00697cee03e6b23d05b546723c244cb059a6ed50422c01a6e0bdd8fddd6f72",
+      "host/ep19-retained-cache-linux-build-closure.json": "be48a111d557c85e0e0ba318a7e541ebef744e45b5b4d18a2d850f651fe90b86",
+      "host/ep19-retained-cache-linux-closure.json": "66e6e815b3a5c40103449fd4457d62cd09f50fa7ef403c84dbafb3199d9196e8",
+      "host/ep19-retained-cache-linux-read.json": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "host/ep19-retained-cache-linux-read.log": "392affc37eeb5338318cb480dfd3d78aef8f504953a61d6d573c70cba2fd9180",
+      "host/ep19-retained-cache-linux-worker.py": "3ee668dddc03b68f459d10e3114783f4ba2cbac0b4f8a9c1def0cad084ae6dfb",
+      "host/ep19-retained-cache-probe-darwin-drv.txt": "e8bde49d4f71ff6fb6f97c1e48e0ea35dbbcba6fb93c1de254a5e2471290aeaa",
+      "host/ep19-retained-cache-probe-darwin-eval.log": "cf11e1d462c5ead357f9f81007733cd626be0fc6a1afdaf87dd8be45c59fdf03",
+      "linux/original-native-build.json": "fce318bf18f97e91172b2bf729d88d95dc78be31924d868c818cc2d4df26b020",
+      "linux/public-generation-identity.json": "2df0b1df5f1673fc324789d761f0a140e12c7b899096e0d764104fa43e85e75b",
+      "linux/publication-driver.json": "2f8923d1dc18644416019919671e8e31c49e6a2262de0658103f97fc807e3d91",
+      "linux/publication.json": "fe36d438ed9fc5771ca7f243d980c43247d26b95499e650fd846b057e1e198e2",
+      "linux/publication.log": "24b7a062d837a46ca3a68f1a769eaf73432db680e548536c057389fb83e39dde",
+      "linux/substitution-driver.json": "e85dbaef63ba5231b39d37fafc085746a19b14ed890ec071cd73fa9bf84b6f21",
+      "linux/substitution.json": "f5da91a421199ce16e000a8ec2635352f05f91338d4fbbd3dca25d56fb9872d0",
+      "linux/substitution.log": "774da369dd499d1a8e660f7d9dd253f0e4cd16607118c3c5637e341a98ae262f",
+      "owner/cohort-cache.py": "f78efd1d3b1b287eb5c8731d3ee5c99832a0d22c0e1bb67310a8b1dd5e895cea",
+      "probe/flake.lock": "7475f18d1a3a9300656f89521487479fc6b396460a182619f469fc844e9374cb",
+      "probe/flake.nix": "6b15e8e3adcef66a01d383456177474ee9441a5694bc3e4e8b06974ff1dd5665",
+      "record.py": "7b6e661aedaf4712721eece25a2c647c8a4b2f6efcb6c59ff03777d2a162cee7"
+    }
+  }
+}

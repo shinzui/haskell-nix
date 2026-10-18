@@ -4,10 +4,10 @@ title: Maintainer tools
 description: Find repository formatting, test, derivation-diff, and validation commands.
 docId: DOC-6
 tags: [maintainers, testing, nix]
-timestamp: 2026-10-18T02:26:02Z
+timestamp: 2026-10-18T02:33:22Z
 generated:
   by: process:codex
-  at: 2026-10-18T02:26:02Z
+  at: 2026-10-18T02:33:22Z
 ---
 
 # Maintainer tools
@@ -221,6 +221,17 @@ translated correctness gate; physical x86 performance remains unproved.
 [ADR 10](../adr/10-retain-verified-generated-dependency-recipes-in-the-existing-scope.md)
 records ownership and acceptance boundaries. Retained capture does not establish
 evaluation speed or production adoption.
+
+The unchanged generation-4 GitHub-channel Rei CLI closures also pass the existing
+cohort cache publisher and exact metadata checks. New empty alternate stores
+substitute all 462 Darwin and 469 Linux paths with builds disabled. Linux runs
+inside the Apple guest; its original native derivation/output is transferred to
+the host publisher through a temporary binary cache. The single-thread zstd retry
+completes after interrupting the slow initial compression attempt.
+[Cache evidence](../evidence/ep19/retained-recipe-cache-publication.json) records
+observed publication/substitution costs and the unmeasured initial export/build
+costs. This bounded artifact check does not establish broad runtime support,
+hosted CI, positive update/rollback or performance adoption.
 
 ## Targeted update rehearsals
 
