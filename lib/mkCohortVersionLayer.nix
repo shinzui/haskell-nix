@@ -8,6 +8,15 @@ let
   policySelection = import ./selectCohortBuildPolicy.nix { inherit lib; };
   profiles = (builtins.fromJSON (builtins.readFile ../config/package-build-policies.json)).profiles;
   generatedNames = if generatedRecipes == null then [ ] else builtins.attrNames generatedRecipes.context.packages;
+  flagSpellings = builtins.fromJSON (builtins.readFile ../config/generated-recipe-flag-spellings.json);
+  normaliseGenerated = name: package:
+    (import ./normaliseGeneratedRecipeFlags.nix { inherit lib; }) {
+      inherit name package haskellLib;
+      version = generatedRecipes.context.generationContext.sources.${name}.version;
+      metadataSha256 = generatedRecipes.context.packages.${name}.revision.sha256;
+      selectedFlags = (builtins.head generatedRecipes.context.generationContext.sources.${name}.identities).flags or { };
+      rules = flagSpellings;
+    };
   # Reuse selected construction policy and capture for both source paths.
   configure = name: entry: raw:
     let
@@ -68,7 +77,7 @@ let
     {
       inherit (generatedRecipes) manifest recipes context;
       policyExtension = _final: previous: lib.genAttrs generatedNames
-        (name: configure name cohort.packages.${name} previous.${name});
+        (name: configure name cohort.packages.${name} (normaliseGenerated name previous.${name}));
     }
     haskellLib
     pkgs

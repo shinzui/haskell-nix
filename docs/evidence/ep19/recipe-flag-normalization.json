@@ -1,0 +1,924 @@
+{
+  "acceptedDarwinParity": {
+    "allRuntimeDerivationsIdentical": true,
+    "baselineGeneration": 5,
+    "candidateGeneration": 7,
+    "consumer": {
+      "drv": "/nix/store/1fd6z1jjg2x61wysxddkk4jr0w0r3csw-rei-cli-7.1.0.0.drv",
+      "out": "/nix/store/0mc43srwyx4mybfq9nmxicib1r41h6kw-rei-cli-7.1.0.0"
+    },
+    "consumerIdentical": true,
+    "normalization": "Only five metadata/version/selected-flag guarded redundant default-false spellings; raw functions unchanged.",
+    "runtimeDerivationsCompared": 273,
+    "scopedNoIfdPassed": true
+  },
+  "acceptedLinuxParity": {
+    "allRuntimeDerivationsIdentical": true,
+    "baselineGeneration": 5,
+    "candidateGeneration": 7,
+    "consumer": {
+      "drv": "/nix/store/c6r0slhymwbqpn53b47k37k9xikkjg71-rei-cli-7.1.0.0.drv",
+      "out": "/nix/store/60h19kxal5a4zq72y9bpr15qrl1pcssk-rei-cli-7.1.0.0"
+    },
+    "execution": "Translated x86 Linux Apple guest; native consumer build still in progress.",
+    "http2ScopedNoIfdPassed": true,
+    "runtimeDerivationsCompared": 273
+  },
+  "archive": {
+    "bytes": 857885,
+    "members": {
+      "excluded-evaluation/consumer-0-baseline.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "excluded-evaluation/consumer-0-baseline.out": {
+        "bytes": 66,
+        "sha256": "482564502decf68fac2bce7529f869d4dc0381082f7097479db78449d4715b61"
+      },
+      "excluded-evaluation/consumer-0-baseline.time": {
+        "bytes": 777,
+        "sha256": "41e1423ff2986d840840a76178527938d409c859ce200630924a7ddfce93ab70"
+      },
+      "excluded-evaluation/consumer-0-candidate.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "excluded-evaluation/consumer-0-candidate.out": {
+        "bytes": 66,
+        "sha256": "482564502decf68fac2bce7529f869d4dc0381082f7097479db78449d4715b61"
+      },
+      "excluded-evaluation/consumer-0-candidate.time": {
+        "bytes": 777,
+        "sha256": "2efdaa09b3b31fa0cf49f4bfc03c75b8ff980da19b4c8233cfc19d1b7f00f4bc"
+      },
+      "excluded-evaluation/consumer-1-baseline.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "excluded-evaluation/consumer-1-baseline.out": {
+        "bytes": 66,
+        "sha256": "482564502decf68fac2bce7529f869d4dc0381082f7097479db78449d4715b61"
+      },
+      "excluded-evaluation/consumer-1-baseline.time": {
+        "bytes": 777,
+        "sha256": "4b763847f18132fe330da621c60ab353ce370ee1c2f8b8b33868382020f5abea"
+      },
+      "excluded-evaluation/consumer-1-candidate.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "excluded-evaluation/consumer-1-candidate.out": {
+        "bytes": 66,
+        "sha256": "482564502decf68fac2bce7529f869d4dc0381082f7097479db78449d4715b61"
+      },
+      "excluded-evaluation/consumer-1-candidate.time": {
+        "bytes": 777,
+        "sha256": "ac4065422e4fa20c45fa718a49c5bba5edc8489caff59505cf5d238432cf31a5"
+      },
+      "excluded-evaluation/consumer-2-baseline.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "excluded-evaluation/consumer-2-baseline.out": {
+        "bytes": 66,
+        "sha256": "482564502decf68fac2bce7529f869d4dc0381082f7097479db78449d4715b61"
+      },
+      "excluded-evaluation/consumer-2-baseline.time": {
+        "bytes": 777,
+        "sha256": "f0fa6649ab8dd3cc0a2f62c60d6e5adaf31e5f65b9c59db32dc80c7d403985ca"
+      },
+      "excluded-evaluation/consumer-2-candidate.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "excluded-evaluation/consumer-2-candidate.out": {
+        "bytes": 66,
+        "sha256": "482564502decf68fac2bce7529f869d4dc0381082f7097479db78449d4715b61"
+      },
+      "excluded-evaluation/consumer-2-candidate.time": {
+        "bytes": 777,
+        "sha256": "fe6624c0226e05a25ccc74b9a916d81f41124101d9290870213273e45980381e"
+      },
+      "excluded-evaluation/consumer-3-baseline.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "excluded-evaluation/consumer-3-baseline.out": {
+        "bytes": 66,
+        "sha256": "482564502decf68fac2bce7529f869d4dc0381082f7097479db78449d4715b61"
+      },
+      "excluded-evaluation/consumer-3-baseline.time": {
+        "bytes": 777,
+        "sha256": "8faf3956629742bd7a4cb754babf9fc84e9faaf97a8f7bf957a50a115d548a61"
+      },
+      "excluded-evaluation/consumer-3-candidate.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "excluded-evaluation/consumer-3-candidate.out": {
+        "bytes": 66,
+        "sha256": "482564502decf68fac2bce7529f869d4dc0381082f7097479db78449d4715b61"
+      },
+      "excluded-evaluation/consumer-3-candidate.time": {
+        "bytes": 777,
+        "sha256": "4a03c7c36ea55b98936fb3f467727b834f6f799b159866f377310efe8b5567eb"
+      },
+      "excluded-evaluation/consumer-4-baseline.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "excluded-evaluation/consumer-4-baseline.out": {
+        "bytes": 66,
+        "sha256": "482564502decf68fac2bce7529f869d4dc0381082f7097479db78449d4715b61"
+      },
+      "excluded-evaluation/consumer-4-baseline.time": {
+        "bytes": 777,
+        "sha256": "cf81c34865bf5a1ff4e3f10e07c6ba1ed8fe13c0c7d818c127a15d14146f0a51"
+      },
+      "excluded-evaluation/consumer-4-candidate.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "excluded-evaluation/consumer-4-candidate.out": {
+        "bytes": 66,
+        "sha256": "482564502decf68fac2bce7529f869d4dc0381082f7097479db78449d4715b61"
+      },
+      "excluded-evaluation/consumer-4-candidate.time": {
+        "bytes": 777,
+        "sha256": "eaa745102200c4fb96344feac108a50fb2d94cfda4efa4cc16c260093df969c4"
+      },
+      "excluded-evaluation/consumer-5-baseline.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "excluded-evaluation/consumer-5-baseline.out": {
+        "bytes": 66,
+        "sha256": "482564502decf68fac2bce7529f869d4dc0381082f7097479db78449d4715b61"
+      },
+      "excluded-evaluation/consumer-5-baseline.time": {
+        "bytes": 777,
+        "sha256": "3b5809ee4216c816884938bfc1e08ea1fa1a6a207055a98a0fb50f96f1d33aab"
+      },
+      "excluded-evaluation/consumer-5-candidate.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "excluded-evaluation/consumer-5-candidate.out": {
+        "bytes": 66,
+        "sha256": "482564502decf68fac2bce7529f869d4dc0381082f7097479db78449d4715b61"
+      },
+      "excluded-evaluation/consumer-5-candidate.time": {
+        "bytes": 777,
+        "sha256": "b9525a5409cb4386b22904554c75e1c0aeabe9e0120dce27743497468ab7117c"
+      },
+      "excluded-evaluation/receipt.json": {
+        "bytes": 18178,
+        "sha256": "798d445e021b342da40b7ffd67cc1348b086b6ecf9df20fea66e99cdaaef39e6"
+      },
+      "excluded-evaluation/scoped-0-baseline.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "excluded-evaluation/scoped-0-baseline.out": {
+        "bytes": 62,
+        "sha256": "110f0e928a880fc288afab265a71ec4caf38d88b166975a3a8d6253d24927eb9"
+      },
+      "excluded-evaluation/scoped-0-baseline.time": {
+        "bytes": 777,
+        "sha256": "913b2a32302d7dd7de6497c6d5b3de3738cb2dade6ef990a77e093620249ab31"
+      },
+      "excluded-evaluation/scoped-0-candidate.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "excluded-evaluation/scoped-0-candidate.out": {
+        "bytes": 62,
+        "sha256": "110f0e928a880fc288afab265a71ec4caf38d88b166975a3a8d6253d24927eb9"
+      },
+      "excluded-evaluation/scoped-0-candidate.time": {
+        "bytes": 777,
+        "sha256": "eb14765ccfe6cd721cfc758ff58acd9a96830cf378fd3abf027f82e5cd5df025"
+      },
+      "excluded-evaluation/scoped-1-baseline.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "excluded-evaluation/scoped-1-baseline.out": {
+        "bytes": 62,
+        "sha256": "110f0e928a880fc288afab265a71ec4caf38d88b166975a3a8d6253d24927eb9"
+      },
+      "excluded-evaluation/scoped-1-baseline.time": {
+        "bytes": 777,
+        "sha256": "1ff01ac0294d05d8c3fc6b1338aa65a528c296a40966ceb8e0e43d1ad36663eb"
+      },
+      "excluded-evaluation/scoped-1-candidate.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "excluded-evaluation/scoped-1-candidate.out": {
+        "bytes": 62,
+        "sha256": "110f0e928a880fc288afab265a71ec4caf38d88b166975a3a8d6253d24927eb9"
+      },
+      "excluded-evaluation/scoped-1-candidate.time": {
+        "bytes": 777,
+        "sha256": "51dd185ccf7f6edb5d78a4606ee2c1eec33e6805a1600d50c60049f5c6864227"
+      },
+      "excluded-evaluation/scoped-2-baseline.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "excluded-evaluation/scoped-2-baseline.out": {
+        "bytes": 62,
+        "sha256": "110f0e928a880fc288afab265a71ec4caf38d88b166975a3a8d6253d24927eb9"
+      },
+      "excluded-evaluation/scoped-2-baseline.time": {
+        "bytes": 777,
+        "sha256": "354d7de5aa88ebc34e7684a3bf477c11f466475be2ba77f94513d1f315de5f42"
+      },
+      "excluded-evaluation/scoped-2-candidate.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "excluded-evaluation/scoped-2-candidate.out": {
+        "bytes": 62,
+        "sha256": "110f0e928a880fc288afab265a71ec4caf38d88b166975a3a8d6253d24927eb9"
+      },
+      "excluded-evaluation/scoped-2-candidate.time": {
+        "bytes": 777,
+        "sha256": "38fa925bda00498648d862dd9151309605114a35588192a16149e1eda6a02531"
+      },
+      "excluded-evaluation/scoped-3-baseline.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "excluded-evaluation/scoped-3-baseline.out": {
+        "bytes": 62,
+        "sha256": "110f0e928a880fc288afab265a71ec4caf38d88b166975a3a8d6253d24927eb9"
+      },
+      "excluded-evaluation/scoped-3-baseline.time": {
+        "bytes": 777,
+        "sha256": "cb3e643adc3c50a17664ab2e0bc8f837fbaa4f28376cbe05b8de73e17da65d23"
+      },
+      "excluded-evaluation/scoped-3-candidate.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "excluded-evaluation/scoped-3-candidate.out": {
+        "bytes": 62,
+        "sha256": "110f0e928a880fc288afab265a71ec4caf38d88b166975a3a8d6253d24927eb9"
+      },
+      "excluded-evaluation/scoped-3-candidate.time": {
+        "bytes": 777,
+        "sha256": "009fbb8797b00a5ee122811c4bf79d40db0f00c886e015dd67b785052ad1c333"
+      },
+      "excluded-evaluation/scoped-4-baseline.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "excluded-evaluation/scoped-4-baseline.out": {
+        "bytes": 62,
+        "sha256": "110f0e928a880fc288afab265a71ec4caf38d88b166975a3a8d6253d24927eb9"
+      },
+      "excluded-evaluation/scoped-4-baseline.time": {
+        "bytes": 777,
+        "sha256": "e6265a67f10e12d7fc4cdd154325462b22e9338f1f747bf0129421a4493ca0e6"
+      },
+      "excluded-evaluation/scoped-4-candidate.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "excluded-evaluation/scoped-4-candidate.out": {
+        "bytes": 62,
+        "sha256": "110f0e928a880fc288afab265a71ec4caf38d88b166975a3a8d6253d24927eb9"
+      },
+      "excluded-evaluation/scoped-4-candidate.time": {
+        "bytes": 777,
+        "sha256": "d6ede7dfa84e0fda0c297d4c162b82551094d20afe8bc72acab9a9e3648f7f1c"
+      },
+      "excluded-evaluation/scoped-5-baseline.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "excluded-evaluation/scoped-5-baseline.out": {
+        "bytes": 62,
+        "sha256": "110f0e928a880fc288afab265a71ec4caf38d88b166975a3a8d6253d24927eb9"
+      },
+      "excluded-evaluation/scoped-5-baseline.time": {
+        "bytes": 777,
+        "sha256": "6420e395ff53f8dd77ac308206a4724767c5d2ebc088ea12b6d831fd8d53534e"
+      },
+      "excluded-evaluation/scoped-5-candidate.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "excluded-evaluation/scoped-5-candidate.out": {
+        "bytes": 62,
+        "sha256": "110f0e928a880fc288afab265a71ec4caf38d88b166975a3a8d6253d24927eb9"
+      },
+      "excluded-evaluation/scoped-5-candidate.time": {
+        "bytes": 777,
+        "sha256": "ac86aafc9ae2e4f74e6ad20990a5782a7b1b7139367dbd98981eb6593281a666"
+      },
+      "execution/ep19-flag-normalization-cabal2nix-preferred.json": {
+        "bytes": 972,
+        "sha256": "ea71f67e87ee144e8273f860b9aa422d8817974e3255f517eb0603b0e8e63d6e"
+      },
+      "execution/ep19-flag-normalization-cabal2nix-release-tag.txt": {
+        "bytes": 141,
+        "sha256": "bdb1a3e61530fe69e5256933ee78a2b5746336ddb8f99c297b81cbe6120387b3"
+      },
+      "execution/ep19-flag-normalization-cabal2nix-tags.json": {
+        "bytes": 4181,
+        "sha256": "a39613a5850d3e1c6df713db3577c84b9c3910547046df717be1299387904d48"
+      },
+      "execution/ep19-flag-normalization-darwin-native-check.log": {
+        "bytes": 24577,
+        "sha256": "a317e55b4d0fcd1accf2509999d45d13a4c11c1b457668941a1d0f74b6574d4c"
+      },
+      "execution/ep19-flag-normalization-format-check-v2.log": {
+        "bytes": 181,
+        "sha256": "dc3466c9db09ac6767bad0adbc1922f7bcb0d9080b5e43826dcf2e4e29b3aff4"
+      },
+      "execution/ep19-flag-normalization-format-check.log": {
+        "bytes": 439,
+        "sha256": "f70a6bb3ca51f8ced70600558c70b8f7acfc02700a9d533d6c5e484a8e76c019"
+      },
+      "execution/ep19-flag-normalization-formatting.diff": {
+        "bytes": 1577,
+        "sha256": "14a9705caaac0a0795bc4d8411e9e6e29891987e446c075abd43e5a9691c5362"
+      },
+      "execution/ep19-flag-normalization-linux-native-check.log": {
+        "bytes": 24291,
+        "sha256": "12e60ed3cfdb8d140c0423e355abdc7ca9d77c8ca98eac962a3e5e40d28bcca3"
+      },
+      "execution/ep19-flag-normalization-linux-tests.json": {
+        "bytes": 28,
+        "sha256": "b0da01264accaf77f047815b9d5b76311f2b07fd4c7632eca796728e7c4c4be1"
+      },
+      "execution/ep19-flag-normalization-linux-tests.nix": {
+        "bytes": 385,
+        "sha256": "274fd2f2bbb5ade824cbfd1ee0fc9fbeee0ac8acf031ec55b50590f65d0c569b"
+      },
+      "execution/ep19-flag-normalization-native-check-results.json": {
+        "bytes": 281,
+        "sha256": "fbde03edb59b6608a28d22d03783586d6ee60020d18dcf0e32eb11262ca7d467"
+      },
+      "execution/ep19-flag-normalization-nixpkgs-compose.nix": {
+        "bytes": 22158,
+        "sha256": "2f35fcf8ef7e35983c8ae31ce260879430c6337d83af6f0848861998f2797901"
+      },
+      "execution/ep19-flag-normalization-nixpkgs-lookup.txt": {
+        "bytes": 210,
+        "sha256": "9b484d0ecbbad50dc9d52c6847e9da7af453b4a55533d34510ab24f30d44b189"
+      },
+      "execution/ep19-flag-normalization-nixpkgs-project.txt": {
+        "bytes": 52,
+        "sha256": "af8bb2ac2903ba638d29091ed13121318d69b0d367573c1060aa26f0bf575376"
+      },
+      "execution/ep19-flag-normalization-tests-v2.json": {
+        "bytes": 28,
+        "sha256": "b0da01264accaf77f047815b9d5b76311f2b07fd4c7632eca796728e7c4c4be1"
+      },
+      "execution/ep19-flag-normalization-tests-v2.log": {
+        "bytes": 1049,
+        "sha256": "1d790fc23f8d3b664599c50de2008e5a33bbb8be34fa8a6431fa6df9416c724b"
+      },
+      "execution/ep19-flag-normalization-tests.json": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution/ep19-flag-normalization-tests.log": {
+        "bytes": 370,
+        "sha256": "c97caed17497ceee6476e1698ae8b57999e2d835e73a576d646dd0645ee771af"
+      },
+      "execution/ep19-flag-normalization-tests.nix": {
+        "bytes": 449,
+        "sha256": "d9d43c564b895aa4919c0cb3a5612a4166416e4f08f3a4ede67a16ecd33e9121"
+      },
+      "execution/ep19-http2-after-graph-v2.json": {
+        "bytes": 23174,
+        "sha256": "1b62354b851fb2c21e9e017ffe79dafc263160f431d9fefde2ed6a255821e823"
+      },
+      "execution/ep19-http2-baseline-linux-graph.json": {
+        "bytes": 23174,
+        "sha256": "505b2e978338e10e8d9cc44b9e1fca8e005f31a53a385ecd58c77a2c4932224d"
+      },
+      "execution/ep19-http2-closure-aarch64-darwin-artifacts.json": {
+        "bytes": 17870,
+        "sha256": "88b3386b2facdd0ca898584e93a78b122eba5286b6205566b7abb1912599ed05"
+      },
+      "execution/ep19-http2-closure-aarch64-darwin-github-0.log": {
+        "bytes": 22,
+        "sha256": "6584e598e4528ce7cfd8d4b7b9f4d0650c5c5c4c73529130c39c7e5db0b7f689"
+      },
+      "execution/ep19-http2-closure-aarch64-darwin-github-1.log": {
+        "bytes": 21,
+        "sha256": "1120da6f6fa6cade7f4cc9a7e4acccf127d3072d4efe4144eb8f459092adb34c"
+      },
+      "execution/ep19-http2-closure-aarch64-darwin-github-2.log": {
+        "bytes": 22,
+        "sha256": "6584e598e4528ce7cfd8d4b7b9f4d0650c5c5c4c73529130c39c7e5db0b7f689"
+      },
+      "execution/ep19-http2-closure-aarch64-darwin-hackage-0.log": {
+        "bytes": 22,
+        "sha256": "6584e598e4528ce7cfd8d4b7b9f4d0650c5c5c4c73529130c39c7e5db0b7f689"
+      },
+      "execution/ep19-http2-closure-aarch64-darwin-hackage-1.log": {
+        "bytes": 21,
+        "sha256": "1120da6f6fa6cade7f4cc9a7e4acccf127d3072d4efe4144eb8f459092adb34c"
+      },
+      "execution/ep19-http2-closure-aarch64-darwin-hackage-2.log": {
+        "bytes": 22,
+        "sha256": "6584e598e4528ce7cfd8d4b7b9f4d0650c5c5c4c73529130c39c7e5db0b7f689"
+      },
+      "execution/ep19-http2-closure-artifacts.py": {
+        "bytes": 1252,
+        "sha256": "8d68aa2f24aa5bf2f5d06412c7ba322d8b134bd7467f78727d28390543350326"
+      },
+      "execution/ep19-http2-closure-candidate-bundle-verify.log": {
+        "bytes": 239,
+        "sha256": "cec5bdd94bf80bfa6cb643fd8504f46cd486ac2b9b0d9776df951cbf3b32608b"
+      },
+      "execution/ep19-http2-closure-candidate.bundle": {
+        "bytes": 748122,
+        "sha256": "c1f4c4b4d16beb88cc55c096eb0e1d02e2ebdb9a3343f61562d20fa7dc95c9ae"
+      },
+      "execution/ep19-http2-closure-capture-runtime.py": {
+        "bytes": 1471,
+        "sha256": "030804c3e78298b68d29cd3b3c64e84e5aa46d58aa21416f4af46ca851398bcd"
+      },
+      "execution/ep19-http2-closure-compare-inputs.py": {
+        "bytes": 1154,
+        "sha256": "a094bdbc018cc3ac991c233629eb4d6b2831f29b8007b30a15a3ecc124d6a6b9"
+      },
+      "execution/ep19-http2-closure-derivation-impact.json": {
+        "bytes": 3245,
+        "sha256": "7277362263ca813569fd1a43e6f78298b9c4e6f40c53e536961f55bff62d1d6d"
+      },
+      "execution/ep19-http2-closure-direct-derivations.json": {
+        "bytes": 238837,
+        "sha256": "49edc96cf05a361504c5e8406b16aa1aaa6672ea2801564b7ffa1ecba4a6a88f"
+      },
+      "execution/ep19-http2-closure-input-comparison.json": {
+        "bytes": 6318,
+        "sha256": "993cca46cbed6451c2130cdc18fd24b1a3ebb00a057de8559e58eba445b63552"
+      },
+      "execution/ep19-http2-closure-input-comparison.log": {
+        "bytes": 4674,
+        "sha256": "69b03a5c858ea8a7700f8c677770c8946ba76b230b10706b702e71127dc32629"
+      },
+      "execution/ep19-http2-closure-inputs.json": {
+        "bytes": 8511,
+        "sha256": "5a94b48d09710f2e94523e0345fa61af0bc276739c73aa7dedab2709ba80efae"
+      },
+      "execution/ep19-http2-closure-inputs.py": {
+        "bytes": 3389,
+        "sha256": "98ce8ec7c60bd4ee39351782ee9afcb54c4c587e46fb9d4687b6be6312883364"
+      },
+      "execution/ep19-http2-closure-linux-driver.log": {
+        "bytes": 89,
+        "sha256": "6ccbfad8cfe2163e8773703a0bc6bb77a60e66fbaed05b001e7987d0e903f7ff"
+      },
+      "execution/ep19-http2-closure-no-ifd.json": {
+        "bytes": 157,
+        "sha256": "10c9541a465c4560771044c345f12674023071b6ffc380a9a142d14172550588"
+      },
+      "execution/ep19-http2-closure-no-ifd.log": {
+        "bytes": 80,
+        "sha256": "2baba159a2b07718df493efe225005cfe53873d56d70d1319202101d11c6eef3"
+      },
+      "execution/ep19-http2-closure-runtime-capture-receipt.json": {
+        "bytes": 374,
+        "sha256": "4476847310f1a6fb6d7ba3e1a9305e1c41062c60b8f27eb3f172c2641d31107e"
+      },
+      "execution/ep19-http2-closure-runtime-capture.log": {
+        "bytes": 5800,
+        "sha256": "edb89dc36345ed234ccf9cc1671b06db1ab8727ec795e5f03c92ae5350281f23"
+      },
+      "execution/ep19-http2-closure-runtime-graph.json": {
+        "bytes": 23174,
+        "sha256": "e7017ca9d66fa66f12b64f3ef25272ceff876b1f4737396ec5b14dde0171b5d7"
+      },
+      "execution/ep19-http2-closure-runtime-graph.log": {
+        "bytes": 189,
+        "sha256": "de44af3a47082765e2ad97fe5ae9b30d6f6a2da5f1367390701256033d56e759"
+      },
+      "execution/ep19-http2-closure-x86_64-linux-artifacts.json": {
+        "bytes": 16671,
+        "sha256": "0584f802f059742cf8559902560005f50ee744efe67466810cc0b11c74e7012e"
+      },
+      "execution/ep19-http2-evaluation-driver.json": {
+        "bytes": 121,
+        "sha256": "9213f74502b827463eba26acffd19c80cd0674814129cded5e360e85a29c8bae"
+      },
+      "execution/ep19-http2-evaluation-driver.py": {
+        "bytes": 944,
+        "sha256": "7441bfd469eca28be9684d765a2e094c6bb00884153ac91dceea7407962d49e8"
+      },
+      "execution/ep19-http2-evaluation-protocol.json": {
+        "bytes": 1200,
+        "sha256": "dc185a9132fd16d7ff98b0b0db07c322058761dceb617732ac9443de99b1453e"
+      },
+      "execution/ep19-http2-evaluation-resume.log": {
+        "bytes": 33,
+        "sha256": "f98699909092b8ef4c61d6ff2dee187318eeb28321a39a01fc8cd2de1f2f2883"
+      },
+      "execution/ep19-http2-evaluation-source-warmup.json": {
+        "bytes": 62,
+        "sha256": "110f0e928a880fc288afab265a71ec4caf38d88b166975a3a8d6253d24927eb9"
+      },
+      "execution/ep19-http2-evaluation-source-warmup.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution/ep19-http2-evaluation-v1.log": {
+        "bytes": 736,
+        "sha256": "6826bcc258e2e2e052e81df554bf58a56b309e019865c557c943671dac4edeaa"
+      },
+      "execution/ep19-http2-evaluation-v1.py": {
+        "bytes": 3931,
+        "sha256": "fecbb35390545f32232bc2f45ced4f4df40f025eb2e0bb059c16ed098b798caa"
+      },
+      "execution/ep19-http2-evaluation.nix": {
+        "bytes": 286,
+        "sha256": "3ad19d811f9c38108c74514c9a565b6d34ea1d0f15842b168006d8a8f470d447"
+      },
+      "execution/ep19-http2-normalized-consumer.json": {
+        "bytes": 142,
+        "sha256": "61f0e7062823e623defa98af1fd946cfd5fffca797360e1ae2239ae72927d685"
+      },
+      "execution/ep19-http2-normalized-consumer.log": {
+        "bytes": 189,
+        "sha256": "de44af3a47082765e2ad97fe5ae9b30d6f6a2da5f1367390701256033d56e759"
+      },
+      "execution/ep19-http2-normalized-darwin-parity.json": {
+        "bytes": 498,
+        "sha256": "c1257910580b4db3ae3b145c420caef43cc1d3872c611475b07a71b28eb634a5"
+      },
+      "execution/ep19-http2-normalized-linux-consumer.json": {
+        "bytes": 142,
+        "sha256": "3c0387e5eb8b69a8a0a49f4483f8f4ffd1239451eebd83462ebe2e2dd852a552"
+      },
+      "execution/ep19-http2-normalized-linux-graph.json": {
+        "bytes": 23174,
+        "sha256": "505b2e978338e10e8d9cc44b9e1fca8e005f31a53a385ecd58c77a2c4932224d"
+      },
+      "execution/ep19-http2-normalized-linux-no-ifd.json": {
+        "bytes": 157,
+        "sha256": "024b0edbf890a33c3159a20fea8bb548aa849b9baae0e990ebfbf0cf20082ca2"
+      },
+      "execution/ep19-http2-normalized-linux-parity.json": {
+        "bytes": 436,
+        "sha256": "f0778b8b8b0317a15d0bbfee312014892a485216c9ee21df1b63cb7ec98bf034"
+      },
+      "execution/ep19-http2-normalized-linux.nix": {
+        "bytes": 1295,
+        "sha256": "c44886f174d08e2ae424633516f55be0ce9703c83c5054be6b691bdc9021bcbd"
+      },
+      "execution/ep19-http2-normalized-no-ifd.json": {
+        "bytes": 157,
+        "sha256": "160709ac84050f5deb92c2c849e5566b6af9d19afd3a7df2e25dbc47ba38d548"
+      },
+      "execution/ep19-http2-normalized-no-ifd.log": {
+        "bytes": 189,
+        "sha256": "de44af3a47082765e2ad97fe5ae9b30d6f6a2da5f1367390701256033d56e759"
+      },
+      "execution/ep19-http2-normalized-runtime-capture.log": {
+        "bytes": 5800,
+        "sha256": "31cec587682c8f33be30ec7613166cbc6ea17de90ba18561436b2b17212e8249"
+      },
+      "execution/ep19-http2-normalized-runtime-graph.json": {
+        "bytes": 23174,
+        "sha256": "1b62354b851fb2c21e9e017ffe79dafc263160f431d9fefde2ed6a255821e823"
+      },
+      "execution/ep19-http2-normalized-runtime-graph.log": {
+        "bytes": 80,
+        "sha256": "2baba159a2b07718df493efe225005cfe53873d56d70d1319202101d11c6eef3"
+      },
+      "execution/ep19-http2-owned-linux-pause.json": {
+        "bytes": 567,
+        "sha256": "baff080245177dac421448733a71e76a4348d26c927f096e625b5a4278dfe0c6"
+      },
+      "execution/ep19-linux-owned-build-control.py": {
+        "bytes": 1795,
+        "sha256": "7eca8681b307276159384e621d8c31ce6de342182689fcd0cb7120aae129603a"
+      },
+      "implementation/checks/generated-recipe-flags.nix": {
+        "bytes": 2021,
+        "sha256": "26624b258f882bc29c7fb05f618e814aa9f19e50d04f20ff9796932b575a8a79"
+      },
+      "implementation/checks/unit.nix": {
+        "bytes": 30353,
+        "sha256": "c98eefa3cda616fb30078688be3c1aab4bf0b4f1ad1034fb399e68ad9936131b"
+      },
+      "implementation/config/generated-recipe-flag-spellings.json": {
+        "bytes": 2157,
+        "sha256": "4cf4f598b22c30dd570fa0d9b014c17cdd75b073c8a6ce46aed0336ea33767bf"
+      },
+      "implementation/lib/mkCohortVersionLayer.nix": {
+        "bytes": 5091,
+        "sha256": "4edb366e98c38ebcb6de5c6ff79b21f795e31e81f061839f8158a2ae71088ef8"
+      },
+      "implementation/lib/normaliseGeneratedRecipeFlags.nix": {
+        "bytes": 1678,
+        "sha256": "ebcacaa5d1b376247626ba8bfb1fcb1c9e1fa3662c15b86e1f56d1058f3fc08f"
+      }
+    },
+    "path": "recipe-flag-normalization.raw.tar.gz",
+    "sha256": "fc51d7c81853b80bc7160a7697728df578f60e014dacba51db5c09f335119fc5"
+  },
+  "candidateBundle": {
+    "member": "execution/ep19-http2-closure-candidate.bundle",
+    "prerequisite": "0738c3ea5c474b3aeae628210e3104554d1ab38b",
+    "prerequisiteEvidence": "targeted-http2-rehearsal.raw.tar.gz, execution/ep19-http2-candidate.bundle",
+    "qualification": "Import the earlier generation-5 rehearsal bundle first; this bundle adds disposable generations 6 and 7."
+  },
+  "dependencyVerification": {
+    "cabal2nixCurrentNormalRelease": "2.21.3",
+    "overrideCabalSource": {
+      "artifactLevelUri": "pending",
+      "discovery": "Mori registry lookup attempted; project absent, exact pinned upstream source inspected.",
+      "project": "mori://nixos/nixpkgs",
+      "projectRelativePath": "pkgs/development/haskell-modules/lib/compose.nix",
+      "revision": "d5dfd8e6716dde34398bc14bc87c10dece9c8c68"
+    },
+    "pinnedConverterUnchanged": true,
+    "project": "mori://nixos/cabal2nix",
+    "releaseCommit": "aa4e16ee531d3ba4f72bda0a7460b0c07cd36fd5",
+    "releaseTag": "cabal2nix-v2.21.3"
+  },
+  "diagnosticBeforeNormalization": {
+    "baselineGeneration": 5,
+    "candidateGeneration": 6,
+    "changedConvertedPackages": [
+      "async",
+      "case-insensitive",
+      "hashable",
+      "hsc2hs",
+      "http-semantics",
+      "http-types",
+      "http2",
+      "iproute",
+      "network",
+      "network-control",
+      "psqueues",
+      "unordered-containers"
+    ],
+    "changedRuntimeDerivations": [
+      "adjunctions",
+      "aeson",
+      "aeson-casing",
+      "aeson-pretty",
+      "aeson-yaml",
+      "async",
+      "attoparsec",
+      "attoparsec-aeson",
+      "base16",
+      "base64",
+      "case-insensitive",
+      "cborg-json",
+      "charset",
+      "conduit",
+      "crypton",
+      "crypton-asn1-encoding",
+      "crypton-asn1-parse",
+      "crypton-asn1-types",
+      "crypton-connection",
+      "crypton-pem",
+      "crypton-socks",
+      "crypton-x509",
+      "crypton-x509-store",
+      "crypton-x509-system",
+      "crypton-x509-validation",
+      "data-fix",
+      "dhall",
+      "dhall-json",
+      "effectful",
+      "either",
+      "ephemeral-pg",
+      "free",
+      "hashable",
+      "hasql",
+      "hasql-notifications",
+      "hasql-pool",
+      "hasql-transaction",
+      "hpke",
+      "hs-opentelemetry-api",
+      "hs-opentelemetry-api-types",
+      "hs-opentelemetry-propagator-w3c",
+      "hs-opentelemetry-semantic-conventions",
+      "hsc2hs",
+      "http-client",
+      "http-client-tls",
+      "http-date",
+      "http-semantics",
+      "http-types",
+      "http2",
+      "indexed-traversable-instances",
+      "invariant",
+      "iproute",
+      "kafka-effectful",
+      "kan-extensions",
+      "keiki",
+      "keiki-codec-json",
+      "keiro",
+      "keiro-core",
+      "keiro-dsl",
+      "keiro-migrations",
+      "keiro-ops",
+      "keiro-pgmq",
+      "keiro-test-support",
+      "kiroku-cli",
+      "kiroku-metrics",
+      "kiroku-otel",
+      "kiroku-store",
+      "kiroku-store-migrations",
+      "lens",
+      "libBF",
+      "libyaml",
+      "megaparsec",
+      "mlkem",
+      "mmzk-typeid",
+      "mono-traversable",
+      "network",
+      "network-control",
+      "nqe",
+      "parsers",
+      "pg-migrate",
+      "pg-migrate-cli",
+      "pg-migrate-embed",
+      "pg-migrate-import-codd",
+      "pg-migrate-import-hasql-migration",
+      "pgmq-config",
+      "pgmq-core",
+      "pgmq-effectful",
+      "pgmq-hasql",
+      "pgmq-migration",
+      "postgresql-binary",
+      "postgresql-connection-string",
+      "psqueues",
+      "recv",
+      "sbv",
+      "scientific",
+      "semialign",
+      "semigroupoids",
+      "serialise",
+      "settei",
+      "settei-dhall",
+      "settei-env",
+      "settei-optparse-applicative",
+      "shibuya-core",
+      "shibuya-kafka-adapter",
+      "shibuya-kiroku-adapter",
+      "shibuya-pgmq-adapter",
+      "simple-sendfile",
+      "streaming-commons",
+      "streamly",
+      "strict",
+      "text-iso8601",
+      "text-short",
+      "these",
+      "time-compat",
+      "tls",
+      "typed-process",
+      "uniplate",
+      "unique",
+      "unliftio",
+      "unordered-containers",
+      "uuid",
+      "uuid-types",
+      "vault",
+      "wai",
+      "wai-app-static",
+      "wai-extra",
+      "wai-logger",
+      "wai-websockets",
+      "warp",
+      "websockets",
+      "witherable",
+      "yaml"
+    ],
+    "qualification": "Diagnostic representation change only; actual compiler/configuration inputs still require comparison before adoption. No new native build or performance acceptance.",
+    "sameSolvedSourceAndMetadataIdentities": true,
+    "unchangedRuntimeDerivations": 141
+  },
+  "diagnosticUnnormalizedRevision": "66db4dd7c17efba5d7491cdea08d3cbc3e6c79ff",
+  "disposableCandidateRevision": "df51c0e3d0e9e2326ef73ef949d2a3132db74342",
+  "evaluation": {
+    "driver": {
+      "elapsed_seconds_including_idle_preflight": 138.72211466595763,
+      "exit_code": 1,
+      "ownedLinuxBuildResumed": true
+    },
+    "ownLinuxBuildResumed": true,
+    "protocol": {
+      "baselineGeneration": 5,
+      "candidateGeneration": 7,
+      "costAcceptance": "Timing alone does not authorize adoption; retain regeneration, validation, transfer/retention costs and break-even separately.",
+      "evaluationCache": false,
+      "foreignWork": "Continuous quiet minute; fail/exclude entire campaign if foreign compiler/Cabal/test appears. Pause only our own Linux compiler; resume in finally.",
+      "inputEquality": "All 273 runtime derivations and actual Darwin consumer identical between generations 5 and 7.",
+      "measuredAlternatingPairsPerScope": 5,
+      "minimumSaving": 0.2,
+      "reason": "The approved maintenance target needs its complete dependency closure for no-IFD; preserve the original base64 workload result and add this real target before measuring.",
+      "roots": [
+        "actual updated http2 dependency derivation",
+        "actual immutable Rei CLI through independent runtime validation"
+      ],
+      "sourceRevision": "df51c0e3d0e9e2326ef73ef949d2a3132db74342",
+      "sourceState": "Warm immutable source and converter outputs, fresh evaluator processes, offline with builders disabled.",
+      "system": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+      "targetBuilds": false,
+      "warmupPairsPerScope": 1
+    },
+    "receiptMember": "excluded-evaluation/receipt.json",
+    "status": "Entire run excluded after foreign Cabal appears during consumer pairs. Diagnostic scoped samples do not satisfy acceptance."
+  },
+  "limits": [
+    "No production generation, alias, consumer pin, compiler, bound, source identity, raw converter bytes or compatibility exception selection changes.",
+    "Only exact version/metadata and explicitly false selected assignments can activate a reviewed spelling rule. Unexpected selected assignments or raw converter spellings fail; newer versions/metadata use their original raw function.",
+    "All 273 runtime derivations match generation 5 in each GitHub-channel system. Actual Darwin CLI identity is equal and its native behavior/cache receipt applies to that same output. Linux consumer compilation is still running at this checkpoint.",
+    "Complete runtime/application no-IFD is not claimed; the declared http2 dependency root passes on both systems.",
+    "Initial metadata downloads, total producer migration cost and realistic evaluation-use amortization are not fully measured. No performance or production adoption gate is closed.",
+    "The final formatter changes only whitespace relative to the captured helper; final formatted code passes actual native 365-test checks on both systems."
+  ],
+  "nativeChecks": {
+    "aarch64-darwin": {
+      "exitCode": 0,
+      "pureContracts": 365
+    },
+    "capturedHelperDiffersFromFinalOnlyInFormatterWhitespace": true,
+    "formatCheckExitCode": 0,
+    "x86_64-linux": {
+      "execution": "Apple translated guest",
+      "exitCode": 0,
+      "pureContracts": 365
+    }
+  },
+  "normalizationRules": {
+    "async": {
+      "flags": {
+        "bench": false,
+        "debug-auto-label": false
+      },
+      "metadataSha256": "45d5587d8a348a7e2b3f04de963fe633db49b49cde10ca1e6f834bef3baecee9",
+      "reason": "The exact selected Cabal metadata declares these flags default false. Omit only the redundant explicit false switches to preserve legacy derivation identities; retain raw converter bytes and every effective selection.",
+      "version": "2.2.6"
+    },
+    "hashable": {
+      "flags": {
+        "arch-native": false,
+        "random-initial-seed": false
+      },
+      "metadataSha256": "140fc5adad166f7b527567cbd26ff481e8da4a66bdfc84be3ddf28dbeb66f275",
+      "reason": "The exact selected Cabal metadata declares these flags default false. Omit only the redundant explicit false switches to preserve legacy derivation identities; retain raw converter bytes and every effective selection.",
+      "version": "1.5.1.0"
+    },
+    "hsc2hs": {
+      "flags": {
+        "in-ghc-tree": false
+      },
+      "metadataSha256": "39b25fd929b02b01a3fe59fec7ca8b2da6f0f9e282276b7a84e63a4702c4d725",
+      "reason": "The exact selected Cabal metadata declares these flags default false. Omit only the redundant explicit false switches to preserve legacy derivation identities; retain raw converter bytes and every effective selection.",
+      "version": "0.68.10"
+    },
+    "network": {
+      "flags": {
+        "devel": false
+      },
+      "metadataSha256": "48a0c4f91e460f892c629b76c9410336a978e9b58aa87c678aee587b4ca37698",
+      "reason": "The exact selected Cabal metadata declares these flags default false. Omit only the redundant explicit false switches to preserve legacy derivation identities; retain raw converter bytes and every effective selection.",
+      "version": "3.2.9.0"
+    },
+    "unordered-containers": {
+      "flags": {
+        "debug": false
+      },
+      "metadataSha256": "c5de1fb3377ed3c5f4cd851a771d1acc5c37d2f6bef0a499295c0e8857da5605",
+      "reason": "The exact selected Cabal metadata declares these flags default false. Omit only the redundant explicit false switches to preserve legacy derivation identities; retain raw converter bytes and every effective selection.",
+      "version": "0.2.21"
+    }
+  },
+  "rawArtifacts": "Both native converter platforms generate/check/repeat all 19 unedited package functions in both channels byte-for-byte.",
+  "schemaVersion": 1,
+  "scope": {
+    "compiler": "ghc9124",
+    "converterChannels": [
+      "github",
+      "hackage"
+    ],
+    "converterPlatforms": [
+      "aarch64-darwin",
+      "x86_64-linux"
+    ],
+    "generatedRecipes": 19,
+    "http2HackageDependencyClosure": 18,
+    "nativeFullRuntimeSupport": "unverified",
+    "productionSelectionsChanged": false,
+    "runtimeParityChannels": [
+      "github"
+    ]
+  },
+  "sourceProject": "mori://shinzui/haskell-nix",
+  "status": "Bounded closure conversion, exact derivation preservation and no-IFD correctness accepted. Entire performance campaign excluded; no adoption or speedup accepted."
+}

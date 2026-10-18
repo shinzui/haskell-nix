@@ -4,7 +4,7 @@ title: Maintainer tools
 description: Find repository formatting, test, derivation-diff, and validation commands.
 docId: DOC-6
 tags: [maintainers, testing, nix]
-timestamp: 2026-10-18T03:53:53Z
+timestamp: 2026-10-18T04:18:00Z
 generated:
   by: process:codex
   at: 2026-10-18T02:33:22Z
@@ -270,6 +270,17 @@ prior retained generation for rollback remain separate checks. The
 [Darwin continuation](../evidence/ep19/targeted-http2-rehearsal.json) now passes
 those consumer, publication, empty-store and exact-generation rollback checks;
 Linux consumer compilation and transitive no-IFD/performance adoption remain open.
+
+For a newly converted dependency closure, inspect derivation changes before building.
+The [http2 closure experiment](../evidence/ep19/recipe-flag-normalization.json)
+found five redundant explicit false switches that propagated into 132 runtime
+identities. Reviewed entries in `config/generated-recipe-flag-spellings.json`
+restore the legacy argument spelling only for the exact version, metadata hash
+and selected false assignments. Raw converter files stay unchanged. Matching
+rules reject unexpected selected values or converter switches; new versions or
+metadata retain raw spelling. Verify the selected Cabal bytes before reviewing a
+rule, capture it in a new retained generation, and compare all owned derivations.
+This closes the declared root's no-IFD correctness gap without proving a speedup.
 
 ## Compatibility declaration reports
 
