@@ -53,6 +53,11 @@ provenance:
       at: 2026-10-18T14:57:02Z
       mode: "implement"
       note: "Replace laptop compiler-idle campaign exclusion with declared Mac Studio resource headroom and timing-stability checks."
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-18T17:20:34Z
+      mode: "update"
+      note: "Prioritize real producer and owned-package integration, ordinary-build measurement and differential cost before broader pilots."
   reviews:
     - model: "gpt-6-astra"
       harness: "codex-cli"
@@ -79,6 +84,17 @@ This follows [MasterPlan 3](../masterplans/3-align-one-cabal-and-nix-package-set
 
 
 ## Progress
+
+2026-10-18 delivery focus: finish the resource-aware Rei candidate's actual producer
+integration and differential workflow-cost decision next. Its 30.35% pilot is not yet
+available through ordinary default builds. Use an isolated current-source copy because
+the producer has active staged/unstaged API and core work. Integrate the new package with
+Cabal, owned-package audit/manifest declarations, generation/formatting and the real Nix
+outputs, then compare ordinary producer builds and matching deployment identities. Charge
+additional fresh setup/required validation/transfer and recurring maintenance against the
+17.388-second measured per-edit saving; historical research costs remain separately
+visible. Keep the original performance/budget criteria and clean rollback. Broader pilots
+follow a first delivered improvement rather than replacing that delivery.
 
 2026-10-18 Mac Studio campaign accepted for latency and correctness: five fresh alternating
 resource-aware Rei pairs reduce the median from 57.285 to 39.897 s (30.35%), with ranges
@@ -295,6 +311,31 @@ Run identity and compiler-work experiments for unrelated prose, stamp-only chang
 
 ### Milestone 4: Tune measured compilation costs and test smaller package boundaries
 
+The immediate next work is production integration of the resource-aware 293-module Rei
+candidate. In `mori://shinzui/rei`, project-relative `nix/haskell-overlay.nix`,
+`flake.module.nix` and `cabal.project` own the application recipe, exported packages,
+consumer audit/local-package manifest and package membership (source-file artifact URIs
+pending). The foundation must be declared as an owned package everywhere that needs it,
+and the owning source-generation and formatting workflow must preserve its placement and
+public reexports. Prepare this in an isolated copy of the current producer state; preserve
+active edits and keep compiler/dependency/build policy fixed. Re-run source/resource,
+complete supported suites and generator/format checks for that actual candidate, then
+measure the same ordinary default build before and after. The old pilot result does not
+substitute for the integrated producer measurement.
+
+Measure normal affected targets after CLI, core/API, documentation and revision-stamp
+edits. Core dependency edits can invalidate the foundation as well as the remaining CLI;
+do not apply the measured CLI-leaf saving to that workload without evidence. Report each
+case and decide against the actual recurring workflow, preserving positive invalidation
+and required tests.
+
+Measure differential costs against the ordinary baseline: fresh foundation creation and
+migration, required verification that the candidate adds, publication/transfer/retention
+and maintenance after representative source changes. Common baseline costs are reported
+on both sides. Separate the research campaign and failed-attempt history from this actual
+adoption quote without deleting either. Keep the 20% improvement and ten-edit budget;
+roll out through M5 only if the useful life of the boundary repays its additional cost.
+
 
 Capture the actual builder flags first. The inspected builder already enables parallel compilation, so adding `enableParallelBuilding = true` alone is not an optimization. Compare bounded per-package worker counts and total simultaneously running builds under the Mac's memory budget. Avoid changing global daemon settings or oversubscribing several large GHC builds. Profiling and Haddock are already disabled for the inspected local packages; confirm the actual build ways and optimize only residual duplicated work. Record linking and Template Haskell costs separately.
 
@@ -399,6 +440,10 @@ No dependency bounds or new pins are chosen during planning. Verify any required
 
 
 ## Revision Notes
+
+2026-10-18: Prioritize the measured Rei boundary's actual producer/default-build delivery
+and differential adoption-cost decision, preserving current foreign edits and existing
+acceptance thresholds; broader experimental work follows that outcome.
 
 2026-10-18: Replace the laptop-era continuous-idle restriction with the user-authorized
 Mac Studio headroom/stability policy before fresh trials; preserve prior exclusions and

@@ -43,6 +43,11 @@ provenance:
       at: 2026-10-18T14:57:02Z
       mode: "implement"
       note: "Authorize reproducible generation-5/7 evaluation campaigns with recorded headroom instead of excluding concurrent compiler activity."
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-18T17:20:34Z
+      mode: "update"
+      note: "Deprioritize ineffective recipe expansion and require attribution of a material consumer cost before further optimization."
   reviews:
     - model: "gpt-6-astra"
       harness: "codex-cli"
@@ -65,6 +70,14 @@ Import-from-derivation (IFD) means Nix builds an output and imports the Nix expr
 This is a standalone follow-on to [plan 9](9-generate-the-nix-package-set-from-the-cohort-freeze-and-guard-version-parity.md). It neither repeats its solver/version-generation work nor becomes an adoption gate for its existing consumers. Real-runtime rollout also integrates with [plan 16](16-create-the-keiro-runtime-package-set-and-compose-applications-on-it.md). Plans 9 and 16 are Complete locally as of 2026-10-16; their explicit generation inputs, checked runtime constructor and retained configurations are available. New recipe artifacts and real-consumer adoption still require this plan's acceptance.
 
 ## Progress
+
+2026-10-18 priority correction: further generated-recipe expansion is deprioritized after
+the normal consumer query shows no useful evaluation improvement. M4 stays unfinished;
+do not present maintenance/correctness delivery as faster builds. EP-18's measured real
+application compilation candidate takes delivery priority. Before further evaluation
+changes, attribute scope construction, independent runtime comparison, translation and
+artifact validation in a representative consumer query and establish a material end-to-end
+opportunity. Preserve the existing generated artifacts/tooling and exact safety checks.
 
 2026-10-18 Mac Studio evaluation campaign complete: generation 5 versus normalized 7
 passes five alternating pairs for the real http2 root and actual independently validated
@@ -221,6 +234,14 @@ Compare actual derivation identities and graph manifests with plan 9's comparato
 
 ### Milestone 4: Adopt one retained configuration and measure the result
 
+The generation-5/7 campaign misses the speed target with approximately equal 3.6-second
+consumer queries. Do not expand recipe coverage as the next action. Profile the actual
+consumer evaluation first, distinguishing scope construction, retained-reference comparison,
+remaining translation and generated-artifact validation without using diagnostic bypasses
+in production. Compare those costs with the whole build. Select further work only for
+a material identified cost; retain the original improvement/total-cost gates. A failed
+representation experiment is retained evidence, not completion of this milestone.
+
 
 Using the accepted plans 9 and 16 contracts, generate one candidate default-compiler runtime configuration for Apple Silicon and x86 Linux as separately explicit artifacts. Store retained artifacts using their runtime-generation scheme, with content identities for package recipes; do not mutate an older generation. Update runtime projections to consume those artifacts and compare a representative application through the existing manifest API. Keep non-target compilers/configurations and source channels explicit and do not broaden support from one successful cell.
 
@@ -272,6 +293,10 @@ The implemented `HaskellNix.Update.Cohort.RecipeArtifacts` module exposes `Recip
 `lib/mkGeneratedRecipeExtension.nix` takes `{ manifest; recipes; context; policyExtension; }` followed by `haskellLib` and `pkgs`, checks against the independently supplied validated format-2 context, and instantiates full package functions in the final scope. `mkFirstPartyPackageSet` accepts `generatedRecipes ? null` in its first configuration argument and delegates the Hackage subset to `mkCohortVersionLayer`, which binds the selected cohort inputs and reuses construction policy/capture. Unsupported source pins or unrepresented lazy test arguments fail for the selected factory path; ordinary legacy construction is preserved. Retained selection now resolves all captured cells after the target platform is known; older snapshots receive no additional factory argument. Current projection hashing handles binary inputs. The immutable final matrix passes for the explicit bounded configuration. Targeted update/rollback, evaluation/cost and production support remain M4 work. Plan 9 owns the generator context, classifications, comparator, manifests, and cache publication. Plan 16 owns retained-runtime schema and conflicts. This plan owns recipe conversion/artifacts, no-IFD guards, and evaluation measurements. It is not a prerequisite for finishing either existing plan; activation consumes their accepted outputs afterward. The system-independent toolchain metadata initiative in `mori://shinzui/haskell-nix-dev/masterplans/2-publish-verified-haskell-toolchain-capabilities-and-support-evidence` is an optional integration aid, not a hard dependency.
 
 ## Revision Notes
+
+2026-10-18: Deprioritize generated-recipe expansion after no consumer-latency benefit;
+require attribution of a material real-build cost before selecting further optimization,
+while keeping M4's performance outcome and all correctness/adoption gates open.
 
 2026-10-18: Share the user-authorized Mac Studio resource/stability policy and retain a
 repeatable explicit-generation evaluation driver; keep earlier excluded samples and

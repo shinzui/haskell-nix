@@ -47,6 +47,11 @@ provenance:
       at: 2026-10-18T14:57:02Z
       mode: "implement"
       note: "Coordinate user-authorized Mac Studio benchmark policy and fresh application/evaluation campaigns."
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-18T17:20:34Z
+      mode: "update"
+      note: "Prioritize measured normal-build delivery over mechanism expansion and separate differential adoption costs from research history."
   reviews:
     - model: "gpt-6-astra"
       harness: "codex-cli"
@@ -142,6 +147,39 @@ Solid edges are Hard production-delivery prerequisites; dotted edges are Integra
 
 ### Execution priorities and current prerequisites
 
+2026-10-18 delivery priority: the user's goal is less elapsed time in ordinary application
+builds and reliable reuse on development/deployment workers. A helper, passing matrix or
+new artifact format is progress only insofar as it enables that outcome. Finish one
+production application improvement before expanding experimental coverage. The first
+candidate is EP-18's measured resource-aware Rei split (57.285 → 39.897 s); it remains a
+candidate until the actual producer workflow and extra adoption costs pass. Work in an
+isolated copy of the current producer state, preserving active API/core edits. Integrate
+the real package/ownership/generator declarations, compare the ordinary default builds,
+publish through the existing cache owner when authorized, and verify matching deployment
+output reuse. Continue to Mori or other applications after that first delivered result.
+
+Compare representative CLI, core/API, documentation and revision-stamp edits through the
+normal affected targets. A CLI-leaf win does not establish faster core/API builds; report
+those separately and retain the existing source/interface invalidation checks. Prefer a
+change that improves the user's recurring mix of edits over a favorable isolated example.
+
+Measure the extra fresh setup, required verification, regeneration, transfer and recurring
+maintenance costs relative to the existing workflow. Retain historical experiment and
+failed-attempt costs separately; they are not a complete production migration quote and
+are not charged again on every edit. Keep the declared 20% improvement and ten-edit
+budget where applicable. Report failure and keep the prior default if the candidate
+does not repay its actual additional costs within the intended workflow.
+
+Deprioritize EP-19 recipe expansion: five-pair consumer evaluation remains approximately
+3.6 s with either representation. Its performance outcome remains unmet. If evaluation
+is a material part of a selected real build, attribute its time to scope construction,
+runtime comparison, recipe generation and artifact checks before selecting another
+optimization. Do not assume more generated recipes will improve it. Existing correctness
+and maintenance tooling remains available without counting it as delivered performance.
+
+The dated prerequisite discussion below is historical context; the current registries
+and newest accepted receipts determine completion and readiness.
+
 
 As of 2026-10-16, plans 9 and 16 are Complete in their local progress and MP-3 records. The tree contains the live generator, `lib/mkRuntimePackageSet.nix`, checked composition/manifests and fingerprint-bound support receipts for `keiro-runtime` generations 1 and 2 under `cabal/runtime-cache/keiro-runtime/`. Both generations declare GHC 9.12.4 on Apple Silicon and x86 Linux in both source channels. This review inspected the code and retained evidence, without rerunning native builds. These external production prerequisites are satisfied locally; application adoption and each member's new acceptance still require their own evidence.
 
@@ -169,6 +207,14 @@ Existing plans 9 and 16 retain ownership of generator contexts, executable graph
 Shared edits to `flake.nix`, `checks/default.nix`, `lib/`, and updater modules require per-plan ownership: EP-19 wires recipe generation, EP-20 wires shell construction, EP-21 wires exception/validation policy, and EP-18 wires application-only incremental helpers. Coordinate merge order and update shared interfaces in both consumers and owners. Each member retains its self-contained implementation and acceptance; this master plan records reconciliation.
 
 ## Progress
+
+2026-10-18 outcome correction: prioritize production delivery of the measured Rei build
+improvement over additional mechanism/coverage work. EP-18 next owns current-source
+producer/ownership/generator integration, differential workflow cost and ordinary-build/
+deployment reuse. EP-19's generated-recipe expansion is deprioritized after the failed
+consumer-latency result; performance acceptance stays open. No child is marked Complete
+from prototype timing or passing verification alone. Active foreign producer edits are
+preserved through an isolated integration copy.
 
 2026-10-18 Mac Studio campaigns complete: EP-18's 293-module resource-aware Rei boundary
 passes five fresh alternating pairs (57.285 → 39.897 s, 30.35%), all behavior/public-import/
@@ -273,6 +319,12 @@ Source inspection of Mori's current plan model found that parent master-plan IDs
 Mori registration accepts references to unpublished external prerequisites, and its Hard DAG represents them as unresolved terminal nodes. This preserves the user's scoped publication instruction while exposing missing readiness evidence. Both repositories initially published no agent plans. Exact publication-set checks subsequently confirmed five rows for this project and three for the toolchain project; re-publication must preserve that set and all typed edges. No implementation completion or performance evidence is inferred from creating this coordination document.
 
 ## Decision Log
+
+2026-10-18: The user challenges infrastructure progress without delivered faster builds.
+Prioritize one real producer/default-build improvement and differential adoption cost;
+deprioritize ineffective generated-recipe expansion. Attribute evaluation before further
+tuning, preserve existing correctness/performance budgets and distinguish measured pilots
+from changes available in the user's normal workflow.
 
 2026-10-18: The user moved from a laptop to a Mac Studio and authorizes concurrent work.
 Replace process-presence/continuous-idle campaign rejection with predeclared measured

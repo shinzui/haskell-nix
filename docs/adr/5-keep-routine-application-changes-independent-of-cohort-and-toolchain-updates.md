@@ -87,6 +87,15 @@ a warm unchanged output is not a changed-code measurement. Keep production setti
 correctness gates equivalent. Keep an optimization opt-in or discard it when its benefit
 is unproven or its cost is not repaid within the intended update/checkpoint cycle.
 
+Deliver accepted changes through the application's ordinary producer/default-build path
+and matching deployment selection. A disposable pilot's latency result does not establish
+that delivery. Adoption cost C is the additional setup, required verification, regeneration,
+transfer and maintenance cost relative to the existing workflow; report common baseline
+costs on both sides. Preserve research campaigns and failed-attempt costs separately,
+without charging that history again on every edit or presenting it as a complete migration
+quote. Prioritize a measured useful build improvement over expanding a mechanism that has
+not improved consumer latency. Keep existing correctness and amortization requirements.
+
 Benchmarks may share a host with unrelated work when measured resources have headroom.
 Record hardware and concurrent compiler/test processes rather than rejecting their mere
 presence. The Mac Studio policy uses one Nix job and sixteen requested build cores on
