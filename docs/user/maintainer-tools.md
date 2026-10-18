@@ -4,10 +4,10 @@ title: Maintainer tools
 description: Find repository formatting, test, derivation-diff, and validation commands.
 docId: DOC-6
 tags: [maintainers, testing, nix]
-timestamp: 2026-10-18T01:57:53Z
+timestamp: 2026-10-18T02:26:02Z
 generated:
   by: process:codex
-  at: 2026-10-18T01:57:53Z
+  at: 2026-10-18T02:26:02Z
 ---
 
 # Maintainer tools
@@ -221,6 +221,24 @@ translated correctness gate; physical x86 performance remains unproved.
 [ADR 10](../adr/10-retain-verified-generated-dependency-recipes-in-the-existing-scope.md)
 records ownership and acceptance boundaries. Retained capture does not establish
 evaluation speed or production adoption.
+
+## Targeted update rehearsals
+
+Run the existing updater in its stock-compiler shell:
+
+```bash
+nix develop .#cohort-inventory --command python3 scripts/cohort-update.py Diff \
+  --runtime-freeze packages/runtimes/keiro-runtime/4/recipes/cabal/cohort.freeze \
+  --update-runtime
+```
+
+The compiler environment is checked before staging inputs or building the updater.
+Use a disposable checkout for rehearsals. A successful solve may be a no-op:
+inspect the impact report before claiming an update. The fixed-index Diff rehearsal
+keeps 1.0.2 because the pinned Dhall source excludes 2.0.1. A deliberately forced
+conflict preserves accepted outputs and never widens constraints automatically.
+[The diagnostic receipt](../evidence/ep19/targeted-maintenance-diagnostics.json)
+does not establish positive update/rollback or evaluation-performance acceptance.
 
 ## Compatibility declaration reports
 
