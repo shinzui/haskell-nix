@@ -4,10 +4,10 @@ title: Maintainer tools
 description: Find repository formatting, test, derivation-diff, and validation commands.
 docId: DOC-6
 tags: [maintainers, testing, nix]
-timestamp: 2026-10-18T00:22:48Z
+timestamp: 2026-10-18T00:44:12Z
 generated:
   by: process:codex
-  at: 2026-10-18T00:22:48Z
+  at: 2026-10-18T00:44:12Z
 ---
 
 # Maintainer tools
@@ -70,6 +70,25 @@ The converter must already be realized from the pinned builder's
 reported version must match the context. `check` reconverts the supplied local
 inputs with offline Nix calls and compares all artifact bytes without rewriting
 the output. Invalid arguments exit 2; drift or unverified identities exit 1.
+
+The public `RecipeGenerationContext`, `RecipeConfiguration`, package/source and
+pinned-tool records serialize through `recipeContextValue` and
+`decodeRecipeContext`; the existing generation-context codec owns solved inputs.
+Set the outer `schemaVersion` to 2 to record `convertedMetadata` and
+`dependenciesByComponent` for each converted function. Inspection evaluates the
+exact callable Nix function with symbolic dependency arguments and IFD disabled;
+it verifies the selected package name, version and metadata revision. The inventory
+keeps library, test, benchmark, Setup, native and tool dependency fields separate.
+Names describe converter arguments before reviewed policy; the final recursive
+scope still owns actual dependency resolution. Unsupported expressions reject
+publication. Format 1 remains byte-compatible and omits this inventory.
+
+The [component-role receipt](../evidence/ep19/recipe-component-roles.json) covers
+all 11 converter fixtures, mixed Hackage/fixed-source generation, stale-role and
+revision-label rejection, relocation, and unchanged format-1 artifacts. The
+Darwin updater passes all 223 tests. Both generated dependency roots and the actual
+Rei CLI retain their previous derivations. General factory/context binding and
+production performance acceptance remain open.
 
 A source-pinned input uses `revision: null` and a `sourcePin` record containing
 its solved Git repository/revision/subdirectory, archive SHA256 and verified

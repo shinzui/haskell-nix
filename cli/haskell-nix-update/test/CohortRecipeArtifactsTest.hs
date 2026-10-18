@@ -16,10 +16,9 @@ import Distribution.Version (mkVersion)
 import HaskellNix.Update.Cohort.Context
 import HaskellNix.Update.Cohort.Freeze
 import HaskellNix.Update.Cohort.GenerationTypes
-import HaskellNix.Update.Cohort.RecipeArtifacts
+import HaskellNix.Update.Cohort.RecipeArtifacts (ArtifactOptions (..), runArtifacts, decodeRecipeContext, recipeContextValue)
 import HaskellNix.Update.Cohort.Types (PlanPackage (..), PackageSource (..))
 import HaskellNix.Update.Process
-import HaskellNix.Update.Types (UpdateError (..))
 import System.Directory (createDirectory)
 import System.Exit (ExitCode (..))
 import System.FilePath ((</>))
@@ -47,7 +46,7 @@ tests = testGroup "staged complete recipe artifacts"
             first <- artifacts root
             generation <- right (generationContextValue generationContext)
             let invalid =
-                    [ object ["schemaVersion" .= (2 :: Int), "generationContext" .= generation, "configuration" .= configuration "aarch64-darwin", "packages" .= packageInputs]
+                    [ object ["schemaVersion" .= (3 :: Int), "generationContext" .= generation, "configuration" .= configuration "aarch64-darwin", "packages" .= packageInputs]
                     , object ["schemaVersion" .= (1 :: Int), "generationContext" .= generation, "configuration" .= configuration "aarch64-darwin", "packages" .= object []]
                     , object ["schemaVersion" .= (1 :: Int), "generationContext" .= generation, "configuration" .= configuration "x86_64-darwin", "packages" .= packageInputs]
                     , object ["schemaVersion" .= (1 :: Int), "generationContext" .= generation, "configuration" .= configuration "aarch64-darwin", "packages" .= packageInputsAt hash "2026-10-18T00:00:00Z"]
@@ -95,6 +94,52 @@ tests = testGroup "staged complete recipe artifacts"
                 Left (_ :: IOException) -> pure ()
                 Right value -> assertFailure ("expected refusal to replace unowned directory: " <> show value)
             TextIO.readFile (root </> "unowned/sentinel") >>= (@?= "preserve user file\n")
+    , testCase "typed recipe context round trips Hackage and fixed sources" $ do
+        let checkContext root _ = do
+                bytes <- BS.readFile (root </> "context.json")
+                original <- either assertFailure pure (eitherDecodeStrict' bytes)
+                context <- right (decodeRecipeContext bytes)
+                value <- right (recipeContextValue context)
+                value @?= original
+                decoded <- right (decodeRecipeContext (LBS.toStrict (encode value)))
+                decoded @?= context
+        fixture checkContext
+        pinFixture checkContext
+    , testCase "format two inventories component roles and rejects unverified role output" $
+        fixture $ \root options -> do
+            bytes <- BS.readFile (root </> "context.json")
+            original <- either assertFailure pure (eitherDecodeStrict' bytes)
+            value <- case original of
+                Object fields -> pure (Object (KeyMap.insert "schemaVersion" (Number 2) fields))
+                _ -> assertFailure "expected context object"
+            context <- right (decodeRecipeContext (LBS.toStrict (encode value)))
+            recipeContextValue context @?= Right value
+            LBS.writeFile (root </> "context.json") (encode value)
+            _ <- runArtifacts runner options >>= right
+            first <- artifacts root
+            manifest <- BS.readFile (root </> "out/manifest.json") >>= either assertFailure pure . eitherDecodeStrict'
+            case manifest of
+                Object fields -> do
+                    KeyMap.lookup "schemaVersion" fields @?= Just (Number 2)
+                    case KeyMap.lookup "packages" fields of
+                        Just (Object packages) -> case KeyMap.lookup "example" packages of
+                            Just (Object package) -> KeyMap.lookup "dependenciesByComponent" package @?= Just (object
+                                ["libraryHaskellDepends" .= (["base"] :: [Text]), "testHaskellDepends" .= (["HUnit"] :: [Text])])
+                            _ -> assertFailure "missing package"
+                        _ -> assertFailure "missing package inventory"
+                _ -> assertFailure "invalid manifest"
+            let malformed = ProcessRunner $ \spec ->
+                    if spec.executable == "nix" && take 2 spec.arguments == ["--offline", "eval"]
+                        then pure (Right (ProcessResult ExitSuccess "{\"metadata\":{\"name\":\"example\",\"version\":\"1\",\"revision\":\"1\"},\"dependenciesByComponent\":{\"libraryHaskellDepends\":[false]}}" "")) else runner.runProcess spec
+            runArtifacts malformed options >>= left
+            artifacts root >>= (@?= first)
+            forM_ [("wrong-package", "1"), ("example", "2")] $ \(name, revision) -> do
+                let wrongIdentity = ProcessRunner $ \spec ->
+                        if spec.executable == "nix" && take 2 spec.arguments == ["--offline", "eval"]
+                            then pure (Right (ProcessResult ExitSuccess
+                                ("{\"metadata\":{\"name\":\"" <> name <> "\",\"version\":\"1\",\"revision\":\"" <> revision <> "\"},\"dependenciesByComponent\":{}}") "")) else runner.runProcess spec
+                runArtifacts wrongIdentity options >>= left
+                artifacts root >>= (@?= first)
     , testCase "fixed source metadata is verified without inventing a Hackage revision" $
         pinFixture $ \root options -> do
             _ <- runArtifacts (pinRunner root) options >>= right
@@ -205,6 +250,7 @@ converterExecutable = Text.unpack output </> "bin/cabal2nix"
 runner :: ProcessRunner
 runner = ProcessRunner $ \spec -> pure $ Right $ ProcessResult ExitSuccess
     (if spec.executable == "nix" then case spec.arguments of
+        "--offline" : "eval" : _ -> "{\"metadata\":{\"name\":\"example\",\"version\":\"1\",\"revision\":\"1\"},\"dependenciesByComponent\":{\"libraryHaskellDepends\":[\"base\"],\"testHaskellDepends\":[\"HUnit\"]}}"
         "--offline" : "store" : "prefetch-file" : _ -> "{\"hash\":\"sha256-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=\"}"
         "--offline" : "derivation" : "show" : _ -> "{\"derivations\":{\"fixed-converter.drv\":{\"outputs\":{\"bin\":{\"path\":\"fixed-converter-bin\"}}}}}"
         _ -> hash

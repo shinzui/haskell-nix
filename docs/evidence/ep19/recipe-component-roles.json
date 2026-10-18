@@ -1,0 +1,465 @@
+{
+  "schema_version": 1,
+  "status": "Format-2 typed context, converted identity and component-role checkpoint passes on Darwin; M2/M3/M4 remain open",
+  "system": "aarch64-darwin",
+  "updater_tests": 223,
+  "fixture_functions_inspected_with_ifd_disabled": {
+    "base16-bytestring.nix": {
+      "benchmarkHaskellDepends": [
+        "base",
+        "bytestring",
+        "criterion",
+        "deepseq"
+      ],
+      "libraryHaskellDepends": [
+        "base",
+        "bytestring"
+      ],
+      "testHaskellDepends": [
+        "base",
+        "bytestring",
+        "HUnit",
+        "QuickCheck",
+        "test-framework",
+        "test-framework-hunit",
+        "test-framework-quickcheck2"
+      ]
+    },
+    "base64-bytestring.nix": {
+      "benchmarkHaskellDepends": [
+        "base",
+        "bytestring",
+        "criterion",
+        "deepseq"
+      ],
+      "libraryHaskellDepends": [
+        "base",
+        "bytestring"
+      ],
+      "testHaskellDepends": [
+        "base",
+        "bytestring",
+        "HUnit",
+        "QuickCheck",
+        "test-framework",
+        "test-framework-hunit",
+        "test-framework-quickcheck2"
+      ]
+    },
+    "bytestring-lexing.nix": {
+      "libraryHaskellDepends": [
+        "base",
+        "bytestring"
+      ],
+      "testHaskellDepends": [
+        "base",
+        "bytestring",
+        "tasty",
+        "tasty-quickcheck",
+        "tasty-smallcheck"
+      ]
+    },
+    "consumer.nix": {
+      "executableHaskellDepends": [
+        "base",
+        "recipe-leaf",
+        "recipe-pinned"
+      ]
+    },
+    "cryptohash-sha256.nix": {
+      "benchmarkHaskellDepends": [
+        "base",
+        "bytestring",
+        "criterion",
+        "SHA"
+      ],
+      "libraryHaskellDepends": [
+        "base",
+        "bytestring"
+      ],
+      "testHaskellDepends": [
+        "base",
+        "base16-bytestring",
+        "bytestring",
+        "SHA",
+        "tasty",
+        "tasty-hunit",
+        "tasty-quickcheck"
+      ]
+    },
+    "entropy.nix": {
+      "libraryHaskellDepends": [
+        "base",
+        "bytestring",
+        "unix"
+      ],
+      "setupHaskellDepends": [
+        "base",
+        "Cabal",
+        "directory",
+        "filepath",
+        "process"
+      ]
+    },
+    "file-embed.nix": {
+      "libraryHaskellDepends": [
+        "base",
+        "bytestring",
+        "directory",
+        "filepath",
+        "template-haskell"
+      ],
+      "testHaskellDepends": [
+        "base",
+        "bytestring",
+        "filepath"
+      ]
+    },
+    "flagged.nix": {
+      "libraryHaskellDepends": [
+        "base",
+        "text"
+      ]
+    },
+    "leaf.nix": {
+      "libraryHaskellDepends": [
+        "base"
+      ]
+    },
+    "pinned.nix": {
+      "libraryHaskellDepends": [
+        "base"
+      ],
+      "librarySystemDepends": [
+        "zlib"
+      ],
+      "setupHaskellDepends": [
+        "base",
+        "Cabal"
+      ]
+    },
+    "revised.nix": {
+      "libraryHaskellDepends": [
+        "base",
+        "bytestring",
+        "recipe-pinned"
+      ]
+    }
+  },
+  "mixed_package_inventory": {
+    "base64-bytestring": {
+      "convertedMetadata": {
+        "name": "base64-bytestring",
+        "revision": "1",
+        "version": "1.2.1.0"
+      },
+      "dependenciesByComponent": {
+        "benchmarkHaskellDepends": [
+          "base",
+          "bytestring",
+          "criterion",
+          "deepseq"
+        ],
+        "libraryHaskellDepends": [
+          "base",
+          "bytestring"
+        ],
+        "testHaskellDepends": [
+          "base",
+          "bytestring",
+          "HUnit",
+          "QuickCheck",
+          "test-framework",
+          "test-framework-hunit",
+          "test-framework-quickcheck2"
+        ]
+      }
+    },
+    "cmark-gfm": {
+      "convertedMetadata": {
+        "name": "cmark-gfm",
+        "revision": null,
+        "version": "0.2.6"
+      },
+      "dependenciesByComponent": {
+        "libraryHaskellDepends": [
+          "base",
+          "bytestring",
+          "text"
+        ],
+        "testHaskellDepends": [
+          "base",
+          "HUnit",
+          "text"
+        ]
+      }
+    }
+  },
+  "exercise": {
+    "status": "passed",
+    "results": [
+      {
+        "name": "repeat",
+        "command": [
+          "/Users/shinzui/Keikaku/bokuno/haskell-nix/dist-newstyle/build/aarch64-osx/ghc-9.12.4/haskell-nix-update-0.1.0.0/x/haskell-nix-update/build/haskell-nix-update/haskell-nix-update",
+          "cohort",
+          "recipes",
+          "generate",
+          "--context",
+          "/tmp/ep19-recipe-roles-inputs/context.json",
+          "--out",
+          "/tmp/ep19-recipe-roles-artifacts-v1"
+        ],
+        "exit_code": 0,
+        "elapsed_seconds": 1.2374384170398116
+      },
+      {
+        "name": "check",
+        "command": [
+          "/Users/shinzui/Keikaku/bokuno/haskell-nix/dist-newstyle/build/aarch64-osx/ghc-9.12.4/haskell-nix-update-0.1.0.0/x/haskell-nix-update/build/haskell-nix-update/haskell-nix-update",
+          "cohort",
+          "recipes",
+          "check",
+          "--context",
+          "/tmp/ep19-recipe-roles-inputs/context.json",
+          "--out",
+          "/tmp/ep19-recipe-roles-artifacts-v1"
+        ],
+        "exit_code": 0,
+        "elapsed_seconds": 1.1988990000099875
+      },
+      {
+        "name": "relocation",
+        "command": [
+          "/Users/shinzui/Keikaku/bokuno/haskell-nix/dist-newstyle/build/aarch64-osx/ghc-9.12.4/haskell-nix-update-0.1.0.0/x/haskell-nix-update/build/haskell-nix-update/haskell-nix-update",
+          "cohort",
+          "recipes",
+          "generate",
+          "--context",
+          "/tmp/ep19-recipe-roles-inputs-relocated-final/context.json",
+          "--out",
+          "/tmp/ep19-recipe-roles-artifacts-relocated-final"
+        ],
+        "exit_code": 0,
+        "elapsed_seconds": 1.3940023750183173
+      },
+      {
+        "name": "format-one-hackage",
+        "command": [
+          "/Users/shinzui/Keikaku/bokuno/haskell-nix/dist-newstyle/build/aarch64-osx/ghc-9.12.4/haskell-nix-update-0.1.0.0/x/haskell-nix-update/build/haskell-nix-update/haskell-nix-update",
+          "cohort",
+          "recipes",
+          "check",
+          "--context",
+          "/tmp/ep19-bounded-artifact-inputs/context.json",
+          "--out",
+          "/tmp/ep19-bounded-artifacts-v1"
+        ],
+        "exit_code": 0,
+        "elapsed_seconds": 0.46669987501809373
+      },
+      {
+        "name": "format-one-mixed",
+        "command": [
+          "/Users/shinzui/Keikaku/bokuno/haskell-nix/dist-newstyle/build/aarch64-osx/ghc-9.12.4/haskell-nix-update-0.1.0.0/x/haskell-nix-update/build/haskell-nix-update/haskell-nix-update",
+          "cohort",
+          "recipes",
+          "check",
+          "--context",
+          "/tmp/ep19-source-pin-context-inputs/context.json",
+          "--out",
+          "/tmp/ep19-source-pin-artifacts-v1"
+        ],
+        "exit_code": 0,
+        "elapsed_seconds": 1.0943769590230659
+      },
+      {
+        "name": "reject-role-drift",
+        "command": [
+          "/Users/shinzui/Keikaku/bokuno/haskell-nix/dist-newstyle/build/aarch64-osx/ghc-9.12.4/haskell-nix-update-0.1.0.0/x/haskell-nix-update/build/haskell-nix-update/haskell-nix-update",
+          "cohort",
+          "recipes",
+          "check",
+          "--context",
+          "/tmp/ep19-recipe-roles-inputs/context.json",
+          "--out",
+          "/tmp/ep19-recipe-roles-exercise-final/damaged-roles"
+        ],
+        "exit_code": 1,
+        "elapsed_seconds": 1.4406012080144137
+      },
+      {
+        "name": "reject-revision-label",
+        "command": [
+          "/Users/shinzui/Keikaku/bokuno/haskell-nix/dist-newstyle/build/aarch64-osx/ghc-9.12.4/haskell-nix-update-0.1.0.0/x/haskell-nix-update/build/haskell-nix-update/haskell-nix-update",
+          "cohort",
+          "recipes",
+          "generate",
+          "--context",
+          "/tmp/ep19-recipe-roles-inputs/context.json",
+          "--out",
+          "/tmp/ep19-recipe-roles-artifacts-v1"
+        ],
+        "exit_code": 1,
+        "elapsed_seconds": 0.5881472500041127
+      }
+    ],
+    "artifact_tree_sha256s": {
+      ".recipe-artifacts": "3b68af8188320bdd757a7ee818e27d6211e4103aeeea8fbe1bc8491b21f505d8",
+      "extension.nix": "ef13b7496ca0b1d71896462fe0cb658db60b2bb89d0a38362299d9a678c147d5",
+      "manifest.json": "705a985a26a3e04ea7cd3b4b0dc57fedf22864c10a22d0d825b7922cf74c8097",
+      "packages/base64-bytestring.nix": "84f3fbe710dc6d3c3bc23a619be6a09103deebed3a3b7ce698a596307180d16d",
+      "packages/cmark-gfm.nix": "dd795331ec37a0e158ce6e944db9c623f203f9ceaf0fea71e55105aeb78506e6"
+    },
+    "repeat_and_relocation_byte_identical": true,
+    "legacy_format_one_checks_unchanged": true,
+    "raw_functions_and_extension_equal_format_one": true,
+    "removed_role_rejected_without_writes": true,
+    "scope": "Role inventory of the exact converter function; final recursive scope owns package resolution and reviewed policy. No performance/adoption claim."
+  },
+  "native_parity": {
+    "status": "passed",
+    "results": [
+      {
+        "name": "no-ifd",
+        "command": [
+          "nix",
+          "eval",
+          "--impure",
+          "--json",
+          "--file",
+          "/tmp/ep19-recipe-roles-parity.nix",
+          "scoped",
+          "--option",
+          "allow-import-from-derivation",
+          "false",
+          "--max-jobs",
+          "0",
+          "--builders",
+          ""
+        ],
+        "exit_code": 0,
+        "elapsed_seconds": 1.2067937499959953
+      },
+      {
+        "name": "identity",
+        "command": [
+          "nix",
+          "eval",
+          "--impure",
+          "--json",
+          "--file",
+          "/tmp/ep19-recipe-roles-parity.nix",
+          "identity",
+          "--max-jobs",
+          "0",
+          "--builders",
+          ""
+        ],
+        "exit_code": 0,
+        "elapsed_seconds": 13.041464291978627
+      }
+    ],
+    "identity": {
+      "base64-bytestring": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+      "candidate": "/nix/store/d3vb7xcx7rarrf65s0jjpcnamfcs5syb-cmark-gfm-0.2.6.drv",
+      "consumerCandidate": "/nix/store/l6afxry8yviihkab53lb13n3awn371iy-rei-cli-7.1.0.0.drv",
+      "consumerLegacy": "/nix/store/l6afxry8yviihkab53lb13n3awn371iy-rei-cli-7.1.0.0.drv",
+      "legacy": "/nix/store/d3vb7xcx7rarrf65s0jjpcnamfcs5syb-cmark-gfm-0.2.6.drv",
+      "legacyConfigureFlags": [],
+      "normalizedConfigureFlags": [],
+      "origin": {
+        "hash": "sha256-NPzWjJQH/4IInSezr2nqI8sn0HtjBhqGP7oIP5FcPec=",
+        "hashMode": "recursive",
+        "path": "/nix/store/dds0lw82rk1gnfagrpfm5h04lb4f9j6k-source",
+        "revision": "a9014e8c4974d636e7c8f85cd97812905d217faf",
+        "urls": [
+          "https://github.com/shinzui/cmark-gfm-hs/archive/a9014e8c4974d636e7c8f85cd97812905d217faf.tar.gz"
+        ]
+      },
+      "rawCandidate": "/nix/store/lsh7d8ajjvw85vp6gg5gm2fxs53ksxa7-cmark-gfm-0.2.6.drv",
+      "rawConfigureFlags": [
+        "-f-pkgconfig"
+      ],
+      "validation": "/nix/store/wqvff7xkbx616jkvs1vvdyi1q327yv1m-cmark-gfm-0.2.6.drv"
+    }
+  },
+  "limits": [
+    "Names identify raw converter function arguments by component before reviewed policy; final recursive scope resolves actual dependencies.",
+    "Version 1 inputs and outputs remain byte-compatible. New version 2 is explicit; nested generation context remains version 1.",
+    "Failed pure-path and relative-path prototypes and all captured updater test iterations retained. Final inspector permits explicit local files with --impure while disabling IFD.",
+    "New Linux matrix, general retained factory binding, update/rollback, production adoption and performance/cost acceptance remain pending.",
+    "No source selection, policy, runtime generation or consumer changed."
+  ],
+  "raw_archive": {
+    "path": "docs/evidence/ep19/recipe-component-roles.raw.tar.gz",
+    "sha256": "74dee12b2479c7d0a36f1a61ffa5ca220d8d547f747650f9f6e765787746a89e",
+    "members": {
+      "artifacts/.recipe-artifacts": "3b68af8188320bdd757a7ee818e27d6211e4103aeeea8fbe1bc8491b21f505d8",
+      "artifacts/extension.nix": "ef13b7496ca0b1d71896462fe0cb658db60b2bb89d0a38362299d9a678c147d5",
+      "artifacts/manifest.json": "705a985a26a3e04ea7cd3b4b0dc57fedf22864c10a22d0d825b7922cf74c8097",
+      "artifacts/packages/base64-bytestring.nix": "84f3fbe710dc6d3c3bc23a619be6a09103deebed3a3b7ce698a596307180d16d",
+      "artifacts/packages/cmark-gfm.nix": "dd795331ec37a0e158ce6e944db9c623f203f9ceaf0fea71e55105aeb78506e6",
+      "code/cli/haskell-nix-update/src/HaskellNix/Update/Cohort/RecipeArtifacts.hs": "59ce7472f5b18217c8e75a00a436d3db3cf65e33f8e2996133252cca8225db06",
+      "code/cli/haskell-nix-update/test/CohortRecipeArtifactsTest.hs": "b77133f627fb893f7091efa6ecaca668b9127bdc2f645146c94eb14259d463c9",
+      "drivers/ep19-export-format-two.hs": "e89dcb8d4909882db5d319702389920676652a44a70fb6ed7753a201f733beb1",
+      "drivers/ep19-inspect-role-fixtures.hs": "61a6e95c2658cd278b766727d92ea54f82081aa899bb7626b98f51b37a7ad78e",
+      "exercise/check.log": "02046dc687b511303229a6b2fa058a04a546b13b56b12119a48b43d6d1c8642a",
+      "exercise/damaged-roles/.recipe-artifacts": "3b68af8188320bdd757a7ee818e27d6211e4103aeeea8fbe1bc8491b21f505d8",
+      "exercise/damaged-roles/extension.nix": "ef13b7496ca0b1d71896462fe0cb658db60b2bb89d0a38362299d9a678c147d5",
+      "exercise/damaged-roles/manifest.json": "247040a4e0400828733077abf60f2100aa1ab718577aee146470ec5c38458bb8",
+      "exercise/damaged-roles/packages/base64-bytestring.nix": "84f3fbe710dc6d3c3bc23a619be6a09103deebed3a3b7ce698a596307180d16d",
+      "exercise/damaged-roles/packages/cmark-gfm.nix": "dd795331ec37a0e158ce6e944db9c623f203f9ceaf0fea71e55105aeb78506e6",
+      "exercise/format-one-hackage.log": "1a704889a82775c4496874ea7f6dd12b56eead4f79707506d12e516003c2a865",
+      "exercise/format-one-mixed.log": "02046dc687b511303229a6b2fa058a04a546b13b56b12119a48b43d6d1c8642a",
+      "exercise/receipt.json": "b9c7f5ef40a98bb00926cd420fdc8b668a64519726d7ba60460e51cf53743be8",
+      "exercise/reject-revision-label.log": "12a2a2e424be2d86f02f4fa6e7b44976e935cace441d188adeef56f86877fabe",
+      "exercise/reject-role-drift.log": "a8eed7a28b18e58d1318e8f45c79c7a48015c632d853b8f69f8689a2d7056fa0",
+      "exercise/relocation.log": "37484defd585af5f2db5b63cbd9627b5fc41d45fa2631663f997fc15ce2a5041",
+      "exercise/repeat.log": "37484defd585af5f2db5b63cbd9627b5fc41d45fa2631663f997fc15ce2a5041",
+      "fixtures/base16-bytestring.nix": "7f06f7299b155db7f3459f71f819ac0cc070b2492a6770a3b7a45b98f76b205e",
+      "fixtures/base64-bytestring.nix": "84f3fbe710dc6d3c3bc23a619be6a09103deebed3a3b7ce698a596307180d16d",
+      "fixtures/bytestring-lexing.nix": "9511dbdd75b32e3edfebbc6bc4e3593dab92205bbe4e3ce04db371c1c35b61fb",
+      "fixtures/consumer.nix": "5b9ca4fad8c38f0c4eb0126237724a9777408baf5c6f863d141361a71b683b4b",
+      "fixtures/cryptohash-sha256.nix": "a30f7a816c9664b7ed07e45eb2b465b507f658f56b60bebf2a69899c671c6dd3",
+      "fixtures/entropy.nix": "a6f63bb23facc5559505c92794038c3641c22e1e6305856b29e4ef69f06c3134",
+      "fixtures/file-embed.nix": "512530137e1b06fef4d8670fb208458e91bbf4eeb281f8ceaeca570f5ca1f566",
+      "fixtures/flagged.nix": "6bd5aac9b4f5315a025e7b5a4d736511121ec01752dd3a5ba6116d903a8d2a80",
+      "fixtures/leaf.nix": "c8124d5867660e63d6a74fc1fa844460dcafdbdab5577ffdf8b3a26404904b1d",
+      "fixtures/pinned.nix": "0c8f127825f1d3bcd9fb06ae9dd8e9e44183eb07c68e4a68baa2724175529a29",
+      "fixtures/revised.nix": "b16321fd343eb1809b5700a48dfbee3c9d0bbeb096345fc36a250127fc54363d",
+      "host/ep19-recipe-roles-cli-build-final.log": "55236fc17b4ffb860c2099158fe21dc3cf73801259dba4359366e625d807593e",
+      "host/ep19-recipe-roles-cli-build-v3.log": "55236fc17b4ffb860c2099158fe21dc3cf73801259dba4359366e625d807593e",
+      "host/ep19-recipe-roles-cli-build.log": "e8962378876a2a3da3176b69e2d918dd52a95342bb8d59ca4104626479cf990b",
+      "host/ep19-recipe-roles-exercise-driver.log": "3ae59111dd639bf499e505a613d3f903e524d5c927791a1d6d352ed3bb279aeb",
+      "host/ep19-recipe-roles-exercise-final-driver.log": "3ae59111dd639bf499e505a613d3f903e524d5c927791a1d6d352ed3bb279aeb",
+      "host/ep19-recipe-roles-exercise-final.py": "273ec5c78c9977531171ceca8cb2e5fc78d99030a526b457b8b28bc96234e0cb",
+      "host/ep19-recipe-roles-exercise.py": "03022e7e83bf80fd28e01899f569cba3028e2f7ec521505b09d26134d4354c01",
+      "host/ep19-recipe-roles-identity.json": "f7182ec43617151cdb4f0e96d47b08ad6b95a489c5cfafb6df37c3bd9a6a7290",
+      "host/ep19-recipe-roles-identity.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "host/ep19-recipe-roles-initial-tests.log": "31788083030bf295ece78cae8bc3ec138abf3089a01bc7738126f03959af7c22",
+      "host/ep19-recipe-roles-no-ifd.json": "f267e4aecb3e303d38ee37e496987f1139812fa7e509565a9274b32f2eea43d2",
+      "host/ep19-recipe-roles-no-ifd.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "host/ep19-recipe-roles-parity-receipt.json": "dc765ff1921ca3d9a39819cd821ad31d98a94d21d563af5b99ac3a3d57a5761b",
+      "host/ep19-recipe-roles-parity.nix": "2f60fc7adff2d491017aa12d70e4a37c9afd3be660fa5521fa7232899250a87e",
+      "host/ep19-recipe-roles-real-generate-final.log": "37484defd585af5f2db5b63cbd9627b5fc41d45fa2631663f997fc15ce2a5041",
+      "host/ep19-recipe-roles-real-generate-v2.log": "a640555e46d2bcf57dff2cd3f1d740692f19fa59eb7643fbed51638d6a8c41fa",
+      "host/ep19-recipe-roles-real-generate.log": "6b2b5a02ed1141e2a29b9b21c9ad36dd749e61de7443ee077fb3e85634272b4d",
+      "host/ep19-recipe-roles-tests-final.log": "50525365c8cb224adf4fb9399c86b484030c832406f164b4d89b3531d7cb7a12",
+      "host/ep19-recipe-roles-tests-v2.log": "9758f31c74e3545be0ab33136526f6cb89f3a3bf62e31851c442a6eef61d64f5",
+      "host/ep19-recipe-roles-tests-v3.log": "941ea6fd900a5bcd5a9668619b1aee6e42a7b9d3973234ffcd3c56f867fb01f7",
+      "host/ep19-recipe-roles-tests-v4.log": "6033c3a5c84e832b88d392f872a429593996f06c813d3f4788a8967fa23d562f",
+      "host/ep19-role-fixture-inventory-final.log": "a9d44252aeca03bf3f98f840505330b9b2ba2b7109eac4a6e25e790ce4b7b7e6",
+      "host/ep19-role-fixture-inventory-v2.log": "a9d44252aeca03bf3f98f840505330b9b2ba2b7109eac4a6e25e790ce4b7b7e6",
+      "host/ep19-role-fixture-inventory.json": "5d430148fab8584c81fc931838f321e0637fb4a557859569f8aa06c139c139c9",
+      "host/ep19-role-fixture-inventory.log": "b0b00b01486bde70b6a8f70997441cd51a37ef2a214eb271ac2390f6382898cd",
+      "inputs/base64-bytestring-1.2.1.0.tar.gz": "fbf8ed30edde271eb605352021431d8f1b055f95a56af31fe2eacf6bdfdc49c9",
+      "inputs/base64-bytestring.cabal": "45305ccf8914c66d385b518721472c7b8c858f1986945377f74f85c1e0d49803",
+      "inputs/cmark-gfm-hs-a9014e8.tar.gz": "5ce3f559333e61ee534f57400fdce29200e899c2405d26c7e85e80936a2a519c",
+      "inputs/cmark-gfm.cabal": "ed52f082c176d2f21e481a5b9c6ab02bd1ad7f6cf4044dd8bc9cd25dafb29853",
+      "inputs/context.json": "f557552974fa4efc9b335f25d3e1c555c41b1e60dc4ccf032dc317a188aaf83d",
+      "inputs/generation-context.json": "fd711ed5e49882bb4eacf2f3eb8bddc0677fb712da4e81700e0c5ad573c7fb29",
+      "inputs/selected-revision.json": "e4b5b89c4b6bd01e5f76123d32e5a64a4a7ecf4d08ba4e664101e9a44559b10d"
+    }
+  }
+}

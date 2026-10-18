@@ -3,6 +3,9 @@
 module HaskellNix.Update.Cohort.RecipeArtifacts (
     ArtifactOptions (..),
     runArtifacts,
+    RecipeGenerationContext (..), RecipeConfiguration (..), RecipePackageInput (..),
+    RecipeToolIdentity (..), PinnedRecipeSource (..),
+    recipeContextValue, decodeRecipeContext, inspectRecipeRoles,
 ) where
 
 import Control.Exception (onException)
@@ -42,38 +45,42 @@ data ArtifactOptions = ArtifactOptions
     { contextPath :: !FilePath, outputDirectory :: !FilePath, checkOnly :: !Bool }
     deriving stock (Eq, Show)
 
-data Configuration = Configuration
+data RecipeConfiguration = RecipeConfiguration
     { compilerKey :: !Text, compilerVersion :: !Version, system :: !Text
     , channel :: !Text, nixpkgsRevision :: !Text, policyIdentity :: !Text
-    , converterDerivation :: !Text, converterOutput :: !Text, converterVersion :: !Text
-    , extractor :: !(Maybe ToolIdentity)
+    , converter :: !RecipeToolIdentity, extractor :: !(Maybe RecipeToolIdentity)
     } deriving stock (Eq, Show)
 
-data ToolIdentity = ToolIdentity
+data RecipeToolIdentity = RecipeToolIdentity
     { toolDerivation :: !Text, toolOutput :: !Text, toolVersion :: !Text }
     deriving stock (Eq, Show)
 
-data PinInput = PinInput
+data PinnedRecipeSource = PinnedRecipeSource
     { repository :: !Text, gitRevision :: !Text, subdirectory :: !Text
     , archiveSha256 :: !Text, metadataSha256 :: !Text
     } deriving stock (Eq, Show)
 
-data PackageInput = PackageInput
+data RecipePackageInput = RecipePackageInput
     { metadataPath :: !FilePath, archivePath :: !FilePath, unpackedHash :: !Text
-    , revision :: !(Maybe HackageRevision), sourcePin :: !(Maybe PinInput)
+    , revision :: !(Maybe HackageRevision), sourcePin :: !(Maybe PinnedRecipeSource)
     , nativeArguments :: !(Map Text Text)
     } deriving stock (Eq, Show)
 
-data Context = Context
-    { generation :: !GenerationContext, configuration :: !Configuration
-    , packages :: !(Map Text PackageInput)
+data RecipeInspection = RecipeInspection
+    { convertedName :: !Text, convertedVersion :: !Text, convertedRevision :: !(Maybe Text)
+    , dependencyRoles :: !(Map Text [Text])
+    } deriving stock (Eq, Show)
+
+data RecipeGenerationContext = RecipeGenerationContext
+    { formatVersion :: !Int, generation :: !GenerationContext, configuration :: !RecipeConfiguration
+    , packages :: !(Map Text RecipePackageInput)
     } deriving stock (Eq, Show)
 
 -- Generated Hackage coverage is complete. Source pins require a separate,
 -- explicit verified GitHub archive declaration; other constructors stay owned
 -- by the original classifier and are never silently converted.
-decodeContext :: BS.ByteString -> Either Text Context
-decodeContext bytes = do
+decodeRecipeContext :: BS.ByteString -> Either Text RecipeGenerationContext
+decodeRecipeContext bytes = do
     value <- either (Left . Text.pack) Right (eitherDecodeStrict' bytes)
     context <- either (Left . Text.pack) Right (parseEither parser value)
     classified <- classifyCohort context.generation
@@ -89,9 +96,7 @@ decodeContext bytes = do
         && cfg.channel `elem` ["github", "hackage"])
         (Left "unsupported explicit recipe compiler/system/channel configuration")
     unless (Text.length cfg.nixpkgsRevision == 40 && Text.all hex cfg.nixpkgsRevision
-        && validHash cfg.policyIdentity && not (Text.null cfg.converterVersion)
-        && Text.isPrefixOf "/nix/store/" cfg.converterDerivation && Text.isSuffixOf ".drv" cfg.converterDerivation
-        && Text.isPrefixOf "/nix/store/" cfg.converterOutput)
+        && validHash cfg.policyIdentity && validTool cfg.converter)
         (Left "recipe context requires exact nixpkgs, policy and converter identities")
     cutoff <- maybe (Left "invalid recipe metadata cutoff") Right
         (parseTimeM True defaultTimeLocale "%Y-%m-%dT%H:%M:%SZ" (Text.unpack context.generation.document.freezeIndexState) :: Maybe UTCTime)
@@ -106,22 +111,20 @@ decodeContext bytes = do
     parser = withObject "recipe context" $ \o -> do
         exact ["schemaVersion", "generationContext", "configuration", "packages"] o
         schema :: Int <- o .: "schemaVersion"
-        unless (schema == 1) (fail "unsupported recipe context schema")
+        unless (schema `elem` [1, 2]) (fail "unsupported recipe context schema")
         raw <- o .: "generationContext"
         generation <- either (fail . Text.unpack) pure (decodeGenerationContext (encodeUtf8 (canonicalJSON raw)))
-        Context generation <$> (o .: "configuration" >>= parseConfiguration) <*> (o .: "packages" >>= traverse parsePackage)
+        RecipeGenerationContext schema generation <$> (o .: "configuration" >>= parseConfiguration) <*> (o .: "packages" >>= traverse parsePackage)
     parseConfiguration = withObject "recipe configuration" $ \o -> do
         exact (["compilerKey", "compilerVersion", "system", "channel", "nixpkgsRevision", "policyIdentity", "converter"] <> ["extractor" | KeyMap.member "extractor" o]) o
         compiler <- o .: "compilerVersion" >>= either (fail . Text.unpack) pure . parseVersion
-        (drv, output, version) <- o .: "converter" >>= withObject "recipe converter" (\c -> do
-            exact ["derivation", "output", "version"] c
-            (,,) <$> c .: "derivation" <*> c .: "output" <*> c .: "version")
-        Configuration <$> o .: "compilerKey" <*> pure compiler <*> o .: "system" <*> o .: "channel"
-            <*> o .: "nixpkgsRevision" <*> o .: "policyIdentity" <*> pure drv <*> pure output <*> pure version
+        converter <- o .: "converter" >>= parseTool
+        RecipeConfiguration <$> o .: "compilerKey" <*> pure compiler <*> o .: "system" <*> o .: "channel"
+            <*> o .: "nixpkgsRevision" <*> o .: "policyIdentity" <*> pure converter
             <*> traverse parseTool (KeyMap.lookup "extractor" o)
     parseTool = withObject "pinned artifact tool" $ \o -> do
         exact ["derivation", "output", "version"] o
-        ToolIdentity <$> o .: "derivation" <*> o .: "output" <*> o .: "version"
+        RecipeToolIdentity <$> o .: "derivation" <*> o .: "output" <*> o .: "version"
     parsePackage = withObject "recipe package input" $ \o -> do
         exact (["metadataPath", "archivePath", "unpackedHash", "revision", "nativeArguments"] <> ["sourcePin" | KeyMap.member "sourcePin" o]) o
         selected <- o .: "revision" >>= \value -> case value of
@@ -131,8 +134,8 @@ decodeContext bytes = do
                 HackageRevision <$> r .: "number" <*> r .: "time" <*> r .: "sha256") value
         pin <- traverse (withObject "fixed GitHub source archive" $ \g -> do
             exact ["repository", "revision", "subdirectory", "archiveSha256", "metadataSha256"] g
-            PinInput <$> g .: "repository" <*> g .: "revision" <*> g .: "subdirectory" <*> g .: "archiveSha256" <*> g .: "metadataSha256") (KeyMap.lookup "sourcePin" o)
-        PackageInput <$> o .: "metadataPath" <*> o .: "archivePath" <*> o .: "unpackedHash" <*> pure selected <*> pure pin <*> o .: "nativeArguments"
+            PinnedRecipeSource <$> g .: "repository" <*> g .: "revision" <*> g .: "subdirectory" <*> g .: "archiveSha256" <*> g .: "metadataSha256") (KeyMap.lookup "sourcePin" o)
+        RecipePackageInput <$> o .: "metadataPath" <*> o .: "archivePath" <*> o .: "unpackedHash" <*> pure selected <*> pure pin <*> o .: "nativeArguments"
     exact keys fields = unless (length keys == KeyMap.size fields && all (`KeyMap.member` fields) keys)
         (fail "missing or unknown recipe context fields")
     hex c = c `elem` ("0123456789abcdefABCDEF" :: String)
@@ -190,6 +193,24 @@ githubParts location = case Text.stripPrefix "https://github.com/" location of
     valid part = not (Text.null part) && part /= "." && part /= ".."
         && Text.all (\c -> isAscii c && (isAlphaNum c || c `elem` ['-', '_', '.'])) part
 
+
+recipeContextValue :: RecipeGenerationContext -> Either Text Value
+recipeContextValue context = do
+    generation <- generationContextValue context.generation
+    let value = object
+            [ "schemaVersion" .= context.formatVersion, "generationContext" .= generation
+            , "configuration" .= configurationValue context.configuration
+            , "packages" .= Map.map inputValue context.packages
+            ]
+    _ <- decodeRecipeContext (encodeUtf8 (canonicalJSON value))
+    pure value
+  where
+    inputValue input = object
+        ([ "metadataPath" .= input.metadataPath, "archivePath" .= input.archivePath
+         , "unpackedHash" .= input.unpackedHash, "revision" .= maybe Null revisionValue input.revision
+         , "nativeArguments" .= input.nativeArguments
+         ] <> ["sourcePin" .= pinValue pin | pin <- maybe [] pure input.sourcePin])
+
 runArtifacts :: ProcessRunner -> ArtifactOptions -> IO (Either UpdateError Text)
 runArtifacts runner options = runExceptT $ do
     contextFile <- lift (normalise <$> makeAbsolute options.contextPath)
@@ -197,14 +218,14 @@ runArtifacts runner options = runExceptT $ do
     unless (target /= "/" && contextFile /= target && not (Text.pack (target <> "/") `Text.isPrefixOf` Text.pack contextFile))
         (failText "recipe output cannot contain its context input")
     captured <- lift (BS.readFile contextFile)
-    context <- fromText (decodeContext captured)
+    context <- fromText (decodeRecipeContext captured)
     let cfg = context.configuration
-        executable = Text.unpack cfg.converterOutput </> "bin/cabal2nix"
-    proof <- command "nix" ["--offline", "derivation", "show", Text.unpack cfg.converterDerivation]
+        executable = Text.unpack cfg.converter.toolOutput </> "bin/cabal2nix"
+    proof <- command "nix" ["--offline", "derivation", "show", Text.unpack cfg.converter.toolDerivation]
     outputs <- fromText (converterOutputs proof)
-    unless (cfg.converterOutput `elem` outputs) (failText "converter output is not an output of the declared derivation")
+    unless (cfg.converter.toolOutput `elem` outputs) (failText "converter output is not an output of the declared derivation")
     version <- Text.strip <$> command executable ["--version"]
-    unless (version == cfg.converterVersion) (failText "converter version differs from the explicit context")
+    unless (version == cfg.converter.toolVersion) (failText "converter version differs from the explicit context")
     forM_ cfg.extractor $ \tool -> do
         toolProof <- command "nix" ["--offline", "derivation", "show", Text.unpack tool.toolDerivation]
         toolOutputs <- fromText (converterOutputs toolProof)
@@ -266,9 +287,22 @@ runArtifacts runner options = runExceptT $ do
             lift (TextIO.writeFile output recipe)
             hash <- Text.strip <$> command "nix" ["hash", "file", "--type", "sha256", "--base16", output]
             unless (validHash hash) (failText "invalid generated recipe content hash")
-            pure (name, hash)
+            inspection <- if context.formatVersion == 2 then do
+                facts <- ExceptT (inspectRecipe runner output)
+                unless (facts.convertedName == name && facts.convertedVersion == package.selectedPackage.version)
+                    (failText "converted package name/version disagrees with the selected source identity")
+                case (input.sourcePin, input.revision) of
+                    (Just _, Nothing) -> unless (facts.convertedRevision == Nothing)
+                        (failText "fixed source conversion unexpectedly requests Hackage metadata")
+                    (Nothing, Just r) -> unless (facts.convertedRevision == Just (Text.pack (show r.revisionNumber))
+                        || (r.revisionNumber == 0 && facts.convertedRevision == Nothing))
+                        (failText "converted metadata revision disagrees with the selected revision")
+                    _ -> failText "unverified converted metadata identity"
+                pure (Just facts)
+              else pure Nothing
+            pure (name, (hash, inspection))
         value <- fromText (generationContextValue context.generation)
-        let manifest = renderManifest context value classified (Map.fromList recipes)
+        let manifest = renderManifest context value classified (Map.map fst (Map.fromList recipes)) (Map.map snd (Map.fromList recipes))
         lift (TextIO.writeFile (stage </> ".recipe-artifacts") "haskell-nix-update cohort recipes v1\n")
         lift (TextIO.writeFile (stage </> "manifest.json") (canonicalJSON manifest <> "\n"))
         lift (TextIO.writeFile (stage </> "extension.nix") (renderExtension context))
@@ -284,6 +318,35 @@ runArtifacts runner options = runExceptT $ do
   where
     command executable arguments = (.standardOutput) <$> ExceptT (runChecked runner (ProcessSpec executable arguments Nothing []))
 
+
+
+-- Inspect the converter's callable function with symbolic dependency arguments.
+-- Only dependency fields are forced; license/source values stay lazy. This
+-- reuses the generated representation without another Cabal or Nix parser.
+inspectRecipeRoles :: ProcessRunner -> FilePath -> IO (Either UpdateError (Map Text [Text]))
+inspectRecipeRoles runner path = fmap (fmap (.dependencyRoles)) (inspectRecipe runner path)
+
+inspectRecipe :: ProcessRunner -> FilePath -> IO (Either UpdateError RecipeInspection)
+inspectRecipe runner path = runExceptT $ do
+    absolute <- lift (makeAbsolute path)
+    let quote = Text.replace "${" "\\${" . canonicalJSON . String
+        expression = Text.unlines
+            [ "let recipe = import (builtins.toPath " <> quote (Text.pack absolute) <> ");"
+            , "arguments = builtins.mapAttrs (name: _: if name == \"mkDerivation\" then (attrs: attrs) else if name == \"lib\" then {} else name) (builtins.functionArgs recipe);"
+            , "attributes = recipe arguments;"
+            , "names = builtins.filter (name: (builtins.match \".*Depends\" name != null || name == \"buildTools\")) (builtins.attrNames attributes);"
+            , "dependencies = builtins.listToAttrs (map (name: let values = builtins.getAttr name attributes; in"
+            , "assert builtins.isList values && builtins.all builtins.isString values; { inherit name; value = values; }) names);"
+            , "in { metadata = { name = attributes.pname; version = attributes.version; revision = if (attributes.revision or null) == null then null else builtins.toString attributes.revision; }; dependenciesByComponent = dependencies; }"
+            ]
+    result <- ExceptT (runChecked runner (ProcessSpec "nix"
+        ["--offline", "eval", "--impure", "--json", "--option", "allow-import-from-derivation", "false", "--expr", Text.unpack expression] Nothing []))
+    value <- fromText (either (Left . Text.pack) Right (eitherDecodeStrict' (encodeUtf8 result.standardOutput)))
+    fromText (either (Left . ("unverified generated metadata/component dependencies: " <>) . Text.pack) Right
+        (parseEither (withObject "converted recipe inspection" $ \o -> do
+            metadata <- o .: "metadata"
+            (name, version, revision) <- withObject "converted package metadata" (\m -> (,,) <$> m .: "name" <*> m .: "version" <*> m .: "revision") metadata
+            RecipeInspection name version revision <$> o .: "dependenciesByComponent") value))
 
 selectedArchiveHash :: PlanPackage -> Either Text Text
 selectedArchiveHash package = case
@@ -318,9 +381,9 @@ converterOutputs bytes = do
         path <- o .: "path"
         pure (if Text.isPrefixOf "/" path then path else "/nix/store/" <> path)
 
-renderManifest :: Context -> Value -> Map Text ClassifiedPackage -> Map Text Text -> Value
-renderManifest context generation classified hashes = object
-    [ "schemaVersion" .= (1 :: Int), "generationContext" .= generation
+renderManifest :: RecipeGenerationContext -> Value -> Map Text ClassifiedPackage -> Map Text Text -> Map Text (Maybe RecipeInspection) -> Value
+renderManifest context generation classified hashes roles = object
+    [ "schemaVersion" .= context.formatVersion, "generationContext" .= generation
     , "configuration" .= configurationValue context.configuration
     , "classifications" .= Map.map (classificationValue . (.packageClassification)) classified
     , "packages" .= Map.mapWithKey entry context.packages
@@ -330,12 +393,14 @@ renderManifest context generation classified hashes = object
         ([ "recipeSha256" .= (hashes Map.! name), "unpackedHash" .= input.unpackedHash
          , "revision" .= maybe Null revisionValue input.revision
          , "nativeArguments" .= input.nativeArguments
-         ] <> ["sourcePin" .= pinValue pin | pin <- maybe [] pure input.sourcePin])
+         ] <> ["sourcePin" .= pinValue pin | pin <- maybe [] pure input.sourcePin]
+           <> ["dependenciesByComponent" .= facts.dependencyRoles | Just facts <- [roles Map.! name]]
+           <> ["convertedMetadata" .= object ["name" .= facts.convertedName, "version" .= facts.convertedVersion, "revision" .= facts.convertedRevision] | Just facts <- [roles Map.! name]])
 
 revisionValue :: HackageRevision -> Value
 revisionValue r = object ["number" .= r.revisionNumber, "sha256" .= r.revisionSha256, "time" .= r.revisionTime]
 
-pinValue :: PinInput -> Value
+pinValue :: PinnedRecipeSource -> Value
 pinValue pin = object
     ["repository" .= pin.repository, "revision" .= pin.gitRevision, "subdirectory" .= pin.subdirectory,
      "archiveSha256" .= pin.archiveSha256, "metadataSha256" .= pin.metadataSha256]
@@ -353,15 +418,15 @@ classificationValue classification = case classification of
     entry kind ownership = object
         (["kind" .= kind] <> ["ownership" .= object ["reason" .= owner.policyReason, "owner" .= owner.policyOwner] | owner <- maybe [] pure ownership])
 
-configurationValue :: Configuration -> Value
+configurationValue :: RecipeConfiguration -> Value
 configurationValue cfg = object $
     [ "compilerKey" .= cfg.compilerKey, "compilerVersion" .= Text.pack (prettyShow cfg.compilerVersion)
     , "system" .= cfg.system, "channel" .= cfg.channel, "nixpkgsRevision" .= cfg.nixpkgsRevision
     , "policyIdentity" .= cfg.policyIdentity
-    , "converter" .= object ["derivation" .= cfg.converterDerivation, "output" .= cfg.converterOutput, "version" .= cfg.converterVersion]
+    , "converter" .= object ["derivation" .= cfg.converter.toolDerivation, "output" .= cfg.converter.toolOutput, "version" .= cfg.converter.toolVersion]
     ] <> ["extractor" .= object ["derivation" .= tool.toolDerivation, "output" .= tool.toolOutput, "version" .= tool.toolVersion] | tool <- maybe [] pure cfg.extractor]
 
-renderExtension :: Context -> Text
+renderExtension :: RecipeGenerationContext -> Text
 renderExtension context = Text.unlines $
     [ "# Generated raw recipe layer; compose the reviewed policy exactly once."
     , "{ pkgs, haskellLib, policyExtension }:"
