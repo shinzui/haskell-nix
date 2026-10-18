@@ -1,0 +1,468 @@
+{
+  "schema_version": 1,
+  "revision": "816ae297b25103865b5d026924590c2b5be67cd8",
+  "status": "Both native updater builds and Linux format-2 pipeline pass; complete production acceptance remains open",
+  "updater_tests_per_system": 223,
+  "native_builds": {
+    "darwin": {
+      "revision": "816ae297b25103865b5d026924590c2b5be67cd8",
+      "command": [
+        "nix",
+        "build",
+        "git+file:///Users/shinzui/Keikaku/bokuno/haskell-nix?rev=816ae297b25103865b5d026924590c2b5be67cd8#checks.aarch64-darwin.haskell-nix-update",
+        "--no-link",
+        "--json",
+        "-L",
+        "--max-jobs",
+        "1",
+        "--cores",
+        "16",
+        "--builders",
+        ""
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 26.605666292016394
+    },
+    "linux": {
+      "revision": "816ae297b25103865b5d026924590c2b5be67cd8",
+      "command": [
+        "container",
+        "exec",
+        "--env",
+        "NIX_CONFIG=experimental-features = nix-command flakes\nfilter-syscalls = false\nsandbox = false",
+        "mp3-linux-builder",
+        "sh",
+        "-c",
+        "nix build 'git+file:///workspace?rev=816ae297b25103865b5d026924590c2b5be67cd8#checks.x86_64-linux.haskell-nix-update' --no-link --json -L --max-jobs 1 --cores 8 --builders '' > /tmp/ep19-recipe-roles-native-linux-outputs.json 2> /tmp/ep19-recipe-roles-native-linux.log"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 45.539925166987814
+    }
+  },
+  "linux_pipeline": {
+    "revision": "816ae297b25103865b5d026924590c2b5be67cd8",
+    "status": "passed",
+    "system": "x86_64-linux",
+    "execution": "Apple amd64 guest with Rosetta translation, independent warm store; sandbox/filter-syscalls false. Local source seeded under its normal immutable name. No physical x86 performance or fresh-worker claim.",
+    "results": [
+      {
+        "name": "converter",
+        "command": [
+          "nix",
+          "build",
+          "--impure",
+          "--expr",
+          "let f=builtins.getFlake \"git+file:///workspace?rev=816ae297b25103865b5d026924590c2b5be67cd8\"; p=import f.inputs.nixpkgs {system=\"x86_64-linux\";}; in p.buildPackages.haskellPackages.cabal2nix-unstable.bin",
+          "--no-link",
+          "--json",
+          "--max-jobs",
+          "1",
+          "--cores",
+          "8",
+          "--builders",
+          ""
+        ],
+        "exit_code": 0,
+        "elapsed_seconds": 1.2306857509975089
+      },
+      {
+        "name": "extractor",
+        "command": [
+          "nix",
+          "build",
+          "--impure",
+          "--expr",
+          "let f=builtins.getFlake \"git+file:///workspace?rev=816ae297b25103865b5d026924590c2b5be67cd8\"; p=import f.inputs.nixpkgs {system=\"x86_64-linux\";}; in p.gnutar",
+          "--no-link",
+          "--json",
+          "--max-jobs",
+          "1",
+          "--cores",
+          "8",
+          "--builders",
+          ""
+        ],
+        "exit_code": 0,
+        "elapsed_seconds": 0.3591949580004439
+      },
+      {
+        "name": "converter-version",
+        "command": [
+          "/nix/store/j6may0rx08lq7s94xhx4237mqbry1338-cabal2nix-2.21.3-unstable-2026-03-30-bin/bin/cabal2nix",
+          "--version"
+        ],
+        "exit_code": 0,
+        "elapsed_seconds": 0.026733750011771917
+      },
+      {
+        "name": "extractor-version",
+        "command": [
+          "/nix/store/c56b702wjn1ic9vh3vlbn3sk4zna3spg-gnutar-1.35/bin/tar",
+          "--version"
+        ],
+        "exit_code": 0,
+        "elapsed_seconds": 0.014255542002501898
+      },
+      {
+        "name": "generate",
+        "command": [
+          "/nix/store/ii3rjvqmq6advh5wihzg5ijsdm900qj2-haskell-nix-update-0.1.0.0/bin/haskell-nix-update",
+          "cohort",
+          "recipes",
+          "generate",
+          "--context",
+          "/tmp/ep19-recipe-roles-linux-816ae29-v1/payload/inputs/context.json",
+          "--out",
+          "/tmp/ep19-recipe-roles-linux-816ae29-v1/artifacts"
+        ],
+        "exit_code": 0,
+        "elapsed_seconds": 1.6256592510035262
+      },
+      {
+        "name": "check",
+        "command": [
+          "/nix/store/ii3rjvqmq6advh5wihzg5ijsdm900qj2-haskell-nix-update-0.1.0.0/bin/haskell-nix-update",
+          "cohort",
+          "recipes",
+          "check",
+          "--context",
+          "/tmp/ep19-recipe-roles-linux-816ae29-v1/payload/inputs/context.json",
+          "--out",
+          "/tmp/ep19-recipe-roles-linux-816ae29-v1/artifacts"
+        ],
+        "exit_code": 0,
+        "elapsed_seconds": 1.6183893339912174
+      },
+      {
+        "name": "repeat",
+        "command": [
+          "/nix/store/ii3rjvqmq6advh5wihzg5ijsdm900qj2-haskell-nix-update-0.1.0.0/bin/haskell-nix-update",
+          "cohort",
+          "recipes",
+          "generate",
+          "--context",
+          "/tmp/ep19-recipe-roles-linux-816ae29-v1/payload/inputs/context.json",
+          "--out",
+          "/tmp/ep19-recipe-roles-linux-816ae29-v1/artifacts"
+        ],
+        "exit_code": 0,
+        "elapsed_seconds": 1.6151079169940203
+      },
+      {
+        "name": "reject-metadata",
+        "command": [
+          "/nix/store/ii3rjvqmq6advh5wihzg5ijsdm900qj2-haskell-nix-update-0.1.0.0/bin/haskell-nix-update",
+          "cohort",
+          "recipes",
+          "generate",
+          "--context",
+          "/tmp/ep19-recipe-roles-linux-816ae29-v1/payload/inputs/context.json",
+          "--out",
+          "/tmp/ep19-recipe-roles-linux-816ae29-v1/artifacts"
+        ],
+        "exit_code": 1,
+        "elapsed_seconds": 1.1922761260066181
+      },
+      {
+        "name": "relocation",
+        "command": [
+          "/nix/store/ii3rjvqmq6advh5wihzg5ijsdm900qj2-haskell-nix-update-0.1.0.0/bin/haskell-nix-update",
+          "cohort",
+          "recipes",
+          "generate",
+          "--context",
+          "/tmp/ep19-recipe-roles-linux-816ae29-v1/relocated-inputs/context.json",
+          "--out",
+          "/tmp/ep19-recipe-roles-linux-816ae29-v1/relocated-artifacts"
+        ],
+        "exit_code": 0,
+        "elapsed_seconds": 1.6107599170063622
+      },
+      {
+        "name": "reject-role-drift",
+        "command": [
+          "/nix/store/ii3rjvqmq6advh5wihzg5ijsdm900qj2-haskell-nix-update-0.1.0.0/bin/haskell-nix-update",
+          "cohort",
+          "recipes",
+          "check",
+          "--context",
+          "/tmp/ep19-recipe-roles-linux-816ae29-v1/payload/inputs/context.json",
+          "--out",
+          "/tmp/ep19-recipe-roles-linux-816ae29-v1/damaged-roles"
+        ],
+        "exit_code": 1,
+        "elapsed_seconds": 1.6153753340040566
+      },
+      {
+        "name": "reject-revision-label",
+        "command": [
+          "/nix/store/ii3rjvqmq6advh5wihzg5ijsdm900qj2-haskell-nix-update-0.1.0.0/bin/haskell-nix-update",
+          "cohort",
+          "recipes",
+          "generate",
+          "--context",
+          "/tmp/ep19-recipe-roles-linux-816ae29-v1/payload/inputs/context.json",
+          "--out",
+          "/tmp/ep19-recipe-roles-linux-816ae29-v1/artifacts"
+        ],
+        "exit_code": 1,
+        "elapsed_seconds": 0.9591069170128321
+      },
+      {
+        "name": "source-seed",
+        "command": [
+          "nix",
+          "--offline",
+          "store",
+          "prefetch-file",
+          "--json",
+          "--unpack",
+          "--name",
+          "source",
+          "--expected-hash",
+          "sha256-NPzWjJQH/4IInSezr2nqI8sn0HtjBhqGP7oIP5FcPec=",
+          "file:///tmp/ep19-recipe-roles-linux-816ae29-v1/payload/inputs/cmark-gfm-hs-a9014e8.tar.gz"
+        ],
+        "exit_code": 0,
+        "elapsed_seconds": 0.10404049999488052
+      },
+      {
+        "name": "no-ifd",
+        "command": [
+          "nix",
+          "eval",
+          "--impure",
+          "--json",
+          "--file",
+          "/tmp/ep19-recipe-roles-linux-816ae29-v1/parity.nix",
+          "scoped",
+          "--option",
+          "allow-import-from-derivation",
+          "false",
+          "--max-jobs",
+          "0",
+          "--builders",
+          ""
+        ],
+        "exit_code": 0,
+        "elapsed_seconds": 1.2938490420056041
+      },
+      {
+        "name": "parity",
+        "command": [
+          "nix",
+          "eval",
+          "--impure",
+          "--json",
+          "--file",
+          "/tmp/ep19-recipe-roles-linux-816ae29-v1/parity.nix",
+          "identity",
+          "--max-jobs",
+          "1",
+          "--cores",
+          "8",
+          "--builders",
+          ""
+        ],
+        "exit_code": 0,
+        "elapsed_seconds": 5.376178043996333
+      }
+    ],
+    "artifact_tree_sha256s": {
+      ".recipe-artifacts": "3b68af8188320bdd757a7ee818e27d6211e4103aeeea8fbe1bc8491b21f505d8",
+      "extension.nix": "1b37008ef7485b82c2332933757e76ff448ee7025cbe1336c2fdccf3f4d0a1d7",
+      "manifest.json": "d77e7b3466e92e0bb45a93668abd9e3bc02bc78510df14695e3c0f346d04b3fd",
+      "packages/base64-bytestring.nix": "84f3fbe710dc6d3c3bc23a619be6a09103deebed3a3b7ce698a596307180d16d",
+      "packages/cmark-gfm.nix": "dd795331ec37a0e158ce6e944db9c623f203f9ceaf0fea71e55105aeb78506e6"
+    },
+    "identity": {
+      "candidate": "/nix/store/qv8s91y46hr1ddin4bc3ii59p8wsb5ws-cmark-gfm-0.2.6.drv",
+      "legacy": "/nix/store/qv8s91y46hr1ddin4bc3ii59p8wsb5ws-cmark-gfm-0.2.6.drv",
+      "runtime": "da00319eb1423b4372a0a0b050911b7719d1de0867a3e32160dbd327a2762e81",
+      "validation": "/nix/store/mprmai11vhwapfk7wm23gssq9i4j2naf-cmark-gfm-0.2.6.drv"
+    },
+    "scoped_no_ifd": {
+      "base64-bytestring": "/nix/store/hzaqrmdmvcci378svzsv0i8csmm1qhgd-base64-bytestring-1.2.1.0.drv",
+      "cmark-gfm": "/nix/store/qv8s91y46hr1ddin4bc3ii59p8wsb5ws-cmark-gfm-0.2.6.drv"
+    },
+    "strict_original_bounds_prior_receipt": "/tmp/ep19-source-pin-linux-44bb697-v2/receipt.json",
+    "strict_test_derivation_unchanged": true,
+    "component_roles": {
+      "base64-bytestring": {
+        "benchmarkHaskellDepends": [
+          "base",
+          "bytestring",
+          "criterion",
+          "deepseq"
+        ],
+        "libraryHaskellDepends": [
+          "base",
+          "bytestring"
+        ],
+        "testHaskellDepends": [
+          "base",
+          "bytestring",
+          "HUnit",
+          "QuickCheck",
+          "test-framework",
+          "test-framework-hunit",
+          "test-framework-quickcheck2"
+        ]
+      },
+      "cmark-gfm": {
+        "libraryHaskellDepends": [
+          "base",
+          "bytestring",
+          "text"
+        ],
+        "testHaskellDepends": [
+          "base",
+          "HUnit",
+          "text"
+        ]
+      }
+    },
+    "scope": "One Hackage root and the existing cmark-gfm Git fork. Exact raw function bytes retained; guarded default-false flag spelling reproduces the legacy constructor. Actual Rei consumer parity accepted separately on Darwin; broader effective flags and retained factory integration pending."
+  },
+  "raw_package_functions_metadata_and_component_roles_equal_darwin": true,
+  "previous_strict_package_validation": "source-pin-native-matrix.json",
+  "strict_recipe_identity_unchanged_no_retest_claim": true,
+  "limits": [
+    "Linux runs under Rosetta translation in Apple containers; no physical x86 performance or fresh-worker evidence.",
+    "General retained factory/context binding, policy integration, update/rollback, production adoption and performance/cost acceptance remain open."
+  ],
+  "raw_archive": {
+    "path": "docs/evidence/ep19/recipe-component-roles-native-matrix.raw.tar.gz",
+    "sha256": "9de04bf3df51101cb997e7886c92afa1d3cefca0462382e6aa8115ac5d64ae45",
+    "members": {
+      "host/ep19-recipe-roles-linux-driver.log": "c5995dd679ff9508c230ef6cdb4ce74202b061efcf824f9a6748aaad3adee014",
+      "host/ep19-recipe-roles-linux-driver.py": "c60f24ffcf41faa63036122bf683abce1a1a87404822f60a0c4038503ec0d418",
+      "host/ep19-recipe-roles-native-darwin-driver.log": "3b64fb19c4386abbd6859c76cb51ac6a5093fdade21c5fa8fc6c865e7e4532b8",
+      "host/ep19-recipe-roles-native-darwin-outputs.json": "792506d5d4c604bf2b8b9dcb7a5bcc42b286d8125ed000b1232e336b1d27b5b3",
+      "host/ep19-recipe-roles-native-darwin-receipt.json": "62f445bf338737daf56a934e44e60e48bfc4218af06f14872a25a55d075e853c",
+      "host/ep19-recipe-roles-native-driver.py": "acbf09235f499dc1ad304010822b08b48b47de29a775803f94dd1dc81233a715",
+      "host/ep19-recipe-roles-native-linux-driver.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "host/ep19-recipe-roles-native-linux-receipt.json": "771ab84b8b0086f74ef413c10816f0edc37817fae148d1bc25952e2ac00ab8a5",
+      "linux/artifacts/.recipe-artifacts": "3b68af8188320bdd757a7ee818e27d6211e4103aeeea8fbe1bc8491b21f505d8",
+      "linux/artifacts/extension.nix": "1b37008ef7485b82c2332933757e76ff448ee7025cbe1336c2fdccf3f4d0a1d7",
+      "linux/artifacts/manifest.json": "d77e7b3466e92e0bb45a93668abd9e3bc02bc78510df14695e3c0f346d04b3fd",
+      "linux/artifacts/packages/base64-bytestring.nix": "84f3fbe710dc6d3c3bc23a619be6a09103deebed3a3b7ce698a596307180d16d",
+      "linux/artifacts/packages/cmark-gfm.nix": "dd795331ec37a0e158ce6e944db9c623f203f9ceaf0fea71e55105aeb78506e6",
+      "linux/check.log": "549cbd1036aa7e79497e4459594e49d5ba10f4a816bcecd7bd4cca5597a4c62f",
+      "linux/check.out": "02046dc687b511303229a6b2fa058a04a546b13b56b12119a48b43d6d1c8642a",
+      "linux/converter-version.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linux/converter-version.out": "3cfdb20057d6a7023ba7bae7d7df34288e88138230d30518c112bed5b004bbec",
+      "linux/converter.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linux/converter.out": "4e8dbc0b7a3c7fd7e253a207bef9cdc62e099b7ecfbf589070e1ce088238397a",
+      "linux/damaged-roles/.recipe-artifacts": "3b68af8188320bdd757a7ee818e27d6211e4103aeeea8fbe1bc8491b21f505d8",
+      "linux/damaged-roles/extension.nix": "1b37008ef7485b82c2332933757e76ff448ee7025cbe1336c2fdccf3f4d0a1d7",
+      "linux/damaged-roles/manifest.json": "c225061f41b99d4596a4e8a5ae75cf8a23787233fcb61e54090d15b3a1e7705f",
+      "linux/damaged-roles/packages/base64-bytestring.nix": "84f3fbe710dc6d3c3bc23a619be6a09103deebed3a3b7ce698a596307180d16d",
+      "linux/damaged-roles/packages/cmark-gfm.nix": "dd795331ec37a0e158ce6e944db9c623f203f9ceaf0fea71e55105aeb78506e6",
+      "linux/extractor-version.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linux/extractor-version.out": "b112e5578260c103cafae7150e33b8fe1b5d0720a158d88be5ea8f6d9d26f478",
+      "linux/extractor.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linux/extractor.out": "3e6ede8da99acb39418e6a0dffc615858bd8bafa4df9149ec2a3889306cadcde",
+      "linux/generate.log": "549cbd1036aa7e79497e4459594e49d5ba10f4a816bcecd7bd4cca5597a4c62f",
+      "linux/generate.out": "37484defd585af5f2db5b63cbd9627b5fc41d45fa2631663f997fc15ce2a5041",
+      "linux/no-ifd.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linux/no-ifd.out": "91cd3e7fb996ebdf4d735a0335c8520c12a5ff0f793f1e39928b8a0bce6c7eed",
+      "linux/parity.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linux/parity.nix": "182ab99a8454e5269b3addaa0aa795c346a81fc17e65aaf4d5273ab888115fc3",
+      "linux/parity.out": "0a90e88bdcf6640ea57c7fbd7361ab6892a418235bf456b9248057d1b2d63cea",
+      "linux/payload/artifacts/.recipe-artifacts": "3b68af8188320bdd757a7ee818e27d6211e4103aeeea8fbe1bc8491b21f505d8",
+      "linux/payload/artifacts/extension.nix": "ef13b7496ca0b1d71896462fe0cb658db60b2bb89d0a38362299d9a678c147d5",
+      "linux/payload/artifacts/manifest.json": "705a985a26a3e04ea7cd3b4b0dc57fedf22864c10a22d0d825b7922cf74c8097",
+      "linux/payload/artifacts/packages/base64-bytestring.nix": "84f3fbe710dc6d3c3bc23a619be6a09103deebed3a3b7ce698a596307180d16d",
+      "linux/payload/artifacts/packages/cmark-gfm.nix": "dd795331ec37a0e158ce6e944db9c623f203f9ceaf0fea71e55105aeb78506e6",
+      "linux/payload/code/cli/haskell-nix-update/src/HaskellNix/Update/Cohort/RecipeArtifacts.hs": "59ce7472f5b18217c8e75a00a436d3db3cf65e33f8e2996133252cca8225db06",
+      "linux/payload/code/cli/haskell-nix-update/test/CohortRecipeArtifactsTest.hs": "b77133f627fb893f7091efa6ecaca668b9127bdc2f645146c94eb14259d463c9",
+      "linux/payload/drivers/ep19-export-format-two.hs": "e89dcb8d4909882db5d319702389920676652a44a70fb6ed7753a201f733beb1",
+      "linux/payload/drivers/ep19-inspect-role-fixtures.hs": "61a6e95c2658cd278b766727d92ea54f82081aa899bb7626b98f51b37a7ad78e",
+      "linux/payload/exercise/check.log": "02046dc687b511303229a6b2fa058a04a546b13b56b12119a48b43d6d1c8642a",
+      "linux/payload/exercise/damaged-roles/.recipe-artifacts": "3b68af8188320bdd757a7ee818e27d6211e4103aeeea8fbe1bc8491b21f505d8",
+      "linux/payload/exercise/damaged-roles/extension.nix": "ef13b7496ca0b1d71896462fe0cb658db60b2bb89d0a38362299d9a678c147d5",
+      "linux/payload/exercise/damaged-roles/manifest.json": "247040a4e0400828733077abf60f2100aa1ab718577aee146470ec5c38458bb8",
+      "linux/payload/exercise/damaged-roles/packages/base64-bytestring.nix": "84f3fbe710dc6d3c3bc23a619be6a09103deebed3a3b7ce698a596307180d16d",
+      "linux/payload/exercise/damaged-roles/packages/cmark-gfm.nix": "dd795331ec37a0e158ce6e944db9c623f203f9ceaf0fea71e55105aeb78506e6",
+      "linux/payload/exercise/format-one-hackage.log": "1a704889a82775c4496874ea7f6dd12b56eead4f79707506d12e516003c2a865",
+      "linux/payload/exercise/format-one-mixed.log": "02046dc687b511303229a6b2fa058a04a546b13b56b12119a48b43d6d1c8642a",
+      "linux/payload/exercise/receipt.json": "b9c7f5ef40a98bb00926cd420fdc8b668a64519726d7ba60460e51cf53743be8",
+      "linux/payload/exercise/reject-revision-label.log": "12a2a2e424be2d86f02f4fa6e7b44976e935cace441d188adeef56f86877fabe",
+      "linux/payload/exercise/reject-role-drift.log": "a8eed7a28b18e58d1318e8f45c79c7a48015c632d853b8f69f8689a2d7056fa0",
+      "linux/payload/exercise/relocation.log": "37484defd585af5f2db5b63cbd9627b5fc41d45fa2631663f997fc15ce2a5041",
+      "linux/payload/exercise/repeat.log": "37484defd585af5f2db5b63cbd9627b5fc41d45fa2631663f997fc15ce2a5041",
+      "linux/payload/fixtures/base16-bytestring.nix": "7f06f7299b155db7f3459f71f819ac0cc070b2492a6770a3b7a45b98f76b205e",
+      "linux/payload/fixtures/base64-bytestring.nix": "84f3fbe710dc6d3c3bc23a619be6a09103deebed3a3b7ce698a596307180d16d",
+      "linux/payload/fixtures/bytestring-lexing.nix": "9511dbdd75b32e3edfebbc6bc4e3593dab92205bbe4e3ce04db371c1c35b61fb",
+      "linux/payload/fixtures/consumer.nix": "5b9ca4fad8c38f0c4eb0126237724a9777408baf5c6f863d141361a71b683b4b",
+      "linux/payload/fixtures/cryptohash-sha256.nix": "a30f7a816c9664b7ed07e45eb2b465b507f658f56b60bebf2a69899c671c6dd3",
+      "linux/payload/fixtures/entropy.nix": "a6f63bb23facc5559505c92794038c3641c22e1e6305856b29e4ef69f06c3134",
+      "linux/payload/fixtures/file-embed.nix": "512530137e1b06fef4d8670fb208458e91bbf4eeb281f8ceaeca570f5ca1f566",
+      "linux/payload/fixtures/flagged.nix": "6bd5aac9b4f5315a025e7b5a4d736511121ec01752dd3a5ba6116d903a8d2a80",
+      "linux/payload/fixtures/leaf.nix": "c8124d5867660e63d6a74fc1fa844460dcafdbdab5577ffdf8b3a26404904b1d",
+      "linux/payload/fixtures/pinned.nix": "0c8f127825f1d3bcd9fb06ae9dd8e9e44183eb07c68e4a68baa2724175529a29",
+      "linux/payload/fixtures/revised.nix": "b16321fd343eb1809b5700a48dfbee3c9d0bbeb096345fc36a250127fc54363d",
+      "linux/payload/host/ep19-recipe-roles-cli-build-final.log": "55236fc17b4ffb860c2099158fe21dc3cf73801259dba4359366e625d807593e",
+      "linux/payload/host/ep19-recipe-roles-cli-build-v3.log": "55236fc17b4ffb860c2099158fe21dc3cf73801259dba4359366e625d807593e",
+      "linux/payload/host/ep19-recipe-roles-cli-build.log": "e8962378876a2a3da3176b69e2d918dd52a95342bb8d59ca4104626479cf990b",
+      "linux/payload/host/ep19-recipe-roles-exercise-driver.log": "3ae59111dd639bf499e505a613d3f903e524d5c927791a1d6d352ed3bb279aeb",
+      "linux/payload/host/ep19-recipe-roles-exercise-final-driver.log": "3ae59111dd639bf499e505a613d3f903e524d5c927791a1d6d352ed3bb279aeb",
+      "linux/payload/host/ep19-recipe-roles-exercise-final.py": "273ec5c78c9977531171ceca8cb2e5fc78d99030a526b457b8b28bc96234e0cb",
+      "linux/payload/host/ep19-recipe-roles-exercise.py": "03022e7e83bf80fd28e01899f569cba3028e2f7ec521505b09d26134d4354c01",
+      "linux/payload/host/ep19-recipe-roles-identity.json": "f7182ec43617151cdb4f0e96d47b08ad6b95a489c5cfafb6df37c3bd9a6a7290",
+      "linux/payload/host/ep19-recipe-roles-identity.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linux/payload/host/ep19-recipe-roles-initial-tests.log": "31788083030bf295ece78cae8bc3ec138abf3089a01bc7738126f03959af7c22",
+      "linux/payload/host/ep19-recipe-roles-no-ifd.json": "f267e4aecb3e303d38ee37e496987f1139812fa7e509565a9274b32f2eea43d2",
+      "linux/payload/host/ep19-recipe-roles-no-ifd.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linux/payload/host/ep19-recipe-roles-parity-receipt.json": "dc765ff1921ca3d9a39819cd821ad31d98a94d21d563af5b99ac3a3d57a5761b",
+      "linux/payload/host/ep19-recipe-roles-parity.nix": "2f60fc7adff2d491017aa12d70e4a37c9afd3be660fa5521fa7232899250a87e",
+      "linux/payload/host/ep19-recipe-roles-real-generate-final.log": "37484defd585af5f2db5b63cbd9627b5fc41d45fa2631663f997fc15ce2a5041",
+      "linux/payload/host/ep19-recipe-roles-real-generate-v2.log": "a640555e46d2bcf57dff2cd3f1d740692f19fa59eb7643fbed51638d6a8c41fa",
+      "linux/payload/host/ep19-recipe-roles-real-generate.log": "6b2b5a02ed1141e2a29b9b21c9ad36dd749e61de7443ee077fb3e85634272b4d",
+      "linux/payload/host/ep19-recipe-roles-tests-final.log": "50525365c8cb224adf4fb9399c86b484030c832406f164b4d89b3531d7cb7a12",
+      "linux/payload/host/ep19-recipe-roles-tests-v2.log": "9758f31c74e3545be0ab33136526f6cb89f3a3bf62e31851c442a6eef61d64f5",
+      "linux/payload/host/ep19-recipe-roles-tests-v3.log": "941ea6fd900a5bcd5a9668619b1aee6e42a7b9d3973234ffcd3c56f867fb01f7",
+      "linux/payload/host/ep19-recipe-roles-tests-v4.log": "6033c3a5c84e832b88d392f872a429593996f06c813d3f4788a8967fa23d562f",
+      "linux/payload/host/ep19-role-fixture-inventory-final.log": "a9d44252aeca03bf3f98f840505330b9b2ba2b7109eac4a6e25e790ce4b7b7e6",
+      "linux/payload/host/ep19-role-fixture-inventory-v2.log": "a9d44252aeca03bf3f98f840505330b9b2ba2b7109eac4a6e25e790ce4b7b7e6",
+      "linux/payload/host/ep19-role-fixture-inventory.json": "5d430148fab8584c81fc931838f321e0637fb4a557859569f8aa06c139c139c9",
+      "linux/payload/host/ep19-role-fixture-inventory.log": "b0b00b01486bde70b6a8f70997441cd51a37ef2a214eb271ac2390f6382898cd",
+      "linux/payload/inputs/base64-bytestring-1.2.1.0.tar.gz": "fbf8ed30edde271eb605352021431d8f1b055f95a56af31fe2eacf6bdfdc49c9",
+      "linux/payload/inputs/base64-bytestring.cabal": "45305ccf8914c66d385b518721472c7b8c858f1986945377f74f85c1e0d49803",
+      "linux/payload/inputs/cmark-gfm-hs-a9014e8.tar.gz": "5ce3f559333e61ee534f57400fdce29200e899c2405d26c7e85e80936a2a519c",
+      "linux/payload/inputs/cmark-gfm.cabal": "ed52f082c176d2f21e481a5b9c6ab02bd1ad7f6cf4044dd8bc9cd25dafb29853",
+      "linux/payload/inputs/context.json": "20a392850af8c390bb0124985cc0a3ed699daa4bc90782e4743a4260d18748b2",
+      "linux/payload/inputs/generation-context.json": "fd711ed5e49882bb4eacf2f3eb8bddc0677fb712da4e81700e0c5ad573c7fb29",
+      "linux/payload/inputs/selected-revision.json": "e4b5b89c4b6bd01e5f76123d32e5a64a4a7ecf4d08ba4e664101e9a44559b10d",
+      "linux/progress.json": "327445c9be07b4333b764fb405a0038d50c0c10e477ee3bf215700a25d68ca07",
+      "linux/receipt.json": "a740aae2fb54ae49d4c2332d94e51cb35894f897f0926a2c9355da120ab7dd0d",
+      "linux/reject-metadata.log": "8d64c6475521be565f6d981d3d4113b42d84f6e51a1a36b01cd48b1ef1e07c05",
+      "linux/reject-metadata.out": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linux/reject-revision-label.log": "e9b2b7038bfc778529602ae24c824ff97404f3143ff67a51ebbabb7defafefa4",
+      "linux/reject-revision-label.out": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linux/reject-role-drift.log": "3cf87f07c1fb86cdeb0b4579c2826d143f0a7efafae9806aa452878179918bea",
+      "linux/reject-role-drift.out": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linux/relocated-artifacts/.recipe-artifacts": "3b68af8188320bdd757a7ee818e27d6211e4103aeeea8fbe1bc8491b21f505d8",
+      "linux/relocated-artifacts/extension.nix": "1b37008ef7485b82c2332933757e76ff448ee7025cbe1336c2fdccf3f4d0a1d7",
+      "linux/relocated-artifacts/manifest.json": "d77e7b3466e92e0bb45a93668abd9e3bc02bc78510df14695e3c0f346d04b3fd",
+      "linux/relocated-artifacts/packages/base64-bytestring.nix": "84f3fbe710dc6d3c3bc23a619be6a09103deebed3a3b7ce698a596307180d16d",
+      "linux/relocated-artifacts/packages/cmark-gfm.nix": "dd795331ec37a0e158ce6e944db9c623f203f9ceaf0fea71e55105aeb78506e6",
+      "linux/relocated-inputs/base64-bytestring-1.2.1.0.tar.gz": "fbf8ed30edde271eb605352021431d8f1b055f95a56af31fe2eacf6bdfdc49c9",
+      "linux/relocated-inputs/base64-bytestring.cabal": "45305ccf8914c66d385b518721472c7b8c858f1986945377f74f85c1e0d49803",
+      "linux/relocated-inputs/cmark-gfm-hs-a9014e8.tar.gz": "5ce3f559333e61ee534f57400fdce29200e899c2405d26c7e85e80936a2a519c",
+      "linux/relocated-inputs/cmark-gfm.cabal": "ed52f082c176d2f21e481a5b9c6ab02bd1ad7f6cf4044dd8bc9cd25dafb29853",
+      "linux/relocated-inputs/context.json": "20a392850af8c390bb0124985cc0a3ed699daa4bc90782e4743a4260d18748b2",
+      "linux/relocated-inputs/generation-context.json": "fd711ed5e49882bb4eacf2f3eb8bddc0677fb712da4e81700e0c5ad573c7fb29",
+      "linux/relocated-inputs/selected-revision.json": "e4b5b89c4b6bd01e5f76123d32e5a64a4a7ecf4d08ba4e664101e9a44559b10d",
+      "linux/relocation.log": "a88b2818f429c8eea66c2de1c85bf193ca72acef59e684ca59ba2015f87cdf2f",
+      "linux/relocation.out": "37484defd585af5f2db5b63cbd9627b5fc41d45fa2631663f997fc15ce2a5041",
+      "linux/repeat.log": "549cbd1036aa7e79497e4459594e49d5ba10f4a816bcecd7bd4cca5597a4c62f",
+      "linux/repeat.out": "37484defd585af5f2db5b63cbd9627b5fc41d45fa2631663f997fc15ce2a5041",
+      "linux/source-seed.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "linux/source-seed.out": "8702ea9d9b274385a7f225795326d6cccec653ffc3641c4b2db6da21c5fcaac7",
+      "updater/ep19-recipe-roles-native-linux-outputs.json": "18cfdb2bffd36a5ea2f0ec5dfaf16dbe42c1ad49539a1245f2fec0d00a2f81ab",
+      "updater/ep19-recipe-roles-native-linux.log": "fd2bc38319384bb97dd7048f0b9f4e53477b3d1dd2d79000592e3a6d6355da80"
+    }
+  }
+}

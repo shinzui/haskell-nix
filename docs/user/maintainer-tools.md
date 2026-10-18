@@ -4,10 +4,10 @@ title: Maintainer tools
 description: Find repository formatting, test, derivation-diff, and validation commands.
 docId: DOC-6
 tags: [maintainers, testing, nix]
-timestamp: 2026-10-18T00:44:12Z
+timestamp: 2026-10-18T00:47:23Z
 generated:
   by: process:codex
-  at: 2026-10-18T00:44:12Z
+  at: 2026-10-18T00:47:23Z
 ---
 
 # Maintainer tools
@@ -86,7 +86,9 @@ publication. Format 1 remains byte-compatible and omits this inventory.
 The [component-role receipt](../evidence/ep19/recipe-component-roles.json) covers
 all 11 converter fixtures, mixed Hackage/fixed-source generation, stale-role and
 revision-label rejection, relocation, and unchanged format-1 artifacts. The
-Darwin updater passes all 223 tests. Both generated dependency roots and the actual
+[native matrix](../evidence/ep19/recipe-component-roles-native-matrix.json) passes
+all 223 updater tests on both systems and the same mixed format-2 pipeline in the
+translated Linux guest. Both generated dependency roots and the actual
 Rei CLI retain their previous derivations. General factory/context binding and
 production performance acceptance remain open.
 
