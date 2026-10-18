@@ -27,6 +27,8 @@ For changes in a **consumer repository**, start with the task that matches your 
 5. [Develop against a retained runtime](develop-against-a-retained-runtime.md) to add an optional
    project shell and verify scoped compiler, native dependencies and Cabal evidence.
 
+For everyday build and cache use, start with
+[Get faster builds and reliable cache hits](faster-builds-and-cache-hits.md).
 For measured application build work, follow [Measure and remove avoidable application rebuilds](faster-application-nix-builds.md).
 
 For changes in **haskell-nix**, follow [Create a first-party package set](create-a-package-set.md)

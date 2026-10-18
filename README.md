@@ -8,6 +8,10 @@ For a retained transitive runtime baseline, use `lib.mkRuntimePackageSet` and th
 [Keiro runtime composition guide](docs/guides/compose-on-the-keiro-runtime.md). It pairs
 hash-checked Cabal imports with one checked Nix scope and explicit application selections.
 
+For everyday build performance, follow
+[Get faster builds and reliable cache hits](docs/guides/faster-builds-and-cache-hits.md)
+to preserve dependency reuse, verify cache delivery and shorten application rebuilds.
+
 ## Usage
 
 ### Recommended: direct extension composition
