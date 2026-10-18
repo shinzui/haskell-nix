@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "revision": "3453274d8dd718c016549b64f8cc3d8345864220",
+  "status": "Idle preflight interrupted; no warm-up or timed trials ran",
+  "observed_idle_seconds": 35.263810459000524,
+  "required_idle_seconds": 60,
+  "foreign_processes": [
+    {
+      "pid": 56526,
+      "command": "/nix/store/ccjihgs38m5qgvksik031vjz1cn9qksy-cabal-install-3.16.1.0/bin/cabal"
+    }
+  ],
+  "timed_samples": 0,
+  "threshold": 0.2,
+  "monitor_correction": "The first setup matched Setup Assistant within a macOS path. The corrected monitor matches the complete executable basename and separately detects the actual Cabal process; no samples came from either setup.",
+  "timer_correction": "The prepared driver waits directly for evaluator termination while a separate thread monitors foreign work, avoiding poll-interval quantization of evaluation timings. This timing path was not reached.",
+  "scope": "Generation 3 versus generation 4, scoped base64-bytestring and full immutable Rei CLI queries. Existing accepted native/cache evidence remains unchanged.",
+  "next_action": "Coordinate a quiet native-host window before retrying; do not claim new performance acceptance.",
+  "raw_archive": {
+    "path": "docs/evidence/ep19/retained-evaluation-idle-preflight.raw.tar.gz",
+    "sha256": "00b8c08baf2ab6f195957fd6d8e7d72a288fde7e19917789692d664cb0cdcd69",
+    "members": {
+      "ep19-retained-evaluation-v2-driver.log": "26bd8f860e3171ede8186152ed128e19d2bdbbc2372b3deba53f1eb70f1e1e2b",
+      "ep19-retained-evaluation-v2.py": "c4550d3f8f57e29aa79913a9b1951edf90850ef06fdfc486e91e27b1d43fa8dd",
+      "ep19-retained-evaluation-v2/receipt.json": "5e0c32d7e1f82c212630c99a61c1f21ed415b6e002d0e338983323384cb74934",
+      "ep19-retained-evaluation-v3-driver.log": "26bd8f860e3171ede8186152ed128e19d2bdbbc2372b3deba53f1eb70f1e1e2b",
+      "ep19-retained-evaluation-v3.py": "ad1ec8e618a7c842d6d49eafaf9d9776211c884825aa48892d82c99086509b97",
+      "ep19-retained-evaluation-v3/receipt.json": "775ac503ddc8a2559123c70e6a8fb502c9cf1a97cb8978bce94f50e09290b333",
+      "ep19-retained-evaluation.nix": "2eb7134ac655c76cadcb96559dfde46ec171bb8438e025ae5244ffb47c7f0689",
+      "record.py": "53a39c670e49938b41d638de95f4e78a7266a29110d1916731b118964648a8ab"
+    }
+  }
+}
