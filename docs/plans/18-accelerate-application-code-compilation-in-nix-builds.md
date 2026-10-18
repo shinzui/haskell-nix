@@ -48,6 +48,11 @@ provenance:
       at: 2026-10-17T17:29:21Z
       mode: "implement"
       note: "Test consume-only current builds to avoid redundant multi-gigabyte intermediate exports while preserving fixed checkpoint validation and unchanged production defaults."
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-18T14:57:02Z
+      mode: "implement"
+      note: "Replace laptop compiler-idle campaign exclusion with declared Mac Studio resource headroom and timing-stability checks."
   reviews:
     - model: "gpt-6-astra"
       harness: "codex-cli"
@@ -74,6 +79,30 @@ This follows [MasterPlan 3](../masterplans/3-align-one-cabal-and-nix-package-set
 
 
 ## Progress
+
+2026-10-18 Mac Studio campaign accepted for latency and correctness: five fresh alternating
+resource-aware Rei pairs reduce the median from 57.285 to 39.897 s (30.35%), with ranges
+55.711–57.789 and 38.488–40.619 s. All baselines compile 301 GHC events and candidates eight.
+Every pair passes changed-help/version/help/completion behavior, identical production settings,
+2,049 unchanged shared graph nodes (475 Haskell instances), 293 original public imports and
+seven preserved resources. The earlier complete 4,241-case suite receipt remains bound to
+the unchanged fixture/preparation; it is not presented as a new full-suite run. Sampled CPU
+idle stays at least 41.89% and memory availability 97%, with Cabal/GHC activity recorded.
+The campaign costs 593.785 s including warmups/monitoring; new behavior/graph validation
+costs 67.203 s. Cached warmups cannot establish fresh foundation creation. Actual producer
+workflow/ownership, full cost and rollout acceptance remain open, and clean defaults remain.
+[Raw commands, samples, identities and reconstructable graphs](../evidence/masterplan-4/mac-studio-benchmarks.json)
+close the quiet-window/timing gap. M2/M4/M5 remain unfinished under their full criteria.
+
+2026-10-18 Mac Studio policy: the user confirms migration from the laptop to a 36-logical-CPU,
+256-GiB Mac Studio and authorizes fresh runs alongside unrelated work. The new
+`--resource-policy mac-studio` records interval CPU idle, OS memory availability, VM/I/O
+counters and concurrent compiler/test processes. Presence alone never rejects a run.
+Reject below 10% CPU idle or memory availability sustained for fifteen seconds, failed
+sampling, or a per-variant range above 25% of its median. Keep one Nix job, sixteen requested
+cores, five alternating fresh pairs, the 20% saving and ten-edit cost gates. Earlier
+excluded campaigns remain excluded. Run the resource-aware Rei split, then replay the
+existing behavior/graph verifier. This supersedes the historical quiet-window restriction.
 
 2026-10-18 UTC authorized fourth timing attempt: after 210.21 s waiting for a continuous idle minute, two alternating pairs complete before independent Cabal appears 299.15 s into measured work. The monitor interrupts only its own driver; both disposable leaf files match the immutable source afterward and the producer overlay remains unchanged. Exclude the entire fourth run from acceptance. [Verified raw evidence](../evidence/ep18/rei-cli-resource-aware-fourth-interruption.json) retains the partial trials and 299.66 s campaign cost; gross observed setup/validation plus interruptions now totals 1,902.55 s, with the idle preflight reported separately. User coordination was authorized, but actual independent work continues. Five clean pairs, graph/behavior, producer workflow/ownership and total-cost/adoption gates remain open; do not restart automatically while that condition persists.
 
@@ -370,6 +399,10 @@ No dependency bounds or new pins are chosen during planning. Verify any required
 
 
 ## Revision Notes
+
+2026-10-18: Replace the laptop-era continuous-idle restriction with the user-authorized
+Mac Studio headroom/stability policy before fresh trials; preserve prior exclusions and
+all performance, correctness and amortization requirements.
 
 
 2026-10-07: Replaced the rejected local Cabal artifact-export proposal after the user clarified that the project `nix build` is the bottleneck and already warms dotfiles. Renamed the plan while preserving its number and provenance. Inspected the pinned Nixpkgs Haskell builder and prioritized a guarded intermediate-reuse experiment, then source/stamp isolation, measured compiler settings, and smaller Cabal-package pilots. No implementation or speedup is claimed.

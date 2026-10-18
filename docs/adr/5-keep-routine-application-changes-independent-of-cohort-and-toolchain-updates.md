@@ -4,7 +4,7 @@ Status: Accepted; Rei planning-prose source isolation is verified; wider reuse a
 
 Date: 2026-10-04
 
-Revised: 2026-10-17
+Revised: 2026-10-18
 
 ## Context
 
@@ -86,6 +86,17 @@ Include generation, seed creation/refresh, transfer, retention and migration reb
 a warm unchanged output is not a changed-code measurement. Keep production settings and
 correctness gates equivalent. Keep an optimization opt-in or discard it when its benefit
 is unproven or its cost is not repaid within the intended update/checkpoint cycle.
+
+Benchmarks may share a host with unrelated work when measured resources have headroom.
+Record hardware and concurrent compiler/test processes rather than rejecting their mere
+presence. The Mac Studio policy uses one Nix job and sixteen requested build cores on
+the 36-logical-CPU, 256-GiB host. Sample interval CPU idle, OS memory availability and VM/I/O
+counters equally for both variants. Reject sampled CPU idle or memory availability below
+10% continuously for at least fifteen seconds, missing observations, or a per-variant
+timing range greater than 25% of its median. These diagnostics do not isolate thermal or
+I/O effects; retain raw observations and alternating order. Declare changes before fresh
+campaigns, keep the 20% improvement and existing amortization gates, and preserve earlier
+excluded campaigns as diagnostics. The opt-in laptop compiler-idle guard remains available.
 
 Evaluate package-set maintenance through a targeted update, deterministic regeneration,
 impact/policy review, real consumer verification and rollback to a prior retained generation.

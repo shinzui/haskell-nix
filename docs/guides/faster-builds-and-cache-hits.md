@@ -239,6 +239,12 @@ shared dependency compilation, application compilation, linking and tests. An un
 warm build, changed code with warm dependencies and first use on a new worker answer
 different questions.
 
+On a shared Mac Studio, use the measurement script's `--resource-policy mac-studio`
+option. It records resource headroom and concurrent compiler/test activity, rejects
+sustained pressure and unstable timings, and permits unrelated work with spare capacity.
+The [measurement policy](faster-application-nix-builds.md#measure-on-a-shared-mac-studio)
+defines the thresholds. A completely idle machine is unnecessary.
+
 Capture graphs through Nix's metadata API, from the consumer checkout:
 
 ```bash

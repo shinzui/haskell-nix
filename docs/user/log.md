@@ -1,6 +1,8 @@
 # Bundle Update Log
 
 ## 2026-10-18
+* **Update**: Retain fresh generation-5/7 scoped and actual-consumer evaluation measurements; resource and identity checks pass, but both miss the performance target.
+* **Update**: Document reproducible retained-recipe evaluation on a shared Mac Studio with explicit generations, input hashes and measured resource/stability gates.
 * **Update**: Record both-system actual http2 consumer/cache/rollback acceptance, translated and empty-store qualifications, and excluded first retrieval; retain performance and adoption gates.
 * **Update**: Document metadata-bound false-flag spelling normalization, exact closure parity and no-IFD correctness, with excluded performance evidence.
 * **Update**: Record the positive disposable http2 update, Darwin consumer and cache/rollback evidence, unchanged policy and explicit Linux/transitive no-IFD limits.

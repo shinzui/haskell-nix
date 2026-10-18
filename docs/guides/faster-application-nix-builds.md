@@ -19,6 +19,26 @@ Cabal components and compile-time file reads before changing a source boundary. 
 named `test` may contain a public library or an installed executable. Markdown may supply
 embedded help, prompts or templates. Keep all those inputs.
 
+## Measure on a shared Mac Studio
+
+Pass `--resource-policy mac-studio` to the measurement script on macOS. It allows other
+Cabal/GHC jobs and records the host model, memory and CPU count, interval CPU idle,
+memory availability, VM/I/O counters and compiler/test processes. The current machine
+has 36 logical CPUs and 256 GiB RAM. Keep the paired build settings fixed at one Nix job
+and sixteen requested cores; extra host capacity remains available for other work.
+
+The declared policy rejects CPU idle or OS memory availability below 10% continuously
+for fifteen seconds, sampling failures, or a per-variant timing range exceeding 25% of
+its median. Compiler presence alone does not reject a run. Raw samples remain in each
+trial receipt. Disk contention and thermal effects are not isolated by these observations;
+retain alternating order and inspect variability alongside resource headroom. Monitor
+startup and shutdown are excluded from the measured build invocation.
+
+The existing `--require-idle-compilers` option remains available for an exclusive laptop
+experiment. It cannot be combined with the Mac Studio policy. Start a new campaign after
+a policy change; earlier excluded trials remain diagnostic. The 20% speed threshold,
+correctness checks and total-cost budget still apply.
+
 The first measured case is `mori://shinzui/rei`, starting at revision
 `99b882ee6d9cdc77ee0e8dead8962736bd3c4d0a`. Its `rei-core/docs` directory contains planning
 prose consumed by no Cabal component or compile-time file read. The original recipe included
@@ -389,3 +409,19 @@ their dotfiles wrappers reuse the same CLI outputs with zero GHC compilations. T
 Darwin graph includes both wrappers. The system build completes without activation and performs
 zero CLI/shared-dependency GHC compilations. It builds the separately exported Rei API and
 contract targets; building the project CLI default does not produce those additional artifacts.
+
+## Mac Studio campaign results
+
+The [fresh Mac Studio campaign](../evidence/masterplan-4/mac-studio-benchmarks.json) permits
+concurrent work under the resource policy above. Five alternating resource-aware Rei CLI
+split pairs reduce median changed-code build time from **57.285 to 39.897 seconds (30.35%)**.
+Ranges are 55.711–57.789 and 38.488–40.619 seconds; GHC events fall from 301 to eight.
+All five pairs preserve executable behavior, production settings, 2,049 shared graph nodes
+and 475 shared Haskell instances. All 293 public imports and seven reviewed resources pass.
+CPU idle remains at least 41.89% and OS memory availability 97% during measured builds.
+
+This closes the split's latency measurement. Producer generation/ownership integration,
+fresh foundation creation, complete cost and rollout acceptance still precede production
+adoption. The 593.785-second measurement campaign and 67.203-second behavior/graph replay
+are retained as observed costs; cached warmups do not measure fresh setup. The earlier
+complete-suite receipt remains linked separately. Production uses the clean default.

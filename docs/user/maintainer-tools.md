@@ -235,6 +235,37 @@ hosted CI, positive update/rollback or performance adoption.
 
 ## Targeted update rehearsals
 
+For evaluation measurements on a shared Mac Studio, use the same resource policy as
+the [application measurement guide](../guides/faster-application-nix-builds.md#measure-on-a-shared-mac-studio).
+`scripts/measure-recipe-evaluation.py` accepts a Nix expression taking `generation` and
+`scope` (`scoped` or `consumer`) and returning the actual selected derivation identity.
+Declare every locally imported query/source-policy input with `--input`; immutable
+flake references in the expression bind the retained configuration. For example:
+
+```bash
+python3 scripts/measure-recipe-evaluation.py \
+  --expression /absolute/measurement/query.nix \
+  --input /absolute/measurement/consumer.nix \
+  --source-revision FULL_IMMUTABLE_REVISION \
+  --baseline-generation 5 --candidate-generation 7 \
+  --output-dir /absolute/new-evaluation-receipts
+```
+
+It records the protocol and input hashes before running warmups and five alternating
+pairs for each scope. Fresh evaluators use identical disabled evaluation caches,
+offline inputs and disabled local/remote builders. Baseline/candidate identities must
+match. CPU/memory pressure, timing spread, evaluator RSS and all raw logs are retained;
+unrelated compiler activity is recorded without automatically excluding the campaign.
+Passing timing thresholds still leaves regeneration and adoption costs to account for.
+
+The [Mac Studio generation-5/7 campaign](../evidence/masterplan-4/mac-studio-benchmarks.json)
+passes resource/stability and identity checks with concurrent Cabal/GHC observations.
+Five measured pairs give scoped http2 medians of 1.759 → 1.722 s (2.14%) and actual Rei
+consumer medians of 3.603 → 3.612 s. Both miss the 20% target. The scoped candidate still
+passes no-IFD with the same derivation, and prior native update/cache/rollback evidence
+remains valid. Retain the correctness/maintenance tooling without claiming an evaluation
+speedup or adopting the candidate for performance.
+
 Run the existing updater in its stock-compiler shell:
 
 ```bash

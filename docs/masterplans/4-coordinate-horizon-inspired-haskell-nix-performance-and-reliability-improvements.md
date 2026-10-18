@@ -42,6 +42,11 @@ provenance:
       at: 2026-10-17T15:05:53Z
       mode: "implement"
       note: "Record EP-21 native verification delivery while preserving production, performance and Linux acceptance gates."
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-18T14:57:02Z
+      mode: "implement"
+      note: "Coordinate user-authorized Mac Studio benchmark policy and fresh application/evaluation campaigns."
   reviews:
     - model: "gpt-6-astra"
       harness: "codex-cli"
@@ -165,6 +170,27 @@ Shared edits to `flake.nix`, `checks/default.nix`, `lib/`, and updater modules r
 
 ## Progress
 
+2026-10-18 Mac Studio campaigns complete: EP-18's 293-module resource-aware Rei boundary
+passes five fresh alternating pairs (57.285 → 39.897 s, 30.35%), all behavior/public-import/
+settings/resource/graph checks and 2,049 unchanged shared nodes. EP-19's generation-5/7
+http2 query improves only 2.14% (1.759 → 1.722 s), and actual consumer evaluation is unchanged
+in practice (3.603 → 3.612 s); both miss its 20% target. Both campaigns satisfy the declared
+resource/stability policy with concurrent Cabal/GHC observations. The earlier quiet-window
+blocker is closed. [Raw evidence](../evidence/masterplan-4/mac-studio-benchmarks.json) binds
+commands, input hashes, timing/RSS/host samples and all ten reconstructable graphs. Four of
+six workstreams remain Complete; EP-18 still needs producer workflow/ownership, total cost
+and accepted rollout, while EP-19 still lacks the required evaluation benefit and complete
+cost/adoption acceptance. Existing production defaults and support declarations remain fixed.
+
+2026-10-18 Mac Studio benchmark policy: the user authorizes fresh EP-18/19 campaigns with
+concurrent work on the 36-logical-CPU, 256-GiB machine. Both use recorded CPU/memory/VM/I/O
+headroom and timing stability rather than process-presence exclusion. CPU idle or memory
+availability below 10% continuously for fifteen seconds, sampling failure or a variant's
+range above 25% of its median rejects performance acceptance. Preserve fixed production
+settings, five alternating pairs, the 20% saving and declared cost budgets. Earlier
+interrupted runs remain excluded. This supersedes old quiet-host blockers; member statuses
+remain In Progress until their independent performance, cost and adoption gates pass.
+
 2026-10-18 UTC EP-19 maintenance acceptance: actual Darwin and translated-Linux CLI builds and four matching behavior commands pass. Existing publication and new empty alternate stores verify 462/469 paths with zero builds; both framework selections restore the exact prior generation-4 CLI. All 2,933 original Linux build-closure metadata records agree after host import. [Native matrix](../evidence/ep19/targeted-http2-native-matrix.json) includes the excluded first retrieval and successful guest-log retry. The normalized generation-7 configuration preserves both actual outputs and all 273 runtime identities per system. This closes the positive update/cache/rollback gap, while EP-18/19 evaluation/compilation performance, total-cost and production-adoption gates remain open.
 
 2026-10-18 UTC EP-19 closed-root correctness: 19 generated functions cover the real http2 closure plus base64. Five exact metadata-bound default-false spelling adapters restore all 273 runtime identities on each system; declared http2 no-IFD passes on both. Actual native 365-test checks and formatting pass. [Raw experiment](../evidence/ep19/recipe-flag-normalization.json) retains the initial 132-derivation drift and full correction. Another foreign Cabal interruption excludes the entire evaluation campaign; our paused Linux compiler is resumed. EP-18/19 performance/cost/adoption gates stay open and no production selections change.
@@ -247,6 +273,11 @@ Source inspection of Mori's current plan model found that parent master-plan IDs
 Mori registration accepts references to unpublished external prerequisites, and its Hard DAG represents them as unresolved terminal nodes. This preserves the user's scoped publication instruction while exposing missing readiness evidence. Both repositories initially published no agent plans. Exact publication-set checks subsequently confirmed five rows for this project and three for the toolchain project; re-publication must preserve that set and all typed edges. No implementation completion or performance evidence is inferred from creating this coordination document.
 
 ## Decision Log
+
+2026-10-18: The user moved from a laptop to a Mac Studio and authorizes concurrent work.
+Replace process-presence/continuous-idle campaign rejection with predeclared measured
+CPU/memory headroom and timing-spread checks shared by EP-18/19. Keep earlier excluded
+campaigns excluded and retain the independent performance/correctness/cost thresholds.
 
 2026-10-17: The user selected Apple containers as the Linux execution alternative. Reuse the already running amd64 `mp3-linux-builder` from accepted plan 9, retaining explicit translation and guest sandbox/syscall-filter limits. This enables target-Linux behavioral evidence without changing host builder settings. Physical-x86 performance and fresh-worker evidence remain separate obligations.
 

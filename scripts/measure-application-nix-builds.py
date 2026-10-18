@@ -19,6 +19,8 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 
+from benchmark_resources import HostResources, POLICY, hardware, timing_stability
+
 
 def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
@@ -93,6 +95,7 @@ def run_trial(args, label, source, trial, stage):
             raise ValueError(f"Compiler host is not idle: {memory.preexisting}; sampling errors: {memory.errors}; resume this campaign when idle")
         time.sleep(0.5)
     idle_wait = time.perf_counter() - idle_start
+    resources = HostResources().start() if args.resource_policy == "mac-studio" else None
     start = time.perf_counter()
     with prefix.with_suffix(".log").open("w") as log, prefix.with_suffix(".build.json").open("w") as result:
         process = subprocess.Popen(command, stdout=result, stderr=subprocess.PIPE, text=True)
@@ -108,6 +111,7 @@ def run_trial(args, label, source, trial, stage):
                 if match:
                     modules[match[1]] = modules.get(match[1], 0) + 1
             code = process.wait()
+            elapsed = time.perf_counter() - start
         except BaseException:
             process.terminate()
             process.wait()
@@ -115,7 +119,7 @@ def run_trial(args, label, source, trial, stage):
         finally:
             process.stderr.close()
             memory_receipt = memory.finish()
-    elapsed = time.perf_counter() - start
+            resource_receipt = resources.finish() if resources else None
     identity = json.loads(subprocess.check_output(["nix", "eval", "--json", *common, "identity"])) if code == 0 else None
     receipt = {
         "trial": trial, "stage": stage, "label": label, "command": command,
@@ -125,6 +129,7 @@ def run_trial(args, label, source, trial, stage):
         "build_result": json.loads(prefix.with_suffix(".build.json").read_text()) if code == 0 else None,
         "cache_state": "warm dependencies; initial build plan and actual compilations recorded in build log",
         "sampled_host_compiler_memory": memory_receipt,
+        "host_resources": resource_receipt,
         "idle_wait_seconds": idle_wait,
         "compilers_observed_before_wait": observed_busy,
         "log": prefix.with_suffix(".log").name,
@@ -134,6 +139,8 @@ def run_trial(args, label, source, trial, stage):
     print(f"{stage} {trial} {label}: {elapsed:.2f}s; compiled {sum(modules.values())} modules", flush=True)
     if code:
         raise subprocess.CalledProcessError(code, command)
+    if resource_receipt and not resource_receipt["assessment"]["accepted"]:
+        raise ValueError(f"Resource pressure invalidates this trial: {resource_receipt['assessment']['reasons']}")
     report = (identity or {}).get("compatibilityReport", {})
     if label == "candidate" and report.get("enabled") and not report.get("accepted"):
         raise ValueError(f"Candidate rejected its seed: {report.get('reason')}; this is a clean fallback, not a reuse measurement")
@@ -158,10 +165,14 @@ def main():
     parser.add_argument("--minimum-saving", type=float, default=0.20)
     parser.add_argument("--require-idle-compilers", action="store_true",
                         help="Reject a trial when host compiler processes are already active before Nix starts")
+    parser.add_argument("--resource-policy", choices=["observe", "mac-studio"], default="observe",
+                        help="mac-studio permits concurrent work, records CPU/memory/I/O and rejects sustained resource pressure or unstable paired timings")
     parser.add_argument("--idle-wait-seconds", type=float, default=60,
                         help="Wait at most this long for other host compilers before pausing; excluded from build timing")
     parser.add_argument("--resume", action="store_true", help="Continue the same verified input context and completed trial prefix")
     args = parser.parse_args()
+    if args.require_idle_compilers and args.resource_policy == "mac-studio":
+        parser.error("The mac-studio policy permits concurrent compilers; omit --require-idle-compilers")
     if args.trials < 5 or args.cores < 1 or not 0 < args.minimum_saving < 1:
         parser.error("Use at least five pairs, positive cores and a saving fraction between zero and one")
     if args.edit.is_absolute() or ".." in args.edit.parts:
@@ -195,6 +206,8 @@ def main():
         "lock_sha256": {label: digest(source / "flake.lock") for label, source in sources.items()},
         "evaluation_cache": "Nix expression evaluation, fresh process per invocation; no flake output evaluation cache",
         "require_idle_compilers": args.require_idle_compilers,
+        "resource_policy": POLICY if args.resource_policy == "mac-studio" else None,
+        "hardware": hardware() if args.resource_policy == "mac-studio" else None,
         "compiler_count_semantics": "GHC Compiling events, including Setup and repeated module names across components",
         "trials": [], "warmup": [],
     }
@@ -203,7 +216,7 @@ def main():
         previous = json.loads(summary.read_text())
         fixed = ["project_uri", "source_revision", "platform", "nix_version", "workload", "replacement",
                  "minimum_saving", "cores", "max_jobs", "expression_sha256", "lock_sha256",
-                 "evaluation_cache", "require_idle_compilers"]
+                 "evaluation_cache", "require_idle_compilers", "resource_policy", "hardware"]
         if any(previous.get(key) != metadata.get(key) for key in fixed):
             parser.error("Resume context differs; start a new campaign")
         expected = [(trial, label) for trial in range(1, args.trials + 1)
@@ -256,9 +269,12 @@ def main():
         for label in sources:
             values = [r["elapsed_seconds"] for r in metadata["trials"] if r["label"] == label]
             medians[label] = statistics.median(values)
-            metadata["timings"][label] = {"median_seconds": medians[label], "min_seconds": min(values), "max_seconds": max(values)}
+            metadata["timings"][label] = timing_stability(values)
         metadata["saving_fraction"] = 1 - medians["candidate"] / medians["baseline"]
-        metadata["timing_threshold_passed"] = metadata["saving_fraction"] >= args.minimum_saving
+        metadata["resource_policy_accepted"] = (args.resource_policy != "mac-studio" or all(
+            row["host_resources"]["assessment"]["accepted"] for row in metadata["trials"])
+            and all(row["stable"] for row in metadata["timings"].values()))
+        metadata["timing_threshold_passed"] = metadata["resource_policy_accepted"] and metadata["saving_fraction"] >= args.minimum_saving
         saving = medians["baseline"] - medians["candidate"]
         migration = next(r["elapsed_seconds"] for r in metadata["warmup"] if r["label"] == "candidate")
         metadata["migration_cost_seconds"] = migration

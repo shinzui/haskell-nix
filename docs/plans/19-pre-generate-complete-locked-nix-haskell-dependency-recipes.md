@@ -38,6 +38,11 @@ provenance:
       at: 2026-10-17T23:16:39Z
       mode: "implement"
       note: "Export the accepted generation context with deterministic serialization, guarded staged publication, and native tests; keep complete recipe generation and performance adoption pending."
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-18T14:57:02Z
+      mode: "implement"
+      note: "Authorize reproducible generation-5/7 evaluation campaigns with recorded headroom instead of excluding concurrent compiler activity."
   reviews:
     - model: "gpt-6-astra"
       harness: "codex-cli"
@@ -60,6 +65,30 @@ Import-from-derivation (IFD) means Nix builds an output and imports the Nix expr
 This is a standalone follow-on to [plan 9](9-generate-the-nix-package-set-from-the-cohort-freeze-and-guard-version-parity.md). It neither repeats its solver/version-generation work nor becomes an adoption gate for its existing consumers. Real-runtime rollout also integrates with [plan 16](16-create-the-keiro-runtime-package-set-and-compose-applications-on-it.md). Plans 9 and 16 are Complete locally as of 2026-10-16; their explicit generation inputs, checked runtime constructor and retained configurations are available. New recipe artifacts and real-consumer adoption still require this plan's acceptance.
 
 ## Progress
+
+2026-10-18 Mac Studio evaluation campaign complete: generation 5 versus normalized 7
+passes five alternating pairs for the real http2 root and actual independently validated
+Rei CLI, with one warmup pair per scope. Scoped medians are 1.759 → 1.722 s (2.14%), while
+consumer medians are 3.603 → 3.612 s (no practical improvement); both miss the declared 20%
+target. All 24 commands preserve the selected identities, use fresh offline evaluators,
+disable evaluation cache and local/remote builders, and build no targets. All resource and
+timing-stability checks pass despite observed Cabal/GHC activity: CPU idle is at least
+87.91%, memory availability 97%. A separate generation-7 scoped no-IFD query matches the
+measured root. Full campaign/monitoring elapsed time is 119.478 s. The
+[retained raw evidence](../evidence/masterplan-4/mac-studio-benchmarks.json) closes the
+measurement scheduling gap without satisfying evaluation-performance acceptance. Targeted
+maintenance/cache/rollback remains accepted; full cost, performance and production adoption
+remain open. No production selection changes.
+
+2026-10-18 Mac Studio policy: the user authorizes evaluation measurements alongside unrelated
+work on the 36-logical-CPU, 256-GiB host. Share `scripts/benchmark_resources.py` with EP-18;
+record interval CPU idle, memory availability, VM/I/O and compiler/test processes. Reject
+below 10% CPU idle or memory availability sustained for fifteen seconds, failed samples,
+or per-variant timing ranges above 25% of the median. Do not reject process presence.
+Fresh generation-5/7 http2 and actual Rei consumer queries retain the immutable candidate,
+offline inputs, disabled evaluation cache, five alternating pairs and the 20% improvement
+gate. Complete cost and production-adoption requirements remain unchanged. Earlier excluded
+campaigns stay diagnostic; the historical continuous-quiet-minute requirement is superseded.
 
 2026-10-18 UTC positive native rehearsal accepted: both actual Rei CLI builds pass, with four commands matching the previous generation byte-for-byte. Existing publication and new empty alternate stores verify 462 Darwin and 469 translated-Linux paths with zero builds. The Linux original derivation/output crosses the owned file cache; all 2,933 build-closure metadata records match after host import. Both framework selections restore the exact generation-4 consumer with builds disabled. Normalized generation 7 resolves to each same built generation-5 output, preserving all 273 runtime identities and declared-root no-IFD. [Final native/cache/rollback matrix](../evidence/ep19/targeted-http2-native-matrix.json) retains original logs, probes, publication receipts and the incomplete first Linux retrieval. That attempt used a large container-exec output stream and is excluded; a separate empty store with guest-local logs and bounded network settings passes in 63.34 s. Actual production selections remain unchanged. The targeted maintenance/correctness gate is accepted; evaluation thresholds, complete total-cost evidence, final producer adoption and broad runtime support remain open.
 
@@ -243,6 +272,10 @@ The implemented `HaskellNix.Update.Cohort.RecipeArtifacts` module exposes `Recip
 `lib/mkGeneratedRecipeExtension.nix` takes `{ manifest; recipes; context; policyExtension; }` followed by `haskellLib` and `pkgs`, checks against the independently supplied validated format-2 context, and instantiates full package functions in the final scope. `mkFirstPartyPackageSet` accepts `generatedRecipes ? null` in its first configuration argument and delegates the Hackage subset to `mkCohortVersionLayer`, which binds the selected cohort inputs and reuses construction policy/capture. Unsupported source pins or unrepresented lazy test arguments fail for the selected factory path; ordinary legacy construction is preserved. Retained selection now resolves all captured cells after the target platform is known; older snapshots receive no additional factory argument. Current projection hashing handles binary inputs. The immutable final matrix passes for the explicit bounded configuration. Targeted update/rollback, evaluation/cost and production support remain M4 work. Plan 9 owns the generator context, classifications, comparator, manifests, and cache publication. Plan 16 owns retained-runtime schema and conflicts. This plan owns recipe conversion/artifacts, no-IFD guards, and evaluation measurements. It is not a prerequisite for finishing either existing plan; activation consumes their accepted outputs afterward. The system-independent toolchain metadata initiative in `mori://shinzui/haskell-nix-dev/masterplans/2-publish-verified-haskell-toolchain-capabilities-and-support-evidence` is an optional integration aid, not a hard dependency.
 
 ## Revision Notes
+
+2026-10-18: Share the user-authorized Mac Studio resource/stability policy and retain a
+repeatable explicit-generation evaluation driver; keep earlier excluded samples and
+all speed, identity, cost and production-adoption gates unchanged.
 
 
 2026-10-14: Created from the Horizon comparison, reconciled existing cohort/runtime ownership, and checked native plan structure, canonical references, milestones, and intention bindings. This records planning, not implementation or independent review.
