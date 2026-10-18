@@ -58,6 +58,11 @@ provenance:
       at: 2026-10-18T17:20:34Z
       mode: "update"
       note: "Prioritize real producer and owned-package integration, ordinary-build measurement and differential cost before broader pilots."
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-18T18:00:01Z
+      mode: "implement"
+      note: "Resume EP-18 producer integration before the Seihou companion; defer EP-19 as requested."
   reviews:
     - model: "gpt-6-astra"
       harness: "codex-cli"
@@ -84,6 +89,21 @@ This follows [MasterPlan 3](../masterplans/3-align-one-cabal-and-nix-package-set
 
 
 ## Progress
+
+2026-10-18 producer integration in progress: isolated Rei worktrees start from committed
+source `d2139343`; an initial seven-file active-edit snapshot is retained separately,
+and the actual producer's continuing API/core work remains untouched. The candidate wires
+the 293-module foundation through ordinary outputs, Cabal membership, current owned-package
+declarations, the Mori package catalog and every active source audit. Its seven resources
+move to their sole consuming package rather than remaining editable duplicates. A real
+parity check exposed the retained channel's historical application ownership list; the
+producer now extends only its local comparison ownership from the same declaration used
+by its overlay audit and manifest. Runtime/source overlap checks remain enforced.
+The initial ordinary-build campaign is diagnostic: it was stopped during pair four to
+finish that ownership/resource integration before final measurement. Complete committed-source
+suites and final ownership/parity acceptance are running; ordinary default measurements,
+invalidation, differential costs and rollout remain open. The measurement runner now has
+`--normal-default`, binding the actual flake output to the independently exported identity.
 
 2026-10-18 delivery focus: finish the resource-aware Rei candidate's actual producer
 integration and differential workflow-cost decision next. Its 30.35% pilot is not yet

@@ -48,6 +48,16 @@ It excludes only that directory and preserves the source name and all other filt
 
 ## Run paired documentation trials
 
+For production integration, pass `--normal-default` to build each disposable flake's
+ordinary `#default`, with its normal evaluation cache and source/provenance handling.
+The caller's expression still exports `identity`; its `root` must equal the actual built
+derivation or the runner rejects the result. Receipts record the source directory explicitly,
+so the verifier supports both ordinary flakes and the earlier expression-based campaigns.
+`checks/fixtures/application-builds/producer.nix` provides this adapter for Rei's actual
+retained application scope. Set `MP4_APPLICATION_SPLIT_MANIFEST` to the external boundary
+manifest when verifying a split. Keep the same fresh-source, paired-order, correctness and
+total-cost requirements; warm default lookups remain a separate observation.
+
 Prepare two **disposable** copies of the same tracked application tree outside this
 repository. Keep the original recipe in the baseline and the changed recipe in the candidate.
 Use identical `flake.lock` and runtime-selection bytes. Leave the prose file initially equal.

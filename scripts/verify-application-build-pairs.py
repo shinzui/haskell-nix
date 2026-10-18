@@ -24,6 +24,10 @@ def query(command):
     return json.loads(subprocess.check_output(command))
 
 
+def source_directory(row):
+    return Path(row.get("source_directory") or row["command"][row["command"].index("source") + 1]).resolve()
+
+
 def graph(drv):
     exported = query(["nix", "derivation", "show", "--recursive", drv])
     directory = str(Path(drv).parent)
@@ -65,7 +69,7 @@ def main():
     if destination.is_relative_to(Path(__file__).resolve().parent.parent):
         parser.error("Keep evidence outside the source tree")
     for row in summary["trials"]:
-        source = Path(row["command"][row["command"].index("source") + 1]).resolve()
+        source = source_directory(row)
         if destination.is_relative_to(source):
             parser.error("Keep evidence outside application source trees")
     destination.mkdir(parents=True, exist_ok=False)
@@ -96,7 +100,7 @@ def main():
             if len(api_instances) != 1 or None in api_instances:
                 raise ValueError("The foundation-only API changed across core leaf edits")
         for row in rows.values():
-            source = Path(row["command"][row["command"].index("source") + 1]).resolve()
+            source = source_directory(row)
             package = source / (foundation_package if row["label"] == "candidate" else boundary_package)
             for item in manifest["moved_modules"]:
                 path = package / item["file"]
@@ -111,8 +115,7 @@ def main():
                     raise ValueError("A reviewed compile-time resource changed or escaped its declared package")
                 # Compare with the original package, including executable bits;
                 # resource relocation must preserve more than file contents.
-                original_source = Path(rows[row["trial"], "baseline"]["command"][
-                    rows[row["trial"], "baseline"]["command"].index("source") + 1])
+                original_source = source_directory(rows[row["trial"], "baseline"])
                 original_resource = original_source / boundary_package / relative
                 if resource.stat().st_mode & 0o7777 != original_resource.stat().st_mode & 0o7777:
                     raise ValueError("A reviewed compile-time resource changed its file mode")

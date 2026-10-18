@@ -1,6 +1,7 @@
 # Bundle Update Log
 
 ## 2026-10-18
+* **Update**: DOC-7: document ordinary producer default measurements and exact derivation identity binding.
 * **Update**: Retain the five-pair Mac Studio resource-aware Rei split result, unchanged graphs/public resources and separate producer/cost/adoption gates.
 * **Update**: Document shared Mac Studio benchmarking with measured CPU/memory headroom and timing stability instead of blanket compiler-idle exclusion.
 * **Addition**: Add DOC-9 with an everyday workflow for stable runtime inputs, cache setup/publication/substitution, application source boundaries, development shells and measured adoption of performance experiments.

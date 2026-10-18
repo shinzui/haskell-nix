@@ -52,6 +52,11 @@ provenance:
       at: 2026-10-18T17:20:34Z
       mode: "update"
       note: "Prioritize measured normal-build delivery over mechanism expansion and separate differential adoption costs from research history."
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-18T18:00:01Z
+      mode: "implement"
+      note: "Prioritize EP-18 completion, followed by Seihou module adoption, with EP-19 deferred."
   reviews:
     - model: "gpt-6-astra"
       harness: "codex-cli"
@@ -147,6 +152,10 @@ Solid edges are Hard production-delivery prerequisites; dotted edges are Integra
 
 ### Execution priorities and current prerequisites
 
+2026-10-18 current user scope: finish EP-18, then implement the Seihou module
+companion named in Integration Points. Defer EP-19 until that work is delivered;
+its existing acceptance gates and In Progress status remain unchanged.
+
 2026-10-18 delivery priority: the user's goal is less elapsed time in ordinary application
 builds and reliable reuse on development/deployment workers. A helper, passing matrix or
 new artifact format is progress only insofar as it enables that outcome. Finish one
@@ -190,6 +199,14 @@ EP-19 can now start against the delivered generator/runtime interfaces. Its M1 m
 EP-20 fixtures can proceed, but production shell delivery and DEV-5 retain their whole-child DEV-4 prerequisite. The user restored the foreign plans upstream; the owning checkout was pulled to `08bc32146d0c5a712b6f2fdb1650acf254bd8304`. Their contracts and intentions are reconciled. DEV-4’s policy/capability API, channel discovery, documentation and legacy identity checks are implemented, with 25 native Apple Silicon fixtures passing. All tools, bundles and shells preserve their derivations across three systems. DEV-4 is Complete at `mori://shinzui/haskell-nix-dev` revision `0bd206a`: all 25 Linux policy fixtures and both unchanged bundles pass in the user-selected Apple guest, and actual identities and legacy/channel integration match. Its retained observation is project-relative `docs/evidence/toolchain-capability-linux.json` (artifact-level URI pending). Translation and guest sandbox/syscall-filter limits remain explicit. This satisfies the whole-child prerequisite for EP-20 production shells and DEV-5; GHC/Cabal/Setup/HLS smoke and fresh-worker claims remain DEV-5 work. Mori discovery still fails because its database is absent; checked-in progress is distinguished from an unrefreshed catalog. This does not block local EP-18/19/21 work.
 
 ## Integration Points
+
+Seihou consumer rollout is specified by the standalone companion
+`mori://shinzui/seihou-modules/plans/6-upgrade-the-haskell-flake-module-and-migrate-existing-projects-to-retained-runtimes`.
+It owns the runtime-aware `nix-haskell-flake` module update and an adoption/version-migration
+blueprint, including real-consumer, ownership, repeat-upgrade and cache acceptance. It can
+consume accepted shell/runtime interfaces before EP-18/19 performance adoption. This
+companion is outside the original six-member/eight-document publication set and does not
+create a cross-project numeric parent or mark rollout complete.
 
 EP-18 now exports opt-in `lib.mkApplicationIncrementalBuild`, with an explicit caller `pkgs` context and schema-1 compatibility records. Source-independent effective recipe identities retain all tools, flags, hooks and dependency inputs; separate metadata/layout/generated-source guards constrain eligible edits. This does not alter retained runtime or shared dependency recipes. Native fixture and pure guard checks pass; application adoption still requires paired timings, behavioral/test evidence and total-cost acceptance.
 
@@ -319,6 +336,10 @@ Source inspection of Mori's current plan model found that parent master-plan IDs
 Mori registration accepts references to unpublished external prerequisites, and its Hard DAG represents them as unresolved terminal nodes. This preserves the user's scoped publication instruction while exposing missing readiness evidence. Both repositories initially published no agent plans. Exact publication-set checks subsequently confirmed five rows for this project and three for the toolchain project; re-publication must preserve that set and all typed edges. No implementation completion or performance evidence is inferred from creating this coordination document.
 
 ## Decision Log
+
+2026-10-18: The user explicitly orders EP-18 completion before the Seihou module
+companion and defers EP-19. Continue the real-producer integration and cost gates
+without starting another recipe-evaluation experiment.
 
 2026-10-18: The user challenges infrastructure progress without delivered faster builds.
 Prioritize one real producer/default-build improvement and differential adoption cost;

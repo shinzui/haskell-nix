@@ -79,6 +79,10 @@ def run_trial(args, label, source, trial, stage):
     common = ["--impure", "--file", str(args.expression), "--argstr", "source", str(source)]
     command = ["nix", "build", *common, "package", "--no-link", "--json",
                "--print-build-logs", "--max-jobs", "1", "--cores", str(args.cores)]
+    if args.normal_default:
+        command = ["nix", "build", str(source) + "#default", "--no-link", "--json",
+                   "--no-write-lock-file", "--print-build-logs", "--max-jobs", "1",
+                   "--cores", str(args.cores)]
     # Time the first Nix invocation for this variant: pre-evaluation or dry-run
     # would warm IFD translation before the clock starts.
     idle_start = time.perf_counter()
@@ -121,12 +125,17 @@ def run_trial(args, label, source, trial, stage):
             memory_receipt = memory.finish()
             resource_receipt = resources.finish() if resources else None
     identity = json.loads(subprocess.check_output(["nix", "eval", "--json", *common, "identity"])) if code == 0 else None
+    build_result = json.loads(prefix.with_suffix(".build.json").read_text()) if code == 0 else None
+    if code == 0 and args.normal_default and (
+            len(build_result) != 1 or build_result[0]["drvPath"] != identity["root"]):
+        raise ValueError("Ordinary default output differs from the declared measurement identity")
     receipt = {
         "trial": trial, "stage": stage, "label": label, "command": command,
+        "source_directory": str(source),
         "source_variant_sha256": digest(source / args.edit),
         "identity": identity, "elapsed_seconds": elapsed, "exit_code": code,
         "compiled_modules": modules, "phase_events": phases,
-        "build_result": json.loads(prefix.with_suffix(".build.json").read_text()) if code == 0 else None,
+        "build_result": build_result,
         "cache_state": "warm dependencies; initial build plan and actual compilations recorded in build log",
         "sampled_host_compiler_memory": memory_receipt,
         "host_resources": resource_receipt,
@@ -162,6 +171,8 @@ def main():
     parser.add_argument("--output-dir", required=True, type=Path)
     parser.add_argument("--trials", type=int, default=5)
     parser.add_argument("--cores", type=int, default=16)
+    parser.add_argument("--normal-default", action="store_true",
+                        help="Build each source flake's ordinary #default; require the expression's identity.root to match it")
     parser.add_argument("--minimum-saving", type=float, default=0.20)
     parser.add_argument("--require-idle-compilers", action="store_true",
                         help="Reject a trial when host compiler processes are already active before Nix starts")
@@ -204,7 +215,9 @@ def main():
         "minimum_saving": args.minimum_saving, "cores": args.cores, "max_jobs": 1,
         "expression_sha256": digest(args.expression),
         "lock_sha256": {label: digest(source / "flake.lock") for label, source in sources.items()},
-        "evaluation_cache": "Nix expression evaluation, fresh process per invocation; no flake output evaluation cache",
+        "evaluation_cache": ("Normal flake evaluation cache; fresh process per invocation" if args.normal_default
+                             else "Nix expression evaluation, fresh process per invocation; no flake output evaluation cache"),
+        "build_entry_point": "ordinary flake #default; normal evaluation cache" if args.normal_default else "Nix expression package; no flake output evaluation cache",
         "require_idle_compilers": args.require_idle_compilers,
         "resource_policy": POLICY if args.resource_policy == "mac-studio" else None,
         "hardware": hardware() if args.resource_policy == "mac-studio" else None,
@@ -217,6 +230,8 @@ def main():
         fixed = ["project_uri", "source_revision", "platform", "nix_version", "workload", "replacement",
                  "minimum_saving", "cores", "max_jobs", "expression_sha256", "lock_sha256",
                  "evaluation_cache", "require_idle_compilers", "resource_policy", "hardware"]
+        if args.normal_default:
+            fixed.append("build_entry_point")
         if any(previous.get(key) != metadata.get(key) for key in fixed):
             parser.error("Resume context differs; start a new campaign")
         expected = [(trial, label) for trial in range(1, args.trials + 1)
@@ -229,7 +244,7 @@ def main():
         for row in previous["warmup"]:
             if row["exit_code"] or row["source_variant_sha256"] != digest(sources[row["label"]] / args.edit):
                 parser.error("Original disposable source differs from the completed warmup")
-            recorded_source = row["command"][row["command"].index("source") + 1]
+            recorded_source = row.get("source_directory") or row["command"][row["command"].index("source") + 1]
             if Path(recorded_source).resolve() != sources[row["label"]]:
                 parser.error("Resume source directory differs")
             # Re-evaluate only the already completed original warmup, never a
