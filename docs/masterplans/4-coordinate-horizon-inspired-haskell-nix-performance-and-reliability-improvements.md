@@ -224,6 +224,23 @@ Shared edits to `flake.nix`, `checks/default.nix`, `lib/`, and updater modules r
 
 ## Progress
 
+2026-10-18 Seihou companion Complete:
+`mori://shinzui/seihou-modules/plans/6-upgrade-the-haskell-flake-module-and-migrate-existing-projects-to-retained-runtimes`
+delivers module 0.32.0, CLI scaffold 0.3.1 and adoption blueprint 0.1.0 as a locally prepared
+release. Six native bootstrap cases, four adoption topologies and an isolated genuine Mori
+legacy adoption pass. The pilot retains all 311 dependency identities, five owned recipes
+and the normal default; all 4,280 owned Cabal tests, source-complete comparison, HLS protocol,
+source-edit behavior, shared-owner preservation and normal repeat update pass. An empty
+matching native worker retrieves the exact 393-path runtime publication with builders disabled.
+Additional HLS retrieval matches published metadata but differs from independent local-build
+NARs; its qualified evidence is retained by the owner. Cold preparation, warm entry and edit/
+verification costs are separate observations, with no module compilation-speedup claim.
+Registry/Mori descriptors, generated docs, failure recovery and ADR 5 are coherent. No release
+push, production fleet migration, persistent service or activation is performed. The companion
+adds no publishing member or foreign numeric parent. EP-19 stays deferred; MP-4 remains
+In Progress with five of its original six members Complete.
+
+
 2026-10-18 EP-18 Complete: ordinary native Apple Silicon builds improve 27.71% for Rei
 and 27.57% for Mori by omitting unused executable library artifacts. Complete SDKs, native
 suites, input/resource guards, unchanged shared graphs, ten-edit required-cost gates and
@@ -235,8 +252,8 @@ qualification and costs, including Mori's optional diagnostic outside its suppor
 Scoped publication/readback retains exactly five channel and three toolchain documents
 and the acyclic ten-node/seven-edge Hard graph. [Catalog receipt](../evidence/ep18/scoped-completion-catalog.json).
 Five of six members are Complete. EP-19 remains deferred with its performance gate unmet.
-Next implement the separately authorized Seihou companion; it is outside the eight-document
-publication membership. The dated entries below preserve earlier states.
+The separately authorized Seihou companion is now complete as recorded below; it remains
+outside the eight-document publication membership. The dated entries below preserve earlier states.
 
 2026-10-18 Mac Studio campaigns complete: EP-18's 293-module resource-aware Rei boundary
 passes five fresh alternating pairs (57.285 → 39.897 s, 30.35%), all behavior/public-import/
