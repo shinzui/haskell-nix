@@ -4,10 +4,10 @@ title: Maintainer tools
 description: Find repository formatting, test, derivation-diff, and validation commands.
 docId: DOC-6
 tags: [maintainers, testing, nix]
-timestamp: 2026-10-18T00:10:32Z
+timestamp: 2026-10-18T00:22:48Z
 generated:
   by: process:codex
-  at: 2026-10-18T00:10:32Z
+  at: 2026-10-18T00:22:48Z
 ---
 
 # Maintainer tools
@@ -84,9 +84,13 @@ The [fixed-source example](../evidence/ep19/source-pin-artifacts.json) converts
 the solved `pkgconfig = false` flag. A metadata-hash-guarded constructor adapter
 removes the redundant spelling of this default-false flag and reproduces the
 legacy package and actual Rei CLI derivations. All 22 original package tests
-pass with bounds enforced, and both selected roots evaluate with IFD disabled.
+pass with bounds enforced, and both selected roots evaluate with IFD disabled. The
+[native supplement](../evidence/ep19/source-pin-native-matrix.json) repeats the
+mixed pipeline and all 22 package tests on Linux, with 221 updater tests on each
+system.
 Broader selected Nix flag policy needs an explicit handoff before conversion;
-Dhall's recorded Cabal TLS flag differs from its intentional Nix policy.
+Generation 1 Dhall records TLS false while its Nix policy enables it; generations
+2 and 3 already record true.
 
 A successful directory contains `manifest.json`, `extension.nix`, `packages/`
 functions and the `.recipe-artifacts` ownership marker. Replacement is staged

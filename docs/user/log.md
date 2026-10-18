@@ -1,6 +1,7 @@
 # Bundle Update Log
 
 ## 2026-10-18
+* **Update**: Record 221-test immutable updater builds and the mixed source-pin pipeline plus 22 strict fork tests on Linux; qualify the TLS source-flag caveat to generation 1.
 * **Update**: Document verified GitHub source-pin artifacts, immutable metadata extraction, preserved solved observations, guarded constructor flag spelling and the pending effective Nix flag policy handoff.
 
 ## 2026-10-17
