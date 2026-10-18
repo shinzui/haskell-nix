@@ -204,6 +204,7 @@
         };
 
         lib = {
+          mkGeneratedRecipeExtension = import ./lib/mkGeneratedRecipeExtension.nix { inherit lib; };
           inherit compatibilityPolicy;
           validateCompatibilityPolicy = import ./lib/validateCompatibilityPolicy.nix { inherit lib; };
           selectCompatibilityEntry = import ./lib/selectCompatibilityEntry.nix { inherit lib; };

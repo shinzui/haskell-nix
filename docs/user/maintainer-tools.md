@@ -4,10 +4,10 @@ title: Maintainer tools
 description: Find repository formatting, test, derivation-diff, and validation commands.
 docId: DOC-6
 tags: [maintainers, testing, nix]
-timestamp: 2026-10-18T00:47:23Z
+timestamp: 2026-10-18T01:08:02Z
 generated:
   by: process:codex
-  at: 2026-10-18T00:47:23Z
+  at: 2026-10-18T01:08:02Z
 ---
 
 # Maintainer tools
@@ -89,8 +89,8 @@ revision-label rejection, relocation, and unchanged format-1 artifacts. The
 [native matrix](../evidence/ep19/recipe-component-roles-native-matrix.json) passes
 all 223 updater tests on both systems and the same mixed format-2 pipeline in the
 translated Linux guest. Both generated dependency roots and the actual
-Rei CLI retain their previous derivations. General factory/context binding and
-production performance acceptance remain open.
+Rei CLI retain their previous derivations. The opt-in factory interface below adds selected-context binding; retained-runtime
+capture and production performance acceptance remain open.
 
 A source-pinned input uses `revision: null` and a `sourcePin` record containing
 its solved Git repository/revision/subdirectory, archive SHA256 and verified
@@ -130,11 +130,53 @@ and actual Rei CLI derivations through the existing runtime validator, regenerat
 byte-identically after input relocation, and evaluates its scoped root with IFD
 disabled. Other classifications remain explicit in the manifest and retain their
 existing constructors. Additional source transports, an explicit effective-flag
-policy handoff, a retained factory adapter, wider
+policy handoff, new retained-runtime artifact capture, wider
 native coverage and performance adoption remain EP-19 acceptance work. The earlier
 one-root and five-root evaluation campaigns missed the declared speed target. The
 [Linux supplement](../evidence/ep19/recipe-artifacts-native-matrix.json) passes the
 same bounded root and all 218 updater tests in the translated Apple guest.
+
+## Selecting generated recipes in a factory
+
+The public `lib.mkGeneratedRecipeExtension` takes
+`{ manifest; recipes; context; policyExtension; }`, followed by `haskellLib` and
+`pkgs`. Supply the owning factory's independently captured, validated format-2
+recipe context. The helper compares the manifest to that context, verifies the
+selected builder's converter/extractor, requires exact package file coverage and
+content hashes, and checks converted identity and component fields against the
+actual callable functions. Compiler identity is checked inside each package to
+preserve recursive-scope laziness. The reviewed extension runs once after raw
+construction. The generated `extension.nix` remains portable; this stricter helper
+constructs directly from the verified manifest and package functions.
+
+The first configuration argument of `mkFirstPartyPackageSet` now accepts an
+explicit option (default `null`):
+
+```nix
+generatedRecipes = {
+  context = builtins.fromJSON (builtins.readFile ./captured-recipe-context.json);
+  manifest = builtins.fromJSON (builtins.readFile ./recipes/manifest.json);
+  recipes = ./recipes;
+};
+```
+
+This path selects only the declared generated Hackage roots. It checks their
+source observations, flags, revision, index-state, compiler/channel/Nixpkgs and
+native arguments against the selected cohort. Existing construction policy and
+compatibility capture wrap either constructor in the same place. A selected
+mismatch fails explicitly. Undeclared roots retain their existing constructors;
+source pins still require their existing registry owner or an explicit low-level
+helper caller. Packages with unavailable test arguments cannot use this factory
+option until their argument representation is explicitly supported.
+
+The [factory integration receipt](../evidence/ep19/recipe-factory-binding.json)
+uses generation 3 and an immutable Rei source on both systems. The selected
+`base64-bytestring` root evaluates without IFD, and both scopes pass the existing
+independent runtime validator with identical dependency and real CLI derivations.
+This adds an opt-in factory interface. A new retained generation containing both
+generated candidate and reference constructors, update/rollback rehearsal and
+performance/cost adoption remain EP-19 work. Existing generations and consumers
+keep their selections.
 
 ## Compatibility declaration reports
 
@@ -364,6 +406,16 @@ image runs through Apple translation; the guest has `sandbox=false`, and its
 seccomp limitation requires `filter-syscalls=false`. Record those facts in Linux
 receipts. These results establish the checked Linux behavior; they do not establish
 performance on physical x86 hardware. Host builder configuration stays unchanged.
+
+Copy saved guest logs or archives directly to the host:
+
+```bash
+container copy mp3-linux-builder:/tmp/result.json /tmp/result.json
+```
+
+This also handles large artifacts without sending them through `container exec`
+standard output. A direct archive copy was verified against the chunked transfer's
+SHA256 in the factory checkpoint.
 
 ## A verified metadata retirement
 

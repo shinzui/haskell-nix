@@ -1,0 +1,389 @@
+{
+  "schema_version": 1,
+  "status": "Verified helper and opt-in Hackage factory preserve native identities on both systems; Darwin CLI behavior passes and Linux CLI build is in progress",
+  "pure_contracts": 338,
+  "new_binding_and_factory_contracts": 25,
+  "prior_updater_matrix": {
+    "tests_per_system": 223,
+    "receipt": "recipe-component-roles-native-matrix.json"
+  },
+  "context": {
+    "runtime_generation": 3,
+    "runtime_fingerprint": "1454decc0402e63a9c07a86e00fa0bcb0967d666b79a51123aedb7d7dacfee45",
+    "declared_factory_hackage_roots": [
+      "base64-bytestring"
+    ],
+    "independent_runtime_reference_guard_active_for_both_scopes": true,
+    "new_retained_generation_created": false
+  },
+  "source": {
+    "project_uri": "mori://shinzui/rei",
+    "project_relative_path": ".",
+    "revision": "bad0388f722af9e29187c2adfef5ed97fd0ca92f",
+    "artifact_level_uri_pending": true
+  },
+  "darwin": {
+    "status": "passed",
+    "results": [
+      {
+        "name": "no-ifd",
+        "command": [
+          "nix",
+          "eval",
+          "--impure",
+          "--json",
+          "--file",
+          "/tmp/ep19-recipe-factory-parity.nix",
+          "scoped",
+          "--option",
+          "allow-import-from-derivation",
+          "false",
+          "--max-jobs",
+          "0",
+          "--builders",
+          ""
+        ],
+        "exit_code": 0,
+        "elapsed_seconds": 1.0666645839810371
+      },
+      {
+        "name": "identity",
+        "command": [
+          "nix",
+          "eval",
+          "--impure",
+          "--json",
+          "--file",
+          "/tmp/ep19-recipe-factory-parity.nix",
+          "identity",
+          "--max-jobs",
+          "0",
+          "--builders",
+          ""
+        ],
+        "exit_code": 0,
+        "elapsed_seconds": 6.423550792038441
+      }
+    ],
+    "identity": {
+      "baseline": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+      "consumerBaseline": "/nix/store/l6afxry8yviihkab53lb13n3awn371iy-rei-cli-7.1.0.0.drv",
+      "consumerGenerated": "/nix/store/l6afxry8yviihkab53lb13n3awn371iy-rei-cli-7.1.0.0.drv",
+      "generated": "/nix/store/5xncf4xza9slwdq81zy2isdczqb7vyr4-base64-bytestring-1.2.1.0.drv",
+      "runtime": "1454decc0402e63a9c07a86e00fa0bcb0967d666b79a51123aedb7d7dacfee45"
+    }
+  },
+  "linux": {
+    "status": "passed",
+    "results": [
+      {
+        "name": "generate",
+        "command": [
+          "/nix/store/ii3rjvqmq6advh5wihzg5ijsdm900qj2-haskell-nix-update-0.1.0.0/bin/haskell-nix-update",
+          "cohort",
+          "recipes",
+          "generate",
+          "--context",
+          "/tmp/ep19-recipe-factory-linux-v1/inputs/context.json",
+          "--out",
+          "/tmp/ep19-recipe-factory-linux-v1/artifacts"
+        ],
+        "exit_code": 0,
+        "elapsed_seconds": 0.9643214590032585
+      },
+      {
+        "name": "check",
+        "command": [
+          "/nix/store/ii3rjvqmq6advh5wihzg5ijsdm900qj2-haskell-nix-update-0.1.0.0/bin/haskell-nix-update",
+          "cohort",
+          "recipes",
+          "check",
+          "--context",
+          "/tmp/ep19-recipe-factory-linux-v1/inputs/context.json",
+          "--out",
+          "/tmp/ep19-recipe-factory-linux-v1/artifacts"
+        ],
+        "exit_code": 0,
+        "elapsed_seconds": 0.9635867920005694
+      },
+      {
+        "name": "no-ifd",
+        "command": [
+          "nix",
+          "eval",
+          "--impure",
+          "--json",
+          "--file",
+          "/tmp/ep19-recipe-factory-linux-v1/parity.nix",
+          "scoped",
+          "--option",
+          "allow-import-from-derivation",
+          "false",
+          "--max-jobs",
+          "0",
+          "--builders",
+          ""
+        ],
+        "exit_code": 0,
+        "elapsed_seconds": 1.6533053339953767
+      },
+      {
+        "name": "identity",
+        "command": [
+          "nix",
+          "eval",
+          "--impure",
+          "--json",
+          "--file",
+          "/tmp/ep19-recipe-factory-linux-v1/parity.nix",
+          "identity",
+          "--max-jobs",
+          "1",
+          "--cores",
+          "8",
+          "--builders",
+          ""
+        ],
+        "exit_code": 0,
+        "elapsed_seconds": 5.911863378001726
+      },
+      {
+        "name": "focused",
+        "command": [
+          "nix",
+          "eval",
+          "--impure",
+          "--json",
+          "--expr",
+          "let f=builtins.getFlake \"git+file:///workspace?rev=816ae297b25103865b5d026924590c2b5be67cd8\"; lib=f.inputs.nixpkgs.lib; tests=import /workspace/checks/generated-recipe-binding.nix {inherit lib;}; in builtins.mapAttrs (_: t: t.expr == t.expected) tests"
+        ],
+        "exit_code": 0,
+        "elapsed_seconds": 0.213250208995305
+      }
+    ],
+    "identity": {
+      "baseline": "/nix/store/hzaqrmdmvcci378svzsv0i8csmm1qhgd-base64-bytestring-1.2.1.0.drv",
+      "consumerBaseline": "/nix/store/gswfags3naialnr46c7dqhbcy0sv4xiy-rei-cli-7.1.0.0.drv",
+      "consumerGenerated": "/nix/store/gswfags3naialnr46c7dqhbcy0sv4xiy-rei-cli-7.1.0.0.drv",
+      "generated": "/nix/store/hzaqrmdmvcci378svzsv0i8csmm1qhgd-base64-bytestring-1.2.1.0.drv",
+      "runtime": "1454decc0402e63a9c07a86e00fa0bcb0967d666b79a51123aedb7d7dacfee45"
+    },
+    "real_rei_source": "mori://shinzui/rei at bad0388f722af9e29187c2adfef5ed97fd0ca92f (artifact URI pending)",
+    "scope": "Opt-in live factory consumes a validated bounded Hackage context; generation-3 independent runtime validation remains active for both scopes. Apple translated guest; no performance, production or full retained-generation adoption claim."
+  },
+  "native_consumer_builds": {
+    "darwin": [
+      {
+        "drvPath": "/nix/store/l6afxry8yviihkab53lb13n3awn371iy-rei-cli-7.1.0.0.drv",
+        "outputs": {
+          "out": "/nix/store/n3i540rdai30hdxx66mybxqjsai89g59-rei-cli-7.1.0.0"
+        }
+      }
+    ],
+    "linux": {
+      "status": "in_progress",
+      "log": "factory-linux/build-in-progress.log"
+    },
+    "darwin_help_exit_code": 0,
+    "linux_cli_behavior": "pending actual build completion"
+  },
+  "mixed_low_level_helper_linux": {
+    "status": "passed",
+    "results": [
+      {
+        "name": "focused",
+        "command": [
+          "nix",
+          "eval",
+          "--impure",
+          "--json",
+          "--expr",
+          "let f=builtins.getFlake \"git+file:///workspace?rev=816ae297b25103865b5d026924590c2b5be67cd8\"; lib=f.inputs.nixpkgs.lib; tests=import /workspace/checks/generated-recipe-binding.nix {inherit lib;}; in builtins.mapAttrs (_: t: t.expr == t.expected) tests"
+        ],
+        "exit_code": 0,
+        "elapsed_seconds": 0.23762708299909718
+      },
+      {
+        "name": "no-ifd",
+        "command": [
+          "nix",
+          "eval",
+          "--impure",
+          "--json",
+          "--file",
+          "/tmp/ep19-recipe-binding-linux-v1/parity.nix",
+          "scoped",
+          "--option",
+          "allow-import-from-derivation",
+          "false",
+          "--max-jobs",
+          "0",
+          "--builders",
+          ""
+        ],
+        "exit_code": 0,
+        "elapsed_seconds": 1.9715072510007303
+      },
+      {
+        "name": "identity",
+        "command": [
+          "nix",
+          "eval",
+          "--impure",
+          "--json",
+          "--file",
+          "/tmp/ep19-recipe-binding-linux-v1/parity.nix",
+          "identity",
+          "--max-jobs",
+          "0",
+          "--builders",
+          ""
+        ],
+        "exit_code": 0,
+        "elapsed_seconds": 7.1820396699913545
+      }
+    ],
+    "identity": {
+      "candidate": "/nix/store/qv8s91y46hr1ddin4bc3ii59p8wsb5ws-cmark-gfm-0.2.6.drv",
+      "legacy": "/nix/store/qv8s91y46hr1ddin4bc3ii59p8wsb5ws-cmark-gfm-0.2.6.drv",
+      "runtime": "da00319eb1423b4372a0a0b050911b7719d1de0867a3e32160dbd327a2762e81",
+      "validation": "/nix/store/mprmai11vhwapfk7wm23gssq9i4j2naf-cmark-gfm-0.2.6.drv"
+    },
+    "scope": "Same raw mixed format-2 input and retained runtime, using the new live helper under test. All focused binding cases pass. Translated Apple guest; correctness only."
+  },
+  "limits": [
+    "Live opt-in factory checks a declared Hackage subset; undeclared roots keep their existing constructors. Source pins remain with their registry owner or explicit low-level callers.",
+    "The factory rejects unavailable test arguments until an explicit representation can preserve them; no silent null dependency or live-converter fallback for selected roots.",
+    "A new retained generation capturing both generated constructors, targeted update/rollback and performance/cost adoption remain pending.",
+    "Linux executes actual x86_64 Linux binaries under Apple Rosetta; correctness only, no physical x86 timing or fresh-worker evidence.",
+    "Captured timings are diagnostic command durations, not a paired performance campaign. Earlier one- and five-root performance thresholds remain unmet.",
+    "No old runtime generation, consumer selection or production default changed."
+  ],
+  "raw_archive": {
+    "path": "docs/evidence/ep19/recipe-factory-binding.raw.tar.gz",
+    "sha256": "3f2ba449ce68dfacbb1279b54d3f30e9ea22fa394c0f2ca282f07054623e284c",
+    "members": {
+      "binding-linux/focused.json": "2fcd45d4e36c5b30b33fae65e2ab4ae622e5b8e415b6f07822f07090b7a93de9",
+      "binding-linux/focused.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "binding-linux/identity.json": "0a90e88bdcf6640ea57c7fbd7361ab6892a418235bf456b9248057d1b2d63cea",
+      "binding-linux/identity.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "binding-linux/no-ifd.json": "91cd3e7fb996ebdf4d735a0335c8520c12a5ff0f793f1e39928b8a0bce6c7eed",
+      "binding-linux/no-ifd.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "binding-linux/parity.nix": "304b1508a2601a44f89e6f3c72c33c43040b38894a5e2cbf7e31aa1ad117c4f0",
+      "binding-linux/receipt.json": "2a55d2ca21c904c278b8ff30860c45b97562ccd7bc3b51db87bb3e6ffa6887ee",
+      "code/checks/fixtures/generated-recipes/binding-pin/packages/recipe-pinned.nix": "0c8f127825f1d3bcd9fb06ae9dd8e9e44183eb07c68e4a68baa2724175529a29",
+      "code/checks/fixtures/generated-recipes/binding/packages/recipe-pinned.nix": "9001037f311545591eeb0394233d8625f9e56efa864c7f3efb99a78b754e5887",
+      "code/checks/generated-recipe-binding.nix": "4471acf98def089c4e57c20494746a8879a7dfe42339fb205b53f5932e5b4190",
+      "code/checks/unit.nix": "1e1ed54361470b1722b9d0a57672fc30e397fcb7366b7fecaeee3a15971bd437",
+      "code/flake.nix": "5aeb3626af3bf6d3cfe70e01767b4d9ed901e748b69790665b06939455c83b4e",
+      "code/lib/mkCohortVersionLayer.nix": "44b615ad10e01f2470cf1b6c4b22943d5e9eafa54ee34a8c0e90e97f1128e920",
+      "code/lib/mkFirstPartyPackageSet.nix": "1e1bffca3988ca603f65fb52414c76790cc19a29bb735a91adcd084669c1c282",
+      "code/lib/mkGeneratedRecipeExtension.nix": "581fc0f49f91015c097930c08d66a1b09bd1e000ebd777783066ad19e2325786",
+      "factory-artifacts/.recipe-artifacts": "3b68af8188320bdd757a7ee818e27d6211e4103aeeea8fbe1bc8491b21f505d8",
+      "factory-artifacts/extension.nix": "9dc9e4945dc7783ae718cd4a2bccac380c3a851a795f4e50b28a391b2fbb24ee",
+      "factory-artifacts/manifest.json": "f86bb4aed92e631e891d8d65f80805f16b9b178518bee19c25faeca94692ffb2",
+      "factory-artifacts/packages/base64-bytestring.nix": "84f3fbe710dc6d3c3bc23a619be6a09103deebed3a3b7ce698a596307180d16d",
+      "factory-inputs/base64-bytestring-1.2.1.0.tar.gz": "fbf8ed30edde271eb605352021431d8f1b055f95a56af31fe2eacf6bdfdc49c9",
+      "factory-inputs/base64-bytestring.cabal": "45305ccf8914c66d385b518721472c7b8c858f1986945377f74f85c1e0d49803",
+      "factory-inputs/cmark-gfm-hs-a9014e8.tar.gz": "5ce3f559333e61ee534f57400fdce29200e899c2405d26c7e85e80936a2a519c",
+      "factory-inputs/cmark-gfm.cabal": "ed52f082c176d2f21e481a5b9c6ab02bd1ad7f6cf4044dd8bc9cd25dafb29853",
+      "factory-inputs/context.json": "594ebb0a21fc4abb6a84a7b4cc17b7c7af8081509387ed3eac83137a551f455c",
+      "factory-inputs/generation-context.json": "fd711ed5e49882bb4eacf2f3eb8bddc0677fb712da4e81700e0c5ad573c7fb29",
+      "factory-inputs/selected-revision.json": "e4b5b89c4b6bd01e5f76123d32e5a64a4a7ecf4d08ba4e664101e9a44559b10d",
+      "factory-linux/artifacts/.recipe-artifacts": "3b68af8188320bdd757a7ee818e27d6211e4103aeeea8fbe1bc8491b21f505d8",
+      "factory-linux/artifacts/extension.nix": "bec9cc7d43211348320c818bb8ed529183fd752a30b1dcfdaaba6f288e43d0a0",
+      "factory-linux/artifacts/manifest.json": "5f033c1f9d6d0a47ce4eaf9cf12f8e63851b6a2b062e11927b97f7dfd73530b9",
+      "factory-linux/artifacts/packages/base64-bytestring.nix": "84f3fbe710dc6d3c3bc23a619be6a09103deebed3a3b7ce698a596307180d16d",
+      "factory-linux/build-in-progress.log": "f23a8d6c14f7fa9b632a988e1e1b2bdc2ef50fcc38ec9ce4b6939bbb29594547",
+      "factory-linux/check.json": "1a704889a82775c4496874ea7f6dd12b56eead4f79707506d12e516003c2a865",
+      "factory-linux/check.log": "8e433eafa751bd44241063d84e4d36ab6ce2a41e54e4dd902b693ebc32879540",
+      "factory-linux/darwin-parity.nix": "173b8dcd11834e5a914b8c447d27be49dc6e8f82e7d557acf75756eedd715e55",
+      "factory-linux/final-focused.json": "d39774485cd3744cec93e25bcbb9b154fbbba2d43a1f44baae28d15508658fc8",
+      "factory-linux/final-focused.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "factory-linux/final-identity.json": "a75553c67f981674b3a72356780f8dd89396dc3158ec0a18370d7450881f65c0",
+      "factory-linux/final-identity.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "factory-linux/focused.json": "d6f9b63e7d4294788d75776fcfeac36d26584414f169cc700474bb57a6dd5d2e",
+      "factory-linux/focused.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "factory-linux/generate.json": "49d42d99b7a173f1a2edc97c73e3d9ca0411fcc79f470f6882c37f503d5d968a",
+      "factory-linux/generate.log": "a73e9fb8f3b44f3333750070c2994fc1bc54f9e9f21e94c0e741a2100e61617c",
+      "factory-linux/identity.json": "a75553c67f981674b3a72356780f8dd89396dc3158ec0a18370d7450881f65c0",
+      "factory-linux/identity.log": "f237ccdcd4ac545374c16b759f694ae7db5a2580c439df7db6723d412432adaf",
+      "factory-linux/inputs/base64-bytestring-1.2.1.0.tar.gz": "fbf8ed30edde271eb605352021431d8f1b055f95a56af31fe2eacf6bdfdc49c9",
+      "factory-linux/inputs/base64-bytestring.cabal": "45305ccf8914c66d385b518721472c7b8c858f1986945377f74f85c1e0d49803",
+      "factory-linux/inputs/cmark-gfm-hs-a9014e8.tar.gz": "5ce3f559333e61ee534f57400fdce29200e899c2405d26c7e85e80936a2a519c",
+      "factory-linux/inputs/cmark-gfm.cabal": "ed52f082c176d2f21e481a5b9c6ab02bd1ad7f6cf4044dd8bc9cd25dafb29853",
+      "factory-linux/inputs/context.json": "78581423bf3eebd613e345aefea066d7e1ba5653b29263d58c19060b61d10fa0",
+      "factory-linux/inputs/generation-context.json": "fd711ed5e49882bb4eacf2f3eb8bddc0677fb712da4e81700e0c5ad573c7fb29",
+      "factory-linux/inputs/selected-revision.json": "e4b5b89c4b6bd01e5f76123d32e5a64a4a7ecf4d08ba4e664101e9a44559b10d",
+      "factory-linux/no-ifd.json": "0f3bde3ea885d93df76473161b4814744e7f180323bfa57410ae5ef875ed298e",
+      "factory-linux/no-ifd.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "factory-linux/parity.nix": "1b4b507f8ae83e4b9ee4e288e05b84d397435b38026970ded301d0daaca15885",
+      "factory-linux/receipt.json": "34e68a3590d13c73ac71dc2e5031d54bd4c987cb8174dc3b9f549bd1244268aa",
+      "factory-linux/rei-source.tar": "40e4ae3797626b25d220e796fd714ffd3177f4505c8daa29b5d06bf0e41fa47b",
+      "host/ep19-export-factory-context.hs": "9644324feafaf9752602ef8eacfaee7498dcdfa5c95eb524e6a4d27b63b0ab4c",
+      "host/ep19-recipe-binding-fmt-final.log": "67f403e388db8c5ca822332d31e073aa7cbfb33cecfaf7e0207c7e141d2eaca0",
+      "host/ep19-recipe-binding-fmt-v2.log": "5d5b1768b10c3a429314c3ab59dee46cb10ffba576f3fed06b4b2a2432547454",
+      "host/ep19-recipe-binding-fmt-v3.log": "4f8a3cb75544fcd18753d4986339dd9173fef1c30449bab58251b7c276ccfd05",
+      "host/ep19-recipe-binding-fmt.log": "0d0f2fe0a899a6be68ac2ef1a6c89e8dadd243a3b473f99f046e07e5134c6c04",
+      "host/ep19-recipe-binding-focused-v2.json": "d66b39c8e91e2945ffd08b3d0918d3b8e4d7f12703e4e2f24a587dac49990f21",
+      "host/ep19-recipe-binding-focused-v2.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "host/ep19-recipe-binding-focused-v3.json": "2fcd45d4e36c5b30b33fae65e2ab4ae622e5b8e415b6f07822f07090b7a93de9",
+      "host/ep19-recipe-binding-focused-v3.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "host/ep19-recipe-binding-focused-v4.json": "d6f9b63e7d4294788d75776fcfeac36d26584414f169cc700474bb57a6dd5d2e",
+      "host/ep19-recipe-binding-focused-v4.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "host/ep19-recipe-binding-focused.json": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "host/ep19-recipe-binding-focused.log": "2599eed203e0850cb4edad086e5394d21401ffa3ac1ec788c43ea62c287e1871",
+      "host/ep19-recipe-binding-identity.json": "f7182ec43617151cdb4f0e96d47b08ad6b95a489c5cfafb6df37c3bd9a6a7290",
+      "host/ep19-recipe-binding-identity.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "host/ep19-recipe-binding-layer-parse.log": "1470b58c7343825f6a297c0f0c2445d658cef33e302b86646d99a2597817f481",
+      "host/ep19-recipe-binding-linux.log": "68dfcc96feb4afdb67cd8955b7d64896b62b3fc41829f2bfe3a0496c3f211301",
+      "host/ep19-recipe-binding-linux.py": "574901825b5b6460a2e73b93418deceb6756938c6c123b9098c949b9b1203c30",
+      "host/ep19-recipe-binding-nix-unit-final.json": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "host/ep19-recipe-binding-nix-unit-final.log": "92186f184b8a1ed5b28f61baa57891e436b0058c60117db4b0a8925031c9ee31",
+      "host/ep19-recipe-binding-nix-unit-v3.json": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "host/ep19-recipe-binding-nix-unit-v3.log": "a05844efc1d9cca26ff97cf1e450802bffa005e86bbc066d0b373bd3afad6175",
+      "host/ep19-recipe-binding-nix-unit.json": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "host/ep19-recipe-binding-nix-unit.log": "82d4302b2a632d2ab6cfbea0453c6302b449821490628b3b7c6d65fb1ea593ad",
+      "host/ep19-recipe-binding-no-ifd.json": "f267e4aecb3e303d38ee37e496987f1139812fa7e509565a9274b32f2eea43d2",
+      "host/ep19-recipe-binding-no-ifd.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "host/ep19-recipe-binding-parity.nix": "47bdc49e33b62955cfb1a56568794c6c66823e54e598db6349c29f0fbcc5742c",
+      "host/ep19-recipe-binding-retained-facts.json": "7aa50edd7fd62325a367529a169eec2efa0472839e395a627854b467ddec5230",
+      "host/ep19-recipe-binding-retained-facts.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "host/ep19-recipe-factory-context-export-v2.log": "99a16776cea18d49062a64e61e457f306a6721770cb599e35bc9479100e5b5ce",
+      "host/ep19-recipe-factory-context-export-v3.log": "0762e37609c1806767a1fd266059b25489f69a339bb8caf3d275a8790bab4da1",
+      "host/ep19-recipe-factory-context-export-v4.log": "784f41545b0183dd7ce2a4ce85a565561d05a3c4d740cf16564235fb87612ca4",
+      "host/ep19-recipe-factory-context-export.log": "747840e9b8455e7b0ee52c7033a284008d1662ce08e09e5c3d037d03cb12b76c",
+      "host/ep19-recipe-factory-copy-verification.json": "281fe4710c7c1f979edc178e455250ada71956cb92e27fd8671202d97372254c",
+      "host/ep19-recipe-factory-darwin-build.json": "2d5963730c3bdfbed5967df1a81606b4c81ea6b463bdab61a793276f479191d9",
+      "host/ep19-recipe-factory-darwin-build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "host/ep19-recipe-factory-darwin-help.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "host/ep19-recipe-factory-darwin-help.txt": "0eafee80c6251dfd461391c7fcc802148d5ff912cdebcc6cebf661b27a16f048",
+      "host/ep19-recipe-factory-doc-check.log": "e5693edd8f8f99f583a4cb6fa6bb29851608f11e68598aae106822672a032b38",
+      "host/ep19-recipe-factory-final-checks.py": "88bac11c4700b056b327642603c868d9acffa12ca58948c53fb43100407d1acf",
+      "host/ep19-recipe-factory-final-doc-check.log": "e5693edd8f8f99f583a4cb6fa6bb29851608f11e68598aae106822672a032b38",
+      "host/ep19-recipe-factory-final-identity.json": "f64760f9f21128b25d5a25ad313aa937d008a6f0a3570f60df4cd4b4bedd3508",
+      "host/ep19-recipe-factory-final-identity.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "host/ep19-recipe-factory-final-no-ifd.json": "cf181f51cb6f44b164f71f54624e952694e76c53c19d277903bc6f763719dc1d",
+      "host/ep19-recipe-factory-final-no-ifd.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "host/ep19-recipe-factory-final-receipt.json": "6443f7a6dbc987c12c69b4d7e43d31b9999e790642a30fa164c474ca2c851db0",
+      "host/ep19-recipe-factory-fmt-check.log": "acc167502ed2c2f95d820e4481ad5bcf8d17cd1b68424ced901efe79d1d706ae",
+      "host/ep19-recipe-factory-generate-final.log": "49d42d99b7a173f1a2edc97c73e3d9ca0411fcc79f470f6882c37f503d5d968a",
+      "host/ep19-recipe-factory-generate.log": "37484defd585af5f2db5b63cbd9627b5fc41d45fa2631663f997fc15ce2a5041",
+      "host/ep19-recipe-factory-identity.json": "f64760f9f21128b25d5a25ad313aa937d008a6f0a3570f60df4cd4b4bedd3508",
+      "host/ep19-recipe-factory-identity.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "host/ep19-recipe-factory-linux-build-driver.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "host/ep19-recipe-factory-linux.log": "8a1952268d690dcf1eb4b6b8717d3177701de01764007340160c13b1a65d6949",
+      "host/ep19-recipe-factory-linux.py": "f55882beafd0c7a56336854cc340c126eab227cb17c53d3961e36b4b7d8b4014",
+      "host/ep19-recipe-factory-local-publish.log": "8fa48d0be9a056e1dfc8b7c022ba0b2539c023f3e882a79c58902a2f8ecd0164",
+      "host/ep19-recipe-factory-mori-lookup.log": "8860c130646b332695c35fe4ccffdcaabcba3729a242b9722e67b454fe0b913c",
+      "host/ep19-recipe-factory-no-ifd-v2.json": "cf181f51cb6f44b164f71f54624e952694e76c53c19d277903bc6f763719dc1d",
+      "host/ep19-recipe-factory-no-ifd-v2.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "host/ep19-recipe-factory-no-ifd.json": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "host/ep19-recipe-factory-no-ifd.log": "1562837e8c6ea97eb46dbf2a68229878eec8719c75fdbab6659cc3d1973b8ebd",
+      "host/ep19-recipe-factory-parity.nix": "4c3cc67c46376d6d6f415b67ee082a699e41683dd6c5af5bf88c36186d27bace",
+      "host/ep19-recipe-factory-retained-diff.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "retained-generation-diff.txt": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sources/rei-bad0388.tar": "40e4ae3797626b25d220e796fd714ffd3177f4505c8daa29b5d06bf0e41fa47b"
+    }
+  }
+}

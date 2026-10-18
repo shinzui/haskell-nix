@@ -13,6 +13,7 @@
 , compatibilityProfiles
 , supportedGhcs
 , cohortVersions ? { packages = { }; }
+, generatedRecipes ? null
 , fetchSource ? builtins.fetchTree
 }:
 
@@ -233,7 +234,7 @@ let
   extraOverrides =
     if channel == "hackage" then hackageDependencyOverrides
     else (_: _: { });
-  versionLayer = (import ./mkCohortVersionLayer.nix { inherit lib captureCompatibility channel; }) cohortVersions;
+  versionLayer = (import ./mkCohortVersionLayer.nix { inherit lib captureCompatibility channel generatedRecipes; }) cohortVersions;
   cohortPackageConflicts = lib.intersectLists
     (builtins.attrNames cohortVersions.packages)
     selectedPackageNames;

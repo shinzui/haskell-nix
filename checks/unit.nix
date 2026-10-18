@@ -525,6 +525,7 @@ in
   invalidPackageSetCases // import ./cohort-freeze-parser.nix { inherit lib; }
 // import ./cohort-generated.nix { inherit lib; }
 // import ./cohort-layer.nix { inherit lib; }
+// import ./generated-recipe-binding.nix { inherit lib; }
 // import ./cohort-build-policy.nix { inherit lib; }
 // import ./application-incremental-policy.nix { inherit lib; }
 // import ./compatibility-policy.nix { inherit lib; }

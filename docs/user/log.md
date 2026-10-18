@@ -1,6 +1,7 @@
 # Bundle Update Log
 
 ## 2026-10-18
+* **Update**: Document verified generated-recipe binding and the opt-in Hackage factory path, shared construction policy, guarded cohort inputs and pending retained-generation adoption.
 * **Update**: Record the immutable 223-test updater matrix and matching format-2 recipe identities and roles on Linux; preserve prior strict-test receipt by exact derivation identity.
 * **Update**: Document public typed recipe contexts, format-2 converted identity and component-role inventory, unchanged format-1 outputs and bounded Darwin validation.
 * **Update**: Record 221-test immutable updater builds and the mixed source-pin pipeline plus 22 strict fork tests on Linux; qualify the TLS source-flag caveat to generation 1.
