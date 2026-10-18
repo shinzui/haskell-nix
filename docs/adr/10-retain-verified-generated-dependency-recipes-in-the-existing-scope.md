@@ -99,7 +99,14 @@ publisher; all 2,933 build-closure metadata records agree after import. Preserve
 these as bounded availability receipts, separate from broad runtime support,
 hosted CI and the positive dependency-update rehearsal.
 
+The approved disposable http2 transition now passes actual consumer behavior,
+publication, empty-store substitution and prior-generation rollback on both
+systems; [native maintenance evidence](../evidence/ep19/targeted-http2-native-matrix.json).
+Preserve translated execution and independent-store qualifications. Large guest
+logs must stay inside the guest and be copied afterward; a stalled or partial
+stream is not a successful substitution receipt.
+
 [EP-19](../plans/19-pre-generate-complete-locked-nix-haskell-dependency-recipes.md)
-still owns targeted update/rollback, evaluation thresholds, total-cost accounting,
+still owns evaluation thresholds, total-cost accounting,
 cache publication and production adoption. Retain failed experiments and keep
 existing generations, aliases and consumer selections unchanged until acceptance.

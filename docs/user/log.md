@@ -1,6 +1,7 @@
 # Bundle Update Log
 
 ## 2026-10-18
+* **Update**: Record both-system actual http2 consumer/cache/rollback acceptance, translated and empty-store qualifications, and excluded first retrieval; retain performance and adoption gates.
 * **Update**: Document metadata-bound false-flag spelling normalization, exact closure parity and no-IFD correctness, with excluded performance evidence.
 * **Update**: Record the positive disposable http2 update, Darwin consumer and cache/rollback evidence, unchanged policy and explicit Linux/transitive no-IFD limits.
 * **Update**: Document the explicit guarded index transition, coherent publication and disposable http2-only solve; retain separate consumer, rollback and performance gates.

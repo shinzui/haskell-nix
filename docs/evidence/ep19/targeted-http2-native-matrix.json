@@ -1,0 +1,572 @@
+{
+  "archive": {
+    "bytes": 1715269,
+    "members": {
+      "execution/ep19-http2-copy-linux-evidence.py": {
+        "bytes": 669,
+        "sha256": "c6b69dd3871c55ab2b383d265d3ac92ba150b5e7ff98b340e5be51b9e8093847"
+      },
+      "execution/ep19-http2-darwin-artifacts-receipt.json": {
+        "bytes": 4489,
+        "sha256": "46a6a2963f343217a39e8b53352d1dc00ba104437be1e1b4bdc1b76c58751966"
+      },
+      "execution/ep19-http2-darwin-behavior-0-baseline.stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution/ep19-http2-darwin-behavior-0-baseline.stdout": {
+        "bytes": 22,
+        "sha256": "ceb9946b7d9a4b5d747ad754a0df97d300ec252be7b4c965beed9d505a2724cb"
+      },
+      "execution/ep19-http2-darwin-behavior-0-candidate.stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution/ep19-http2-darwin-behavior-0-candidate.stdout": {
+        "bytes": 22,
+        "sha256": "ceb9946b7d9a4b5d747ad754a0df97d300ec252be7b4c965beed9d505a2724cb"
+      },
+      "execution/ep19-http2-darwin-behavior-1-baseline.stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution/ep19-http2-darwin-behavior-1-baseline.stdout": {
+        "bytes": 3759,
+        "sha256": "0eafee80c6251dfd461391c7fcc802148d5ff912cdebcc6cebf661b27a16f048"
+      },
+      "execution/ep19-http2-darwin-behavior-1-candidate.stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution/ep19-http2-darwin-behavior-1-candidate.stdout": {
+        "bytes": 3759,
+        "sha256": "0eafee80c6251dfd461391c7fcc802148d5ff912cdebcc6cebf661b27a16f048"
+      },
+      "execution/ep19-http2-darwin-behavior-2-baseline.stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution/ep19-http2-darwin-behavior-2-baseline.stdout": {
+        "bytes": 1833,
+        "sha256": "b6cc04edc06c5cdca856f452bcd3acc4ebc546b8eee465693dee6a68ece15348"
+      },
+      "execution/ep19-http2-darwin-behavior-2-candidate.stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution/ep19-http2-darwin-behavior-2-candidate.stdout": {
+        "bytes": 1833,
+        "sha256": "b6cc04edc06c5cdca856f452bcd3acc4ebc546b8eee465693dee6a68ece15348"
+      },
+      "execution/ep19-http2-darwin-behavior-3-baseline.stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution/ep19-http2-darwin-behavior-3-baseline.stdout": {
+        "bytes": 282,
+        "sha256": "f7414ece722cc984da96cb5fe7a5fcc2addd4b92b39590e1de9caaa3ed36eae9"
+      },
+      "execution/ep19-http2-darwin-behavior-3-candidate.stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution/ep19-http2-darwin-behavior-3-candidate.stdout": {
+        "bytes": 282,
+        "sha256": "f7414ece722cc984da96cb5fe7a5fcc2addd4b92b39590e1de9caaa3ed36eae9"
+      },
+      "execution/ep19-http2-darwin-behavior.json": {
+        "bytes": 3685,
+        "sha256": "1700cc026b9b85e3d5f82039fc3e0acc845cf399701feca484493116721f6a27"
+      },
+      "execution/ep19-http2-darwin-consumer-build.json": {
+        "bytes": 160,
+        "sha256": "4f771c74fe15f803806746e2a57af2cf10d5189ab0ca77ee696fbd65f26534f3"
+      },
+      "execution/ep19-http2-darwin-consumer-build.log": {
+        "bytes": 910095,
+        "sha256": "3b12def068d0aef2f2d208f80ca3bc9a42aee800ab34f684727c1244ee4b4ea8"
+      },
+      "execution/ep19-http2-darwin-finalize.py": {
+        "bytes": 1666,
+        "sha256": "fad50cac31bb5c542f1d25a4fdd4035693df567b3f35998be07afae1d3b38965"
+      },
+      "execution/ep19-http2-darwin-publication-driver.json": {
+        "bytes": 294,
+        "sha256": "e2f445a2163fad0bf35fbde0b5076faf973b40cf7f12eacc470bd4937359c107"
+      },
+      "execution/ep19-http2-darwin-publication.json": {
+        "bytes": 1435124,
+        "sha256": "0576d2433ef4f4a8eff17c9c27448ea400a718358c8dea7a8f822d622d0728fc"
+      },
+      "execution/ep19-http2-darwin-publication.log": {
+        "bytes": 2094,
+        "sha256": "f19c6ae1f5a6e9d6e5d5760048a565f5542b095be247c79db0d157c479f0821d"
+      },
+      "execution/ep19-http2-darwin-substitution-driver.json": {
+        "bytes": 346,
+        "sha256": "68ab7076a8f7b008ecba9573a1b66ee56efba7b4247baf92ce724d120eac2f26"
+      },
+      "execution/ep19-http2-darwin-substitution.json": {
+        "bytes": 1477006,
+        "sha256": "27bed8ac919cce44a41cefa28db269cd088d6eda15d846abfae4619fd2871c5f"
+      },
+      "execution/ep19-http2-darwin-substitution.log": {
+        "bytes": 82849,
+        "sha256": "103acf3b90ea3c4ef414a4d5c075b268482b390d34fc00e37f2b11261b69a672"
+      },
+      "execution/ep19-http2-darwin-substitution.py": {
+        "bytes": 958,
+        "sha256": "4657c6a096f89fe9efd8d17cb36fdac6a3630712daa11f9468d977ac15e44c75"
+      },
+      "execution/ep19-http2-linux-artifacts-receipt.json": {
+        "bytes": 5940,
+        "sha256": "1059d6e357a96c3aae6898baae3768dc4cb9363a91221e01d1d25a02cb6992e0"
+      },
+      "execution/ep19-http2-linux-artifacts.log": {
+        "bytes": 47,
+        "sha256": "26f9b6357ddd801d62464db40c161b658fb2ba2f3d5687ef3a12594b4a47f483"
+      },
+      "execution/ep19-http2-linux-artifacts.py": {
+        "bytes": 1109,
+        "sha256": "17af03bdf08e3c58972d4fdb64ee6f1efb47131e763aea0fb513ebf9292b4a1d"
+      },
+      "execution/ep19-http2-linux-behavior-0-baseline.stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution/ep19-http2-linux-behavior-0-baseline.stdout": {
+        "bytes": 22,
+        "sha256": "ceb9946b7d9a4b5d747ad754a0df97d300ec252be7b4c965beed9d505a2724cb"
+      },
+      "execution/ep19-http2-linux-behavior-0-candidate.stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution/ep19-http2-linux-behavior-0-candidate.stdout": {
+        "bytes": 22,
+        "sha256": "ceb9946b7d9a4b5d747ad754a0df97d300ec252be7b4c965beed9d505a2724cb"
+      },
+      "execution/ep19-http2-linux-behavior-1-baseline.stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution/ep19-http2-linux-behavior-1-baseline.stdout": {
+        "bytes": 3759,
+        "sha256": "0eafee80c6251dfd461391c7fcc802148d5ff912cdebcc6cebf661b27a16f048"
+      },
+      "execution/ep19-http2-linux-behavior-1-candidate.stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution/ep19-http2-linux-behavior-1-candidate.stdout": {
+        "bytes": 3759,
+        "sha256": "0eafee80c6251dfd461391c7fcc802148d5ff912cdebcc6cebf661b27a16f048"
+      },
+      "execution/ep19-http2-linux-behavior-2-baseline.stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution/ep19-http2-linux-behavior-2-baseline.stdout": {
+        "bytes": 1833,
+        "sha256": "b6cc04edc06c5cdca856f452bcd3acc4ebc546b8eee465693dee6a68ece15348"
+      },
+      "execution/ep19-http2-linux-behavior-2-candidate.stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution/ep19-http2-linux-behavior-2-candidate.stdout": {
+        "bytes": 1833,
+        "sha256": "b6cc04edc06c5cdca856f452bcd3acc4ebc546b8eee465693dee6a68ece15348"
+      },
+      "execution/ep19-http2-linux-behavior-3-baseline.stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution/ep19-http2-linux-behavior-3-baseline.stdout": {
+        "bytes": 282,
+        "sha256": "f7414ece722cc984da96cb5fe7a5fcc2addd4b92b39590e1de9caaa3ed36eae9"
+      },
+      "execution/ep19-http2-linux-behavior-3-candidate.stderr": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution/ep19-http2-linux-behavior-3-candidate.stdout": {
+        "bytes": 282,
+        "sha256": "f7414ece722cc984da96cb5fe7a5fcc2addd4b92b39590e1de9caaa3ed36eae9"
+      },
+      "execution/ep19-http2-linux-behavior.json": {
+        "bytes": 3685,
+        "sha256": "db1bb28b78bf67fd9dfed6c374bcea3330bfebd1f498291fc24bb3599c4f69e4"
+      },
+      "execution/ep19-http2-linux-bridge-copy-driver.json": {
+        "bytes": 211,
+        "sha256": "45e794f36c0d69bbcf1b16c1fb678f533309a9c57b76f3bffad86948cc05079a"
+      },
+      "execution/ep19-http2-linux-bridge-copy.log": {
+        "bytes": 34,
+        "sha256": "5907bab55bd5a344485eaf729add075ed1dde12e20603751136f7df572427fbb"
+      },
+      "execution/ep19-http2-linux-bridge-export-driver.json": {
+        "bytes": 455,
+        "sha256": "b2ba925d1ecdf10ace360277d1382f5813d487ad976be0e3288599741fd0c14f"
+      },
+      "execution/ep19-http2-linux-bridge-export.log": {
+        "bytes": 5636,
+        "sha256": "88a90fef278ca8b19a3df95e051c719ef8da489e507eabf906dc65fbdd183efc"
+      },
+      "execution/ep19-http2-linux-bridge-import.log": {
+        "bytes": 5679,
+        "sha256": "5bffbb1aa6a6c137e5dbd882ac2d84f053bf23706b506356d2d8725e7a24642b"
+      },
+      "execution/ep19-http2-linux-bridge-metadata-verification.json": {
+        "bytes": 274,
+        "sha256": "154284b69caa4b4a6ab976291812190b7b5dc3430bc17a7eca8c5147096545d0"
+      },
+      "execution/ep19-http2-linux-build-closure-metadata.json": {
+        "bytes": 3232485,
+        "sha256": "d53457095974d1756f6238716d5a924994dcd390066ef0346555426c09b92d0d"
+      },
+      "execution/ep19-http2-linux-cli-path.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution/ep19-http2-linux-cli-path.txt": {
+        "bytes": 71,
+        "sha256": "c6111e22e10e0d1f55f3048b1dd6dad4899c0637e699e488626a1368f9f9565d"
+      },
+      "execution/ep19-http2-linux-compiler-progress.json": {
+        "bytes": 5832,
+        "sha256": "7a87e1acee6eb4567959696a29a31ab33caa4512ea96c10966a48f8908e346e5"
+      },
+      "execution/ep19-http2-linux-concurrency-settings.json": {
+        "bytes": 795,
+        "sha256": "be3b5083a2722d66c3be5d96dbca42e1fa1c299e2164f810dfa865f7f418a32b"
+      },
+      "execution/ep19-http2-linux-consumer-build.json": {
+        "bytes": 160,
+        "sha256": "e3d27064c23168788437f441d13326718d4a577ef17afbb3f5df0770c3736bfa"
+      },
+      "execution/ep19-http2-linux-consumer-build.log": {
+        "bytes": 1207351,
+        "sha256": "09adcadd03dabca4de9f0737ebafb685f3e8e8f0daec17ff539ffe099ce34a70"
+      },
+      "execution/ep19-http2-linux-consumer-driver.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution/ep19-http2-linux-consumer.nix": {
+        "bytes": 1295,
+        "sha256": "57a3bff65eff3fd3271c0709032fe24faa4f50f776b8f49e7416440c13dd42db"
+      },
+      "execution/ep19-http2-linux-finalize-driver.log": {
+        "bytes": 270,
+        "sha256": "984cfec7430d29a44ec4b64cbe0d4dad04bd8bfabe9d5598e4a3aac8422539e4"
+      },
+      "execution/ep19-http2-linux-finalize.py": {
+        "bytes": 2200,
+        "sha256": "18ca017c7c11a0c62df4f5b30e4ed1a458f39daae149d62ca9b9dd17e7e1c1a5"
+      },
+      "execution/ep19-http2-linux-network-settings.json": {
+        "bytes": 1263,
+        "sha256": "9437c842ef7afd7ffbedc58fc10c01651866fe387f53046ca4d65e0af56b8d2b"
+      },
+      "execution/ep19-http2-linux-publication.json": {
+        "bytes": 1026703,
+        "sha256": "8f7bddcce13762de04008fa7d5121451d37d497a3bfc86fb516303a53ed3376e"
+      },
+      "execution/ep19-http2-linux-publication.log": {
+        "bytes": 2086,
+        "sha256": "6fe92d7c9cface6012304d6fefc4797e402deff8692021741a5d5ff8789ef23f"
+      },
+      "execution/ep19-http2-linux-publish-driver.json": {
+        "bytes": 727,
+        "sha256": "140d7ea8854e7011689d864844343dd4f484590cd23b273d4a8c574e672a05c5"
+      },
+      "execution/ep19-http2-linux-publish.py": {
+        "bytes": 2148,
+        "sha256": "f199465b1abe6fd8e4f7d6b9e39b00144a740190670c95873dbf51fe4b5caa95"
+      },
+      "execution/ep19-http2-linux-rollback-eval-driver.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution/ep19-http2-linux-rollback-receipt.json": {
+        "bytes": 503,
+        "sha256": "1cb152e2fe379bdf7bdab46557d792f62cd0e0509701e975a31fb817db8cb216"
+      },
+      "execution/ep19-http2-linux-rollback-view.json": {
+        "bytes": 142,
+        "sha256": "4aa523681a1deeea033561ddac8a5f082ba454b4baf101149d4074d3425b3ad0"
+      },
+      "execution/ep19-http2-linux-rollback.py": {
+        "bytes": 801,
+        "sha256": "3ec054a370fc9a795f2bd0de21a251a03f25ffe47ee5d7a2e49f75a854a04c9a"
+      },
+      "execution/ep19-http2-linux-substitution-driver.json": {
+        "bytes": 590,
+        "sha256": "d7ee546dcb47823fcb706ad7ccfc4673caf3bb08bbb8b5d16ede4414d5b9f547"
+      },
+      "execution/ep19-http2-linux-substitution-progress.json": {
+        "bytes": 58,
+        "sha256": "22f9b3cc4b86c7d25774a3b1e6423d5d650d1a1e54b994b48c9c1b25a5d141de"
+      },
+      "execution/ep19-http2-linux-substitution-status.py": {
+        "bytes": 838,
+        "sha256": "808f65b5d9d67d6e91c58887b2e8aeea6f0f67981869674033bdccb0161d1eec"
+      },
+      "execution/ep19-http2-linux-substitution-v2-driver.json": {
+        "bytes": 642,
+        "sha256": "318bae169d86cf3a2f2e3536cb1a48bffdf2c079733cf3408b995ee4baef62b6"
+      },
+      "execution/ep19-http2-linux-substitution-v2-exec.log": {
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "execution/ep19-http2-linux-substitution-v2.json": {
+        "bytes": 1057701,
+        "sha256": "88a9d1a100297a72a55c0efd3bf7bd55a4caa099cb5c53acc8e9b56dd7fa8203"
+      },
+      "execution/ep19-http2-linux-substitution-v2.log": {
+        "bytes": 83866,
+        "sha256": "bc000751b069baa18c88e9b2938bcfc0f74472a15af8cb2e6c31b61b5e51fa96"
+      },
+      "execution/ep19-http2-linux-substitution-v2.py": {
+        "bytes": 972,
+        "sha256": "a8ee9a41233d0fdb55c9ec95c557a93fd6804b8b89e4f2debdbee84442513861"
+      },
+      "execution/ep19-http2-linux-substitution.log": {
+        "bytes": 64770,
+        "sha256": "edb189aca06d1427e7c1cce41975f0c75d0ae66e061a99d0655bfb6b94f9ff4d"
+      },
+      "execution/ep19-http2-linux-substitution.py": {
+        "bytes": 1939,
+        "sha256": "5817337b0eb7f91d10c726b5fdfe9e74502bc35efe29a3a4357f16ed47abe8e2"
+      },
+      "owners/scripts/cohort-cache.py": {
+        "bytes": 8815,
+        "sha256": "f78efd1d3b1b287eb5c8731d3ee5c99832a0d22c0e1bb67310a8b1dd5e895cea"
+      },
+      "owners/scripts/cohort-update.py": {
+        "bytes": 9504,
+        "sha256": "5327580d8a210bddb913dfdbf9b71fdebe98cc1012ecf31d7da37f471d466ff0"
+      }
+    },
+    "path": "targeted-http2-native-matrix.raw.tar.gz",
+    "sha256": "23a3ce0449d7fd4b5c4a7a7d4e621ddb80f615321bd91626997905b79d4317bf"
+  },
+  "cells": {
+    "aarch64-darwin": {
+      "behaviorCommandCount": 4,
+      "behaviorStdoutMatchesGeneration4": true,
+      "build": {
+        "drvPath": "/nix/store/1fd6z1jjg2x61wysxddkk4jr0w0r3csw-rei-cli-7.1.0.0.drv",
+        "outputs": {
+          "out": "/nix/store/0mc43srwyx4mybfq9nmxicib1r41h6kw-rei-cli-7.1.0.0"
+        }
+      },
+      "buildsPerformed": 0,
+      "cache": "tan",
+      "channel": "github",
+      "execution": "Native Apple Silicon",
+      "initialExpectedPaths": 0,
+      "nativeBuildExitCode": 0,
+      "publishedNarBytes": 9466686720,
+      "publishedPaths": 462,
+      "rollback": {
+        "command": [
+          "nix",
+          "build",
+          "--no-link",
+          "--json",
+          "--builders",
+          "",
+          "--max-jobs",
+          "0",
+          "/nix/store/l6afxry8yviihkab53lb13n3awn371iy-rei-cli-7.1.0.0.drv^out"
+        ],
+        "elapsed_seconds": 0.0692903749877587,
+        "exit_code": 0,
+        "generation": 4,
+        "previousExactConsumerDerivationRestored": true,
+        "qualification": "Explicit retained selection in disposable rehearsal; production selections never moved."
+      },
+      "substitutedPaths": 462
+    },
+    "x86_64-linux": {
+      "behaviorCommandCount": 4,
+      "behaviorStdoutMatchesGeneration4": true,
+      "build": {
+        "drvPath": "/nix/store/c6r0slhymwbqpn53b47k37k9xikkjg71-rei-cli-7.1.0.0.drv",
+        "outputs": {
+          "out": "/nix/store/60h19kxal5a4zq72y9bpr15qrl1pcssk-rei-cli-7.1.0.0"
+        }
+      },
+      "buildsPerformed": 0,
+      "cache": "tan",
+      "channel": "github",
+      "execution": "x86 Linux execution under Apple translation",
+      "initialExpectedPaths": 0,
+      "nativeBuildExitCode": 0,
+      "publishedNarBytes": 6483243232,
+      "publishedPaths": 469,
+      "rollback": {
+        "command": [
+          "nix",
+          "build",
+          "--no-link",
+          "--json",
+          "--builders",
+          "",
+          "--max-jobs",
+          "0",
+          "/nix/store/gswfags3naialnr46c7dqhbcy0sv4xiy-rei-cli-7.1.0.0.drv^out"
+        ],
+        "elapsed_seconds": 0.12310425100440625,
+        "exit_code": 0,
+        "generation": 4,
+        "previousExactConsumerDerivationRestored": true,
+        "view": {
+          "drv": "/nix/store/gswfags3naialnr46c7dqhbcy0sv4xiy-rei-cli-7.1.0.0.drv",
+          "out": "/nix/store/dg97m5ypp1742m19hp2wjsavsklb31ki-rei-cli-7.1.0.0"
+        }
+      },
+      "substitutedPaths": 469
+    }
+  },
+  "consumer": {
+    "compiler": "ghc9124",
+    "package": "rei-cli",
+    "project": "mori://shinzui/rei",
+    "revision": "bad0388f722af9e29187c2adfef5ed97fd0ca92f"
+  },
+  "excludedLinuxRetrieval": "The original empty-store attempt stopped at 305 paths and was terminated without a completion receipt. Its large log stream went through container exec, contrary to the established bounded-output workflow. The passing retry uses a separate empty store, writes logs inside the guest, and bounds network concurrency/timeouts. No source, trust or build policy changes; incomplete store preserved.",
+  "limits": [
+    "Both source channels pass recipe generate/check/repeat; actual consumer/cache acceptance here covers only the declared GitHub-channel outputs.",
+    "Linux execution is translated and empty-store verification is an independent store in the existing guest, not a new physical worker.",
+    "Behavior acceptance is four complete CLI commands against the exact old retained output, not a fresh full owned test-suite run.",
+    "Native build durations and complete migration/amortization cost are unmeasured. Instrumented publication, transfer and substitution durations are operational observations.",
+    "Performance campaigns remain excluded/incomplete; no evaluation-speed, compilation-speed or production-adoption acceptance.",
+    "All production aliases, cohort inputs, consumer selections and broad runtime support remain unchanged."
+  ],
+  "linuxBridge": {
+    "buildClosureNarBytes": 6793104464,
+    "buildClosurePaths": 2933,
+    "originalGuestMetadataEqualsHostImport": true,
+    "roots": [
+      "/nix/store/c6r0slhymwbqpn53b47k37k9xikkjg71-rei-cli-7.1.0.0.drv",
+      "/nix/store/60h19kxal5a4zq72y9bpr15qrl1pcssk-rei-cli-7.1.0.0"
+    ]
+  },
+  "linuxOperationalCommands": {
+    "copy": {
+      "command": [
+        "container",
+        "copy",
+        "mp3-linux-builder:/tmp/ep19-linux-publication-bridge",
+        "/tmp/ep19-http2-linux-bridge-host"
+      ],
+      "elapsed_seconds": 15.623936459014658,
+      "exit_code": 0
+    },
+    "excludedIncompleteStore": {
+      "command": [
+        "container",
+        "exec",
+        "-e",
+        "NIX_CONFIG=experimental-features = nix-command flakes\nfilter-syscalls = false\nsandbox = false\nbuilders =",
+        "mp3-linux-builder",
+        "/nix/store/b5bpi6zfajzzrwwpgba2q6li3nnya4bs-python3-3.14.7/bin/python3",
+        "/workspace/scripts/cohort-cache.py",
+        "verify",
+        "--receipt",
+        "/tmp/ep19-http2-linux-publication.json",
+        "--store",
+        "local?root=/tmp/ep19-http2-linux-empty-store",
+        "--evidence",
+        "/tmp/ep19-http2-linux-substitution.json"
+      ],
+      "elapsed_seconds": 590.3255094999913,
+      "exit_code": 143
+    },
+    "export": {
+      "command": [
+        "nix",
+        "copy",
+        "--to",
+        "file:///tmp/ep19-linux-publication-bridge?compression=zstd&parallel-compression=false",
+        "/nix/store/c6r0slhymwbqpn53b47k37k9xikkjg71-rei-cli-7.1.0.0.drv",
+        "/nix/store/60h19kxal5a4zq72y9bpr15qrl1pcssk-rei-cli-7.1.0.0"
+      ],
+      "elapsed_seconds": 2.1487618349929107,
+      "execution": "Translated Apple x86 Linux guest; same actual native consumer derivation as generation 7.",
+      "exit_code": 0
+    },
+    "importAndPublication": [
+      {
+        "command": [
+          "nix",
+          "copy",
+          "--from",
+          "file:///tmp/ep19-http2-linux-bridge-host",
+          "--no-check-sigs",
+          "/nix/store/c6r0slhymwbqpn53b47k37k9xikkjg71-rei-cli-7.1.0.0.drv",
+          "/nix/store/60h19kxal5a4zq72y9bpr15qrl1pcssk-rei-cli-7.1.0.0"
+        ],
+        "elapsed_seconds": 2.948138166044373,
+        "exit_code": 0,
+        "phase": "import"
+      },
+      {
+        "command": [
+          "python3",
+          "scripts/cohort-cache.py",
+          "publish",
+          "--root",
+          "/nix/store/c6r0slhymwbqpn53b47k37k9xikkjg71-rei-cli-7.1.0.0.drv^out",
+          "--receipt",
+          "/tmp/ep19-http2-linux-publication.json"
+        ],
+        "elapsed_seconds": 34.72087325004395,
+        "exit_code": 0,
+        "phase": "publication"
+      }
+    ],
+    "successfulEmptyStore": {
+      "command": [
+        "/nix/store/b5bpi6zfajzzrwwpgba2q6li3nnya4bs-python3-3.14.7/bin/python3",
+        "/workspace/scripts/cohort-cache.py",
+        "verify",
+        "--receipt",
+        "/tmp/ep19-http2-linux-publication.json",
+        "--store",
+        "local?root=/tmp/ep19-http2-linux-empty-store-v2",
+        "--evidence",
+        "/tmp/ep19-http2-linux-substitution-v2.json"
+      ],
+      "elapsed_seconds": 63.339940946010756,
+      "exit_code": 0,
+      "networkSettings": {
+        "http-connections": 4,
+        "max-substitution-jobs": 4,
+        "stalled-download-timeout": 30
+      },
+      "qualification": "Independent second empty store; original incomplete verification store preserved."
+    }
+  },
+  "normalizedCandidateRevision": "df51c0e3d0e9e2326ef73ef949d2a3132db74342",
+  "normalizedIdentityReuse": "All 273 runtime derivations and the actual CLI derivation are equal between generations 5 and 7 in each supported GitHub-channel cell; the same actual native build and publication apply to those exact outputs. This does not promote fingerprint-wide runtime support.",
+  "priorEvidence": [
+    "explicit-index-transition.json",
+    "targeted-http2-rehearsal.json",
+    "recipe-flag-normalization.json"
+  ],
+  "runtimeGenerations": {
+    "normalizedClosedConfiguration": 7,
+    "positiveUpdate": 5,
+    "rollback": 4
+  },
+  "schemaVersion": 1,
+  "solvedCandidateRevision": "0738c3ea5c474b3aeae628210e3104554d1ab38b",
+  "sourceProject": "mori://shinzui/haskell-nix",
+  "status": "Actual targeted http2 update, real consumer build/behavior, cache publication, new empty-store substitution and exact prior-generation rollback accepted on both systems."
+}

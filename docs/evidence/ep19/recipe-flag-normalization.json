@@ -638,7 +638,7 @@
     "overrideCabalSource": {
       "artifactLevelUri": "pending",
       "discovery": "Mori registry lookup attempted; project absent, exact pinned upstream source inspected.",
-      "project": "mori://nixos/nixpkgs",
+      "project": "mori://NixOS/nixpkgs",
       "projectRelativePath": "pkgs/development/haskell-modules/lib/compose.nix",
       "revision": "d5dfd8e6716dde34398bc14bc87c10dece9c8c68"
     },

@@ -4,7 +4,7 @@ title: Maintainer tools
 description: Find repository formatting, test, derivation-diff, and validation commands.
 docId: DOC-6
 tags: [maintainers, testing, nix]
-timestamp: 2026-10-18T04:18:00Z
+timestamp: 2026-10-18T04:39:37Z
 generated:
   by: process:codex
   at: 2026-10-18T02:33:22Z
@@ -267,9 +267,10 @@ identity, concurrent-input or publication failures preserve accepted inputs.
 The [disposable http2 solve](../evidence/ep19/explicit-index-transition.json) changes
 only 5.4.8 to 5.4.9. Recipe generation, real-consumer acceptance and selecting the
 prior retained generation for rollback remain separate checks. The
-[Darwin continuation](../evidence/ep19/targeted-http2-rehearsal.json) now passes
-those consumer, publication, empty-store and exact-generation rollback checks;
-Linux consumer compilation and transitive no-IFD/performance adoption remain open.
+[both-system continuation](../evidence/ep19/targeted-http2-native-matrix.json) now
+passes consumer behavior, publication, empty-store and exact-generation rollback
+checks on Darwin and translated Linux. The closed http2 root also passes no-IFD;
+performance, complete cost and production-adoption gates remain open.
 
 For a newly converted dependency closure, inspect derivation changes before building.
 The [http2 closure experiment](../evidence/ep19/recipe-flag-normalization.json)
