@@ -77,7 +77,9 @@ the generation-4 public constructor probe.
 Generation 4 captures the bounded base64-bytestring configuration for both systems
 and source channels. Its public constructors preserve all 273 non-boot runtime
 derivations and the actual immutable Rei CLI derivation in all four cells. Broader
-support remains unverified. Apple-container execution of Linux binaries is
+support remains unverified. [Both complete immutable platform gates](../evidence/ep19/retained-recipe-native-matrix.json)
+pass, with 225 updater tests, 356 pure contracts, converter freshness and retained
+parity. Apple-container execution of Linux binaries is
 translated correctness evidence; it does not establish physical x86 performance.
 
 [EP-19](../plans/19-pre-generate-complete-locked-nix-haskell-dependency-recipes.md)

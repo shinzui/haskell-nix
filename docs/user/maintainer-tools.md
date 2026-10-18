@@ -4,10 +4,10 @@ title: Maintainer tools
 description: Find repository formatting, test, derivation-diff, and validation commands.
 docId: DOC-6
 tags: [maintainers, testing, nix]
-timestamp: 2026-10-18T01:41:26Z
+timestamp: 2026-10-18T01:57:53Z
 generated:
   by: process:codex
-  at: 2026-10-18T01:41:26Z
+  at: 2026-10-18T01:57:53Z
 ---
 
 # Maintainer tools
@@ -173,9 +173,8 @@ The [factory integration receipt](../evidence/ep19/recipe-factory-binding.json)
 uses generation 3 and an immutable Rei source on both systems. The selected
 `base64-bytestring` root evaluates without IFD, and both scopes pass the existing
 independent runtime validator with identical dependency and real CLI derivations.
-This adds an opt-in factory interface. Generation 4 below captures both generated constructors. Its final native
-checker matrix, update/rollback rehearsal and performance/cost adoption remain
-EP-19 work. Existing generations and consumers
+This adds an opt-in factory interface. Generation 4 below captures both generated constructors. Its full native checker matrix passes; update/rollback rehearsal and
+performance/cost adoption remain EP-19 work. Existing generations and consumers
 keep their selections.
 
 ## Retained recipe selection and freshness
@@ -215,7 +214,10 @@ Repeat on Linux with its corresponding check names. The installed updater's 225
 tests pass on Darwin. The actual Linux Rei CLI also builds and its help matches
 Darwin byte-for-byte; an eight-core compilation stalled under translation, while
 the one-core retry completed. Retain those execution facts when using the guest.
-The immutable final Linux checker matrix remains pending at this checkpoint.
+[The immutable native matrix](../evidence/ep19/retained-recipe-native-matrix.json)
+passes both complete platform gates, all 225 updater tests, 356 pure contracts,
+converter freshness and retained parity. Linux uses one build core for this
+translated correctness gate; physical x86 performance remains unproved.
 [ADR 10](../adr/10-retain-verified-generated-dependency-recipes-in-the-existing-scope.md)
 records ownership and acceptance boundaries. Retained capture does not establish
 evaluation speed or production adoption.

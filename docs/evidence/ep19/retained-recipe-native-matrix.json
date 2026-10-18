@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "revision": "3453274d8dd718c016549b64f8cc3d8345864220",
+  "status": "Both complete immutable native flake gates and declared-root no-IFD queries pass; bounded M3 integration accepted",
+  "runtime_generation": 4,
+  "runtime_fingerprint": "c89b34a59b00cfbb8e08040beee3c540f61af8e7da8cc399a776817628183b76",
+  "full_gates": {
+    "darwin": {
+      "revision": "3453274d8dd718c016549b64f8cc3d8345864220",
+      "command": [
+        "nix",
+        "flake",
+        "check",
+        "git+file:///Users/shinzui/Keikaku/bokuno/haskell-nix?rev=3453274d8dd718c016549b64f8cc3d8345864220",
+        "--print-build-logs",
+        "--max-jobs",
+        "1",
+        "--cores",
+        "16",
+        "--builders",
+        ""
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 344.06126141600544,
+      "system": "aarch64-darwin",
+      "scope": "Full immutable flake check. Linux uses Rosetta, independent warm store, sandbox/filter-syscalls false and one build core; correctness only."
+    },
+    "linux": {
+      "revision": "3453274d8dd718c016549b64f8cc3d8345864220",
+      "command": [
+        "container",
+        "exec",
+        "--env",
+        "NIX_CONFIG=experimental-features = nix-command flakes\nfilter-syscalls = false\nsandbox = false",
+        "mp3-linux-builder",
+        "sh",
+        "-c",
+        "nix flake check 'git+file:///workspace?rev=3453274d8dd718c016549b64f8cc3d8345864220' --print-build-logs --max-jobs 1 --cores 1 --builders '' > /tmp/ep19-retained-recipe-final-linux.out 2> /tmp/ep19-retained-recipe-final-linux.log"
+      ],
+      "exit_code": 0,
+      "elapsed_seconds": 533.9512587499921,
+      "system": "x86_64-linux",
+      "scope": "Full immutable flake check. Linux uses Rosetta, independent warm store, sandbox/filter-syscalls false and one build core; correctness only."
+    }
+  },
+  "pure_contracts": 356,
+  "updater_tests": 225,
+  "linux_freshness_channels_passed": 2,
+  "prior_capture_and_actual_consumer_native_receipt": "retained-recipe-capture.json",
+  "scope": [
+    "Generation-4 Hackage root, compiler 9.12.4, both systems and source channels. All 273 non-boot identities and actual immutable Rei CLI identity match generation 3.",
+    "Both selected and independent reference constructors use captured artifacts; existing production validation remains active.",
+    "Existing fixture behavior, policy checks, cohort/runtime/history and cache-identity gates pass in both complete platform checks."
+  ],
+  "limits": [
+    "Linux uses Apple Rosetta, an independent warm store, sandbox/filter-syscalls false and one build core. No physical x86 performance or fresh-worker claim.",
+    "Broad generation-4 support is still unverified; no support receipt was inherited and no consumer/default moved.",
+    "Only explicitly declared roots are no-IFD. Unconverted Diff remains the observed whole-constructor boundary.",
+    "M4 targeted update/rollback, measured evaluation and total-cost acceptance, cache publication and production adoption remain open. Earlier performance thresholds remain unmet."
+  ],
+  "raw_archive": {
+    "path": "docs/evidence/ep19/retained-recipe-native-matrix.raw.tar.gz",
+    "sha256": "80f8c60fa160a447812c6a2dd708860e3ed9c503e1649bf55b5abf78722662af",
+    "members": {
+      "matrix/ep19-retained-recipe-final-darwin-driver.log": "cc5669b41f59fe97815f6389d488e3f62462db0e5d463db19f5da181f6f16176",
+      "matrix/ep19-retained-recipe-final-darwin-receipt.json": "2e9d2f8fbae13c51717f7a3f02ab64cda4bd94b0a63cc16a8db04c1c59c974f4",
+      "matrix/ep19-retained-recipe-final-linux-driver.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "matrix/ep19-retained-recipe-final-linux-receipt.json": "20f7c81c7b238d397ed7a7b9067315de68f795d7c2891b5e1047dee1b58b760e",
+      "matrix/ep19-retained-recipe-final-linux.log": "22aefb33295926a7076eedb12ab26c876162b8128b0ac7fa1f87d38fa5dc08bc",
+      "matrix/ep19-retained-recipe-final-linux.out": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "matrix/ep19-retained-recipe-final-matrix-progress.json": "87c98a76c4e5470eb2c2ac690b911462563a3ddff7f084f4ef3f525d379f0362",
+      "matrix/ep19-retained-recipe-final-matrix.py": "6a9a34823887178f2effc79a174b5c3d9a92f4bf0c7d00bc978b9c2a96f44e42",
+      "matrix/ep19-retained-recipe-frozen-darwin-no-ifd.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "matrix/ep19-retained-recipe-frozen-darwin-no-ifd.txt": "ec9f5194bacf7a4d80d9f3617a4bd4a6fdd7688b1d34306e97f65919d198c27a",
+      "matrix/ep19-retained-recipe-frozen-linux-no-ifd.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "matrix/ep19-retained-recipe-frozen-linux-no-ifd.txt": "cd62efd9bf81ad4ea76dcf7e429e22e6ae914b11445d1d81c99635b8fdb4f872"
+    }
+  }
+}
