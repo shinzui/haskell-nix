@@ -67,6 +67,15 @@ let
     mkHaskellOverlay = mk "mkHaskellOverlay.nix";
   };
   profiles = import (recipes + "/overlays/compatibility-profiles.nix");
+  recipeSelection = recipes + "/config/runtime-generated-recipes.json";
+  generatedRecipes = if !(builtins.pathExists recipeSelection) then null else
+  (import (recipes + "/lib/mkRuntimeGeneratedRecipes.nix") { lib = retainedLib; }) {
+    recipeRoot = recipes;
+    selection = builtins.fromJSON (builtins.readFile recipeSelection);
+    inherit runtime record channel disableProfiling disableHaddock;
+    history = lock.runtimes.${runtime};
+  };
+  generatedArguments = lib.optionalAttrs (builtins.pathExists recipeSelection) { inherit generatedRecipes; };
   retainedRegistry = import (recipes + "/overlays/registry.nix");
   captureSupported = builtins.pathExists (recipes + "/lib/capturedCompatibilityReport.nix");
   retainedPolicy =
@@ -83,27 +92,27 @@ let
       builtins.attrNames profiles.${snapshot.compatibilityProfile})
     applicationSnapshots);
   reference = factory
-    {
+    ({
       config = retainedConfig;
       lock = retainedLock;
       cohortVersions = baseline;
       commonRegistry = import (recipes + "/overlays/registry.nix");
       compatibilityProfiles = profiles;
       supportedGhcs = [ "ghc9124" ];
-    }
+    } // generatedArguments)
     {
       packageSet = retainedLock.defaultPackageSet;
       inherit channel disableProfiling disableHaddock;
     };
   selected = factory
-    {
+    ({
       inherit config;
       lock = liveLock;
       cohortVersions = candidate;
       commonRegistry = (if captureCompatibility then retainedPolicy.registry else retainedRegistry) // applicationRegistry;
       compatibilityProfiles = import (recipes + "/overlays/compatibility-profiles.nix");
       supportedGhcs = [ "ghc9124" ];
-    }
+    } // generatedArguments)
     ({ inherit selections channel disableProfiling disableHaddock; }
       // lib.optionalAttrs captureCompatibility { captureCompatibility = true; });
   configuration = system: {

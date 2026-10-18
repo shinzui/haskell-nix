@@ -5,7 +5,7 @@ module HaskellNix.Update.Cohort.RecipeArtifacts (
     runArtifacts,
     RecipeGenerationContext (..), RecipeConfiguration (..), RecipePackageInput (..),
     RecipeToolIdentity (..), PinnedRecipeSource (..),
-    recipeContextValue, decodeRecipeContext, inspectRecipeRoles,
+    recipeContextValue, decodeRecipeContext, inspectRecipeRoles, recipeCommandsValue,
 ) where
 
 import Control.Exception (onException)
@@ -210,6 +210,27 @@ recipeContextValue context = do
          , "unpackedHash" .= input.unpackedHash, "revision" .= maybe Null revisionValue input.revision
          , "nativeArguments" .= input.nativeArguments
          ] <> ["sourcePin" .= pinValue pin | pin <- maybe [] pure input.sourcePin])
+
+-- A read-only handoff for build checks that already bind tools through Nix.
+-- Reuse the converter's argument model; do not duplicate flag/source parsing in
+-- the shell or require a nested writable Nix store to run the pinned converter.
+recipeCommandsValue :: RecipeGenerationContext -> Either Text Value
+recipeCommandsValue context = do
+    _ <- recipeContextValue context
+    classified <- classifyCohort context.generation
+    commands <- Map.traverseWithKey (entry classified) context.packages
+    pure (object ["schemaVersion" .= (1 :: Int), "configuration" .= configurationValue context.configuration, "packages" .= commands])
+  where
+    entry classified name input = do
+        package <- maybe (Left "missing classified recipe package") Right (Map.lookup name classified)
+        metadataHash <- maybe (selectedMetadataHash name package.selectedPackage) (Right . (.metadataSha256)) input.sourcePin
+        archiveHash <- maybe (selectedArchiveHash package.selectedPackage) (Right . (.archiveSha256)) input.sourcePin
+        arguments <- recipeArguments (RecipeConversion name package context.configuration.compilerVersion context.configuration.system input.metadataPath)
+        pure (object
+            [ "metadataPath" .= input.metadataPath, "archivePath" .= input.archivePath
+            , "metadataSha256" .= metadataHash, "archiveSha256" .= archiveHash
+            , "arguments" .= arguments, "classification" .= classificationValue package.packageClassification
+            ])
 
 runArtifacts :: ProcessRunner -> ArtifactOptions -> IO (Either UpdateError Text)
 runArtifacts runner options = runExceptT $ do

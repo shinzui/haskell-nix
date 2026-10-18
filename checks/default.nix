@@ -17,6 +17,8 @@
 , mkFirstPartyPackageSetFactory
 , haskellExtensions
 , auditConsumerOverlay
+, mkRuntimePackageSet
+, runtimePackageSets
 }:
 let
   frozenParity = name: manifest: pkgsPlain.runCommand name
@@ -41,6 +43,10 @@ let
   recipeFixture = import ./generated-recipes.nix {
     pkgs = pkgsPlain;
     scope = pkgsPlain.haskell.packages.${defaultGhc};
+  };
+  retainedRecipeFixture = import ./retained-generated-recipes.nix {
+    inherit lib updater mkRuntimePackageSet runtimePackageSets;
+    pkgs = pkgsPlain;
   };
   applicationCheckpointFixture = import ./application-checkpoint.nix {
     pkgs = pkgsPlain;
@@ -119,6 +125,9 @@ in
 {
   generated-recipes = recipeFixture.parity;
   generated-recipes-no-ifd = recipeFixture.noIfd;
+  generated-recipes-fresh = retainedRecipeFixture.fresh;
+  generated-recipes-parity = retainedRecipeFixture.parity;
+  retained-generated-recipes-no-ifd = retainedRecipeFixture.noIfd;
   application-incremental = import ./application-incremental.nix {
     pkgs = pkgsPlain;
     scope = pkgsGithub.haskell.packages.${defaultGhc};

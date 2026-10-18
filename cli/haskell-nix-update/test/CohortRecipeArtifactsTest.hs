@@ -4,7 +4,7 @@ module CohortRecipeArtifactsTest (tests) where
 
 import Control.Exception (IOException, try)
 import Control.Monad (forM_)
-import Data.Aeson (Value (..), encode, object, eitherDecodeStrict', (.=))
+import Data.Aeson (Value (..), encode, object, eitherDecodeStrict', toJSON, (.=))
 import Data.Aeson.KeyMap qualified as KeyMap
 import Data.ByteString qualified as BS
 import Data.ByteString.Lazy qualified as LBS
@@ -16,7 +16,7 @@ import Distribution.Version (mkVersion)
 import HaskellNix.Update.Cohort.Context
 import HaskellNix.Update.Cohort.Freeze
 import HaskellNix.Update.Cohort.GenerationTypes
-import HaskellNix.Update.Cohort.RecipeArtifacts (ArtifactOptions (..), runArtifacts, decodeRecipeContext, recipeContextValue)
+import HaskellNix.Update.Cohort.RecipeArtifacts (ArtifactOptions (..), runArtifacts, decodeRecipeContext, recipeContextValue, recipeCommandsValue)
 import HaskellNix.Update.Cohort.Types (PlanPackage (..), PackageSource (..))
 import HaskellNix.Update.Process
 import System.Directory (createDirectory)
@@ -105,6 +105,33 @@ tests = testGroup "staged complete recipe artifacts"
                 decoded @?= context
         fixture checkContext
         pinFixture checkContext
+    , testCase "read-only command model binds Hackage metadata and shared converter arguments" $
+        fixture $ \root _ -> do
+            context <- BS.readFile (root </> "context.json") >>= right . decodeRecipeContext
+            value <- right (recipeCommandsValue context)
+            case value of
+                Object fields -> case KeyMap.lookup "packages" fields of
+                    Just (Object packages) -> case KeyMap.lookup "example" packages of
+                        Just (Object command) -> do
+                            KeyMap.lookup "metadataSha256" command @?= Just (String hash)
+                            KeyMap.lookup "arguments" command @?= Just (toJSON
+                                (["--compiler=ghc-9.12.4", "--system=aarch64-darwin", "--sha256=", "--no-hpack", "--src-expression=src", "--extra-arguments=src", "example.cabal"] :: [Text]))
+                        _ -> assertFailure "missing package command"
+                    _ -> assertFailure "missing commands"
+                _ -> assertFailure "invalid commands"
+    , testCase "read-only pinned commands use verified archive metadata without a Hackage observation" $
+        pinFixture $ \root _ -> do
+            context <- BS.readFile (root </> "context.json") >>= right . decodeRecipeContext
+            value <- right (recipeCommandsValue context)
+            case value of
+                Object fields -> case KeyMap.lookup "packages" fields of
+                    Just (Object packages) -> case KeyMap.lookup "example" packages of
+                        Just (Object command) -> do
+                            KeyMap.lookup "metadataSha256" command @?= Just (String hash)
+                            KeyMap.lookup "archiveSha256" command @?= Just (String (Text.replicate 64 "b"))
+                        _ -> assertFailure "missing pinned command"
+                    _ -> assertFailure "missing commands"
+                _ -> assertFailure "invalid commands"
     , testCase "format two inventories component roles and rejects unverified role output" $
         fixture $ \root options -> do
             bytes <- BS.readFile (root </> "context.json")

@@ -4,10 +4,10 @@ title: Maintainer tools
 description: Find repository formatting, test, derivation-diff, and validation commands.
 docId: DOC-6
 tags: [maintainers, testing, nix]
-timestamp: 2026-10-18T01:08:02Z
+timestamp: 2026-10-18T01:41:26Z
 generated:
   by: process:codex
-  at: 2026-10-18T01:08:02Z
+  at: 2026-10-18T01:41:26Z
 ---
 
 # Maintainer tools
@@ -130,8 +130,8 @@ and actual Rei CLI derivations through the existing runtime validator, regenerat
 byte-identically after input relocation, and evaluates its scoped root with IFD
 disabled. Other classifications remain explicit in the manifest and retain their
 existing constructors. Additional source transports, an explicit effective-flag
-policy handoff, new retained-runtime artifact capture, wider
-native coverage and performance adoption remain EP-19 acceptance work. The earlier
+policy handoff, wider retained recipe coverage, additional
+native configurations and performance adoption remain EP-19 acceptance work. The earlier
 one-root and five-root evaluation campaigns missed the declared speed target. The
 [Linux supplement](../evidence/ep19/recipe-artifacts-native-matrix.json) passes the
 same bounded root and all 218 updater tests in the translated Apple guest.
@@ -173,10 +173,52 @@ The [factory integration receipt](../evidence/ep19/recipe-factory-binding.json)
 uses generation 3 and an immutable Rei source on both systems. The selected
 `base64-bytestring` root evaluates without IFD, and both scopes pass the existing
 independent runtime validator with identical dependency and real CLI derivations.
-This adds an opt-in factory interface. A new retained generation containing both
-generated candidate and reference constructors, update/rollback rehearsal and
-performance/cost adoption remain EP-19 work. Existing generations and consumers
+This adds an opt-in factory interface. Generation 4 below captures both generated constructors. Its final native
+checker matrix, update/rollback rehearsal and performance/cost adoption remain
+EP-19 work. Existing generations and consumers
 keep their selections.
+
+## Retained recipe selection and freshness
+
+Generation 4 captures four explicit GHC 9.12.4 recipe cells under its immutable
+`config/generated-recipes/` tree. Its captured
+`config/runtime-generated-recipes.json` selects a context after the system is
+known. Both public and independent reference factories use it. Earlier snapshots
+lack that file and keep their original factory interface. The earlier policy
+reference remains distinct from generation 4's own fingerprint
+`c89b34a59b00cfbb8e08040beee3c540f61af8e7da8cc399a776817628183b76`.
+Support remains unverified; ordinary consumer selections and aliases stay fixed.
+
+Projection validation hashes file bytes directly so bundled binary archives need
+no string decoding. The current checks cover all 356 pure contracts. All four
+public constructor cells preserve the 273 non-boot runtime package derivations
+and real immutable Rei CLI identity, and their declared generated root passes
+no-IFD. The complete constructor still encounters unconverted `Diff` when IFD is
+disabled; that limit is recorded separately.
+
+`cohort recipes commands --context FILE` prints a validated JSON command model
+without running conversion, querying Nix or publishing files. Build freshness
+checks use those same compiler/system/flag arguments, exact local metadata and
+the pinned converter. A private metadata-only directory avoids the converter's
+unconditional home-cache creation; `--src-expression=src`, disabled hpack and
+byte-identical ordinary-generator output remain required. Inputs, archives and
+accepted recipes are read-only to the checker.
+
+```bash
+nix build --no-link --print-build-logs .#checks.aarch64-darwin.generated-recipes-fresh
+nix build --no-link --print-build-logs .#checks.aarch64-darwin.generated-recipes-parity
+nix eval --raw .#checks.aarch64-darwin.retained-generated-recipes-no-ifd.drvPath \
+  --option allow-import-from-derivation false
+```
+
+Repeat on Linux with its corresponding check names. The installed updater's 225
+tests pass on Darwin. The actual Linux Rei CLI also builds and its help matches
+Darwin byte-for-byte; an eight-core compilation stalled under translation, while
+the one-core retry completed. Retain those execution facts when using the guest.
+The immutable final Linux checker matrix remains pending at this checkpoint.
+[ADR 10](../adr/10-retain-verified-generated-dependency-recipes-in-the-existing-scope.md)
+records ownership and acceptance boundaries. Retained capture does not establish
+evaluation speed or production adoption.
 
 ## Compatibility declaration reports
 

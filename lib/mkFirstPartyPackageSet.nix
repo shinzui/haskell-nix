@@ -234,7 +234,13 @@ let
   extraOverrides =
     if channel == "hackage" then hackageDependencyOverrides
     else (_: _: { });
-  versionLayer = (import ./mkCohortVersionLayer.nix { inherit lib captureCompatibility channel generatedRecipes; }) cohortVersions;
+  versionLayer = haskellLib: pkgs:
+    (import ./mkCohortVersionLayer.nix {
+      inherit lib captureCompatibility channel;
+      generatedRecipes = if builtins.isFunction generatedRecipes then generatedRecipes pkgs else generatedRecipes;
+    }) cohortVersions
+      haskellLib
+      pkgs;
   cohortPackageConflicts = lib.intersectLists
     (builtins.attrNames cohortVersions.packages)
     selectedPackageNames;

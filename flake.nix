@@ -479,6 +479,7 @@
             buildInputs = [ pkgsPlain.xz pkgsPlain.zlib pkgsPlain.postgresql.dev pkgsPlain.openssl.dev ];
           };
           checks = (import ./checks/default.nix {
+            inherit mkRuntimePackageSet runtimePackageSets;
             nixpkgsRevision = nixpkgs.rev;
             inherit lib pkgsPlain pkgsGithub pkgsHackage updater cohortCompare cohortManifest firstPartyRegistries
               supportedGhcs defaultGhc defaultSelectedFamilies registries mkChannelExtension

@@ -9,5 +9,7 @@
     ".direnv/**"
     "result*"
     "checks/fixtures/generated-recipes/packages/**" # Preserve exact converter bytes.
+    "config/generated-recipes/**"
+    "packages/runtimes/*/*/recipes/config/generated-recipes/**"
   ];
 }

@@ -23,6 +23,7 @@ import HaskellNix.Update.Cohort.Freeze (FreezeHeader (FreezeHeader), normaliseCa
 import HaskellNix.Update.Cohort.Compare (comparePlan, verifyCohortImport, comparisonContext)
 import HaskellNix.Update.Cohort.GenerateIO (GenerateOptions (..), runGenerate)
 import HaskellNix.Update.Cohort.RecipeArtifacts qualified as Artifacts
+import HaskellNix.Update.Cohort.Render (canonicalJSON)
 import HaskellNix.Update.Cohort.Impact (impactReport, retainedConstraints, validateRetainedIdentities)
 import HaskellNix.Update.Cohort.Inventory
 import HaskellNix.Update.Cohort.Model
@@ -44,6 +45,7 @@ data CohortCommand
     | CohortComparisonContext !FilePath !FilePath !FilePath
     | CohortGenerate !GenerateOptions
     | CohortRecipes !Artifacts.ArtifactOptions
+    | CohortRecipeCommands !FilePath
     | CohortComparePlan !FilePath !FilePath !FilePath !FilePath
     | CohortInventory !FilePath !Text !FilePath !FilePath !Text !FilePath
     | CohortInventoryNix !FilePath !FilePath ![(Text, FilePath)] !Text !Text !Text !FilePath
@@ -64,7 +66,9 @@ cohortParser =
             <> command "comparison-context" (info (contextParser <**> helper) (fullDesc <> progDesc "Emit validated frozen source, flag and ownership context for shared Nix comparison"))
             <> command "recipes" (info (subparser
                 (command "generate" (info (recipesParser False <**> helper) (fullDesc <> progDesc "Stage explicit Hackage and declared GitHub source recipes"))
-                <> command "check" (info (recipesParser True <**> helper) (fullDesc <> progDesc "Reconvert local metadata and check artifacts without publication"))))
+                <> command "check" (info (recipesParser True <**> helper) (fullDesc <> progDesc "Reconvert local metadata and check artifacts without publication"))
+                <> command "commands" (info ((CohortRecipeCommands <$> strOption (long "context" <> metavar "FILE")) <**> helper)
+                    (fullDesc <> progDesc "Print validated converter invocations without running tools"))))
                 (fullDesc <> progDesc "Generate or check portable dependency recipes for an explicit context"))
             <> command "generate" (info (generateParser <**> helper) (fullDesc <> progDesc "Generate retained Nix recipes from the frozen sources and metadata cutoff"))
             <> command "compare-plan" (info (compareParser <**> helper) (fullDesc <> progDesc "Check a consumer subset against frozen versions and source evidence"))
@@ -159,6 +163,9 @@ dispatch (CohortComparisonContext freezeFile sourcesFile contributorsFile) = run
     pure (decodeUtf8 (LBS.toStrict (encodePretty context)))
 dispatch (CohortRecipes options) = fmap (either (\(UpdateError err) -> Left err) Right)
     (Artifacts.runArtifacts defaultProcessRunner options)
+dispatch (CohortRecipeCommands path) = do
+    bytes <- BS.readFile path
+    pure (canonicalJSON <$> (Artifacts.decodeRecipeContext bytes >>= Artifacts.recipeCommandsValue))
 dispatch (CohortGenerate options) = runExceptT $ do
     (_, _, firstParty, _) <- loadInputs "cabal/inventory" "packages/first-party-lock.json" "config/first-party-families.json" "cabal/policy-floors.json"
     versions <- ExceptT (pure (traverse parseVersion firstParty))

@@ -1,6 +1,7 @@
 # Bundle Update Log
 
 ## 2026-10-18
+* **Update**: Document generation-4 captured recipe cells, byte-based projection validation, typed read-only command export, offline converter freshness and qualified Linux CLI execution.
 * **Update**: Document verified generated-recipe binding and the opt-in Hackage factory path, shared construction policy, guarded cohort inputs and pending retained-generation adoption.
 * **Update**: Record the immutable 223-test updater matrix and matching format-2 recipe identities and roles on Linux; preserve prior strict-test receipt by exact derivation identity.
 * **Update**: Document public typed recipe contexts, format-2 converted identity and component-role inventory, unchanged format-1 outputs and bounded Darwin validation.

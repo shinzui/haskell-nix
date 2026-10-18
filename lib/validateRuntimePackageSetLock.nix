@@ -1,6 +1,12 @@
 { lib }:
-{ config, lock, firstPartyLock, root ? ../., readProjection ? (path: builtins.readFile (root + "/${path}")) }:
+{ config, lock, firstPartyLock, root ? ../., readProjection ? null }:
 let
+  # Real projections may contain source archives. Keep injected text readers for
+  # pure fixtures, but never decode actual files merely to verify their hashes.
+  projectionHash = path:
+    if readProjection == null
+    then builtins.hashFile "sha256" (root + "/${path}")
+    else builtins.hashString "sha256" (readProjection path);
   require = condition: message: if condition then true else throw "runtime lock: ${message}";
   exact = names: value: builtins.isAttrs value && builtins.attrNames value == builtins.sort builtins.lessThan names;
   unique = values: builtins.length (lib.unique values) == builtins.length values;
@@ -102,7 +108,7 @@ let
         && projectionNames != [ ] && builtins.all path projectionNames
         && builtins.all
         (file: hash record.projections.${file}
-          && builtins.hashString "sha256" (readProjection file) == record.projections.${file})
+          && projectionHash file == record.projections.${file})
         projectionNames
         && builtins.all (configuration: builtins.hasAttr "${builtins.dirOf record.freezeFile}/${configuration.channel}-sources.json" record.projections) record.configurations
         && hasAll [ record.freezeFile record.sourceFile record.versionFile record.policyFile ] projectionNames

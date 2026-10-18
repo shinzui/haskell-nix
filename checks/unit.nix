@@ -233,6 +233,16 @@ let
   };
 in
 {
+  testRuntimeProjectionHashesAcceptCapturedBinaryInputs = {
+    expr = builtins.deepSeq
+      ((import ../lib/validateRuntimePackageSetLock.nix { inherit lib; }) {
+        config = builtins.fromJSON (builtins.readFile ../config/runtime-package-sets.json);
+        lock = builtins.fromJSON (builtins.readFile ../packages/runtime-lock.json);
+        firstPartyLock = builtins.fromJSON (builtins.readFile ../packages/first-party-lock.json);
+      })
+      true;
+    expected = true;
+  };
   testCohortRootOriginUsesRepositoryRoot = { expr = (import ../lib/cohortSource.nix { inherit lib; }).originPath { source = "/fixture-source"; subdirectory = "."; }; expected = "/fixture-source"; };
   testCohortNestedOriginKeepsPackageDirectory = { expr = (import ../lib/cohortSource.nix { inherit lib; }).originPath { source = "/fixture-source"; subdirectory = "library"; }; expected = "/fixture-source/library"; };
   testCohortSourceFactsRetainActualNarEvidence = {
@@ -526,6 +536,7 @@ in
 // import ./cohort-generated.nix { inherit lib; }
 // import ./cohort-layer.nix { inherit lib; }
 // import ./generated-recipe-binding.nix { inherit lib; }
+// import ./runtime-generated-recipes.nix { inherit lib; }
 // import ./cohort-build-policy.nix { inherit lib; }
 // import ./application-incremental-policy.nix { inherit lib; }
 // import ./compatibility-policy.nix { inherit lib; }
