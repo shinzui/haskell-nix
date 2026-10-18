@@ -90,31 +90,37 @@ This follows [MasterPlan 3](../masterplans/3-align-one-cabal-and-nix-package-set
 
 ## Progress
 
-2026-10-18 producer integration in progress: isolated Rei worktrees start from committed
-source `d2139343`; an initial seven-file active-edit snapshot is retained separately,
-and the actual producer's continuing API/core work remains untouched. The candidate wires
-the 293-module foundation through ordinary outputs, Cabal membership, current owned-package
-declarations, the Mori package catalog and every active source audit. Its seven resources
-move to their sole consuming package rather than remaining editable duplicates. A real
-parity check exposed the retained channel's historical application ownership list; the
-producer now extends only its local comparison ownership from the same declaration used
-by its overlay audit and manifest. Runtime/source overlap checks remain enforced.
-The initial ordinary-build campaign is diagnostic: it was stopped during pair four to
-finish that ownership/resource integration before final measurement. Complete committed-source
-suites and final ownership/parity acceptance are running; ordinary default measurements,
-invalidation, differential costs and rollout remain open. The measurement runner now has
-`--normal-default`, binding the actual flake output to the independently exported identity.
+2026-10-18 Rei delivered: the ordinary Apple Silicon default now omits unused shared and
+combined CLI library artifacts while preserving the full SDK recipe. Five fresh alternating
+ordinary-default pairs measure 54.667 → 39.520 s (27.71%); all 301 compiler events still run,
+with less artifact generation/linking work. Exact reconstructed recipes and all 2,049 shared
+nodes (475 Haskell instances) agree. All 297 public imports, SDK GHCi and complete native
+owned suites pass. Source/type/missing-module/resource guards pass on both recipes. A real
+core edit preserves the common core identity and produces new behavior, with downstream
+CLI times 55.667/40.280 s; this single attribution pair is not a five-pair core statistic.
+The actual immutable producer, dotfiles wrapper and Darwin system build reuse one CLI
+output without compilation or lock/activation changes. The accepted change is committed
+in `mori://shinzui/rei` at `98a5047d`; full qualification is bound to the frozen equivalent
+candidate `5d183f72`. Active producer API/core work is preserved.
 
-2026-10-18 delivery focus: finish the resource-aware Rei candidate's actual producer
-integration and differential workflow-cost decision next. Its 30.35% pilot is not yet
-available through ordinary default builds. Use an isolated current-source copy because
-the producer has active staged/unstaged API and core work. Integrate the new package with
-Cabal, owned-package audit/manifest declarations, generation/formatting and the real Nix
-outputs, then compare ordinary producer builds and matching deployment identities. Charge
-additional fresh setup/required validation/transfer and recurring maintenance against the
-17.388-second measured per-edit saving; historical research costs remain separately
-visible. Keep the original performance/budget criteria and clean rollback. Broader pilots
-follow a first delivered improvement rather than replacing that delivery.
+Conservatively charge the complete fresh candidate build (46.996 s), additional full
+production-profile qualification (65.117 s), SDK checks (3.136 s) and graph verification
+(22.999 s): 138.248 s / 15.147 s saved = ten edits, within the declared budget. Common
+native source guards take 108.141/74.856 s and marginal local output transfer 0.933/0.797 s;
+count no saving credit from either. Complete family tests and system assembly remain
+common workflow costs; both full SDK and executable variants incur extra optional costs
+when requested together. No checkpoint, generation, extra dependency or recurring manual
+maintenance is introduced. Raw research and failed-attempt costs remain separately retained.
+Mori's equivalent small artifact experiment is running independently before M4/M5 closure.
+
+The integrated 293-module split is rejected: although its isolated leaf pilot was faster,
+a fresh equivalent build takes 63.551/91.543 s and 24 of forty recent commits invalidate
+the foundation. Dynamic executable linking is also rejected for startup regression. No
+production source layout, generation ownership or dependency pin changes are adopted.
+The ordinary-default runner and final verifier bind actual output identities rather than
+substituting an expression-built pilot. [Final Rei evidence](../evidence/ep18/rei-executable-artifacts.json) retains the paired protocol,
+exact graphs, complete logs, source guards, alternatives and raw cost history. The older entries below are chronological evidence;
+the current decisions above supersede their pending-work descriptions.
 
 2026-10-18 Mac Studio campaign accepted for latency and correctness: five fresh alternating
 resource-aware Rei pairs reduce the median from 57.285 to 39.897 s (30.35%), with ranges
@@ -211,6 +217,20 @@ At the 2026-10-07 source inspection, `mori://shinzui/rei` had 1,068 Haskell file
 
 
 ## Decision Log
+
+2026-10-18 producer cost screen: the fully integrated Rei foundation is a negative
+adoption result for the observed edit mix. One fresh equivalent source-comment pair
+takes 63.551 s monolithic versus 91.543 s split, with accepted Mac Studio headroom and
+301 versus 302 total compiler events. Twenty-four of the last forty commits touch
+inputs that rebuild the foundation. This is a bounded cost screen, not a new five-pair
+speedup statistic; existing accepted leaf savings do not establish a positive recurring
+mix. Keep the producing layout/default unchanged and retain the isolated candidate and
+its native evidence. Before broader splitting, test the pinned builder's existing
+`enableSharedExecutables` option on the original monolithic Rei package: isolate link
+cost, preserve optimization/library ways and require runtime/closure/full-suite evidence
+before any adoption. Mori could not resolve `mori://NixOS/nixpkgs`; its project-relative
+`pkgs/development/haskell-modules/generic-builder.nix` (artifact-level URI pending) at `d5dfd8e6716dde34398bc14bc87c10dece9c8c68` confirms the option
+and Darwin handling. This remains M4 tuning within the existing acceptance gates.
 
 2026-10-17: Keep CLI intermediates opt-in. The measured savings pass the latency threshold, but gross startup plus validation replay exceeds ten edits before additional initial validation/transfer costs. Continue core-package feasibility and bounded tuning rather than promoting these CLI defaults. Preserve successful native identities across the conservative file guards and recursive-scope integration; metadata/auxiliary state cannot enter build identity.
 
@@ -331,31 +351,24 @@ Run identity and compiler-work experiments for unrelated prose, stamp-only chang
 
 ### Milestone 4: Tune measured compilation costs and test smaller package boundaries
 
-The immediate next work is production integration of the resource-aware 293-module Rei
-candidate. In `mori://shinzui/rei`, project-relative `nix/haskell-overlay.nix`,
-`flake.module.nix` and `cabal.project` own the application recipe, exported packages,
-consumer audit/local-package manifest and package membership (source-file artifact URIs
-pending). The foundation must be declared as an owned package everywhere that needs it,
-and the owning source-generation and formatting workflow must preserve its placement and
-public reexports. Prepare this in an isolated copy of the current producer state; preserve
-active edits and keep compiler/dependency/build policy fixed. Re-run source/resource,
-complete supported suites and generator/format checks for that actual candidate, then
-measure the same ordinary default build before and after. The old pilot result does not
-substitute for the integrated producer measurement.
+The selected tuning path derives the installed executable from the checked application
+recipe without unused shared/combined library artifacts. Keep the full SDK in the original
+scope and export it separately. Preserve vanilla libraries, static executable linking,
+optimization and every dependency identity. Qualify the normal default, manifest, public
+imports, GHCi, complete native suites, source/resource errors and deployment reuse. Compare
+representative core edits separately from the paired CLI workload. Other platforms retain
+the original recipe until independently qualified.
 
-Measure normal affected targets after CLI, core/API, documentation and revision-stamp
-edits. Core dependency edits can invalidate the foundation as well as the remaining CLI;
-do not apply the measured CLI-leaf saving to that workload without evidence. Report each
-case and decide against the actual recurring workflow, preserving positive invalidation
-and required tests.
+The resource-aware split was integrated in an isolated producer copy, with actual ownership,
+resources, generation and complete suites preserved. Its recurring edit-cost screen fails;
+retain that negative decision and leave production layouts untouched. The Mori core/API
+split also remains unadopted: its native suite and total-cost gates fail. These are completed
+feasibility decisions rather than accepted production optimizations.
 
-Measure differential costs against the ordinary baseline: fresh foundation creation and
-migration, required verification that the candidate adds, publication/transfer/retention
-and maintenance after representative source changes. Common baseline costs are reported
-on both sides. Separate the research campaign and failed-attempt history from this actual
-adoption quote without deleting either. Keep the 20% improvement and ten-edit budget;
-roll out through M5 only if the useful life of the boundary repays its additional cost.
-
+Charge additional fresh setup, verification, transfer/retention and maintenance relative
+to the ordinary baseline. Record common costs on both sides and preserve research/failed
+attempts separately. Keep the 20% improvement and ten-edit budget. Adopt settings in each
+producer only when its own correctness, runtime, latency and differential-cost gates pass.
 
 Capture the actual builder flags first. The inspected builder already enables parallel compilation, so adding `enableParallelBuilding = true` alone is not an optimization. Compare bounded per-package worker counts and total simultaneously running builds under the Mac's memory budget. Avoid changing global daemon settings or oversubscribing several large GHC builds. Profiling and Haddock are already disabled for the inspected local packages; confirm the actual build ways and optimize only residual duplicated work. Record linking and Template Haskell costs separately.
 

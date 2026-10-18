@@ -1,6 +1,7 @@
 # Bundle Update Log
 
 ## 2026-10-18
+* **Update**: Document the native executable-artifact policy, full SDK preservation and exact ordinary-default verification.
 * **Update**: DOC-7: document ordinary producer default measurements and exact derivation identity binding.
 * **Update**: Retain the five-pair Mac Studio resource-aware Rei split result, unchanged graphs/public resources and separate producer/cost/adoption gates.
 * **Update**: Document shared Mac Studio benchmarking with measured CPU/memory headroom and timing stability instead of blanket compiler-idle exclusion.

@@ -6,7 +6,7 @@ docId: DOC-7
 tags: [performance, consumers, nix, source-boundaries]
 generated:
   by: process:codex
-  at: 2026-10-17T20:46:00Z
+  at: 2026-10-18T19:25:00Z
 ---
 
 [Guides](README.md)
@@ -45,6 +45,31 @@ prose consumed by no Cabal component or compile-time file read. The original rec
 that directory, so a prose edit rebuilt the entire application-owned closure: core and CLI.
 The fix lives in that project's `nix/haskell-overlay.nix` (source-file artifact URI pending).
 It excludes only that directory and preserves the source name and all other filtering.
+
+## Avoid unnecessary executable library artifacts
+
+The accepted native Apple Silicon Rei executable derives from the same checked recipe
+with `enableSharedLibraries = false` and `enableStaticLibraries = false`. The full SDK
+remains in the application scope and is exported as `rei-cli-library`. Vanilla libraries,
+static executable linking, optimization and dependencies remain unchanged. The executable
+manifest selects the derived normal default; shells keep the original scope. Other
+platforms retain their original recipe pending their own qualification.
+
+[Native evidence](../evidence/ep18/rei-executable-artifacts.json) retains all logs, exact graphs,
+costs and rejected alternatives. Five fresh ordinary-default pairs measured 54.667 → 39.520 seconds (27.71%), with 301
+compiler events on each side: the saving removes extra library artifacts, rather than
+reusing old source products. All 297 public imports and SDK GHCi pass. Set
+`MP4_APPLICATION_BUILD_EXPERIMENT=executable` when using `producer.nix` and the pair verifier:
+it requires exact reconstructed recipe identities and native build flags, as well as
+unchanged shared graphs and matching executable behavior. Complete owned native suites
+are available through `checks/fixtures/application-builds/producer-tests.nix`; they retain
+the original Setup invocation and real disposable service harnesses.
+
+Count additional adoption costs relative to the existing workflow. Compare common source
+guards and transfer on both sides; do not charge them only to the candidate. Retain full
+research and failed-attempt history separately. Requesting both the executable and full
+SDK builds both artifacts, so this optional workflow has extra build and storage costs.
+Use the selected application’s measured profile rather than enabling these flags globally.
 
 ## Run paired documentation trials
 

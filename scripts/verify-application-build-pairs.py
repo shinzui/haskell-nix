@@ -51,7 +51,7 @@ def main():
     application, topic = applications[summary["project_uri"]]
     component = summary["trials"][0]["identity"].get("component", "cli")
     experiment_mode = summary["trials"][0]["identity"].get("experimentMode", "intermediates")
-    if experiment_mode not in ["intermediates", "parallelism", "package-split"]:
+    if experiment_mode not in ["intermediates", "parallelism", "package-split", "executable"]:
         raise ValueError("Unknown experiment mode")
     if component not in ["cli", "core"]:
         raise ValueError("Unknown owned component")
@@ -354,7 +354,39 @@ def main():
                             "module_count": len(manifest["moved_modules"]), "elapsed_seconds": time.perf_counter() - started})
             if behavior["baseline"] != behavior["candidate"]:
                 raise ValueError(f"Clean and candidate behavior differ in pair {trial}")
-            if settings["baseline"] != settings["candidate"]:
+            if experiment_mode == "executable":
+                baseline = rows[trial, "baseline"]["identity"]
+                candidate = rows[trial, "candidate"]["identity"]
+                # Both references are reconstructed from the actual producer
+                # scope. Equality permits exactly the declared executable
+                # library ways, including every resulting builder hook/flag.
+                if (baseline["libraryReference"] != baseline["root"]
+                        or candidate["libraryReference"] != baseline["root"]
+                        or baseline["executableReference"] != candidate["root"]
+                        or candidate["executableReference"] != candidate["root"]):
+                    raise ValueError("Executable changed inputs beyond its declared library ways")
+                for label in ["baseline", "candidate"]:
+                    log = (args.summary.parent / rows[trial, label]["log"]).read_text()
+                    native = re.findall(r"^" + re.escape(application + "-cli") + r"> configureFlags: (.*)$", log, re.M)
+                    if len(native) != 1:
+                        raise ValueError("Expected one native executable configuration")
+                    flags = native[0].split()
+                    expected = ["--enable-shared", "--enable-static"] if label == "baseline" else ["--disable-shared", "--disable-static"]
+                    rejected = ["--disable-shared", "--disable-static"] if label == "baseline" else ["--enable-shared", "--enable-static"]
+                    if (any(flags.count(flag) != 1 for flag in expected + ["--enable-library-vanilla", "--disable-executable-dynamic"])
+                            or any(flag in flags for flag in rejected + ["--disable-library-vanilla", "--enable-executable-dynamic"])):
+                        raise ValueError("Executable must preserve vanilla libraries and static executable linking")
+                receipt.setdefault("executable_validation", []).append({
+                    "trial": trial, "settings": settings,
+                    "native_configure_flags": {label: re.findall(
+                        r"^" + re.escape(application + "-cli") + r"> configureFlags: (.*)$",
+                        (args.summary.parent / rows[trial, label]["log"]).read_text(), re.M)[0]
+                        for label in ["baseline", "candidate"]},
+                    "unchanged_full_library": baseline["libraryReference"],
+                    "executable_reference": candidate["executableReference"],
+                    "scope": "Only shared/combined library artifacts are omitted from the executable output; full SDK recipe preserved",
+                })
+            if experiment_mode != "executable" and settings["baseline"] != settings["candidate"]:
                 raise ValueError("Compiler/build settings differ between clean and candidate")
             if shared["baseline"] != shared["candidate"]:
                 missing = sorted(set(shared["baseline"]) - set(shared["candidate"]))

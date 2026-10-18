@@ -1,6 +1,6 @@
 # Keep routine application changes independent of cohort and toolchain updates
 
-Status: Accepted; Rei planning-prose source isolation is verified; wider reuse and changed-code timing gates remain pending.
+Status: Accepted; native Rei source isolation and executable-artifact tuning are verified; intermediate reuse remains opt-in.
 
 Date: 2026-10-04
 
@@ -95,6 +95,20 @@ costs on both sides. Preserve research campaigns and failed-attempt costs separa
 without charging that history again on every edit or presenting it as a complete migration
 quote. Prioritize a measured useful build improvement over expanding a mechanism that has
 not improved consumer latency. Keep existing correctness and amortization requirements.
+
+Separate executable artifacts from the application library interface when the pinned
+builder produces library ways that the installed executable does not need. Derive the
+executable with `overrideCabal` from the checked application recipe; keep its full SDK
+recipe in the retained scope for development shells, public imports and GHCi. Bind the
+manifest to the actual executable derivation. Cabal's combined static library is distinct
+from its vanilla library: disabling the former must preserve vanilla compilation, static
+executable linking, optimization, dependencies and ordinary source-error detection.
+Reconstruct both reference derivations to prove the exact policy difference and inspect
+native configure logs, since builder defaults may not appear in raw recipe arguments.
+Qualify each platform independently. Dynamic executable linking needs its own startup
+measurements; a smaller closure alone does not justify its runtime cost. Evaluate package
+splits against representative edits that invalidate the proposed foundation as well as
+favorable leaf edits. Preserve source-generation ownership and original public imports.
 
 Benchmarks may share a host with unrelated work when measured resources have headroom.
 Record hardware and concurrent compiler/test processes rather than rejecting their mere

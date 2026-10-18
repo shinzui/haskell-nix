@@ -156,16 +156,15 @@ Solid edges are Hard production-delivery prerequisites; dotted edges are Integra
 companion named in Integration Points. Defer EP-19 until that work is delivered;
 its existing acceptance gates and In Progress status remain unchanged.
 
-2026-10-18 delivery priority: the user's goal is less elapsed time in ordinary application
-builds and reliable reuse on development/deployment workers. A helper, passing matrix or
-new artifact format is progress only insofar as it enables that outcome. Finish one
-production application improvement before expanding experimental coverage. The first
-candidate is EP-18's measured resource-aware Rei split (57.285 → 39.897 s); it remains a
-candidate until the actual producer workflow and extra adoption costs pass. Work in an
-isolated copy of the current producer state, preserving active API/core edits. Integrate
-the real package/ownership/generator declarations, compare the ordinary default builds,
-publish through the existing cache owner when authorized, and verify matching deployment
-output reuse. Continue to Mori or other applications after that first delivered result.
+2026-10-18 delivery: Rei's ordinary Apple Silicon executable now omits unused shared and
+combined library artifacts, retaining its complete SDK recipe. Five ordinary-default
+pairs improve 54.667 → 39.520 s (27.71%), with unchanged production optimization/dependencies.
+Native suites, SDK/public imports, source guards, the ten-edit differential-cost gate,
+independent local transfer and actual Darwin output reuse pass. The producer change is
+committed at `mori://shinzui/rei` revision `98a5047d`. The integrated resource-aware split
+and dynamic executable alternatives are rejected for recurring-build and startup costs.
+Finish the equivalent Mori decision and EP-18 evidence/ADR/catalog closure, then the
+Seihou companion. EP-19 remains deferred with its performance outcome unmet.
 
 Compare representative CLI, core/API, documentation and revision-stamp edits through the
 normal affected targets. A CLI-leaf win does not establish faster core/API builds; report
@@ -224,6 +223,13 @@ Existing plans 9 and 16 retain ownership of generator contexts, executable graph
 Shared edits to `flake.nix`, `checks/default.nix`, `lib/`, and updater modules require per-plan ownership: EP-19 wires recipe generation, EP-20 wires shell construction, EP-21 wires exception/validation policy, and EP-18 wires application-only incremental helpers. Coordinate merge order and update shared interfaces in both consumers and owners. Each member retains its self-contained implementation and acceptance; this master plan records reconciliation.
 
 ## Progress
+
+2026-10-18 EP-18 producer screen: the resource-aware foundation is integrated and
+validated only in isolation. Fresh package creation costs 63.551 s monolithic versus
+91.543 s split, and 24/40 recent commits invalidate the foundation. Keep the actual
+producer unchanged; leaf savings alone do not justify this recurring cost. EP-18 next
+screens monolithic executable linking under the existing performance/runtime/cost gates.
+The Seihou companion remains next and EP-19 is deferred by the user's current scope.
 
 2026-10-18 outcome correction: prioritize production delivery of the measured Rei build
 improvement over additional mechanism/coverage work. EP-18 next owns current-source
