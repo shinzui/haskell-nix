@@ -1,5 +1,8 @@
 # Bundle Update Log
 
+## 2026-10-19
+* **Addition**: IR-3 requests targeted published Kioku 0.10.0.0 cohort support and a later Store/runtime update only after the structured error fix is released; no broad refresh or implementation is authorized.
+
 ## 2026-10-16
 * **Status change**: Complete IR-2: publish Seihou 0.31.0 and adopt the shared generated cohort in Hurl Workbench; default Nix build and full native release gate pass. EP-9 Linux and fresh-CI cache gates remain separate.
 * **Update**: Record IR-2 generated-cohort delivery and passing isolated Hurl pin-removal rehearsal; keep permanent managed-pin adoption and remaining matrix gates open.
