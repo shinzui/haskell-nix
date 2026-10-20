@@ -78,9 +78,9 @@ library
     , keiro-ops >=0.21.0.0 && <0.22
     , keiro-pgmq >=0.21.0.0 && <0.22
     , keiro-test-support >=0.21.0.0 && <0.22
-    , kioku-api >=0.9.0.1 && <0.10
-    , kioku-core >=0.9.0.1 && <0.10
-    , kioku-migrations >=0.9.0.1 && <0.10
+    , kioku-api >=0
+    , kioku-core >=0
+    , kioku-migrations >=0
     , kiroku-cli >=0.2.0.10 && <0.3
     , kiroku-metrics >=0.3.0.0 && <0.4
     , kiroku-otel >=0.2.0.12 && <0.3

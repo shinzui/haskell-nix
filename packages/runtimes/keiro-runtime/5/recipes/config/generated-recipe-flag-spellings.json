@@ -1,0 +1,44 @@
+{
+  "async": {
+    "flags": {
+      "bench": false,
+      "debug-auto-label": false
+    },
+    "metadataSha256": "45d5587d8a348a7e2b3f04de963fe633db49b49cde10ca1e6f834bef3baecee9",
+    "reason": "The exact selected Cabal metadata declares these flags default false. Omit only the redundant explicit false switches to preserve legacy derivation identities; retain raw converter bytes and every effective selection.",
+    "version": "2.2.6"
+  },
+  "hashable": {
+    "flags": {
+      "arch-native": false,
+      "random-initial-seed": false
+    },
+    "metadataSha256": "140fc5adad166f7b527567cbd26ff481e8da4a66bdfc84be3ddf28dbeb66f275",
+    "reason": "The exact selected Cabal metadata declares these flags default false. Omit only the redundant explicit false switches to preserve legacy derivation identities; retain raw converter bytes and every effective selection.",
+    "version": "1.5.1.0"
+  },
+  "hsc2hs": {
+    "flags": {
+      "in-ghc-tree": false
+    },
+    "metadataSha256": "39b25fd929b02b01a3fe59fec7ca8b2da6f0f9e282276b7a84e63a4702c4d725",
+    "reason": "The exact selected Cabal metadata declares these flags default false. Omit only the redundant explicit false switches to preserve legacy derivation identities; retain raw converter bytes and every effective selection.",
+    "version": "0.68.10"
+  },
+  "network": {
+    "flags": {
+      "devel": false
+    },
+    "metadataSha256": "48a0c4f91e460f892c629b76c9410336a978e9b58aa87c678aee587b4ca37698",
+    "reason": "The exact selected Cabal metadata declares these flags default false. Omit only the redundant explicit false switches to preserve legacy derivation identities; retain raw converter bytes and every effective selection.",
+    "version": "3.2.9.0"
+  },
+  "unordered-containers": {
+    "flags": {
+      "debug": false
+    },
+    "metadataSha256": "c5de1fb3377ed3c5f4cd851a771d1acc5c37d2f6bef0a499295c0e8857da5605",
+    "reason": "The exact selected Cabal metadata declares these flags default false. Omit only the redundant explicit false switches to preserve legacy derivation identities; retain raw converter bytes and every effective selection.",
+    "version": "0.2.21"
+  }
+}

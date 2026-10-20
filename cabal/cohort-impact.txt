@@ -1,5 +1,281 @@
-hw-kafka-client: source, cabal-metadata
-  mori://shinzui/mori [application] mori-core/mori-core.cabal [library] -> hw-kafka-client
-hw-kafka-streamly: added
-kafka-effectful: added
-shibuya-kafka-adapter: added
+crypton-connection: cabal-metadata
+  mori://shinzui/mina [application] mina-cli/mina-cli.cabal [library:mina-cli-internal] -> baikai -> http-client-tls -> crypton-connection
+  mori://shinzui/mina [application] mina-cli/mina-cli.cabal [library:mina-cli-internal] -> baikai-claude -> http-client-tls -> crypton-connection
+  mori://shinzui/mina [application] mina-cli/mina-cli.cabal [library:mina-cli-internal] -> baikai-openai -> http-client-tls -> crypton-connection
+  mori://shinzui/mina [application] mina-cli/mina-cli.cabal [test:mina-cli-test] -> baikai -> http-client-tls -> crypton-connection
+  mori://shinzui/mina [application] mina-core/mina-core.cabal [executable:plandigest-eval] -> baikai -> http-client-tls -> crypton-connection
+  mori://shinzui/mina [application] mina-core/mina-core.cabal [executable:plandigest-eval] -> shikumi -> baikai -> http-client-tls -> crypton-connection
+  mori://shinzui/mina [application] mina-core/mina-core.cabal [executable:plandigest-spike] -> baikai -> http-client-tls -> crypton-connection
+  mori://shinzui/mina [application] mina-core/mina-core.cabal [executable:plandigest-spike] -> baikai-claude -> http-client-tls -> crypton-connection
+  mori://shinzui/mina [application] mina-core/mina-core.cabal [executable:plandigest-spike] -> shikumi -> baikai -> http-client-tls -> crypton-connection
+  mori://shinzui/mina [application] mina-core/mina-core.cabal [library] -> baikai -> http-client-tls -> crypton-connection
+  mori://shinzui/mina [application] mina-core/mina-core.cabal [library] -> baikai-claude -> http-client-tls -> crypton-connection
+  mori://shinzui/mina [application] mina-core/mina-core.cabal [library] -> baikai-openai -> http-client-tls -> crypton-connection
+  mori://shinzui/mina [application] mina-core/mina-core.cabal [library] -> baikai-trace-otel -> baikai -> http-client-tls -> crypton-connection
+  mori://shinzui/mina [application] mina-core/mina-core.cabal [library] -> hs-opentelemetry-sdk -> crypton-connection
+  mori://shinzui/mina [application] mina-core/mina-core.cabal [library] -> okf-core -> dhall -> http-client-tls -> crypton-connection
+  mori://shinzui/mina [application] mina-core/mina-core.cabal [library] -> shikumi -> baikai -> http-client-tls -> crypton-connection
+  mori://shinzui/mina [application] mina-core/mina-core.cabal [library] -> shikumi-trace -> baikai -> http-client-tls -> crypton-connection
+  mori://shinzui/mina [application] mina-core/mina-core.cabal [library] -> shikumi-trace-otel -> hs-opentelemetry-sdk -> crypton-connection
+  mori://shinzui/mina [application] mina-core/mina-core.cabal [test:mina-core-test] -> baikai -> http-client-tls -> crypton-connection
+  mori://shinzui/mina [application] mina-core/mina-core.cabal [test:mina-core-test] -> baikai-claude -> http-client-tls -> crypton-connection
+  mori://shinzui/mina [application] mina-core/mina-core.cabal [test:mina-core-test] -> baikai-trace-otel -> baikai -> http-client-tls -> crypton-connection
+  mori://shinzui/mina [application] mina-core/mina-core.cabal [test:mina-core-test] -> hs-opentelemetry-sdk -> crypton-connection
+  mori://shinzui/mina [application] mina-core/mina-core.cabal [test:mina-core-test] -> okf-core -> dhall -> http-client-tls -> crypton-connection
+  mori://shinzui/mina [application] mina-core/mina-core.cabal [test:mina-core-test] -> shikumi -> baikai -> http-client-tls -> crypton-connection
+  mori://shinzui/mori [application] cabal.project [cabal.project constraints] -> http-client-tls -> crypton-connection
+  mori://shinzui/mori [application] mori-api/mori-api.cabal [test:mori-api-test] -> hs-opentelemetry-sdk -> crypton-connection
+  mori://shinzui/mori [application] mori-cli/mori-cli.cabal [library] -> baikai -> http-client-tls -> crypton-connection
+  mori://shinzui/mori [application] mori-cli/mori-cli.cabal [library] -> baikai-kit -> baikai -> http-client-tls -> crypton-connection
+  mori://shinzui/mori [application] mori-cli/mori-cli.cabal [library] -> dhall -> http-client-tls -> crypton-connection
+  mori://shinzui/mori [application] mori-cli/mori-cli.cabal [library] -> hs-opentelemetry-exporter-otlp -> http-conduit -> http-client-tls -> crypton-connection
+  mori://shinzui/mori [application] mori-cli/mori-cli.cabal [library] -> hs-opentelemetry-sdk -> crypton-connection
+  mori://shinzui/mori [application] mori-cli/mori-cli.cabal [library] -> http-client-tls -> crypton-connection
+  mori://shinzui/mori [application] mori-cli/mori-cli.cabal [library] -> kioku-core -> baikai -> http-client-tls -> crypton-connection
+  mori://shinzui/mori [application] mori-cli/mori-cli.cabal [library] -> kiroku-metrics -> kiroku-cli -> http-client-tls -> crypton-connection
+  mori://shinzui/mori [application] mori-cli/mori-cli.cabal [library] -> okf-core -> dhall -> http-client-tls -> crypton-connection
+  mori://shinzui/mori [application] mori-cli/mori-cli.cabal [test:mori-cli-test] -> baikai-kit -> baikai -> http-client-tls -> crypton-connection
+  mori://shinzui/mori [application] mori-cli/mori-cli.cabal [test:mori-cli-test] -> hs-opentelemetry-sdk -> crypton-connection
+  mori://shinzui/mori [application] mori-cli/mori-cli.cabal [test:mori-cli-test] -> kiroku-cli -> http-client-tls -> crypton-connection
+  mori://shinzui/mori [application] mori-cli/mori-cli.cabal [test:mori-cli-test] -> kiroku-metrics -> kiroku-cli -> http-client-tls -> crypton-connection
+  mori://shinzui/mori [application] mori-cli/mori-cli.cabal [test:mori-cli-test] -> okf-core -> dhall -> http-client-tls -> crypton-connection
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [executable:mori-migrations] -> kioku-core -> baikai -> http-client-tls -> crypton-connection
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [library] -> dhall -> http-client-tls -> crypton-connection
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [library] -> hs-opentelemetry-sdk -> crypton-connection
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [library] -> http-client-tls -> crypton-connection
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [library] -> kioku-core -> baikai -> http-client-tls -> crypton-connection
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [library] -> okf-core -> dhall -> http-client-tls -> crypton-connection
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [test:mori-core-test] -> dhall -> http-client-tls -> crypton-connection
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [test:mori-core-test] -> hs-opentelemetry-sdk -> crypton-connection
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [test:mori-core-test] -> kioku-core -> baikai -> http-client-tls -> crypton-connection
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [test:mori-core-test] -> kiroku-metrics -> kiroku-cli -> http-client-tls -> crypton-connection
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [test:mori-core-test] -> okf-core -> dhall -> http-client-tls -> crypton-connection
+  mori://shinzui/mori-rei-app [application] cabal.project [cabal.project constraints] -> http-client-tls -> crypton-connection
+  mori://shinzui/mori-rei-app [application] mori-rei-app.cabal [library] -> baikai -> http-client-tls -> crypton-connection
+  mori://shinzui/mori-rei-app [application] mori-rei-app.cabal [library] -> baikai-claude -> http-client-tls -> crypton-connection
+  mori://shinzui/mori-rei-app [application] mori-rei-app.cabal [library] -> baikai-openai -> http-client-tls -> crypton-connection
+  mori://shinzui/mori-rei-app [application] mori-rei-app.cabal [library] -> hs-opentelemetry-sdk -> crypton-connection
+  mori://shinzui/mori-rei-app [application] mori-rei-app.cabal [library] -> rei-core -> hs-opentelemetry-sdk -> crypton-connection
+  mori://shinzui/mori-rei-app [application] mori-rei-app.cabal [test:mori-rei-app-test] -> baikai -> http-client-tls -> crypton-connection
+  mori://shinzui/mori-rei-app [application] mori-rei-app.cabal [test:mori-rei-app-test] -> hs-opentelemetry-sdk -> crypton-connection
+  mori://shinzui/mori-rei-app [application] mori-rei-app.cabal [test:mori-rei-app-test] -> rei-core -> hs-opentelemetry-sdk -> crypton-connection
+  mori://shinzui/rei [application] cabal.project [cabal.project constraints] -> http-client-tls -> crypton-connection
+  mori://shinzui/rei [application] rei-api/rei-api.cabal [executable:rei-api] -> hs-opentelemetry-sdk -> crypton-connection
+  mori://shinzui/rei [application] rei-api/rei-api.cabal [library] -> hs-opentelemetry-exporter-otlp -> http-conduit -> http-client-tls -> crypton-connection
+  mori://shinzui/rei [application] rei-api/rei-api.cabal [library] -> hs-opentelemetry-instrumentation-servant -> hs-opentelemetry-sdk -> crypton-connection
+  mori://shinzui/rei [application] rei-api/rei-api.cabal [library] -> hs-opentelemetry-sdk -> crypton-connection
+  mori://shinzui/rei [application] rei-api/rei-api.cabal [test:rei-api-test] -> hs-opentelemetry-sdk -> crypton-connection
+  mori://shinzui/rei [application] rei-cli/rei-cli.cabal [library] -> baikai -> http-client-tls -> crypton-connection
+  mori://shinzui/rei [application] rei-cli/rei-cli.cabal [library] -> baikai-kit -> baikai -> http-client-tls -> crypton-connection
+  mori://shinzui/rei [application] rei-cli/rei-cli.cabal [library] -> kiroku-cli -> http-client-tls -> crypton-connection
+  mori://shinzui/rei [application] rei-cli/rei-cli.cabal [library] -> kiroku-metrics -> kiroku-cli -> http-client-tls -> crypton-connection
+  mori://shinzui/rei [application] rei-cli/rei-cli.cabal [test:rei-cli-test] -> baikai -> http-client-tls -> crypton-connection
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [executable:rei-migrations] -> kioku-core -> baikai -> http-client-tls -> crypton-connection
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [library] -> baikai -> http-client-tls -> crypton-connection
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [library] -> baikai-claude -> http-client-tls -> crypton-connection
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [library] -> baikai-openai -> http-client-tls -> crypton-connection
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [library] -> hs-opentelemetry-exporter-otlp -> http-conduit -> http-client-tls -> crypton-connection
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [library] -> hs-opentelemetry-sdk -> crypton-connection
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [library] -> http-client-tls -> crypton-connection
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [library] -> kioku-core -> baikai -> http-client-tls -> crypton-connection
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [library] -> link-canonical -> http-client-tls -> crypton-connection
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [test:rei-core-test] -> baikai -> http-client-tls -> crypton-connection
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [test:rei-core-test] -> baikai-claude -> http-client-tls -> crypton-connection
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [test:rei-core-test] -> baikai-openai -> http-client-tls -> crypton-connection
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [test:rei-core-test] -> hs-opentelemetry-sdk -> crypton-connection
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [test:rei-core-test] -> kioku-core -> baikai -> http-client-tls -> crypton-connection
+  mori://shinzui/reiko [application] reiko-cli/reiko-cli.cabal [library] -> http-client-tls -> crypton-connection
+  mori://shinzui/reiko [application] reiko-core/reiko-core.cabal [library] -> http-client-tls -> crypton-connection
+kioku-api: version, source, cabal-metadata
+  mori://shinzui/mori [application] mori-cli/mori-cli.cabal [library] -> kioku-api
+  mori://shinzui/mori [application] mori-cli/mori-cli.cabal [library] -> kioku-core -> kioku-api
+  mori://shinzui/mori [application] mori-cli/mori-cli.cabal [test:mori-cli-test] -> kioku-api
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [executable:mori-migrations] -> kioku-core -> kioku-api
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [library] -> kioku-api
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [library] -> kioku-core -> kioku-api
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [test:mori-core-test] -> kioku-api
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [test:mori-core-test] -> kioku-core -> kioku-api
+  mori://shinzui/mori-rei-app [application] mori-rei-app.cabal [library] -> rei-core -> kioku-api
+  mori://shinzui/mori-rei-app [application] mori-rei-app.cabal [test:mori-rei-app-test] -> rei-core -> kioku-api
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [executable:rei-migrations] -> kioku-core -> kioku-api
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [library] -> kioku-api
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [library] -> kioku-core -> kioku-api
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [test:rei-core-test] -> kioku-api
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [test:rei-core-test] -> kioku-core -> kioku-api
+kioku-core: version, source, cabal-metadata, dependencies
+  mori://shinzui/mori [application] mori-cli/mori-cli.cabal [library] -> kioku-core
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [executable:mori-migrations] -> kioku-core
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [library] -> kioku-core
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [test:mori-core-test] -> kioku-core
+  mori://shinzui/mori-rei-app [application] mori-rei-app.cabal [library] -> rei-core -> kioku-core
+  mori://shinzui/mori-rei-app [application] mori-rei-app.cabal [test:mori-rei-app-test] -> rei-core -> kioku-core
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [executable:rei-migrations] -> kioku-core
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [library] -> kioku-core
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [test:rei-core-test] -> kioku-core
+kioku-migrations: version, source, cabal-metadata
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [executable:mori-migrations] -> kioku-migrations
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [library] -> kioku-migrations
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [test:mori-core-test] -> kioku-migrations
+  mori://shinzui/mori-rei-app [application] mori-rei-app.cabal [library] -> rei-core -> kioku-migrations
+  mori://shinzui/mori-rei-app [application] mori-rei-app.cabal [test:mori-rei-app-test] -> rei-core -> kioku-migrations
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [executable:rei-migrations] -> kioku-migrations
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [test:rei-core-test] -> kioku-migrations
+kiroku-metrics: version, source, cabal-metadata
+  mori://shinzui/mori [application] mori-cli/mori-cli.cabal [library] -> kiroku-metrics
+  mori://shinzui/mori [application] mori-cli/mori-cli.cabal [test:mori-cli-test] -> kiroku-metrics
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [test:mori-core-test] -> kiroku-metrics
+  mori://shinzui/rei [application] rei-cli/rei-cli.cabal [library] -> kiroku-metrics
+kiroku-store: version, source, cabal-metadata
+  mori://shinzui/mori [application] mori-api/mori-api.cabal [library] -> kiroku-store
+  mori://shinzui/mori [application] mori-api/mori-api.cabal [test:mori-api-test] -> kiroku-store
+  mori://shinzui/mori [application] mori-cli/mori-cli.cabal [library] -> keiro -> kiroku-store
+  mori://shinzui/mori [application] mori-cli/mori-cli.cabal [library] -> keiro-core -> kiroku-store
+  mori://shinzui/mori [application] mori-cli/mori-cli.cabal [library] -> keiro-ops -> kiroku-store
+  mori://shinzui/mori [application] mori-cli/mori-cli.cabal [library] -> keiro-pgmq -> keiro-core -> kiroku-store
+  mori://shinzui/mori [application] mori-cli/mori-cli.cabal [library] -> kioku-core -> kiroku-store
+  mori://shinzui/mori [application] mori-cli/mori-cli.cabal [library] -> kiroku-metrics -> kiroku-store
+  mori://shinzui/mori [application] mori-cli/mori-cli.cabal [library] -> kiroku-store
+  mori://shinzui/mori [application] mori-cli/mori-cli.cabal [test:mori-cli-test] -> keiro -> kiroku-store
+  mori://shinzui/mori [application] mori-cli/mori-cli.cabal [test:mori-cli-test] -> keiro-ops -> kiroku-store
+  mori://shinzui/mori [application] mori-cli/mori-cli.cabal [test:mori-cli-test] -> kiroku-cli -> kiroku-store
+  mori://shinzui/mori [application] mori-cli/mori-cli.cabal [test:mori-cli-test] -> kiroku-metrics -> kiroku-store
+  mori://shinzui/mori [application] mori-cli/mori-cli.cabal [test:mori-cli-test] -> kiroku-store
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [executable:mori-migrations] -> kioku-core -> kiroku-store
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [executable:mori-migrations] -> kioku-migrations -> keiro-test-support -> kiroku-store
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [library] -> keiro -> kiroku-store
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [library] -> keiro-pgmq -> keiro-core -> kiroku-store
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [library] -> kioku-core -> kiroku-store
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [library] -> kioku-migrations -> keiro-test-support -> kiroku-store
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [library] -> kiroku-otel -> kiroku-store
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [library] -> kiroku-store
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [library] -> shibuya-kiroku-adapter -> kiroku-store
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [test:mori-core-test] -> keiro -> kiroku-store
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [test:mori-core-test] -> keiro-pgmq -> keiro-core -> kiroku-store
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [test:mori-core-test] -> keiro-test-support -> kiroku-store
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [test:mori-core-test] -> kioku-core -> kiroku-store
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [test:mori-core-test] -> kioku-migrations -> keiro-test-support -> kiroku-store
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [test:mori-core-test] -> kiroku-metrics -> kiroku-store
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [test:mori-core-test] -> kiroku-otel -> kiroku-store
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [test:mori-core-test] -> kiroku-store
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [test:mori-core-test] -> shibuya-kiroku-adapter -> kiroku-store
+  mori://shinzui/mori-rei-app [application] mori-rei-app.cabal [library] -> kiroku-store
+  mori://shinzui/mori-rei-app [application] mori-rei-app.cabal [library] -> rei-core -> kiroku-store
+  mori://shinzui/mori-rei-app [application] mori-rei-app.cabal [test:mori-rei-app-test] -> keiro -> kiroku-store
+  mori://shinzui/mori-rei-app [application] mori-rei-app.cabal [test:mori-rei-app-test] -> kiroku-store
+  mori://shinzui/mori-rei-app [application] mori-rei-app.cabal [test:mori-rei-app-test] -> rei-core -> kiroku-store
+  mori://shinzui/rei [application] rei-api/rei-api.cabal [library] -> keiro -> kiroku-store
+  mori://shinzui/rei [application] rei-api/rei-api.cabal [library] -> kiroku-store
+  mori://shinzui/rei [application] rei-api/rei-api.cabal [test:rei-api-client-live-test] -> kiroku-store
+  mori://shinzui/rei [application] rei-api/rei-api.cabal [test:rei-api-live-test] -> kiroku-store
+  mori://shinzui/rei [application] rei-api/rei-api.cabal [test:rei-api-test] -> keiro -> kiroku-store
+  mori://shinzui/rei [application] rei-api/rei-api.cabal [test:rei-api-test] -> kiroku-store
+  mori://shinzui/rei [application] rei-cli/rei-cli.cabal [library] -> keiro -> kiroku-store
+  mori://shinzui/rei [application] rei-cli/rei-cli.cabal [library] -> keiro-ops -> kiroku-store
+  mori://shinzui/rei [application] rei-cli/rei-cli.cabal [library] -> keiro-pgmq -> keiro-core -> kiroku-store
+  mori://shinzui/rei [application] rei-cli/rei-cli.cabal [library] -> kiroku-cli -> kiroku-store
+  mori://shinzui/rei [application] rei-cli/rei-cli.cabal [library] -> kiroku-metrics -> kiroku-store
+  mori://shinzui/rei [application] rei-cli/rei-cli.cabal [library] -> kiroku-store
+  mori://shinzui/rei [application] rei-cli/rei-cli.cabal [test:rei-cli-test] -> keiro -> kiroku-store
+  mori://shinzui/rei [application] rei-cli/rei-cli.cabal [test:rei-cli-test] -> keiro-test-support -> kiroku-store
+  mori://shinzui/rei [application] rei-cli/rei-cli.cabal [test:rei-cli-test] -> kiroku-store
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [executable:rei-migrations] -> kioku-core -> kiroku-store
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [executable:rei-migrations] -> kioku-migrations -> keiro-test-support -> kiroku-store
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [executable:shared-mapping-baseline-export] -> keiro-core -> kiroku-store
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [library] -> keiro -> kiroku-store
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [library] -> keiro-core -> kiroku-store
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [library] -> keiro-pgmq -> keiro-core -> kiroku-store
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [library] -> kioku-core -> kiroku-store
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [library] -> kiroku-otel -> kiroku-store
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [library] -> kiroku-store
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [library] -> shibuya-kiroku-adapter -> kiroku-store
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [test:rei-core-test] -> keiro -> kiroku-store
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [test:rei-core-test] -> keiro-dsl -> keiro-core -> kiroku-store
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [test:rei-core-test] -> keiro-ops -> kiroku-store
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [test:rei-core-test] -> keiro-pgmq -> keiro-core -> kiroku-store
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [test:rei-core-test] -> keiro-test-support -> kiroku-store
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [test:rei-core-test] -> kioku-core -> kiroku-store
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [test:rei-core-test] -> kioku-migrations -> keiro-test-support -> kiroku-store
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [test:rei-core-test] -> kiroku-store
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [test:rei-core-test] -> shibuya-kiroku-adapter -> kiroku-store
+streamly: cabal-metadata
+  mori://shinzui/mina [application] mina-cli/mina-cli.cabal [library:mina-cli-internal] -> baikai -> streamly
+  mori://shinzui/mina [application] mina-cli/mina-cli.cabal [library:mina-cli-internal] -> baikai-claude -> streamly
+  mori://shinzui/mina [application] mina-cli/mina-cli.cabal [library:mina-cli-internal] -> baikai-openai -> streamly
+  mori://shinzui/mina [application] mina-cli/mina-cli.cabal [test:mina-cli-test] -> baikai -> streamly
+  mori://shinzui/mina [application] mina-core/mina-core.cabal [executable:plandigest-eval] -> baikai -> streamly
+  mori://shinzui/mina [application] mina-core/mina-core.cabal [executable:plandigest-eval] -> shikumi -> baikai -> streamly
+  mori://shinzui/mina [application] mina-core/mina-core.cabal [executable:plandigest-spike] -> baikai -> streamly
+  mori://shinzui/mina [application] mina-core/mina-core.cabal [executable:plandigest-spike] -> baikai-claude -> streamly
+  mori://shinzui/mina [application] mina-core/mina-core.cabal [executable:plandigest-spike] -> shikumi -> baikai -> streamly
+  mori://shinzui/mina [application] mina-core/mina-core.cabal [library] -> baikai -> streamly
+  mori://shinzui/mina [application] mina-core/mina-core.cabal [library] -> baikai-claude -> streamly
+  mori://shinzui/mina [application] mina-core/mina-core.cabal [library] -> baikai-openai -> streamly
+  mori://shinzui/mina [application] mina-core/mina-core.cabal [library] -> baikai-trace-otel -> baikai -> streamly
+  mori://shinzui/mina [application] mina-core/mina-core.cabal [library] -> shikumi -> baikai -> streamly
+  mori://shinzui/mina [application] mina-core/mina-core.cabal [library] -> shikumi-trace -> baikai -> streamly
+  mori://shinzui/mina [application] mina-core/mina-core.cabal [library] -> shikumi-trace-otel -> baikai -> streamly
+  mori://shinzui/mina [application] mina-core/mina-core.cabal [test:mina-core-test] -> baikai -> streamly
+  mori://shinzui/mina [application] mina-core/mina-core.cabal [test:mina-core-test] -> baikai-claude -> streamly
+  mori://shinzui/mina [application] mina-core/mina-core.cabal [test:mina-core-test] -> baikai-trace-otel -> baikai -> streamly
+  mori://shinzui/mina [application] mina-core/mina-core.cabal [test:mina-core-test] -> shikumi -> baikai -> streamly
+  mori://shinzui/mori [application] mori-cli/mori-cli.cabal [library] -> baikai -> streamly
+  mori://shinzui/mori [application] mori-cli/mori-cli.cabal [library] -> baikai-kit -> baikai -> streamly
+  mori://shinzui/mori [application] mori-cli/mori-cli.cabal [library] -> keiro -> streamly
+  mori://shinzui/mori [application] mori-cli/mori-cli.cabal [library] -> keiro-ops -> keiro -> streamly
+  mori://shinzui/mori [application] mori-cli/mori-cli.cabal [library] -> keiro-pgmq -> shibuya-core -> streamly
+  mori://shinzui/mori [application] mori-cli/mori-cli.cabal [library] -> kioku-core -> baikai -> streamly
+  mori://shinzui/mori [application] mori-cli/mori-cli.cabal [library] -> shibuya-core -> streamly
+  mori://shinzui/mori [application] mori-cli/mori-cli.cabal [library] -> shibuya-pgmq-adapter -> streamly
+  mori://shinzui/mori [application] mori-cli/mori-cli.cabal [test:mori-cli-test] -> baikai-kit -> baikai -> streamly
+  mori://shinzui/mori [application] mori-cli/mori-cli.cabal [test:mori-cli-test] -> keiro -> streamly
+  mori://shinzui/mori [application] mori-cli/mori-cli.cabal [test:mori-cli-test] -> keiro-ops -> keiro -> streamly
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [executable:mori-migrations] -> kioku-core -> baikai -> streamly
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [library] -> keiro -> streamly
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [library] -> keiro-pgmq -> shibuya-core -> streamly
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [library] -> kioku-core -> baikai -> streamly
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [library] -> shibuya-core -> streamly
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [library] -> shibuya-kiroku-adapter -> shibuya-core -> streamly
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [library] -> shibuya-pgmq-adapter -> streamly
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [test:mori-core-test] -> keiro -> streamly
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [test:mori-core-test] -> keiro-pgmq -> shibuya-core -> streamly
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [test:mori-core-test] -> kioku-core -> baikai -> streamly
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [test:mori-core-test] -> shibuya-core -> streamly
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [test:mori-core-test] -> shibuya-kiroku-adapter -> shibuya-core -> streamly
+  mori://shinzui/mori [application] mori-core/mori-core.cabal [test:mori-core-test] -> shibuya-pgmq-adapter -> streamly
+  mori://shinzui/mori-rei-app [application] mori-rei-app.cabal [library] -> baikai -> streamly
+  mori://shinzui/mori-rei-app [application] mori-rei-app.cabal [library] -> baikai-claude -> streamly
+  mori://shinzui/mori-rei-app [application] mori-rei-app.cabal [library] -> baikai-openai -> streamly
+  mori://shinzui/mori-rei-app [application] mori-rei-app.cabal [library] -> rei-core -> baikai -> streamly
+  mori://shinzui/mori-rei-app [application] mori-rei-app.cabal [test:mori-rei-app-test] -> baikai -> streamly
+  mori://shinzui/mori-rei-app [application] mori-rei-app.cabal [test:mori-rei-app-test] -> keiro -> streamly
+  mori://shinzui/mori-rei-app [application] mori-rei-app.cabal [test:mori-rei-app-test] -> rei-core -> baikai -> streamly
+  mori://shinzui/rei [application] rei-api/rei-api.cabal [library] -> keiro -> streamly
+  mori://shinzui/rei [application] rei-api/rei-api.cabal [test:rei-api-test] -> keiro -> streamly
+  mori://shinzui/rei [application] rei-cli/rei-cli.cabal [library] -> baikai -> streamly
+  mori://shinzui/rei [application] rei-cli/rei-cli.cabal [library] -> baikai-kit -> baikai -> streamly
+  mori://shinzui/rei [application] rei-cli/rei-cli.cabal [library] -> keiro -> streamly
+  mori://shinzui/rei [application] rei-cli/rei-cli.cabal [library] -> keiro-ops -> keiro -> streamly
+  mori://shinzui/rei [application] rei-cli/rei-cli.cabal [library] -> keiro-pgmq -> shibuya-core -> streamly
+  mori://shinzui/rei [application] rei-cli/rei-cli.cabal [library] -> shibuya-core -> streamly
+  mori://shinzui/rei [application] rei-cli/rei-cli.cabal [library] -> shibuya-pgmq-adapter -> streamly
+  mori://shinzui/rei [application] rei-cli/rei-cli.cabal [test:rei-cli-test] -> baikai -> streamly
+  mori://shinzui/rei [application] rei-cli/rei-cli.cabal [test:rei-cli-test] -> keiro -> streamly
+  mori://shinzui/rei [application] rei-cli/rei-cli.cabal [test:rei-cli-test] -> shibuya-core -> streamly
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [executable:rei-migrations] -> kioku-core -> baikai -> streamly
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [library] -> baikai -> streamly
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [library] -> baikai-claude -> streamly
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [library] -> baikai-openai -> streamly
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [library] -> keiro -> streamly
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [library] -> keiro-pgmq -> shibuya-core -> streamly
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [library] -> kioku-core -> baikai -> streamly
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [library] -> shibuya-core -> streamly
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [library] -> shibuya-kiroku-adapter -> shibuya-core -> streamly
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [test:rei-core-test] -> baikai -> streamly
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [test:rei-core-test] -> baikai-claude -> streamly
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [test:rei-core-test] -> baikai-openai -> streamly
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [test:rei-core-test] -> keiro -> streamly
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [test:rei-core-test] -> keiro-ops -> keiro -> streamly
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [test:rei-core-test] -> keiro-pgmq -> shibuya-core -> streamly
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [test:rei-core-test] -> kioku-core -> baikai -> streamly
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [test:rei-core-test] -> shibuya-core -> streamly
+  mori://shinzui/rei [application] rei-core/rei-core.cabal [test:rei-core-test] -> shibuya-kiroku-adapter -> shibuya-core -> streamly

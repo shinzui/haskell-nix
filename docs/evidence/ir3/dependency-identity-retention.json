@@ -1,0 +1,721 @@
+{
+  "baselineCommit": "80241738f7df09e171e1ea1300fd2f43af467256",
+  "changed": {
+    "crypton-connection": {
+      "after": {
+        "dependencies": [
+          "base",
+          "bytestring",
+          "containers",
+          "crypton-socks",
+          "crypton-x509-store",
+          "crypton-x509-system",
+          "data-default",
+          "network",
+          "tls"
+        ],
+        "identities": [
+          {
+            "component-name": "lib",
+            "flags": {},
+            "pkg-cabal-sha256": "f8b985e88618f3b457a6b588cda7d27b0adf753bc339093b8da99dfb73671dd7",
+            "pkg-name": "crypton-connection",
+            "pkg-src": {
+              "repo": {
+                "type": "secure-repo",
+                "uri": "http://hackage.haskell.org/"
+              },
+              "type": "repo-tar"
+            },
+            "pkg-src-sha256": "d686b7855817ea8c4bc8def79b78bc24aef725973e82a8afd109d528c9c54034",
+            "pkg-version": "0.4.6",
+            "type": "configured"
+          }
+        ],
+        "source": "Hackage",
+        "version": "0.4.6"
+      },
+      "before": {
+        "dependencies": [
+          "base",
+          "bytestring",
+          "containers",
+          "crypton-socks",
+          "crypton-x509-store",
+          "crypton-x509-system",
+          "data-default",
+          "network",
+          "tls"
+        ],
+        "identities": [
+          {
+            "component-name": "lib",
+            "flags": {},
+            "pkg-cabal-sha256": "a3764a44de9f43b1e9f590009ebbea1401fc3911e3ba41ce4d9b93d9f2a8d22e",
+            "pkg-name": "crypton-connection",
+            "pkg-src": {
+              "repo": {
+                "type": "secure-repo",
+                "uri": "http://hackage.haskell.org/"
+              },
+              "type": "repo-tar"
+            },
+            "pkg-src-sha256": "d686b7855817ea8c4bc8def79b78bc24aef725973e82a8afd109d528c9c54034",
+            "pkg-version": "0.4.6",
+            "type": "configured"
+          }
+        ],
+        "source": "Hackage",
+        "version": "0.4.6"
+      }
+    },
+    "kioku-api": {
+      "after": {
+        "dependencies": [
+          "aeson",
+          "base",
+          "containers",
+          "lens",
+          "mmzk-typeid",
+          "text",
+          "time"
+        ],
+        "identities": [
+          {
+            "component-name": "lib",
+            "flags": {},
+            "pkg-cabal-sha256": "7ec4c3199f6d559a0c9cc4d5297d713811873c257f2c4ec5d9d437396ebcf693",
+            "pkg-name": "kioku-api",
+            "pkg-src": {
+              "repo": {
+                "type": "secure-repo",
+                "uri": "http://hackage.haskell.org/"
+              },
+              "type": "repo-tar"
+            },
+            "pkg-src-sha256": "5b22b815e090efd12d0c4303b71a34741206bbf3e4344d9b4c086b62a6836db2",
+            "pkg-version": "0.11.0.0",
+            "type": "configured"
+          }
+        ],
+        "source": "Hackage",
+        "version": "0.11.0.0"
+      },
+      "before": {
+        "dependencies": [
+          "aeson",
+          "base",
+          "containers",
+          "lens",
+          "mmzk-typeid",
+          "text",
+          "time"
+        ],
+        "identities": [
+          {
+            "component-name": "lib",
+            "flags": {},
+            "pkg-cabal-sha256": "ad6f39f8c160d2a07a37fd044ffd60c1a13668ef4e8cdde6242b45817a340706",
+            "pkg-name": "kioku-api",
+            "pkg-src": {
+              "repo": {
+                "type": "secure-repo",
+                "uri": "http://hackage.haskell.org/"
+              },
+              "type": "repo-tar"
+            },
+            "pkg-src-sha256": "79b7e1da398d9ff4db5dab6e858e53a5347f54feeb800f8c1c4a29780eaac791",
+            "pkg-version": "0.9.0.2",
+            "type": "configured"
+          }
+        ],
+        "source": "Hackage",
+        "version": "0.9.0.2"
+      }
+    },
+    "kioku-core": {
+      "after": {
+        "dependencies": [
+          "aeson",
+          "baikai",
+          "baikai-claude",
+          "baikai-effectful",
+          "baikai-openai",
+          "base",
+          "bytestring",
+          "containers",
+          "contravariant",
+          "contravariant-extras",
+          "crypton",
+          "directory",
+          "effectful",
+          "effectful-core",
+          "filepath",
+          "generic-lens",
+          "hasql",
+          "hasql-dynamic-statements",
+          "hasql-pool",
+          "hasql-transaction",
+          "hs-opentelemetry-api",
+          "keiki",
+          "keiro",
+          "keiro-core",
+          "kioku-api",
+          "kiroku-store",
+          "lens",
+          "mmzk-typeid",
+          "relay-pagination",
+          "relay-pagination-hasql",
+          "shibuya-core",
+          "shibuya-kiroku-adapter",
+          "shikumi",
+          "shikumi-trace",
+          "text",
+          "time",
+          "unix",
+          "unordered-containers",
+          "uuid",
+          "vector"
+        ],
+        "identities": [
+          {
+            "component-name": "lib",
+            "flags": {},
+            "pkg-cabal-sha256": "b3d7868b4d697c3f39147a9c6632082bd1d95af5234d128d6afd5145845b1e95",
+            "pkg-name": "kioku-core",
+            "pkg-src": {
+              "repo": {
+                "type": "secure-repo",
+                "uri": "http://hackage.haskell.org/"
+              },
+              "type": "repo-tar"
+            },
+            "pkg-src-sha256": "0f63e1fdbf59511631ab52e849b1b2209a8da5945f4779bdc18135a680c337ac",
+            "pkg-version": "0.11.0.0",
+            "type": "configured"
+          }
+        ],
+        "source": "Hackage",
+        "version": "0.11.0.0"
+      },
+      "before": {
+        "dependencies": [
+          "aeson",
+          "baikai",
+          "baikai-claude",
+          "baikai-effectful",
+          "baikai-openai",
+          "base",
+          "bytestring",
+          "containers",
+          "contravariant",
+          "contravariant-extras",
+          "crypton",
+          "directory",
+          "effectful",
+          "effectful-core",
+          "filepath",
+          "generic-lens",
+          "hasql",
+          "hasql-pool",
+          "hasql-transaction",
+          "hs-opentelemetry-api",
+          "keiki",
+          "keiro",
+          "keiro-core",
+          "kioku-api",
+          "kiroku-store",
+          "lens",
+          "mmzk-typeid",
+          "shibuya-core",
+          "shibuya-kiroku-adapter",
+          "shikumi",
+          "shikumi-trace",
+          "text",
+          "time",
+          "unix",
+          "unordered-containers",
+          "uuid",
+          "vector"
+        ],
+        "identities": [
+          {
+            "component-name": "lib",
+            "flags": {},
+            "pkg-cabal-sha256": "e6b329e36404feda7133a28f6c5932fbcfe47b2e5239b656d9df578d2ad940d0",
+            "pkg-name": "kioku-core",
+            "pkg-src": {
+              "repo": {
+                "type": "secure-repo",
+                "uri": "http://hackage.haskell.org/"
+              },
+              "type": "repo-tar"
+            },
+            "pkg-src-sha256": "a2823893e04ca36229ea3b1ee8896d3512dd20242c552c29d741dd0b85bf950c",
+            "pkg-version": "0.9.0.2",
+            "type": "configured"
+          }
+        ],
+        "source": "Hackage",
+        "version": "0.9.0.2"
+      }
+    },
+    "kioku-migrations": {
+      "after": {
+        "dependencies": [
+          "aeson",
+          "base",
+          "bytestring",
+          "containers",
+          "directory",
+          "ephemeral-pg",
+          "hasql",
+          "hasql-transaction",
+          "keiro-migrations",
+          "keiro-test-support",
+          "kioku-migrations",
+          "kiroku-store-migrations",
+          "pg-migrate",
+          "pg-migrate-embed",
+          "pg-migrate-import-codd",
+          "template-haskell",
+          "text",
+          "unix"
+        ],
+        "identities": [
+          {
+            "component-name": "lib",
+            "flags": {},
+            "pkg-cabal-sha256": "77ba97fb8287eba123f9487567b40bddae2bfe408ea853b5bfd7f0f46cb26f35",
+            "pkg-name": "kioku-migrations",
+            "pkg-src": {
+              "repo": {
+                "type": "secure-repo",
+                "uri": "http://hackage.haskell.org/"
+              },
+              "type": "repo-tar"
+            },
+            "pkg-src-sha256": "5ac63e6570e09d7ab98854a855117e397deb69408014aa79941baa12cb15261a",
+            "pkg-version": "0.11.0.0",
+            "type": "configured"
+          },
+          {
+            "component-name": "lib:test-support",
+            "flags": {},
+            "pkg-cabal-sha256": "77ba97fb8287eba123f9487567b40bddae2bfe408ea853b5bfd7f0f46cb26f35",
+            "pkg-name": "kioku-migrations",
+            "pkg-src": {
+              "repo": {
+                "type": "secure-repo",
+                "uri": "http://hackage.haskell.org/"
+              },
+              "type": "repo-tar"
+            },
+            "pkg-src-sha256": "5ac63e6570e09d7ab98854a855117e397deb69408014aa79941baa12cb15261a",
+            "pkg-version": "0.11.0.0",
+            "type": "configured"
+          }
+        ],
+        "source": "Hackage",
+        "version": "0.11.0.0"
+      },
+      "before": {
+        "dependencies": [
+          "aeson",
+          "base",
+          "bytestring",
+          "containers",
+          "directory",
+          "ephemeral-pg",
+          "hasql",
+          "hasql-transaction",
+          "keiro-migrations",
+          "keiro-test-support",
+          "kioku-migrations",
+          "kiroku-store-migrations",
+          "pg-migrate",
+          "pg-migrate-embed",
+          "pg-migrate-import-codd",
+          "template-haskell",
+          "text",
+          "unix"
+        ],
+        "identities": [
+          {
+            "component-name": "lib",
+            "flags": {},
+            "pkg-cabal-sha256": "f88a22c7d3d5c108f48037e0336fb25186c81eb8f6ad15a4ac8cdeb4995fc61d",
+            "pkg-name": "kioku-migrations",
+            "pkg-src": {
+              "repo": {
+                "type": "secure-repo",
+                "uri": "http://hackage.haskell.org/"
+              },
+              "type": "repo-tar"
+            },
+            "pkg-src-sha256": "d12ae4d5df4b732638a241874e956f9bf4c0937c3e9c4aa80d32c35bcbc2f0dd",
+            "pkg-version": "0.9.0.2",
+            "type": "configured"
+          },
+          {
+            "component-name": "lib:test-support",
+            "flags": {},
+            "pkg-cabal-sha256": "f88a22c7d3d5c108f48037e0336fb25186c81eb8f6ad15a4ac8cdeb4995fc61d",
+            "pkg-name": "kioku-migrations",
+            "pkg-src": {
+              "repo": {
+                "type": "secure-repo",
+                "uri": "http://hackage.haskell.org/"
+              },
+              "type": "repo-tar"
+            },
+            "pkg-src-sha256": "d12ae4d5df4b732638a241874e956f9bf4c0937c3e9c4aa80d32c35bcbc2f0dd",
+            "pkg-version": "0.9.0.2",
+            "type": "configured"
+          }
+        ],
+        "source": "Hackage",
+        "version": "0.9.0.2"
+      }
+    },
+    "kiroku-metrics": {
+      "after": {
+        "dependencies": [
+          "aeson",
+          "async",
+          "base",
+          "bytestring",
+          "containers",
+          "effectful-core",
+          "hasql",
+          "hasql-pool",
+          "http-types",
+          "kiroku-cli",
+          "kiroku-metrics",
+          "kiroku-store",
+          "network",
+          "optparse-applicative",
+          "stm",
+          "text",
+          "time",
+          "unix",
+          "uuid",
+          "vector",
+          "wai",
+          "wai-websockets",
+          "warp",
+          "websockets"
+        ],
+        "identities": [
+          {
+            "component-name": "exe:kiroku-inspect",
+            "flags": {
+              "example": false
+            },
+            "pkg-cabal-sha256": "21de48c4d8a18b8207ab754cfc5463fdfa8ccc79d8308bd0fabd5abe8b898b9f",
+            "pkg-name": "kiroku-metrics",
+            "pkg-src": {
+              "repo": {
+                "type": "secure-repo",
+                "uri": "http://hackage.haskell.org/"
+              },
+              "type": "repo-tar"
+            },
+            "pkg-src-sha256": "2936dc01ba37e0962adac0e3bd8501145718eed030d00e0f2a5c0dacc65583f6",
+            "pkg-version": "0.3.0.1",
+            "type": "configured"
+          },
+          {
+            "component-name": "lib",
+            "flags": {
+              "example": false
+            },
+            "pkg-cabal-sha256": "21de48c4d8a18b8207ab754cfc5463fdfa8ccc79d8308bd0fabd5abe8b898b9f",
+            "pkg-name": "kiroku-metrics",
+            "pkg-src": {
+              "repo": {
+                "type": "secure-repo",
+                "uri": "http://hackage.haskell.org/"
+              },
+              "type": "repo-tar"
+            },
+            "pkg-src-sha256": "2936dc01ba37e0962adac0e3bd8501145718eed030d00e0f2a5c0dacc65583f6",
+            "pkg-version": "0.3.0.1",
+            "type": "configured"
+          }
+        ],
+        "source": "Hackage",
+        "version": "0.3.0.1"
+      },
+      "before": {
+        "dependencies": [
+          "aeson",
+          "async",
+          "base",
+          "bytestring",
+          "containers",
+          "effectful-core",
+          "hasql",
+          "hasql-pool",
+          "http-types",
+          "kiroku-cli",
+          "kiroku-metrics",
+          "kiroku-store",
+          "network",
+          "optparse-applicative",
+          "stm",
+          "text",
+          "time",
+          "unix",
+          "uuid",
+          "vector",
+          "wai",
+          "wai-websockets",
+          "warp",
+          "websockets"
+        ],
+        "identities": [
+          {
+            "component-name": "exe:kiroku-inspect",
+            "flags": {
+              "example": false
+            },
+            "pkg-cabal-sha256": "f7450b065b0f22e77cfdbf253515975ccbee34060cabaa90a24951cfface5ef8",
+            "pkg-name": "kiroku-metrics",
+            "pkg-src": {
+              "repo": {
+                "type": "secure-repo",
+                "uri": "http://hackage.haskell.org/"
+              },
+              "type": "repo-tar"
+            },
+            "pkg-src-sha256": "c133c7b69d9c158902aaee52a228bcf1aa56b9fb9cf4767aa865992908e57415",
+            "pkg-version": "0.3.0.0",
+            "type": "configured"
+          },
+          {
+            "component-name": "lib",
+            "flags": {
+              "example": false
+            },
+            "pkg-cabal-sha256": "f7450b065b0f22e77cfdbf253515975ccbee34060cabaa90a24951cfface5ef8",
+            "pkg-name": "kiroku-metrics",
+            "pkg-src": {
+              "repo": {
+                "type": "secure-repo",
+                "uri": "http://hackage.haskell.org/"
+              },
+              "type": "repo-tar"
+            },
+            "pkg-src-sha256": "c133c7b69d9c158902aaee52a228bcf1aa56b9fb9cf4767aa865992908e57415",
+            "pkg-version": "0.3.0.0",
+            "type": "configured"
+          }
+        ],
+        "source": "Hackage",
+        "version": "0.3.0.0"
+      }
+    },
+    "kiroku-store": {
+      "after": {
+        "dependencies": [
+          "aeson",
+          "async",
+          "base",
+          "bytestring",
+          "containers",
+          "contravariant-extras",
+          "effectful-core",
+          "generic-lens",
+          "hasql",
+          "hasql-notifications",
+          "hasql-pool",
+          "hasql-transaction",
+          "lens",
+          "mmzk-typeid",
+          "mtl",
+          "stm",
+          "streamly-core",
+          "text",
+          "time",
+          "unliftio-core",
+          "uuid",
+          "vector"
+        ],
+        "identities": [
+          {
+            "component-name": "lib",
+            "flags": {},
+            "pkg-cabal-sha256": "8f4a1c0834e11561868bf90542dd18c0b72e40c8da674bf5bee3f5dc5878efb1",
+            "pkg-name": "kiroku-store",
+            "pkg-src": {
+              "repo": {
+                "type": "secure-repo",
+                "uri": "http://hackage.haskell.org/"
+              },
+              "type": "repo-tar"
+            },
+            "pkg-src-sha256": "0e941f8d39c9d588e50339e2765dbd857d7b7e3b00610e226bb496c160ad0b72",
+            "pkg-version": "0.11.0.1",
+            "type": "configured"
+          }
+        ],
+        "source": "Hackage",
+        "version": "0.11.0.1"
+      },
+      "before": {
+        "dependencies": [
+          "aeson",
+          "async",
+          "base",
+          "bytestring",
+          "containers",
+          "contravariant-extras",
+          "effectful-core",
+          "generic-lens",
+          "hasql",
+          "hasql-notifications",
+          "hasql-pool",
+          "hasql-transaction",
+          "lens",
+          "mmzk-typeid",
+          "mtl",
+          "stm",
+          "streamly-core",
+          "text",
+          "time",
+          "unliftio-core",
+          "uuid",
+          "vector"
+        ],
+        "identities": [
+          {
+            "component-name": "lib",
+            "flags": {},
+            "pkg-cabal-sha256": "67e37cec852fca8548909f4a20458872be143f6a36199323403df13285ddb3ea",
+            "pkg-name": "kiroku-store",
+            "pkg-src": {
+              "repo": {
+                "type": "secure-repo",
+                "uri": "http://hackage.haskell.org/"
+              },
+              "type": "repo-tar"
+            },
+            "pkg-src-sha256": "c3a756d96b5341274b681a3d2f643d69deb287ee15cfe932ec8d7eb14928d9f7",
+            "pkg-version": "0.11.0.0",
+            "type": "configured"
+          }
+        ],
+        "source": "Hackage",
+        "version": "0.11.0.0"
+      }
+    },
+    "streamly": {
+      "after": {
+        "dependencies": [
+          "atomic-primops",
+          "base",
+          "containers",
+          "deepseq",
+          "directory",
+          "exceptions",
+          "fusion-plugin-types",
+          "hashable",
+          "heaps",
+          "lockfree-queue",
+          "monad-control",
+          "mtl",
+          "network",
+          "streamly-core",
+          "template-haskell",
+          "transformers",
+          "unicode-data",
+          "unordered-containers"
+        ],
+        "identities": [
+          {
+            "component-name": "lib",
+            "flags": {
+              "debug": false,
+              "fusion-plugin": false,
+              "has-llvm": false,
+              "inspection": false,
+              "internal-dev": false,
+              "internal-use-unliftio": false,
+              "limit-build-mem": false,
+              "opt": true
+            },
+            "pkg-cabal-sha256": "dfebd4bec6f7de002a3256128128ee093e4a567eb65a657e514669c295815008",
+            "pkg-name": "streamly",
+            "pkg-src": {
+              "repo": {
+                "type": "secure-repo",
+                "uri": "http://hackage.haskell.org/"
+              },
+              "type": "repo-tar"
+            },
+            "pkg-src-sha256": "21162a97056a4f93a861763a34398e0edeab1b8c556546b8428055baac9d3a50",
+            "pkg-version": "0.11.1",
+            "type": "configured"
+          }
+        ],
+        "source": "Hackage",
+        "version": "0.11.1"
+      },
+      "before": {
+        "dependencies": [
+          "atomic-primops",
+          "base",
+          "containers",
+          "deepseq",
+          "directory",
+          "exceptions",
+          "fusion-plugin-types",
+          "hashable",
+          "heaps",
+          "lockfree-queue",
+          "monad-control",
+          "mtl",
+          "network",
+          "streamly-core",
+          "template-haskell",
+          "transformers",
+          "unicode-data",
+          "unordered-containers"
+        ],
+        "identities": [
+          {
+            "component-name": "lib",
+            "flags": {
+              "debug": false,
+              "fusion-plugin": false,
+              "has-llvm": false,
+              "inspection": false,
+              "internal-dev": false,
+              "internal-use-unliftio": false,
+              "limit-build-mem": false,
+              "opt": true
+            },
+            "pkg-cabal-sha256": "7b49316d922ae7acbb0008a5f06fb6733cc3fc55e31129cec2cf07ea2c7d25ba",
+            "pkg-name": "streamly",
+            "pkg-src": {
+              "repo": {
+                "type": "secure-repo",
+                "uri": "http://hackage.haskell.org/"
+              },
+              "type": "repo-tar"
+            },
+            "pkg-src-sha256": "21162a97056a4f93a861763a34398e0edeab1b8c556546b8428055baac9d3a50",
+            "pkg-version": "0.11.1",
+            "type": "configured"
+          }
+        ],
+        "source": "Hackage",
+        "version": "0.11.1"
+      }
+    }
+  },
+  "schemaVersion": 1,
+  "totalSourceRecords": 465,
+  "unchangedSourceRecords": 458
+}

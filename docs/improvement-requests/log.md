@@ -1,5 +1,9 @@
 # Bundle Update Log
 
+## 2026-10-20
+* **Completion**: Deliver Kioku 0.11.0.0 and Store/Metrics patches through targeted cohort and immutable runtime generation 5; preserve history, pass native/Linux parity and verifier builds, and publish/substitute all 882 Darwin and 884 Linux dependency paths with zero builds.
+* **Status change**: Accept IR-3 after explicit user authorization; target published Kioku 0.11.0.0 and Store 0.11.0.1. Record missing Mori registry and rejected metadata drift without claiming adoption.
+
 ## 2026-10-19
 * **Addition**: IR-3 requests targeted published Kioku 0.10.0.0 cohort support and a later Store/runtime update only after the structured error fix is released; no broad refresh or implementation is authorized.
 

@@ -2003,6 +2003,73 @@
         {
             "discoveryPolicy": {
                 "excludedPackages": [],
+                "packageOverrides": {}
+            },
+            "family": "kioku",
+            "generation": 9,
+            "packages": [
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-Dyi9rf7DP1C1/j3AoGWKJed810YOEwaP7xCRTbPb3eQ=",
+                        "version": "0.11.0.0"
+                    },
+                    "name": "kioku-api",
+                    "path": "kioku-api",
+                    "version": "0.11.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-m3gQ0GZnkBRHQwQKY9rbRyafd/79CDkc0pDMBRmp0QA=",
+                        "version": "0.11.0.0"
+                    },
+                    "name": "kioku-cli",
+                    "path": "kioku-cli",
+                    "version": "0.11.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-Xg+0FBNviOzN3jEmK5CiuVJzegcByL7QMbH/pljFVZU=",
+                        "version": "0.11.0.0"
+                    },
+                    "name": "kioku-core",
+                    "path": "kioku-core",
+                    "version": "0.11.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-4C6a/+VbDP6279uK2sM+YV95JUzytPqxEyrQdl+HiPs=",
+                        "version": "0.11.0.0"
+                    },
+                    "name": "kioku-migrate",
+                    "path": "kioku-migrate",
+                    "version": "0.11.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-BKoKHGph0tnHNXZszbnwWwDJIk4ho4uP7M0fPmRK1aI=",
+                        "version": "0.11.0.0"
+                    },
+                    "name": "kioku-migrations",
+                    "path": "kioku-migrations",
+                    "version": "0.11.0.0"
+                }
+            ],
+            "source": {
+                "narHash": "sha256-SfNh4bVDqAJWwaUFHDFDGQeWHbI7ZkfYoxf/xeMyUt8=",
+                "owner": "shinzui",
+                "repo": "kioku",
+                "rev": "b0c1ae11daded6a1ac7d7f7dd20b495e5a5a3ca4",
+                "type": "github"
+            }
+        },
+        {
+            "discoveryPolicy": {
+                "excludedPackages": [],
                 "packageOverrides": {
                     "kiroku-metrics": {
                         "cabal2nixOptions": "-f-example"
@@ -2282,6 +2349,101 @@
                 "owner": "shinzui",
                 "repo": "kiroku",
                 "rev": "76ffe79804e88feed5bc5fc07e2f43fb2a71b9a5",
+                "type": "github"
+            }
+        },
+        {
+            "discoveryPolicy": {
+                "excludedPackages": [],
+                "packageOverrides": {
+                    "kiroku-metrics": {
+                        "cabal2nixOptions": "-f-example"
+                    }
+                }
+            },
+            "family": "kiroku",
+            "generation": 4,
+            "packages": [
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-60QTT0f+6YbHA8hBB7Mn4ub9r/vyU39BhPAim9SJV7A=",
+                        "version": "0.2.0.10"
+                    },
+                    "name": "kiroku-cli",
+                    "path": "kiroku-cli",
+                    "version": "0.2.0.10"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": null,
+                    "name": "kiroku-jitsurei",
+                    "path": "kiroku-jitsurei",
+                    "version": "0.1.0.0"
+                },
+                {
+                    "cabal2nixOptions": "-f-example",
+                    "hackage": {
+                        "hash": "sha256-LnGwOJZ2O3CYWKU411KuB1odzeiQ4HffFEzXm9RQkKM=",
+                        "version": "0.3.0.1"
+                    },
+                    "name": "kiroku-metrics",
+                    "path": "kiroku-metrics",
+                    "version": "0.3.0.1"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-9AV86G9HaDWEybiV1mERA4yiSmYlUQ3YVpmy7OOskdo=",
+                        "version": "0.2.0.12"
+                    },
+                    "name": "kiroku-otel",
+                    "path": "kiroku-otel",
+                    "version": "0.2.0.12"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-ypvJgqki7MA+8x3lxOaK9d0++xJr02YDwJBQTf8bAq8=",
+                        "version": "0.11.0.1"
+                    },
+                    "name": "kiroku-store",
+                    "path": "kiroku-store",
+                    "version": "0.11.0.1"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-lzOSrJnTcoB5MPd+lV/gugA0dzacN1PNJqIsWRppJHg=",
+                        "version": "0.7.1.0"
+                    },
+                    "name": "kiroku-store-migrations",
+                    "path": "kiroku-store-migrations",
+                    "version": "0.7.1.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": null,
+                    "name": "kiroku-test-support",
+                    "path": "kiroku-test-support",
+                    "version": "0.1.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-JLoKYHKCv7k+ND2xcf1h3vR7ahYxB1ap/EiFFq99eBU=",
+                        "version": "0.6.0.1"
+                    },
+                    "name": "shibuya-kiroku-adapter",
+                    "path": "shibuya-kiroku-adapter",
+                    "version": "0.6.0.1"
+                }
+            ],
+            "source": {
+                "narHash": "sha256-HiX+hhiT3NG0/Pz8Z39/+zJNFnfuYxufJ/9v8Y7ATEs=",
+                "owner": "shinzui",
+                "repo": "kiroku",
+                "rev": "75aafca913483ef08f741d6414f9e8734481f712",
                 "type": "github"
             }
         },
@@ -4581,6 +4743,17 @@
             "compatibilityProfile": "default",
             "families": [
                 {
+                    "family": "kioku",
+                    "generation": 9
+                }
+            ],
+            "generation": 9,
+            "group": "kioku"
+        },
+        {
+            "compatibilityProfile": "default",
+            "families": [
+                {
                     "family": "kiroku",
                     "generation": 1
                 }
@@ -4608,6 +4781,17 @@
                 }
             ],
             "generation": 3,
+            "group": "kiroku"
+        },
+        {
+            "compatibilityProfile": "default",
+            "families": [
+                {
+                    "family": "kiroku",
+                    "generation": 4
+                }
+            ],
+            "generation": 4,
             "group": "kiroku"
         },
         {
@@ -4978,11 +5162,11 @@
                     "group": "keiro"
                 },
                 {
-                    "generation": 8,
+                    "generation": 9,
                     "group": "kioku"
                 },
                 {
-                    "generation": 3,
+                    "generation": 4,
                     "group": "kiroku"
                 },
                 {

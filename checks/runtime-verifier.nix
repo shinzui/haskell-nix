@@ -12,7 +12,8 @@ let
   admittedSource = pkgs.applyPatches {
     name = "kenshou-retained-runtime-source";
     src = source.outPath;
-    patches = [ ./fixtures/runtime-verifier-cohort-bounds.patch ];
+    patches = [ ./fixtures/runtime-verifier-cohort-bounds.patch ]
+      ++ lib.optional (generation == 5) ./fixtures/runtime-verifier-kiroku-patch-bounds.patch;
   };
   selected = mkRuntimePackageSet {
     runtime = "keiro-runtime";

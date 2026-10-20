@@ -1,0 +1,105 @@
+-- Retained runtime configuration from the shared cohort.
+with-compiler: ghc-9.12.4
+tests: False
+benchmarks: False
+allow-newer:
+  kiroku-cli:http-client-tls
+  , dhall-json:aeson
+  , dhall-json:bytestring
+  , dhall-json:text
+  , monad-control:transformers-compat
+constraints:
+  any.OneTuple +base-ge-4-15 +base-ge-4-16
+  , any.QuickCheck -old-random +templatehaskell
+  , any.SHA -exe
+  , any.abstract-deque -usecas
+  , any.aeson +ordered-keymap
+  , any.aeson-pretty -lib-only
+  , any.aeson-yaml -build-binaries
+  , any.ansi-terminal -example
+  , any.assoc -tagged
+  , any.async -bench -debug-auto-label
+  , any.atomic-primops -debug
+  , any.attoparsec -developer
+  , any.base64 -simd
+  , any.bifunctors +tagged
+  , any.bitvec +simd
+  , any.c2hs +base3 -regression
+  , any.cborg +optimize-gmp
+  , any.cereal -bytestring-builder
+  , any.cmdargs +quotation -testprog
+  , any.comonad +containers +distributive +indexed-traversable
+  , any.contravariant +statevar
+  , any.cryptohash-sha256 -exe +use-cbits
+  , any.crypton -check_alignment +integer-gmp -old_toolchain_inliner +support_aesni +support_deepseq +support_pclmuldq +support_rdrand -support_sse +use_target_attributes
+  , any.crypton-socks -example +network-3-0-0-0
+  , any.dhall -cross +network-tests +use-http-client-tls +with-http
+  , any.distributive +tagged
+  , any.dlist -werror
+  , any.dotgen -devel
+  , any.ech-config -devel
+  , any.effectful -benchmark-foreign-libraries
+  , any.entropy -donotgetentropy
+  , any.hashable -arch-native -random-initial-seed
+  , any.hsc2hs -in-ghc-tree
+  , any.http-client +network-uri
+  , any.http2 -devel -h2spec
+  , any.hw-kafka-client -examples -it
+  , any.indexed-traversable +base-ge-4-18
+  , any.integer-logarithms -check-bounds +integer-gmp
+  , any.kafka-effectful -examples
+  , any.keiro -reaction-hydration-probe
+  , any.keiro-dsl -werror-generated
+  , any.keiro-migrations -legacy-codd-tools
+  , any.kiroku-metrics -example
+  , any.language-c +iecfpextension +usebytestrings
+  , any.lens -benchmark-uniplate -dump-splices +inlining -j +test-hunit +test-properties +test-templates +trustworthy
+  , any.libBF -system-libbf
+  , any.libyaml -no-unicode -system-libyaml
+  , any.megaparsec -dev
+  , any.mlkem +use_crypton
+  , any.network -devel
+  , any.nothunks +bytestring +text +vector
+  , any.optparse-applicative +process
+  , any.parser-combinators -dev
+  , any.parsers +attoparsec +binary +parsec
+  , any.pgmq-config +effectful
+  , any.postgresql-libpq -use-pkg-config
+  , any.pretty-simple -buildexample +buildexe
+  , any.prettyprinter -buildreadme +text
+  , any.prettyprinter-ansi-terminal +text
+  , any.reflection -slow +template-haskell
+  , any.sbv +compile_examples -doctest_is_running
+  , any.scientific -integer-simple
+  , any.semialign +semigroupoids
+  , any.semigroupoids +comonad +containers +contravariant +tagged +unordered-containers
+  , any.serialise +newtime15
+  , any.shibuya-kiroku-adapter -lifecycle-live
+  , any.simple-sendfile +allow-bsd -fallback
+  , any.splitmix -optimised-mixer
+  , any.streaming-commons -use-bytestring-builder
+  , any.streamly -debug -fusion-plugin -has-llvm -inspection -internal-dev -internal-use-unliftio -limit-build-mem +opt
+  , any.streamly-core -debug -force-lstat-readdir -has-llvm -internal-dev -internal-use-unliftio -limit-build-mem +opt -use-folds -use-unfolds
+  , any.tagged +deepseq +template-haskell
+  , any.tasty +unix
+  , any.text-short -asserts
+  , any.thread-utils-context -debug
+  , any.tls -devel
+  , any.transformers-base +orphaninstances
+  , any.transformers-compat -five +five-three +generic-deriving +mtl
+  , any.unicode-data -dev-has-icu
+  , any.unordered-containers -debug
+  , any.vault +useghc
+  , any.vector +boundschecks -internalchecks -unsafechecks -wall
+  , any.vector-algorithms +bench +boundschecks -internalchecks -llvm -unsafechecks
+  , any.wai-app-static -print
+  , any.wai-extra -build-example
+  , any.wai-websockets +example
+  , any.warp +allow-sendfilefd +include-warp-version -network-bytestring -warp-debug +x509
+  , any.websockets -example
+  , any.yaml +no-examples +no-exe
+  , any.zlib -bundled-c-zlib +non-blocking-ffi +pkg-config
+package postgresql-libpq
+  flags: -use-pkg-config
+
+-- mori://shinzui/typeid-hs: split SQL and pg-migrate packages have no Hackage release.

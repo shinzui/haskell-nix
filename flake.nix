@@ -284,26 +284,27 @@
             runtimeInputs = [ pkgsPlain.python3 pkgsPlain.nix pkgsPlain.cachix ];
             text = ''exec python3 ${./scripts/cohort-cache.py} "$@"'';
           };
-          runtimeOutputsFor = generation: lib.genAttrs [ "github" "hackage" ] (channel:
+          runtimeApplicationSelections = {
+            kioku = 8;
+            okf = 5;
+            openapi-hs = 1;
+            relay-pagination = 3;
+            servant-openapi-hs = 1;
+            shikumi-baikai = 9;
+          };
+          runtimeOutputsFor = generation: applicationSelections: lib.genAttrs [ "github" "hackage" ] (channel:
             (import ./lib/mkRuntimeOutputs.nix {
               inherit lib mkRuntimePackageSet;
               pkgs = pkgsPlain;
               mkCohortManifest = import ./lib/mkCohortManifest.nix { inherit lib; };
             }) {
               runtime = "keiro-runtime";
-              inherit generation channel;
-              applicationSelections = {
-                kioku = 8;
-                okf = 5;
-                openapi-hs = 1;
-                relay-pagination = 3;
-                servant-openapi-hs = 1;
-                shikumi-baikai = 9;
-              };
+              inherit generation channel applicationSelections;
             });
-          runtimeOutputs = runtimeOutputsFor 1;
-          runtimeOutputs2 = runtimeOutputsFor 2;
-          runtimeOutputs3 = runtimeOutputsFor 3;
+          runtimeOutputs = runtimeOutputsFor 1 runtimeApplicationSelections;
+          runtimeOutputs2 = runtimeOutputsFor 2 runtimeApplicationSelections;
+          runtimeOutputs3 = runtimeOutputsFor 3 runtimeApplicationSelections;
+          runtimeOutputs5 = runtimeOutputsFor 5 (runtimeApplicationSelections // { kioku = 9; });
           runtimeImport = pkgsPlain.writeShellApplication {
             name = "runtime-import";
             runtimeInputs = [ pkgsPlain.python3 ];
@@ -404,6 +405,26 @@
             keiro-runtime-3-manifest = runtimeOutputs3.github.manifest;
             keiro-runtime-3-hackage-manifest = runtimeOutputs3.hackage.manifest;
             keiro-runtime-3-proof = runtimeOutputs3.github.proof;
+            keiro-runtime-5-verifier = import ./checks/runtime-verifier.nix {
+              inherit lib mkRuntimePackageSet;
+              generation = 5;
+              channelRevision = inputs.self.rev or inputs.self.dirtyRev or "uncommitted";
+              pkgs = pkgsPlain;
+            };
+            keiro-runtime-5-hackage-verifier = import ./checks/runtime-verifier.nix {
+              inherit lib mkRuntimePackageSet;
+              generation = 5;
+              channel = "hackage";
+              channelRevision = inputs.self.rev or inputs.self.dirtyRev or "uncommitted";
+              pkgs = pkgsPlain;
+            };
+            keiro-runtime-5 = runtimeOutputs5.github.roots;
+            keiro-runtime-5-hackage = runtimeOutputs5.hackage.roots;
+            keiro-runtime-5-closure = runtimeOutputs5.github.closure;
+            keiro-runtime-5-hackage-closure = runtimeOutputs5.hackage.closure;
+            keiro-runtime-5-manifest = runtimeOutputs5.github.manifest;
+            keiro-runtime-5-hackage-manifest = runtimeOutputs5.hackage.manifest;
+            keiro-runtime-5-proof = runtimeOutputs5.github.proof;
             cohort-manifest = cohortManifest;
             cohort-closure = cohortFarm "cohort-closure" cohortNames;
             cohort-roots = cohortFarm "cohort-roots" [
@@ -521,6 +542,18 @@
               pkgs = pkgsPlain;
               manifest = runtimeOutputs3.hackage.manifest;
               record = runtimeOutputs3.hackage.selected.metadata;
+            };
+            runtime-5-github-parity = import ./checks/runtime-parity.nix {
+              inherit lib updater;
+              pkgs = pkgsPlain;
+              manifest = runtimeOutputs5.github.manifest;
+              record = runtimeOutputs5.github.selected.metadata;
+            };
+            runtime-5-hackage-parity = import ./checks/runtime-parity.nix {
+              inherit lib updater;
+              pkgs = pkgsPlain;
+              manifest = runtimeOutputs5.hackage.manifest;
+              record = runtimeOutputs5.hackage.selected.metadata;
             };
             runtime-import = pkgsPlain.runCommand "runtime-import-fixtures"
               {

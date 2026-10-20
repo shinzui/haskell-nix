@@ -18,7 +18,7 @@
     "firstParty": {},
     "freeze": {
       "flags": {},
-      "indexState": "2026-10-16T12:29:59Z",
+      "indexState": "2026-10-20T01:31:03Z",
       "versions": {
         "Cabal": "3.14.2.0",
         "Cabal-syntax": "3.14.2.0",
