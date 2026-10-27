@@ -1279,6 +1279,33 @@
         "source": "Hackage",
         "version": "0.9.4"
     },
+    "base-unicode-symbols": {
+        "dependencies": [
+            "base"
+        ],
+        "identities": [
+            {
+                "flags": {
+                    "base-4-8": true,
+                    "old-base": false
+                },
+                "pkg-cabal-sha256": "5dc87284ab8d612fefdc32400bf2531db809a9a617c344b85ac752396aa1e7c6",
+                "pkg-name": "base-unicode-symbols",
+                "pkg-src": {
+                    "repo": {
+                        "type": "secure-repo",
+                        "uri": "http://hackage.haskell.org/"
+                    },
+                    "type": "repo-tar"
+                },
+                "pkg-src-sha256": "4364d6c403616e9ec0c240c4cb450c66af43ea8483d73c315e96f4ba3cb97062",
+                "pkg-version": "0.2.4.2",
+                "type": "configured"
+            }
+        ],
+        "source": "Hackage",
+        "version": "0.2.4.2"
+    },
     "base16": {
         "dependencies": [
             "base",
@@ -2000,6 +2027,34 @@
         ],
         "source": "Hackage",
         "version": "0.28.8"
+    },
+    "cabal-doctest": {
+        "dependencies": [
+            "Cabal",
+            "base",
+            "directory",
+            "filepath"
+        ],
+        "identities": [
+            {
+                "component-name": "lib",
+                "flags": {},
+                "pkg-cabal-sha256": "2c0c3f2e72d741a56a0d6a66714c86c5b65777ef3aac5d95bb16a375944c5c49",
+                "pkg-name": "cabal-doctest",
+                "pkg-src": {
+                    "repo": {
+                        "type": "secure-repo",
+                        "uri": "http://hackage.haskell.org/"
+                    },
+                    "type": "repo-tar"
+                },
+                "pkg-src-sha256": "cd09ef1cadb8a450c2b88b18c6d1e41e4ee96d4d85a8a3ea6361b41fb3c271c1",
+                "pkg-version": "1.0.13",
+                "type": "configured"
+            }
+        ],
+        "source": "Hackage",
+        "version": "1.0.13"
     },
     "call-stack": {
         "dependencies": [
@@ -6812,6 +6867,42 @@
         "source": "Hackage",
         "version": "0.1.2.1"
     },
+    "insert-ordered-containers": {
+        "dependencies": [
+            "aeson",
+            "base",
+            "containers",
+            "deepseq",
+            "hashable",
+            "indexed-traversable",
+            "lens",
+            "optics-core",
+            "optics-extra",
+            "semigroupoids",
+            "transformers",
+            "unordered-containers"
+        ],
+        "identities": [
+            {
+                "component-name": "lib",
+                "flags": {},
+                "pkg-cabal-sha256": "cec14991912d2af8ab13d0ff5fe3b1182ebe2590a7412351545f8deac9b3aa83",
+                "pkg-name": "insert-ordered-containers",
+                "pkg-src": {
+                    "repo": {
+                        "type": "secure-repo",
+                        "uri": "http://hackage.haskell.org/"
+                    },
+                    "type": "repo-tar"
+                },
+                "pkg-src-sha256": "580f39de154c8bdf8e01c489a338b9bf41066b67871ce4b88b37b61ab45c5b8c",
+                "pkg-version": "0.3.0.1",
+                "type": "configured"
+            }
+        ],
+        "source": "Hackage",
+        "version": "0.3.0.1"
+    },
     "integer-conversion": {
         "dependencies": [
             "base",
@@ -7176,6 +7267,7 @@
             "aeson-casing",
             "base",
             "base16-bytestring",
+            "base64-bytestring",
             "bytestring",
             "containers",
             "contravariant-extras",
@@ -7214,7 +7306,7 @@
                 "flags": {
                     "reaction-hydration-probe": false
                 },
-                "pkg-cabal-sha256": "6ce42752c998b290f67706ada8d727a559b110e1d8a0d8f6abfba8b65b4fed49",
+                "pkg-cabal-sha256": "9ce08be6c4a841bc6e8bfc5389d4fc92a995314cac856d6cfc2cbb9d598b043a",
                 "pkg-name": "keiro",
                 "pkg-src": {
                     "repo": {
@@ -7223,13 +7315,13 @@
                     },
                     "type": "repo-tar"
                 },
-                "pkg-src-sha256": "31b53b65e2b959a28afdaf38813cfeb858b0a7bdd3d8c4ae2ef303a7b1d489ca",
-                "pkg-version": "0.21.0.0",
+                "pkg-src-sha256": "fac8d9cdcb881756261058b9ecbfb290de72d137a31302c95a8550c3f050653b",
+                "pkg-version": "0.22.0.0",
                 "type": "configured"
             }
         ],
         "source": "Hackage",
-        "version": "0.21.0.0"
+        "version": "0.22.0.0"
     },
     "keiro-core": {
         "dependencies": [
@@ -7253,7 +7345,7 @@
             {
                 "component-name": "lib",
                 "flags": {},
-                "pkg-cabal-sha256": "92ffdcf03e6d7ce8986ba2ca99963fe99b9029c25c0177bf290842017bc13403",
+                "pkg-cabal-sha256": "70812faa0adce48556c601521f0b21637287021936b601ee2c481274b4a8bbf3",
                 "pkg-name": "keiro-core",
                 "pkg-src": {
                     "repo": {
@@ -7262,13 +7354,13 @@
                     },
                     "type": "repo-tar"
                 },
-                "pkg-src-sha256": "1372b470011cea2c80573ce1ae7f04a6059f240ba77805590f7f7188647c60ee",
-                "pkg-version": "0.21.0.0",
+                "pkg-src-sha256": "773e54c42b3cf5d71f5e6ae780779f9dd9d241e7473577b756bdef1434700df0",
+                "pkg-version": "0.22.0.0",
                 "type": "configured"
             }
         ],
         "source": "Hackage",
-        "version": "0.21.0.0"
+        "version": "0.22.0.0"
     },
     "keiro-dsl": {
         "dependencies": [
@@ -7297,7 +7389,7 @@
                 "flags": {
                     "werror-generated": false
                 },
-                "pkg-cabal-sha256": "c9b7333fa50d8a4de19af1bfaf81b94fc58a2f4c2687d3dce209a572241f9e14",
+                "pkg-cabal-sha256": "f72d9ff209f9ea289932096b5aaa9c2e0615aec4103f6a9158ce8a7839243af0",
                 "pkg-name": "keiro-dsl",
                 "pkg-src": {
                     "repo": {
@@ -7306,8 +7398,8 @@
                     },
                     "type": "repo-tar"
                 },
-                "pkg-src-sha256": "cf16d1a745e3c4456eda6adcad53bb5535c65d44b56f21f75b98f6f5b79896ec",
-                "pkg-version": "0.21.0.0",
+                "pkg-src-sha256": "96313ad2e13bb174f1a181bc85448299b85e3095bc518403468346ce103b11a0",
+                "pkg-version": "0.22.0.0",
                 "type": "configured"
             },
             {
@@ -7315,7 +7407,7 @@
                 "flags": {
                     "werror-generated": false
                 },
-                "pkg-cabal-sha256": "c9b7333fa50d8a4de19af1bfaf81b94fc58a2f4c2687d3dce209a572241f9e14",
+                "pkg-cabal-sha256": "f72d9ff209f9ea289932096b5aaa9c2e0615aec4103f6a9158ce8a7839243af0",
                 "pkg-name": "keiro-dsl",
                 "pkg-src": {
                     "repo": {
@@ -7324,8 +7416,8 @@
                     },
                     "type": "repo-tar"
                 },
-                "pkg-src-sha256": "cf16d1a745e3c4456eda6adcad53bb5535c65d44b56f21f75b98f6f5b79896ec",
-                "pkg-version": "0.21.0.0",
+                "pkg-src-sha256": "96313ad2e13bb174f1a181bc85448299b85e3095bc518403468346ce103b11a0",
+                "pkg-version": "0.22.0.0",
                 "type": "configured"
             },
             {
@@ -7333,7 +7425,7 @@
                 "flags": {
                     "werror-generated": false
                 },
-                "pkg-cabal-sha256": "c9b7333fa50d8a4de19af1bfaf81b94fc58a2f4c2687d3dce209a572241f9e14",
+                "pkg-cabal-sha256": "f72d9ff209f9ea289932096b5aaa9c2e0615aec4103f6a9158ce8a7839243af0",
                 "pkg-name": "keiro-dsl",
                 "pkg-src": {
                     "repo": {
@@ -7342,13 +7434,13 @@
                     },
                     "type": "repo-tar"
                 },
-                "pkg-src-sha256": "cf16d1a745e3c4456eda6adcad53bb5535c65d44b56f21f75b98f6f5b79896ec",
-                "pkg-version": "0.21.0.0",
+                "pkg-src-sha256": "96313ad2e13bb174f1a181bc85448299b85e3095bc518403468346ce103b11a0",
+                "pkg-version": "0.22.0.0",
                 "type": "configured"
             }
         ],
         "source": "Hackage",
-        "version": "0.21.0.0"
+        "version": "0.22.0.0"
     },
     "keiro-migrations": {
         "dependencies": [
@@ -7373,7 +7465,7 @@
                 "flags": {
                     "legacy-codd-tools": false
                 },
-                "pkg-cabal-sha256": "b0640fa7ef9dccc367771ddbe51a8c5367f41c456f2a571c2e2e99634942cb33",
+                "pkg-cabal-sha256": "8ef650f955416891d59d29fb671bd1f23414d1d4b162386bc23f3c6dbb1b2eda",
                 "pkg-name": "keiro-migrations",
                 "pkg-src": {
                     "repo": {
@@ -7382,8 +7474,8 @@
                     },
                     "type": "repo-tar"
                 },
-                "pkg-src-sha256": "d737aa76972072efad9fde10046ccdeb1efa33c17460a58327d113cb9f9c7140",
-                "pkg-version": "0.21.0.0",
+                "pkg-src-sha256": "f0221db7fdc6206597776f062b5d7b89d0b1f6734d8858de06b0695dd6ce9fb9",
+                "pkg-version": "0.22.0.0",
                 "type": "configured"
             },
             {
@@ -7391,7 +7483,7 @@
                 "flags": {
                     "legacy-codd-tools": false
                 },
-                "pkg-cabal-sha256": "b0640fa7ef9dccc367771ddbe51a8c5367f41c456f2a571c2e2e99634942cb33",
+                "pkg-cabal-sha256": "8ef650f955416891d59d29fb671bd1f23414d1d4b162386bc23f3c6dbb1b2eda",
                 "pkg-name": "keiro-migrations",
                 "pkg-src": {
                     "repo": {
@@ -7400,13 +7492,13 @@
                     },
                     "type": "repo-tar"
                 },
-                "pkg-src-sha256": "d737aa76972072efad9fde10046ccdeb1efa33c17460a58327d113cb9f9c7140",
-                "pkg-version": "0.21.0.0",
+                "pkg-src-sha256": "f0221db7fdc6206597776f062b5d7b89d0b1f6734d8858de06b0695dd6ce9fb9",
+                "pkg-version": "0.22.0.0",
                 "type": "configured"
             }
         ],
         "source": "Hackage",
-        "version": "0.21.0.0"
+        "version": "0.22.0.0"
     },
     "keiro-ops": {
         "dependencies": [
@@ -7417,6 +7509,7 @@
             "effectful",
             "effectful-core",
             "hasql",
+            "hasql-pool",
             "keiro",
             "keiro-migrations",
             "keiro-ops",
@@ -7432,7 +7525,7 @@
             {
                 "component-name": "exe:keiro-ops",
                 "flags": {},
-                "pkg-cabal-sha256": "25cf60c9c2088f27289101f92540eab1e27689804c12b5e562adb7f270709c57",
+                "pkg-cabal-sha256": "d568b6238f471b65cbd352b9a9efe17a021153ff587d73e1d22c89e85b33641d",
                 "pkg-name": "keiro-ops",
                 "pkg-src": {
                     "repo": {
@@ -7441,14 +7534,14 @@
                     },
                     "type": "repo-tar"
                 },
-                "pkg-src-sha256": "441ded40c1072068a53b52efc0e47f98a2dbf189488dfaf6d6885e0c05abb8dd",
-                "pkg-version": "0.21.0.0",
+                "pkg-src-sha256": "fbb3f8697ac264a4344988881424ba1fde002bb08ce0dfa73dcba4c22c4a82aa",
+                "pkg-version": "0.22.0.0",
                 "type": "configured"
             },
             {
                 "component-name": "lib",
                 "flags": {},
-                "pkg-cabal-sha256": "25cf60c9c2088f27289101f92540eab1e27689804c12b5e562adb7f270709c57",
+                "pkg-cabal-sha256": "d568b6238f471b65cbd352b9a9efe17a021153ff587d73e1d22c89e85b33641d",
                 "pkg-name": "keiro-ops",
                 "pkg-src": {
                     "repo": {
@@ -7457,13 +7550,82 @@
                     },
                     "type": "repo-tar"
                 },
-                "pkg-src-sha256": "441ded40c1072068a53b52efc0e47f98a2dbf189488dfaf6d6885e0c05abb8dd",
-                "pkg-version": "0.21.0.0",
+                "pkg-src-sha256": "fbb3f8697ac264a4344988881424ba1fde002bb08ce0dfa73dcba4c22c4a82aa",
+                "pkg-version": "0.22.0.0",
                 "type": "configured"
             }
         ],
         "source": "Hackage",
-        "version": "0.21.0.0"
+        "version": "0.22.0.0"
+    },
+    "keiro-ops-http": {
+        "dependencies": [
+            "aeson",
+            "async",
+            "base",
+            "bytestring",
+            "containers",
+            "effectful",
+            "hasql",
+            "hasql-pool",
+            "http-types",
+            "keiro",
+            "keiro-migrations",
+            "keiro-ops",
+            "keiro-ops-http",
+            "kiroku-store",
+            "network",
+            "network-uri",
+            "optparse-applicative",
+            "stm",
+            "text",
+            "time",
+            "uuid",
+            "wai",
+            "wai-websockets",
+            "warp",
+            "websockets"
+        ],
+        "identities": [
+            {
+                "component-name": "exe:keiro-ops-http",
+                "flags": {
+                    "compose-example": false
+                },
+                "pkg-cabal-sha256": "e492336a9120a5425e525f61adfa37e8c7c5ba7d8331b1d0fcdc86441c5d8df4",
+                "pkg-name": "keiro-ops-http",
+                "pkg-src": {
+                    "repo": {
+                        "type": "secure-repo",
+                        "uri": "http://hackage.haskell.org/"
+                    },
+                    "type": "repo-tar"
+                },
+                "pkg-src-sha256": "3e72e3e8da2b787a43e97defe31f65919e84cb012b363e19e87ac2fe0ee0ffed",
+                "pkg-version": "0.22.0.0",
+                "type": "configured"
+            },
+            {
+                "component-name": "lib",
+                "flags": {
+                    "compose-example": false
+                },
+                "pkg-cabal-sha256": "e492336a9120a5425e525f61adfa37e8c7c5ba7d8331b1d0fcdc86441c5d8df4",
+                "pkg-name": "keiro-ops-http",
+                "pkg-src": {
+                    "repo": {
+                        "type": "secure-repo",
+                        "uri": "http://hackage.haskell.org/"
+                    },
+                    "type": "repo-tar"
+                },
+                "pkg-src-sha256": "3e72e3e8da2b787a43e97defe31f65919e84cb012b363e19e87ac2fe0ee0ffed",
+                "pkg-version": "0.22.0.0",
+                "type": "configured"
+            }
+        ],
+        "source": "Hackage",
+        "version": "0.22.0.0"
     },
     "keiro-pgmq": {
         "dependencies": [
@@ -7488,7 +7650,7 @@
             {
                 "component-name": "lib",
                 "flags": {},
-                "pkg-cabal-sha256": "17ae04b7659cb23cf9a8f0d06bbe68a07f49d0f5f7dc20aeb47ec3dc9a027595",
+                "pkg-cabal-sha256": "20b41a84c3ec8e3ec2b7bda43b8d4ce366c90c05de7eadc47a38001b481ac05d",
                 "pkg-name": "keiro-pgmq",
                 "pkg-src": {
                     "repo": {
@@ -7497,13 +7659,13 @@
                     },
                     "type": "repo-tar"
                 },
-                "pkg-src-sha256": "51b8bd85b021d3d51882cbff0d701c02ca4aee499f3e7e47766b0c4181d1fcb0",
-                "pkg-version": "0.21.0.0",
+                "pkg-src-sha256": "c6fa9c956424afe8478d14c292be56bcea19cede084b441c1f97b45a7971c6a8",
+                "pkg-version": "0.22.0.0",
                 "type": "configured"
             }
         ],
         "source": "Hackage",
-        "version": "0.21.0.0"
+        "version": "0.22.0.0"
     },
     "keiro-test-support": {
         "dependencies": [
@@ -7527,7 +7689,7 @@
             {
                 "component-name": "lib",
                 "flags": {},
-                "pkg-cabal-sha256": "5b1e77cedbb24e346528386defc32135694942e2353b82aa36d5a505052d7c3e",
+                "pkg-cabal-sha256": "76a9292970b14c651342a2692557028811139a57e595362236eee45e62d75985",
                 "pkg-name": "keiro-test-support",
                 "pkg-src": {
                     "repo": {
@@ -7536,13 +7698,13 @@
                     },
                     "type": "repo-tar"
                 },
-                "pkg-src-sha256": "58194c79deb4cb8d9c3f8f2fbc31bc393b433bad2b70fa9a8345f5fc4a693e0e",
-                "pkg-version": "0.21.0.0",
+                "pkg-src-sha256": "b3dc02fa2ee957b0b14f3fdce973acca59c3593fc7b51640893e24c5c6569aa1",
+                "pkg-version": "0.22.0.0",
                 "type": "configured"
             }
         ],
         "source": "Hackage",
-        "version": "0.21.0.0"
+        "version": "0.22.0.0"
     },
     "keys": {
         "dependencies": [
@@ -7751,7 +7913,7 @@
             {
                 "component-name": "exe:kiroku",
                 "flags": {},
-                "pkg-cabal-sha256": "25742a74593e4460f4599194d78a8227ee86d3bb2d6c4ec88db835cd2f42727e",
+                "pkg-cabal-sha256": "9d8324d492d15e479c80267bc2e14e14e3db63304cfd65fd0bf5b3da1d9091a7",
                 "pkg-name": "kiroku-cli",
                 "pkg-src": {
                     "repo": {
@@ -7760,14 +7922,14 @@
                     },
                     "type": "repo-tar"
                 },
-                "pkg-src-sha256": "b5b8e67f73b793345b3fafb6b8578a9e5f707f545b88ffc1cd2757f540693124",
-                "pkg-version": "0.2.0.10",
+                "pkg-src-sha256": "738c97f53b51b2524d3731736d69b7da5ecfcb721bbbdc16b4ac1f408ef12bea",
+                "pkg-version": "0.2.0.11",
                 "type": "configured"
             },
             {
                 "component-name": "lib",
                 "flags": {},
-                "pkg-cabal-sha256": "25742a74593e4460f4599194d78a8227ee86d3bb2d6c4ec88db835cd2f42727e",
+                "pkg-cabal-sha256": "9d8324d492d15e479c80267bc2e14e14e3db63304cfd65fd0bf5b3da1d9091a7",
                 "pkg-name": "kiroku-cli",
                 "pkg-src": {
                     "repo": {
@@ -7776,13 +7938,13 @@
                     },
                     "type": "repo-tar"
                 },
-                "pkg-src-sha256": "b5b8e67f73b793345b3fafb6b8578a9e5f707f545b88ffc1cd2757f540693124",
-                "pkg-version": "0.2.0.10",
+                "pkg-src-sha256": "738c97f53b51b2524d3731736d69b7da5ecfcb721bbbdc16b4ac1f408ef12bea",
+                "pkg-version": "0.2.0.11",
                 "type": "configured"
             }
         ],
         "source": "Hackage",
-        "version": "0.2.0.10"
+        "version": "0.2.0.11"
     },
     "kiroku-metrics": {
         "dependencies": [
@@ -7817,7 +7979,7 @@
                 "flags": {
                     "example": false
                 },
-                "pkg-cabal-sha256": "21de48c4d8a18b8207ab754cfc5463fdfa8ccc79d8308bd0fabd5abe8b898b9f",
+                "pkg-cabal-sha256": "c5a5606a49d3b2a8d7c4477aecbc56254f9fa4badede8c798db4a564bd5f5673",
                 "pkg-name": "kiroku-metrics",
                 "pkg-src": {
                     "repo": {
@@ -7826,8 +7988,8 @@
                     },
                     "type": "repo-tar"
                 },
-                "pkg-src-sha256": "2936dc01ba37e0962adac0e3bd8501145718eed030d00e0f2a5c0dacc65583f6",
-                "pkg-version": "0.3.0.1",
+                "pkg-src-sha256": "62260afbf21ff51e3638de1d79bb53effe2bfdbdae280deb37caec39cc506205",
+                "pkg-version": "0.4.0.0",
                 "type": "configured"
             },
             {
@@ -7835,7 +7997,7 @@
                 "flags": {
                     "example": false
                 },
-                "pkg-cabal-sha256": "21de48c4d8a18b8207ab754cfc5463fdfa8ccc79d8308bd0fabd5abe8b898b9f",
+                "pkg-cabal-sha256": "c5a5606a49d3b2a8d7c4477aecbc56254f9fa4badede8c798db4a564bd5f5673",
                 "pkg-name": "kiroku-metrics",
                 "pkg-src": {
                     "repo": {
@@ -7844,13 +8006,13 @@
                     },
                     "type": "repo-tar"
                 },
-                "pkg-src-sha256": "2936dc01ba37e0962adac0e3bd8501145718eed030d00e0f2a5c0dacc65583f6",
-                "pkg-version": "0.3.0.1",
+                "pkg-src-sha256": "62260afbf21ff51e3638de1d79bb53effe2bfdbdae280deb37caec39cc506205",
+                "pkg-version": "0.4.0.0",
                 "type": "configured"
             }
         ],
         "source": "Hackage",
-        "version": "0.3.0.1"
+        "version": "0.4.0.0"
     },
     "kiroku-otel": {
         "dependencies": [
@@ -7871,7 +8033,7 @@
             {
                 "component-name": "lib",
                 "flags": {},
-                "pkg-cabal-sha256": "5413ad6964344e7d8abd3a984f19a2668a2747484840d612ac01bcd3d13cd237",
+                "pkg-cabal-sha256": "0124024c85e1fa1158ee2b22d8fee92b53b4ac35667c5bec8e95db6856bfb5b4",
                 "pkg-name": "kiroku-otel",
                 "pkg-src": {
                     "repo": {
@@ -7880,13 +8042,13 @@
                     },
                     "type": "repo-tar"
                 },
-                "pkg-src-sha256": "d92f389e97951b026723f571d53eda36aaea603e265f429b2a883bf5b89f09b1",
-                "pkg-version": "0.2.0.12",
+                "pkg-src-sha256": "99d48a08ec168d42a403a9a5e5fced8b4067593882fc5f1dddb160fc8e28f140",
+                "pkg-version": "0.3.0.0",
                 "type": "configured"
             }
         ],
         "source": "Hackage",
-        "version": "0.2.0.12"
+        "version": "0.3.0.0"
     },
     "kiroku-store": {
         "dependencies": [
@@ -7917,7 +8079,7 @@
             {
                 "component-name": "lib",
                 "flags": {},
-                "pkg-cabal-sha256": "8f4a1c0834e11561868bf90542dd18c0b72e40c8da674bf5bee3f5dc5878efb1",
+                "pkg-cabal-sha256": "f742ee73f0354c54f6c0f9ff60492a7983fcf2ce74d51a77d6617a7d8fa94a36",
                 "pkg-name": "kiroku-store",
                 "pkg-src": {
                     "repo": {
@@ -7926,13 +8088,13 @@
                     },
                     "type": "repo-tar"
                 },
-                "pkg-src-sha256": "0e941f8d39c9d588e50339e2765dbd857d7b7e3b00610e226bb496c160ad0b72",
-                "pkg-version": "0.11.0.1",
+                "pkg-src-sha256": "cb0ce88c44c766d6460d28224a48f3c02fd1829c733e9493af89e58b324319d0",
+                "pkg-version": "0.12.0.0",
                 "type": "configured"
             }
         ],
         "source": "Hackage",
-        "version": "0.11.0.1"
+        "version": "0.12.0.0"
     },
     "kiroku-store-migrations": {
         "dependencies": [
@@ -7955,7 +8117,7 @@
             {
                 "component-name": "exe:kiroku-store-migrate",
                 "flags": {},
-                "pkg-cabal-sha256": "d410a411ba62d06d9348d63a3e3697d308b8df6cf310b9bcec9c1c761358402a",
+                "pkg-cabal-sha256": "7a2e175fd9999d9b38a9027ffe124ecf5c6a8c7c6fafd1200ef32051c5258d20",
                 "pkg-name": "kiroku-store-migrations",
                 "pkg-src": {
                     "repo": {
@@ -7964,14 +8126,14 @@
                     },
                     "type": "repo-tar"
                 },
-                "pkg-src-sha256": "013e07503c380b8b6efda9568bd1666be5534646eb1d6a334d16eef37fd84c3c",
-                "pkg-version": "0.7.1.0",
+                "pkg-src-sha256": "b346415978147bcd24636be33313011cc5f1eb763272fa14c2f65dce042f4f71",
+                "pkg-version": "0.7.2.0",
                 "type": "configured"
             },
             {
                 "component-name": "lib",
                 "flags": {},
-                "pkg-cabal-sha256": "d410a411ba62d06d9348d63a3e3697d308b8df6cf310b9bcec9c1c761358402a",
+                "pkg-cabal-sha256": "7a2e175fd9999d9b38a9027ffe124ecf5c6a8c7c6fafd1200ef32051c5258d20",
                 "pkg-name": "kiroku-store-migrations",
                 "pkg-src": {
                     "repo": {
@@ -7980,13 +8142,13 @@
                     },
                     "type": "repo-tar"
                 },
-                "pkg-src-sha256": "013e07503c380b8b6efda9568bd1666be5534646eb1d6a334d16eef37fd84c3c",
-                "pkg-version": "0.7.1.0",
+                "pkg-src-sha256": "b346415978147bcd24636be33313011cc5f1eb763272fa14c2f65dce042f4f71",
+                "pkg-version": "0.7.2.0",
                 "type": "configured"
             }
         ],
         "source": "Hackage",
-        "version": "0.7.1.0"
+        "version": "0.7.2.0"
     },
     "language-c": {
         "dependencies": [
@@ -9508,6 +9670,155 @@
         "source": "Hackage",
         "version": "5.0.0"
     },
+    "openapi3": {
+        "dependencies": [
+            "Cabal",
+            "QuickCheck",
+            "aeson",
+            "aeson-pretty",
+            "base",
+            "base-compat-batteries",
+            "bytestring",
+            "cabal-doctest",
+            "containers",
+            "cookie",
+            "generics-sop",
+            "hashable",
+            "http-media",
+            "insert-ordered-containers",
+            "lens",
+            "mtl",
+            "optics-core",
+            "optics-th",
+            "scientific",
+            "template-haskell",
+            "text",
+            "time",
+            "transformers",
+            "unordered-containers",
+            "uuid-types",
+            "vector"
+        ],
+        "identities": [
+            {
+                "flags": {},
+                "pkg-cabal-sha256": "ab13f81bc74d2e83768dd835a1765872b9681bd0ccf22b7eaa18b6ee7af1efa9",
+                "pkg-name": "openapi3",
+                "pkg-src": {
+                    "repo": {
+                        "type": "secure-repo",
+                        "uri": "http://hackage.haskell.org/"
+                    },
+                    "type": "repo-tar"
+                },
+                "pkg-src-sha256": "26f62af823538f451402c2d4b5f017e95829c62762c4c0c18dd7228791de74be",
+                "pkg-version": "3.2.5",
+                "type": "configured"
+            }
+        ],
+        "source": "Hackage",
+        "version": "3.2.5"
+    },
+    "optics-core": {
+        "dependencies": [
+            "array",
+            "base",
+            "containers",
+            "indexed-profunctors",
+            "indexed-traversable",
+            "transformers"
+        ],
+        "identities": [
+            {
+                "component-name": "lib",
+                "flags": {
+                    "explicit-generic-labels": false
+                },
+                "pkg-cabal-sha256": "98291728c852300e5314fb6791bfe2627eabca28f00361e4fa908ec30c7c2e8c",
+                "pkg-name": "optics-core",
+                "pkg-src": {
+                    "repo": {
+                        "type": "secure-repo",
+                        "uri": "http://hackage.haskell.org/"
+                    },
+                    "type": "repo-tar"
+                },
+                "pkg-src-sha256": "1b8dc4928ad6b23953a9d3a640bba5dbfd9c0fd8e60e1f9b327bb4db6c6ddce7",
+                "pkg-version": "0.4.2",
+                "type": "configured"
+            }
+        ],
+        "source": "Hackage",
+        "version": "0.4.2"
+    },
+    "optics-extra": {
+        "dependencies": [
+            "array",
+            "base",
+            "bytestring",
+            "containers",
+            "hashable",
+            "indexed-profunctors",
+            "indexed-traversable-instances",
+            "mtl",
+            "optics-core",
+            "text",
+            "transformers",
+            "unordered-containers",
+            "vector"
+        ],
+        "identities": [
+            {
+                "component-name": "lib",
+                "flags": {},
+                "pkg-cabal-sha256": "c83c215fde17a7c0bfdb4cb80f07c029c12e2751b3b71a44c87c5f4d45ffdaca",
+                "pkg-name": "optics-extra",
+                "pkg-src": {
+                    "repo": {
+                        "type": "secure-repo",
+                        "uri": "http://hackage.haskell.org/"
+                    },
+                    "type": "repo-tar"
+                },
+                "pkg-src-sha256": "7e23a7a325e3448354614d3d958279c9ac2fdd0831ceee2808830e7a962fca41",
+                "pkg-version": "0.4.2.1",
+                "type": "configured"
+            }
+        ],
+        "source": "Hackage",
+        "version": "0.4.2.1"
+    },
+    "optics-th": {
+        "dependencies": [
+            "base",
+            "containers",
+            "mtl",
+            "optics-core",
+            "template-haskell",
+            "th-abstraction",
+            "transformers"
+        ],
+        "identities": [
+            {
+                "component-name": "lib",
+                "flags": {},
+                "pkg-cabal-sha256": "8a7752f95e60fb9f87ec2af83fc0aa997babcf2a662878c127c366e6d25a9713",
+                "pkg-name": "optics-th",
+                "pkg-src": {
+                    "repo": {
+                        "type": "secure-repo",
+                        "uri": "http://hackage.haskell.org/"
+                    },
+                    "type": "repo-tar"
+                },
+                "pkg-src-sha256": "d73857b79dcd8f7c7e70fa4727f134145b62902e8d3e448f8b25c38a9da4fd17",
+                "pkg-version": "0.4.1",
+                "type": "configured"
+            }
+        ],
+        "source": "Hackage",
+        "version": "0.4.1"
+    },
     "optparse-applicative": {
         "dependencies": [
             "base",
@@ -9877,6 +10188,7 @@
     },
     "pgmq-config": {
         "dependencies": [
+            "aeson",
             "base",
             "containers",
             "effectful-core",
@@ -9895,7 +10207,7 @@
                 "flags": {
                     "effectful": true
                 },
-                "pkg-cabal-sha256": "ad04d9d8dc8fdf216a574379102af5413e72c7a602009abe19a198fd9cf4445c",
+                "pkg-cabal-sha256": "6fb28bbb248e05b32791ae38d3fd88f0bc7df6f1e91d3a145935352f918a070a",
                 "pkg-name": "pgmq-config",
                 "pkg-src": {
                     "repo": {
@@ -9904,13 +10216,13 @@
                     },
                     "type": "repo-tar"
                 },
-                "pkg-src-sha256": "74201c524b6ee5d62255f3f5d7852750f84c33a64f6b3e7597415a5a99f055ff",
-                "pkg-version": "0.6.1.1",
+                "pkg-src-sha256": "001cfc4ffd56d94680eb4149e2539232c0b47d12f356b1d4572ab095f1b1a7d6",
+                "pkg-version": "0.7.0.0",
                 "type": "configured"
             }
         ],
         "source": "Hackage",
-        "version": "0.6.1.1"
+        "version": "0.7.0.0"
     },
     "pgmq-core": {
         "dependencies": [
@@ -9924,7 +10236,7 @@
             {
                 "component-name": "lib",
                 "flags": {},
-                "pkg-cabal-sha256": "1a86b2f9a25559d166133f56f2d6669c4d6a325fcb7dcd52976c1bbbf7d4ddb7",
+                "pkg-cabal-sha256": "2b0818b7bb9437615e4f2dc3ff1e690a441859631064a379cf2a31ef21f99afb",
                 "pkg-name": "pgmq-core",
                 "pkg-src": {
                     "repo": {
@@ -9933,13 +10245,13 @@
                     },
                     "type": "repo-tar"
                 },
-                "pkg-src-sha256": "0223d58f44f7f8e9ae57dfa765fac05be3682c81ecc557c8bca9af4c5403c40e",
-                "pkg-version": "0.6.1.1",
+                "pkg-src-sha256": "feebbb87316a91763cc4b338d461599fb219a8c21ed94a7e5765f77539c5d141",
+                "pkg-version": "0.7.0.0",
                 "type": "configured"
             }
         ],
         "source": "Hackage",
-        "version": "0.6.1.1"
+        "version": "0.7.0.0"
     },
     "pgmq-effectful": {
         "dependencies": [
@@ -9964,7 +10276,7 @@
             {
                 "component-name": "lib",
                 "flags": {},
-                "pkg-cabal-sha256": "7277aa5c722cb933ba61e474db10c0bdde6d099fa8bd6d062d3c648c4470a127",
+                "pkg-cabal-sha256": "abeb93f5719c423939be5e98fdf71fd2d759a7ec305a0dd9029e58458d48a15e",
                 "pkg-name": "pgmq-effectful",
                 "pkg-src": {
                     "repo": {
@@ -9973,13 +10285,13 @@
                     },
                     "type": "repo-tar"
                 },
-                "pkg-src-sha256": "091959507393c29cd2b7d99bc3cc385ef9cabbe044650f1e0cdf553836317ce4",
-                "pkg-version": "0.6.1.1",
+                "pkg-src-sha256": "037982c363b4d0a8bfe367f3064b3290c056b65f4fb8e4f813de268f5f21310f",
+                "pkg-version": "0.7.0.0",
                 "type": "configured"
             }
         ],
         "source": "Hackage",
-        "version": "0.6.1.1"
+        "version": "0.7.0.0"
     },
     "pgmq-hasql": {
         "dependencies": [
@@ -9999,7 +10311,7 @@
             {
                 "component-name": "lib",
                 "flags": {},
-                "pkg-cabal-sha256": "1279b152a942bb341516f742d47905a8bc0b54d1604d54eccff34fd557684cd4",
+                "pkg-cabal-sha256": "e05dbeecbf5be02efd15ae7aadccaa7d4bd76ea679d19d3894f3680e6ebb6471",
                 "pkg-name": "pgmq-hasql",
                 "pkg-src": {
                     "repo": {
@@ -10008,13 +10320,85 @@
                     },
                     "type": "repo-tar"
                 },
-                "pkg-src-sha256": "fe0f4b9710e04b251d1a58e059043b5acf6e495254ff279c16d56ee96ae63388",
-                "pkg-version": "0.6.1.1",
+                "pkg-src-sha256": "40979bc902dedc9b5a9e15f004927a1b81cc8f74e669145987773316ced2483f",
+                "pkg-version": "0.7.0.0",
                 "type": "configured"
             }
         ],
         "source": "Hackage",
-        "version": "0.6.1.1"
+        "version": "0.7.0.0"
+    },
+    "pgmq-inspect": {
+        "dependencies": [
+            "aeson",
+            "async",
+            "base",
+            "bytestring",
+            "containers",
+            "effectful-core",
+            "generic-lens",
+            "hasql",
+            "hasql-pool",
+            "hs-opentelemetry-api",
+            "http-types",
+            "lens",
+            "network",
+            "network-uri",
+            "openapi3",
+            "optparse-applicative",
+            "pgmq-core",
+            "pgmq-effectful",
+            "pgmq-hasql",
+            "pgmq-inspect",
+            "postgresql-connection-string",
+            "postgresql-libpq",
+            "stm",
+            "streaming-commons",
+            "text",
+            "time",
+            "vector",
+            "wai",
+            "wai-cors",
+            "wai-websockets",
+            "warp",
+            "websockets"
+        ],
+        "identities": [
+            {
+                "component-name": "exe:pgmq-inspect",
+                "flags": {},
+                "pkg-cabal-sha256": "266e703b0d56bb124dca62579b9d8f86faa7a9f54892693251ee936524d67e5e",
+                "pkg-name": "pgmq-inspect",
+                "pkg-src": {
+                    "repo": {
+                        "type": "secure-repo",
+                        "uri": "http://hackage.haskell.org/"
+                    },
+                    "type": "repo-tar"
+                },
+                "pkg-src-sha256": "21bd97cae1ddda4c39ba7f6345548609889dd63645dad7d0f023c84f389dcd69",
+                "pkg-version": "0.7.0.0",
+                "type": "configured"
+            },
+            {
+                "component-name": "lib",
+                "flags": {},
+                "pkg-cabal-sha256": "266e703b0d56bb124dca62579b9d8f86faa7a9f54892693251ee936524d67e5e",
+                "pkg-name": "pgmq-inspect",
+                "pkg-src": {
+                    "repo": {
+                        "type": "secure-repo",
+                        "uri": "http://hackage.haskell.org/"
+                    },
+                    "type": "repo-tar"
+                },
+                "pkg-src-sha256": "21bd97cae1ddda4c39ba7f6345548609889dd63645dad7d0f023c84f389dcd69",
+                "pkg-version": "0.7.0.0",
+                "type": "configured"
+            }
+        ],
+        "source": "Hackage",
+        "version": "0.7.0.0"
     },
     "pgmq-migration": {
         "dependencies": [
@@ -10034,7 +10418,7 @@
             {
                 "component-name": "lib",
                 "flags": {},
-                "pkg-cabal-sha256": "99ec6ac2cc58565efced7c638e68c3e01e080881cc161fdc0d5d5d23a669d5ae",
+                "pkg-cabal-sha256": "9382f62ae9b7b07345d1fa00227131500d76e9e4eb44c663e4c8ba82ad249108",
                 "pkg-name": "pgmq-migration",
                 "pkg-src": {
                     "repo": {
@@ -10043,13 +10427,13 @@
                     },
                     "type": "repo-tar"
                 },
-                "pkg-src-sha256": "2c61310896cf15f64a887b5b05b71182ff6a79737d0d1f78c9def09ce195a04e",
-                "pkg-version": "0.6.1.1",
+                "pkg-src-sha256": "6cd7a2a92f008cb65c24c6a7ea93d5a957b9ed66d14469703e6ede33a45feb22",
+                "pkg-version": "0.7.0.0",
                 "type": "configured"
             }
         ],
         "source": "Hackage",
-        "version": "0.6.1.1"
+        "version": "0.7.0.0"
     },
     "pointed": {
         "dependencies": [
@@ -12178,7 +12562,7 @@
             {
                 "component-name": "lib",
                 "flags": {},
-                "pkg-cabal-sha256": "49bda7d8ab42ce22df8980794e7b00c7ff7300345130912ddb6209006c2094ff",
+                "pkg-cabal-sha256": "5e3a73332cbbf8438d20bcd6e6b87418da41aafa3fc0c32125acc09747cb633f",
                 "pkg-name": "settei",
                 "pkg-src": {
                     "repo": {
@@ -12187,13 +12571,13 @@
                     },
                     "type": "repo-tar"
                 },
-                "pkg-src-sha256": "8104267ed3cfc1141101badfa42cb0e0fd53f696af4c5ec493a0dd0e8dc192c6",
-                "pkg-version": "0.2.0.0",
+                "pkg-src-sha256": "f5accdbd66deed56e6c2f0caba707459c7608eda81b43b3afb14a3347c1e5fbe",
+                "pkg-version": "0.3.0.0",
                 "type": "configured"
             }
         ],
         "source": "Hackage",
-        "version": "0.2.0.0"
+        "version": "0.3.0.0"
     },
     "settei-dhall": {
         "dependencies": [
@@ -12215,7 +12599,7 @@
             {
                 "component-name": "lib",
                 "flags": {},
-                "pkg-cabal-sha256": "cccd15cd2f882133ac0120ca975354a819cb89d349f13234fb5ab48d8bac7eb5",
+                "pkg-cabal-sha256": "2f5e61d0b1b709b47a7b91823ce5c2f38413940eeddb356cbe51c49ad7dad08b",
                 "pkg-name": "settei-dhall",
                 "pkg-src": {
                     "repo": {
@@ -12224,13 +12608,13 @@
                     },
                     "type": "repo-tar"
                 },
-                "pkg-src-sha256": "2d8152e2a8957bb9f1ed1b8c6292b6b9e69f5ef7415d7f1c15983b345f234649",
-                "pkg-version": "0.2.0.0",
+                "pkg-src-sha256": "65410c4aa57c67ac398b6b7398dcb80fa5594a36de68842fb9bc0195df802da1",
+                "pkg-version": "0.3.0.0",
                 "type": "configured"
             }
         ],
         "source": "Hackage",
-        "version": "0.2.0.0"
+        "version": "0.3.0.0"
     },
     "settei-env": {
         "dependencies": [
@@ -12244,7 +12628,7 @@
             {
                 "component-name": "lib",
                 "flags": {},
-                "pkg-cabal-sha256": "dcbadbad56e3a76d99d11d527972f286d4f940e3395bab233e442ad0dc3edc8f",
+                "pkg-cabal-sha256": "305f2a1da514d099ce7a4f4a2e00e86fc61c841b258303aff25657be3df13ec1",
                 "pkg-name": "settei-env",
                 "pkg-src": {
                     "repo": {
@@ -12253,13 +12637,13 @@
                     },
                     "type": "repo-tar"
                 },
-                "pkg-src-sha256": "4344c4429b91147c45b7d4771579a7d4f0d86821e45b5ffeb3eedcdbce78f479",
-                "pkg-version": "0.2.0.0",
+                "pkg-src-sha256": "035c974f0dc9f3a512b716db4651477128497d866e12c34c4ca39da8feb53ec6",
+                "pkg-version": "0.3.0.0",
                 "type": "configured"
             }
         ],
         "source": "Hackage",
-        "version": "0.2.0.0"
+        "version": "0.3.0.0"
     },
     "settei-optparse-applicative": {
         "dependencies": [
@@ -12274,7 +12658,7 @@
             {
                 "component-name": "lib",
                 "flags": {},
-                "pkg-cabal-sha256": "6bfd7921e65955d959d08a2c8dfd08bcb6c75088d49804b0ba5092c067f9f42c",
+                "pkg-cabal-sha256": "424766ee9c87de8bca124413756d89eb297d479ce6da8947ac3aaa19cf07a2b0",
                 "pkg-name": "settei-optparse-applicative",
                 "pkg-src": {
                     "repo": {
@@ -12283,13 +12667,13 @@
                     },
                     "type": "repo-tar"
                 },
-                "pkg-src-sha256": "a8d0181a430684c585ef3b891e8eb161683f9119bd51c8fdf2e5b7a7f23d1d63",
-                "pkg-version": "0.2.0.0",
+                "pkg-src-sha256": "460a541972d1b099d906519704067fd7d32764207c02fb1bf3c4d4fc72ccb48a",
+                "pkg-version": "0.3.0.0",
                 "type": "configured"
             }
         ],
         "source": "Hackage",
-        "version": "0.2.0.0"
+        "version": "0.3.0.0"
     },
     "shibuya-core": {
         "dependencies": [
@@ -12318,7 +12702,7 @@
             {
                 "component-name": "lib",
                 "flags": {},
-                "pkg-cabal-sha256": "6faf1f836edbac59f48cea67c531d6f6162a54dac1c7126ad2f64daeae5284c8",
+                "pkg-cabal-sha256": "75e59517323d0b44af8a30bdbe89a0edca2d9892f54f676aa941d8a69e33630f",
                 "pkg-name": "shibuya-core",
                 "pkg-src": {
                     "repo": {
@@ -12327,13 +12711,13 @@
                     },
                     "type": "repo-tar"
                 },
-                "pkg-src-sha256": "d1b383a1a5a49f6b095d530079cf6ee85cb0d980c6b990fa3be74b8a8a8f81ce",
-                "pkg-version": "0.10.0.1",
+                "pkg-src-sha256": "d5dac4e9bfbfddfd97a0ab14fed317621252dd875d0fe1136be51041820178c3",
+                "pkg-version": "0.12.0.0",
                 "type": "configured"
             }
         ],
         "source": "Hackage",
-        "version": "0.10.0.1"
+        "version": "0.12.0.0"
     },
     "shibuya-kafka-adapter": {
         "dependencies": [
@@ -12358,7 +12742,7 @@
             {
                 "component-name": "lib",
                 "flags": {},
-                "pkg-cabal-sha256": "4d0adca744aeb8f91cfa27f2f3627cf4aea560427154eaa28a62499ba31ddfb7",
+                "pkg-cabal-sha256": "50e407cbde020a9701e29cd3623cb7c1ae2aad8365f0aebda08065ad1a117ad7",
                 "pkg-name": "shibuya-kafka-adapter",
                 "pkg-src": {
                     "repo": {
@@ -12367,13 +12751,13 @@
                     },
                     "type": "repo-tar"
                 },
-                "pkg-src-sha256": "a43f2704e79ee76db635ca9cdc306a5007df813d421904168cbbff575ac1a0ba",
-                "pkg-version": "0.9.1.0",
+                "pkg-src-sha256": "82ee399d9219635a4ab0d13ae4b79e2d611999c595b3a973cb3b754a2d4c29aa",
+                "pkg-version": "0.12.0.0",
                 "type": "configured"
             }
         ],
         "source": "Hackage",
-        "version": "0.9.1.0"
+        "version": "0.12.0.0"
     },
     "shibuya-kiroku-adapter": {
         "dependencies": [
@@ -12398,7 +12782,7 @@
                 "flags": {
                     "lifecycle-live": false
                 },
-                "pkg-cabal-sha256": "a3c1b3aba4c5f14685c51fa40f00d7136ec1a8f2e975dc20088d4c3186de8c8e",
+                "pkg-cabal-sha256": "c8d18e2fee40520993e0eb957caa2ed67ec7a99507d6f80730daf8ddba684b49",
                 "pkg-name": "shibuya-kiroku-adapter",
                 "pkg-src": {
                     "repo": {
@@ -12407,8 +12791,8 @@
                     },
                     "type": "repo-tar"
                 },
-                "pkg-src-sha256": "47f9bd73094de9b6a658807ae57d7dd812c68fb3e071e0bd39985f14f19e8cf4",
-                "pkg-version": "0.6.0.1",
+                "pkg-src-sha256": "08cf781fa7e2fc15333df51835b75a152e5a2ab444393f995a06f003850d30cf",
+                "pkg-version": "0.7.0.0",
                 "type": "configured"
             },
             {
@@ -12416,7 +12800,7 @@
                 "flags": {
                     "lifecycle-live": false
                 },
-                "pkg-cabal-sha256": "a3c1b3aba4c5f14685c51fa40f00d7136ec1a8f2e975dc20088d4c3186de8c8e",
+                "pkg-cabal-sha256": "c8d18e2fee40520993e0eb957caa2ed67ec7a99507d6f80730daf8ddba684b49",
                 "pkg-name": "shibuya-kiroku-adapter",
                 "pkg-src": {
                     "repo": {
@@ -12425,13 +12809,13 @@
                     },
                     "type": "repo-tar"
                 },
-                "pkg-src-sha256": "47f9bd73094de9b6a658807ae57d7dd812c68fb3e071e0bd39985f14f19e8cf4",
-                "pkg-version": "0.6.0.1",
+                "pkg-src-sha256": "08cf781fa7e2fc15333df51835b75a152e5a2ab444393f995a06f003850d30cf",
+                "pkg-version": "0.7.0.0",
                 "type": "configured"
             }
         ],
         "source": "Hackage",
-        "version": "0.6.0.1"
+        "version": "0.7.0.0"
     },
     "shibuya-pgmq-adapter": {
         "dependencies": [
@@ -12458,7 +12842,7 @@
             {
                 "component-name": "lib",
                 "flags": {},
-                "pkg-cabal-sha256": "6962ac6dba31ba6fe636bc01de9d473fd0c62988c19f329d1f461f061e238966",
+                "pkg-cabal-sha256": "802569bfbd1b86caff21ba6f3839d4984a2485a342163ae0174e5c106972b890",
                 "pkg-name": "shibuya-pgmq-adapter",
                 "pkg-src": {
                     "repo": {
@@ -12467,13 +12851,13 @@
                     },
                     "type": "repo-tar"
                 },
-                "pkg-src-sha256": "efd01dd7e1000e9a62a2363090ae8d54005caf32ff5c1af6cc12fcad6f30b554",
-                "pkg-version": "0.16.1.0",
+                "pkg-src-sha256": "cd9d6eff721140b580423fffcacdc2badae9a8e630b498cb9328182f754036ff",
+                "pkg-version": "0.18.0.0",
                 "type": "configured"
             }
         ],
         "source": "Hackage",
-        "version": "0.16.1.0"
+        "version": "0.18.0.0"
     },
     "shikumi": {
         "dependencies": [
@@ -15298,6 +15682,39 @@
         "source": "Hackage",
         "version": "3.2.1"
     },
+    "wai-cors": {
+        "dependencies": [
+            "attoparsec",
+            "base",
+            "base-unicode-symbols",
+            "bytestring",
+            "case-insensitive",
+            "http-types",
+            "mtl",
+            "transformers",
+            "wai"
+        ],
+        "identities": [
+            {
+                "component-name": "lib",
+                "flags": {},
+                "pkg-cabal-sha256": "c3309a9c9db001cb5c3c777222ba3389f35c2ec57425731cddf2af8515b204b2",
+                "pkg-name": "wai-cors",
+                "pkg-src": {
+                    "repo": {
+                        "type": "secure-repo",
+                        "uri": "http://hackage.haskell.org/"
+                    },
+                    "type": "repo-tar"
+                },
+                "pkg-src-sha256": "2597beb56ebd7148f9755ae2661c065a6c532e0a286717061861b149a51cfb81",
+                "pkg-version": "0.2.7",
+                "type": "configured"
+            }
+        ],
+        "source": "Hackage",
+        "version": "0.2.7"
+    },
     "wai-extra": {
         "dependencies": [
             "HUnit",
@@ -15477,7 +15894,7 @@
                     "warp-debug": false,
                     "x509": true
                 },
-                "pkg-cabal-sha256": "f018481972d4fe4131105e88129c51076fba4c987b7ae6ba105aefae8330e8ad",
+                "pkg-cabal-sha256": "cfddd3d382aac54970151031b8c68724b0959beb3d047ae62419e9dc3daa9b2d",
                 "pkg-name": "warp",
                 "pkg-src": {
                     "repo": {
@@ -15486,13 +15903,13 @@
                     },
                     "type": "repo-tar"
                 },
-                "pkg-src-sha256": "7dd09b9f2f868e4647fe96162f063a99da791a0e57479d1ea74b210ecb8b2f17",
-                "pkg-version": "3.4.16",
+                "pkg-src-sha256": "4311caade6aa2795967e8edffac253d39b16a9cfe1731512938b9fcb7f5a82fc",
+                "pkg-version": "3.4.17",
                 "type": "configured"
             }
         ],
         "source": "Hackage",
-        "version": "3.4.16"
+        "version": "3.4.17"
     },
     "websockets": {
         "dependencies": [

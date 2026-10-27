@@ -71,6 +71,11 @@
           "project": "mori://shinzui/keiro",
           "role": "library"
         },
+        "keiro-ops-http": {
+          "capability": "core",
+          "project": "mori://shinzui/keiro",
+          "role": "library"
+        },
         "keiro-pgmq": {
           "capability": "pgmq",
           "project": "mori://shinzui/keiro",
@@ -147,6 +152,11 @@
           "role": "library"
         },
         "pgmq-hasql": {
+          "capability": "pgmq",
+          "project": "mori://shinzui/pgmq-hs",
+          "role": "library"
+        },
+        "pgmq-inspect": {
           "capability": "pgmq",
           "project": "mori://shinzui/pgmq-hs",
           "role": "library"

@@ -27,6 +27,13 @@ tests =
             case execParserPure defaultPrefs Cli.parserInfo ["runtime", "snapshot", "--name", "keiro-runtime", "--cohort-freeze", "retained.freeze", "--dry-run"] of
                 Success (Cli.Runtime (RuntimeSnapshot name path dryRun)) -> (name, path, dryRun) @?= ("keiro-runtime", "retained.freeze", True)
                 other -> assertFailure (show other)
+        , testCase "empty nested discovery retains historical family fingerprint encoding" $
+            renderRuntimeFamilyIdentity identityFamily
+                @?= "FamilySnapshot {family = FamilyName \"example\", generation = SnapshotGeneration 1, discoveryPolicy = DiscoveryPolicy {packageOverrides = fromList [], excludedPackages = fromList []}, source = LockedSource {sourceType = \"github\", owner = \"owner\", repo = \"example\", rev = GitRevision \"abc\", narHash = SriHash \"hash\"}, packages = []}"
+        , testCase "nested discovery paths participate in family fingerprints" $ do
+            let nested = identityFamily{FP.discoveryPolicy = identityFamily.discoveryPolicy{FP.additionalPackagePaths = ["adapters/nested"]}}
+            assertBool "nested paths must affect the identity" (renderRuntimeFamilyIdentity nested /= renderRuntimeFamilyIdentity identityFamily)
+            assertBool "retain the declared path" (Text.isInfixOf "additionalPackagePaths = [\"adapters/nested\"]" (renderRuntimeFamilyIdentity nested))
         , testCase "failed publication restores all earlier files and removes new files" $
             withSystemTempDirectory "runtime-publication-test-" $ \directory -> do
                 let existing = directory </> "00-existing"
@@ -139,6 +146,9 @@ config = RuntimeConfig 1 (Map.singleton "fixture" (RuntimeDefinition ["mori://sh
 
 lock :: RuntimeLock
 lock = RuntimeLock 1 (Map.singleton "fixture" [record])
+
+identityFamily :: FP.FamilySnapshot
+identityFamily = FP.FamilySnapshot (FP.FamilyName "example") (FP.SnapshotGeneration 1) (FP.DiscoveryPolicy Map.empty mempty []) (FP.LockedSource "github" "owner" "example" (FP.GitRevision "abc") (FP.SriHash "hash")) []
 
 firstParty :: FP.PackageSetLock
 firstParty = FP.PackageSetLock 2 [] [FP.GroupSnapshot (FP.UpdateGroupName "core") (FP.SnapshotGeneration 1) [] "default"] [] "fixture"

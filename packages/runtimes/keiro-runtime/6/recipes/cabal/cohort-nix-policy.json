@@ -1,0 +1,28 @@
+{
+  "packages": {
+    "dhall": {
+      "codeHash": "cf8b262aa86faeeb117586083b28d40973ffe399c3e8262cede44aee425e3674",
+      "flags": {
+        "use-http-client-tls": true
+      },
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Preserve HTTPS imports in both Cabal and shipped Nix binaries, including cache misses. Both systems retain the same upstream source revision admitting the selected TLS cohort; the hook verifies that bound."
+    },
+    "dhall-json": {
+      "codeHash": "2d954e0a55b1d8c5d37d4b31722a82adf93c6a2869c5bef9c6953ccaa866f34b",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Mirror the three narrowly verified Cabal compatibility exceptions for aeson, bytestring and text while preserving released Haskell source and every other bound."
+    },
+    "hsc2hs": {
+      "compilerTool": true,
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Use the identically versioned hsc2hs bundled with the selected GHC. Verify its resolved Cabal program path and version against that compiler's actual derivation graph."
+    },
+    "monad-control": {
+      "codeHash": "3a4b7d3ec112d23369777f542cf7c255c8d7a087f3732efae933062a2171da7d",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Mirror the verified Cabal transformers-compat 0.8 exception while preserving released Haskell source and every other bound."
+    }
+  },
+  "schemaVersion": 1
+}

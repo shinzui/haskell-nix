@@ -1,0 +1,366 @@
+{
+    "dhall": {
+        "nativeSource": {
+            "hash": "sha256-ashbketzUtSHiTQBMlzyhCKGfr9/Dhxh7rudU4zPDl4=",
+            "hashMode": "recursive",
+            "path": "/nix/store/zgvn698c47b8yjzakhknbaj2is1fl4jj-source",
+            "revision": "03b40e85d0c677350ad2a2f75ef92627d5952cee",
+            "subdirectory": "dhall",
+            "urls": [
+                "https://github.com/dhall-lang/dhall-haskell/archive/03b40e85d0c677350ad2a2f75ef92627d5952cee.tar.gz"
+            ]
+        },
+        "package": "dhall",
+        "project": "mori://dhall-lang/dhall-haskell",
+        "source": {
+            "dependencies": [
+                "Diff",
+                "aeson",
+                "aeson-pretty",
+                "ansi-terminal",
+                "atomic-write",
+                "base",
+                "base16-bytestring",
+                "bytestring",
+                "case-insensitive",
+                "cborg",
+                "cborg-json",
+                "containers",
+                "contravariant",
+                "cryptohash-sha256",
+                "data-fix",
+                "deepseq",
+                "dhall",
+                "directory",
+                "dotgen",
+                "either",
+                "exceptions",
+                "filepath",
+                "half",
+                "hashable",
+                "haskeline",
+                "http-client",
+                "http-client-tls",
+                "http-types",
+                "indexed-traversable",
+                "megaparsec",
+                "microlens",
+                "microlens-mtl",
+                "mmorph",
+                "mtl",
+                "network-uri",
+                "optparse-applicative",
+                "parser-combinators",
+                "parsers",
+                "pretty-simple",
+                "prettyprinter",
+                "prettyprinter-ansi-terminal",
+                "repline",
+                "scientific",
+                "serialise",
+                "template-haskell",
+                "text",
+                "text-manipulate",
+                "text-short",
+                "th-lift-instances",
+                "time",
+                "transformers",
+                "unix",
+                "unix-compat",
+                "unordered-containers",
+                "vector"
+            ],
+            "identities": [
+                {
+                    "component-name": "exe:dhall",
+                    "flags": {
+                        "cross": false,
+                        "network-tests": true,
+                        "use-http-client-tls": true,
+                        "with-http": true
+                    },
+                    "pkg-name": "dhall",
+                    "pkg-src": {
+                        "source-repo": {
+                            "location": "https://github.com/dhall-lang/dhall-haskell",
+                            "subdir": "dhall",
+                            "tag": "03b40e85d0c677350ad2a2f75ef92627d5952cee",
+                            "type": "git"
+                        },
+                        "type": "source-repo"
+                    },
+                    "pkg-src-sha256": "78ab407bedf3ea29aa85520848cd377f5f549d4ef962d6253378078ed58cf23b",
+                    "pkg-version": "1.42.3",
+                    "type": "configured"
+                },
+                {
+                    "component-name": "lib",
+                    "flags": {
+                        "cross": false,
+                        "network-tests": true,
+                        "use-http-client-tls": true,
+                        "with-http": true
+                    },
+                    "pkg-name": "dhall",
+                    "pkg-src": {
+                        "source-repo": {
+                            "location": "https://github.com/dhall-lang/dhall-haskell",
+                            "subdir": "dhall",
+                            "tag": "03b40e85d0c677350ad2a2f75ef92627d5952cee",
+                            "type": "git"
+                        },
+                        "type": "source-repo"
+                    },
+                    "pkg-src-sha256": "78ab407bedf3ea29aa85520848cd377f5f549d4ef962d6253378078ed58cf23b",
+                    "pkg-version": "1.42.3",
+                    "type": "configured"
+                }
+            ],
+            "source": "SourcePin",
+            "version": "1.42.3"
+        }
+    },
+    "hw-kafka-client": {
+        "nativeSource": {
+            "hash": "sha256-0ojh/7ScAm+ZDKch8x0oL946QA8gQUyXz+07k4lA348=",
+            "hashMode": "recursive",
+            "path": "/nix/store/g9kwfd4yk6adcjha0jrgcxxk5pqdyf02-source",
+            "revision": "6caed636898a78e9f6e5a9c93eeb5562cbb2580a",
+            "subdirectory": ".",
+            "urls": [
+                "https://github.com/shinzui/hw-kafka-client/archive/6caed636898a78e9f6e5a9c93eeb5562cbb2580a.tar.gz"
+            ]
+        },
+        "package": "hw-kafka-client",
+        "project": "mori://shinzui/hw-kafka-client",
+        "recipe": {
+            "hash": "sha256-0ojh/7ScAm+ZDKch8x0oL946QA8gQUyXz+07k4lA348=",
+            "owner": "shinzui",
+            "project": "mori://shinzui/hw-kafka-client",
+            "repo": "hw-kafka-client",
+            "rev": "6caed636898a78e9f6e5a9c93eeb5562cbb2580a",
+            "subdirectory": ".",
+            "version": "5.3.0"
+        },
+        "source": {
+            "dependencies": [
+                "base",
+                "bifunctors",
+                "bytestring",
+                "c2hs",
+                "containers",
+                "text",
+                "transformers",
+                "unix"
+            ],
+            "identities": [
+                {
+                    "component-name": "lib",
+                    "flags": {
+                        "examples": false,
+                        "it": false
+                    },
+                    "pkg-name": "hw-kafka-client",
+                    "pkg-src": {
+                        "source-repo": {
+                            "location": "https://github.com/shinzui/hw-kafka-client",
+                            "tag": "6caed636898a78e9f6e5a9c93eeb5562cbb2580a",
+                            "type": "git"
+                        },
+                        "type": "source-repo"
+                    },
+                    "pkg-src-sha256": "9b5f67501a82162ceef0cb60a595123573b969111e6c8f2c6c3b6927c9f6e3e2",
+                    "pkg-version": "5.3.0",
+                    "type": "configured"
+                }
+            ],
+            "source": "SourcePin",
+            "version": "5.3.0"
+        }
+    },
+    "hw-kafka-streamly": {
+        "nativeSource": {
+            "hash": "sha256-KYsg7+mkGfW6wNHDI/pjZztuiuSHa7tUdXg0thrWnq8=",
+            "hashMode": "recursive",
+            "path": "/nix/store/25xwhbrhd4i5bgvly45mir0j94h3v4cx-source",
+            "revision": "945b5bdb2b96f2a3f13c380552ac5d17f13e3d92",
+            "subdirectory": "hw-kafka-streamly",
+            "urls": [
+                "https://github.com/shinzui/hw-kafka-streamly/archive/945b5bdb2b96f2a3f13c380552ac5d17f13e3d92.tar.gz"
+            ]
+        },
+        "package": "hw-kafka-streamly",
+        "project": "mori://shinzui/hw-kafka-streamly",
+        "recipe": {
+            "hash": "sha256-KYsg7+mkGfW6wNHDI/pjZztuiuSHa7tUdXg0thrWnq8=",
+            "owner": "shinzui",
+            "project": "mori://shinzui/hw-kafka-streamly",
+            "repo": "hw-kafka-streamly",
+            "rev": "945b5bdb2b96f2a3f13c380552ac5d17f13e3d92",
+            "subdirectory": "hw-kafka-streamly",
+            "version": "0.2.0.0"
+        },
+        "source": {
+            "dependencies": [
+                "base",
+                "bytestring",
+                "exceptions",
+                "hw-kafka-client",
+                "streamly-core"
+            ],
+            "identities": [
+                {
+                    "component-name": "lib",
+                    "flags": {},
+                    "pkg-name": "hw-kafka-streamly",
+                    "pkg-src": {
+                        "source-repo": {
+                            "location": "https://github.com/shinzui/hw-kafka-streamly",
+                            "subdir": "hw-kafka-streamly",
+                            "tag": "945b5bdb2b96f2a3f13c380552ac5d17f13e3d92",
+                            "type": "git"
+                        },
+                        "type": "source-repo"
+                    },
+                    "pkg-src-sha256": "5833c4a5adef682b3637ab925c6df54f8f62529e945e474fb53c8ecad6e306e0",
+                    "pkg-version": "0.2.0.0",
+                    "type": "configured"
+                }
+            ],
+            "source": "SourcePin",
+            "version": "0.2.0.0"
+        }
+    },
+    "kafka-effectful": {
+        "package": "kafka-effectful",
+        "project": "mori://shinzui/kafka-effectful",
+        "source": {
+            "dependencies": [
+                "base",
+                "bytestring",
+                "case-insensitive",
+                "containers",
+                "effectful-core",
+                "hs-opentelemetry-api",
+                "hs-opentelemetry-semantic-conventions",
+                "http-types",
+                "hw-kafka-client",
+                "text",
+                "unliftio-core",
+                "unordered-containers"
+            ],
+            "identities": [
+                {
+                    "component-name": "lib",
+                    "flags": {
+                        "examples": false
+                    },
+                    "pkg-cabal-sha256": "5809340ef9f86fd88a6d41dea2acc89df30bcc368e2eba3f83825e16d5eebd09",
+                    "pkg-name": "kafka-effectful",
+                    "pkg-src": {
+                        "repo": {
+                            "type": "secure-repo",
+                            "uri": "http://hackage.haskell.org/"
+                        },
+                        "type": "repo-tar"
+                    },
+                    "pkg-src-sha256": "2ac29e16238ac0d52ea5c8377ab28f50fbb12a7a35c1922acc6fac129f0bf66c",
+                    "pkg-version": "0.3.1.0",
+                    "type": "configured"
+                }
+            ],
+            "source": "Hackage",
+            "version": "0.3.1.0"
+        }
+    },
+    "shibuya-kafka-adapter": {
+        "package": "shibuya-kafka-adapter",
+        "project": "mori://shinzui/shibuya-kafka-adapter",
+        "source": {
+            "dependencies": [
+                "base",
+                "bytestring",
+                "containers",
+                "effectful-core",
+                "hs-opentelemetry-api",
+                "hs-opentelemetry-semantic-conventions",
+                "hw-kafka-client",
+                "hw-kafka-streamly",
+                "kafka-effectful",
+                "shibuya-core",
+                "stm",
+                "streamly",
+                "streamly-core",
+                "text",
+                "time",
+                "unordered-containers"
+            ],
+            "identities": [
+                {
+                    "component-name": "lib",
+                    "flags": {},
+                    "pkg-cabal-sha256": "50e407cbde020a9701e29cd3623cb7c1ae2aad8365f0aebda08065ad1a117ad7",
+                    "pkg-name": "shibuya-kafka-adapter",
+                    "pkg-src": {
+                        "repo": {
+                            "type": "secure-repo",
+                            "uri": "http://hackage.haskell.org/"
+                        },
+                        "type": "repo-tar"
+                    },
+                    "pkg-src-sha256": "82ee399d9219635a4ab0d13ae4b79e2d611999c595b3a973cb3b754a2d4c29aa",
+                    "pkg-version": "0.12.0.0",
+                    "type": "configured"
+                }
+            ],
+            "source": "Hackage",
+            "version": "0.12.0.0"
+        }
+    },
+    "shibuya-pgmq-adapter": {
+        "package": "shibuya-pgmq-adapter",
+        "project": "mori://shinzui/shibuya-pgmq-adapter",
+        "source": {
+            "dependencies": [
+                "aeson",
+                "base",
+                "bytestring",
+                "effectful-core",
+                "hasql",
+                "hasql-pool",
+                "hasql-transaction",
+                "pgmq-core",
+                "pgmq-effectful",
+                "pgmq-hasql",
+                "shibuya-core",
+                "stm",
+                "streamly",
+                "streamly-core",
+                "text",
+                "time",
+                "unordered-containers",
+                "vector"
+            ],
+            "identities": [
+                {
+                    "component-name": "lib",
+                    "flags": {},
+                    "pkg-cabal-sha256": "802569bfbd1b86caff21ba6f3839d4984a2485a342163ae0174e5c106972b890",
+                    "pkg-name": "shibuya-pgmq-adapter",
+                    "pkg-src": {
+                        "repo": {
+                            "type": "secure-repo",
+                            "uri": "http://hackage.haskell.org/"
+                        },
+                        "type": "repo-tar"
+                    },
+                    "pkg-src-sha256": "cd9d6eff721140b580423fffcacdc2badae9a8e630b498cb9328182f754036ff",
+                    "pkg-version": "0.18.0.0",
+                    "type": "configured"
+                }
+            ],
+            "source": "Hackage",
+            "version": "0.18.0.0"
+        }
+    }
+}

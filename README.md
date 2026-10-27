@@ -7,6 +7,8 @@ A shared flake that provides GHC compatibility patches (jailbreaks, version pins
 For a retained transitive runtime baseline, use `lib.mkRuntimePackageSet` and the
 [Keiro runtime composition guide](docs/guides/compose-on-the-keiro-runtime.md). It pairs
 hash-checked Cabal imports with one checked Nix scope and explicit application selections.
+The October 27 release cohort is retained as generation 6, exposed through the
+`keiro-runtime-6*` outputs, including the new HTTP inspection packages.
 
 For everyday build performance, follow
 [Get faster builds and reliable cache hits](docs/guides/faster-builds-and-cache-hits.md)
@@ -62,8 +64,8 @@ Change `channel` to `"hackage"` to select published Hackage releases. Each exten
 the signature `haskellLib -> pkgs -> hself -> hsuper -> { ... }`; after applying
 `haskellLib` and the top-level Nixpkgs set, it is a standard Haskell package-set extension.
 The legacy `lib.haskellExtension` output is an exact alias for
-`lib.haskellExtensions.github`. In the current default set, GitHub exposes all 89 catalogued
-packages while Hackage exposes the 76 published packages; the other 13 names are
+`lib.haskellExtensions.github`. In the current default set, GitHub exposes all 92 catalogued
+packages while Hackage exposes the 79 published packages; the other 13 names are
 deliberately unavailable from the Hackage registry.
 
 Hinagata, Heni (including its Hspec/Tasty adapters), and typesafe-hs are available in both

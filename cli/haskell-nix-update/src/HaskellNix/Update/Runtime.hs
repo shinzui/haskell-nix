@@ -7,6 +7,7 @@ module HaskellNix.Update.Runtime (
     runRuntime,
     renderRuntimeConfiguration,
     renderRuntimeSources,
+    renderRuntimeFamilyIdentity,
     publishRuntimeFiles,
 ) where
 
@@ -356,7 +357,7 @@ runtimeIdentity definition owned components selected configurations firstParty p
         , "components" .= components
         , "roles" .= runtimeRoles definition owned
         , "selections" .= selected
-        , "families" .= map (String . tshow) familyRows
+        , "families" .= map (String . renderRuntimeFamilyIdentity) familyRows
         , "groups" .= map (String . tshow) sourceRows
         , "policies" .= policyHashes
         , "nixpkgs" .= nixpkgs
@@ -368,6 +369,20 @@ runtimeIdentity definition owned components selected configurations firstParty p
     sourceRows = [row | row <- firstParty.groupSnapshots, let FP.UpdateGroupName group = row.group, let FP.SnapshotGeneration value = row.generation, Map.lookup group selected == Just value]
     familyReferences = concatMap (.families) sourceRows
     familyRows = [row | row <- firstParty.familySnapshots, any (\reference -> reference.family == row.family && reference.generation == row.generation) familyReferences]
+
+-- These strings are part of immutable fingerprints from before nested discovery.
+-- Keep the original field encoding when the optional path list is empty, while
+-- binding nonempty lists into new identities. Derived Show added the empty field
+-- to historical records when DiscoveryPolicy grew, invalidating their hashes.
+renderRuntimeFamilyIdentity :: FP.FamilySnapshot -> Text
+renderRuntimeFamilyIdentity row =
+    "FamilySnapshot {family = " <> tshow row.family
+        <> ", generation = " <> tshow row.generation
+        <> ", discoveryPolicy = DiscoveryPolicy {packageOverrides = " <> tshow row.discoveryPolicy.packageOverrides
+        <> ", excludedPackages = " <> tshow row.discoveryPolicy.excludedPackages
+        <> (if null row.discoveryPolicy.additionalPackagePaths then "" else ", additionalPackagePaths = " <> tshow row.discoveryPolicy.additionalPackagePaths)
+        <> "}, source = " <> tshow row.source
+        <> ", packages = " <> tshow row.packages <> "}"
 
 policyInput :: FilePath -> Bool
 policyInput path = any (`Text.isPrefixOf` Text.pack path) ["lib/", "patches/", "overlays/", "config/"] || path `elem` ["cabal/common.config", "cabal/cohort-nix-policy.json"]

@@ -27,6 +27,31 @@ both the selector and materialized import paths below. Existing unqualified runt
 outputs continue to select generation 1; generation 2 has `keiro-runtime-2` build outputs.
 The fingerprint-bound support receipts live under `cabal/runtime-cache/keiro-runtime/`.
 
+Generation 6 selects the October 27 release cohort:
+[Keiro](mori://shinzui/keiro) 0.22.0.0,
+[Kiroku Store](mori://shinzui/kiroku/packages/kiroku-store) 0.12.0.0,
+[PGMQ](mori://shinzui/pgmq-hs) 0.7.0.0,
+[Shibuya](mori://shinzui/shibuya) 0.12.0.0 and
+[Settei](mori://shinzui/settei) 0.3.0.0. Its adapters are
+[`shibuya-pgmq-adapter`](mori://shinzui/shibuya-pgmq-adapter/packages/shibuya-pgmq-adapter) 0.18.0.0,
+[`shibuya-kafka-adapter`](mori://shinzui/shibuya-kafka-adapter/packages/shibuya-kafka-adapter) 0.12.0.0 and
+[`shibuya-kiroku-adapter`](mori://shinzui/kiroku/packages/shibuya-kiroku-adapter) 0.7.0.0.
+It adds the [`keiro-ops-http`](mori://shinzui/keiro/packages/keiro-ops-http) and
+[`pgmq-inspect`](mori://shinzui/pgmq-hs/packages/pgmq-inspect) inspection packages.
+Select `generation = 6`, materialize imports into
+`cabal/runtime/keiro-runtime/6`, and retain Kioku application selection 9.
+The explicit Nix outputs are `keiro-runtime-6*`; existing generations and
+unqualified outputs retain their selections. Broad support remains `unverified`
+until evidence is recorded for its own fingerprint.
+
+Applications adopting this cohort must use Settei's 0.3 API and the new runtime
+schemas. Follow the migration guidance for
+[`kiroku-store`](mori://shinzui/kiroku/packages/kiroku-store) and
+[`keiro`](mori://shinzui/keiro/packages/keiro), including Kiroku migration 0016
+and PGMQ migration 0007. The shared Cabal configuration retains narrowly scoped
+[Kioku 0.11](mori://shinzui/kioku/packages/kioku-core) bounds exceptions for the runtime APIs it consumes; other application
+bounds and source migrations remain owned by their consumers.
+
 ## 1. Pin the channel and record selections
 
 Follow [the flake adoption guide](adopt-in-an-existing-flake.md) to share the toolchain.

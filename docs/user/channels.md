@@ -47,21 +47,21 @@ The committed lock currently has this family breakdown:
 | Heni | 4 | 4 | 0 |
 | Hinagata | 3 | 3 | 0 |
 | Keiki | 3 | 3 | 0 |
-| Keiro | 8 | 7 | 1 |
+| Keiro | 9 | 8 | 1 |
 | Kioku | 5 | 5 | 0 |
 | Kiroku | 8 | 6 | 2 |
 | okf | 2 | 2 | 0 |
 | openapi-hs | 1 | 1 | 0 |
 | pg-migrate | 6 | 6 | 0 |
-| pgmq-hs | 6 | 5 | 1 |
+| pgmq-hs | 7 | 6 | 1 |
 | relay-pagination | 4 | 4 | 0 |
 | servant-openapi-hs | 1 | 1 | 0 |
-| Settei | 8 | 8 | 0 |
+| Settei | 9 | 9 | 0 |
 | Shibuya | 4 | 2 | 2 |
 | Shikumi | 14 | 11 | 3 |
 | Shoko | 3 | 0 | 3 |
 | typesafe-hs | 1 | 1 | 0 |
-| **Total** | **89** | **76** | **13** |
+| **Total** | **92** | **79** | **13** |
 
 The common registry also owns the application HTTP/utility policies for `link-canonical`,
 `hw-kafka-client`, `servant-server`, `servant-health`, `wai-app-static` and `generic-lens(-core)`.
