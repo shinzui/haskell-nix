@@ -661,6 +661,114 @@
         },
         {
             "discoveryPolicy": {
+                "additionalPackagePaths": [
+                    "adapters/heni-hspec",
+                    "adapters/heni-tasty"
+                ],
+                "excludedPackages": [],
+                "packageOverrides": {}
+            },
+            "family": "heni",
+            "generation": 1,
+            "packages": [
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-U1Ni0yJ+POJAQ5LeTcSgCqzxIUA0W/dJ57mXkwYARBA=",
+                        "version": "0.1.0.0"
+                    },
+                    "name": "heni",
+                    "path": ".",
+                    "version": "0.1.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-4Bv0ofAWxIph9x0MtzI1QZN1l7MIAeCwdsYG1o+XXRc=",
+                        "version": "0.1.0.0"
+                    },
+                    "name": "heni-cli",
+                    "path": "heni-cli",
+                    "version": "0.1.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-ZrSIzd+5IueTd5k277o0da/uZLfYwnEHwOu4X5Fc0CI=",
+                        "version": "0.1.0.0"
+                    },
+                    "name": "heni-hspec",
+                    "path": "adapters/heni-hspec",
+                    "version": "0.1.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-iDmiDmT2Xc5XP0pDKdfA/5ccUvd3oKCPpyW2jdxHCAY=",
+                        "version": "0.1.0.0"
+                    },
+                    "name": "heni-tasty",
+                    "path": "adapters/heni-tasty",
+                    "version": "0.1.0.0"
+                }
+            ],
+            "source": {
+                "narHash": "sha256-Cs2uQGjDuXVrJr8yY6Kks8NrSpXIPSAhxmKuPnVW51I=",
+                "owner": "shinzui",
+                "repo": "heni",
+                "rev": "81696f8a2b1263312497e703bae7ac7f2139cd8b",
+                "type": "github"
+            }
+        },
+        {
+            "discoveryPolicy": {
+                "excludedPackages": [],
+                "packageOverrides": {}
+            },
+            "family": "hinagata",
+            "generation": 1,
+            "packages": [
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-4n7cap3WPUO/WqD6GrtkHLGx/+POn9SZLrwdwFW/jlA=",
+                        "version": "0.1.0.0"
+                    },
+                    "name": "hinagata-cli",
+                    "path": "hinagata-cli",
+                    "version": "0.1.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-OTU8sp3scoFmCgdqYLBp5qhhu9iy30Eh2z70ywu26vo=",
+                        "version": "0.1.0.0"
+                    },
+                    "name": "hinagata-core",
+                    "path": "hinagata-core",
+                    "version": "0.1.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-19rYiaqMrtFpXFIqID/eOqgeDEftbZnSXbxOfsT003s=",
+                        "version": "0.1.0.0"
+                    },
+                    "name": "hinagata-postgres",
+                    "path": "hinagata-postgres",
+                    "version": "0.1.0.0"
+                }
+            ],
+            "source": {
+                "narHash": "sha256-+XpiY3NpbdtHshaGAfJLVDckJcIihWTGjIzkHsdDCxA=",
+                "owner": "shinzui",
+                "repo": "hinagata",
+                "rev": "a0c1059743e5957e66e4b8cee9e485ad89471937",
+                "type": "github"
+            }
+        },
+        {
+            "discoveryPolicy": {
                 "excludedPackages": [
                     "jitsurei"
                 ],
@@ -4538,9 +4646,96 @@
                 "rev": "db4eb373803552762edc9e86a231dfb529f8105b",
                 "type": "github"
             }
+        },
+        {
+            "discoveryPolicy": {
+                "excludedPackages": [],
+                "packageOverrides": {}
+            },
+            "family": "shoko",
+            "generation": 1,
+            "packages": [
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": null,
+                    "name": "shoko-adapters",
+                    "path": "shoko-adapters",
+                    "version": "0.2.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": null,
+                    "name": "shoko-cli",
+                    "path": "shoko-cli",
+                    "version": "0.2.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": null,
+                    "name": "shoko-core",
+                    "path": "shoko-core",
+                    "version": "0.3.0.0"
+                }
+            ],
+            "source": {
+                "narHash": "sha256-6Doh6bZWdgLMJqA86NZjfjub115HVkhxEFhhC4Wk0Ho=",
+                "owner": "shinzui",
+                "repo": "shoko",
+                "rev": "58adca36ef5f65ae78a4fa15626dba1ff967fcaf",
+                "type": "github"
+            }
+        },
+        {
+            "discoveryPolicy": {
+                "excludedPackages": [],
+                "packageOverrides": {}
+            },
+            "family": "typesafe-hs",
+            "generation": 1,
+            "packages": [
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-m+MumjyGAFpahfkhmHBBeThOJGmYWoIjtodK17GWiuY=",
+                        "version": "0.1.0.0"
+                    },
+                    "name": "typesafe-hs",
+                    "path": ".",
+                    "version": "0.1.0.0"
+                }
+            ],
+            "source": {
+                "narHash": "sha256-BdiUx8CCkiCCkLNu1O5zXdEBURNz/9e2TjKDO0aHLg4=",
+                "owner": "shinzui",
+                "repo": "typesafe-hs",
+                "rev": "c4b56a01dd23f8844d44440887692f6ac64ef564",
+                "type": "github"
+            }
         }
     ],
     "groupSnapshots": [
+        {
+            "compatibilityProfile": "default",
+            "families": [
+                {
+                    "family": "heni",
+                    "generation": 1
+                }
+            ],
+            "generation": 1,
+            "group": "heni"
+        },
+        {
+            "compatibilityProfile": "default",
+            "families": [
+                {
+                    "family": "hinagata",
+                    "generation": 1
+                }
+            ],
+            "generation": 1,
+            "group": "hinagata"
+        },
         {
             "compatibilityProfile": "default",
             "families": [
@@ -5148,11 +5343,41 @@
             ],
             "generation": 9,
             "group": "shikumi-baikai"
+        },
+        {
+            "compatibilityProfile": "default",
+            "families": [
+                {
+                    "family": "shoko",
+                    "generation": 1
+                }
+            ],
+            "generation": 1,
+            "group": "shoko"
+        },
+        {
+            "compatibilityProfile": "default",
+            "families": [
+                {
+                    "family": "typesafe-hs",
+                    "generation": 1
+                }
+            ],
+            "generation": 1,
+            "group": "typesafe-hs"
         }
     ],
     "packageSets": [
         {
             "groups": [
+                {
+                    "generation": 1,
+                    "group": "heni"
+                },
+                {
+                    "generation": 1,
+                    "group": "hinagata"
+                },
                 {
                     "generation": 3,
                     "group": "keiki"
@@ -5204,6 +5429,14 @@
                 {
                     "generation": 9,
                     "group": "shikumi-baikai"
+                },
+                {
+                    "generation": 1,
+                    "group": "shoko"
+                },
+                {
+                    "generation": 1,
+                    "group": "typesafe-hs"
                 }
             ],
             "name": "default",
@@ -5212,6 +5445,14 @@
         {
             "groups": [
                 {
+                    "generation": 1,
+                    "group": "heni"
+                },
+                {
+                    "generation": 1,
+                    "group": "hinagata"
+                },
+                {
                     "generation": 2,
                     "group": "keiki"
                 },
@@ -5262,6 +5503,14 @@
                 {
                     "generation": 2,
                     "group": "shikumi-baikai"
+                },
+                {
+                    "generation": 1,
+                    "group": "shoko"
+                },
+                {
+                    "generation": 1,
+                    "group": "typesafe-hs"
                 }
             ],
             "name": "keiro-0-14-okf-0-8",
@@ -5270,6 +5519,14 @@
         {
             "groups": [
                 {
+                    "generation": 1,
+                    "group": "heni"
+                },
+                {
+                    "generation": 1,
+                    "group": "hinagata"
+                },
+                {
                     "generation": 2,
                     "group": "keiki"
                 },
@@ -5320,6 +5577,14 @@
                 {
                     "generation": 2,
                     "group": "shikumi-baikai"
+                },
+                {
+                    "generation": 1,
+                    "group": "shoko"
+                },
+                {
+                    "generation": 1,
+                    "group": "typesafe-hs"
                 }
             ],
             "name": "keiro-0-14-okf-0-9",
