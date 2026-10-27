@@ -12,11 +12,14 @@ tool = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(tool)
 ROOT = Path(sys.argv[2])
 sys.argv = [sys.argv[0]]
+# Generation 5 captures the current cohort; older retained generations intentionally
+# differ after the Kiroku patch release and exercise the conflict path instead.
+GENERATION = 5
 
 
 class ImportProof(unittest.TestCase):
     def prepare(self, transform=lambda path, value: value, channel="github"):
-        return tool.prepare("a" * 40, "keiro-runtime", 1, channel,
+        return tool.prepare("a" * 40, "keiro-runtime", GENERATION, channel,
                             lambda path: transform(path, (ROOT / path).read_bytes()))
 
     def test_both_channels_preserve_original_bytes_and_resolve_relative_imports(self):
@@ -24,7 +27,7 @@ class ImportProof(unittest.TestCase):
             files = self.prepare(channel=channel)
             for name, value in files.items():
                 if name not in ("selection.json", "comparison-sources.json"):
-                    self.assertEqual(value, (ROOT / f"cabal/runtimes/keiro-runtime/1/{name}").read_bytes())
+                    self.assertEqual(value, (ROOT / f"cabal/runtimes/keiro-runtime/{GENERATION}/{name}").read_bytes())
             self.assertIn(b"import: cohort.freeze", files[channel + ".project"])
             self.assertIn("cohort.freeze", files)
             self.assertIn("configuration.project", files)
@@ -49,13 +52,18 @@ class ImportProof(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "runtime/cohort version conflict: keiki"):
             self.prepare(conflict)
 
+    def test_older_runtime_with_different_cohort_versions_is_rejected(self):
+        with self.assertRaisesRegex(ValueError, "runtime/cohort version conflict: kiroku-metrics"):
+            tool.prepare("a" * 40, "keiro-runtime", 1, "github",
+                         lambda path: (ROOT / path).read_bytes())
+
     def application_policy(self):
         inventory = json.loads((ROOT / "cabal/inventory/mori-app.json").read_bytes())
         return {"mori-types": {"owner": "mori://shinzui/mori", "reason": "Sibling webhook contract; not released on Hackage",
                                "package": inventory["packages"]["mori-types"]}}
 
     def prepare_application(self, policy):
-        return tool.prepare("a" * 40, "keiro-runtime", 1, "github",
+        return tool.prepare("a" * 40, "keiro-runtime", GENERATION, "github",
                             lambda path: (ROOT / path).read_bytes(), policy)
 
     def test_owned_sibling_policy_is_compared_without_changing_the_cohort(self):

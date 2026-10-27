@@ -4646,7 +4646,7 @@
       "owner": "mori://shinzui/haskell-nix",
       "reason": "Select hspec-api 2.11.18, matching the existing frozen hspec-core 2.11.18 for Heni framework reporting. This fills a previously unselected dependency without changing the cohort.",
       "upstreamReferences": [
-        "https://github.com/hspec/hspec",
+        "mori://hspec/hspec/packages/hspec-api",
         "mori://shinzui/heni/packages/heni-hspec"
       ],
       "effects": [
