@@ -10,7 +10,8 @@ executable new-first-party-consumer
   ghc-options: -threaded
   build-depends:
     base, aeson, bytestring, containers, vector,
-    hinagata-core, typesafe-hs, heni, heni-hspec, heni-tasty
+    hinagata-core, typesafe-hs, heni, heni-hspec, heni-tasty,
+    hspec, tasty-hunit
 
 executable shoko-native-consumer
   default-language: GHC2024

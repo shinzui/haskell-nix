@@ -1,14 +1,18 @@
 module Main (main) where
 
+import Control.Exception (throwIO, try)
 import Control.Monad (unless)
 import Data.Aeson (eitherDecode)
 import Data.ByteString.Char8 qualified as BS
 import Data.Map.Strict qualified as Map
 import Data.Vector qualified as Vector
 import Hinagata.Types (mkDatabaseName)
+import System.Exit (ExitCode (..))
 import Test.Heni (decodeManifest)
 import Test.Heni.Hspec (heniHspec)
 import Test.Heni.Tasty (heniMain)
+import Test.Hspec qualified as Hspec
+import Test.Tasty.HUnit qualified as Tasty
 import TypeSafe.Wire
 
 main :: IO ()
@@ -29,9 +33,22 @@ main = do
     [ "{\"schemaVersion\":1,\"schemaVersion\":1}",
       "{\"schemaVersion\":1,\"commands\":{\"a\":{},\"\\u0061\":{}}}"
     ]
-  -- Both adapter libraries must be linked against this same Heni instance.
-  heniHspec `seq` heniMain `seq` putStrLn "heni framework adapters: linked"
+  putStrLn "heni duplicate keys: rejected"
+  -- Execute both public framework entrypoints against this same Heni instance.
+  runFramework (heniHspec (Hspec.it "rejects duplicate JSON keys" (rejectDuplicate "{\"a\":1,\"a\":2}")))
+  runFramework (heniMain (Tasty.testCase "rejects escaped duplicate keys" (rejectDuplicate "{\"a\":1,\"\\u0061\":2}")))
+  putStrLn "heni framework adapters: executed"
   where
+    rejectDuplicate :: BS.ByteString -> IO ()
     rejectDuplicate bytes = case decodeManifest bytes of
       Left problem | "duplicate JSON object key" `BS.isInfixOf` BS.pack (show problem) -> pure ()
       result -> fail ("Heni strict duplicate-key decoding failed: " <> either show (const "accepted") result)
+
+-- Framework runners may signal success through exitSuccess.
+runFramework :: IO () -> IO ()
+runFramework action = do
+  result <- try action
+  case result of
+    Right () -> pure ()
+    Left ExitSuccess -> pure ()
+    Left failure -> throwIO (failure :: ExitCode)

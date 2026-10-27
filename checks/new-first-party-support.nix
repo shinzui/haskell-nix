@@ -72,6 +72,7 @@ let
         scope.heni-cli;
       result = pkgs.runCommand "new-first-party-support-${channel}-${ghc}"
         {
+          LC_ALL = if pkgs.stdenv.hostPlatform.isDarwin then "en_US.UTF-8" else "C.UTF-8";
           nativeBuildInputs = [ consumer scope.heni-cli scope.hinagata-cli pkgs.jq (scope.ghcWithPackages (p: [ p.heni ])) ];
           buildInputs = [ checkedHeni checkedCli (checkedAdapter "heni-hspec") (checkedAdapter "heni-tasty") ];
           passthru = { inherit consumer checkedHeni checkedCli scope; };
@@ -107,7 +108,7 @@ let
         cp *-result.json *-help.txt "$out/"
       '';
     in
-    { inherit result; };
+    { inherit result channel ghc; };
   cells = lib.concatMap (ghc: map (channel: cell channel ghc) [ "github" "hackage" ]) supportedGhcs;
 in
 (pkgs.linkFarm "new-first-party-support" (lib.imap0

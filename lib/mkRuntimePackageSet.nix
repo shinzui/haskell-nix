@@ -155,6 +155,13 @@ let
 in
 builtins.seq validation (selected // rec {
   inherit selections;
+  # Expose authoritative retained metadata even when an older constructor needed
+  # a narrower discovery-policy shape internally.
+  selectedFamilies = map
+    (projected: builtins.head (builtins.filter
+      (snapshot: snapshot.family == projected.family && snapshot.generation == projected.generation)
+      liveLock.familySnapshots))
+    selected.selectedFamilies;
   runtimeSelections = record.selections;
   metadata = record // { inherit runtime; };
   haskellExtension = haskellLib: pkgs: builtins.seq (check pkgs) (selected.haskellExtension haskellLib pkgs);

@@ -100,6 +100,10 @@ let
   accepts = value: (builtins.tryEval (builtins.deepSeq value true)).success;
   reject = value: !accepts value;
   assertions = [
+    (
+      let heni = builtins.head (builtins.filter (snapshot: snapshot.family == "heni") selected.selectedFamilies);
+      in heni.discoveryPolicy.additionalPackagePaths == [ "adapters/heni-hspec" "adapters/heni-tasty" ]
+    )
     (changedInterface.keiki.drvPath != a.keiki.drvPath)
     (changedInterface.runtime-app-a.drvPath != a.runtime-app-a.drvPath)
     (changedInterface.runtime-app-b.drvPath != b.runtime-app-b.drvPath)
