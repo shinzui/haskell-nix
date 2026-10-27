@@ -9,17 +9,22 @@ module HaskellNix.Update.Nix
     validatePackageSetSelection,
     validateFlake,
     managedFilesDirty,
+    stageCatalogInputs,
+    validateCatalogFlakeTransition,
   )
 where
 
 import Control.Exception (IOException, try)
+import Control.Monad (unless)
 import Data.Aeson (Object, Value (..), eitherDecodeStrict', encode, withObject, (.:))
-import Data.ByteString.Lazy qualified as LazyByteString
+import Data.Aeson.Encode.Pretty (encodePretty)
 import Data.Aeson.Key qualified as Key
 import Data.Aeson.KeyMap qualified as KeyMap
 import Data.Aeson.Types (Parser, parseEither)
 import Data.ByteString qualified as ByteString
+import Data.ByteString.Lazy qualified as LazyByteString
 import Data.Char (isAlphaNum, isHexDigit)
+import Data.Foldable (traverse_)
 import Data.Set qualified as Set
 import Data.Text (Text)
 import Data.Text qualified as Text
@@ -28,6 +33,70 @@ import Distribution.Types.Version (Version)
 import HaskellNix.Update.Hackage (packageArchiveUrl)
 import HaskellNix.Update.Process
 import HaskellNix.Update.Types
+
+-- Ask Nix for a proposed lock without publishing it. Explicit source definitions
+-- must exist in flake.nix; an override alone would also accept an undeclared name.
+stageCatalogInputs :: ProcessRunner -> FilePath -> [(FamilyConfig, GitRevision)] -> IO (Either UpdateError ByteString.ByteString)
+stageCatalogInputs runner repositoryRoot additions = do
+  declared <- runChecked runner (spec ["eval", "--impure", "--json", "--expr", Text.unpack declarationCheck])
+  case declared of
+    Left problem -> pure (Left problem)
+    Right ProcessResult {standardOutput}
+      | Text.strip standardOutput /= "true" -> pure (Left (UpdateError "catalog add requires matching non-flake source-input declarations"))
+      | otherwise -> do
+          staged <- runChecked runner (spec (["flake", "metadata", "--json", "--no-write-lock-file"] <> concatMap override additions))
+          pure $ do
+            ProcessResult {standardOutput = output} <- staged
+            metadata <- firstError "invalid staged flake metadata" (eitherDecodeStrict' (TextEncoding.encodeUtf8 output))
+            lock <- firstError "missing staged flake lock" (parseEither (withObject "metadata" (.: "locks")) metadata)
+            let bytes = LazyByteString.toStrict (encodePretty (lock :: Value) <> "\n")
+            traverse_ (verify bytes) additions
+            Right bytes
+  where
+    spec arguments = ProcessSpec {executable = "nix", arguments, workingDirectory = Just repositoryRoot, environmentAdditions = []}
+    declarationCheck =
+      "let inputs = (import ./flake.nix).inputs; in "
+        <> Text.intercalate " && " ["(inputs ? " <> githubInput <> " && inputs." <> githubInput <> ".url == " <> nixString ("github:" <> github) <> " && inputs." <> githubInput <> ".flake == false)" | (FamilyConfig {githubInput, github}, _) <- additions]
+    override (FamilyConfig {githubInput, github}, GitRevision revision) = ["--override-input", Text.unpack githubInput, "github:" <> Text.unpack github <> "/" <> Text.unpack revision]
+    verify bytes (FamilyConfig {githubInput, github}, revision) = do
+      LockedSource {owner, repo, rev} <- decodeLockedSource githubInput bytes
+      unless (owner <> "/" <> repo == github && rev == revision) (Left (UpdateError "staged source differs from queried GitHub HEAD"))
+
+-- Staging new inputs must not refresh unrelated toolchain/source inputs.
+validateCatalogFlakeTransition :: [Text] -> ByteString.ByteString -> ByteString.ByteString -> Either UpdateError ()
+validateCatalogFlakeTransition inputs original proposed = do
+  old <- decodeGraph original
+  new <- decodeGraph proposed
+  (oldRoot, oldNodes, oldInputs) <- graph old
+  (newRoot, newNodes, newInputs) <- graph new
+  unless (oldRoot == newRoot) (Left (UpdateError "catalog add changed the flake root"))
+  let additions = Set.fromList (map Key.fromText inputs)
+      retainedInputs = KeyMap.filterWithKey (\key _ -> key `Set.notMember` additions) oldInputs
+      retainedNext = KeyMap.filterWithKey (\key _ -> key `Set.notMember` additions) newInputs
+      replaced = Set.fromList [node | key <- Set.toList additions, Just (String node) <- [KeyMap.lookup key oldInputs]]
+  unless (retainedInputs == retainedNext) (Left (UpdateError "catalog add changed unrelated flake inputs"))
+  traverse_
+    ( \(key, value) ->
+        unless
+          (Key.toText key == oldRoot || Key.toText key `Set.member` replaced || KeyMap.lookup key newNodes == Just value)
+          (Left (UpdateError ("catalog add changed retained flake node " <> Key.toText key)))
+    )
+    (KeyMap.toList oldNodes)
+  where
+    decodeGraph bytes = firstError "invalid flake lock" (eitherDecodeStrict' bytes)
+    graph value =
+      firstError
+        "invalid flake graph"
+        ( parseEither
+            ( withObject "lock" $ \fields -> do
+                root <- fields .: "root"
+                nodes <- fields .: "nodes"
+                rootNode <- lookupValue "root" root nodes
+                rootInputs <- withObject "root node" (.: "inputs") rootNode
+                pure (root, nodes, rootInputs)
+            )
+            value
+        )
 
 decodeLockedSource :: Text -> ByteString.ByteString -> Either UpdateError LockedSource
 decodeLockedSource inputName bytes = do
@@ -279,7 +348,6 @@ parseDescriptor lockedFields = do
         rev = GitRevision revision,
         narHash = SriHash narHash
       }
-
 
 lookupValue :: String -> Text -> Object -> Parser Value
 lookupValue context key fields =

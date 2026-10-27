@@ -9,6 +9,7 @@ module HaskellNix.Update.Plan
     setPackageSetSupportLevel,
     resolveRefreshTargets,
     renderChanges,
+    snapshotFromObservation,
   )
 where
 
@@ -35,13 +36,14 @@ planRefresh catalog previousLock observations = do
     then pure ()
     else Left (UpdateError ("observed unknown families: " <> renderFamilyNames (Set.toAscList unknownNames)))
   let nextFamilies =
-        sortOn familyKey
+        sortOn
+          familyKey
           ( [ maybe oldFamily fst (Map.lookup name replacementMap)
-              | oldFamily@LockedFamily {name} <- previousFamilies
+            | oldFamily@LockedFamily {name} <- previousFamilies
             ]
               <> [ family
-                   | (name, (family, _)) <- Map.toAscList replacementMap,
-                     name `Map.notMember` previousByName
+                 | (name, (family, _)) <- Map.toAscList replacementMap,
+                   name `Map.notMember` previousByName
                  ]
           )
   let nextPackageLock = PackageLock {schemaVersion = 1, families = nextFamilies}
@@ -100,8 +102,8 @@ compareFamily familyName nextRevision observedPackages LockedFamily {githubRev =
         Just previousPackage -> comparePackage familyName observed previousPackage
     removedChanges =
       [ PackageRemoved familyName name
-        | LockedPackage {name} <- previousPackages,
-          name `Set.notMember` nextNames
+      | LockedPackage {name} <- previousPackages,
+        name `Set.notMember` nextNames
       ]
 
 newPackageChanges :: FamilyName -> ObservedPackage -> [FamilyChange]
@@ -243,7 +245,8 @@ planPackageSetRefresh catalog previousLock targetSetName targets = do
   let movedSet =
         targetSet
           { groups =
-              sortOn groupSelectionKey
+              sortOn
+                groupSelectionKey
                 [ Map.findWithDefault selection group groupSelections
                 | selection@GroupSelection {group} <- groups targetSet
                 ]
@@ -253,7 +256,8 @@ planPackageSetRefresh catalog previousLock targetSetName targets = do
           { familySnapshots = sortOn familySnapshotKey familiesAfter,
             groupSnapshots = sortOn groupSnapshotKey groupsAfter,
             packageSets =
-              sortOn packageSetKey
+              sortOn
+                packageSetKey
                 (movedSet : filter ((/= targetSetName) . packageSetKey) (packageSets validated))
           }
   nextPackageSetLock <- firstUpdateError (validatePackageSetLock catalog candidate)
@@ -374,7 +378,7 @@ setPackageSetSupportLevel targetName targetSupport lock@PackageSetLock {defaultP
 
 snapshotFromObservation :: SnapshotObservation -> Either UpdateError FamilySnapshot
 snapshotFromObservation SnapshotObservation {config, sourceDescriptor, packages = observedPackages} = do
-  let FamilyConfig {name = familyName, packageOverrides, excludedPackages} = config
+  let FamilyConfig {name = familyName, packageOverrides, excludedPackages, additionalPackagePaths} = config
       packageNames = [name | ObservedPackage {discovered = DiscoveredPackage {name}} <- observedPackages]
   unless (sort packageNames == Set.toAscList (Set.fromList packageNames)) $
     Left (UpdateError ("family " <> familyNameText familyName <> " discovered duplicate package names"))
@@ -382,7 +386,7 @@ snapshotFromObservation SnapshotObservation {config, sourceDescriptor, packages 
     FamilySnapshot
       { family = familyName,
         generation = SnapshotGeneration 1,
-        discoveryPolicy = DiscoveryPolicy {packageOverrides, excludedPackages},
+        discoveryPolicy = DiscoveryPolicy {packageOverrides, excludedPackages, additionalPackagePaths},
         source = sourceDescriptor,
         packages = sortOn lockedPackageKey (map (lockPackage packageOverrides) observedPackages)
       }
@@ -397,7 +401,8 @@ replaceSelection :: UpdateGroupName -> SnapshotGeneration -> PackageSet -> Packa
 replaceSelection groupName targetGeneration packageSet@PackageSet {groups} =
   packageSet
     { groups =
-        sortOn groupSelectionKey
+        sortOn
+          groupSelectionKey
           [ if group == groupName
               then GroupSelection {group, generation = targetGeneration}
               else selection
@@ -421,7 +426,9 @@ findGroupSelection requestedGroup PackageSet {name, groups} =
 
 findGroupSnapshot :: GroupSelection -> PackageSetLock -> Either UpdateError GroupSnapshot
 findGroupSnapshot selection PackageSetLock {groupSnapshots} =
-  maybe (Left (UpdateError "selected group snapshot does not exist")) Right
+  maybe
+    (Left (UpdateError "selected group snapshot does not exist"))
+    Right
     (find ((== groupSelectionSnapshotKey selection) . groupSnapshotKey) groupSnapshots)
 
 rejectDuplicateTargetGroups :: [(UpdateGroup, Text, [SnapshotObservation])] -> Either UpdateError ()

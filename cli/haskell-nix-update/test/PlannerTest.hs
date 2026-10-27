@@ -49,7 +49,8 @@ testChangeCategories = do
           github = "example/example",
           githubInput = "example-src",
           packageOverrides = Map.empty,
-          excludedPackages = Set.empty
+          excludedPackages = Set.empty,
+          additionalPackagePaths = []
         }
     catalog = FamilyCatalog {schemaVersion = 1, families = [familyConfig], updateGroups = []}
     previousLock =
@@ -96,7 +97,7 @@ testLegitimateVersionDifference = do
     revision = GitRevision "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
     hash = SriHash "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
     config =
-      FamilyConfig family "example/example" "example/example" "example-src" Map.empty Set.empty
+      FamilyConfig family "example/example" "example/example" "example-src" Map.empty Set.empty []
     catalog = FamilyCatalog 1 [config] []
     previousLock = PackageLock 1 [LockedFamily family "example-src" revision [locked "example-package" "2.0" (Just (pin "2.0" hash))]]
     observation = ObservedFamily config revision [observedPackage packageName "3.0" (Just (pin "2.5" hash)) False]
@@ -140,7 +141,7 @@ assertContains :: [FamilyChange] -> FamilyChange -> IO ()
 assertContains changes expected =
   assertBool ("missing change: " <> show expected <> " in " <> show changes) (expected `elem` changes)
 
-assertRight :: Show error => Either error value -> IO value
+assertRight :: (Show error) => Either error value -> IO value
 assertRight = either (assertFailure . show) pure
 
 testPackageSetRefresh :: IO ()
@@ -156,8 +157,7 @@ testPackageSetRefresh = do
   length (familySnapshots nextPackageSetLock) @?= 4
   length (groupSnapshots nextPackageSetLock) @?= 2
   selectedFamilySnapshots
-    @?= [
-          FamilySnapshotSelection (FamilyName "alpha") (SnapshotGeneration 2),
+    @?= [ FamilySnapshotSelection (FamilyName "alpha") (SnapshotGeneration 2),
           FamilySnapshotSelection (FamilyName "beta") (SnapshotGeneration 2)
         ]
   selectedGroupSnapshots @?= [GroupSelection (UpdateGroupName "pair") (SnapshotGeneration 2)]
@@ -230,7 +230,8 @@ snapshotConfig familyName =
       github = "example/" <> familyName,
       githubInput = familyName <> "-src",
       packageOverrides = Map.empty,
-      excludedPackages = Set.empty
+      excludedPackages = Set.empty,
+      additionalPackagePaths = []
     }
 
 snapshotLock :: PackageSetLock
@@ -251,7 +252,7 @@ snapshot familyName generation revision =
   FamilySnapshot
     { family = FamilyName familyName,
       generation = SnapshotGeneration generation,
-      discoveryPolicy = DiscoveryPolicy Map.empty Set.empty,
+      discoveryPolicy = DiscoveryPolicy Map.empty Set.empty [],
       source = sourceFor familyName revision,
       packages = [locked (Text.unpack familyName <> "-package") "1.0" (Just (pin "1.0" hashA))]
     }
@@ -301,7 +302,7 @@ hashA = SriHash "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
 hashB :: SriHash
 hashB = SriHash "sha256-BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB="
 
-assertLeft :: Show value => Either error value -> IO ()
+assertLeft :: (Show value) => Either error value -> IO ()
 assertLeft result =
   case result of
     Left _ -> pure ()

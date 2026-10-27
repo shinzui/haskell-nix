@@ -14,7 +14,7 @@ import Data.Text qualified as Text
 import Data.Text.IO qualified as TextIO
 import HaskellNix.Update.Cohort.Cli (CohortCommand, cohortParser, runCohort)
 import HaskellNix.Update.Compatibility.Cli (CompatibilityCommand, compatibilityParser, runCompatibility)
-import HaskellNix.Update.Runtime (RuntimeCommand, runtimeParser, runRuntime)
+import HaskellNix.Update.Runtime (RuntimeCommand, runRuntime, runtimeParser)
 import HaskellNix.Update.Types (FamilyName (..), PackageSetCommand (..), PackageSetSupportLevel (..), RefreshTarget (..), SnapshotGeneration (..), UpdateError (..), UpdateGroupName (..))
 import HaskellNix.Update.Workflow
 import Options.Applicative
@@ -29,6 +29,7 @@ data Command
   | Runtime !RuntimeCommand
   | Compatibility !CompatibilityCommand
   | PackageSetCommand !PackageSetCommand
+  | CatalogAdd !FilePath !Bool
   deriving stock (Eq, Show)
 
 data RefreshOptions = RefreshOptions
@@ -58,6 +59,7 @@ runCli = do
   parsedCommand <- execParser parserInfo
   environment <- defaultWorkflowEnvironment
   result <- case parsedCommand of
+    CatalogAdd path dryRun -> runCatalogAddWorkflow environment (defaultWorkflowPaths ".") path dryRun
     Refresh RefreshOptions {packageSet, targets, compatibilityProfile, dryRun} ->
       runRefreshCommand environment (defaultWorkflowPaths ".") packageSet targets compatibilityProfile dryRun
     Check CheckOptions {packageSet, targets, online} ->
@@ -87,14 +89,15 @@ commandParser :: Parser Command
 commandParser =
   subparser
     ( command "compatibility" (info (Compatibility <$> compatibilityParser <**> helper) (failureCode 2 <> fullDesc <> progDesc "Report compatibility declarations and required evidence"))
+        <> command "catalog" (info (catalogParser <**> helper) (fullDesc <> progDesc "Explicit catalog topology migrations"))
         <> command "runtime" (info (Runtime <$> runtimeParser <**> helper) (fullDesc <> progDesc "Capture, check and describe retained runtime generations"))
         <> command "cohort" (info (Cohort <$> cohortParser <**> helper) (fullDesc <> progDesc "Inventory, solve and report the shared dependency cohort"))
         <> command
-        "refresh"
-        ( info
-            (Refresh <$> refreshOptionsParser <**> helper)
-            (fullDesc <> progDesc "Refresh GitHub and Hackage package locks")
-        )
+          "refresh"
+          ( info
+              (Refresh <$> refreshOptionsParser <**> helper)
+              (fullDesc <> progDesc "Refresh GitHub and Hackage package locks")
+          )
         <> command
           "check"
           ( info
@@ -113,6 +116,17 @@ commandParser =
               (PackageSetCommand <$> packageSetCommandParser <**> helper)
               (fullDesc <> progDesc "Compose and label named package sets")
           )
+    )
+
+catalogParser :: Parser Command
+catalogParser =
+  subparser
+    ( command
+        "add"
+        ( info
+            (CatalogAdd <$> strOption (long "from" <> metavar "FILE" <> help "Schema-2 singleton additions request") <*> dryRunParser <**> helper)
+            (fullDesc <> progDesc "Append families and extend every named package set")
+        )
     )
 
 refreshOptionsParser :: Parser RefreshOptions
@@ -171,12 +185,12 @@ targetOptionsParser =
                   <> metavar "FAMILY"
                   <> help "Select the update group containing a family; repeat as needed"
               )
-            <|> (TargetGroup . UpdateGroupName . Text.pack)
-              <$> strOption
-                ( long "group"
-                    <> metavar "GROUP"
-                    <> help "Select an update group; repeat as needed"
-                )
+              <|> (TargetGroup . UpdateGroupName . Text.pack)
+            <$> strOption
+              ( long "group"
+                  <> metavar "GROUP"
+                  <> help "Select an update group; repeat as needed"
+              )
         )
     )
 

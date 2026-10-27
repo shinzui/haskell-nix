@@ -46,6 +46,19 @@ let
         (lib.splitString "/" value)
     );
 
+  validAdditionalPaths = paths:
+    builtins.isList paths
+    && allUnique paths
+    && isSorted paths
+    && builtins.all
+      (path:
+        builtins.isString path
+        && validRelativePath path
+        && builtins.length (lib.splitString "/" path) >= 2
+        && builtins.match ".*[\\\\\n\r].*" path == null
+      )
+      paths;
+
   validOverride = value:
     exactAttrs [ ] [ "cabal2nixOptions" ] value
     && builtins.isString (value.cabal2nixOptions or "");
@@ -53,8 +66,9 @@ let
   validConfigFamily = family:
     exactAttrs
       [ "name" "moriProject" "github" "githubInput" ]
-      [ "packageOverrides" "excludedPackages" ]
+      [ "packageOverrides" "excludedPackages" "additionalPackagePaths" ]
       family
+    && validAdditionalPaths (family.additionalPackagePaths or [ ])
     && nonEmptyString family.name
     && nonEmptyString family.moriProject
     && nonEmptyString family.github
@@ -117,6 +131,7 @@ let
 
   validLockFamily = family:
     exactAttrs [ "name" "githubInput" "githubRev" "packages" ] [ ] family
+    && validAdditionalPaths (family.additionalPackagePaths or [ ])
     && nonEmptyString family.name
     && nonEmptyString family.githubInput
     && validGitRevision family.githubRev

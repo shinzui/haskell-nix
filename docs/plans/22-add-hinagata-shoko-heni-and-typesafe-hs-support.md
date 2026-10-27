@@ -10,6 +10,12 @@ provenance:
     model: "gpt-6.1-sol"
     harness: "codex-cli"
     at: 2026-10-27T13:46:16Z
+  revisions:
+    - model: "gpt-6.1-sol"
+      harness: "codex-cli"
+      at: 2026-10-27T13:55:39Z
+      mode: "implement"
+      note: "Implement additive catalog migration, retained discovery policy, and new family support"
 ---
 
 # Add hinagata, shoko, heni, and typesafe-hs support
@@ -34,13 +40,13 @@ The requested spelling “hinagate” refers to `mori://shinzui/hinagata`. Suppo
 packages: three Hinagata packages, three Shoko packages, four Heni packages including its
 optional test-framework adapters, and typesafe-hs. Eight currently have Hackage releases;
 Shoko is GitHub-only. Deliver an explicit recoverable catalog migration, retained package
-selection, real builds, and offline consumer checks. Implementation has not started.
+selection, real builds, and offline consumer checks. Implementation is in progress; the additive migration contracts are verified.
 
 
 ## Progress
 
 
-- [ ] Provide explicit additive catalog migration and retained extra-directory discovery, with offline contracts proving preservation, rejection, no-op, dry-run, and rollback behavior.
+- [x] (2026-10-27) Provide explicit additive catalog migration and retained extra-directory discovery. All 233 updater tests and 367 pure Nix contracts pass; fault injection covers each publication step, affected-set validation, and concurrent edits. The active catalog still has fourteen families.
 - [ ] Prove Heni's JSON/mutation behavior and Shoko's native Kafka dependency against the actual shared scope before activating the new inventory.
 - [ ] Generate four family snapshots and complete selections, preserving existing records and old group choices; public constructors and repository-owned runtime complements evaluate.
 - [ ] Pass the supported system/compiler/channel build matrix and offline consumer checks, document support and migration, and retain acceptance evidence.
@@ -48,8 +54,19 @@ selection, real builds, and offline consumer checks. Implementation has not star
 
 ## Surprises & Discoveries
 
+2026-10-27: The frozen scope selects hspec-core 2.11.18 but does not select hspec-api;
+Nixpkgs supplies hspec-api 2.11.17, whose exact core bound fails configuration.
+The native Heni adapter pilot exposed this before inventory activation. Select the
+matching released hspec-api 2.11.18 as an additional owned dependency recipe;
+the frozen Hspec/QuickCheck versions and shared cohort remain unchanged.
+
 
 ## Decision Log
+
+2026-10-27: Stage the proposed flake lock through `nix flake metadata --no-write-lock-file`
+with only the new input overrides, then verify retained input/node equality. Discovery
+therefore never writes managed files. Publication checks all original bytes before and
+between writes; rollback preserves concurrent edits and saves originals when needed.
 
 
 2026-10-27: Treat “hinagate” as Hinagata, the matching Mori project and actual repository.
@@ -75,6 +92,10 @@ the four requested families and does not become a fifth independently refreshed 
 
 
 ## Outcomes & Retrospective
+
+Milestone 1 is implemented and validated. The native compatibility pilot is in progress. FRIC-1 in `docs/friction-log/` records
+the translated Linux guest syscall-filter workaround;
+production inventory and complete mappings have not yet changed.
 
 
 ## Context and Orientation

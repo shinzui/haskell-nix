@@ -74,7 +74,8 @@ data FamilyConfig = FamilyConfig
     -- Discovered Cabal packages that never become family packages. A repository
     -- may carry an example or fixture package whose name collides with another
     -- family; excluding it keeps package names globally unique.
-    excludedPackages :: !(Set PackageName)
+    excludedPackages :: !(Set PackageName),
+    additionalPackagePaths :: ![FilePath]
   }
   deriving stock (Eq, Show)
 
@@ -93,7 +94,8 @@ data FamilyCatalog = FamilyCatalog
 
 data DiscoveryPolicy = DiscoveryPolicy
   { packageOverrides :: !(Map PackageName PackageOverride),
-    excludedPackages :: !(Set PackageName)
+    excludedPackages :: !(Set PackageName),
+    additionalPackagePaths :: ![FilePath]
   }
   deriving stock (Eq, Show)
 

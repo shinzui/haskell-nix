@@ -1,5 +1,7 @@
 module WorkflowTest (tests) where
 
+import Data.Aeson (eitherDecodeStrict', object, (.=))
+import Data.Aeson qualified
 import Data.ByteString (ByteString)
 import Data.ByteString qualified as ByteString
 import Data.ByteString.Char8 qualified as ByteStringChar8
@@ -15,7 +17,7 @@ import Data.Text.Encoding qualified as TextEncoding
 import Distribution.Parsec (simpleParsec)
 import Distribution.Pretty (prettyShow)
 import Distribution.Types.Version (Version)
-import HaskellNix.Update.Catalog (encodeFamilyCatalog)
+import HaskellNix.Update.Catalog (decodeFamilyCatalog, encodeFamilyCatalog)
 import HaskellNix.Update.Hackage
 import HaskellNix.Update.PackageLock (decodePackageLock, decodePackageSetLock, encodePackageLock, encodePackageSetLock)
 import HaskellNix.Update.Process
@@ -32,7 +34,12 @@ tests :: TestTree
 tests =
   testGroup
     "refresh workflow"
-    [ testCase "bootstrap refresh adds newly configured families" testBootstrapRefresh,
+    [ testCase "catalog add preserves history, previews, and replays without observation" testCatalogAdd,
+      testCase "catalog add restores all three files after every publication failure" testCatalogAddRollback,
+      testCase "catalog add guards dirty and concurrent files" testCatalogAddGuards,
+      testCase "catalog addition rejects missing declarations and observation failures without writes" testCatalogAddRejections,
+      testCase "historical checks use captured extra-path policy" testHistoricalExtraPaths,
+      testCase "bootstrap refresh adds newly configured families" testBootstrapRefresh,
       testCase "successful refresh updates both generated views" testSuccessfulRefresh,
       testCase "no-change refresh leaves both lock files byte-for-byte unchanged" testNoChange,
       testCase "partial refresh preserves unselected families" testPartialRefresh,
@@ -304,14 +311,15 @@ testMigrateLock = withMigrationFixture $ \fixture -> do
   supportFor "old" lock @?= Historical
 
 excluding :: Text -> FamilyConfig -> FamilyConfig
-excluding excludedName FamilyConfig {name, moriProject, github, githubInput, packageOverrides} =
+excluding excludedName FamilyConfig {name, moriProject, github, githubInput, packageOverrides, additionalPackagePaths} =
   FamilyConfig
     { name,
       moriProject,
       github,
       githubInput,
       packageOverrides,
-      excludedPackages = Set.singleton (PackageName excludedName)
+      excludedPackages = Set.singleton (PackageName excludedName),
+      additionalPackagePaths
     }
 
 data Fixture = Fixture
@@ -389,7 +397,7 @@ packageSetFixtureLock =
        in FamilySnapshot
             { family = FamilyName familyName,
               generation = SnapshotGeneration 1,
-              discoveryPolicy = DiscoveryPolicy Map.empty Set.empty,
+              discoveryPolicy = DiscoveryPolicy Map.empty Set.empty [],
               source = LockedSource "github" "owner" familyName (GitRevision revisionA) hashA,
               packages = familyPackages
             }
@@ -476,7 +484,8 @@ runFakeProcess :: Fixture -> FakeSettings -> IORef [ProcessSpec] -> ProcessSpec 
 runFakeProcess fixture settings commandLog spec@ProcessSpec {executable, arguments} = do
   modifyIORef' commandLog (<> [spec])
   case (executable, arguments) of
-    ("git", ["status", "--porcelain", "--", _, _]) ->
+    ("git", "ls-files" : "--error-unmatch" : "--" : _) -> pure (success "")
+    ("git", "status" : "--porcelain" : "--" : _) ->
       pure (success (if dirtyManagedFiles settings then " M flake.lock\n" else ""))
     ("git", ["ls-remote", url, "HEAD"]) ->
       pure $ do
@@ -527,6 +536,14 @@ runFakeProcess fixture settings commandLog spec@ProcessSpec {executable, argumen
                   <> Text.pack (prettyShow packageVersion)
                   <> "\nbuild-type: Simple\n"
               )
+    ("nix", ["eval", "--impure", "--json", "--expr", _]) -> pure (success "true")
+    ("nix", "flake" : "metadata" : "--json" : "--no-write-lock-file" : overrides) -> do
+      revisions <- readIORef (currentRevisions fixture)
+      let names = [Text.dropEnd 4 (Text.pack input) | (flag, input) <- zip overrides (drop 1 overrides), flag == "--override-input"]
+          selected = Map.restrictKeys (remoteRevisions settings) (Set.fromList names)
+      pure $ do
+        value <- either (Left . UpdateError . Text.pack) Right (eitherDecodeStrict' (flakeLockBytes (Map.union selected revisions)))
+        success (TextEncoding.decodeUtf8 (LazyByteString.toStrict (Data.Aeson.encode (object ["locks" .= (value :: Data.Aeson.Value)]))))
     ("nix", ["flake", "update", inputName]) -> do
       let familyName = Text.dropEnd 4 (Text.pack inputName)
       case Map.lookup familyName (remoteRevisions settings) of
@@ -585,7 +602,8 @@ familyConfig familyName =
       github = "owner/" <> familyName,
       githubInput = familyName <> "-src",
       packageOverrides = Map.empty,
-      excludedPackages = Set.empty
+      excludedPackages = Set.empty,
+      additionalPackagePaths = []
     }
 
 lockedFamily :: Text -> LockedFamily
@@ -611,7 +629,7 @@ flakeLockBytes revisions =
     ( "{\"root\":\"root\",\"nodes\":{\"root\":{\"inputs\":{"
         <> commaSeparated
           [ quoted (Text.unpack familyName <> "-src") <> ":" <> quoted (Text.unpack familyName <> "-src")
-            | familyName <- Map.keys revisions
+          | familyName <- Map.keys revisions
           ]
         <> "}},"
         <> commaSeparated
@@ -623,7 +641,7 @@ flakeLockBytes revisions =
               <> ",\"narHash\":"
               <> quoted (Text.unpack (hashText hashA))
               <> "}}"
-            | (familyName, revision) <- Map.toAscList revisions
+          | (familyName, revision) <- Map.toAscList revisions
           ]
         <> "}}\n"
     )
@@ -685,7 +703,7 @@ packageFromShowTarget :: Text -> Text
 packageFromShowTarget target =
   Text.takeWhile (/= '/') (Text.drop 1 (Text.dropWhile (/= ':') target))
 
-lookupSetting :: Ord key => Text -> key -> Map key value -> Either UpdateError value
+lookupSetting :: (Ord key) => Text -> key -> Map key value -> Either UpdateError value
 lookupSetting context key values =
   maybe (Left (UpdateError (context <> " is missing"))) Right (Map.lookup key values)
 
@@ -746,10 +764,149 @@ hashA = SriHash "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
 hashB :: SriHash
 hashB = SriHash "sha256-BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB="
 
-assertRight :: Show error => Either error value -> IO value
+assertRight :: (Show error) => Either error value -> IO value
 assertRight = either (assertFailure . show) pure
 
-assertLeft :: Show value => Either UpdateError value -> IO ()
+assertLeft :: (Show value) => Either UpdateError value -> IO ()
 assertLeft result = case result of
   Left _ -> pure ()
   Right value -> assertFailure ("expected failure, got: " <> show value)
+
+-- Catalog transactions use the same real files as refresh, with staged Nix and
+-- network adapters. Writer faults occur both before and after atomic rename.
+withCatalogAddition :: (Fixture -> WorkflowEnvironment -> IORef [ProcessSpec] -> IO value) -> IO value
+withCatalogAddition action = withPackageSetFixture $ \fixture -> do
+  let additions = FamilyCatalog 2 [familyConfig "gamma"] []
+  ByteString.writeFile (fixtureRoot fixture </> "additions.json") (LazyByteString.toStrict (encodeFamilyCatalog additions))
+  (environment, commands) <- fakeEnvironment fixture (defaultSettings ["alpha", "beta", "gamma"])
+  action fixture environment commands
+
+catalogFiles :: Fixture -> IO [ByteString]
+catalogFiles fixture =
+  traverse
+    (ByteString.readFile . (fixtureRoot fixture </>))
+    ["config/first-party-families.json", "flake.lock", "packages/first-party-lock.json"]
+
+testCatalogAdd :: IO ()
+testCatalogAdd = withCatalogAddition $ \fixture environment commands -> do
+  original <- catalogFiles fixture
+  preview <- assertRight =<< runCatalogAddWorkflow environment (fixturePaths fixture) "additions.json" True
+  assertBool "preview lists both sets" (all (`Text.isInfixOf` preview) ["default: gamma=1", "retained: gamma=1"])
+  catalogFiles fixture >>= (@?= original)
+  _ <- assertRight =<< runCatalogAddWorkflow environment (fixturePaths fixture) "additions.json" False
+  catalogBytes <- ByteString.readFile (fixtureRoot fixture </> "config/first-party-families.json")
+  catalog <- assertRight (decodeFamilyCatalog catalogBytes)
+  lockBytes <- ByteString.readFile (fixtureRoot fixture </> "packages/first-party-lock.json")
+  lock <- assertRight (decodePackageSetLock catalog lockBytes)
+  let old = packageSetFixtureLock
+  filter (\FamilySnapshot {family} -> family /= FamilyName "gamma") (familySnapshots lock) @?= familySnapshots old
+  filter (\GroupSnapshot {group} -> group /= UpdateGroupName "gamma") (groupSnapshots lock) @?= groupSnapshots old
+  [set {groups = filter (\GroupSelection {group} -> group /= UpdateGroupName "gamma") (groups set)} | set <- packageSets lock] @?= packageSets old
+  accepted <- catalogFiles fixture
+  writeIORef commands []
+  runCatalogAddWorkflow environment (fixturePaths fixture) "additions.json" False >>= (@?= Right "No catalog changes.")
+  catalogFiles fixture >>= (@?= accepted)
+  replayCommands <- readIORef commands
+  assertBool "replay does not observe upstream" (all (\ProcessSpec {executable} -> executable == "git") replayCommands)
+
+testCatalogAddRollback :: IO ()
+testCatalogAddRollback = do
+  mapM_
+    ( \(step, afterRename) -> withCatalogAddition $ \fixture environment _ -> do
+        original <- catalogFiles fixture
+        count <- newIORef (0 :: Int)
+        let writer path bytes = do
+              modifyIORef' count (+ 1)
+              n <- readIORef count
+              if n == step
+                then do
+                  if afterRename then atomicWriteFile path bytes else pure ()
+                  ioError (userError "injected publication failure")
+                else atomicWriteFile path bytes
+        result <- runCatalogAddWithWriter writer environment (fixturePaths fixture) "additions.json" False
+        assertBool "write fault fails" (case result of Left _ -> True; _ -> False)
+        catalogFiles fixture >>= (@?= original)
+    )
+    [(step, afterRename) | step <- [1 .. 3], afterRename <- [False, True]]
+  -- A failure in either affected set, or final flake validation, restores all bytes.
+  mapM_
+    ( \failedSet -> withCatalogAddition $ \fixture environment _ -> do
+        original <- catalogFiles fixture
+        let failing = environment {validateSelectedPackageSet = \_ name -> pure (if name == failedSet then Left (UpdateError "injected set failure") else Right ())}
+        result <- runCatalogAddWorkflow failing (fixturePaths fixture) "additions.json" False
+        assertBool "set failure fails transaction" (case result of Left _ -> True; _ -> False)
+        catalogFiles fixture >>= (@?= original)
+    )
+    ["default", "retained"]
+  withCatalogAddition $ \fixture _ _ -> do
+    original <- catalogFiles fixture
+    (failing, _) <- fakeEnvironment fixture ((defaultSettings ["alpha", "beta", "gamma"]) {validationFails = True})
+    _ <- runCatalogAddWorkflow failing (fixturePaths fixture) "additions.json" False
+    catalogFiles fixture >>= (@?= original)
+
+testCatalogAddGuards :: IO ()
+testCatalogAddGuards = do
+  withCatalogAddition $ \fixture _ _ -> do
+    original <- catalogFiles fixture
+    (dirty, commands) <- fakeEnvironment fixture ((defaultSettings ["alpha", "beta", "gamma"]) {dirtyManagedFiles = True})
+    result <- runCatalogAddWorkflow dirty (fixturePaths fixture) "additions.json" False
+    assertBool "dirty refusal" (case result of Left _ -> True; _ -> False)
+    catalogFiles fixture >>= (@?= original)
+    readIORef commands >>= (\calls -> length calls @?= 2)
+  withCatalogAddition $ \fixture environment _ -> do
+    original <- catalogFiles fixture
+    let ProcessRunner runner = processRunner environment
+        edited = "concurrent catalog edit"
+        concurrent =
+          environment
+            { processRunner = ProcessRunner $ \spec -> do
+                result <- runner spec
+                if take 2 (arguments spec) == ["flake", "metadata"] then ByteString.writeFile (fixtureRoot fixture </> "config/first-party-families.json") edited else pure ()
+                pure result
+            }
+    result <- runCatalogAddWorkflow concurrent (fixturePaths fixture) "additions.json" False
+    assertBool "concurrent refusal" (case result of Left _ -> True; _ -> False)
+    actual <- catalogFiles fixture
+    actual @?= edited : drop 1 original
+  withCatalogAddition $ \fixture environment _ -> do
+    let edited = "concurrent edit during validation"
+        concurrent =
+          environment
+            { validateSelectedPackageSet = \_ _ -> do
+                ByteString.writeFile (fixtureRoot fixture </> "config/first-party-families.json") edited
+                pure (Left (UpdateError "validation interrupted"))
+            }
+    result <- runCatalogAddWorkflow concurrent (fixturePaths fixture) "additions.json" False
+    assertBool "diagnostic identifies preserved concurrent edit" (case result of Left UpdateError {message} -> "preserved concurrent edit" `Text.isInfixOf` message; _ -> False)
+    ByteString.readFile (fixtureRoot fixture </> "config/first-party-families.json") >>= (@?= edited)
+
+testCatalogAddRejections :: IO ()
+testCatalogAddRejections = do
+  withCatalogAddition $ \fixture environment _ -> do
+    original <- catalogFiles fixture
+    let ProcessRunner runner = processRunner environment
+        undeclared =
+          environment
+            { processRunner = ProcessRunner $ \spec ->
+                if take 4 (arguments spec) == ["eval", "--impure", "--json", "--expr"]
+                  then pure (success "false")
+                  else runner spec
+            }
+    result <- runCatalogAddWorkflow undeclared (fixturePaths fixture) "additions.json" False
+    assertBool "missing source declaration rejected" (case result of Left UpdateError {message} -> "source-input declarations" `Text.isInfixOf` message; _ -> False)
+    catalogFiles fixture >>= (@?= original)
+  withCatalogAddition $ \fixture _ _ -> do
+    original <- catalogFiles fixture
+    (failing, _) <- fakeEnvironment fixture ((defaultSettings ["alpha", "beta", "gamma"]) {prefetchFails = True})
+    result <- runCatalogAddWorkflow failing (fixturePaths fixture) "additions.json" False
+    assertBool "observation fails" (case result of Left _ -> True; _ -> False)
+    catalogFiles fixture >>= (@?= original)
+
+testHistoricalExtraPaths :: IO ()
+testHistoricalExtraPaths = withPackageSetFixture $ \fixture -> do
+  let FamilyCatalog {families, updateGroups} = fixtureCatalog fixture
+      catalog = FamilyCatalog 2 [family {additionalPackagePaths = ["adapters/new"]} | family <- families] updateGroups
+  ByteString.writeFile (fixtureRoot fixture </> "config/first-party-families.json") (LazyByteString.toStrict (encodeFamilyCatalog catalog))
+  (environment, _) <- fakeEnvironment fixture (defaultSettings ["alpha", "beta"])
+  _ <- assertRight =<< runCheckCommand environment (fixturePaths fixture) Nothing [] False
+  pure ()

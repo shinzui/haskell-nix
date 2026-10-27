@@ -106,6 +106,8 @@ let
         in {
           inherit (configured) name moriProject github githubInput;
           inherit (snapshot.discoveryPolicy) packageOverrides excludedPackages;
+        } // lib.optionalAttrs (snapshot.discoveryPolicy ? additionalPackagePaths) {
+          inherit (snapshot.discoveryPolicy) additionalPackagePaths;
         })
       selectedFamilies;
   };

@@ -7,6 +7,8 @@ module HaskellNix.Update.Workflow
     runCheckCommand,
     runMigrateLockWorkflow,
     runPackageSetCommand,
+    runCatalogAddWorkflow,
+    runCatalogAddWithWriter,
     runRefreshWorkflow,
     runCheckWorkflow,
     atomicWriteFile,
@@ -14,6 +16,7 @@ module HaskellNix.Update.Workflow
 where
 
 import Control.Exception (IOException, catch, onException, try)
+import Data.IORef (newIORef, readIORef, modifyIORef')
 import Control.Monad (unless, when)
 import Control.Monad.Trans.Class (lift)
 import Control.Monad.Trans.Except (ExceptT (..), runExceptT, throwE)
@@ -28,15 +31,16 @@ import Data.Set qualified as Set
 import Data.Text (Text)
 import Data.Text qualified as Text
 import Distribution.Pretty (prettyShow)
-import HaskellNix.Update.Catalog (decodeFamilyCatalog)
-import HaskellNix.Update.Git (discoverPackages, ensureRevision, readRepositoryFileAt, remoteHead, requireRevision, resolveRepositoryCommit)
+import HaskellNix.Update.Catalog (decodeFamilyCatalog, encodeFamilyCatalog)
+import HaskellNix.Update.CatalogMigration (prepareCatalogAddition, planCatalogAddition, renderCatalogAddition)
+import HaskellNix.Update.Git (discoverPackagesWithPolicy, ensureRevision, readRepositoryFileAt, remoteHead, requireRevision, resolveRepositoryCommit)
 import HaskellNix.Update.Hackage (HttpClient, defaultHttpClient, queryHackage)
 import HaskellNix.Update.Mori (MoriProject (..), locateMoriProject)
 import HaskellNix.Update.Nix
 import HaskellNix.Update.PackageLock (decodePackageLock, decodePackageLockForRefresh, decodePackageSetLock, encodePackageLock, encodePackageSetLock, importLegacyPackageLock, migrateLegacyPackageLock, validatePackageSetLock)
 import HaskellNix.Update.Plan (clonePackageSetWithSupport, planPackageSetRefresh, planRefresh, renderChanges, resolveRefreshTargets, selectGroupCompatibilityProfile, selectGroupFromPackageSet, selectGroupGeneration, setPackageSetSupportLevel)
 import Data.Text.IO qualified as TextIO
-import HaskellNix.Update.Process (ProcessRunner, defaultProcessRunner, streamingProcessRunner)
+import HaskellNix.Update.Process (ProcessRunner, ProcessSpec (..), defaultProcessRunner, streamingProcessRunner, runChecked)
 import HaskellNix.Update.Types
 import System.Directory (removeFile, renameFile)
 import System.FilePath (takeDirectory, (</>))
@@ -67,6 +71,100 @@ defaultWorkflowPaths repositoryRoot =
       packageLockPath = "packages/first-party-lock.json",
       flakeLockPath = "flake.lock"
     }
+
+runCatalogAddWorkflow :: WorkflowEnvironment -> WorkflowPaths -> FilePath -> Bool -> IO (Either UpdateError Text)
+runCatalogAddWorkflow = runCatalogAddWithWriter atomicWriteFile
+
+-- The writer is injectable so offline contracts can fail each publication step.
+-- Discovery and Nix lock staging are read-only with respect to all managed files.
+runCatalogAddWithWriter :: (FilePath -> ByteString -> IO ()) -> WorkflowEnvironment -> WorkflowPaths -> FilePath -> Bool -> IO (Either UpdateError Text)
+runCatalogAddWithWriter writer environment@WorkflowEnvironment {processRunner} paths requestPath dryRun = do
+  attempted <- try (runExceptT prepare) :: IO (Either IOException (Either UpdateError Text))
+  pure (either (Left . UpdateError . Text.pack . show) id attempted)
+  where
+    managed = [catalogPath paths, flakeLockPath paths, packageLockPath paths]
+    prepare = do
+      originals <- traverse (readFileE . resolvePath paths) managed
+      let originalByPath = Map.fromList (zip managed originals)
+      _ <- liftEitherIO (runChecked processRunner ProcessSpec
+        { executable = "git", arguments = ["ls-files", "--error-unmatch", "--"] <> managed,
+          workingDirectory = Just (repositoryRoot paths), environmentAdditions = [] })
+      dirty <- liftEitherIO (managedFilesDirty processRunner (repositoryRoot paths) managed)
+      when dirty (throwE (UpdateError "catalog add requires catalog, flake.lock, and package lock to be committed and clean"))
+      catalog <- liftEitherText "family catalog" (decodeFamilyCatalog (originalByPath Map.! catalogPath paths))
+      previous <- liftEitherText "package-set lock" (decodePackageSetLock catalog (originalByPath Map.! packageLockPath paths))
+      requestBytes <- readFileE (resolvePath paths requestPath)
+      request <- liftEitherText "catalog additions" (decodeFamilyCatalog requestBytes)
+      (_, added) <- liftEitherE (prepareCatalogAddition catalog request)
+      if null added
+        then pure "No catalog changes."
+        else do
+          heads <- traverse (\config@FamilyConfig {github} -> (config,) <$> liftEitherIO (remoteHead processRunner github)) added
+          nextFlake <- liftEitherIO (stageCatalogInputs processRunner (repositoryRoot paths) heads)
+          liftEitherE (validateCatalogFlakeTransition [githubInput | FamilyConfig {githubInput} <- added]
+            (originalByPath Map.! flakeLockPath paths) nextFlake)
+          observations <- traverse (observeAddition nextFlake) added
+          (nextCatalog, nextLock) <- liftEitherE (planCatalogAddition catalog previous request observations)
+          assertBytes originalByPath
+          let summary = renderCatalogAddition added nextLock
+              nextByPath = Map.fromList
+                [ (catalogPath paths, LazyByteString.toStrict (encodeFamilyCatalog nextCatalog)),
+                  (flakeLockPath paths, nextFlake),
+                  (packageLockPath paths, LazyByteString.toStrict (encodePackageSetLock nextLock))
+                ]
+          if dryRun
+            then pure ("Dry run; all three managed files are unchanged.\n" <> summary)
+            else liftEitherIO (publish originalByPath nextByPath nextLock summary)
+    observeAddition flake config@FamilyConfig {githubInput} = do
+      sourceDescriptor <- liftEitherE (decodeLockedSource githubInput flake)
+      ObservedFamily {packages} <- observeFamily environment paths True config (rev sourceDescriptor)
+      pure SnapshotObservation {config, sourceDescriptor, packages}
+    assertBytes expected = traverse_ check (Map.toAscList expected)
+      where
+        check (path, bytes) = do
+          current <- readFileE (resolvePath paths path)
+          unless (current == bytes) (throwE (UpdateError ("concurrent change to " <> Text.pack path <> "; refusing catalog publication")))
+    publish originals proposed nextLock summary = do
+      owned <- newIORef Map.empty
+      let apply = runExceptT $ do
+            traverse_ (\path -> do
+              written <- lift (readIORef owned)
+              assertBytes (Map.union written originals)
+              let bytes = proposed Map.! path
+              -- Register ownership before the atomic writer: it may throw after
+              -- rename. Rollback accepts either the preimage or proposed bytes.
+              lift (modifyIORef' owned (Map.insert path bytes))
+              lift (writer (resolvePath paths path) bytes)) managed
+            traverse_ (\PackageSet {name} -> liftEitherIO (validateSelectedPackageSet environment (repositoryRoot paths) name)) (packageSets nextLock)
+            liftEitherIO (validateFlake processRunner (repositoryRoot paths))
+            assertBytes proposed
+            pure summary
+          rollback problem = do
+            written <- readIORef owned
+            failures <- traverse (restore originals) (Map.toAscList written)
+            pure (Left (UpdateError (message problem <> Text.concat ["; " <> failure | Just failure <- failures])))
+          restore original (path, expected) = do
+            result <- try $ do
+              current <- ByteString.readFile (resolvePath paths path)
+              let saved = original Map.! path
+              if current == expected || current == saved
+                then atomicWriteFile (resolvePath paths path) saved >> pure Nothing
+                else do
+                  atomicWriteFile (resolvePath paths (path <> ".catalog-add.original")) saved
+                  pure (Just ("preserved concurrent edit to " <> Text.pack path <> "; original saved as .catalog-add.original"))
+            case (result :: Either IOException (Maybe Text)) of
+              Right value -> pure value
+              Left exception -> do
+                let recovery = resolvePath paths (path <> ".catalog-add.original")
+                saved <- try (atomicWriteFile recovery (original Map.! path)) :: IO (Either IOException ())
+                pure (Just ("rollback failed for " <> Text.pack path <> ": " <> Text.pack (show exception) <>
+                  either (\e -> "; could not save original: " <> Text.pack (show e)) (const ("; original saved to " <> Text.pack recovery)) saved))
+      -- Restore on asynchronous interruption as well as ordinary errors.
+      attempted <- try (apply `onException` (rollback (UpdateError "catalog add interrupted") >> pure ())) :: IO (Either IOException (Either UpdateError Text))
+      case attempted of
+        Right (Right value) -> pure (Right value)
+        Right (Left problem) -> rollback problem
+        Left exception -> rollback (UpdateError ("catalog add failed: " <> Text.pack (show exception)))
 
 -- | Streams step progress and subprocess stderr when stderr is a terminal, and
 -- stays quiet otherwise so a caller collecting stderr (such as `just status`,
@@ -466,13 +564,13 @@ checkSnapshotFamily WorkflowEnvironment {processRunner, httpClient} _paths Famil
     liftEitherE $
       maybe (Left (UpdateError "selected snapshot family is not configured")) Right
         (find (\FamilyConfig {name} -> name == familyName) configuredFamilies)
-  let DiscoveryPolicy {packageOverrides, excludedPackages} = discoveryPolicy
+  let DiscoveryPolicy {packageOverrides, excludedPackages, additionalPackagePaths} = discoveryPolicy
       FamilyConfig {name, moriProject, github, githubInput} = configured
-      historicalConfig = FamilyConfig {name, moriProject, github, githubInput, packageOverrides, excludedPackages}
+      historicalConfig = FamilyConfig {name, moriProject, github, githubInput, packageOverrides, excludedPackages, additionalPackagePaths}
       revision = rev source
   MoriProject {path} <- liftEitherIO (locateMoriProject processRunner historicalConfig)
   liftEitherIO (requireRevision processRunner path revision)
-  discoveredPackages <- liftEitherIO (discoverPackages processRunner path revision)
+  discoveredPackages <- liftEitherIO (discoverPackagesWithPolicy processRunner path revision (additionalPaths historicalConfig))
   includedPackages <- liftEitherE (applyExclusions historicalConfig discoveredPackages)
   liftEitherE (verifyDiscovered familyName lockedPackages includedPackages)
   when online $ do
@@ -610,7 +708,7 @@ observeFamily WorkflowEnvironment {processRunner, httpClient, progress} _paths f
   if fetchMissing
     then liftEitherIO (ensureRevision processRunner path revision)
     else liftEitherIO (requireRevision processRunner path revision)
-  discoveredPackages <- liftEitherIO (discoverPackages processRunner path revision)
+  discoveredPackages <- liftEitherIO (discoverPackagesWithPolicy processRunner path revision (additionalPaths family))
   includedPackages <- liftEitherE (applyExclusions family discoveredPackages)
   packages <- traverse (observePackage processRunner httpClient progress) includedPackages
   pure ObservedFamily {config = family, githubRev = revision, packages}
@@ -671,7 +769,7 @@ checkFamily WorkflowEnvironment {processRunner, httpClient} paths packageLock on
       )
   MoriProject {path} <- liftEitherIO (locateMoriProject processRunner family)
   liftEitherIO (requireRevision processRunner path githubRev)
-  discoveredPackages <- liftEitherIO (discoverPackages processRunner path githubRev)
+  discoveredPackages <- liftEitherIO (discoverPackagesWithPolicy processRunner path githubRev (additionalPaths family))
   includedPackages <- liftEitherE (applyExclusions family discoveredPackages)
   liftEitherE (verifyDiscovered familyName lockedPackages includedPackages)
   when online $ do
@@ -799,3 +897,6 @@ ignoreIOException action = action `catch` ignore
   where
     ignore :: IOException -> IO ()
     ignore _ = pure ()
+
+additionalPaths :: FamilyConfig -> [FilePath]
+additionalPaths FamilyConfig {additionalPackagePaths} = additionalPackagePaths

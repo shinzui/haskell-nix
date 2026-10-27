@@ -40,6 +40,7 @@ library
   exposed-modules:
     HaskellNix.Update
     HaskellNix.Update.Catalog
+    HaskellNix.Update.CatalogMigration
     HaskellNix.Update.Cli
     HaskellNix.Update.Compatibility.Types
     HaskellNix.Update.Compatibility.Report

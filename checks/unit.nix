@@ -361,6 +361,46 @@ in
     }).github;
     expected = [ "example-root" ];
   };
+  testAdditionalDiscoveryPathsRetained = {
+    expr =
+      let
+        extra = [ "adapters/heni-hspec" "adapters/heni-tasty" ];
+        candidateLock = packageSetLock // {
+          familySnapshots = map
+            (snapshot: snapshot // {
+              discoveryPolicy = snapshot.discoveryPolicy // { additionalPackagePaths = extra; };
+            })
+            packageSetLock.familySnapshots;
+        };
+      in
+      map (snapshot: snapshot.discoveryPolicy.additionalPackagePaths)
+        ((validatePackageSet packageSetConfig candidateLock).select "default");
+    expected = builtins.genList (_: [ "adapters/heni-hspec" "adapters/heni-tasty" ]) 4;
+  };
+  testAdditionalDiscoveryPathsRejectInvalid = {
+    expr = builtins.all
+      (paths:
+        !(rejectsPackageSetConstruction (validatePackageSet packageSetConfig (packageSetLock // {
+          familySnapshots = map
+            (snapshot: snapshot // {
+              discoveryPolicy = snapshot.discoveryPolicy // { additionalPackagePaths = paths; };
+            })
+            packageSetLock.familySnapshots;
+        }))).expr) [
+      [ "." ]
+      [ "adapters" ]
+      [ "../adapter" ]
+      [ "/adapters/a" ]
+      [ "adapters//a" ]
+      [ "adapters/./a" ]
+      [ "adapters/../a" ]
+      [ "adapters/a/" ]
+      [ "adapters/a" "adapters/a" ]
+      [ "adapters/b" "adapters/a" ]
+      [ "adapters/a\\b" ]
+    ];
+    expected = true;
+  };
   testPackageSetDefaultProjection = {
     expr = packageSetProjection "default";
     expected = [

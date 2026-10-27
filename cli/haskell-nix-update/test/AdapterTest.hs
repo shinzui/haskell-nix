@@ -3,8 +3,8 @@ module AdapterTest (tests) where
 import Data.Aeson (Value (..), encode, object, (.=))
 import Data.Aeson qualified
 import Data.Aeson.Key qualified as Key
-import Data.ByteString.Lazy qualified as LazyByteString
 import Data.ByteString.Char8 qualified as ByteString
+import Data.ByteString.Lazy qualified as LazyByteString
 import Data.IORef (newIORef, readIORef, writeIORef)
 import Data.Map.Strict qualified as Map
 import Data.Set qualified as Set
@@ -12,7 +12,7 @@ import Data.Text (Text)
 import Data.Text qualified as Text
 import Distribution.Parsec (simpleParsec)
 import Distribution.Types.Version (Version)
-import HaskellNix.Update.Git (discoverPackages)
+import HaskellNix.Update.Git (discoverPackages, discoverPackagesWithPolicy)
 import HaskellNix.Update.Hackage
 import HaskellNix.Update.Mori (MoriProject (..), decodeMoriProject, locateMoriProject)
 import HaskellNix.Update.Nix (decodeChannelRevision, decodeLockedRevision, decodeLockedSource, validatePackageSetSelection)
@@ -44,6 +44,7 @@ tests =
       testCase "flake.lock resolves nested and recursive follows from its declared root" testNestedFollows,
       testCase "flake.lock rejects cyclic follows missing nodes and malformed paths" testInvalidFollows,
       testCase "package-set validation applies its Nix expression" testPackageSetValidationCommand,
+      testCase "Git extra-path discovery includes only named adapters and rejects invalid inventories" testExtraDiscovery,
       testCase "Git discovery keeps root and one-directory-deep Cabal files" testGitDiscovery
     ]
 
@@ -77,7 +78,8 @@ exampleFamily =
       github = "owner/example",
       githubInput = "example-src",
       packageOverrides = Map.empty,
-      excludedPackages = Set.empty
+      excludedPackages = Set.empty,
+      additionalPackagePaths = []
     }
 
 moriRunner :: Text -> ProcessRunner
@@ -154,25 +156,36 @@ completeFlakeLock =
 
 -- The root and channel node deliberately use nonstandard names.
 lockFixture :: [(Text, Value)] -> ByteString.ByteString
-lockFixture inputs = LazyByteString.toStrict $ encode $ object
-  [ "root" .= ("entry" :: Text)
-  , "nodes" .= object
-      [ "entry" .= object ["inputs" .= object [Key.fromText key .= value | (key, value) <- inputs]]
-      , "app" .= object ["inputs" .= object ["library" .= ("library-node" :: Text)]]
-      , "library-node" .= object ["inputs" .= object ["channel" .= (["channel"] :: [Text])]]
-      , "pinned" .= object ["locked" .= object
-          [ "type" .= ("github" :: Text), "owner" .= ("shinzui" :: Text), "repo" .= ("haskell-nix" :: Text)
-          , "rev" .= ("0123456789abcdef0123456789abcdef01234567" :: Text)
-          , "narHash" .= ("sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" :: Text)
-          ]]
-      ]
-  ]
+lockFixture inputs =
+  LazyByteString.toStrict $
+    encode $
+      object
+        [ "root" .= ("entry" :: Text),
+          "nodes"
+            .= object
+              [ "entry" .= object ["inputs" .= object [Key.fromText key .= value | (key, value) <- inputs]],
+                "app" .= object ["inputs" .= object ["library" .= ("library-node" :: Text)]],
+                "library-node" .= object ["inputs" .= object ["channel" .= (["channel"] :: [Text])]],
+                "pinned"
+                  .= object
+                    [ "locked"
+                        .= object
+                          [ "type" .= ("github" :: Text),
+                            "owner" .= ("shinzui" :: Text),
+                            "repo" .= ("haskell-nix" :: Text),
+                            "rev" .= ("0123456789abcdef0123456789abcdef01234567" :: Text),
+                            "narHash" .= ("sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" :: Text)
+                          ]
+                    ]
+              ]
+        ]
 
 testNestedFollows :: IO ()
 testNestedFollows = do
   let inputs = [("application", String "app"), ("channel", String "pinned"), ("alias", toValue ["application", "library"]), ("root-alias", toValue [])]
       expected = Right (GitRevision "0123456789abcdef0123456789abcdef01234567")
-  mapM_ (\path -> decodeLockedRevision path (lockFixture inputs) @?= expected)
+  mapM_
+    (\path -> decodeLockedRevision path (lockFixture inputs) @?= expected)
     ["application/library/channel", "alias/channel", "root-alias/channel", "root-alias/root-alias/channel"]
   where
     toValue = Data.Aeson.toJSON :: [Text] -> Value
@@ -181,17 +194,18 @@ testInvalidFollows :: IO ()
 testInvalidFollows = do
   let valid = [("channel", String "pinned")]
       cyclic = [("channel", Data.Aeson.toJSON (["other"] :: [Text])), ("other", Data.Aeson.toJSON (["channel"] :: [Text]))]
-  mapM_ (\(path, inputs) -> assertLeft (decodeLockedRevision path (lockFixture inputs)))
-    [ ("channel", cyclic)
-    , ("channel", [("channel", String "absent-node")])
-    , ("channel", [("channel", Data.Aeson.toJSON (["absent-input"] :: [Text]))])
-    , ("absent-input", valid)
-    , ("", valid)
-    , ("/channel", valid)
-    , ("channel/", valid)
-    , ("channel", [("channel", Bool True)])
-    , ("channel", [("channel", Data.Aeson.toJSON ([""] :: [Text]))])
-    , ("channel", [("channel", Data.Aeson.toJSON (["bad/path"] :: [Text]))])
+  mapM_
+    (\(path, inputs) -> assertLeft (decodeLockedRevision path (lockFixture inputs)))
+    [ ("channel", cyclic),
+      ("channel", [("channel", String "absent-node")]),
+      ("channel", [("channel", Data.Aeson.toJSON (["absent-input"] :: [Text]))]),
+      ("absent-input", valid),
+      ("", valid),
+      ("/channel", valid),
+      ("channel/", valid),
+      ("channel", [("channel", Bool True)]),
+      ("channel", [("channel", Data.Aeson.toJSON ([""] :: [Text]))]),
+      ("channel", [("channel", Data.Aeson.toJSON (["bad/path"] :: [Text]))])
     ]
 
 testPackageSetValidationCommand :: IO ()
@@ -257,11 +271,31 @@ success standardOutput =
 testVersion :: String -> Version
 testVersion value = maybe (error ("invalid test version: " <> value)) id (simpleParsec value)
 
-assertRight :: Show error => Either error value -> IO value
+assertRight :: (Show error) => Either error value -> IO value
 assertRight = either (assertFailure . show) pure
 
-assertLeft :: Show value => Either error value -> IO ()
+assertLeft :: (Show value) => Either error value -> IO ()
 assertLeft result =
   case result of
     Left _ -> pure ()
     Right value -> assertFailure ("expected failure, got " <> show value)
+
+testExtraDiscovery :: IO ()
+testExtraDiscovery = do
+  let revision = GitRevision "0123456789abcdef0123456789abcdef01234567"
+      tree = ["heni.cabal", "heni-cli/heni-cli.cabal", "adapters/heni-hspec/heni-hspec.cabal", "adapters/heni-tasty/heni-tasty.cabal", "fixtures/project/project.cabal"]
+      runner paths duplicate = ProcessRunner $ \ProcessSpec {arguments} -> pure $ case arguments of
+        ["-C", "/repo", "ls-tree", "-r", "--name-only", _] -> success (Text.unlines paths)
+        ["-C", "/repo", "show", target] ->
+          let filename = last (Text.splitOn "/" (last (Text.splitOn ":" (Text.pack target))))
+              package = if duplicate then "duplicate" else Text.dropEnd 6 filename
+           in success ("cabal-version: 3.0\nname: " <> package <> "\nversion: 0.1.0.0\nbuild-type: Simple\n")
+        _ -> Left (UpdateError "unexpected discovery command")
+      extras = ["adapters/heni-hspec", "adapters/heni-tasty"]
+  packages <- assertRight =<< discoverPackagesWithPolicy (runner tree False) "/repo" revision extras
+  [name | DiscoveredPackage {name} <- packages] @?= map PackageName ["heni", "heni-cli", "heni-hspec", "heni-tasty"]
+  mapM_
+    (\paths -> discoverPackagesWithPolicy (runner tree False) "/repo" revision paths >>= assertLeft)
+    [["missing/adapter"], ["adapters"], ["adapters/../heni"], ["adapters/heni-hspec", "adapters/heni-hspec"]]
+  discoverPackagesWithPolicy (runner (tree <> ["adapters/heni-hspec/other.cabal"]) False) "/repo" revision extras >>= assertLeft
+  discoverPackagesWithPolicy (runner tree True) "/repo" revision extras >>= assertLeft

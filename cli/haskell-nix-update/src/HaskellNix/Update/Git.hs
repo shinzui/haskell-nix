@@ -2,22 +2,25 @@ module HaskellNix.Update.Git
   ( ensureRevision,
     requireRevision,
     discoverPackages,
+    discoverPackagesWithPolicy,
     remoteHead,
     resolveRepositoryCommit,
     readRepositoryFileAt,
   )
 where
 
+import Data.ByteString (ByteString)
 import Data.Char (isHexDigit)
 import Data.List (sortOn)
+import Data.Set qualified as Set
 import Data.Text (Text)
 import Data.Text qualified as Text
 import Data.Text.Encoding qualified as TextEncoding
-import Data.ByteString (ByteString)
 import Distribution.Package (pkgName, pkgVersion)
 import Distribution.PackageDescription (package, packageDescription)
 import Distribution.PackageDescription.Parsec (parseGenericPackageDescriptionMaybe)
 import Distribution.Types.PackageName (unPackageName)
+import HaskellNix.Update.Catalog (validateAdditionalPackagePaths)
 import HaskellNix.Update.Process
 import HaskellNix.Update.Types
 import System.Exit (ExitCode (..))
@@ -52,18 +55,38 @@ ensureRevision runner repository revision = do
         Right _ -> requireRevision runner repository revision
 
 discoverPackages :: ProcessRunner -> FilePath -> GitRevision -> IO (Either UpdateError [DiscoveredPackage])
-discoverPackages runner repository revision = do
-  treeResult <-
-    runChecked
-      runner
-      (gitSpec repository ["ls-tree", "-r", "--name-only", Text.unpack (revisionText revision)])
-  case treeResult of
-    Left updateError -> pure (Left updateError)
-    Right ProcessResult {standardOutput} -> do
-      let cabalPaths = filter isRootPackagePath (map Text.unpack (Text.lines standardOutput))
-      parsed <- traverse (readPackage runner repository revision) cabalPaths
-      pure (sortOn packageKey <$> sequence parsed)
+discoverPackages runner repository revision = discoverPackagesWithPolicy runner repository revision []
+
+discoverPackagesWithPolicy :: ProcessRunner -> FilePath -> GitRevision -> [FilePath] -> IO (Either UpdateError [DiscoveredPackage])
+discoverPackagesWithPolicy runner repository revision extras = case validateAdditionalPackagePaths extras of
+  Left problem -> pure (Left (UpdateError problem))
+  Right () -> discover
   where
+    discover = do
+      treeResult <-
+        runChecked
+          runner
+          (gitSpec repository ["ls-tree", "-r", "--name-only", Text.unpack (revisionText revision)])
+      case treeResult of
+        Left updateError -> pure (Left updateError)
+        Right ProcessResult {standardOutput} -> do
+          let allPaths = map Text.unpack (Text.lines standardOutput)
+              defaultPaths = filter isRootPackagePath allPaths
+              extraPaths directory = filter (\path -> takeDirectory path == directory && takeExtension path == ".cabal") allPaths
+              invalid = filter ((/= 1) . length . extraPaths) extras
+              cabalPaths = defaultPaths <> concatMap extraPaths extras
+          if not (null invalid)
+            then pure (Left (UpdateError ("additional package directories must contain exactly one Cabal file: " <> Text.pack (show invalid))))
+            else do
+              parsed <- traverse (readPackage runner repository revision) cabalPaths
+              pure $ do
+                packages <- sequence parsed
+                let names = [name | DiscoveredPackage {name} <- packages]
+                    directories = [path | DiscoveredPackage {path} <- packages]
+                if Set.size (Set.fromList names) /= length names || Set.size (Set.fromList directories) /= length directories
+                  then Left (UpdateError "discovered duplicate package names or ambiguous package directories")
+                  else Right (sortOn packageKey packages)
+
     packageKey DiscoveredPackage {name = PackageName packageName} = packageName
 
 remoteHead :: ProcessRunner -> Text -> IO (Either UpdateError GitRevision)

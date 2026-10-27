@@ -4,7 +4,7 @@ Status: Accepted for implementation; production migration is pending.
 
 Date: 2026-09-21
 
-Revised: 2026-10-06
+Revised: 2026-10-27
 
 ## Context
 
@@ -33,7 +33,7 @@ An unchanged source can legitimately rebuild when one of its dependencies change
 first-party snapshots does not freeze future Nixpkgs or common-registry behavior; consumers
 requiring the whole environment unchanged must also retain their flake/toolchain pins.
 
-Capture discovery policy (package overrides and exclusions) inside each family snapshot.
+Capture discovery policy (package overrides, exclusions, and optional additional package paths) inside each family snapshot.
 Apply current policy only to new observations. Validate historical records against their
 captured policy so a package-policy change cannot reinterpret a published generation.
 Compatibility profile definitions are retained under immutable names; revised definitions
@@ -49,10 +49,24 @@ first-party package, which remains forbidden. Version/compiler guards and review
 hashes must prevent an untested future release from inheriting the workaround. A recipe that
 does not apply must preserve the original derivation identity.
 
-The initial version-2 schema fixes family identities and the update-group partition. Adding,
-removing, or regrouping families requires an explicit future catalog migration. This is a
-deliberate limit of complete consumer mappings; never fill missing selections from a mutable
-default. Package inventory and discovery-policy changes inside existing families are supported.
+The version-2 schema fixes existing family identities and the update-group partition.
+`catalog add --from FILE` explicitly adds singleton families within that schema, appends
+generation 1, and extends every named set without changing its old selections or support
+label. Existing identical definitions replay without upstream observation. Ordinary refresh
+still rejects topology changes; removal, regrouping, and repository renaming require a
+separate migration. Complete external mappings must explicitly add new selections.
+
+Migration requires the catalog and both locks to be tracked, committed, and clean. Stage
+source locks without writes, preserve unrelated inputs, compare managed bytes before and
+between atomic writes, and validate every affected set in both channels before acceptance.
+Restore every transaction-owned file on failure, preserving concurrent edits and reporting
+saved originals if restoration cannot finish.
+
+Default discovery includes root and top-level packages. Optional sorted clean nested
+`additionalPackagePaths` name directories containing exactly one committed Cabal file.
+Never recursively discover fixtures/examples. Retain this policy in snapshots and omit
+empty lists in encodings, preserving prior record representation. Package inventory and
+discovery-policy changes inside existing families remain supported.
 
 Every mutation validates its selected target, including historical sets. Tracking inputs
 need not equal historical selections. Evaluation and compilation are distinct gates: only

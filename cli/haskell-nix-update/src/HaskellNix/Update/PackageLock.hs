@@ -31,7 +31,7 @@ import Data.Text qualified as Text
 import Distribution.Parsec (simpleParsec)
 import Distribution.Pretty (prettyShow)
 import Distribution.Types.Version (Version)
-import HaskellNix.Update.Catalog (resolveUpdateGroups, validateFamilyCatalog)
+import HaskellNix.Update.Catalog (resolveUpdateGroups, validateAdditionalPackagePaths, validateFamilyCatalog)
 import HaskellNix.Update.Types
 import System.FilePath (isAbsolute, splitDirectories)
 
@@ -270,7 +270,9 @@ validatePackageSetLock catalog packageSetLock@PackageSetLock {schemaVersion, fam
         topologyError "resolved update groups differ from retained group snapshots"
       traverse_ (validatePackageSet resolvedGroupNames groupSnapshotKeySet) packageSets
       defaultSet <-
-        maybe (Left "defaultPackageSet does not name a declared package set") Right
+        maybe
+          (Left "defaultPackageSet does not name a declared package set")
+          Right
           (find (\PackageSet {name} -> name == defaultPackageSet) packageSets)
       unless (supportLevel defaultSet == Curated) $
         Left "defaultPackageSet must name a curated package set"
@@ -311,12 +313,12 @@ validateLockedSource FamilyConfig {name = FamilyName familyName, github} LockedS
   | otherwise = Right ()
 
 validateSnapshotPackages :: FamilyName -> DiscoveryPolicy -> [LockedPackage] -> Either Text ()
-validateSnapshotPackages (FamilyName familyName) DiscoveryPolicy {packageOverrides, excludedPackages} packages
+validateSnapshotPackages (FamilyName familyName) DiscoveryPolicy {packageOverrides, excludedPackages, additionalPackagePaths} packages
   | packageNames /= sort packageNames = Left ("family " <> familyName <> " packages must be sorted by name")
   | not (allUnique packageNames) = Left ("family " <> familyName <> " package names must be unique")
   | any (`Set.notMember` packageNameSet) (Map.keysSet packageOverrides) = Left ("family " <> familyName <> " snapshot policy overrides an unknown package")
   | not (Set.null (excludedPackages `Set.intersection` packageNameSet)) = Left ("family " <> familyName <> " snapshot policy excludes a retained package")
-  | otherwise = traverse_ validatePackage packages
+  | otherwise = validateAdditionalPackagePaths additionalPackagePaths >> traverse_ validatePackage packages
   where
     packageNames = [name | LockedPackage {name} <- packages]
     packageNameSet = Set.fromList packageNames
@@ -363,7 +365,9 @@ selectPackageSet :: FamilyCatalog -> PackageSetLock -> Text -> Either Text [Fami
 selectPackageSet catalog packageSetLock requestedName = do
   validated <- validatePackageSetLock catalog packageSetLock
   selected <-
-    maybe (Left ("package set not found: " <> requestedName)) Right
+    maybe
+      (Left ("package set not found: " <> requestedName))
+      Right
       (find (\PackageSet {name} -> name == requestedName) (packageSets validated))
   projectPackageSet validated selected
 
@@ -387,52 +391,52 @@ migrateLegacyPackageLock
   legacyLock@PackageLock {families = legacyLockedFamilies}
   legacyCatalog@FamilyCatalog {schemaVersion = legacySchemaVersion, families = legacyFamilies}
   targetSetName = do
-  _ <- validateFamilyCatalog targetCatalog
-  _ <- validateFamilyCatalog legacyCatalog
-  unless (targetSchemaVersion == 2) (Left "migration target family catalog must use schemaVersion 2")
-  unless (legacySchemaVersion == 1) (Left "migration source family catalog must use schemaVersion 1")
-  _ <- validatePackageLock legacyCatalog legacyLock
-  let targetNames = Set.fromList [name | FamilyConfig {name} <- targetFamilies]
-      legacyNames = Set.fromList [name | FamilyConfig {name} <- legacyFamilies]
-      legacyConfigs = Map.fromList [(name, family) | family@FamilyConfig {name} <- legacyFamilies]
-  unless (targetNames == legacyNames) (topologyError "migration catalogs contain different families")
-  unless (Map.keysSet sources == legacyNames) (Left "locked source map must contain exactly every legacy family")
-  migratedFamilies <- traverse (migrateFamily legacyConfigs) legacyLockedFamilies
-  resolvedGroups <- resolveUpdateGroups targetCatalog
-  let migratedGroups = map migrateGroup resolvedGroups
-      selectedGroups = [GroupSelection {group = groupName, generation = SnapshotGeneration 1} | UpdateGroup {name = groupName} <- resolvedGroups]
-      migratedSet = PackageSet {name = targetSetName, supportLevel = Curated, groups = selectedGroups}
-      migrated =
-        PackageSetLock
-          { schemaVersion = 2,
-            familySnapshots = sortOn familySnapshotKey migratedFamilies,
-            groupSnapshots = sortOn groupSnapshotKey migratedGroups,
-            packageSets = [migratedSet],
-            defaultPackageSet = targetSetName
-          }
-  validatePackageSetLock targetCatalog migrated
-  where
-    migrateFamily legacyConfigs LockedFamily {name, githubRev, packages} = do
-      configured <- maybe (Left "legacy family is missing from its catalog") Right (Map.lookup name legacyConfigs)
-      source <- maybe (Left "legacy family is missing its locked source") Right (Map.lookup name sources)
-      unless (rev source == githubRev) $
-        Left ("family " <> familyNameText name <> " source revision differs from the legacy lock")
-      let FamilyConfig {packageOverrides, excludedPackages} = configured
-      pure
-        FamilySnapshot
-          { family = name,
+    _ <- validateFamilyCatalog targetCatalog
+    _ <- validateFamilyCatalog legacyCatalog
+    unless (targetSchemaVersion == 2) (Left "migration target family catalog must use schemaVersion 2")
+    unless (legacySchemaVersion == 1) (Left "migration source family catalog must use schemaVersion 1")
+    _ <- validatePackageLock legacyCatalog legacyLock
+    let targetNames = Set.fromList [name | FamilyConfig {name} <- targetFamilies]
+        legacyNames = Set.fromList [name | FamilyConfig {name} <- legacyFamilies]
+        legacyConfigs = Map.fromList [(name, family) | family@FamilyConfig {name} <- legacyFamilies]
+    unless (targetNames == legacyNames) (topologyError "migration catalogs contain different families")
+    unless (Map.keysSet sources == legacyNames) (Left "locked source map must contain exactly every legacy family")
+    migratedFamilies <- traverse (migrateFamily legacyConfigs) legacyLockedFamilies
+    resolvedGroups <- resolveUpdateGroups targetCatalog
+    let migratedGroups = map migrateGroup resolvedGroups
+        selectedGroups = [GroupSelection {group = groupName, generation = SnapshotGeneration 1} | UpdateGroup {name = groupName} <- resolvedGroups]
+        migratedSet = PackageSet {name = targetSetName, supportLevel = Curated, groups = selectedGroups}
+        migrated =
+          PackageSetLock
+            { schemaVersion = 2,
+              familySnapshots = sortOn familySnapshotKey migratedFamilies,
+              groupSnapshots = sortOn groupSnapshotKey migratedGroups,
+              packageSets = [migratedSet],
+              defaultPackageSet = targetSetName
+            }
+    validatePackageSetLock targetCatalog migrated
+    where
+      migrateFamily legacyConfigs LockedFamily {name, githubRev, packages} = do
+        configured <- maybe (Left "legacy family is missing from its catalog") Right (Map.lookup name legacyConfigs)
+        source <- maybe (Left "legacy family is missing its locked source") Right (Map.lookup name sources)
+        unless (rev source == githubRev) $
+          Left ("family " <> familyNameText name <> " source revision differs from the legacy lock")
+        let FamilyConfig {packageOverrides, excludedPackages, additionalPackagePaths} = configured
+        pure
+          FamilySnapshot
+            { family = name,
+              generation = SnapshotGeneration 1,
+              discoveryPolicy = DiscoveryPolicy {packageOverrides, excludedPackages, additionalPackagePaths},
+              source,
+              packages
+            }
+      migrateGroup UpdateGroup {name, families} =
+        GroupSnapshot
+          { group = name,
             generation = SnapshotGeneration 1,
-            discoveryPolicy = DiscoveryPolicy {packageOverrides, excludedPackages},
-            source,
-            packages
+            families = [FamilySnapshotSelection {family, generation = SnapshotGeneration 1} | family <- families],
+            compatibilityProfile = "default"
           }
-    migrateGroup UpdateGroup {name, families} =
-      GroupSnapshot
-        { group = name,
-          generation = SnapshotGeneration 1,
-          families = [FamilySnapshotSelection {family, generation = SnapshotGeneration 1} | family <- families],
-          compatibilityProfile = "default"
-        }
 
 importLegacyPackageLock :: FamilyCatalog -> Map FamilyName LockedSource -> LegacyPackageLock -> FamilyCatalog -> Text -> PackageSetLock -> Either Text PackageSetLock
 importLegacyPackageLock targetCatalog sources legacyLock legacyCatalog targetSetName existing = do
@@ -518,14 +522,16 @@ parseFamilySnapshot = withObject "FamilySnapshot" $ \fields -> do
 
 parseDiscoveryPolicy :: Value -> Parser DiscoveryPolicy
 parseDiscoveryPolicy = withObject "DiscoveryPolicy" $ \fields -> do
-  rejectUnknown "discovery policy" ["packageOverrides", "excludedPackages"] fields
+  rejectUnknown "discovery policy" ["packageOverrides", "excludedPackages", "additionalPackagePaths"] fields
   overrideValue <- fields .: "packageOverrides"
   packageOverrides <- parsePackageOverridesValue overrideValue
   excludedNames <- fields .: "excludedPackages"
   unless (excludedNames == sort (excludedNames :: [Text]) && allUnique excludedNames) $
     fail "discovery policy excludedPackages must be sorted and unique"
+  additionalPackagePaths <- if KeyMap.member "additionalPackagePaths" fields then fields .: "additionalPackagePaths" else pure []
+  either (fail . Text.unpack) pure (validateAdditionalPackagePaths additionalPackagePaths)
   let excludedPackages = Set.fromList (map PackageName excludedNames)
-  pure DiscoveryPolicy {packageOverrides, excludedPackages}
+  pure DiscoveryPolicy {packageOverrides, excludedPackages, additionalPackagePaths}
 
 parsePackageOverridesValue :: Value -> Parser (Map PackageName PackageOverride)
 parsePackageOverridesValue = withObject "packageOverrides" $ \fields ->
@@ -605,11 +611,13 @@ familySnapshotValue FamilySnapshot {family = FamilyName family, generation = Sna
     ]
 
 discoveryPolicyValue :: DiscoveryPolicy -> Value
-discoveryPolicyValue DiscoveryPolicy {packageOverrides, excludedPackages} =
+discoveryPolicyValue DiscoveryPolicy {packageOverrides, excludedPackages, additionalPackagePaths} =
   object
-    [ "packageOverrides" .= Object (KeyMap.fromList (map overrideEntry (Map.toAscList packageOverrides))),
-      "excludedPackages" .= [name | PackageName name <- Set.toAscList excludedPackages]
-    ]
+    ( [ "packageOverrides" .= Object (KeyMap.fromList (map overrideEntry (Map.toAscList packageOverrides))),
+        "excludedPackages" .= [name | PackageName name <- Set.toAscList excludedPackages]
+      ]
+        <> ["additionalPackagePaths" .= additionalPackagePaths | not (null additionalPackagePaths)]
+    )
   where
     overrideEntry (PackageName packageName, PackageOverride {cabal2nixOptions}) =
       (Key.fromText packageName, object ["cabal2nixOptions" .= cabal2nixOptions])
@@ -657,7 +665,7 @@ positiveGeneration :: Text -> SnapshotGeneration -> Either Text ()
 positiveGeneration context (SnapshotGeneration generation) =
   unless (generation > 0) (Left (context <> " generation must be positive"))
 
-allUnique :: Ord value => [value] -> Bool
+allUnique :: (Ord value) => [value] -> Bool
 allUnique values = Set.size (Set.fromList values) == length values
 
 topologyError :: Text -> Either Text value

@@ -3,6 +3,7 @@ module HaskellNix.Update.Catalog
     encodeFamilyCatalog,
     validateFamilyCatalog,
     resolveUpdateGroups,
+    validateAdditionalPackagePaths,
   )
 where
 
@@ -80,7 +81,7 @@ validateExplicitGroups familyNames updateGroups
       | otherwise = Right ()
 
 validateFamily :: FamilyConfig -> Either Text ()
-validateFamily FamilyConfig {name = FamilyName name, moriProject, github, githubInput, packageOverrides, excludedPackages}
+validateFamily FamilyConfig {name = FamilyName name, moriProject, github, githubInput, packageOverrides, excludedPackages, additionalPackagePaths}
   | Text.null name = Left "family name must not be empty"
   | Text.null moriProject = Left ("family " <> name <> " has an empty Mori project")
   | not (validGitHub github) = Left ("family " <> name <> " GitHub must be owner/repository")
@@ -93,7 +94,7 @@ validateFamily FamilyConfig {name = FamilyName name, moriProject, github, github
             <> " cannot both override and exclude: "
             <> Text.intercalate ", " overriddenAndExcluded
         )
-  | otherwise = Right ()
+  | otherwise = validateAdditionalPackagePaths additionalPackagePaths
   where
     excludedNames = [packageName | PackageName packageName <- Set.toAscList excludedPackages]
     overriddenAndExcluded =
@@ -127,7 +128,7 @@ parseFamilyConfig :: Value -> Parser FamilyConfig
 parseFamilyConfig = withObject "FamilyConfig" $ \fields -> do
   rejectUnknown
     "family"
-    ["name", "moriProject", "github", "githubInput", "packageOverrides", "excludedPackages"]
+    ["name", "moriProject", "github", "githubInput", "packageOverrides", "excludedPackages", "additionalPackagePaths"]
     fields
   name <- FamilyName <$> fields .: "name"
   moriProject <- fields .: "moriProject"
@@ -136,8 +137,9 @@ parseFamilyConfig = withObject "FamilyConfig" $ \fields -> do
   overrideValue <- fields .:? "packageOverrides" .!= Object KeyMap.empty
   packageOverrides <- parsePackageOverrides overrideValue
   excludedNames <- fields .:? "excludedPackages" .!= []
+  additionalPackagePaths <- if KeyMap.member "additionalPackagePaths" fields then fields .: "additionalPackagePaths" else pure []
   let excludedPackages = Set.fromList (map PackageName excludedNames)
-  pure FamilyConfig {name, moriProject, github, githubInput, packageOverrides, excludedPackages}
+  pure FamilyConfig {name, moriProject, github, githubInput, packageOverrides, excludedPackages, additionalPackagePaths}
 
 parsePackageOverrides :: Value -> Parser (Map PackageName PackageOverride)
 parsePackageOverrides = withObject "packageOverrides" $ \fields ->
@@ -170,15 +172,17 @@ updateGroupValue UpdateGroup {name = UpdateGroupName name, families} =
     ]
 
 familyConfigValue :: FamilyConfig -> Value
-familyConfigValue FamilyConfig {name = FamilyName name, moriProject, github, githubInput, packageOverrides, excludedPackages} =
+familyConfigValue FamilyConfig {name = FamilyName name, moriProject, github, githubInput, packageOverrides, excludedPackages, additionalPackagePaths} =
   object
-    [ "name" .= name,
-      "moriProject" .= moriProject,
-      "github" .= github,
-      "githubInput" .= githubInput,
-      "packageOverrides" .= Object (KeyMap.fromList (map overrideEntry (Map.toAscList packageOverrides))),
-      "excludedPackages" .= [packageName | PackageName packageName <- Set.toAscList excludedPackages]
-    ]
+    ( [ "name" .= name,
+        "moriProject" .= moriProject,
+        "github" .= github,
+        "githubInput" .= githubInput,
+        "packageOverrides" .= Object (KeyMap.fromList (map overrideEntry (Map.toAscList packageOverrides))),
+        "excludedPackages" .= [packageName | PackageName packageName <- Set.toAscList excludedPackages]
+      ]
+        <> ["additionalPackagePaths" .= additionalPackagePaths | not (null additionalPackagePaths)]
+    )
   where
     overrideEntry (PackageName packageName, PackageOverride {cabal2nixOptions}) =
       ( Key.fromText packageName,
@@ -202,3 +206,15 @@ prettyConfig = defConfig {confCompare = compare}
 
 firstText :: Either String value -> Either Text value
 firstText = either (Left . Text.pack) Right
+
+-- Explicit extras are nested directories, since root and top-level discovery
+-- already cover every directory with fewer than two components.
+validateAdditionalPackagePaths :: [FilePath] -> Either Text ()
+validateAdditionalPackagePaths paths
+  | paths /= sort paths || Set.size (Set.fromList paths) /= length paths = Left "additionalPackagePaths must be sorted and unique"
+  | not (all valid paths) = Left "additionalPackagePaths must be clean nested repository-relative directories outside default discovery"
+  | otherwise = Right ()
+  where
+    valid path =
+      let parts = Text.splitOn "/" (Text.pack path)
+       in length parts >= 2 && all (\part -> not (Text.null part) && part /= "." && part /= ".." && not (Text.any (`elem` ['\\', '\n', '\r', '\0']) part)) parts

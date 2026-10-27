@@ -10,6 +10,7 @@ import Data.Text.Encoding qualified as Text
 import Distribution.Parsec (simpleParsec)
 import Distribution.Types.Version (Version)
 import HaskellNix.Update.Catalog (decodeFamilyCatalog, encodeFamilyCatalog, resolveUpdateGroups)
+import HaskellNix.Update.CatalogMigration
 import HaskellNix.Update.PackageLock
 import HaskellNix.Update.Types
 import Test.Tasty (TestTree, testGroup)
@@ -19,7 +20,9 @@ tests :: TestTree
 tests =
   testGroup
     "package-set lock"
-    [ testCase "version-2 catalog and lock round-trip canonically" testRoundTrip,
+    [ testCase "additive catalog migration preserves history and rejects changed identities" testCatalogMigration,
+      testCase "extra discovery paths are retained and empty fields omitted" testAdditionalPaths,
+      testCase "version-2 catalog and lock round-trip canonically" testRoundTrip,
       testCase "explicit and singleton update groups resolve deterministically" testResolveGroups,
       testCase "invalid structural and reference cases are rejected" testInvalidCases,
       testCase "strict JSON rejects unknown source fields and support levels" testStrictJson,
@@ -136,7 +139,8 @@ familyConfig familyName =
       github = "shinzui/" <> familyName,
       githubInput = familyName <> "-src",
       packageOverrides = Map.empty,
-      excludedPackages = Set.empty
+      excludedPackages = Set.empty,
+      additionalPackagePaths = []
     }
 
 validLock :: PackageSetLock
@@ -174,7 +178,8 @@ mkSnapshot familyName generation options revision =
               if Text.null options
                 then Map.empty
                 else Map.singleton (PackageName familyName) (PackageOverride options),
-            excludedPackages = Set.empty
+            excludedPackages = Set.empty,
+            additionalPackagePaths = []
           },
       source = lockedSource familyName revision,
       packages = [lockedPackage familyName options]
@@ -303,8 +308,8 @@ withGroupFamilies families GroupSnapshot {group, generation, compatibilityProfil
   GroupSnapshot {group, generation, families, compatibilityProfile}
 
 withExcludedPackages :: Set.Set PackageName -> FamilyConfig -> FamilyConfig
-withExcludedPackages excludedPackages FamilyConfig {name, moriProject, github, githubInput, packageOverrides} =
-  FamilyConfig {name, moriProject, github, githubInput, packageOverrides, excludedPackages}
+withExcludedPackages excludedPackages FamilyConfig {name, moriProject, github, githubInput, packageOverrides, additionalPackagePaths} =
+  FamilyConfig {name, moriProject, github, githubInput, packageOverrides, excludedPackages, additionalPackagePaths}
 
 mapSetSupport :: Text -> PackageSetSupportLevel -> PackageSet -> PackageSet
 mapSetSupport requested level set@PackageSet {name}
@@ -337,15 +342,15 @@ familyRevision FamilySnapshot {source = LockedSource {rev}} = rev
 lockedRevision :: LockedFamily -> GitRevision
 lockedRevision LockedFamily {githubRev} = githubRev
 
-assertLeft :: Show value => String -> Either Text value -> Assertion
+assertLeft :: (Show value) => String -> Either Text value -> Assertion
 assertLeft _ (Left _) = pure ()
 assertLeft label (Right value) = assertFailure (label <> ": expected failure, got " <> show value)
 
-assertMigrationRequired :: Show value => Either Text value -> Assertion
+assertMigrationRequired :: (Show value) => Either Text value -> Assertion
 assertMigrationRequired (Left message) = assertBool (Text.unpack message) ("catalog topology migration required" `Text.isPrefixOf` message)
 assertMigrationRequired (Right value) = assertFailure ("expected topology migration failure, got " <> show value)
 
-assertRight :: Show error => Either error value -> IO value
+assertRight :: (Show error) => Either error value -> IO value
 assertRight = either (assertFailure . show) pure
 
 testVersion :: String -> Version
@@ -357,3 +362,42 @@ revisionB = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
 
 hashA :: SriHash
 hashA = SriHash "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
+
+testCatalogMigration :: Assertion
+testCatalogMigration = do
+  let added = familyConfig "zeta"
+      request = FamilyCatalog 2 [added] []
+      observation =
+        SnapshotObservation
+          added
+          (lockedSource "zeta" revisionA)
+          [ObservedPackage (DiscoveredPackage (PackageName "zeta") "." (testVersion "1.0")) Nothing False]
+  (catalog, migrated) <- assertRight (planCatalogAddition validCatalog validLock request [observation])
+  filter (\FamilySnapshot {family} -> family /= FamilyName "zeta") (familySnapshots migrated) @?= familySnapshots validLock
+  filter (\GroupSnapshot {group} -> group /= UpdateGroupName "zeta") (groupSnapshots migrated) @?= groupSnapshots validLock
+  [set {groups = filter (\GroupSelection {group} -> group /= UpdateGroupName "zeta") (groups set)} | set <- packageSets migrated] @?= packageSets validLock
+  planCatalogAddition catalog migrated request [] @?= Right (catalog, migrated)
+  rejectAddition (decodePackageSetLock catalog (LazyByteString.toStrict (encodePackageSetLock validLock)))
+  rejectAddition (prepareCatalogAddition catalog (FamilyCatalog 2 [added {github = "other/zeta"}] []))
+  rejectAddition (prepareCatalogAddition validCatalog (FamilyCatalog 2 [added] [UpdateGroup (UpdateGroupName "pair") [FamilyName "baikai", FamilyName "zeta"]]))
+  rejectAddition (planCatalogAddition validCatalog validLock request [])
+  rejectAddition (planCatalogAddition validCatalog validLock request [observation, observation])
+  rejectAddition (planCatalogAddition validCatalog validLock request [observation {packages = [ObservedPackage (DiscoveredPackage (PackageName "okf") "." (testVersion "1.0")) Nothing False]}])
+
+testAdditionalPaths :: Assertion
+testAdditionalPaths = do
+  let extra = ["adapters/heni-hspec", "adapters/heni-tasty"]
+      withPaths = mapCatalogFamily "okf" (\family -> family {additionalPackagePaths = extra}) validCatalog
+  decodeFamilyCatalog (LazyByteString.toStrict (encodeFamilyCatalog withPaths)) @?= Right withPaths
+  assertBool "absent fields preserve old representation" (not ("additionalPackagePaths" `Text.isInfixOf` Text.decodeUtf8 (LazyByteString.toStrict (encodePackageSetLock validLock))))
+  let rejectPaths paths = rejectAddition (decodeFamilyCatalog (LazyByteString.toStrict (encodeFamilyCatalog (mapCatalogFamily "okf" (\family -> family {additionalPackagePaths = paths}) validCatalog))))
+  mapM_
+    rejectPaths
+    [["."], ["adapters"], ["../x"], ["/adapters/a"], ["adapters//a"], ["adapters/./a"], ["adapters/../a"], ["adapters/a/"], ["adapters/a", "adapters/a"], ["adapters/b", "adapters/a"], ["adapters/a\\b"]]
+  let changePolicy snapshot = snapshot {discoveryPolicy = (discoveryPolicy snapshot) {additionalPackagePaths = extra}}
+      retained = validLock {familySnapshots = map changePolicy (familySnapshots validLock)}
+  decodePackageSetLock validCatalog (LazyByteString.toStrict (encodePackageSetLock retained)) @?= Right retained
+
+rejectAddition :: (Show value) => Either error value -> Assertion
+rejectAddition (Left _) = pure ()
+rejectAddition (Right value) = assertFailure ("expected rejection, got " <> show value)
