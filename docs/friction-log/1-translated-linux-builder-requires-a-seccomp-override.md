@@ -6,15 +6,25 @@ generated:
   by: "codex-cli/gpt-6.1-sol"
   at: "2026-10-27T14:11:42Z"
 frictionId: FRIC-1
-status: logged
+status: "accepted"
 impact: detour
 kind: environment
 origin: "mori://shinzui/haskell-nix"
-affects: "https://github.com/apple/container"
+affects: "mori://apple/container"
 plan: "docs/plans/22-add-hinagata-shoko-heni-and-typesafe-hs-support.md"
 workaround: "Set filter-syscalls = false only in the guest command NIX_CONFIG; retain the normal host configuration."
+resolution: "Keep the guest-only filter-syscalls override for the existing translated Apple-container builder; qualify its correctness evidence and leave the host configuration unchanged."
+amended:
+  - by: "codex-cli/gpt-6.1-sol"
+    at: "2026-10-27T15:11:22Z"
+    change: "Accept the existing guest execution constraint for this build matrix."
+  - by: "codex-cli/gpt-6.1-sol"
+    at: "2026-10-27T15:58:11Z"
+    change: "Canonicalize the upstream project reference to its intended Mori URI, pending registration, as required by the user."
 ---
 # Translated Linux builder requires a seccomp override
+
+The intended upstream Mori project URI is recorded above; local registration is pending.
 
 ## Attempted
 

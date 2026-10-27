@@ -1,0 +1,11 @@
+kioku-core> <no location info>: error:
+kioku-core>     panic! (the 'impossible' happened)
+kioku-core>   GHC version 9.14.1:
+kioku-core>     coercionKind
+kioku-core>   ConsSymbolDef
+kioku-core>   Call stack:
+kioku-core>       CallStack (from HasCallStack):
+kioku-core>         pprPanic, called at compiler/GHC/Core/Coercion.hs:2554:17 in ghc-9.14.1-1ca9:GHC.Core.Coercion
+kioku-core>
+kioku-core> Please report this as a GHC bug:  https://www.haskell.org/ghc/reportabug
+kioku-core>

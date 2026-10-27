@@ -54,7 +54,9 @@ already receives the immutable package paths and never discovers packages. Do no
 captured recipe directories or rewrite runtime-owned snapshots. Extend repository-owned
 application complements explicitly. New application-only source dependencies absent from
 retained cohorts may use their live owned recipes, guarded against runtime ownership;
-retained runtime recipes and derivation identities remain authoritative.
+retained runtime recipes and derivation identities remain authoritative. Public selected-family
+metadata comes from the unmodified live snapshot graph even when construction needed a
+narrower internal metadata projection.
 
 Retain the maintained Kafka fork where its fixes are required and identify it consistently
 in Cabal and Nix. A source channel selecting Hackage first-party releases does not silently
@@ -85,7 +87,10 @@ explicit channel commit, verifies their retained SHA256 values and commits them 
 selection receipt. The shared `runtime-import` tool refuses changed retained projections,
 provides no-write checking and rolls back partial publication. The complete cohort freeze
 continues to use the application's same pinned channel revision. This changes delivery of
-projections, not their immutable contents or any dependency recipe.
+projections, not their immutable contents or any dependency recipe. Import validates version
+agreement with the selected current cohort; older generations whose Kiroku versions differ
+remain retained but are rejected against that cohort. Tests must choose a matching generation
+for successful imports and retain a deliberate conflict case for older generations.
 
 The public constructor requires explicit runtime, generation and complementary selections.
 It imports a content-addressed retained recipe subtree with a stable name, independently of

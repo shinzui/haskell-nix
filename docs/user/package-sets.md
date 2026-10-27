@@ -4,7 +4,7 @@ title: Package sets
 description: Understand first-party package-set selection, retention, and cache behavior.
 docId: DOC-7
 tags: [package-sets, snapshots, cache]
-timestamp: 2026-10-27T14:22:04Z
+timestamp: 2026-10-27T16:04:53Z
 generated:
   by: process:codex
   at: 2026-10-17T22:40:28Z
@@ -40,6 +40,11 @@ A package set has a **support level**. `curated` sets are built by this reposito
 both channels, every supported GHC, and every supported system. `historical` sets remain
 selectable and reproducible but are not promised to keep building on future toolchains.
 Consumer-owned mappings have no repository support designation.
+
+The current full regression matrix has a pre-existing `kioku-core` 0.11.0.0 compiler panic
+under GHC 9.14.1 in both source channels. EP-22 explicitly preserves those existing recipes
+and records that exception; all new families pass their complete compiler/channel/system
+matrix independently. See [the acceptance receipt](../evidence/ep22/acceptance.md).
 
 A **compatibility profile** is an immutable, named registry fragment associated with a
 group generation. If a workaround changes, maintainers add a new profile name rather than

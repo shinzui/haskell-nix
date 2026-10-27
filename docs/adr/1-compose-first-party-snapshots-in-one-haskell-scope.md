@@ -1,6 +1,6 @@
 # Compose first-party snapshots in one Haskell scope
 
-Status: Accepted for implementation; production migration is pending.
+Status: Accepted; schema-2 composition and explicit additive catalog migration are implemented.
 
 Date: 2026-09-21
 
@@ -73,6 +73,12 @@ need not equal historical selections. Evaluation and compilation are distinct ga
 full supported system/channel/compiler builds justify promoting a new curated combination.
 Retain the clean-managed-file guard and commit validated rollout mutations before subsequent
 mutations. Keep schema-1 CLI dispatch usable until the production migration.
+
+EP-22 preserves all old first-party and runtime-owned derivations while adding new families.
+Its user-approved exception retains the pre-existing kioku-core 0.11.0.0 GHC 9.14.1
+compiler panic and blocked dependents in the full regression result. This exception does
+not waive any new-family build or behavior check and does not change the general curated
+promotion rule. Retain the explicit decision and [acceptance receipt](../evidence/ep22/acceptance.md).
 
 ## Alternatives and consequences
 

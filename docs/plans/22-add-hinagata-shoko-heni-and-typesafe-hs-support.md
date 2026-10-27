@@ -40,19 +40,36 @@ The requested spelling “hinagate” refers to `mori://shinzui/hinagata`. Suppo
 packages: three Hinagata packages, three Shoko packages, four Heni packages including its
 optional test-framework adapters, and typesafe-hs. Eight currently have Hackage releases;
 Shoko is GitHub-only. Deliver an explicit recoverable catalog migration, retained package
-selection, real builds, and offline consumer checks. Implementation is in progress; the additive migration contracts are verified.
+selection, real builds, and offline consumer checks. The four families are active, with completed build/behavior evidence and the explicit
+user-approved pre-existing Kioku regression exception.
 
 
 ## Progress
 
 
-- [x] (2026-10-27) Provide explicit additive catalog migration and retained extra-directory discovery. All 234 updater tests and 368 pure Nix contracts pass; fault injection covers each publication step, affected-set validation, and concurrent edits. The active catalog still has fourteen families.
-- [x] (2026-10-27) Prove Heni JSON/mutation behavior and Shoko native Kafka loading before activation. The proposed `new-first-party-support` check passes both channels with GHC 9.12.4 and 9.14.1 on aarch64-darwin, including upstream Heni unit/runner/adapter, CLI, Hspec, and Tasty suites. Frozen Aeson 2.2.5.1, Crypton 1.1.5, and librdkafka 2.15.0 remain selected. Linux matrix validation is in progress.
-- [ ] Generate four family snapshots and complete selections, preserving existing records and old group choices; public constructors and repository-owned runtime complements evaluate.
-- [ ] Pass the supported system/compiler/channel build matrix and offline consumer checks, document support and migration, and retain acceptance evidence.
+- [x] (2026-10-27) Provide explicit additive catalog migration and retained extra-directory discovery. All 234 updater tests and 368 pure Nix contracts pass; fault injection covers each publication step, affected-set validation, and concurrent edits. This was verified before production activation with the original fourteen-family catalog.
+- [x] (2026-10-27) Prove Heni JSON/mutation behavior and Shoko native Kafka loading before activation. The proposed `new-first-party-support` check passes both channels with GHC 9.12.4 and 9.14.1 on aarch64-darwin, including upstream Heni unit/runner/adapter, CLI, Hspec, and Tasty suites. Frozen Aeson 2.2.5.1, Crypton 1.1.5, and librdkafka 2.15.0 remain selected. The final new-family matrix also passes on translated x86_64 Linux.
+- [x] (2026-10-27) Activate four generation-1 families/groups in commit `334390b`. All three sets select seventeen groups; eleven GitHub and eight Hackage packages are added. Old snapshots/selections and all existing first-party and runtime-owned derivations remain equal on both systems, including comparisons to the pre-implementation revision. Public runtime constructors preserve raw retained discovery metadata.
+- [x] (2026-10-27) Pass all eight final new-family system/compiler/channel builds and offline behavior checks. Both full platform checks pass 62 checks and retain only the approved Kioku/GHC 9.14 curated exception. All 234 updater tests and 368 pure contracts pass on both systems. Support/migration docs, ADRs, triaged friction, and receipts are complete in `docs/evidence/ep22/acceptance.md` and `acceptance.json`; Linux correctness evidence uses the translated guest and an immutable export of implementation commit `5fa6635`.
 
 
 ## Surprises & Discoveries
+
+2026-10-27: Linux Nix lazily copies a local path source; documentation edits during
+evaluation caused two changing-source errors. The final Linux gate uses an immutable
+`git archive` export of implementation commit `5fa6635`, and subsequent edits are limited
+to documentation/evidence in the original workspace. This preserves a stable code candidate.
+
+2026-10-27: Full flake checks exposed a stale runtime-import success fixture: generations
+1–4 intentionally retain older Kiroku versions than the current cohort. Use the matching
+generation 5 for success cases and retain an explicit generation-1 conflict rejection.
+The import tool and captured generations remain unchanged; all twelve fixture tests pass.
+
+2026-10-27: The full curated Darwin build exposes a pre-existing GHC 9.14.1 compiler panic
+in unchanged kioku-core 0.11.0.0 under both source channels. It blocks Kioku dependents,
+but is outside every new family's dependency closure. Initial-to-expanded identity
+comparisons prove that adding these families did not introduce the failing recipes. The
+user explicitly chose to preserve identities and record the narrow regression exception.
 
 2026-10-27: `nix run` would implicitly write newly declared source inputs before the CLI's
 clean-file guard. Use `nix run --no-write-lock-file` for catalog migration; the updater owns
@@ -68,8 +85,19 @@ the frozen Hspec/QuickCheck versions and shared cohort remain unchanged.
 
 ## Decision Log
 
-2026-10-27: Supply hspec-api 2.11.18 as an owned application dependency matching the
-already frozen hspec-core, alongside the separately owned rdkafka-hs source. No cohort
+2026-10-27 (user scope decision): Preserve existing derivation identities and treat the
+pre-existing kioku-core 0.11.0.0 GHC 9.14.1 `coercionKind / ConsSymbolDef` compiler panic
+(and its blocked dependents) as an exception to the full curated regression gate. Both
+failing Darwin derivations exactly match the pre-implementation revision. Do not repair
+Kioku, change compiler flags, or replace its source under this plan. Every available new
+package and its behavior checks must still pass both systems/compilers/channels. Run and
+retain the full regression result, distinguishing this exception from successful cells.
+
+2026-10-27: Supply hspec-api 2.11.18 from immutable upstream release commit
+`96242bf996b3eccc10cfe3406c16ffcb519b422d` as an owned non-Hackage application dependency
+matching the already frozen hspec-core, alongside the separately owned rdkafka-hs source.
+Registry lint forbids Hackage fetching in patches, so the final recipe uses the verified
+Git release source rather than introducing a competing Hackage version-selection layer. No cohort
 selection changes. Validation-only recipes expose built fixture executables and unset
 Nix's test-wrapper GHC_PACKAGE_PATH only for nested Cabal commands; no Heni source repair
 or assertion removal is needed.
@@ -109,22 +137,39 @@ the four requested families and does not become a fifth independently refreshed 
 
 ## Outcomes & Retrospective
 
-Milestones 1 and 2 are implemented and validated. The proposed Darwin compiler/channel
-matrix passes. FRIC-1 in `docs/friction-log/` records the translated Linux guest syscall-filter
-workaround; FRIC-2 records the validation-only nested Cabal wrapper. Production inventory
-and complete mappings have not yet changed; the Linux build matrix remains in progress.
+The four generation-1 families are active, with eleven GitHub and eight Hackage packages,
+seventeen groups in each named set, and no rewritten old snapshots or selections. All
+292 existing first-party and 2,730 runtime-owned derivations per system match the initial
+revision exactly, including after the final source-policy correction. Both full platform
+flake checks pass 62 checks and retain only the approved curated Kioku exception. All eight final
+new-family cells pass; both systems pass 234 updater tests and 368 pure contracts.
+Four-family offline/online checks, scoped refresh previews, and no-op catalog replay pass.
+Linux runs actual x86_64 binaries in the translated Apple-container guest, using an immutable
+export of implementation commit `5fa6635`; no physical x86 performance claim is made.
+The dated machine-readable and prose receipts live in `docs/evidence/ep22/`. Nothing remains within the approved scope; the existing Kioku/compiler
+repair remains separate work. No cohort upgrade, captured-runtime rewrite, or cache publication
+was performed.
+
+FRIC-1 ([translated builder](../friction-log/1-translated-linux-builder-requires-a-seccomp-override.md))
+is triaged accepted: keep the guest-only syscall-filter override and qualify translated
+correctness evidence. FRIC-2 ([nested Cabal environment](../friction-log/2-nix-test-wrapper-exports-an-environment-that-nested-cabal-rejects.md))
+is triaged accepted: keep the validation-only wrapper without changing production recipes
+or upstream assertions. ADRs 1 and 7 retain the migration, discovery, construction-boundary,
+source ownership, explicit complement, and identity-preservation decisions.
 
 
 ## Context and Orientation
 
 
-`config/first-party-families.json` is hand-authored policy. It currently contains fourteen
-families and thirteen update groups; Baikai and Shikumi share one group.
+`config/first-party-families.json` is hand-authored policy. Before this plan it contained
+fourteen families and thirteen update groups; Baikai and Shikumi share one group. The
+completed migration adds four singleton groups, yielding eighteen families and seventeen groups.
 `packages/first-party-lock.json` retains immutable family snapshots (source, package paths,
 versions, discovery policy, and Hackage pins), immutable group snapshots (family generation
 references and compatibility profile), and three complete named sets. `default` is curated,
 meaning the supported build matrix is required. `keiro-0-14-okf-0-8` and
-`keiro-0-14-okf-0-9` are historical. All three currently select thirteen groups.
+`keiro-0-14-okf-0-9` are historical. All three now select seventeen groups, preserving their original
+thirteen selections.
 `flake.nix` declares moving non-flake source inputs; retained GitHub sources instead use
 locked revision and content-hash descriptors.
 
@@ -133,9 +178,9 @@ reads family policy and resolves groups; `Git.hs:discoverPackages` reads committ
 files at the root or one directory down. `Types.hs` defines `FamilyConfig`,
 `DiscoveryPolicy`, and `PackageSetLock`. `PackageLock.hs:validatePackageSetLock` requires
 exact catalog/snapshot family and group agreement. `Plan.hs` plans append-only refreshes.
-`Workflow.hs` owns dirty-file checks, writes, Nix validation, and restoration of the two
-managed locks. `Cli.hs` exposes commands. `migrate-lock` migrates schema 1 to schema 2;
-it cannot add a family to an existing schema-2 catalog.
+`Workflow.hs` owns dirty-file checks, writes, Nix validation, and restoration of managed
+files. Catalog addition owns the catalog and both locks; ordinary refresh owns the locks. `Cli.hs` exposes commands. `migrate-lock` migrates schema 1 to schema 2;
+the new `catalog add` command adds singleton families to an existing schema-2 catalog.
 
 `lib/validateFirstPartyPackageSetLock.nix` independently enforces the complete graph.
 `lib/mkFirstPartyPackageSet.nix` projects a named set or complete explicit mapping into
@@ -144,7 +189,8 @@ it cannot add a family to an existing schema-2 catalog.
 `checks/package-set-matrix.nix`, wired from `checks/default.nix`, builds every available
 selected package for every curated set and channel with every `lib.supportedGhcs`
 compiler. Systems in `flake.nix` are `aarch64-darwin` and `x86_64-linux`; discover compiler
-names from the pinned toolchain instead of copying old plans.
+names from the pinned toolchain instead of copying old plans. This revision supports
+GHC 9.12.4 (`ghc9124`) and GHC 9.14.1 (`ghc9141`).
 
 `lib/mkRuntimePackageSet.nix` combines retained runtime selections with explicit application
 complements through `lib/composeRuntimeSelections.nix`. The four new groups become required
@@ -457,7 +503,8 @@ pass result per behavior. Record missing builders as pending acceptance, not suc
 ## Validation and Acceptance
 
 
-All four milestones are required. Offline tests must prove deterministic addition, no-op
+All four milestones are required, subject to the user-approved pre-existing Kioku/GHC 9.14
+regression exception recorded in the Decision Log. Offline tests must prove deterministic addition, no-op
 replay, strict normal-refresh rejection, unchanged snapshots/old selections, dry-run byte
 identity, and restoration of all three managed files after injected publication/validation
 failure. Historical policy checks must still work after current discovery policy changes.
@@ -467,8 +514,9 @@ while nested Hinagata examples and Heni fixtures remain excluded.
 Through the final factory, the two registries expose eleven GitHub and eight published
 Hackage packages at the researched revisions. Shoko's three names remain absent from the
 Hackage first-party registry. Actual version comparisons are empty in every supported
-compiler/channel cell. Every available package builds on both supported systems, all
-specified consumer behaviors pass, and retained runtime construction works with explicit
+compiler/channel cell. Every available new package builds on both supported systems, all
+specified consumer behaviors pass; regression builds retain the narrowly approved
+pre-existing Kioku/GHC 9.14 exception, and retained runtime construction works with explicit
 new complements and equal runtime-owned identities. Evidence distinguishes bounds-relaxed
 builds, tests actually executed, and unexecuted upstream suites.
 
@@ -527,3 +575,12 @@ The shared freeze, boot package selection, declared compatibility policy, and re
 runtime source/recipe records remain authoritative. New source policy participates in existing
 ownership/audit checks. A successful legacy bounds-relaxed build remains weaker evidence
 than an upstream bounds-valid Cabal solve; preserve that distinction in documentation.
+
+## Revision note (2026-10-27)
+
+The user explicitly accepted the pre-existing unchanged Kioku/GHC 9.14 compiler failure
+as a narrow full-matrix exception, preserving the original cache-identity criterion and
+all new-family acceptance requirements. No Kioku repair or cohort change is authorized. The final Hspec dependency recipe uses
+the verified immutable Git release to preserve the registry ban on Hackage pins, and the
+runtime-import fixture uses the current matching retained generation while retaining an
+older-generation conflict test.

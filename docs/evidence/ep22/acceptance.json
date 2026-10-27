@@ -1,0 +1,689 @@
+{
+  "checks": {
+    "catalogReplay": "No catalog changes.",
+    "documentation": "passed",
+    "formatting": "passed",
+    "offlineFourFamilyCheck": "passed",
+    "onlineFourFamilyCheck": "passed after one transient Hackage InvalidChunkHeaders retry",
+    "pureNixContracts": 368,
+    "pureNixContractsBySystem": {
+      "aarch64-darwin": 368,
+      "x86_64-linux": 368
+    },
+    "runtimeImportFixtures": 12,
+    "scopedRefreshPreviews": {
+      "heni": "passed",
+      "hinagata": "passed",
+      "shoko": "passed",
+      "typesafe-hs": "passed"
+    },
+    "updaterTests": 234,
+    "updaterTestsBySystem": {
+      "aarch64-darwin": 234,
+      "x86_64-linux": 234
+    }
+  },
+  "date": "2026-10-27",
+  "dependencySources": {
+    "hspec-api": {
+      "narHash": "sha256-u1y0oZlOrQKxI5PDTdDJYmF0qvf2USPTt9buYqbgSqc=",
+      "owner": "mori://hspec/hspec/packages/hspec-api",
+      "path": "hspec-api",
+      "registration": "pending",
+      "revision": "96242bf996b3eccc10cfe3406c16ffcb519b422d",
+      "version": "2.11.18"
+    },
+    "rdkafka-hs": {
+      "narHash": "sha256-lno5sy1FDVLTzHeunuUmnbqNAMGGrFymWyJg/5KgwuM=",
+      "nativeRdkafka": "2.15.0",
+      "owner": "mori://shinzui/rdkafka-hs/packages/rdkafka-hs",
+      "revision": "45d9e21ad3c72b56c482173e17ca3fa2bd8b1bc7",
+      "version": "1.0.0.1"
+    }
+  },
+  "initialRevision": "3b726f9757bde6768b29c51fcf8295a2c178653f",
+  "inventory": {
+    "addedFamilies": {
+      "heni": {
+        "discoveryPolicy": {
+          "additionalPackagePaths": [
+            "adapters/heni-hspec",
+            "adapters/heni-tasty"
+          ],
+          "excludedPackages": [],
+          "packageOverrides": {}
+        },
+        "generation": 1,
+        "packages": [
+          {
+            "hackage": {
+              "hash": "sha256-U1Ni0yJ+POJAQ5LeTcSgCqzxIUA0W/dJ57mXkwYARBA=",
+              "version": "0.1.0.0"
+            },
+            "name": "heni",
+            "path": ".",
+            "version": "0.1.0.0"
+          },
+          {
+            "hackage": {
+              "hash": "sha256-4Bv0ofAWxIph9x0MtzI1QZN1l7MIAeCwdsYG1o+XXRc=",
+              "version": "0.1.0.0"
+            },
+            "name": "heni-cli",
+            "path": "heni-cli",
+            "version": "0.1.0.0"
+          },
+          {
+            "hackage": {
+              "hash": "sha256-ZrSIzd+5IueTd5k277o0da/uZLfYwnEHwOu4X5Fc0CI=",
+              "version": "0.1.0.0"
+            },
+            "name": "heni-hspec",
+            "path": "adapters/heni-hspec",
+            "version": "0.1.0.0"
+          },
+          {
+            "hackage": {
+              "hash": "sha256-iDmiDmT2Xc5XP0pDKdfA/5ccUvd3oKCPpyW2jdxHCAY=",
+              "version": "0.1.0.0"
+            },
+            "name": "heni-tasty",
+            "path": "adapters/heni-tasty",
+            "version": "0.1.0.0"
+          }
+        ],
+        "revision": "81696f8a2b1263312497e703bae7ac7f2139cd8b"
+      },
+      "hinagata": {
+        "discoveryPolicy": {
+          "excludedPackages": [],
+          "packageOverrides": {}
+        },
+        "generation": 1,
+        "packages": [
+          {
+            "hackage": {
+              "hash": "sha256-4n7cap3WPUO/WqD6GrtkHLGx/+POn9SZLrwdwFW/jlA=",
+              "version": "0.1.0.0"
+            },
+            "name": "hinagata-cli",
+            "path": "hinagata-cli",
+            "version": "0.1.0.0"
+          },
+          {
+            "hackage": {
+              "hash": "sha256-OTU8sp3scoFmCgdqYLBp5qhhu9iy30Eh2z70ywu26vo=",
+              "version": "0.1.0.0"
+            },
+            "name": "hinagata-core",
+            "path": "hinagata-core",
+            "version": "0.1.0.0"
+          },
+          {
+            "hackage": {
+              "hash": "sha256-19rYiaqMrtFpXFIqID/eOqgeDEftbZnSXbxOfsT003s=",
+              "version": "0.1.0.0"
+            },
+            "name": "hinagata-postgres",
+            "path": "hinagata-postgres",
+            "version": "0.1.0.0"
+          }
+        ],
+        "revision": "a0c1059743e5957e66e4b8cee9e485ad89471937"
+      },
+      "shoko": {
+        "discoveryPolicy": {
+          "excludedPackages": [],
+          "packageOverrides": {}
+        },
+        "generation": 1,
+        "packages": [
+          {
+            "hackage": null,
+            "name": "shoko-adapters",
+            "path": "shoko-adapters",
+            "version": "0.2.0.0"
+          },
+          {
+            "hackage": null,
+            "name": "shoko-cli",
+            "path": "shoko-cli",
+            "version": "0.2.0.0"
+          },
+          {
+            "hackage": null,
+            "name": "shoko-core",
+            "path": "shoko-core",
+            "version": "0.3.0.0"
+          }
+        ],
+        "revision": "58adca36ef5f65ae78a4fa15626dba1ff967fcaf"
+      },
+      "typesafe-hs": {
+        "discoveryPolicy": {
+          "excludedPackages": [],
+          "packageOverrides": {}
+        },
+        "generation": 1,
+        "packages": [
+          {
+            "hackage": {
+              "hash": "sha256-m+MumjyGAFpahfkhmHBBeThOJGmYWoIjtodK17GWiuY=",
+              "version": "0.1.0.0"
+            },
+            "name": "typesafe-hs",
+            "path": ".",
+            "version": "0.1.0.0"
+          }
+        ],
+        "revision": "c4b56a01dd23f8844d44440887692f6ac64ef564"
+      }
+    },
+    "preservedOldSnapshotsAndSelections": true,
+    "sets": {
+      "default": 17,
+      "keiro-0-14-okf-0-8": 17,
+      "keiro-0-14-okf-0-9": 17
+    }
+  },
+  "migrationBaseline": "ef7f44034f3b8c0bcd248dbaff0fdfaa52b0900e",
+  "migrationCommit": "334390b6913e740ebeeec25b6638aa97ae0a48b1",
+  "regressionException": {
+    "approvedBy": "user",
+    "channels": [
+      "github",
+      "hackage"
+    ],
+    "compiler": "GHC 9.14.1",
+    "darwinMatrixExitCode": 1,
+    "diagnostic": "coercionKind / ConsSymbolDef compiler panic",
+    "fullFlakeChecks": {
+      "aarch64-darwin": "completed; only approved Kioku exception",
+      "x86_64-linux": "completed; only approved Kioku exception"
+    },
+    "initialDerivationsBySystem": {
+      "aarch64-darwin": {
+        "github": "/nix/store/5lipd52hf03jrrn2sqr0igv5p0a1xvrc-kioku-core-0.11.0.0.drv",
+        "hackage": "/nix/store/wixvc7jw5fbw67m19l86vw9s7w9nhiim-kioku-core-0.11.0.0.drv"
+      },
+      "x86_64-linux": {
+        "github": "/nix/store/pmhmhl7z0mk6qhfc98nxsgp2w4jb6xf8-kioku-core-0.11.0.0.drv",
+        "hackage": "/nix/store/6mi97kpfi0zvqnkqznjz0gsf9n838kgi-kioku-core-0.11.0.0.drv"
+      }
+    },
+    "linuxMatrixExitCode": 1,
+    "package": "kioku-core",
+    "preserveExistingDerivations": true,
+    "version": "0.11.0.0"
+  },
+  "status": "accepted with user-approved pre-existing regression exception",
+  "systems": {
+    "aarch64-darwin": {
+      "execution": "native Apple Silicon",
+      "finalIdentitySha256": "aa2b48af470ade51bd40955a90c17249074f0d4608a92256aee5d1f43ca6ba55",
+      "firstPartyComparisons": 292,
+      "fullFlakeCheck": {
+        "exception": "unchanged Kioku GHC 9.14.1 panic and blocked dependents only",
+        "exitCode": 1,
+        "failedChecks": [
+          "package-set-default"
+        ],
+        "passedChecks": [
+          "application-checkpoint",
+          "application-incremental",
+          "build-setting-flags",
+          "bytestring-lexing-policy-github",
+          "bytestring-lexing-policy-hackage",
+          "cabal-version-support",
+          "cohort-cache",
+          "cohort-compare",
+          "cohort-dhall-parity",
+          "cohort-generated-fresh",
+          "cohort-manifest",
+          "cohort-manifest-ghc914",
+          "cohort-pg-migrate-parity",
+          "cohort-serialise-ghc912",
+          "cohort-serialise-ghc914",
+          "cohort-versions",
+          "compatibility-capture",
+          "compatibility-policy",
+          "compatibility-report",
+          "consumer-overlay-audit",
+          "first-party-registry",
+          "first-party-versions",
+          "formatting",
+          "generated-recipes",
+          "generated-recipes-fresh",
+          "generated-recipes-no-ifd",
+          "generated-recipes-parity",
+          "ghc-boot-packages",
+          "haskell-nix-update",
+          "new-first-party-support",
+          "nix-unit",
+          "overlay-eval",
+          "package-set-cache-identity",
+          "package-set-contract",
+          "package-set-real-source",
+          "package-validation",
+          "production-package-set-cache-identity",
+          "project-shell",
+          "registry-policy-only",
+          "registry-valid",
+          "retained-generated-recipes-no-ifd",
+          "runtime-2-github-composition",
+          "runtime-2-github-parity",
+          "runtime-2-hackage-composition",
+          "runtime-2-hackage-parity",
+          "runtime-3-bytestring-lexing-github",
+          "runtime-3-bytestring-lexing-hackage",
+          "runtime-3-compatibility-github",
+          "runtime-3-compatibility-hackage",
+          "runtime-3-github-composition",
+          "runtime-3-github-parity",
+          "runtime-3-hackage-composition",
+          "runtime-3-hackage-parity",
+          "runtime-5-github-parity",
+          "runtime-5-hackage-parity",
+          "runtime-composition",
+          "runtime-github-parity",
+          "runtime-hackage-composition",
+          "runtime-hackage-parity",
+          "runtime-import",
+          "runtime-kafka-close",
+          "shared-overrides"
+        ]
+      },
+      "identitiesEqual": true,
+      "identityEvidence": "preserved-identities-aarch64-darwin.json.gz",
+      "initialIdentitySha256": "aa2b48af470ade51bd40955a90c17249074f0d4608a92256aee5d1f43ca6ba55",
+      "newFamilyMatrix": {
+        "cells": [
+          {
+            "buildAndBehavior": "passed",
+            "channel": "github",
+            "check": "/nix/store/lpaalkzyal0s7m44vwb9p7fvsrf60gqc-new-first-party-support-github-ghc9124",
+            "compiler": "9.12.4",
+            "dependencies": {
+              "QuickCheck": "2.18.0.0",
+              "aeson": "2.2.5.1",
+              "crypton": "1.1.5",
+              "hspec-api": "2.11.18",
+              "hspec-core": "2.11.18",
+              "tasty": "1.5.4"
+            },
+            "ghc": "ghc9124",
+            "shokoAbsentFromHackage": true,
+            "versionMismatches": [],
+            "versions": {
+              "heni": "0.1.0.0",
+              "heni-cli": "0.1.0.0",
+              "heni-hspec": "0.1.0.0",
+              "heni-tasty": "0.1.0.0",
+              "hinagata-cli": "0.1.0.0",
+              "hinagata-core": "0.1.0.0",
+              "hinagata-postgres": "0.1.0.0",
+              "shoko-adapters": "0.2.0.0",
+              "shoko-cli": "0.2.0.0",
+              "shoko-core": "0.3.0.0",
+              "typesafe-hs": "0.1.0.0"
+            }
+          },
+          {
+            "buildAndBehavior": "passed",
+            "channel": "hackage",
+            "check": "/nix/store/l7wkakw9rnci0ik6iriwk3y019a2ma50-new-first-party-support-hackage-ghc9124",
+            "compiler": "9.12.4",
+            "dependencies": {
+              "QuickCheck": "2.18.0.0",
+              "aeson": "2.2.5.1",
+              "crypton": "1.1.5",
+              "hspec-api": "2.11.18",
+              "hspec-core": "2.11.18",
+              "tasty": "1.5.4"
+            },
+            "ghc": "ghc9124",
+            "shokoAbsentFromHackage": true,
+            "versionMismatches": [],
+            "versions": {
+              "heni": "0.1.0.0",
+              "heni-cli": "0.1.0.0",
+              "heni-hspec": "0.1.0.0",
+              "heni-tasty": "0.1.0.0",
+              "hinagata-cli": "0.1.0.0",
+              "hinagata-core": "0.1.0.0",
+              "hinagata-postgres": "0.1.0.0",
+              "typesafe-hs": "0.1.0.0"
+            }
+          },
+          {
+            "buildAndBehavior": "passed",
+            "channel": "github",
+            "check": "/nix/store/hw5gircgll7vjavz8fcdfw5fzh34zki0-new-first-party-support-github-ghc9141",
+            "compiler": "9.14.1",
+            "dependencies": {
+              "QuickCheck": "2.18.0.0",
+              "aeson": "2.2.5.1",
+              "crypton": "1.1.5",
+              "hspec-api": "2.11.18",
+              "hspec-core": "2.11.18",
+              "tasty": "1.5.4"
+            },
+            "ghc": "ghc9141",
+            "shokoAbsentFromHackage": true,
+            "versionMismatches": [],
+            "versions": {
+              "heni": "0.1.0.0",
+              "heni-cli": "0.1.0.0",
+              "heni-hspec": "0.1.0.0",
+              "heni-tasty": "0.1.0.0",
+              "hinagata-cli": "0.1.0.0",
+              "hinagata-core": "0.1.0.0",
+              "hinagata-postgres": "0.1.0.0",
+              "shoko-adapters": "0.2.0.0",
+              "shoko-cli": "0.2.0.0",
+              "shoko-core": "0.3.0.0",
+              "typesafe-hs": "0.1.0.0"
+            }
+          },
+          {
+            "buildAndBehavior": "passed",
+            "channel": "hackage",
+            "check": "/nix/store/652pvvxjf61yfgmi5zb00hgsw5fh2jlv-new-first-party-support-hackage-ghc9141",
+            "compiler": "9.14.1",
+            "dependencies": {
+              "QuickCheck": "2.18.0.0",
+              "aeson": "2.2.5.1",
+              "crypton": "1.1.5",
+              "hspec-api": "2.11.18",
+              "hspec-core": "2.11.18",
+              "tasty": "1.5.4"
+            },
+            "ghc": "ghc9141",
+            "shokoAbsentFromHackage": true,
+            "versionMismatches": [],
+            "versions": {
+              "heni": "0.1.0.0",
+              "heni-cli": "0.1.0.0",
+              "heni-hspec": "0.1.0.0",
+              "heni-tasty": "0.1.0.0",
+              "hinagata-cli": "0.1.0.0",
+              "hinagata-core": "0.1.0.0",
+              "hinagata-postgres": "0.1.0.0",
+              "typesafe-hs": "0.1.0.0"
+            }
+          }
+        ],
+        "curatedMatrix": {
+          "github-ghc9124": {
+            "build": "passed",
+            "consumer": "/nix/store/p99x1g2kxzh0s3gvi5l101rln91r3475-package-set-consumer-1.0.drv",
+            "packageCount": 89,
+            "versionMismatches": []
+          },
+          "github-ghc9141": {
+            "build": "blocked by approved Kioku exception",
+            "consumer": "/nix/store/88kf0x48zkyhv5pr6fhdlm0cm3ai7ii7-package-set-consumer-1.0.drv",
+            "packageCount": 89,
+            "versionMismatches": []
+          },
+          "hackage-ghc9124": {
+            "build": "passed",
+            "consumer": "/nix/store/d62zr0rgvz2jjl4r67ymcg9rfnp8pf5y-package-set-consumer-1.0.drv",
+            "packageCount": 76,
+            "versionMismatches": []
+          },
+          "hackage-ghc9141": {
+            "build": "blocked by approved Kioku exception",
+            "consumer": "/nix/store/1xjgzryxwmpzx8k85cnb3dvbg5g8dqil-package-set-consumer-1.0.drv",
+            "packageCount": 76,
+            "versionMismatches": []
+          }
+        },
+        "system": "aarch64-darwin"
+      },
+      "runtimeComparisons": 2730,
+      "runtimeGenerations": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    "x86_64-linux": {
+      "execution": "translated Apple-container x86_64 guest",
+      "finalIdentitySha256": "8de3d250307541268d94312d5a2bab923c0bd1745acf304e04449ddb0339ce9e",
+      "firstPartyComparisons": 292,
+      "fullFlakeCheck": {
+        "exception": "unchanged Kioku GHC 9.14.1 panic and blocked dependents only",
+        "exitCode": 1,
+        "failedChecks": [
+          "package-set-default"
+        ],
+        "passedChecks": [
+          "application-checkpoint",
+          "application-incremental",
+          "build-setting-flags",
+          "bytestring-lexing-policy-github",
+          "bytestring-lexing-policy-hackage",
+          "cabal-version-support",
+          "cohort-cache",
+          "cohort-compare",
+          "cohort-dhall-parity",
+          "cohort-generated-fresh",
+          "cohort-manifest",
+          "cohort-manifest-ghc914",
+          "cohort-pg-migrate-parity",
+          "cohort-serialise-ghc912",
+          "cohort-serialise-ghc914",
+          "cohort-versions",
+          "compatibility-capture",
+          "compatibility-policy",
+          "compatibility-report",
+          "consumer-overlay-audit",
+          "first-party-registry",
+          "first-party-versions",
+          "formatting",
+          "generated-recipes",
+          "generated-recipes-fresh",
+          "generated-recipes-no-ifd",
+          "generated-recipes-parity",
+          "ghc-boot-packages",
+          "haskell-nix-update",
+          "new-first-party-support",
+          "nix-unit",
+          "overlay-eval",
+          "package-set-cache-identity",
+          "package-set-contract",
+          "package-set-real-source",
+          "package-validation",
+          "production-package-set-cache-identity",
+          "project-shell",
+          "registry-policy-only",
+          "registry-valid",
+          "retained-generated-recipes-no-ifd",
+          "runtime-2-github-composition",
+          "runtime-2-github-parity",
+          "runtime-2-hackage-composition",
+          "runtime-2-hackage-parity",
+          "runtime-3-bytestring-lexing-github",
+          "runtime-3-bytestring-lexing-hackage",
+          "runtime-3-compatibility-github",
+          "runtime-3-compatibility-hackage",
+          "runtime-3-github-composition",
+          "runtime-3-github-parity",
+          "runtime-3-hackage-composition",
+          "runtime-3-hackage-parity",
+          "runtime-5-github-parity",
+          "runtime-5-hackage-parity",
+          "runtime-composition",
+          "runtime-github-parity",
+          "runtime-hackage-composition",
+          "runtime-hackage-parity",
+          "runtime-import",
+          "runtime-kafka-close",
+          "shared-overrides"
+        ]
+      },
+      "identitiesEqual": true,
+      "identityEvidence": "preserved-identities-x86_64-linux.json.gz",
+      "initialIdentitySha256": "8de3d250307541268d94312d5a2bab923c0bd1745acf304e04449ddb0339ce9e",
+      "mutableWorkspaceAttempt": "Two evaluation checks (nix-unit and formatting) detected changing source bytes while documentation was edited; superseded by immutable export rerun.",
+      "newFamilyMatrix": {
+        "cells": [
+          {
+            "buildAndBehavior": "passed",
+            "channel": "github",
+            "check": "/nix/store/km3w1kn5bkrzny01yvvr3wk9shlwcvjy-new-first-party-support-github-ghc9124",
+            "compiler": "9.12.4",
+            "dependencies": {
+              "QuickCheck": "2.18.0.0",
+              "aeson": "2.2.5.1",
+              "crypton": "1.1.5",
+              "hspec-api": "2.11.18",
+              "hspec-core": "2.11.18",
+              "tasty": "1.5.4"
+            },
+            "ghc": "ghc9124",
+            "shokoAbsentFromHackage": true,
+            "versionMismatches": [],
+            "versions": {
+              "heni": "0.1.0.0",
+              "heni-cli": "0.1.0.0",
+              "heni-hspec": "0.1.0.0",
+              "heni-tasty": "0.1.0.0",
+              "hinagata-cli": "0.1.0.0",
+              "hinagata-core": "0.1.0.0",
+              "hinagata-postgres": "0.1.0.0",
+              "shoko-adapters": "0.2.0.0",
+              "shoko-cli": "0.2.0.0",
+              "shoko-core": "0.3.0.0",
+              "typesafe-hs": "0.1.0.0"
+            }
+          },
+          {
+            "buildAndBehavior": "passed",
+            "channel": "hackage",
+            "check": "/nix/store/vj1lywli5gqvjwzwgqz1kzcm36hw1wkk-new-first-party-support-hackage-ghc9124",
+            "compiler": "9.12.4",
+            "dependencies": {
+              "QuickCheck": "2.18.0.0",
+              "aeson": "2.2.5.1",
+              "crypton": "1.1.5",
+              "hspec-api": "2.11.18",
+              "hspec-core": "2.11.18",
+              "tasty": "1.5.4"
+            },
+            "ghc": "ghc9124",
+            "shokoAbsentFromHackage": true,
+            "versionMismatches": [],
+            "versions": {
+              "heni": "0.1.0.0",
+              "heni-cli": "0.1.0.0",
+              "heni-hspec": "0.1.0.0",
+              "heni-tasty": "0.1.0.0",
+              "hinagata-cli": "0.1.0.0",
+              "hinagata-core": "0.1.0.0",
+              "hinagata-postgres": "0.1.0.0",
+              "typesafe-hs": "0.1.0.0"
+            }
+          },
+          {
+            "buildAndBehavior": "passed",
+            "channel": "github",
+            "check": "/nix/store/v0qp8a2fgmzi6fz81k1ajx28g9zh7xb6-new-first-party-support-github-ghc9141",
+            "compiler": "9.14.1",
+            "dependencies": {
+              "QuickCheck": "2.18.0.0",
+              "aeson": "2.2.5.1",
+              "crypton": "1.1.5",
+              "hspec-api": "2.11.18",
+              "hspec-core": "2.11.18",
+              "tasty": "1.5.4"
+            },
+            "ghc": "ghc9141",
+            "shokoAbsentFromHackage": true,
+            "versionMismatches": [],
+            "versions": {
+              "heni": "0.1.0.0",
+              "heni-cli": "0.1.0.0",
+              "heni-hspec": "0.1.0.0",
+              "heni-tasty": "0.1.0.0",
+              "hinagata-cli": "0.1.0.0",
+              "hinagata-core": "0.1.0.0",
+              "hinagata-postgres": "0.1.0.0",
+              "shoko-adapters": "0.2.0.0",
+              "shoko-cli": "0.2.0.0",
+              "shoko-core": "0.3.0.0",
+              "typesafe-hs": "0.1.0.0"
+            }
+          },
+          {
+            "buildAndBehavior": "passed",
+            "channel": "hackage",
+            "check": "/nix/store/6bg6ij0q38sm9qmsq17mx6h1569sqz24-new-first-party-support-hackage-ghc9141",
+            "compiler": "9.14.1",
+            "dependencies": {
+              "QuickCheck": "2.18.0.0",
+              "aeson": "2.2.5.1",
+              "crypton": "1.1.5",
+              "hspec-api": "2.11.18",
+              "hspec-core": "2.11.18",
+              "tasty": "1.5.4"
+            },
+            "ghc": "ghc9141",
+            "shokoAbsentFromHackage": true,
+            "versionMismatches": [],
+            "versions": {
+              "heni": "0.1.0.0",
+              "heni-cli": "0.1.0.0",
+              "heni-hspec": "0.1.0.0",
+              "heni-tasty": "0.1.0.0",
+              "hinagata-cli": "0.1.0.0",
+              "hinagata-core": "0.1.0.0",
+              "hinagata-postgres": "0.1.0.0",
+              "typesafe-hs": "0.1.0.0"
+            }
+          }
+        ],
+        "curatedMatrix": {
+          "github-ghc9124": {
+            "build": "passed",
+            "consumer": "/nix/store/4ykwi7y61p4i3wzzljpv9any1ynqb724-package-set-consumer-1.0.drv",
+            "packageCount": 89,
+            "versionMismatches": []
+          },
+          "github-ghc9141": {
+            "build": "blocked by approved Kioku exception",
+            "consumer": "/nix/store/rhpcijrw0v86sc8bq61bz7d57frf8dys-package-set-consumer-1.0.drv",
+            "packageCount": 89,
+            "versionMismatches": []
+          },
+          "hackage-ghc9124": {
+            "build": "passed",
+            "consumer": "/nix/store/sv61x842g07k39g36qi61zgrrn65r8b3-package-set-consumer-1.0.drv",
+            "packageCount": 76,
+            "versionMismatches": []
+          },
+          "hackage-ghc9141": {
+            "build": "blocked by approved Kioku exception",
+            "consumer": "/nix/store/xgg8vjlzgi030l1clqyjx18zxb2cjbzc-package-set-consumer-1.0.drv",
+            "packageCount": 76,
+            "versionMismatches": []
+          }
+        },
+        "system": "x86_64-linux"
+      },
+      "runtimeComparisons": 2730,
+      "runtimeGenerations": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "validationSource": "immutable git archive of validationCodeRevision"
+    }
+  },
+  "validationCodeRevision": "5fa6635f98da0cecc0671d51b82084fde2b9e201"
+}

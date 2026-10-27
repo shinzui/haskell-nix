@@ -92,8 +92,9 @@ nix run .#haskell-nix-update -- refresh --family FAMILY --dry-run
 ```
 
 This reads remote heads, Cabal metadata, and Hackage releases and prefetches archives, but changes
-nothing. Show the user the proposed changes. If it reports `No changes.`, the family is already
-current — stop and report that; there is nothing to commit.
+no managed files. In schema 2 the preview reports resolved groups and observations, even
+when the retained state is already current; it does not promise a diff or `No changes.`
+message. Use the online check for drift and inspect bytes after the idempotent refresh.
 
 ### 2. Apply
 
@@ -136,7 +137,7 @@ front for any family whose source revision moved rather than waiting for the fai
 ### 3. Verify
 
 ```bash
-nix run .#haskell-nix-update -- refresh --family FAMILY --dry-run   # must now report: No changes.
+nix run .#haskell-nix-update -- refresh --family FAMILY --dry-run   # verifies scoped discovery
 nix run .#haskell-nix-update -- check --family FAMILY --online
 nix flake check --print-build-logs
 ```

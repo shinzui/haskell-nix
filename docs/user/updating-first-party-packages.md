@@ -4,7 +4,7 @@ title: Updating first-party packages
 description: Refresh, promote, and verify first-party family snapshots and package sets.
 docId: DOC-9
 tags: [maintainers, refresh, package-sets]
-timestamp: 2026-10-27T14:22:04Z
+timestamp: 2026-10-27T16:04:53Z
 generated:
   by: human:nadeem
   at: 2026-09-22T21:30:17Z
@@ -99,6 +99,11 @@ its Mori checkout, and retain an additions request with `schemaVersion: 2`, a so
 `families` array using the normal family shape, and `updateGroups: []`. The request contains
 only additions. Do not first edit the active catalog: the existing catalog/lock graph must
 validate before migration. `config/catalog-additions/ep22.json` is a complete example.
+
+Update repository-owned runtime complements and live-catalog checks for the proposed groups
+in the same baseline. `lib/catalogApplicationComplements.nix` contains the explicit generation
+choices for these four groups. A temporary activation guard can keep a pre-migration baseline
+valid; remove it after acceptance. Public constructors still reject incomplete caller mappings.
 
 Commit a valid baseline. All three managed files must be tracked, committed, and clean:
 

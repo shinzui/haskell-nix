@@ -4,6 +4,7 @@ title: Channel reference
 description: Compare first-party source channels, package availability, and compatibility aliases.
 docId: DOC-3
 tags: [channels, github, hackage]
+timestamp: 2026-10-27T16:04:53Z
 generated:
   by: human:nadeem
   at: 2026-09-22T21:30:17Z
@@ -43,6 +44,8 @@ The committed lock currently has this family breakdown:
 | Family | GitHub | Hackage | GitHub-only |
 |--------|-------:|--------:|------------:|
 | Baikai | 8 | 7 | 1 |
+| Heni | 4 | 4 | 0 |
+| Hinagata | 3 | 3 | 0 |
 | Keiki | 3 | 3 | 0 |
 | Keiro | 8 | 7 | 1 |
 | Kioku | 5 | 5 | 0 |
@@ -56,12 +59,27 @@ The committed lock currently has this family breakdown:
 | Settei | 8 | 8 | 0 |
 | Shibuya | 4 | 2 | 2 |
 | Shikumi | 14 | 11 | 3 |
-| **Total** | **78** | **68** | **10** |
+| Shoko | 3 | 0 | 3 |
+| typesafe-hs | 1 | 1 | 0 |
+| **Total** | **89** | **76** | **13** |
 
 The common registry also owns the application HTTP/utility policies for `link-canonical`,
 `hw-kafka-client`, `servant-server`, `servant-health`, `wai-app-static` and `generic-lens(-core)`.
 It retains public source pins for the two TypeID packages and Servant instrumentation. These
 shared source exceptions survive selection of the Hackage first-party channel.
+
+Hinagata core/postgres/CLI, Heni core/CLI and its optional Hspec/Tasty adapters, and
+typesafe-hs have releases on both channels. Shoko core/adapters/CLI are GitHub-only.
+Nested Hinagata examples and Heni fixtures remain outside the supported inventory.
+
+Heni is validated against the existing frozen Aeson 2.2.5.1 and Crypton 1.1.5 through the
+existing first-party bounds-relaxed policy. This is native compile/behavior evidence, not
+an upstream bounds-valid Cabal solve. Validation enables selected upstream offline suites;
+production package tests remain disabled. See the [acceptance receipt](../evidence/ep22/acceptance.md).
+
+The shared registry separately owns rdkafka-hs 1.0.0.1 for Shoko's `<1.1` requirement and
+hspec-api 2.11.18 to match the frozen Hspec core. Both use immutable Git release sources;
+these dependency source selections remain separate from first-party Hackage availability counts.
 
 The GitHub-only packages are:
 
@@ -76,6 +94,9 @@ shibuya-example
 shikumi-cli
 shikumi-jitsurei
 shikumi-testing
+shoko-adapters
+shoko-cli
+shoko-core
 ```
 
 The lock is authoritative when this snapshot changes. Read its totals with:

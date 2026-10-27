@@ -4,7 +4,7 @@ title: Troubleshooting
 description: Diagnose package-set integration, refresh, and validation failures.
 docId: DOC-8
 tags: [troubleshooting, package-sets, validation]
-timestamp: 2026-10-27T14:22:04Z
+timestamp: 2026-10-27T16:04:53Z
 generated:
   by: human:nadeem
   at: 2026-09-22T21:30:17Z
@@ -70,6 +70,14 @@ mapping as literals when the consumer intends to pin every group.
 After adopting the Heni/Hinagata/Shoko/typesafe-hs catalog revision, extend literal selections
 and runtime application complements with `heni = 1`, `hinagata = 1`, `shoko = 1`, and
 `typesafe-hs = 1`. Retaining the previous channel pin preserves its previous catalog.
+
+## Kioku triggers a GHC 9.14 compiler panic
+
+The unchanged `kioku-core` 0.11.0.0 recipe can fail with `coercionKind / ConsSymbolDef` under
+GHC 9.14.1. This predates the new catalog families and affects both source channels; the
+new families build independently. EP-22 retains the recipes and records this explicit
+regression exception. A separate reviewed Kioku/compiler repair is required rather than
+changing snapshot history or clearing caches. See [the receipt](../evidence/ep22/acceptance.md).
 
 ## A historical package set stopped building
 

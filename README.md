@@ -62,9 +62,16 @@ Change `channel` to `"hackage"` to select published Hackage releases. Each exten
 the signature `haskellLib -> pkgs -> hself -> hsuper -> { ... }`; after applying
 `haskellLib` and the top-level Nixpkgs set, it is a standard Haskell package-set extension.
 The legacy `lib.haskellExtension` output is an exact alias for
-`lib.haskellExtensions.github`. In the current default set, GitHub exposes all 78 catalogued
-packages while Hackage exposes the 68 published packages; the other 10 names are
+`lib.haskellExtensions.github`. In the current default set, GitHub exposes all 89 catalogued
+packages while Hackage exposes the 76 published packages; the other 13 names are
 deliberately unavailable from the Hackage registry.
+
+Hinagata, Heni (including its Hspec/Tasty adapters), and typesafe-hs are available in both
+channels; Shoko core/adapters/CLI use GitHub. Family policy lives in
+`config/first-party-families.json`. New singleton families use the explicit
+[`catalog add` migration](docs/user/updating-first-party-packages.md#add-singleton-families-explicitly),
+which preserves old snapshots and extends every named set. Literal consumer mappings must
+include the new groups.
 
 ### Alternative: nixpkgs overlay
 
