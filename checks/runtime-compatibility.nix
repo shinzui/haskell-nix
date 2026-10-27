@@ -7,9 +7,10 @@ let
   complete = builtins.head (builtins.filter
     (row: row.name == retained.defaultPackageSet)
     retained.packageSets);
-  applicationSelections = lib.listToAttrs (map
-    (selection: lib.nameValuePair selection.group selection.generation)
-    (builtins.filter (selection: !(builtins.hasAttr selection.group record.selections)) complete.groups));
+  applicationSelections = lib.listToAttrs
+    (map
+      (selection: lib.nameValuePair selection.group selection.generation)
+      (builtins.filter (selection: !(builtins.hasAttr selection.group record.selections)) complete.groups)) // import ../lib/catalogApplicationComplements.nix;
   select = generation: captureCompatibility: mkRuntimePackageSet {
     runtime = "keiro-runtime";
     inherit generation captureCompatibility channel applicationSelections;

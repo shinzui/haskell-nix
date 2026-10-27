@@ -12,7 +12,7 @@ let
       relay-pagination = 3;
       servant-openapi-hs = 1;
       shikumi-baikai = 9;
-    };
+    } // import ../lib/catalogApplicationComplements.nix;
   };
   scope = selected.mkApplicationScope pkgs (_: _: { });
   specification = selected.metadata.components.hw-kafka-streamly.recipe;

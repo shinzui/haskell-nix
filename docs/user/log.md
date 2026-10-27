@@ -1,5 +1,8 @@
 # Bundle Update Log
 
+## 2026-10-27
+* **Update**: Document explicit additive catalog migration, retained nested discovery policy, three-file concurrency and rollback guards, and required complete consumer mappings.
+
 ## 2026-10-18
 * **Update**: Retain fresh generation-5/7 scoped and actual-consumer evaluation measurements; resource and identity checks pass, but both miss the performance target.
 * **Update**: Document reproducible retained-recipe evaluation on a shared Mac Studio with explicit generations, input hashes and measured resource/stability gates.

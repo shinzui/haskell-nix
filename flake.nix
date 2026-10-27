@@ -10,6 +10,10 @@
     nixpkgs.follows = "haskell-nix-dev/nixpkgs";
     flake-parts.follows = "haskell-nix-dev/flake-parts";
     treefmt-nix.follows = "haskell-nix-dev/treefmt-nix";
+    heni-src = { url = "github:shinzui/heni"; flake = false; };
+    hinagata-src = { url = "github:shinzui/hinagata"; flake = false; };
+    shoko-src = { url = "github:shinzui/shoko"; flake = false; };
+    typesafe-hs-src = { url = "github:shinzui/typesafe-hs"; flake = false; };
     baikai-src = { url = "github:shinzui/baikai"; flake = false; };
     keiki-src = { url = "github:shinzui/keiki"; flake = false; };
     keiro-src = { url = "github:shinzui/keiro"; flake = false; };
@@ -88,12 +92,13 @@
             assert supportValid;
             record // {
               inherit support;
-              applicationSelections = lib.listToAttrs (map
-                (selection: {
-                  name = selection.group;
-                  value = selection.generation;
-                })
-                complement);
+              applicationSelections = lib.listToAttrs
+                (map
+                  (selection: {
+                    name = selection.group;
+                    value = selection.generation;
+                  })
+                  complement) // import ./lib/catalogApplicationComplements.nix;
             })
           records)
         runtimeLock.runtimes;
@@ -291,7 +296,7 @@
             relay-pagination = 3;
             servant-openapi-hs = 1;
             shikumi-baikai = 9;
-          };
+          } // import ./lib/catalogApplicationComplements.nix;
           runtimeOutputsFor = generation: applicationSelections: lib.genAttrs [ "github" "hackage" ] (channel:
             (import ./lib/mkRuntimeOutputs.nix {
               inherit lib mkRuntimePackageSet;

@@ -219,6 +219,8 @@ in
   servant-health = always doJailbreakOnly;
 
   # Public source pins: preserve their Cabal source-repository-package revisions.
+  hspec-api = always (import ../patches/hspec-api/source.nix);
+  rdkafka-hs = always (import ../patches/rdkafka-hs/source.nix);
   hw-kafka-client = always (import ../patches/kafka-runtime/source.nix "hw-kafka-client");
   hw-kafka-streamly = always (import ../patches/kafka-runtime/source.nix "hw-kafka-streamly");
   cmark-gfm = always (import ../patches/cmark-gfm/source.nix);

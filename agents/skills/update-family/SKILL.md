@@ -27,15 +27,24 @@ is the operational runbook that follows it.
 
 ## What "update" means here
 
+Use this workflow for an existing catalog family. New singleton families use the explicit
+`catalog add --from FILE` migration in the runbook; ordinary refresh rejects topology changes.
+Catalog addition also protects `config/first-party-families.json` and extends all complete
+named mappings. It is not a schema-1 `migrate-lock` operation.
+
 For the named family, a mutating `refresh`:
 
 1. Reads the family's remote GitHub `HEAD` and, if it moved, runs `nix flake update` on the
    `<family>-src` input so `flake.lock` pins the new sha — then **asserts** the locked head equals
    the queried head.
-2. Discovers every Cabal package one directory below the family root at the locked revision.
+2. Discovers committed Cabal packages at the repository root and one directory below it, plus
+   directories explicitly listed in the family’s retained `additionalPackagePaths` policy.
+   It does not recursively discover examples or fixtures. Applies exclusions and overrides.
 3. Queries Hackage for each package's latest release and prefetches its archive for the SRI hash.
-4. Rewrites `packages/first-party-lock.json` atomically (`githubRev`, per-package `version`, and
-   `hackage: {version, hash}` — or `hackage: null` for unpublished packages).
+4. Appends changed immutable family/group snapshots in `packages/first-party-lock.json` and
+   moves only the targeted curated set. Retains per-package GitHub versions and
+   `hackage: {version, hash}`, or `hackage: null` for unpublished packages. Selecting a family
+   resolves its complete atomic update group; Baikai and Shikumi move together.
 5. Runs the flake validation. Any failure **after** an input update restores both managed files
    byte-for-byte; the command never commits or pushes.
 
@@ -135,7 +144,7 @@ nix flake check --print-build-logs
 `check --online` compares the lock against live GitHub `HEAD` and Hackage state; `nix flake check`
 validates schemas, exact versions, the updater tests, and both channel overlays. Note that
 `nix flake check` does **not** compile the whole inventory — if this update changed package
-membership or shared compatibility, build the family's packages directly (the full GHC 9.12.2 channel
+membership or shared compatibility, build the family's packages directly (the supported compiler/channel
 matrix commands are in the updating doc).
 
 ### 4. Review the diff

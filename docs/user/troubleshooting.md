@@ -4,6 +4,7 @@ title: Troubleshooting
 description: Diagnose package-set integration, refresh, and validation failures.
 docId: DOC-8
 tags: [troubleshooting, package-sets, validation]
+timestamp: 2026-10-27T14:22:04Z
 generated:
   by: human:nadeem
   at: 2026-09-22T21:30:17Z
@@ -66,6 +67,10 @@ selections = inputs.haskell-nix.lib.firstPartyPackageSets.default.selections // 
 This form tracks future default generations for every group not overridden. Copy the whole
 mapping as literals when the consumer intends to pin every group.
 
+After adopting the Heni/Hinagata/Shoko/typesafe-hs catalog revision, extend literal selections
+and runtime application complements with `heni = 1`, `hinagata = 1`, `shoko = 1`, and
+`typesafe-hs = 1`. Retaining the previous channel pin preserves its previous catalog.
+
 ## A historical package set stopped building
 
 `historical` promises retention and selectability, not continuing compatibility with future
@@ -110,6 +115,18 @@ git diff -- flake.lock packages/first-party-lock.json
 
 Commit or intentionally stash those changes before retrying. Unrelated changes elsewhere
 in the repository do not trigger this guard and should not be discarded.
+
+## Catalog addition refuses a migration
+
+`catalog add` requires the catalog, `flake.lock`, and package lock to be tracked, committed,
+and clean. The additions request must contain singleton additions, with empty `updateGroups`;
+it cannot replace an existing family definition. Declare matching non-flake inputs in
+`flake.nix` before running the command. Leave the active catalog unchanged until publication.
+
+The updater reports concurrent edits instead of overwriting them. When rollback cannot
+restore a path, inspect its diagnostic and the saved `.catalog-add.original` file before
+retrying. Commit accepted additions before a later refresh. See the
+[migration runbook](updating-first-party-packages.md#add-singleton-families-explicitly).
 
 ## Offline check cannot find a Git revision
 

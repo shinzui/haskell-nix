@@ -4,6 +4,8 @@ Status: Accepted; generations 1 and 2 and their declared GHC 9.12.4 platform/cha
 
 Date: 2026-10-04
 
+Revised: 2026-10-27
+
 ## Context
 
 Multiple projects use the same Keiro runtime. MP-3 aligns application dependency versions,
@@ -44,6 +46,15 @@ Compose runtime and application recipes into one recursive Haskell scope. Every 
 has one dependency instance; application changes to runtime-owned versions, sources, metadata,
 flags or policy require an explicit new runtime generation/configuration. Applications build
 only the runtime components they actually use.
+
+Live catalog migrations may add discovery metadata unknown to an older captured constructor.
+Validate the complete live graph with the current validator first, then project optional
+`additionalPackagePaths` away only at the captured construction boundary; the older factory
+already receives the immutable package paths and never discovers packages. Do not edit
+captured recipe directories or rewrite runtime-owned snapshots. Extend repository-owned
+application complements explicitly. New application-only source dependencies absent from
+retained cohorts may use their live owned recipes, guarded against runtime ownership;
+retained runtime recipes and derivation identities remain authoritative.
 
 Retain the maintained Kafka fork where its fixes are required and identify it consistently
 in Cabal and Nix. A source channel selecting Hackage first-party releases does not silently

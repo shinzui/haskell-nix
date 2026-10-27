@@ -46,13 +46,18 @@ selection, real builds, and offline consumer checks. Implementation is in progre
 ## Progress
 
 
-- [x] (2026-10-27) Provide explicit additive catalog migration and retained extra-directory discovery. All 233 updater tests and 367 pure Nix contracts pass; fault injection covers each publication step, affected-set validation, and concurrent edits. The active catalog still has fourteen families.
-- [ ] Prove Heni's JSON/mutation behavior and Shoko's native Kafka dependency against the actual shared scope before activating the new inventory.
+- [x] (2026-10-27) Provide explicit additive catalog migration and retained extra-directory discovery. All 234 updater tests and 368 pure Nix contracts pass; fault injection covers each publication step, affected-set validation, and concurrent edits. The active catalog still has fourteen families.
+- [x] (2026-10-27) Prove Heni JSON/mutation behavior and Shoko native Kafka loading before activation. The proposed `new-first-party-support` check passes both channels with GHC 9.12.4 and 9.14.1 on aarch64-darwin, including upstream Heni unit/runner/adapter, CLI, Hspec, and Tasty suites. Frozen Aeson 2.2.5.1, Crypton 1.1.5, and librdkafka 2.15.0 remain selected. Linux matrix validation is in progress.
 - [ ] Generate four family snapshots and complete selections, preserving existing records and old group choices; public constructors and repository-owned runtime complements evaluate.
 - [ ] Pass the supported system/compiler/channel build matrix and offline consumer checks, document support and migration, and retain acceptance evidence.
 
 
 ## Surprises & Discoveries
+
+2026-10-27: `nix run` would implicitly write newly declared source inputs before the CLI's
+clean-file guard. Use `nix run --no-write-lock-file` for catalog migration; the updater owns
+publication. Repository-owned new complement literals are activation-gated in the committed
+pre-migration baseline, then become unconditional after the accepted transaction.
 
 2026-10-27: The frozen scope selects hspec-core 2.11.18 but does not select hspec-api;
 Nixpkgs supplies hspec-api 2.11.17, whose exact core bound fails configuration.
@@ -62,6 +67,17 @@ the frozen Hspec/QuickCheck versions and shared cohort remain unchanged.
 
 
 ## Decision Log
+
+2026-10-27: Supply hspec-api 2.11.18 as an owned application dependency matching the
+already frozen hspec-core, alongside the separately owned rdkafka-hs source. No cohort
+selection changes. Validation-only recipes expose built fixture executables and unset
+Nix's test-wrapper GHC_PACKAGE_PATH only for nested Cabal commands; no Heni source repair
+or assertion removal is needed.
+
+2026-10-27: Validate live discovery metadata before projecting its new optional field away
+at the boundary to older captured runtime constructors. They construct from retained package
+paths and do not perform discovery. Keep captured directories unchanged. Supply the two new,
+non-runtime-owned dependency recipes to new application complements in the same scope.
 
 2026-10-27: Stage the proposed flake lock through `nix flake metadata --no-write-lock-file`
 with only the new input overrides, then verify retained input/node equality. Discovery
@@ -93,9 +109,10 @@ the four requested families and does not become a fifth independently refreshed 
 
 ## Outcomes & Retrospective
 
-Milestone 1 is implemented and validated. The native compatibility pilot is in progress. FRIC-1 in `docs/friction-log/` records
-the translated Linux guest syscall-filter workaround;
-production inventory and complete mappings have not yet changed.
+Milestones 1 and 2 are implemented and validated. The proposed Darwin compiler/channel
+matrix passes. FRIC-1 in `docs/friction-log/` records the translated Linux guest syscall-filter
+workaround; FRIC-2 records the validation-only nested Cabal wrapper. Production inventory
+and complete mappings have not yet changed; the Linux build matrix remains in progress.
 
 
 ## Context and Orientation
@@ -405,11 +422,11 @@ Then run the new command and checks:
 
 ```bash
 nix build .#haskell-nix-update --no-link --print-build-logs
-nix run .#haskell-nix-update -- catalog add --from config/catalog-additions/ep22.json --dry-run
-nix run .#haskell-nix-update -- catalog add --from config/catalog-additions/ep22.json
+nix run --no-write-lock-file .#haskell-nix-update -- catalog add --from config/catalog-additions/ep22.json --dry-run
+nix run --no-write-lock-file .#haskell-nix-update -- catalog add --from config/catalog-additions/ep22.json
 nix run .#haskell-nix-update -- check --package-set default --family heni --family hinagata --family shoko --family typesafe-hs
 nix run .#haskell-nix-update -- check --package-set default --family heni --family hinagata --family shoko --family typesafe-hs --online
-nix run .#haskell-nix-update -- catalog add --from config/catalog-additions/ep22.json --dry-run
+nix run --no-write-lock-file .#haskell-nix-update -- catalog add --from config/catalog-additions/ep22.json --dry-run
 ```
 
 The first preview describes four new families/groups and four additional mappings in each

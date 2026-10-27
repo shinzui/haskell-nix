@@ -1,0 +1,92 @@
+{
+  "heni": {
+    "rev": "81696f8a2b1263312497e703bae7ac7f2139cd8b",
+    "hash": "sha256-Cs2uQGjDuXVrJr8yY6Kks8NrSpXIPSAhxmKuPnVW51I=",
+    "packages": [
+      {
+        "name": "heni",
+        "path": ".",
+        "version": "0.1.0.0",
+        "hackageHash": "sha256-U1Ni0yJ+POJAQ5LeTcSgCqzxIUA0W/dJ57mXkwYARBA="
+      },
+      {
+        "name": "heni-cli",
+        "path": "heni-cli",
+        "version": "0.1.0.0",
+        "hackageHash": "sha256-4Bv0ofAWxIph9x0MtzI1QZN1l7MIAeCwdsYG1o+XXRc="
+      },
+      {
+        "name": "heni-hspec",
+        "path": "adapters/heni-hspec",
+        "version": "0.1.0.0",
+        "hackageHash": "sha256-ZrSIzd+5IueTd5k277o0da/uZLfYwnEHwOu4X5Fc0CI="
+      },
+      {
+        "name": "heni-tasty",
+        "path": "adapters/heni-tasty",
+        "version": "0.1.0.0",
+        "hackageHash": "sha256-iDmiDmT2Xc5XP0pDKdfA/5ccUvd3oKCPpyW2jdxHCAY="
+      }
+    ]
+  },
+  "hinagata": {
+    "rev": "a0c1059743e5957e66e4b8cee9e485ad89471937",
+    "hash": "sha256-+XpiY3NpbdtHshaGAfJLVDckJcIihWTGjIzkHsdDCxA=",
+    "packages": [
+      {
+        "name": "hinagata-cli",
+        "path": "hinagata-cli",
+        "version": "0.1.0.0",
+        "hackageHash": "sha256-4n7cap3WPUO/WqD6GrtkHLGx/+POn9SZLrwdwFW/jlA="
+      },
+      {
+        "name": "hinagata-core",
+        "path": "hinagata-core",
+        "version": "0.1.0.0",
+        "hackageHash": "sha256-OTU8sp3scoFmCgdqYLBp5qhhu9iy30Eh2z70ywu26vo="
+      },
+      {
+        "name": "hinagata-postgres",
+        "path": "hinagata-postgres",
+        "version": "0.1.0.0",
+        "hackageHash": "sha256-19rYiaqMrtFpXFIqID/eOqgeDEftbZnSXbxOfsT003s="
+      }
+    ]
+  },
+  "shoko": {
+    "rev": "58adca36ef5f65ae78a4fa15626dba1ff967fcaf",
+    "hash": "sha256-6Doh6bZWdgLMJqA86NZjfjub115HVkhxEFhhC4Wk0Ho=",
+    "packages": [
+      {
+        "name": "shoko-adapters",
+        "path": "shoko-adapters",
+        "version": "0.2.0.0",
+        "hackageHash": null
+      },
+      {
+        "name": "shoko-cli",
+        "path": "shoko-cli",
+        "version": "0.2.0.0",
+        "hackageHash": null
+      },
+      {
+        "name": "shoko-core",
+        "path": "shoko-core",
+        "version": "0.3.0.0",
+        "hackageHash": null
+      }
+    ]
+  },
+  "typesafe-hs": {
+    "rev": "c4b56a01dd23f8844d44440887692f6ac64ef564",
+    "hash": "sha256-BdiUx8CCkiCCkLNu1O5zXdEBURNz/9e2TjKDO0aHLg4=",
+    "packages": [
+      {
+        "name": "typesafe-hs",
+        "path": ".",
+        "version": "0.1.0.0",
+        "hackageHash": "sha256-m+MumjyGAFpahfkhmHBBeThOJGmYWoIjtodK17GWiuY="
+      }
+    ]
+  }
+}

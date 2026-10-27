@@ -1,0 +1,21 @@
+cabal-version: 3.4
+name: new-first-party-consumer
+version: 0.1.0.0
+build-type: Simple
+
+executable new-first-party-consumer
+  default-language: GHC2024
+  default-extensions: OverloadedStrings
+  main-is: Main.hs
+  ghc-options: -threaded
+  build-depends:
+    base, aeson, bytestring, containers, vector,
+    hinagata-core, typesafe-hs, heni, heni-hspec, heni-tasty
+
+executable shoko-native-consumer
+  default-language: GHC2024
+  default-extensions: OverloadedStrings
+  main-is: Shoko.hs
+  ghc-options: -threaded
+  build-depends:
+    base, containers, text, shoko-core, shoko-cli, shoko-adapters, rdkafka-hs

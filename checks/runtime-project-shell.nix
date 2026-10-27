@@ -14,7 +14,7 @@ let
     relay-pagination = 3;
     servant-openapi-hs = 1;
     shikumi-baikai = 9;
-  };
+  } // import ../lib/catalogApplicationComplements.nix;
   source = builtins.path { path = ./fixtures/runtime-app-a; name = "runtime-shell-app-source"; };
   applicationOverrides = final: _: { runtime-app-a = final.callCabal2nix "runtime-app-a" source { }; };
   arguments = {

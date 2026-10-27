@@ -11,7 +11,7 @@ let
       relay-pagination = 3;
       servant-openapi-hs = 1;
       shikumi-baikai = 9;
-    };
+    } // import ../lib/catalogApplicationComplements.nix;
   };
   selected = mkRuntimePackageSet arguments;
   scope = extra: pkgs.haskell.packages.ghc9124.override {

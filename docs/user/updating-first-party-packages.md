@@ -4,6 +4,7 @@ title: Updating first-party packages
 description: Refresh, promote, and verify first-party family snapshots and package sets.
 docId: DOC-9
 tags: [maintainers, refresh, package-sets]
+timestamp: 2026-10-27T14:22:04Z
 generated:
   by: human:nadeem
   at: 2026-09-22T21:30:17Z
@@ -69,7 +70,12 @@ in one family repository share its source revision.
 
 `packageOverrides` maps package names to `cabal2nixOptions`. `excludedPackages` removes
 discovered examples or fixtures; exclusions must still match discovery, cannot overlap an
-override, and never appear in either channel. These discovery rules are copied into each
+override, and never appear in either channel. Discovery normally reads a Cabal file at the
+repository root or directly inside each top-level directory. Optional
+`additionalPackagePaths` adds a sorted unique list of clean nested directories, each with
+exactly one committed Cabal file. Heni uses `["adapters/heni-hspec", "adapters/heni-tasty"]`;
+fixtures and examples elsewhere remain outside discovery. Empty lists are omitted from
+encoded records. These discovery rules are copied into each
 family snapshot, so future policy changes do not reinterpret retained generations.
 
 The generated lock contains:
@@ -81,9 +87,42 @@ The generated lock contains:
 - complete named `packageSets` with `curated` or `historical` support; and
 - `defaultPackageSet`, the curated selection behind the legacy aliases.
 
-Snapshots are append-only. Do not edit generations or mappings by hand. Schema version 2
-fixes the family inventory and update-group topology; adding/removing a family or regrouping
-families requires a separately designed migration.
+Snapshots are append-only. Do not edit generations or mappings by hand. Normal refresh
+rejects changes to the family inventory or update-group topology. Use the explicit additive
+migration below for new singleton families; removal, regrouping, and repository renaming
+still require a separate migration.
+
+## Add singleton families explicitly
+
+Declare each new `<family>-src` GitHub input with `flake = false` in `flake.nix`, establish
+its Mori checkout, and retain an additions request with `schemaVersion: 2`, a sorted
+`families` array using the normal family shape, and `updateGroups: []`. The request contains
+only additions. Do not first edit the active catalog: the existing catalog/lock graph must
+validate before migration. `config/catalog-additions/ep22.json` is a complete example.
+
+Commit a valid baseline. All three managed files must be tracked, committed, and clean:
+
+```bash
+git status --short -- config/first-party-families.json flake.lock packages/first-party-lock.json
+nix run --no-write-lock-file .#haskell-nix-update -- catalog add --from config/catalog-additions/ep22.json --dry-run
+nix run --no-write-lock-file .#haskell-nix-update -- catalog add --from config/catalog-additions/ep22.json
+```
+
+Use `--no-write-lock-file` on the Nix invocation so Nix does not publish the newly
+declared inputs before the updater checks its three-file baseline. The preview lists generation-1 additions in every named set. Publication appends new family
+and singleton-group snapshots, extends all named sets, preserves previous snapshots and
+selections, and keeps historical support labels. It validates each affected set in both
+channels and evaluates the flake. Commit the accepted transaction before another refresh.
+
+The command stages Nix source locks without writing managed files. Dry runs publish nothing;
+observation or validation failures preserve original bytes. Guards reject concurrent changes
+before and between writes. Rollback preserves unrelated edits and reports saved originals
+when it cannot restore a file. Identical accepted requests replay as `No catalog changes.`
+without querying moving upstreams; subsequent version changes use ordinary refresh.
+
+Consumers adopting the expanded catalog must extend literal mappings and retained-runtime
+application complements with `heni = 1`, `hinagata = 1`, `shoko = 1`, and `typesafe-hs = 1`.
+Consumers retaining their old channel pin retain its catalog. Missing complements still fail.
 
 ## Inspect current selections
 

@@ -15,7 +15,7 @@ import Distribution.Types.Version (Version)
 import HaskellNix.Update.Git (discoverPackages, discoverPackagesWithPolicy)
 import HaskellNix.Update.Hackage
 import HaskellNix.Update.Mori (MoriProject (..), decodeMoriProject, locateMoriProject)
-import HaskellNix.Update.Nix (decodeChannelRevision, decodeLockedRevision, decodeLockedSource, validatePackageSetSelection)
+import HaskellNix.Update.Nix (decodeChannelRevision, decodeLockedRevision, decodeLockedSource, validateCatalogFlakeTransition, validatePackageSetSelection)
 import HaskellNix.Update.Process
 import HaskellNix.Update.Types
 import System.Exit (ExitCode (..))
@@ -44,6 +44,7 @@ tests =
       testCase "flake.lock resolves nested and recursive follows from its declared root" testNestedFollows,
       testCase "flake.lock rejects cyclic follows missing nodes and malformed paths" testInvalidFollows,
       testCase "package-set validation applies its Nix expression" testPackageSetValidationCommand,
+      testCase "staged catalog inputs preserve retained sources including shared nodes" testCatalogFlakePreservation,
       testCase "Git extra-path discovery includes only named adapters and rejects invalid inventories" testExtraDiscovery,
       testCase "Git discovery keeps root and one-directory-deep Cabal files" testGitDiscovery
     ]
@@ -299,3 +300,14 @@ testExtraDiscovery = do
     [["missing/adapter"], ["adapters"], ["adapters/../heni"], ["adapters/heni-hspec", "adapters/heni-hspec"]]
   discoverPackagesWithPolicy (runner (tree <> ["adapters/heni-hspec/other.cabal"]) False) "/repo" revision extras >>= assertLeft
   discoverPackagesWithPolicy (runner tree True) "/repo" revision extras >>= assertLeft
+
+testCatalogFlakePreservation :: IO ()
+testCatalogFlakePreservation = do
+  let bytes = ByteString.pack . Text.unpack
+      original = bytes completeFlakeLock
+      changed = bytes (Text.replace "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" "sha256-BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB=" completeFlakeLock)
+      alias = Text.replace "\"example-src\":\"example-src\"" "\"example-src\":\"example-src\",\"new-src\":\"example-src\"" completeFlakeLock
+      aliasChanged = bytes (Text.replace "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=" "sha256-BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB=" alias)
+  validateCatalogFlakeTransition ["new-src"] original original @?= Right ()
+  assertLeft (validateCatalogFlakeTransition ["new-src"] original changed)
+  assertLeft (validateCatalogFlakeTransition ["new-src"] (bytes alias) aliasChanged)

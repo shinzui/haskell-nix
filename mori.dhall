@@ -21,6 +21,13 @@ in  Schema.Project::{
       ]
     , okfBundles =
       [ Schema.OkfBundle::{
+        , name = "friction-log"
+        , path = "docs/friction-log"
+        , profile = Some "docs/friction-log/profile.dhall"
+        , okfVersion = "0.2"
+        , description = Some "Friction encountered while implementing execution plans"
+        }
+      , Schema.OkfBundle::{
         , name = "improvement-requests"
         , path = "docs/improvement-requests"
         , profile = Some "mori/improvement-requests-profile.dhall"

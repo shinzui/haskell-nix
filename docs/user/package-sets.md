@@ -4,7 +4,7 @@ title: Package sets
 description: Understand first-party package-set selection, retention, and cache behavior.
 docId: DOC-7
 tags: [package-sets, snapshots, cache]
-timestamp: 2026-10-17T22:40:28Z
+timestamp: 2026-10-27T14:22:04Z
 generated:
   by: process:codex
   at: 2026-10-17T22:40:28Z
@@ -28,7 +28,7 @@ implicit one-family groups. The explicit `shikumi-baikai` group contains Baikai 
 so neither can be selected or refreshed alone.
 
 A **family generation** is an immutable snapshot of one family's locked source, package
-inventory, Hackage pins, Cabal2nix options, and exclusions. A **group generation** refers to
+inventory, Hackage pins, Cabal2nix options, exclusions, and optional nested discovery paths. A **group generation** refers to
 one family generation for every member of an update group and names the compatibility
 profile that applies to that cohort.
 
@@ -146,11 +146,17 @@ move as one family, and the singleton OKF group can advance independently.
 
 Published snapshots are append-only. Refreshing a curated set appends changed family and
 group generations and moves only that named set; it does not rewrite other named sets.
-Old discovery options and exclusions remain part of their family snapshots.
+Old discovery options, exclusions, and explicit nested package paths remain part of their family snapshots.
 
-Schema version 2 fixes the family inventory and update-group membership. Adding or removing
-a family, or regrouping existing families, needs a future explicit catalog migration. It
-must not silently add a group to an existing complete consumer mapping.
+Schema version 2 preserves existing family identities and group membership. The explicit
+`catalog add --from FILE` migration adds singleton groups to every named set while retaining
+all previous records and choices. Ordinary refresh rejects topology changes. Removal,
+regrouping, and repository renaming require a separate migration.
+
+A consumer adopting the expanded catalog must add `heni = 1`, `hinagata = 1`, `shoko = 1`,
+and `typesafe-hs = 1` to literal complete selections and runtime application complements.
+Keeping an earlier channel pin keeps its earlier catalog. No constructor fills missing
+selections from a mutable default. See [the migration runbook](updating-first-party-packages.md#add-singleton-families-explicitly).
 
 ## Cache contract
 

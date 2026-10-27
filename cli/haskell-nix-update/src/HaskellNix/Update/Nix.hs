@@ -73,7 +73,8 @@ validateCatalogFlakeTransition inputs original proposed = do
   let additions = Set.fromList (map Key.fromText inputs)
       retainedInputs = KeyMap.filterWithKey (\key _ -> key `Set.notMember` additions) oldInputs
       retainedNext = KeyMap.filterWithKey (\key _ -> key `Set.notMember` additions) newInputs
-      replaced = Set.fromList [node | key <- Set.toList additions, Just (String node) <- [KeyMap.lookup key oldInputs]]
+      retainedNodes = Set.fromList [node | String node <- KeyMap.elems retainedInputs]
+      replaced = Set.fromList [node | key <- Set.toList additions, Just (String node) <- [KeyMap.lookup key oldInputs]] `Set.difference` retainedNodes
   unless (retainedInputs == retainedNext) (Left (UpdateError "catalog add changed unrelated flake inputs"))
   traverse_
     ( \(key, value) ->

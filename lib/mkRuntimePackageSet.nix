@@ -83,6 +83,17 @@ let
       throw "mkRuntimePackageSet: retained generation predates compatibility capture"
     else (import (recipes + "/lib/mkCompatibilityPolicy.nix") { lib = retainedLib; }) retainedRegistry;
   applicationGroups = lib.subtractLists (builtins.attrNames record.selections) groups;
+  # These new application-only dependencies were absent from captured cohorts.
+  # Keep runtime-owned recipes immutable while giving new complements the live,
+  # independently owned source selections they require in the same fixed point.
+  liveRegistry = import ../overlays/registry.nix;
+  applicationDependencyRegistry = lib.filterAttrs
+    (name: _: !(builtins.elem name owned) && (
+      (name == "hspec-api" && builtins.elem "heni" applicationGroups)
+        || (name == "rdkafka-hs" && channel == "github" && builtins.elem "shoko" applicationGroups)
+    ))
+    liveRegistry;
+  construction = import ./projectRetainedDiscoveryPolicy.nix { inherit config; lock = liveLock; };
   applicationSnapshots = lib.concatMap
     (group:
       builtins.filter (row: row.group == group && row.generation == selections.${group}) liveLock.groupSnapshots)
@@ -106,10 +117,9 @@ let
     };
   selected = factory
     ({
-      inherit config;
-      lock = liveLock;
+      inherit (construction) config lock;
       cohortVersions = candidate;
-      commonRegistry = (if captureCompatibility then retainedPolicy.registry else retainedRegistry) // applicationRegistry;
+      commonRegistry = (if captureCompatibility then retainedPolicy.registry else retainedRegistry) // applicationDependencyRegistry // applicationRegistry;
       compatibilityProfiles = import (recipes + "/overlays/compatibility-profiles.nix");
       supportedGhcs = [ "ghc9124" ];
     } // generatedArguments)

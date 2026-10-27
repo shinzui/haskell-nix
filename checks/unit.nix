@@ -361,6 +361,29 @@ in
     }).github;
     expected = [ "example-root" ];
   };
+  testRetainedDiscoveryProjectionPreservesLockedConstruction = {
+    expr =
+      let
+        config = packageSetConfig // {
+          families = map
+            (family: family // {
+              additionalPackagePaths = [ "adapters/one" ];
+            })
+            packageSetConfig.families;
+        };
+        lock = packageSetLock // {
+          familySnapshots = map
+            (snapshot: snapshot // {
+              discoveryPolicy = snapshot.discoveryPolicy // { additionalPackagePaths = [ "adapters/one" ]; };
+            })
+            packageSetLock.familySnapshots;
+        };
+        projected = import ../lib/projectRetainedDiscoveryPolicy.nix { inherit config lock; };
+      in
+      projected == { config = packageSetConfig; lock = packageSetLock; }
+      && builtins.all (snapshot: snapshot.discoveryPolicy.additionalPackagePaths == [ "adapters/one" ]) lock.familySnapshots;
+    expected = true;
+  };
   testAdditionalDiscoveryPathsRetained = {
     expr =
       let

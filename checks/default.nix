@@ -368,6 +368,12 @@ in
       touch "$out"
     '';
 
+  new-first-party-support = import ./new-first-party-support.nix {
+    inherit lib supportedGhcs mkFirstPartyPackageSet;
+    pkgs = pkgsPlain;
+    mkFirstPartyRegistries = import ../lib/mkFirstPartyRegistries.nix { inherit lib; };
+  };
+
   haskell-nix-update = updater;
 
   # The build-setting flags must reach the package scope by default and be

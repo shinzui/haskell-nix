@@ -102,6 +102,7 @@ check-docs:
     okf graph docs/guides --json >/dev/null
     okf validate docs/research --strict --profile mori/research-profile.dhall --profile-enforce --log-enforce
     okf graph docs/research --json >/dev/null
+    okf validate docs/friction-log --strict --profile docs/friction-log/profile.dhall --profile-enforce --log-enforce
 
 # Format repository Nix code using the pinned treefmt wrapper.
 fmt:

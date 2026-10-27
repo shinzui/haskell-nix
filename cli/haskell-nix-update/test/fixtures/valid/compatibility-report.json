@@ -181,7 +181,7 @@
     }
   ],
   "inputIdentity": "a6f1f819b8f9f53351b8ecd3b841a395c94909df3f354c01d2d25bbb08c3fe07",
-  "policyIdentity": "e72a5fd15d5518955a3d2fbf57b5b3512dcab1874210c3a676829c55678a26a8",
+  "policyIdentity": "e70a19308bb21318ef8c360302ce1d3d88ae3b9106fda451e498713b97f99305",
   "problems": [],
   "reportKind": "declaration-only",
   "requiredEvidence": [],
@@ -553,6 +553,14 @@
     },
     {
       "id": "legacy-wai-app-static-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "shoko-rdkafka-hs-1-0-source-v1",
+      "reason": "no package instance in the supplied scope"
+    },
+    {
+      "id": "heni-hspec-api-2-11-source-v1",
       "reason": "no package instance in the supplied scope"
     }
   ]

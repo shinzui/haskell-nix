@@ -4591,6 +4591,101 @@
         "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
         "threshold": null
       }
+    },
+    {
+      "id": "shoko-rdkafka-hs-1-0-source-v1",
+      "kind": "source-selection",
+      "owner": "mori://shinzui/rdkafka-hs/packages/rdkafka-hs",
+      "reason": "Shoko requires rdkafka-hs >=1.0.0.1 && <1.1; retain its released immutable source and suppress broker-dependent tests. The ordinary Hackage selection is 1.1.0.0.",
+      "upstreamReferences": [
+        "mori://shinzui/shoko/packages/shoko-adapters",
+        "mori://shinzui/rdkafka-hs/packages/rdkafka-hs"
+      ],
+      "effects": [
+        "source-replacement",
+        "test-suppression"
+      ],
+      "applicability": {
+        "packages": [
+          "rdkafka-hs"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "rdkafka-hs",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
+    },
+    {
+      "id": "heni-hspec-api-2-11-source-v1",
+      "kind": "source-selection",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Select hspec-api 2.11.18, matching the existing frozen hspec-core 2.11.18 for Heni framework reporting. This fills a previously unselected dependency without changing the cohort.",
+      "upstreamReferences": [
+        "https://github.com/hspec/hspec",
+        "mori://shinzui/heni/packages/heni-hspec"
+      ],
+      "effects": [
+        "source-replacement"
+      ],
+      "applicability": {
+        "packages": [
+          "hspec-api"
+        ],
+        "channels": [
+          "github",
+          "hackage"
+        ],
+        "compiler": null,
+        "systems": null,
+        "versions": null,
+        "sourceGuard": null,
+        "layer": "selected-source"
+      },
+      "binding": {
+        "kind": "registry-row",
+        "package": "hspec-api",
+        "row": 0
+      },
+      "evidence": {
+        "status": "unverified",
+        "requirements": [
+          "native-build",
+          "applicable-package-tests",
+          "declared-bounds",
+          "exact-input-context"
+        ],
+        "references": []
+      },
+      "retirement": {
+        "kind": "review",
+        "condition": "A same-input native candidate without this entry must build and pass applicable tests with declared bounds. Source selections additionally require an independently declared identical source layer.",
+        "threshold": null
+      }
     }
   ]
 }
