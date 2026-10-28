@@ -4,7 +4,7 @@ title: Channel reference
 description: Compare first-party source channels, package availability, and compatibility aliases.
 docId: DOC-3
 tags: [channels, github, hackage]
-timestamp: 2026-10-27T16:04:53Z
+timestamp: 2026-10-28T16:45:21Z
 generated:
   by: human:nadeem
   at: 2026-09-22T21:30:17Z
@@ -43,7 +43,7 @@ The committed lock currently has this family breakdown:
 
 | Family | GitHub | Hackage | GitHub-only |
 |--------|-------:|--------:|------------:|
-| Baikai | 8 | 7 | 1 |
+| Baikai | 9 | 8 | 1 |
 | Heni | 4 | 4 | 0 |
 | Hinagata | 3 | 3 | 0 |
 | Keiki | 3 | 3 | 0 |
@@ -61,7 +61,7 @@ The committed lock currently has this family breakdown:
 | Shikumi | 14 | 11 | 3 |
 | Shoko | 3 | 0 | 3 |
 | typesafe-hs | 1 | 1 | 0 |
-| **Total** | **92** | **79** | **13** |
+| **Total** | **93** | **80** | **13** |
 
 The common registry also owns the application HTTP/utility policies for `link-canonical`,
 `hw-kafka-client`, `servant-server`, `servant-health`, `wai-app-static` and `generic-lens(-core)`.
@@ -71,6 +71,8 @@ shared source exceptions survive selection of the Hackage first-party channel.
 Hinagata core/postgres/CLI, Heni core/CLI and its optional Hspec/Tasty adapters, and
 typesafe-hs have releases on both channels. Shoko core/adapters/CLI are GitHub-only.
 Nested Hinagata examples and Heni fixtures remain outside the supported inventory.
+
+Baikai includes the published `baikai-typesafe` provider on both channels.
 
 Heni is validated against the existing frozen Aeson 2.2.5.1 and Crypton 1.1.5 through the
 existing first-party bounds-relaxed policy. This is native compile/behavior evidence, not

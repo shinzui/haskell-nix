@@ -1,5 +1,8 @@
 # Bundle Update Log
 
+## 2026-10-28
+* **Update**: Record the published Baikai TypeSafe provider and the default set's 93 GitHub / 80 Hackage package inventory.
+
 ## 2026-10-27
 * **Update**: Record final four-family support evidence, preserved derivation identities, explicit runtime complements, and the approved pre-existing Kioku/GHC 9.14 regression exception.
 * **Update**: Record the expanded 89/76 inventory, optional Heni adapters, GitHub-only Shoko, frozen-dependency evidence limits, and explicit runtime complements.

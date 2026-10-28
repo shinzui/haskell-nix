@@ -3,11 +3,11 @@
         "baikai-src": {
             "flake": false,
             "locked": {
-                "lastModified": 1791864513,
-                "narHash": "sha256-TLzr9fYziChReGioG/qNHQk0fo150HhUI6Rkc2tuX8Q=",
+                "lastModified": 1792951186,
+                "narHash": "sha256-VMlST9GOo/RQE7kkC3rGzGCX6ELDOREZGNj/UUBiieQ=",
                 "owner": "shinzui",
                 "repo": "baikai",
-                "rev": "9e7e5a8d7bbe851f4978c9f8f2e91b2d067c353b",
+                "rev": "4eba8c8f780da1b6a82b7232f5833db6608237dd",
                 "type": "github"
             },
             "original": {
@@ -160,11 +160,11 @@
         "kioku-src": {
             "flake": false,
             "locked": {
-                "lastModified": 1792456524,
-                "narHash": "sha256-SfNh4bVDqAJWwaUFHDFDGQeWHbI7ZkfYoxf/xeMyUt8=",
+                "lastModified": 1793194669,
+                "narHash": "sha256-IJ2FD92LKybeUeV54mMSe4ojir9zSHAan/bCeWPq9Xs=",
                 "owner": "shinzui",
                 "repo": "kioku",
-                "rev": "b0c1ae11daded6a1ac7d7f7dd20b495e5a5a3ca4",
+                "rev": "78c9d0eeeb6f4c4b138122fe6c6a3e0deda80343",
                 "type": "github"
             },
             "original": {
@@ -224,11 +224,11 @@
         "okf-src": {
             "flake": false,
             "locked": {
-                "lastModified": 1791321656,
-                "narHash": "sha256-Uw+i0t4noXYLYwJcweBF/cIiRGvghm2frhj008QLw0c=",
+                "lastModified": 1793190172,
+                "narHash": "sha256-XNXstA1Fc/cru8mqW/E4GPi9O1OLStzxy+qhapxA384=",
                 "owner": "shinzui",
                 "repo": "okf",
-                "rev": "2f18238864f7c528a5d4c574248792ef96468c13",
+                "rev": "296b6180f296e566e2b6f5e2bd95fb00a2d830bd",
                 "type": "github"
             },
             "original": {
@@ -409,11 +409,11 @@
         "shikumi-src": {
             "flake": false,
             "locked": {
-                "lastModified": 1792148923,
-                "narHash": "sha256-FFDS2EoxWwYiwBLMvhtQPhw3BEafTi1BJwCCgMQy8W8=",
+                "lastModified": 1792977871,
+                "narHash": "sha256-RK4zVaqN3vpBmIN5sVBTOixFC/GH8GIARiwte7i81j0=",
                 "owner": "shinzui",
                 "repo": "shikumi",
-                "rev": "db4eb373803552762edc9e86a231dfb529f8105b",
+                "rev": "a70bd1c1a93462a79feaef806c344206f3b8be26",
                 "type": "github"
             },
             "original": {
