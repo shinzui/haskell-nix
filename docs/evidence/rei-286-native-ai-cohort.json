@@ -1,0 +1,67 @@
+{
+  "status": "native candidate; consumer validation pending",
+  "owner": "mori://shinzui/rei/plans/286-upgrade-rei-to-keiro-0-22-and-the-latest-nix-runtime-package-integration",
+  "catalogRevision": "abd31b34f6cad6b1226dc5de4cfe091920cdf5f2",
+  "indexState": "2026-10-28T16:55:33Z",
+  "changes": {
+    "baikai": {
+      "beforeVersion": "0.8.0.0",
+      "afterVersion": "0.10.0.0"
+    },
+    "baikai-claude": {
+      "beforeVersion": "0.7.1.1",
+      "afterVersion": "0.7.3.0"
+    },
+    "baikai-effectful": {
+      "beforeVersion": "0.4.0.3",
+      "afterVersion": "0.4.0.5"
+    },
+    "baikai-kit": {
+      "beforeVersion": "0.4.0.1",
+      "afterVersion": "0.4.0.3"
+    },
+    "baikai-openai": {
+      "beforeVersion": "0.7.1.1",
+      "afterVersion": "0.7.3.0"
+    },
+    "baikai-trace-otel": {
+      "beforeVersion": "0.4.0.2",
+      "afterVersion": "0.4.1.1"
+    },
+    "kioku-api": {
+      "beforeVersion": "0.11.0.0",
+      "afterVersion": "0.12.0.1"
+    },
+    "kioku-core": {
+      "beforeVersion": "0.11.0.0",
+      "afterVersion": "0.12.0.1"
+    },
+    "kioku-migrations": {
+      "beforeVersion": "0.11.0.0",
+      "afterVersion": "0.12.0.1"
+    },
+    "okf-core": {
+      "beforeVersion": "0.10.0.0",
+      "afterVersion": "0.11.0.0"
+    },
+    "streamly": {
+      "beforeVersion": "0.11.1",
+      "afterVersion": "0.11.1"
+    }
+  },
+  "unrelatedIdentitiesRetained": true,
+  "streamlyRevision": {
+    "owner": "mori://composewell/streamly/packages/streamly",
+    "version": "0.11.1",
+    "beforeRevision": 2,
+    "afterRevision": 3,
+    "onlyBoundChange": "streamly-core <0.3.3 becomes <0.3.4",
+    "resolvedCoreVersion": "0.3.1"
+  },
+  "updaterTests": 236,
+  "consumerQualification": "pending",
+  "broadSupport": "unverified",
+  "runtimeGeneration": 7,
+  "generatedRecipePolicy": "Use established constructors; optional selection retained as config/runtime-generated-recipes-opt-in.json. Historical captured generations retain their constructors.",
+  "platformQualification": "aarch64-darwin only; Linux builds cancelled at user request."
+}

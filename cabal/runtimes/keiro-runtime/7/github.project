@@ -1,0 +1,61 @@
+import: cohort.freeze
+import: configuration.project
+
+source-repository-package
+  type: git
+  location: https://github.com/dhall-lang/dhall-haskell
+  tag: 03b40e85d0c677350ad2a2f75ef92627d5952cee
+  subdir: dhall
+
+source-repository-package
+  type: git
+  location: https://github.com/shinzui/hw-kafka-client
+  tag: 6caed636898a78e9f6e5a9c93eeb5562cbb2580a
+
+source-repository-package
+  type: git
+  location: https://github.com/shinzui/hw-kafka-streamly
+  tag: 945b5bdb2b96f2a3f13c380552ac5d17f13e3d92
+  subdir: hw-kafka-streamly
+
+source-repository-package
+  type: git
+  location: https://github.com/shinzui/keiki
+  tag: b6a60c25ad5cdaa50c79d7592790a1b073ba7846
+  subdir: . keiki-codec-json
+
+source-repository-package
+  type: git
+  location: https://github.com/shinzui/keiro
+  tag: b28201f2063fa4f6dcb724cbf474959107e36b74
+  subdir: keiro keiro-core keiro-dsl keiro-migrations keiro-ops keiro-ops-http keiro-pgmq keiro-test-support
+
+source-repository-package
+  type: git
+  location: https://github.com/shinzui/kiroku
+  tag: 53c43e9fbc282886841e044630bd3fb99da4f85c
+  subdir: kiroku-cli kiroku-metrics kiroku-otel kiroku-store kiroku-store-migrations shibuya-kiroku-adapter
+
+source-repository-package
+  type: git
+  location: https://github.com/shinzui/pg-migrate
+  tag: 13865052bef62688c40576ad36889221a0ba7e08
+  subdir: pg-migrate pg-migrate-cli pg-migrate-embed pg-migrate-import-codd pg-migrate-import-hasql-migration
+
+source-repository-package
+  type: git
+  location: https://github.com/shinzui/pgmq-hs
+  tag: 88afb93802f790c1ecfbd3ed8bcce196c4430d13
+  subdir: pgmq-config pgmq-core pgmq-effectful pgmq-hasql pgmq-inspect pgmq-migration
+
+source-repository-package
+  type: git
+  location: https://github.com/shinzui/settei
+  tag: 53c9bb7c6d01c247233888637fb5ad9c04f3e811
+  subdir: settei settei-dhall settei-env settei-optparse-applicative
+
+source-repository-package
+  type: git
+  location: https://github.com/shinzui/shibuya
+  tag: 19b9ad54d15a2e942b181c8490b9f517ebf12888
+  subdir: shibuya-core

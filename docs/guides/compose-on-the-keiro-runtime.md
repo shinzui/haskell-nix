@@ -52,6 +52,20 @@ and PGMQ migration 0007. The shared Cabal configuration retains narrowly scoped
 [Kioku 0.11](mori://shinzui/kioku/packages/kioku-core) bounds exceptions for the runtime APIs it consumes; other application
 bounds and source migrations remain owned by their consumers.
 
+Generation 7 retains the same framework package and migration versions as generation 6,
+while selecting the later Cabal index required by [Kioku](mori://shinzui/kioku) 0.12.0.1.
+Use application selections `kioku=10`, `shikumi-baikai=10`, and `okf=6`. These select
+[Baikai](mori://shinzui/baikai) 0.10.0.0 and [OKF](mori://shinzui/okf) 0.11.0.0;
+the Shikumi release versions stay unchanged with refreshed source provenance.
+The only additional runtime source-identity change is
+[Streamly](mori://composewell/streamly/packages/streamly) 0.11.1 metadata revision 2 to 3,
+which widens its streamly-core upper bound; the resolved core version stays 0.3.1.
+Generation 7 uses the established recipe constructor. The optional generated-recipe
+selection is retained as `config/runtime-generated-recipes-opt-in.json`; historical
+generations preserve their captured selections. Native consumer validation is scoped to
+macOS under [Rei's upgrade plan](mori://shinzui/rei/plans/286-upgrade-rei-to-keiro-0-22-and-the-latest-nix-runtime-package-integration).
+Broad runtime support remains unverified; this update does not claim Linux build evidence.
+
 ## 1. Pin the channel and record selections
 
 Follow [the flake adoption guide](adopt-in-an-existing-flake.md) to share the toolchain.

@@ -1,0 +1,168 @@
+{
+    "families": [
+        {
+            "excludedPackages": [],
+            "github": "shinzui/baikai",
+            "githubInput": "baikai-src",
+            "moriProject": "shinzui/baikai",
+            "name": "baikai",
+            "packageOverrides": {}
+        },
+        {
+            "additionalPackagePaths": [
+                "adapters/heni-hspec",
+                "adapters/heni-tasty"
+            ],
+            "excludedPackages": [],
+            "github": "shinzui/heni",
+            "githubInput": "heni-src",
+            "moriProject": "shinzui/heni",
+            "name": "heni",
+            "packageOverrides": {}
+        },
+        {
+            "excludedPackages": [],
+            "github": "shinzui/hinagata",
+            "githubInput": "hinagata-src",
+            "moriProject": "shinzui/hinagata",
+            "name": "hinagata",
+            "packageOverrides": {}
+        },
+        {
+            "excludedPackages": [
+                "jitsurei"
+            ],
+            "github": "shinzui/keiki",
+            "githubInput": "keiki-src",
+            "moriProject": "shinzui/keiki",
+            "name": "keiki",
+            "packageOverrides": {}
+        },
+        {
+            "excludedPackages": [],
+            "github": "shinzui/keiro",
+            "githubInput": "keiro-src",
+            "moriProject": "shinzui/keiro",
+            "name": "keiro",
+            "packageOverrides": {}
+        },
+        {
+            "excludedPackages": [],
+            "github": "shinzui/kioku",
+            "githubInput": "kioku-src",
+            "moriProject": "shinzui/kioku",
+            "name": "kioku",
+            "packageOverrides": {}
+        },
+        {
+            "excludedPackages": [],
+            "github": "shinzui/kiroku",
+            "githubInput": "kiroku-src",
+            "moriProject": "shinzui/kiroku",
+            "name": "kiroku",
+            "packageOverrides": {
+                "kiroku-metrics": {
+                    "cabal2nixOptions": "-f-example"
+                }
+            }
+        },
+        {
+            "excludedPackages": [],
+            "github": "shinzui/okf",
+            "githubInput": "okf-src",
+            "moriProject": "shinzui/okf",
+            "name": "okf",
+            "packageOverrides": {}
+        },
+        {
+            "excludedPackages": [],
+            "github": "shinzui/openapi-hs",
+            "githubInput": "openapi-hs-src",
+            "moriProject": "shinzui/openapi-hs",
+            "name": "openapi-hs",
+            "packageOverrides": {}
+        },
+        {
+            "excludedPackages": [],
+            "github": "shinzui/pg-migrate",
+            "githubInput": "pg-migrate-src",
+            "moriProject": "shinzui/pg-migrate",
+            "name": "pg-migrate",
+            "packageOverrides": {}
+        },
+        {
+            "excludedPackages": [],
+            "github": "shinzui/pgmq-hs",
+            "githubInput": "pgmq-hs-src",
+            "moriProject": "shinzui/pgmq-hs",
+            "name": "pgmq-hs",
+            "packageOverrides": {}
+        },
+        {
+            "excludedPackages": [],
+            "github": "shinzui/relay-pagination",
+            "githubInput": "relay-pagination-src",
+            "moriProject": "shinzui/relay-pagination",
+            "name": "relay-pagination",
+            "packageOverrides": {}
+        },
+        {
+            "excludedPackages": [],
+            "github": "shinzui/servant-openapi-hs",
+            "githubInput": "servant-openapi-hs-src",
+            "moriProject": "shinzui/servant-openapi-hs",
+            "name": "servant-openapi-hs",
+            "packageOverrides": {}
+        },
+        {
+            "excludedPackages": [],
+            "github": "shinzui/settei",
+            "githubInput": "settei-src",
+            "moriProject": "shinzui/settei",
+            "name": "settei",
+            "packageOverrides": {}
+        },
+        {
+            "excludedPackages": [],
+            "github": "shinzui/shibuya",
+            "githubInput": "shibuya-src",
+            "moriProject": "shinzui/shibuya",
+            "name": "shibuya",
+            "packageOverrides": {}
+        },
+        {
+            "excludedPackages": [],
+            "github": "shinzui/shikumi",
+            "githubInput": "shikumi-src",
+            "moriProject": "shinzui/shikumi",
+            "name": "shikumi",
+            "packageOverrides": {}
+        },
+        {
+            "excludedPackages": [],
+            "github": "shinzui/shoko",
+            "githubInput": "shoko-src",
+            "moriProject": "shinzui/shoko",
+            "name": "shoko",
+            "packageOverrides": {}
+        },
+        {
+            "excludedPackages": [],
+            "github": "shinzui/typesafe-hs",
+            "githubInput": "typesafe-hs-src",
+            "moriProject": "shinzui/typesafe-hs",
+            "name": "typesafe-hs",
+            "packageOverrides": {}
+        }
+    ],
+    "schemaVersion": 2,
+    "updateGroups": [
+        {
+            "families": [
+                "baikai",
+                "shikumi"
+            ],
+            "name": "shikumi-baikai"
+        }
+    ]
+}

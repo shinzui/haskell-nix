@@ -6,7 +6,7 @@
   "channel": "github",
   "dotfiles": "mori://shinzui/dotfiles.nix",
   "dotfilesRevision": "679d0c194f8be2bd4c0cddebc98e288cfe089078",
-  "indexState": "2026-10-27T18:24:47Z",
+  "indexState": "2026-10-28T16:55:33Z",
   "tests": true,
   "benchmarks": true
 }

@@ -913,7 +913,7 @@
             {
                 "component-name": "exe:baikai-fetch-models",
                 "flags": {},
-                "pkg-cabal-sha256": "0a46b27d560b2c923ec47d9aff16fbc752ecad894d0aad5482f9b5815ca32296",
+                "pkg-cabal-sha256": "88e24930ec8654a5a29abff12d65dd88e00ea6c3a61cd8dc1496c1851f11866d",
                 "pkg-name": "baikai",
                 "pkg-src": {
                     "repo": {
@@ -922,14 +922,14 @@
                     },
                     "type": "repo-tar"
                 },
-                "pkg-src-sha256": "a9153d4282cd77b40767dd7e3a1538e90bb92fd8fd077703a1d3b6b2d1caa460",
-                "pkg-version": "0.8.0.0",
+                "pkg-src-sha256": "720a3b645dcbb4b813b2d7cad2f7ecc30978ac4b03f7fb6d04e7267c08b252e0",
+                "pkg-version": "0.10.0.0",
                 "type": "configured"
             },
             {
                 "component-name": "exe:baikai-gen-models",
                 "flags": {},
-                "pkg-cabal-sha256": "0a46b27d560b2c923ec47d9aff16fbc752ecad894d0aad5482f9b5815ca32296",
+                "pkg-cabal-sha256": "88e24930ec8654a5a29abff12d65dd88e00ea6c3a61cd8dc1496c1851f11866d",
                 "pkg-name": "baikai",
                 "pkg-src": {
                     "repo": {
@@ -938,14 +938,14 @@
                     },
                     "type": "repo-tar"
                 },
-                "pkg-src-sha256": "a9153d4282cd77b40767dd7e3a1538e90bb92fd8fd077703a1d3b6b2d1caa460",
-                "pkg-version": "0.8.0.0",
+                "pkg-src-sha256": "720a3b645dcbb4b813b2d7cad2f7ecc30978ac4b03f7fb6d04e7267c08b252e0",
+                "pkg-version": "0.10.0.0",
                 "type": "configured"
             },
             {
                 "component-name": "lib",
                 "flags": {},
-                "pkg-cabal-sha256": "0a46b27d560b2c923ec47d9aff16fbc752ecad894d0aad5482f9b5815ca32296",
+                "pkg-cabal-sha256": "88e24930ec8654a5a29abff12d65dd88e00ea6c3a61cd8dc1496c1851f11866d",
                 "pkg-name": "baikai",
                 "pkg-src": {
                     "repo": {
@@ -954,13 +954,13 @@
                     },
                     "type": "repo-tar"
                 },
-                "pkg-src-sha256": "a9153d4282cd77b40767dd7e3a1538e90bb92fd8fd077703a1d3b6b2d1caa460",
-                "pkg-version": "0.8.0.0",
+                "pkg-src-sha256": "720a3b645dcbb4b813b2d7cad2f7ecc30978ac4b03f7fb6d04e7267c08b252e0",
+                "pkg-version": "0.10.0.0",
                 "type": "configured"
             }
         ],
         "source": "Hackage",
-        "version": "0.8.0.0"
+        "version": "0.10.0.0"
     },
     "baikai-claude": {
         "dependencies": [
@@ -993,7 +993,7 @@
             {
                 "component-name": "lib",
                 "flags": {},
-                "pkg-cabal-sha256": "62910ecef7915ab70f35b1f2ea8d4b4702e2c71148e9ab56d3f93478e23e215e",
+                "pkg-cabal-sha256": "889d4fe382abaa72754343e293ba468cf69a1f1ec34430ee7802535c93abc101",
                 "pkg-name": "baikai-claude",
                 "pkg-src": {
                     "repo": {
@@ -1002,13 +1002,13 @@
                     },
                     "type": "repo-tar"
                 },
-                "pkg-src-sha256": "6f7223c34bdfc2c3b119fea490fcdd42a8301a5f42c48caf61b9808990f44d3b",
-                "pkg-version": "0.7.1.1",
+                "pkg-src-sha256": "9def65f12b59823ad594f3eb47e10c3bd885685533883ddfe42d207f885ccb06",
+                "pkg-version": "0.7.3.0",
                 "type": "configured"
             }
         ],
         "source": "Hackage",
-        "version": "0.7.1.1"
+        "version": "0.7.3.0"
     },
     "baikai-effectful": {
         "dependencies": [
@@ -1023,7 +1023,7 @@
             {
                 "component-name": "lib",
                 "flags": {},
-                "pkg-cabal-sha256": "00b678722269f83df067d1e22b2609a934ca062563675ef22f880faf5e6cdfcd",
+                "pkg-cabal-sha256": "c59e142c137464a22a46ee80035e32a103be466f1fbd7003eca4fba3546ef633",
                 "pkg-name": "baikai-effectful",
                 "pkg-src": {
                     "repo": {
@@ -1032,13 +1032,13 @@
                     },
                     "type": "repo-tar"
                 },
-                "pkg-src-sha256": "4fa234968d1ca2b26af2a2313012ce3a1b319722ef5b0fc58cf14759316cf72d",
-                "pkg-version": "0.4.0.3",
+                "pkg-src-sha256": "2a7a3ee4c1758bb658f169531d65c204c446c009c57ceefc0610f6d02baa99d6",
+                "pkg-version": "0.4.0.5",
                 "type": "configured"
             }
         ],
         "source": "Hackage",
-        "version": "0.4.0.3"
+        "version": "0.4.0.5"
     },
     "baikai-kit": {
         "dependencies": [
@@ -1061,7 +1061,7 @@
             {
                 "component-name": "lib",
                 "flags": {},
-                "pkg-cabal-sha256": "9fc1c0e9b7d167e2c0b21332a54bbe14a5883ffbe2d2664cc1468243bc7da7dd",
+                "pkg-cabal-sha256": "f5ba997b7e45ce4d87e8ce3a35cbf44c2998dcd6e190b68a5d74866961aafdb1",
                 "pkg-name": "baikai-kit",
                 "pkg-src": {
                     "repo": {
@@ -1070,13 +1070,13 @@
                     },
                     "type": "repo-tar"
                 },
-                "pkg-src-sha256": "219689577cf37a8a20f84b3d227705e5fd4942096b53da6f8776c553168e6927",
-                "pkg-version": "0.4.0.1",
+                "pkg-src-sha256": "90a46eefa876c16dc9c19dadd387b9b9d0f6f8979e09e20e268a7179781a675b",
+                "pkg-version": "0.4.0.3",
                 "type": "configured"
             }
         ],
         "source": "Hackage",
-        "version": "0.4.0.1"
+        "version": "0.4.0.3"
     },
     "baikai-openai": {
         "dependencies": [
@@ -1107,7 +1107,7 @@
             {
                 "component-name": "lib",
                 "flags": {},
-                "pkg-cabal-sha256": "b823f23e175dfca8856fe1e3eb26eaedc60ada773895815d7a15461c7ec54670",
+                "pkg-cabal-sha256": "0b210481876376e76a0ef55ca791384d0d0c30b8a3fd6898398b4df3726b2f35",
                 "pkg-name": "baikai-openai",
                 "pkg-src": {
                     "repo": {
@@ -1116,13 +1116,13 @@
                     },
                     "type": "repo-tar"
                 },
-                "pkg-src-sha256": "0efb449244d0227628574a0d5fdd4c36c95b8ea58ac59d97d7d4147c8ba9e7b4",
-                "pkg-version": "0.7.1.1",
+                "pkg-src-sha256": "a8737a54c0caef186fc54fda6b323889b43486acd0ea35c4fbd8fca6da78e835",
+                "pkg-version": "0.7.3.0",
                 "type": "configured"
             }
         ],
         "source": "Hackage",
-        "version": "0.7.1.1"
+        "version": "0.7.3.0"
     },
     "baikai-trace-otel": {
         "dependencies": [
@@ -1142,7 +1142,7 @@
             {
                 "component-name": "lib",
                 "flags": {},
-                "pkg-cabal-sha256": "85b205c95bc8064bc2f6fa0c3cb4a5812cc479dc04ab73b7ecdc94e6ef13981c",
+                "pkg-cabal-sha256": "8d191f85e280246ac1d61ca3d5e2351ca40b1b27d12e66f8e1a7d1e77aa886ad",
                 "pkg-name": "baikai-trace-otel",
                 "pkg-src": {
                     "repo": {
@@ -1151,13 +1151,13 @@
                     },
                     "type": "repo-tar"
                 },
-                "pkg-src-sha256": "112f1b73198df78e395d2f1c1bf612dea9db3e5361548dee4c5fed4c7149b90e",
-                "pkg-version": "0.4.0.2",
+                "pkg-src-sha256": "08e314961b3471c9f4374f29ef7fd932580e6c915fb3c6fb75136ac0e811e110",
+                "pkg-version": "0.4.1.1",
                 "type": "configured"
             }
         ],
         "source": "Hackage",
-        "version": "0.4.0.2"
+        "version": "0.4.1.1"
     },
     "barbies": {
         "dependencies": [
@@ -7754,7 +7754,7 @@
             {
                 "component-name": "lib",
                 "flags": {},
-                "pkg-cabal-sha256": "7ec4c3199f6d559a0c9cc4d5297d713811873c257f2c4ec5d9d437396ebcf693",
+                "pkg-cabal-sha256": "9a31bb17e5e363a349c4dda5e46c86c44e7f8e0b290854daa280cbb049adf904",
                 "pkg-name": "kioku-api",
                 "pkg-src": {
                     "repo": {
@@ -7763,13 +7763,13 @@
                     },
                     "type": "repo-tar"
                 },
-                "pkg-src-sha256": "5b22b815e090efd12d0c4303b71a34741206bbf3e4344d9b4c086b62a6836db2",
-                "pkg-version": "0.11.0.0",
+                "pkg-src-sha256": "a22fb9d913644a55b1a218f79b57df6f8aa10f8d9d171387d01f615836708160",
+                "pkg-version": "0.12.0.1",
                 "type": "configured"
             }
         ],
         "source": "Hackage",
-        "version": "0.11.0.0"
+        "version": "0.12.0.1"
     },
     "kioku-core": {
         "dependencies": [
@@ -7818,7 +7818,7 @@
             {
                 "component-name": "lib",
                 "flags": {},
-                "pkg-cabal-sha256": "b3d7868b4d697c3f39147a9c6632082bd1d95af5234d128d6afd5145845b1e95",
+                "pkg-cabal-sha256": "1da53f191c7856d540853b03eb1cb3164313e35e0eedb6fab3782ba5e7fc88e2",
                 "pkg-name": "kioku-core",
                 "pkg-src": {
                     "repo": {
@@ -7827,13 +7827,13 @@
                     },
                     "type": "repo-tar"
                 },
-                "pkg-src-sha256": "0f63e1fdbf59511631ab52e849b1b2209a8da5945f4779bdc18135a680c337ac",
-                "pkg-version": "0.11.0.0",
+                "pkg-src-sha256": "7b8d1b098d7a0a1fda907ae487d7f34af04476adf263ec3e0bac5c78298891f6",
+                "pkg-version": "0.12.0.1",
                 "type": "configured"
             }
         ],
         "source": "Hackage",
-        "version": "0.11.0.0"
+        "version": "0.12.0.1"
     },
     "kioku-migrations": {
         "dependencies": [
@@ -7860,7 +7860,7 @@
             {
                 "component-name": "lib",
                 "flags": {},
-                "pkg-cabal-sha256": "77ba97fb8287eba123f9487567b40bddae2bfe408ea853b5bfd7f0f46cb26f35",
+                "pkg-cabal-sha256": "9ca20659eea89bf3106b9fee5555be404423efd7c3759de38e037610886a7293",
                 "pkg-name": "kioku-migrations",
                 "pkg-src": {
                     "repo": {
@@ -7869,14 +7869,14 @@
                     },
                     "type": "repo-tar"
                 },
-                "pkg-src-sha256": "5ac63e6570e09d7ab98854a855117e397deb69408014aa79941baa12cb15261a",
-                "pkg-version": "0.11.0.0",
+                "pkg-src-sha256": "19a8a1b0f663c09619a30fee8b87d4892cd248c23aec56efcf8b59a8f9cb66fd",
+                "pkg-version": "0.12.0.1",
                 "type": "configured"
             },
             {
                 "component-name": "lib:test-support",
                 "flags": {},
-                "pkg-cabal-sha256": "77ba97fb8287eba123f9487567b40bddae2bfe408ea853b5bfd7f0f46cb26f35",
+                "pkg-cabal-sha256": "9ca20659eea89bf3106b9fee5555be404423efd7c3759de38e037610886a7293",
                 "pkg-name": "kioku-migrations",
                 "pkg-src": {
                     "repo": {
@@ -7885,13 +7885,13 @@
                     },
                     "type": "repo-tar"
                 },
-                "pkg-src-sha256": "5ac63e6570e09d7ab98854a855117e397deb69408014aa79941baa12cb15261a",
-                "pkg-version": "0.11.0.0",
+                "pkg-src-sha256": "19a8a1b0f663c09619a30fee8b87d4892cd248c23aec56efcf8b59a8f9cb66fd",
+                "pkg-version": "0.12.0.1",
                 "type": "configured"
             }
         ],
         "source": "Hackage",
-        "version": "0.11.0.0"
+        "version": "0.12.0.1"
     },
     "kiroku-cli": {
         "dependencies": [
@@ -9398,7 +9398,7 @@
             {
                 "component-name": "lib",
                 "flags": {},
-                "pkg-cabal-sha256": "5eeaf5ef3bad65f1e4edee4a0ca67d071701274502bccbc60391fea12bdd0c37",
+                "pkg-cabal-sha256": "d6c464cb41234ac0ff966ce644310fb3250e3b49d366a7eb350e2ba6fdc62773",
                 "pkg-name": "okf-core",
                 "pkg-src": {
                     "repo": {
@@ -9407,13 +9407,13 @@
                     },
                     "type": "repo-tar"
                 },
-                "pkg-src-sha256": "797ea9c5be0d963fed937a38141f8ee879f69d67d0b0ec47f63f2abdce3b4dee",
-                "pkg-version": "0.10.0.0",
+                "pkg-src-sha256": "53e7720b5bd2a9b133270fd099a769ac87ae69fb07634d3b4e82beb1daa793fb",
+                "pkg-version": "0.11.0.0",
                 "type": "configured"
             }
         ],
         "source": "Hackage",
-        "version": "0.10.0.0"
+        "version": "0.11.0.0"
     },
     "old-locale": {
         "dependencies": [
@@ -13372,7 +13372,7 @@
                     "limit-build-mem": false,
                     "opt": true
                 },
-                "pkg-cabal-sha256": "dfebd4bec6f7de002a3256128128ee093e4a567eb65a657e514669c295815008",
+                "pkg-cabal-sha256": "5ea579ca2b04659a262bfc38d2bfecbb1bb95e11bb687c8cd674a7ccd4367d77",
                 "pkg-name": "streamly",
                 "pkg-src": {
                     "repo": {

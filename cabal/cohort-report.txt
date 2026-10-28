@@ -17,13 +17,14 @@ shibuya-kafka-adapter 0.12.0.0 (target >=0.9.1.0: Retain the shibuya-kafka-adapt
 validation 1.3.3 (target >=1.2.2: Retain the highest existing channel pin across both source channels and supported compilers while moving all Hackage version selection into the shared cohort. Owner: mori://shinzui/haskell-nix.)
 
 FIRST-PARTY AGREEMENT
-baikai snapshot=0.8.0.0 frozen=0.8.0.0 (equal)
-baikai-agent snapshot=0.2.0.2 frozen=(not frozen) (not used by the cohort)
-baikai-claude snapshot=0.7.1.1 frozen=0.7.1.1 (equal)
-baikai-effectful snapshot=0.4.0.3 frozen=0.4.0.3 (equal)
-baikai-kit snapshot=0.4.0.1 frozen=0.4.0.1 (equal)
-baikai-openai snapshot=0.7.1.1 frozen=0.7.1.1 (equal)
-baikai-trace-otel snapshot=0.4.0.2 frozen=0.4.0.2 (equal)
+baikai snapshot=0.10.0.0 frozen=0.10.0.0 (equal)
+baikai-agent snapshot=0.2.0.4 frozen=(not frozen) (not used by the cohort)
+baikai-claude snapshot=0.7.3.0 frozen=0.7.3.0 (equal)
+baikai-effectful snapshot=0.4.0.5 frozen=0.4.0.5 (equal)
+baikai-kit snapshot=0.4.0.3 frozen=0.4.0.3 (equal)
+baikai-openai snapshot=0.7.3.0 frozen=0.7.3.0 (equal)
+baikai-trace-otel snapshot=0.4.1.1 frozen=0.4.1.1 (equal)
+baikai-typesafe snapshot=0.1.0.1 frozen=(not frozen) (not used by the cohort)
 heni snapshot=0.1.0.0 frozen=(not frozen) (not used by the cohort)
 heni-cli snapshot=0.1.0.0 frozen=(not frozen) (not used by the cohort)
 heni-hspec snapshot=0.1.0.0 frozen=(not frozen) (not used by the cohort)
@@ -42,18 +43,18 @@ keiro-ops snapshot=0.22.0.0 frozen=0.22.0.0 (equal)
 keiro-ops-http snapshot=0.22.0.0 frozen=0.22.0.0 (equal)
 keiro-pgmq snapshot=0.22.0.0 frozen=0.22.0.0 (equal)
 keiro-test-support snapshot=0.22.0.0 frozen=0.22.0.0 (equal)
-kioku-api snapshot=0.11.0.0 frozen=0.11.0.0 (equal)
-kioku-cli snapshot=0.11.0.0 frozen=(not frozen) (not used by the cohort)
-kioku-core snapshot=0.11.0.0 frozen=0.11.0.0 (equal)
-kioku-migrate snapshot=0.11.0.0 frozen=(not frozen) (not used by the cohort)
-kioku-migrations snapshot=0.11.0.0 frozen=0.11.0.0 (equal)
+kioku-api snapshot=0.12.0.1 frozen=0.12.0.1 (equal)
+kioku-cli snapshot=0.12.0.1 frozen=(not frozen) (not used by the cohort)
+kioku-core snapshot=0.12.0.1 frozen=0.12.0.1 (equal)
+kioku-migrate snapshot=0.12.0.1 frozen=(not frozen) (not used by the cohort)
+kioku-migrations snapshot=0.12.0.1 frozen=0.12.0.1 (equal)
 kiroku-cli snapshot=0.2.0.11 frozen=0.2.0.11 (equal)
 kiroku-metrics snapshot=0.4.0.0 frozen=0.4.0.0 (equal)
 kiroku-otel snapshot=0.3.0.0 frozen=0.3.0.0 (equal)
 kiroku-store snapshot=0.12.0.0 frozen=0.12.0.0 (equal)
 kiroku-store-migrations snapshot=0.7.2.0 frozen=0.7.2.0 (equal)
-okf-cli snapshot=0.10.0.0 frozen=(not frozen) (not used by the cohort)
-okf-core snapshot=0.10.0.0 frozen=0.10.0.0 (equal)
+okf-cli snapshot=0.11.0.0 frozen=(not frozen) (not used by the cohort)
+okf-core snapshot=0.11.0.0 frozen=0.11.0.0 (equal)
 openapi-hs snapshot=5.0.0 frozen=5.0.0 (equal)
 pg-migrate snapshot=1.2.0.0 frozen=1.2.0.0 (equal)
 pg-migrate-cli snapshot=1.2.0.0 frozen=1.2.0.0 (equal)
@@ -98,21 +99,21 @@ shikumi-trace-otel snapshot=0.1.2.2 frozen=0.1.2.2 (equal)
 typesafe-hs snapshot=0.1.0.0 frozen=(not frozen) (not used by the cohort)
 
 CAPS
-baikai 0.8.0.0: mori://shinzui/mina mina-cli/mina-cli.cabal [library:mina-cli-internal; always] ^>=0.7.2.0
-baikai 0.8.0.0: mori://shinzui/mina mina-cli/mina-cli.cabal [test:mina-cli-test; always] ^>=0.7.2.0
-baikai 0.8.0.0: mori://shinzui/mina mina-core/mina-core.cabal [executable:plandigest-eval; always] ^>=0.7.2.0
-baikai 0.8.0.0: mori://shinzui/mina mina-core/mina-core.cabal [executable:plandigest-spike; always] ^>=0.7.2.0
-baikai 0.8.0.0: mori://shinzui/mina mina-core/mina-core.cabal [library; always] ^>=0.7.2.0
-baikai 0.8.0.0: mori://shinzui/mina mina-core/mina-core.cabal [test:mina-core-test; always] ^>=0.7.2.0
-baikai 0.8.0.0: mori://shinzui/mori mori-cli/mori-cli.cabal [library; always] ^>=0.7.1.0
-baikai 0.8.0.0: mori://shinzui/mori-rei-app mori-rei-app.cabal [library; always] ^>=0.7.0.0
-baikai 0.8.0.0: mori://shinzui/mori-rei-app mori-rei-app.cabal [test:mori-rei-app-test; always] ^>=0.7.0.0
-baikai 0.8.0.0: mori://shinzui/rei rei-cli/rei-cli.cabal [library; always] ^>=0.7.0.0
-baikai 0.8.0.0: mori://shinzui/rei rei-cli/rei-cli.cabal [test:rei-cli-test; always] ^>=0.7.0.0
-baikai 0.8.0.0: mori://shinzui/rei rei-core/rei-core.cabal [library; always] ^>=0.7.0.0
-baikai 0.8.0.0: mori://shinzui/rei rei-core/rei-core.cabal [test:rei-core-test; always] ^>=0.7.0.0
-baikai-kit 0.4.0.1: mori://shinzui/mori mori-cli/mori-cli.cabal [library; always] ^>=0.3.0.0
-baikai-kit 0.4.0.1: mori://shinzui/mori mori-cli/mori-cli.cabal [test:mori-cli-test; always] ^>=0.3.0.0
+baikai 0.10.0.0: mori://shinzui/mina mina-cli/mina-cli.cabal [library:mina-cli-internal; always] ^>=0.7.2.0
+baikai 0.10.0.0: mori://shinzui/mina mina-cli/mina-cli.cabal [test:mina-cli-test; always] ^>=0.7.2.0
+baikai 0.10.0.0: mori://shinzui/mina mina-core/mina-core.cabal [executable:plandigest-eval; always] ^>=0.7.2.0
+baikai 0.10.0.0: mori://shinzui/mina mina-core/mina-core.cabal [executable:plandigest-spike; always] ^>=0.7.2.0
+baikai 0.10.0.0: mori://shinzui/mina mina-core/mina-core.cabal [library; always] ^>=0.7.2.0
+baikai 0.10.0.0: mori://shinzui/mina mina-core/mina-core.cabal [test:mina-core-test; always] ^>=0.7.2.0
+baikai 0.10.0.0: mori://shinzui/mori mori-cli/mori-cli.cabal [library; always] ^>=0.7.1.0
+baikai 0.10.0.0: mori://shinzui/mori-rei-app mori-rei-app.cabal [library; always] ^>=0.7.0.0
+baikai 0.10.0.0: mori://shinzui/mori-rei-app mori-rei-app.cabal [test:mori-rei-app-test; always] ^>=0.7.0.0
+baikai 0.10.0.0: mori://shinzui/rei rei-cli/rei-cli.cabal [library; always] ^>=0.7.0.0
+baikai 0.10.0.0: mori://shinzui/rei rei-cli/rei-cli.cabal [test:rei-cli-test; always] ^>=0.7.0.0
+baikai 0.10.0.0: mori://shinzui/rei rei-core/rei-core.cabal [library; always] ^>=0.7.0.0
+baikai 0.10.0.0: mori://shinzui/rei rei-core/rei-core.cabal [test:rei-core-test; always] ^>=0.7.0.0
+baikai-kit 0.4.0.3: mori://shinzui/mori mori-cli/mori-cli.cabal [library; always] ^>=0.3.0.0
+baikai-kit 0.4.0.3: mori://shinzui/mori mori-cli/mori-cli.cabal [test:mori-cli-test; always] ^>=0.3.0.0
 brick 3.0: mori://shinzui/rei rei-cli/rei-cli.cabal [library; always] ^>=2.6
 effectful 2.7.1.0: mori://shinzui/mori mori-api/mori-api.cabal [library; always] ^>=2.5 || ^>=2.6
 effectful 2.7.1.0: mori://shinzui/mori mori-api/mori-api.cabal [test:mori-api-test; always] ^>=2.5 || ^>=2.6
@@ -177,24 +178,24 @@ keiro-pgmq 0.22.0.0: mori://shinzui/rei rei-core/rei-core.cabal [test:rei-core-t
 keiro-test-support 0.22.0.0: mori://shinzui/mori mori-core/mori-core.cabal [test:mori-core-test; always] ^>=0.21.0.0
 keiro-test-support 0.22.0.0: mori://shinzui/rei rei-cli/rei-cli.cabal [test:rei-cli-test; always] ^>=0.21.0.0
 keiro-test-support 0.22.0.0: mori://shinzui/rei rei-core/rei-core.cabal [test:rei-core-test; always] ^>=0.21.0.0
-kioku-api 0.11.0.0: mori://shinzui/mori mori-cli/mori-cli.cabal [library; always] ^>=0.9.0.1
-kioku-api 0.11.0.0: mori://shinzui/mori mori-cli/mori-cli.cabal [test:mori-cli-test; always] ^>=0.9.0.1
-kioku-api 0.11.0.0: mori://shinzui/mori mori-core/mori-core.cabal [library; always] ^>=0.9.0.1
-kioku-api 0.11.0.0: mori://shinzui/mori mori-core/mori-core.cabal [test:mori-core-test; always] ^>=0.9.0.1
-kioku-api 0.11.0.0: mori://shinzui/rei rei-core/rei-core.cabal [library; always] ^>=0.9.0.1
-kioku-api 0.11.0.0: mori://shinzui/rei rei-core/rei-core.cabal [test:rei-core-test; always] ^>=0.9.0.1
-kioku-core 0.11.0.0: mori://shinzui/mori mori-cli/mori-cli.cabal [library; always] ^>=0.9.0.1
-kioku-core 0.11.0.0: mori://shinzui/mori mori-core/mori-core.cabal [executable:mori-migrations; always] ^>=0.9.0.1
-kioku-core 0.11.0.0: mori://shinzui/mori mori-core/mori-core.cabal [library; always] ^>=0.9.0.1
-kioku-core 0.11.0.0: mori://shinzui/mori mori-core/mori-core.cabal [test:mori-core-test; always] ^>=0.9.0.1
-kioku-core 0.11.0.0: mori://shinzui/rei rei-core/rei-core.cabal [executable:rei-migrations; always] ^>=0.9.0.1
-kioku-core 0.11.0.0: mori://shinzui/rei rei-core/rei-core.cabal [library; always] ^>=0.9.0.1
-kioku-core 0.11.0.0: mori://shinzui/rei rei-core/rei-core.cabal [test:rei-core-test; always] ^>=0.9.0.1
-kioku-migrations 0.11.0.0: mori://shinzui/mori mori-core/mori-core.cabal [executable:mori-migrations; always] ^>=0.9.0.1
-kioku-migrations 0.11.0.0: mori://shinzui/mori mori-core/mori-core.cabal [library; always] ^>=0.9.0.1
-kioku-migrations 0.11.0.0: mori://shinzui/mori mori-core/mori-core.cabal [test:mori-core-test; always] ^>=0.9.0.1
-kioku-migrations 0.11.0.0: mori://shinzui/rei rei-core/rei-core.cabal [executable:rei-migrations; always] ^>=0.9.0.1
-kioku-migrations 0.11.0.0: mori://shinzui/rei rei-core/rei-core.cabal [test:rei-core-test; always] ^>=0.9.0.1
+kioku-api 0.12.0.1: mori://shinzui/mori mori-cli/mori-cli.cabal [library; always] ^>=0.9.0.1
+kioku-api 0.12.0.1: mori://shinzui/mori mori-cli/mori-cli.cabal [test:mori-cli-test; always] ^>=0.9.0.1
+kioku-api 0.12.0.1: mori://shinzui/mori mori-core/mori-core.cabal [library; always] ^>=0.9.0.1
+kioku-api 0.12.0.1: mori://shinzui/mori mori-core/mori-core.cabal [test:mori-core-test; always] ^>=0.9.0.1
+kioku-api 0.12.0.1: mori://shinzui/rei rei-core/rei-core.cabal [library; always] ^>=0.9.0.1
+kioku-api 0.12.0.1: mori://shinzui/rei rei-core/rei-core.cabal [test:rei-core-test; always] ^>=0.9.0.1
+kioku-core 0.12.0.1: mori://shinzui/mori mori-cli/mori-cli.cabal [library; always] ^>=0.9.0.1
+kioku-core 0.12.0.1: mori://shinzui/mori mori-core/mori-core.cabal [executable:mori-migrations; always] ^>=0.9.0.1
+kioku-core 0.12.0.1: mori://shinzui/mori mori-core/mori-core.cabal [library; always] ^>=0.9.0.1
+kioku-core 0.12.0.1: mori://shinzui/mori mori-core/mori-core.cabal [test:mori-core-test; always] ^>=0.9.0.1
+kioku-core 0.12.0.1: mori://shinzui/rei rei-core/rei-core.cabal [executable:rei-migrations; always] ^>=0.9.0.1
+kioku-core 0.12.0.1: mori://shinzui/rei rei-core/rei-core.cabal [library; always] ^>=0.9.0.1
+kioku-core 0.12.0.1: mori://shinzui/rei rei-core/rei-core.cabal [test:rei-core-test; always] ^>=0.9.0.1
+kioku-migrations 0.12.0.1: mori://shinzui/mori mori-core/mori-core.cabal [executable:mori-migrations; always] ^>=0.9.0.1
+kioku-migrations 0.12.0.1: mori://shinzui/mori mori-core/mori-core.cabal [library; always] ^>=0.9.0.1
+kioku-migrations 0.12.0.1: mori://shinzui/mori mori-core/mori-core.cabal [test:mori-core-test; always] ^>=0.9.0.1
+kioku-migrations 0.12.0.1: mori://shinzui/rei rei-core/rei-core.cabal [executable:rei-migrations; always] ^>=0.9.0.1
+kioku-migrations 0.12.0.1: mori://shinzui/rei rei-core/rei-core.cabal [test:rei-core-test; always] ^>=0.9.0.1
 kiroku-metrics 0.4.0.0: mori://shinzui/mori mori-cli/mori-cli.cabal [library; always] ^>=0.3.0.0
 kiroku-metrics 0.4.0.0: mori://shinzui/mori mori-cli/mori-cli.cabal [test:mori-cli-test; always] ^>=0.3.0.0
 kiroku-metrics 0.4.0.0: mori://shinzui/mori mori-core/mori-core.cabal [test:mori-core-test; always] ^>=0.3.0.0
@@ -218,12 +219,12 @@ kiroku-store 0.12.0.0: mori://shinzui/rei rei-cli/rei-cli.cabal [library; always
 kiroku-store 0.12.0.0: mori://shinzui/rei rei-core/rei-core.cabal [library; always] ^>=0.11.0.0
 kiroku-store 0.12.0.0: mori://shinzui/rei rei-core/rei-core.cabal [test:rei-core-test; always] ^>=0.11.0.0
 megaparsec 9.8.3: mori://shinzui/rei rei-core/rei-core.cabal [library; always] ^>=9.7
-okf-core 0.10.0.0: mori://shinzui/mina mina-core/mina-core.cabal [library; always] ^>=0.9.0.0
-okf-core 0.10.0.0: mori://shinzui/mina mina-core/mina-core.cabal [test:mina-core-test; always] ^>=0.9.0.0
-okf-core 0.10.0.0: mori://shinzui/mori mori-cli/mori-cli.cabal [library; always] ^>=0.9.0.0
-okf-core 0.10.0.0: mori://shinzui/mori mori-cli/mori-cli.cabal [test:mori-cli-test; always] ^>=0.9.0.0
-okf-core 0.10.0.0: mori://shinzui/mori mori-core/mori-core.cabal [library; always] ^>=0.9.0.0
-okf-core 0.10.0.0: mori://shinzui/mori mori-core/mori-core.cabal [test:mori-core-test; always] ^>=0.9.0.0
+okf-core 0.11.0.0: mori://shinzui/mina mina-core/mina-core.cabal [library; always] ^>=0.9.0.0
+okf-core 0.11.0.0: mori://shinzui/mina mina-core/mina-core.cabal [test:mina-core-test; always] ^>=0.9.0.0
+okf-core 0.11.0.0: mori://shinzui/mori mori-cli/mori-cli.cabal [library; always] ^>=0.9.0.0
+okf-core 0.11.0.0: mori://shinzui/mori mori-cli/mori-cli.cabal [test:mori-cli-test; always] ^>=0.9.0.0
+okf-core 0.11.0.0: mori://shinzui/mori mori-core/mori-core.cabal [library; always] ^>=0.9.0.0
+okf-core 0.11.0.0: mori://shinzui/mori mori-core/mori-core.cabal [test:mori-core-test; always] ^>=0.9.0.0
 pgmq-core 0.7.0.0: mori://shinzui/mori mori-cli/mori-cli.cabal [library; always] ^>=0.6.1.0
 pgmq-core 0.7.0.0: mori://shinzui/mori mori-core/mori-core.cabal [library; always] ^>=0.6.1.0
 pgmq-core 0.7.0.0: mori://shinzui/mori-app mori-app/mori-app.cabal [library; always] ^>=0.6.1
@@ -284,11 +285,11 @@ shibuya-pgmq-adapter 0.18.0.0: mori://shinzui/rei rei-cli/rei-cli.cabal [library
 vty 6.6: mori://shinzui/rei rei-cli/rei-cli.cabal [library; always] ^>=6.2
 
 UPGRADES PER APPLICATION
-mori://shinzui/mina baikai 0.7.2.0 -> 0.8.0.0
-mori://shinzui/mina baikai-claude 0.7.1.0 -> 0.7.1.1
-mori://shinzui/mina baikai-effectful 0.4.0.2 -> 0.4.0.3
-mori://shinzui/mina baikai-openai 0.7.1.0 -> 0.7.1.1
-mori://shinzui/mina baikai-trace-otel 0.4.0.1 -> 0.4.0.2
+mori://shinzui/mina baikai 0.7.2.0 -> 0.10.0.0
+mori://shinzui/mina baikai-claude 0.7.1.0 -> 0.7.3.0
+mori://shinzui/mina baikai-effectful 0.4.0.2 -> 0.4.0.5
+mori://shinzui/mina baikai-openai 0.7.1.0 -> 0.7.3.0
+mori://shinzui/mina baikai-trace-otel 0.4.0.1 -> 0.4.1.1
 mori://shinzui/mina base64 1.0 -> 2.0
 mori://shinzui/mina crypton 1.0.6 -> 1.1.5
 mori://shinzui/mina crypton-connection 0.4.5 -> 0.4.6
@@ -305,7 +306,7 @@ mori://shinzui/mina kdl-hs 1.0.1 -> 1.2.1
 mori://shinzui/mina microlens 0.4.14.0 -> 0.5.0.0
 mori://shinzui/mina microlens-mtl 0.2.1.0 -> 0.2.1.1
 mori://shinzui/mina network 3.2.7.0 -> 3.2.9.0
-mori://shinzui/mina okf-core 0.9.0.0 -> 0.10.0.0
+mori://shinzui/mina okf-core 0.9.0.0 -> 0.11.0.0
 mori://shinzui/mina recv 0.1.1 -> 0.1.2
 mori://shinzui/mina shikumi 0.4.1.0 -> 0.4.1.1
 mori://shinzui/mina shikumi-cache 0.2.0.1 -> 0.2.0.2
@@ -317,11 +318,11 @@ mori://shinzui/mina unicode-data 0.8.0 -> 0.9.0
 mori://shinzui/mina unix-time 0.4.17 -> 0.5.0
 mori://shinzui/mina warp 3.4.15 -> 3.4.17
 mori://shinzui/mori QuickCheck 2.16.0.0 -> 2.18.0.0
-mori://shinzui/mori baikai 0.7.2.0 -> 0.8.0.0
-mori://shinzui/mori baikai-claude 0.7.1.0 -> 0.7.1.1
-mori://shinzui/mori baikai-effectful 0.4.0.1 -> 0.4.0.3
-mori://shinzui/mori baikai-kit 0.3.0.0 -> 0.4.0.1
-mori://shinzui/mori baikai-openai 0.7.1.0 -> 0.7.1.1
+mori://shinzui/mori baikai 0.7.2.0 -> 0.10.0.0
+mori://shinzui/mori baikai-claude 0.7.1.0 -> 0.7.3.0
+mori://shinzui/mori baikai-effectful 0.4.0.1 -> 0.4.0.5
+mori://shinzui/mori baikai-kit 0.3.0.0 -> 0.4.0.3
+mori://shinzui/mori baikai-openai 0.7.1.0 -> 0.7.3.0
 mori://shinzui/mori base-compat 0.14.1 -> 0.15.0
 mori://shinzui/mori base-compat-batteries 0.14.1 -> 0.15.0
 mori://shinzui/mori effectful 2.6.1.0 -> 2.7.1.0
@@ -333,15 +334,15 @@ mori://shinzui/mori keiro-migrations 0.21.0.0 -> 0.22.0.0
 mori://shinzui/mori keiro-ops 0.21.0.0 -> 0.22.0.0
 mori://shinzui/mori keiro-pgmq 0.21.0.0 -> 0.22.0.0
 mori://shinzui/mori keiro-test-support 0.21.0.0 -> 0.22.0.0
-mori://shinzui/mori kioku-api 0.9.0.1 -> 0.11.0.0
-mori://shinzui/mori kioku-core 0.9.0.1 -> 0.11.0.0
-mori://shinzui/mori kioku-migrations 0.9.0.1 -> 0.11.0.0
+mori://shinzui/mori kioku-api 0.9.0.1 -> 0.12.0.1
+mori://shinzui/mori kioku-core 0.9.0.1 -> 0.12.0.1
+mori://shinzui/mori kioku-migrations 0.9.0.1 -> 0.12.0.1
 mori://shinzui/mori kiroku-cli 0.2.0.10 -> 0.2.0.11
 mori://shinzui/mori kiroku-metrics 0.3.0.0 -> 0.4.0.0
 mori://shinzui/mori kiroku-otel 0.2.0.12 -> 0.3.0.0
 mori://shinzui/mori kiroku-store 0.11.0.0 -> 0.12.0.0
 mori://shinzui/mori kiroku-store-migrations 0.7.1.0 -> 0.7.2.0
-mori://shinzui/mori okf-core 0.9.0.0 -> 0.10.0.0
+mori://shinzui/mori okf-core 0.9.0.0 -> 0.11.0.0
 mori://shinzui/mori pgmq-config 0.6.1.1 -> 0.7.0.0
 mori://shinzui/mori pgmq-core 0.6.1.1 -> 0.7.0.0
 mori://shinzui/mori pgmq-effectful 0.6.1.1 -> 0.7.0.0
@@ -372,10 +373,10 @@ mori://shinzui/mori-app strict-mutable-base 1.1.0.0 -> 2.0.0.0
 mori://shinzui/mori-app tagged 0.8.10 -> 0.8.11
 mori://shinzui/mori-app transformers-compat 0.7.2 -> 0.8
 mori://shinzui/mori-app warp 3.4.16 -> 3.4.17
-mori://shinzui/mori-rei-app baikai 0.7.2.0 -> 0.8.0.0
-mori://shinzui/mori-rei-app baikai-claude 0.7.1.0 -> 0.7.1.1
-mori://shinzui/mori-rei-app baikai-effectful 0.4.0.1 -> 0.4.0.3
-mori://shinzui/mori-rei-app baikai-openai 0.7.1.0 -> 0.7.1.1
+mori://shinzui/mori-rei-app baikai 0.7.2.0 -> 0.10.0.0
+mori://shinzui/mori-rei-app baikai-claude 0.7.1.0 -> 0.7.3.0
+mori://shinzui/mori-rei-app baikai-effectful 0.4.0.1 -> 0.4.0.5
+mori://shinzui/mori-rei-app baikai-openai 0.7.1.0 -> 0.7.3.0
 mori://shinzui/mori-rei-app effectful 2.6.1.0 -> 2.7.1.0
 mori://shinzui/mori-rei-app effectful-core 2.6.1.0 -> 2.7.1.2
 mori://shinzui/mori-rei-app http-api-data 0.6.3 -> 0.7
@@ -384,9 +385,9 @@ mori://shinzui/mori-rei-app keiro-core 0.21.0.0 -> 0.22.0.0
 mori://shinzui/mori-rei-app keiro-migrations 0.21.0.0 -> 0.22.0.0
 mori://shinzui/mori-rei-app keiro-pgmq 0.21.0.0 -> 0.22.0.0
 mori://shinzui/mori-rei-app keiro-test-support 0.21.0.0 -> 0.22.0.0
-mori://shinzui/mori-rei-app kioku-api 0.9.0.1 -> 0.11.0.0
-mori://shinzui/mori-rei-app kioku-core 0.9.0.1 -> 0.11.0.0
-mori://shinzui/mori-rei-app kioku-migrations 0.9.0.1 -> 0.11.0.0
+mori://shinzui/mori-rei-app kioku-api 0.9.0.1 -> 0.12.0.1
+mori://shinzui/mori-rei-app kioku-core 0.9.0.1 -> 0.12.0.1
+mori://shinzui/mori-rei-app kioku-migrations 0.9.0.1 -> 0.12.0.1
 mori://shinzui/mori-rei-app kiroku-otel 0.2.0.12 -> 0.3.0.0
 mori://shinzui/mori-rei-app kiroku-store 0.11.0.0 -> 0.12.0.0
 mori://shinzui/mori-rei-app kiroku-store-migrations 0.7.1.0 -> 0.7.2.0
@@ -412,11 +413,11 @@ mori://shinzui/mori-rei-app strict-mutable-base 1.1.0.0 -> 2.0.0.0
 mori://shinzui/mori-rei-app transformers-compat 0.7.2 -> 0.8
 mori://shinzui/mori-rei-app warp 3.4.16 -> 3.4.17
 mori://shinzui/rei QuickCheck 2.16.0.0 -> 2.18.0.0
-mori://shinzui/rei baikai 0.7.2.0 -> 0.8.0.0
-mori://shinzui/rei baikai-claude 0.7.1.0 -> 0.7.1.1
-mori://shinzui/rei baikai-effectful 0.4.0.2 -> 0.4.0.3
-mori://shinzui/rei baikai-kit 0.4.0.0 -> 0.4.0.1
-mori://shinzui/rei baikai-openai 0.7.1.0 -> 0.7.1.1
+mori://shinzui/rei baikai 0.7.2.0 -> 0.10.0.0
+mori://shinzui/rei baikai-claude 0.7.1.0 -> 0.7.3.0
+mori://shinzui/rei baikai-effectful 0.4.0.2 -> 0.4.0.5
+mori://shinzui/rei baikai-kit 0.4.0.0 -> 0.4.0.3
+mori://shinzui/rei baikai-openai 0.7.1.0 -> 0.7.3.0
 mori://shinzui/rei base-compat 0.14.1 -> 0.15.0
 mori://shinzui/rei base-compat-batteries 0.14.1 -> 0.15.0
 mori://shinzui/rei brick 2.6 -> 3.0
@@ -428,9 +429,9 @@ mori://shinzui/rei keiro-migrations 0.21.0.0 -> 0.22.0.0
 mori://shinzui/rei keiro-ops 0.21.0.0 -> 0.22.0.0
 mori://shinzui/rei keiro-pgmq 0.21.0.0 -> 0.22.0.0
 mori://shinzui/rei keiro-test-support 0.21.0.0 -> 0.22.0.0
-mori://shinzui/rei kioku-api 0.9.0.1 -> 0.11.0.0
-mori://shinzui/rei kioku-core 0.9.0.1 -> 0.11.0.0
-mori://shinzui/rei kioku-migrations 0.9.0.1 -> 0.11.0.0
+mori://shinzui/rei kioku-api 0.9.0.1 -> 0.12.0.1
+mori://shinzui/rei kioku-core 0.9.0.1 -> 0.12.0.1
+mori://shinzui/rei kioku-migrations 0.9.0.1 -> 0.12.0.1
 mori://shinzui/rei kiroku-cli 0.2.0.10 -> 0.2.0.11
 mori://shinzui/rei kiroku-metrics 0.3.0.0 -> 0.4.0.0
 mori://shinzui/rei kiroku-otel 0.2.0.12 -> 0.3.0.0
@@ -487,6 +488,12 @@ QuickCheck 2.15.0.1 -> 2.18.0.0
 aeson 2.2.4.1 -> 2.2.5.1
 aeson-pretty 0.8.10 -> 0.8.11
 auto-update 0.2.6 -> 0.2.8
+baikai 0.8.0.0 -> 0.10.0.0
+baikai-claude 0.7.1.1 -> 0.7.3.0
+baikai-effectful 0.4.0.3 -> 0.4.0.5
+baikai-kit 0.4.0.1 -> 0.4.0.3
+baikai-openai 0.7.1.1 -> 0.7.3.0
+baikai-trace-otel 0.4.0.2 -> 0.4.1.1
 base-compat 0.14.1 -> 0.15.0
 base-compat-batteries 0.14.1 -> 0.15.0
 base64 1.0 -> 2.0
@@ -529,9 +536,9 @@ keiro-migrations 0.21.0.0 -> 0.22.0.0
 keiro-ops 0.21.0.0 -> 0.22.0.0
 keiro-pgmq 0.21.0.0 -> 0.22.0.0
 keiro-test-support 0.21.0.0 -> 0.22.0.0
-kioku-api 0.9.0.2 -> 0.11.0.0
-kioku-core 0.9.0.2 -> 0.11.0.0
-kioku-migrations 0.9.0.2 -> 0.11.0.0
+kioku-api 0.9.0.2 -> 0.12.0.1
+kioku-core 0.9.0.2 -> 0.12.0.1
+kioku-migrations 0.9.0.2 -> 0.12.0.1
 kiroku-cli 0.2.0.10 -> 0.2.0.11
 kiroku-metrics 0.3.0.0 -> 0.4.0.0
 kiroku-otel 0.2.0.12 -> 0.3.0.0
@@ -547,6 +554,7 @@ mlkem 0.2.0.0 -> 0.2.3.0
 mmzk-typeid 0.7.1.0 -> 0.7.1.2
 network 3.2.8.0 -> 3.2.9.0
 nothunks 0.3.1 -> 0.3.2
+okf-core 0.10.0.0 -> 0.11.0.0
 parallel 3.2.2.0 -> 3.3.0.0
 pgmq-config 0.6.1.1 -> 0.7.0.0
 pgmq-core 0.6.1.1 -> 0.7.0.0
