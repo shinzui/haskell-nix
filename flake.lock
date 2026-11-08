@@ -160,11 +160,11 @@
     "kioku-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1793194669,
-        "narHash": "sha256-IJ2FD92LKybeUeV54mMSe4ojir9zSHAan/bCeWPq9Xs=",
+        "lastModified": 1794179315,
+        "narHash": "sha256-TynB6xOIWZPQIa7musGMgx2SRAuo4xKAHeaqtD+pSJU=",
         "owner": "shinzui",
         "repo": "kioku",
-        "rev": "78c9d0eeeb6f4c4b138122fe6c6a3e0deda80343",
+        "rev": "ac4393d5d41353d361c72af7edcc2c5cee825f23",
         "type": "github"
       },
       "original": {
