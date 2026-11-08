@@ -1,0 +1,61 @@
+# mkHaskellOverlay :: { registry, compilers?, extraOverrides?, disableProfiling?
+#                      , disableHaddock? }
+#                  -> NixpkgsOverlay
+#
+# High-level combinator that turns a patch registry into a nixpkgs-level
+# overlay applying version-scoped patches to multiple GHC package sets.
+#
+# `disableProfiling` and `disableHaddock` both default to true. Nothing in this
+# fleet consumes the `p_` way or the `doc` output, and this GHC's package set is
+# absent from cache.nixos.org, so leaving them on meant every consumer compiled
+# both from source on every change. See ./disableProfilingOverride.nix and
+# ./disableHaddockOverride.nix for what each one does and why each has to move
+# the whole set at once. A consumer that wants either back passes `false`.
+#
+# Each flag changes every store path in the set, so answering them separately
+# costs two full rebuilds rather than one.
+{ lib }:
+
+{ registry
+  # haskell-nix-dev's supported GHCs; the flake passes its `supportedGhcs`.
+, compilers ? [ "ghc9124" "ghc9141" ]
+, extraOverrides ? (_: _: { })
+, versionLayer ? (_: _: _: _: { })
+, disableProfiling ? true
+, disableHaddock ? true
+, captureCompatibility ? false
+}:
+
+let
+  mkHaskellExtension = import ./mkHaskellExtension.nix { inherit lib; };
+  combinedOverride = mkHaskellExtension {
+    inherit registry extraOverrides versionLayer disableProfiling disableHaddock captureCompatibility;
+  };
+
+in
+# nixpkgs-level overlay
+final: prev:
+let
+  applyToCompilerSet = compilerName:
+    let
+      hpkgs = prev.haskell.packages.${compilerName};
+      haskellLib = prev.haskell.lib.compose;
+    in
+    hpkgs.override (old: {
+      overrides = lib.composeExtensions
+        (old.overrides or (_: _: { }))
+        (combinedOverride haskellLib prev);
+    });
+
+in
+{
+  haskell = prev.haskell // {
+    packages = prev.haskell.packages // (
+      lib.genAttrs compilers applyToCompilerSet
+    );
+  };
+
+  # haskellPackages is a self-referencing alias to haskell.packages.<default-ghc>
+  # in nixpkgs, so it automatically picks up our changes above — no separate
+  # override needed (doing so causes infinite recursion).
+}

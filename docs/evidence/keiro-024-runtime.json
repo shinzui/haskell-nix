@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "runtime": "keiro-runtime",
+  "generation": 8,
+  "fingerprint": "cb511a792452d30f1527aa41e860a4e6cedc0bf17291912757f3ac7c04a17258",
+  "indexState": "2026-11-08T00:00:00Z",
+  "roots": 37,
+  "ownedPackages": 325,
+  "versions": {
+    "keiro": {
+      "before": "0.22.0.0",
+      "after": "0.24.0.0"
+    },
+    "keiro-core": {
+      "before": "0.22.0.0",
+      "after": "0.24.0.0"
+    },
+    "keiro-dsl": {
+      "before": "0.22.0.0",
+      "after": "0.24.0.0"
+    },
+    "keiro-migrations": {
+      "before": "0.22.0.0",
+      "after": "0.24.0.0"
+    },
+    "keiro-ops": {
+      "before": "0.22.0.0",
+      "after": "0.24.0.0"
+    },
+    "keiro-ops-http": {
+      "before": "0.22.0.0",
+      "after": "0.24.0.0"
+    },
+    "keiro-pgmq": {
+      "before": "0.22.0.0",
+      "after": "0.24.0.0"
+    },
+    "keiro-test-support": {
+      "before": "0.22.0.0",
+      "after": "0.24.0.0"
+    },
+    "kiroku-cli": {
+      "before": "0.2.0.11",
+      "after": "0.3.0.1"
+    },
+    "kiroku-metrics": {
+      "before": "0.4.0.0",
+      "after": "0.4.0.1"
+    },
+    "kiroku-otel": {
+      "before": "0.3.0.0",
+      "after": "0.3.0.1"
+    },
+    "kiroku-store": {
+      "before": "0.12.0.0",
+      "after": "0.13.0.1"
+    },
+    "kiroku-store-migrations": {
+      "before": "0.7.2.0",
+      "after": "0.7.3.0"
+    },
+    "shibuya-kiroku-adapter": {
+      "before": "0.7.0.0",
+      "after": "0.7.0.1"
+    }
+  },
+  "otherSourceIdentityChanges": [
+    "crypton-connection"
+  ],
+  "transitiveVersionsRetained": true,
+  "sourceProfileSolves": {
+    "github": "passed",
+    "hackage": "passed"
+  },
+  "defaultCohort": "retained for mori://shinzui/kioku 0.12.0.1 compatibility",
+  "broadSupport": "unverified",
+  "nativeValidation": {
+    "system": "aarch64-darwin",
+    "compiler": "ghc9124",
+    "checkedAt": "2026-11-08T22:21:52.947344+00:00",
+    "rootsPerChannel": 37,
+    "channels": [
+      "github",
+      "hackage"
+    ],
+    "runtimeBuilds": "passed",
+    "frozenParity": "passed",
+    "inspectionExecutables": "passed",
+    "artifacts": {
+      "inspection": {
+        "github": "/nix/store/38my7yr2lbzc98wndyjzic6pk4wgmlm2-runtime-inspection-github",
+        "hackage": "/nix/store/pfp4csc3k852byfbkmw2r7mm9x409jwg-runtime-inspection-hackage"
+      },
+      "parity": {
+        "github": "/nix/store/wr16mv1mcy53dz3gsrvdp278w2b0xy0g-retained-runtime-frozen-parity",
+        "hackage": "/nix/store/sbmgn261jjhfav97rvwgsdcal7yyw7r7-retained-runtime-frozen-parity"
+      },
+      "roots": {
+        "github": "/nix/store/z7i4szhlrnkwivy1yals1vghnzri96i6-keiro-runtime-roots",
+        "hackage": "/nix/store/m73j61r8k19qszcj3dw58b6mz3a18yr8-keiro-runtime-roots"
+      }
+    },
+    "applicationQualification": "Kioku excluded; its released bounds require the previous runtime",
+    "linuxBuilds": "not run"
+  },
+  "repositoryValidation": {
+    "flakeEvaluation": "nix flake check --no-build --no-eval-cache: passed",
+    "retainedRuntimeIntegrity": "8 generations validated",
+    "historicalSnapshotsAndNamedSelections": "unchanged",
+    "broadApplicationFreeze": "unchanged"
+  }
+}

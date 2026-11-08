@@ -1,11 +1,12 @@
 # Exercise the shipped inspection executables without opening database connections.
-{ pkgs, scope, channel }:
+{ pkgs, scope, channel, includeKioku ? true }:
 pkgs.runCommand "runtime-inspection-${channel}"
 {
   nativeBuildInputs = [ scope.keiro-ops-http scope.pgmq-inspect ];
-  # Compile mori://shinzui/kioku consumers for the scoped bounds exceptions,
-  # plus inspection packages from mori://shinzui/shibuya and mori://shinzui/settei.
-  buildInputs = [ scope.kioku-core scope.kioku-migrations scope.shibuya-metrics scope.settei-preflight ];
+  # Retain the older generation's mori://shinzui/kioku consumer qualification.
+  # Generation 8 awaits its migration to mori://shinzui/keiro 0.24.
+  buildInputs = [ scope.shibuya-metrics scope.settei-preflight ]
+    ++ pkgs.lib.optionals includeKioku [ scope.kioku-core scope.kioku-migrations ];
 } ''
   mkdir "$out"
   keiro-ops-http --help > "$out/keiro-ops-http-help.txt"

@@ -1,0 +1,51 @@
+--- a/test/RunSpec.hs
++++ b/test/RunSpec.hs
+@@ -32,9 +32,31 @@
+ removeLoadedPackageEnvironment :: String -> String
+ #if __GLASGOW_HASKELL__ < 810
+ removeLoadedPackageEnvironment = unlines . filter (not . isPrefixOf "Loaded package environment from ") . lines
++#elif __GLASGOW_HASKELL__ == 912
++removeLoadedPackageEnvironment = removeGhc912TickerDiagnostics
+ #else
+ removeLoadedPackageEnvironment = id
+ #endif
++
++-- GHC 9.12.4's timerfd ticker checks -EINTR instead of EINTR. Its diagnostic
++-- is unrelated to doctest output and is frequent when running under Rosetta.
++-- Keep all other diagnostics and preserve every other byte, including newlines.
++removeGhc912TickerDiagnostics :: String -> String
++removeGhc912TickerDiagnostics input =
++  let (line, rest) = break (== '\n') input
++      remaining = case rest of
++        [] -> ""
++        (_ : more) -> removeGhc912TickerDiagnostics more
++      warnings = [
++          "spec: Ticker: poll failed: Interrupted system call: Interrupted system call"
++        , "ghc-9.12.4: Ticker: poll failed: Interrupted system call: Interrupted system call"
++        ]
++  in if line `elem` warnings
++       then remaining
++       else line ++ case rest of
++         [] -> ""
++         _ -> '\n' : remaining
++
+ 
+ verboseFibOutput :: String
+ verboseFibOutput = unlines [
+@@ -49,6 +71,16 @@
+ 
+ spec :: Spec
+ spec = do
++  describe "GHC 9.12.4 timer diagnostic normalization" $ do
++    it "removes only the two known complete timer diagnostics" $ do
++      let warning prefix = prefix ++ ": Ticker: poll failed: Interrupted system call: Interrupted system call\n"
++      removeGhc912TickerDiagnostics (warning "spec" ++ "actual output\n" ++ warning "ghc-9.12.4") `shouldBe` "actual output\n"
++    it "preserves errors, other compilers and near-matching diagnostics" $ do
++      let diagnostics = ["spec: actual error\n", "ghc-9.14.1: Ticker: poll failed: Interrupted system call: Interrupted system call\n", "spec: Ticker: poll failed: other error\n"]
++      map removeGhc912TickerDiagnostics diagnostics `shouldBe` diagnostics
++    it "preserves blank lines and missing trailing newlines" $ do
++      let output = ["", "no trailing newline", "actual output\n\n", "\n"]
++      map removeGhc912TickerDiagnostics output `shouldBe` output
+   describe "doctest" $ do
+     it "exits with ExitFailure if at least one test case fails" $ do
+       hSilence [stderr] (doctest ["test/integration/failing/Foo.hs"]) `shouldThrow` (== ExitFailure 1)

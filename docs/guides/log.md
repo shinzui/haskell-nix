@@ -1,5 +1,8 @@
 # Bundle Update Log
 
+## 2026-11-08
+* **Update**: DOC-6 documents explicit Keiro 0.24 runtime generation 8, migration 0017 and Kioku's retained application bounds.
+
 ## 2026-10-18
 * **Update**: Add Mori ordinary-default and complete native suite qualification, with explicit SDK and diagnostic cost accounting.
 * **Update**: Document the native executable-artifact policy, full SDK preservation and exact ordinary-default verification.

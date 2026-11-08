@@ -66,6 +66,35 @@ generations preserve their captured selections. Native consumer validation is sc
 macOS under [Rei's upgrade plan](mori://shinzui/rei/plans/286-upgrade-rei-to-keiro-0-22-and-the-latest-nix-runtime-package-integration).
 Broad runtime support remains unverified; this update does not claim Linux build evidence.
 
+Generation 8 selects the latest runtime releases as of November 8:
+[Keiro](mori://shinzui/keiro) 0.24.0.0,
+[Kiroku Store](mori://shinzui/kiroku/packages/kiroku-store) 0.13.0.1,
+[Kiroku migrations](mori://shinzui/kiroku/packages/kiroku-store-migrations) 0.7.3.0,
+[Kiroku CLI](mori://shinzui/kiroku/packages/kiroku-cli) 0.3.0.1,
+[Kiroku metrics](mori://shinzui/kiroku/packages/kiroku-metrics) 0.4.0.1,
+[Kiroku OpenTelemetry](mori://shinzui/kiroku/packages/kiroku-otel) 0.3.0.1 and
+[the Kiroku adapter](mori://shinzui/kiroku/packages/shibuya-kiroku-adapter) 0.7.0.1.
+The other runtime release versions and all transitive versions stay unchanged.
+Its November 8 Cabal index also selects newer `crypton-connection` 0.4.6 metadata.
+Both pinned source profiles solve successfully. All 37 roots, frozen package parity
+and inspection executable checks pass in both channels on `aarch64-darwin` with
+GHC 9.12.4. Linux builds remain untested, so broad platform support stays
+`unverified`. See [the generation receipt](../evidence/keiro-024-runtime.json).
+
+Select `generation = 8`, materialize imports into `cabal/runtime/keiro-runtime/8`,
+and build the explicit `keiro-runtime-8` or `keiro-runtime-8-hackage` outputs.
+Use the same complete application selections as generation 7. These complementary
+selections make application recipes available; each application's declared bounds still
+apply. In particular, [Kioku](mori://shinzui/kioku) 0.12.0.1 requires Keiro 0.22
+and Store 0.12 and cannot join a generation-8 application solve without its own migration.
+The default package set and broad application freeze retain their previous selections.
+
+Before using Store identity or compaction, apply Kiroku migration `0017` and update
+exhaustive Store interpreters, StoreError matches and KirokuEvent observers.
+Keiro 0.24 projection-status page items now wrap the frozen status record in `status`.
+Follow the upstream [Keiro](mori://shinzui/keiro) and
+[Kiroku](mori://shinzui/kiroku) migration guidance when adopting these APIs.
+
 ## 1. Pin the channel and record selections
 
 Follow [the flake adoption guide](adopt-in-an-existing-flake.md) to share the toolchain.
