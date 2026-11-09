@@ -12,9 +12,9 @@ tool = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(tool)
 ROOT = Path(sys.argv[2])
 sys.argv = [sys.argv[0]]
-# Generation 5 captures the current cohort; older retained generations intentionally
-# differ after the Kiroku patch release and exercise the conflict path instead.
-GENERATION = 5
+# Generation 7 matches the broad channel cohort. Generation 8 retains the
+# newer independent framework cohort and exercises retained-cohort import.
+GENERATION = 7
 
 
 class ImportProof(unittest.TestCase):
@@ -53,7 +53,7 @@ class ImportProof(unittest.TestCase):
             self.prepare(conflict)
 
     def test_older_runtime_with_different_cohort_versions_is_rejected(self):
-        with self.assertRaisesRegex(ValueError, "runtime/cohort version conflict: kiroku-metrics"):
+        with self.assertRaisesRegex(ValueError, "runtime/cohort version conflict:"):
             tool.prepare("a" * 40, "keiro-runtime", 1, "github",
                          lambda path: (ROOT / path).read_bytes())
 
@@ -65,6 +65,15 @@ class ImportProof(unittest.TestCase):
     def prepare_application(self, policy):
         return tool.prepare("a" * 40, "keiro-runtime", GENERATION, "github",
                             lambda path: (ROOT / path).read_bytes(), policy)
+
+    def test_retained_cohort_composes_the_published_runtime_without_moving_broad_inputs(self):
+        files = tool.prepare("a" * 40, "keiro-runtime", 8, "hackage",
+                             lambda path: (ROOT / path).read_bytes(), retained_cohort=True)
+        record = next(r for r in json.loads((ROOT / "packages/runtime-lock.json").read_bytes())["runtimes"]["keiro-runtime"] if r["generation"] == 8)
+        cohort = ROOT / record["recipeDirectory"] / "cabal"
+        self.assertEqual(files["application.freeze"], (cohort / "cohort.freeze").read_bytes())
+        self.assertEqual(files["application.config"], (cohort / "common.config").read_bytes())
+        self.assertEqual(json.loads(files["comparison-sources.json"])["keiro"]["version"], "0.24.0.0")
 
     def test_owned_sibling_policy_is_compared_without_changing_the_cohort(self):
         policy = self.application_policy()

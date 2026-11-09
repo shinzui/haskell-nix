@@ -30,11 +30,12 @@ import Data.Maybe (fromMaybe)
 import Data.Set qualified as Set
 import Data.Text (Text)
 import Data.Text qualified as Text
+import Distribution.Types.Version qualified
 import Distribution.Pretty (prettyShow)
 import HaskellNix.Update.Catalog (decodeFamilyCatalog, encodeFamilyCatalog)
 import HaskellNix.Update.CatalogMigration (prepareCatalogAddition, planCatalogAddition, renderCatalogAddition)
 import HaskellNix.Update.Git (discoverPackagesWithPolicy, ensureRevision, readRepositoryFileAt, remoteHead, requireRevision, resolveRepositoryCommit)
-import HaskellNix.Update.Hackage (HttpClient, defaultHttpClient, queryHackage)
+import HaskellNix.Update.Hackage (HttpClient, defaultHttpClient, queryHackage, queryHackageVersion)
 import HaskellNix.Update.Mori (MoriProject (..), locateMoriProject)
 import HaskellNix.Update.Nix
 import HaskellNix.Update.PackageLock (decodePackageLock, decodePackageLockForRefresh, decodePackageSetLock, encodePackageLock, encodePackageSetLock, importLegacyPackageLock, migrateLegacyPackageLock, validatePackageSetLock)
@@ -57,6 +58,7 @@ data WorkflowPaths = WorkflowPaths
 data WorkflowEnvironment = WorkflowEnvironment
   { processRunner :: !ProcessRunner,
     httpClient :: !HttpClient,
+    hackageVersionPins :: !(Map.Map PackageName Distribution.Types.Version.Version),
     -- | Reports each step as it starts. Refreshes spend most of their time in
     -- silent network and `nix` work, so this is what shows one is progressing.
     progress :: !(Text -> IO ()),
@@ -178,6 +180,7 @@ defaultWorkflowEnvironment = do
     WorkflowEnvironment
       { processRunner = runner,
         httpClient,
+        hackageVersionPins = Map.empty,
         progress = if interactive then reportProgress else const (pure ()),
         validateSelectedPackageSet = validatePackageSetSelection runner
       }
@@ -392,7 +395,14 @@ runPackageSetRefreshWorkflow environment paths requestedSet targets requestedPro
   case loaded of
     Left updateError -> pure (Left updateError)
     Right state@PackageSetState {packageSetCatalog, packageSetLock} ->
-      case preparePackageSetTargets packageSetCatalog packageSetLock requestedSet targets requestedProfile of
+      case do
+        (setName, groups) <- preparePackageSetTargets packageSetCatalog packageSetLock requestedSet targets requestedProfile
+        snapshots <- selectedSnapshots packageSetLock setName (map fst groups)
+        let allowed = Set.fromList [name | FamilySnapshot {packages} <- snapshots, LockedPackage {name} <- packages]
+        unless (Map.keysSet (hackageVersionPins environment) `Set.isSubsetOf` allowed) $
+          Left (UpdateError "Hackage release pin is outside the selected update groups")
+        pure (setName, groups)
+      of
         Left updateError -> pure (Left updateError)
         Right (targetSetName, targetGroups)
           | dryRun -> runExceptT (previewPackageSetRefresh environment paths packageSetCatalog targetSetName targetGroups)
@@ -702,7 +712,7 @@ observeLockedFamily environment paths family@FamilyConfig {githubInput} = do
   observeFamily environment paths True family revision
 
 observeFamily :: WorkflowEnvironment -> WorkflowPaths -> Bool -> FamilyConfig -> GitRevision -> ExceptT UpdateError IO ObservedFamily
-observeFamily WorkflowEnvironment {processRunner, httpClient, progress} _paths fetchMissing family@FamilyConfig {name = FamilyName familyName} revision = do
+observeFamily WorkflowEnvironment {processRunner, httpClient, progress, hackageVersionPins} _paths fetchMissing family@FamilyConfig {name = FamilyName familyName} revision = do
   lift (progress (familyName <> ": discovering packages at " <> shortRevision revision))
   MoriProject {path} <- liftEitherIO (locateMoriProject processRunner family)
   if fetchMissing
@@ -710,7 +720,7 @@ observeFamily WorkflowEnvironment {processRunner, httpClient, progress} _paths f
     else liftEitherIO (requireRevision processRunner path revision)
   discoveredPackages <- liftEitherIO (discoverPackagesWithPolicy processRunner path revision (additionalPaths family))
   includedPackages <- liftEitherE (applyExclusions family discoveredPackages)
-  packages <- traverse (observePackage processRunner httpClient progress) includedPackages
+  packages <- traverse (observePackage processRunner httpClient progress hackageVersionPins) includedPackages
   pure ObservedFamily {config = family, githubRev = revision, packages}
 
 shortRevision :: GitRevision -> Text
@@ -738,10 +748,12 @@ applyExclusions FamilyConfig {name = familyName, excludedPackages} discoveredPac
       ]
     included DiscoveredPackage {name} = not (Set.member name excludedPackages)
 
-observePackage :: ProcessRunner -> HttpClient -> (Text -> IO ()) -> DiscoveredPackage -> ExceptT UpdateError IO ObservedPackage
-observePackage processRunner httpClient progress discovered@DiscoveredPackage {name} = do
+observePackage :: ProcessRunner -> HttpClient -> (Text -> IO ()) -> Map.Map PackageName Distribution.Types.Version.Version -> DiscoveredPackage -> ExceptT UpdateError IO ObservedPackage
+observePackage processRunner httpClient progress pins discovered@DiscoveredPackage {name} = do
   lift (progress (packageNameText name <> ": querying Hackage"))
-  hackageRelease <- liftEitherIO (queryHackage httpClient name)
+  hackageRelease <- liftEitherIO $ case Map.lookup name pins of
+    Nothing -> queryHackage httpClient name
+    Just version -> queryHackageVersion httpClient name version
   case hackageRelease of
     Nothing -> pure ObservedPackage {discovered, hackage = Nothing, usedHackageFallback = False}
     Just HackageRelease {version, usedFallback} -> do

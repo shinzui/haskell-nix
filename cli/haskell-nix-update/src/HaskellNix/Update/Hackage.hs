@@ -4,6 +4,7 @@ module HaskellNix.Update.Hackage
     defaultHttpClient,
     decodeHackageRelease,
     queryHackage,
+    queryHackageVersion,
     packageMetadataUrl,
     packageArchiveUrl,
   )
@@ -51,6 +52,21 @@ queryHackage HttpClient {performGet} packageName = do
       200 -> Just <$> prefixError ("Hackage request " <> url <> ": ") (decodeHackageRelease packageName body)
       404 -> Right Nothing
       other -> Left (UpdateError ("Hackage request " <> url <> " returned HTTP " <> Text.pack (show other)))
+
+-- | Select an explicitly reviewed normal release; verify registry membership.
+queryHackageVersion :: HttpClient -> PackageName -> Version -> IO (Either UpdateError (Maybe HackageRelease))
+queryHackageVersion HttpClient {performGet} packageName requested = do
+  response <- performGet (packageMetadataUrl packageName)
+  pure $ do
+    HttpResponse {statusCode, body} <- response
+    if statusCode /= 200
+      then Left (UpdateError "explicit Hackage release lookup failed")
+      else do
+        value <- firstError "invalid Hackage JSON" (eitherDecodeStrict' body)
+        releases <- firstError "invalid Hackage release metadata" (parseEither parseReleases value)
+        if (requested, "normal") `elem` releases
+          then Right (Just HackageRelease {version = requested, usedFallback = False})
+          else Left (UpdateError ("requested normal Hackage release is unavailable: " <> packageNameText packageName <> "-" <> Text.pack (prettyShow requested)))
 
 decodeHackageRelease :: PackageName -> ByteString -> Either UpdateError HackageRelease
 decodeHackageRelease packageName bytes = do

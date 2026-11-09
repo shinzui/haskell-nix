@@ -286,7 +286,14 @@ nix run github:shinzui/haskell-nix/REV#runtime-import -- \
   --destination cabal/runtime/keiro-runtime/1
 ```
 
-Replace `REV` with the full locked commit and commit the resulting four files. Add
+For a runtime newer than the broad moving cohort, add `--retained-cohort`. This
+imports the hash-checked complete application freeze and configuration captured by
+that generation as `application.freeze` and `application.config`. Its source comparison
+also uses the captured cohort. A separately published application profile may replace
+these complete inputs while preserving every runtime-owned source and configuration;
+use that profile's comparison manifest and `applicationCohort` in the Nix constructor.
+
+Replace `REV` with the full locked commit and commit the resulting materialized files. Add
 `import: cabal/runtime/keiro-runtime/1/github.project` alongside the complete cohort freeze
 import. The tool verifies each unmodified projection against the retained lock and records
 the revision/fingerprint in `selection.json`; `--check` verifies the committed imports without

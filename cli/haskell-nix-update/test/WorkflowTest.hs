@@ -474,6 +474,7 @@ fakeEnvironment fixture settings = do
     ( WorkflowEnvironment
         { processRunner,
           httpClient,
+          hackageVersionPins = Map.empty,
           progress = const (pure ()),
           validateSelectedPackageSet = \_ _ -> pure (Right ())
         },

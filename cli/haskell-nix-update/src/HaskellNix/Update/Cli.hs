@@ -9,13 +9,16 @@ module HaskellNix.Update.Cli
   )
 where
 
+import Data.Map.Strict qualified as Map
+import Distribution.Parsec (simpleParsec)
+import Distribution.Types.Version (Version)
 import Data.Text (Text)
 import Data.Text qualified as Text
 import Data.Text.IO qualified as TextIO
 import HaskellNix.Update.Cohort.Cli (CohortCommand, cohortParser, runCohort)
 import HaskellNix.Update.Compatibility.Cli (CompatibilityCommand, compatibilityParser, runCompatibility)
 import HaskellNix.Update.Runtime (RuntimeCommand, runRuntime, runtimeParser)
-import HaskellNix.Update.Types (FamilyName (..), PackageSetCommand (..), PackageSetSupportLevel (..), RefreshTarget (..), SnapshotGeneration (..), UpdateError (..), UpdateGroupName (..))
+import HaskellNix.Update.Types (FamilyName (..), PackageSetCommand (..), PackageSetSupportLevel (..), PackageName (..), RefreshTarget (..), SnapshotGeneration (..), UpdateError (..), UpdateGroupName (..))
 import HaskellNix.Update.Workflow
 import Options.Applicative
 import System.Exit (exitFailure)
@@ -36,7 +39,8 @@ data RefreshOptions = RefreshOptions
   { packageSet :: !(Maybe Text),
     targets :: ![RefreshTarget],
     compatibilityProfile :: !(Maybe Text),
-    dryRun :: !Bool
+    dryRun :: !Bool,
+    hackageVersions :: ![(PackageName, Version)]
   }
   deriving stock (Eq, Show)
 
@@ -60,8 +64,9 @@ runCli = do
   environment <- defaultWorkflowEnvironment
   result <- case parsedCommand of
     CatalogAdd path dryRun -> runCatalogAddWorkflow environment (defaultWorkflowPaths ".") path dryRun
-    Refresh RefreshOptions {packageSet, targets, compatibilityProfile, dryRun} ->
-      runRefreshCommand environment (defaultWorkflowPaths ".") packageSet targets compatibilityProfile dryRun
+    Refresh RefreshOptions {packageSet, targets, compatibilityProfile, dryRun, hackageVersions}
+      | Map.size (Map.fromList hackageVersions) /= length hackageVersions -> pure (Left (UpdateError "duplicate Hackage release pin"))
+      | otherwise -> runRefreshCommand (environment {hackageVersionPins = Map.fromList hackageVersions}) (defaultWorkflowPaths ".") packageSet targets compatibilityProfile dryRun
     Check CheckOptions {packageSet, targets, online} ->
       runCheckCommand environment (defaultWorkflowPaths ".") packageSet targets online
     MigrateLock MigrateOptions {packageSet, importSets, dryRun} ->
@@ -149,6 +154,11 @@ refreshOptionsParser =
               <> help "Show the refresh plan without changing managed lock files"
           )
       )
+    <*> many (option (eitherReader releasePin) (long "hackage-version" <> metavar "PACKAGE=VERSION" <> help "Pin an explicitly reviewed normal Hackage release"))
+  where
+    releasePin raw = case break (== '=') raw of
+      (name, '=' : version) | not (null name), Just parsed <- simpleParsec version -> Right (PackageName (Text.pack name), parsed)
+      _ -> Left "expected PACKAGE=VERSION"
 
 checkOptionsParser :: Parser CheckOptions
 checkOptionsParser =

@@ -22,6 +22,7 @@ invalid() { echo "cohort-compare: $*" >&2; usage >&2; exit 2; }
 lock=''; input_path=''; freeze=''; plan=''; sources=''; contributors=''; project=''; project_lock=''
 before_manifest=''; after_manifest=''
 nix_manifest=''; nix_policy=''
+cohort_path=""
 declare -A seen=()
 while (($#)); do
   option=$1
@@ -35,7 +36,7 @@ while (($#)); do
       before_manifest=$2
       after_manifest=$3
       shift 3 ;;
-    --resolve-channel-lock|--input-path|--freeze|--plan-json|--sources|--contributors|--verify-import|--lock|--nix-manifest|--nix-policy)
+    --resolve-channel-lock|--input-path|--freeze|--plan-json|--sources|--contributors|--verify-import|--cohort-path|--lock|--nix-manifest|--nix-policy)
       (($# >= 2)) && [[ -n $2 && $2 != --* ]] || invalid "$option requires a value"
       case "$option" in
         --resolve-channel-lock) lock=$2 ;;
@@ -45,6 +46,7 @@ while (($#)); do
         --sources) sources=$2 ;;
         --contributors) contributors=$2 ;;
         --verify-import) project=$2 ;;
+        --cohort-path) cohort_path=$2 ;;
         --lock) project_lock=$2 ;;
         --nix-manifest) nix_manifest=$2 ;;
         --nix-policy) nix_policy=$2 ;;
@@ -55,13 +57,16 @@ while (($#)); do
 done
 
 if [[ -n $before_manifest || -n $after_manifest ]]; then
-  [[ -n $before_manifest && -n $after_manifest && -z $project && -z $project_lock && -z $input_path && -z $lock && -z $freeze && -z $plan && -z $sources && -z $contributors && -z $nix_manifest && -z $nix_policy && -z ${seen[--all]:-} ]] || invalid 'manifest identity mode requires only --compare-manifests BEFORE AFTER'
+  [[ -z $cohort_path && -n $before_manifest && -n $after_manifest && -z $project && -z $project_lock && -z $input_path && -z $lock && -z $freeze && -z $plan && -z $sources && -z $contributors && -z $nix_manifest && -z $nix_policy && -z ${seen[--all]:-} ]] || invalid 'manifest identity mode requires only --compare-manifests BEFORE AFTER'
   exec python3 "$manifest_tool" --compare "$before_manifest" "$after_manifest"
 fi
 if [[ -n $project || -n $project_lock ]]; then
   [[ -n $project && -n $project_lock && -n $input_path && -z $lock && -z $freeze && -z $plan && -z $sources && -z $contributors && -z $nix_manifest && -z $nix_policy && -z ${seen[--all]:-} ]] || invalid 'import mode requires only --verify-import, --lock and --input-path'
-  exec haskell-nix-update cohort verify-import --project "$project" --lock "$project_lock" --input-path "$input_path"
+  args=(cohort verify-import --project "$project" --lock "$project_lock" --input-path "$input_path")
+  if [[ -n $cohort_path ]]; then args+=(--cohort-path "$cohort_path"); fi
+  exec haskell-nix-update "${args[@]}"
 fi
+[[ -z $cohort_path ]] || invalid '--cohort-path requires --verify-import'
 if [[ -n $lock || -n $input_path ]]; then
   [[ -n $lock && -n $input_path && -z $freeze && -z $plan && -z $sources && -z $contributors && -z $nix_manifest && -z $nix_policy && -z ${seen[--all]:-} ]] || invalid 'lock mode requires only --resolve-channel-lock and --input-path'
   exec haskell-nix-update cohort resolve-channel-lock --lock "$lock" --input-path "$input_path"

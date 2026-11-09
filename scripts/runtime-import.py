@@ -10,7 +10,7 @@ import sys
 from urllib.request import urlopen
 
 
-def prepare(revision, runtime, generation, channel, fetch, application_sources=None):
+def prepare(revision, runtime, generation, channel, fetch, application_sources=None, retained_cohort=False):
     if not re.fullmatch(r"[0-9a-f]{40}", revision):
         raise ValueError("channel revision must be a full immutable Git revision")
     if not re.fullmatch(r"[a-z0-9-]+", runtime) or generation < 1 or channel not in ("github", "hackage"):
@@ -38,7 +38,24 @@ def prepare(revision, runtime, generation, channel, fetch, application_sources=N
     # The shared comparator owns parsing and validation. Supply its expected
     # source manifest for the selected transport, preserving the complete cohort
     # outside the retained runtime rather than ignoring intentional Git sources.
-    sources = json.loads(fetch("cabal/cohort-sources.json"))
+    cohort_directory = "cabal"
+    if retained_cohort:
+        recipe = f"packages/runtimes/{runtime}/{generation}/recipes"
+        if record.get("recipeDirectory") != recipe:
+            raise ValueError("invalid retained cohort directory")
+        cohort_directory = recipe + "/cabal"
+        for source_name, destination in (("cohort.freeze", "application.freeze"), ("common.config", "application.config")):
+            path = cohort_directory + "/" + source_name
+            content = fetch(path)
+            if hashlib.sha256(content).hexdigest() != record["projections"][path]:
+                raise ValueError("retained application cohort hash mismatch: " + path)
+            files[destination] = content
+            hashes[destination] = hashlib.sha256(content).hexdigest()
+    source_path = cohort_directory + "/cohort-sources.json"
+    source_bytes = fetch(source_path)
+    if retained_cohort and hashlib.sha256(source_bytes).hexdigest() != record["projections"][source_path]:
+        raise ValueError("retained application source manifest hash mismatch")
+    sources = json.loads(source_bytes)
     runtime_sources = json.loads(files[channel + "-sources.json"])
     if set(runtime_sources) != set(record["ownership"]):
         raise ValueError("runtime source manifest does not match retained ownership")
@@ -73,7 +90,7 @@ def prepare(revision, runtime, generation, channel, fetch, application_sources=N
     hashes["comparison-sources.json"] = hashlib.sha256(files["comparison-sources.json"]).hexdigest()
     metadata = {"schemaVersion": 1, "runtime": runtime, "generation": generation,
                 "channel": channel, "channelRevision": revision,
-                "runtimeFingerprint": record["fingerprint"], "files": hashes}
+                "runtimeFingerprint": record["fingerprint"], "cohortDirectory": cohort_directory, "files": hashes}
     files["selection.json"] = (json.dumps(metadata, indent=2, sort_keys=True) + "\n").encode()
     return files
 
@@ -124,6 +141,7 @@ def main():
     parser.add_argument("--channel", choices=["github", "hackage"], required=True)
     parser.add_argument("--destination", required=True)
     parser.add_argument("--check", action="store_true")
+    parser.add_argument("--retained-cohort", action="store_true", help="Import the hash-checked application cohort captured by this runtime, independently of the moving broad cohort")
     parser.add_argument("--application-sources", help="Owned contributor source policy, outside the shared cohort")
     args = parser.parse_args()
     # Validate revision before using it as part of any URL.
@@ -139,7 +157,7 @@ def main():
             return response.read()
 
     application_sources = json.loads(Path(args.application_sources).read_bytes()) if args.application_sources else None
-    files = prepare(args.revision, args.runtime, args.generation, args.channel, fetch, application_sources)
+    files = prepare(args.revision, args.runtime, args.generation, args.channel, fetch, application_sources, args.retained_cohort)
     publish(args.destination, files, args.check)
     print(("Verified " if args.check else "Materialized ") + str(Path(args.destination) / (args.channel + ".project")))
 

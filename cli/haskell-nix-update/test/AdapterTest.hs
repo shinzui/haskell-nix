@@ -32,6 +32,11 @@ tests =
       testCase "Hackage selects the greatest normal release" testHackageNormal,
       testCase "Hackage accepts live string release statuses" testHackageStringStatus,
       testCase "Hackage falls back when no release is normal" testHackageFallback,
+      testCase "explicit Hackage release requires a normal published version" $ do
+        let client = HttpClient (\_ -> pure (Right (HttpResponse 200 "{\"0.4.0.5\":\"normal\",\"0.5.0.0\":\"normal\",\"0.4.0.4\":\"deprecated\"}")))
+        queryHackageVersion client (PackageName "binding") (testVersion "0.4.0.5") >>= (@?= Right (Just (HackageRelease (testVersion "0.4.0.5") False)))
+        queryHackageVersion client (PackageName "binding") (testVersion "0.4.0.4") >>= assertLeft
+        queryHackageVersion client (PackageName "binding") (testVersion "0.3.0.0") >>= assertLeft,
       testCase "Hackage 404 means unpublished" testHackage404,
       testCase "flake.lock resolves a named root input revision" testFlakeLock,
       testCase "flake.lock decodes a complete immutable source descriptor" testFlakeLockedSource,

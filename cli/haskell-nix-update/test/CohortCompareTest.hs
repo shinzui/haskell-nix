@@ -9,7 +9,7 @@ import Data.Map.Strict qualified as Map
 import Data.Set qualified as Set
 import Data.Text (Text)
 import Data.Text qualified as Text
-import HaskellNix.Update.Cohort.Compare (comparePlan, verifyCohortImport, comparisonContext)
+import HaskellNix.Update.Cohort.Compare (comparePlan, verifyCohortImport, verifyCohortImportAt, comparisonContext)
 import HaskellNix.Update.Cohort.Types
 import Test.Tasty (TestTree, testGroup)
 import Test.Tasty.HUnit (assertBool, testCase)
@@ -50,6 +50,11 @@ tests = testGroup "consumer cohort comparison"
         failsWith "duplicate plan unit IDs" (check [row "lib" "1" "duplicate", row "unused" "1" "duplicate"])
     , testCase "cohort import supports continuation fields and ignores comments" $
         succeeds (verifyCohortImport revision ("-- import: stale/cohort.freeze\nimport:\n  common.config,\n  " <> importUrl <> "\n"))
+    , testCase "named immutable application freeze is verified against the channel" $ do
+        let path = "cabal/profiles/rei-keiro-0.24/cohort.freeze"
+        succeeds (verifyCohortImportAt revision path ("import: https://raw.githubusercontent.com/shinzui/haskell-nix/" <> revision <> "/" <> path))
+        failsWith "cohort path" (verifyCohortImportAt revision "cabal/profiles/../cohort.freeze" "")
+        failsWith "stale or missing" (verifyCohortImportAt revision path ("import: " <> importUrl))
     , testCase "a stale import fails even alongside the correct import" $
         failsWith "stale or missing" (verifyCohortImport revision ("import: " <> importUrl <> ", https://raw.githubusercontent.com/shinzui/haskell-nix/old/cabal/cohort.freeze\n"))
     , testCase "a commented import cannot prove current provenance" $

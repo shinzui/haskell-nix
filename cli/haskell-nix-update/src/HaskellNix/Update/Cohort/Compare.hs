@@ -1,6 +1,6 @@
 {-# LANGUAGE OverloadedRecordDot #-}
 
-module HaskellNix.Update.Cohort.Compare (comparePlan, verifyCohortImport, comparisonContext) where
+module HaskellNix.Update.Cohort.Compare (comparePlan, verifyCohortImport, verifyCohortImportAt, comparisonContext) where
 
 import Control.Monad (unless)
 import Data.Aeson (Value (..), eitherDecodeStrict', object, withObject, (.:), (.=))
@@ -78,10 +78,17 @@ validateExpected owned freeze sources = do
 -- The caller resolves the revision from this application's own lock, including
 -- follows paths. Accept only a full immutable revision and one canonical import.
 verifyCohortImport :: Text -> Text -> Either Text Text
-verifyCohortImport revision project = do
+verifyCohortImport revision = verifyCohortImportAt revision "cabal/cohort.freeze"
+
+verifyCohortImportAt :: Text -> Text -> Text -> Either Text Text
+verifyCohortImportAt revision cohortPath project = do
+    let pieces = Text.splitOn "/" cohortPath
+        segment value = not (Text.null value) && Text.all (\c -> c >= 'a' && c <= 'z' || c >= '0' && c <= '9' || c == '-' || c == '.') value && value /= "." && value /= ".."
+    unless (cohortPath == "cabal/cohort.freeze" || case pieces of ["cabal", "profiles", name, "cohort.freeze"] -> segment name; _ -> False)
+        (Left "cohort path must name the broad freeze or one named application profile")
     unless (Text.length revision == 40 && Text.all isHexDigit revision)
         (Left "cohort import requires a full locked Git revision")
-    let expected = "https://raw.githubusercontent.com/shinzui/haskell-nix/" <> revision <> "/cabal/cohort.freeze"
+    let expected = "https://raw.githubusercontent.com/shinzui/haskell-nix/" <> revision <> "/" <> cohortPath
         imports = concat [Text.words (Text.replace "," " " value) | ("import", value) <- projectFields project]
         cohortImports = filter (Text.isInfixOf "cohort.freeze") imports
     unless (cohortImports == [expected])

@@ -304,3 +304,16 @@ the consumer's `flake.nix`.
 
 See [Troubleshooting](troubleshooting.md) for dirty managed files, missing generations,
 incomplete mappings, support expectations, profile conflicts, and cache diagnostics.
+
+## Select a reviewed compatible Hackage release
+
+`refresh --family baikai --hackage-version baikai-effectful=0.4.0.5`
+retains a normal published binding admitted by Kioku 0.13 and Shikumi 0.5.1
+while refreshing the atomic Baikai/Shikumi group. The updater verifies the
+requested release against Hackage and hashes the real archive. Pins outside
+the selected groups, missing/deprecated versions and duplicate pin keys are
+refused. The Hackage channel records this version; the GitHub channel continues
+to reflect the selected repository revision. Use the Hackage channel when that
+revision contains the incompatible 0.5 binding. An online drift check still
+reports the newer release; the explicit compatible pin is a deliberate source
+choice, never a bounds relaxation.

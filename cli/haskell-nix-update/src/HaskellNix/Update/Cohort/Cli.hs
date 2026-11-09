@@ -20,7 +20,7 @@ import Data.Text.Encoding (decodeUtf8)
 import Distribution.Pretty (prettyShow)
 import HaskellNix.Update.Catalog (decodeFamilyCatalog)
 import HaskellNix.Update.Cohort.Freeze (FreezeHeader (FreezeHeader), normaliseCabalFreeze, parseCohortFreeze, renderCohortFreeze)
-import HaskellNix.Update.Cohort.Compare (comparePlan, verifyCohortImport, comparisonContext)
+import HaskellNix.Update.Cohort.Compare (comparePlan, verifyCohortImportAt, comparisonContext)
 import HaskellNix.Update.Cohort.GenerateIO (GenerateOptions (..), runGenerate)
 import HaskellNix.Update.Cohort.RecipeArtifacts qualified as Artifacts
 import HaskellNix.Update.Cohort.Render (canonicalJSON)
@@ -41,9 +41,9 @@ import System.FilePath (takeDirectory, takeExtension, (</>))
 
 data CohortCommand
     = CohortResolveChannelLock !FilePath !Text
-    | CohortVerifyImport !FilePath !FilePath !Text
+    | CohortVerifyImport !FilePath !FilePath !Text !Text
     | CohortComparisonContext !FilePath !FilePath !FilePath
-    | CohortGenerate !GenerateOptions
+    | CohortGenerate !Text !GenerateOptions
     | CohortRecipes !Artifacts.ArtifactOptions
     | CohortRecipeCommands !FilePath
     | CohortComparePlan !FilePath !FilePath !FilePath !FilePath
@@ -86,9 +86,9 @@ cohortParser =
     recipesParser checking = CohortRecipes <$> (Artifacts.ArtifactOptions
         <$> strOption (long "context" <> metavar "FILE") <*> strOption (long "out" <> metavar "DIR") <*> pure checking)
     resolveLockParser = CohortResolveChannelLock <$> strOption (long "lock" <> metavar "FILE") <*> textOption "input-path"
-    verifyImportParser = CohortVerifyImport <$> strOption (long "project" <> metavar "FILE") <*> strOption (long "lock" <> metavar "FILE") <*> textOption "input-path"
+    verifyImportParser = CohortVerifyImport <$> strOption (long "project" <> metavar "FILE") <*> strOption (long "lock" <> metavar "FILE") <*> textOption "input-path" <*> (Text.pack <$> strOption (long "cohort-path" <> value "cabal/cohort.freeze" <> metavar "PATH"))
     contextParser = CohortComparisonContext <$> pathOption "freeze" "cabal/cohort.freeze" <*> pathOption "sources" "cabal/cohort-sources.json" <*> pathOption "contributors" "cabal/contributors.json"
-    generateParser = CohortGenerate <$> (GenerateOptions <$> pathOption "freeze" "cabal/cohort.freeze" <*> pathOption "policy" "config/cohort-policy.json" <*> pathOption "output" "generated/cohort-versions.nix" <*> pathOption "boot-output" "generated/ghc-boot-packages.nix" <*> switch (long "check") <*> optionalPath "context-output" <*> pathOption "repository" ".")
+    generateParser = CohortGenerate <$> (Text.pack <$> strOption (long "package-set" <> value "default" <> metavar "SET")) <*> (GenerateOptions <$> pathOption "freeze" "cabal/cohort.freeze" <*> pathOption "policy" "config/cohort-policy.json" <*> pathOption "output" "generated/cohort-versions.nix" <*> pathOption "boot-output" "generated/ghc-boot-packages.nix" <*> switch (long "check") <*> optionalPath "context-output" <*> pathOption "repository" ".")
     compareParser = CohortComparePlan <$> pathOption "freeze" "cabal/cohort.freeze" <*> pathOption "sources" "cabal/cohort-sources.json" <*> pathOption "contributors" "cabal/contributors.json" <*> strOption (long "plan-json" <> metavar "FILE")
     updateParser = CohortUpdateConstraints <$> pathOption "freeze" "cabal/cohort.freeze" <*> optionalPath "runtime-freeze" <*> switch (long "update-runtime") <*> some (textOption "package") <*> optional (textOption "index-state") <*> pathOption "out" "cabal/retained.config"
     impactParser = CohortImpact <$> pathOption "before" "cabal/cohort-sources.json" <*> strOption (long "after" <> metavar "FILE") <*> pathOption "inventory" "cabal/inventory" <*> optionalPath "before-policy" <*> optionalPath "after-policy" <*> pathOption "out" "cabal/cohort-impact.txt"
@@ -143,12 +143,12 @@ dispatch (CohortResolveChannelLock lockFile inputPath) = do
     pure $ case decodeChannelRevision inputPath bytes of
         Left (UpdateError err) -> Left err
         Right (Lock.GitRevision revision) -> Right revision
-dispatch (CohortVerifyImport projectFile lockFile inputPath) = do
+dispatch (CohortVerifyImport projectFile lockFile inputPath cohortPath) = do
     bytes <- BS.readFile lockFile
     project <- TextIO.readFile projectFile
     pure $ case decodeChannelRevision inputPath bytes of
         Left (UpdateError err) -> Left err
-        Right (Lock.GitRevision revision) -> verifyCohortImport revision project
+        Right (Lock.GitRevision revision) -> verifyCohortImportAt revision cohortPath project
 dispatch (CohortComparePlan freezeFile sourcesFile contributorsFile planFile) = runExceptT $ do
     freeze <- lift (TextIO.readFile freezeFile)
     sources <- ExceptT (readJSON sourcesFile)
@@ -166,8 +166,8 @@ dispatch (CohortRecipes options) = fmap (either (\(UpdateError err) -> Left err)
 dispatch (CohortRecipeCommands path) = do
     bytes <- BS.readFile path
     pure (canonicalJSON <$> (Artifacts.decodeRecipeContext bytes >>= Artifacts.recipeCommandsValue))
-dispatch (CohortGenerate options) = runExceptT $ do
-    (_, _, firstParty, _) <- loadInputs "cabal/inventory" "packages/first-party-lock.json" "config/first-party-families.json" "cabal/policy-floors.json"
+dispatch (CohortGenerate packageSet options) = runExceptT $ do
+    (_, _, firstParty, _) <- loadInputsFor packageSet "cabal/inventory" "packages/first-party-lock.json" "config/first-party-families.json" "cabal/policy-floors.json"
     versions <- ExceptT (pure (traverse parseVersion firstParty))
     client <- lift defaultHttpClient
     ExceptT (fmap (either (\(UpdateError err) -> Left err) Right) (runGenerate defaultProcessRunner client versions options))
@@ -289,7 +289,10 @@ readInventories directory = do
     traverse (\file -> ExceptT (readJSON (directory </> file))) [f | f <- files, takeExtension f == ".json", f /= "nix.json"]
 
 loadInputs :: FilePath -> FilePath -> FilePath -> FilePath -> ExceptT Text IO ([Inventory], NixInventory, Map Text Text, [PolicyFloor])
-loadInputs directory lockFile catalogFile policyFile = do
+loadInputs = loadInputsFor "default"
+
+loadInputsFor :: Text -> FilePath -> FilePath -> FilePath -> FilePath -> ExceptT Text IO ([Inventory], NixInventory, Map Text Text, [PolicyFloor])
+loadInputsFor packageSet directory lockFile catalogFile policyFile = do
     inventories <- readInventories directory
     nix <- ExceptT (readJSON (directory </> "nix.json"))
     policy <- ExceptT (readJSON policyFile)
@@ -297,6 +300,6 @@ loadInputs directory lockFile catalogFile policyFile = do
     catalog <- ExceptT (pure (decodeFamilyCatalog catalogBytes))
     lockBytes <- lift (BS.readFile lockFile)
     lock <- ExceptT (pure (decodePackageSetLock catalog lockBytes))
-    selected <- ExceptT (pure (selectPackageSet catalog lock "default"))
+    selected <- ExceptT (pure (selectPackageSet catalog lock packageSet))
     let firstParty = Map.fromList [(name, Text.pack (prettyShow pin.version)) | family <- selected, package <- family.packages, Lock.PackageName name <- [package.name], Just pin <- [package.hackage]]
     pure (inventories, nix, firstParty, policy)

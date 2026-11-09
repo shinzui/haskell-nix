@@ -37,6 +37,14 @@ uses the existing freeze parser and classifier. Paths, generation labels and
 creation timestamps are absent from the context. A retained runtime caller can
 serialize its own explicit `GenerationContext` through the same library interface.
 
+For a scoped application profile, pass `--package-set SET` to classify first-party
+versions against that retained selection rather than the broad default. The freeze and
+source manifest must still agree with every selected released version. Publish these
+profiles under `cabal/profiles/NAME/` with their generated tables, preserving the broad
+cohort. Consumers can verify that immutable import with `cohort-compare --verify-import
+cabal.project --lock flake.lock --input-path haskell-nix --cohort-path
+cabal/profiles/NAME/cohort.freeze`.
+
 Repeat with `--check` to compare all three outputs without rewriting them. The
 existing generator still resolves metadata and source inputs through its normal
 workflow. All selected outputs are staged before publication, and a changed
