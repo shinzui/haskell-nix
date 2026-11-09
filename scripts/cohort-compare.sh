@@ -5,7 +5,7 @@ usage() {
   cat <<'EOF'
 Usage:
   cohort-compare --resolve-channel-lock FILE --input-path PATH
-  cohort-compare --verify-import PROJECT --lock FILE --input-path PATH
+  cohort-compare --verify-import PROJECT --lock FILE --input-path PATH [--cohort-path PATH]
   cohort-compare --compare-manifests BEFORE AFTER
   cohort-compare --freeze FILE_OR_HTTPS_URL (--plan-json FILE | --nix-manifest FILE) [--all]
                  [--sources FILE] [--contributors FILE] [--nix-policy FILE]

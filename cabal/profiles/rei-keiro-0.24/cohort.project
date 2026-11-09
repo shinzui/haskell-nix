@@ -1,0 +1,5 @@
+packages: profile.cabal
+import: common.config
+import: retained.config
+index-state: hackage.haskell.org 2026-11-08T23:20:31Z
+constraints: any.keiro ==0.24.0.0, any.kioku-core ==0.13.0.0, any.baikai ==0.10.1.0, any.baikai-effectful ==0.4.0.5, any.shikumi ==0.5.1.0, any.shikumi-trace ==0.3.2.0

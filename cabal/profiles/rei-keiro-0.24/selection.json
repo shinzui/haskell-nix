@@ -1,0 +1,19 @@
+{
+  "runtime": "keiro-runtime",
+  "generation": 8,
+  "channel": "hackage",
+  "disableProfiling": true,
+  "disableHaddock": true,
+  "applicationSelections": {
+    "kioku": 11,
+    "okf": 6,
+    "openapi-hs": 1,
+    "relay-pagination": 3,
+    "servant-openapi-hs": 1,
+    "shikumi-baikai": 11,
+    "heni": 1,
+    "hinagata": 1,
+    "shoko": 1,
+    "typesafe-hs": 1
+  }
+}

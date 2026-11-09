@@ -41,7 +41,9 @@ For a scoped application profile, pass `--package-set SET` to classify first-par
 versions against that retained selection rather than the broad default. The freeze and
 source manifest must still agree with every selected released version. Publish these
 profiles under `cabal/profiles/NAME/` with their generated tables, preserving the broad
-cohort. Consumers can verify that immutable import with `cohort-compare --verify-import
+cohort. Repeated `--group-selection GROUP=GENERATION` options compose retained
+groups for a read-only profile solve without mutating any named package set. Invalid,
+unknown or duplicate selections fail before generation. Consumers can verify that immutable import with `cohort-compare --verify-import
 cabal.project --lock flake.lock --input-path haskell-nix --cohort-path
 cabal/profiles/NAME/cohort.freeze`.
 

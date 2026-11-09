@@ -3,6 +3,7 @@
 module HaskellNix.Update.Cohort.Cli (CohortCommand (..), cohortParser, runCohort) where
 
 import Control.Exception (IOException, try)
+import Control.Monad (foldM, unless)
 import Control.Monad.Trans.Class (lift)
 import Control.Monad.Trans.Except (ExceptT (..), runExceptT)
 import Data.Aeson (FromJSON, ToJSON, Value, eitherDecodeStrict')
@@ -33,6 +34,8 @@ import HaskellNix.Update.Nix (decodeChannelRevision)
 import HaskellNix.Update.Hackage (defaultHttpClient)
 import HaskellNix.Update.Process (defaultProcessRunner)
 import HaskellNix.Update.PackageLock (decodePackageSetLock, selectPackageSet)
+import HaskellNix.Update.Plan (selectGroupGeneration)
+import Text.Read (readMaybe)
 import HaskellNix.Update.Types (UpdateError (..))
 import HaskellNix.Update.Types qualified as Lock
 import Options.Applicative
@@ -43,7 +46,7 @@ data CohortCommand
     = CohortResolveChannelLock !FilePath !Text
     | CohortVerifyImport !FilePath !FilePath !Text !Text
     | CohortComparisonContext !FilePath !FilePath !FilePath
-    | CohortGenerate !Text !GenerateOptions
+    | CohortGenerate !Text ![(Lock.UpdateGroupName, Lock.SnapshotGeneration)] !GenerateOptions
     | CohortRecipes !Artifacts.ArtifactOptions
     | CohortRecipeCommands !FilePath
     | CohortComparePlan !FilePath !FilePath !FilePath !FilePath
@@ -88,7 +91,10 @@ cohortParser =
     resolveLockParser = CohortResolveChannelLock <$> strOption (long "lock" <> metavar "FILE") <*> textOption "input-path"
     verifyImportParser = CohortVerifyImport <$> strOption (long "project" <> metavar "FILE") <*> strOption (long "lock" <> metavar "FILE") <*> textOption "input-path" <*> (Text.pack <$> strOption (long "cohort-path" <> value "cabal/cohort.freeze" <> metavar "PATH"))
     contextParser = CohortComparisonContext <$> pathOption "freeze" "cabal/cohort.freeze" <*> pathOption "sources" "cabal/cohort-sources.json" <*> pathOption "contributors" "cabal/contributors.json"
-    generateParser = CohortGenerate <$> (Text.pack <$> strOption (long "package-set" <> value "default" <> metavar "SET")) <*> (GenerateOptions <$> pathOption "freeze" "cabal/cohort.freeze" <*> pathOption "policy" "config/cohort-policy.json" <*> pathOption "output" "generated/cohort-versions.nix" <*> pathOption "boot-output" "generated/ghc-boot-packages.nix" <*> switch (long "check") <*> optionalPath "context-output" <*> pathOption "repository" ".")
+    generateParser = CohortGenerate <$> (Text.pack <$> strOption (long "package-set" <> value "default" <> metavar "SET")) <*> many (option (eitherReader groupSelection) (long "group-selection" <> metavar "GROUP=GENERATION" <> help "Read a retained group in the application profile without mutating package sets")) <*> (GenerateOptions <$> pathOption "freeze" "cabal/cohort.freeze" <*> pathOption "policy" "config/cohort-policy.json" <*> pathOption "output" "generated/cohort-versions.nix" <*> pathOption "boot-output" "generated/ghc-boot-packages.nix" <*> switch (long "check") <*> optionalPath "context-output" <*> pathOption "repository" ".")
+    groupSelection input = case break (== '=') input of
+        (name, '=' : generation) | not (null name), Just number <- readMaybe generation, number > 0 -> Right (Lock.UpdateGroupName (Text.pack name), Lock.SnapshotGeneration number)
+        _ -> Left "expected GROUP=GENERATION with a positive generation"
     compareParser = CohortComparePlan <$> pathOption "freeze" "cabal/cohort.freeze" <*> pathOption "sources" "cabal/cohort-sources.json" <*> pathOption "contributors" "cabal/contributors.json" <*> strOption (long "plan-json" <> metavar "FILE")
     updateParser = CohortUpdateConstraints <$> pathOption "freeze" "cabal/cohort.freeze" <*> optionalPath "runtime-freeze" <*> switch (long "update-runtime") <*> some (textOption "package") <*> optional (textOption "index-state") <*> pathOption "out" "cabal/retained.config"
     impactParser = CohortImpact <$> pathOption "before" "cabal/cohort-sources.json" <*> strOption (long "after" <> metavar "FILE") <*> pathOption "inventory" "cabal/inventory" <*> optionalPath "before-policy" <*> optionalPath "after-policy" <*> pathOption "out" "cabal/cohort-impact.txt"
@@ -166,8 +172,8 @@ dispatch (CohortRecipes options) = fmap (either (\(UpdateError err) -> Left err)
 dispatch (CohortRecipeCommands path) = do
     bytes <- BS.readFile path
     pure (canonicalJSON <$> (Artifacts.decodeRecipeContext bytes >>= Artifacts.recipeCommandsValue))
-dispatch (CohortGenerate packageSet options) = runExceptT $ do
-    (_, _, firstParty, _) <- loadInputsFor packageSet "cabal/inventory" "packages/first-party-lock.json" "config/first-party-families.json" "cabal/policy-floors.json"
+dispatch (CohortGenerate packageSet selections options) = runExceptT $ do
+    (_, _, firstParty, _) <- loadInputsForSelections selections packageSet "cabal/inventory" "packages/first-party-lock.json" "config/first-party-families.json" "cabal/policy-floors.json"
     versions <- ExceptT (pure (traverse parseVersion firstParty))
     client <- lift defaultHttpClient
     ExceptT (fmap (either (\(UpdateError err) -> Left err) Right) (runGenerate defaultProcessRunner client versions options))
@@ -292,7 +298,11 @@ loadInputs :: FilePath -> FilePath -> FilePath -> FilePath -> ExceptT Text IO ([
 loadInputs = loadInputsFor "default"
 
 loadInputsFor :: Text -> FilePath -> FilePath -> FilePath -> FilePath -> ExceptT Text IO ([Inventory], NixInventory, Map Text Text, [PolicyFloor])
-loadInputsFor packageSet directory lockFile catalogFile policyFile = do
+loadInputsFor = loadInputsForSelections []
+
+loadInputsForSelections :: [(Lock.UpdateGroupName, Lock.SnapshotGeneration)] -> Text -> FilePath -> FilePath -> FilePath -> FilePath -> ExceptT Text IO ([Inventory], NixInventory, Map Text Text, [PolicyFloor])
+loadInputsForSelections selections packageSet directory lockFile catalogFile policyFile = do
+    unless (length selections == Map.size (Map.fromList selections)) (ExceptT (pure (Left "duplicate group selection")))
     inventories <- readInventories directory
     nix <- ExceptT (readJSON (directory </> "nix.json"))
     policy <- ExceptT (readJSON policyFile)
@@ -300,6 +310,7 @@ loadInputsFor packageSet directory lockFile catalogFile policyFile = do
     catalog <- ExceptT (pure (decodeFamilyCatalog catalogBytes))
     lockBytes <- lift (BS.readFile lockFile)
     lock <- ExceptT (pure (decodePackageSetLock catalog lockBytes))
-    selected <- ExceptT (pure (selectPackageSet catalog lock packageSet))
+    selectedLock <- ExceptT (pure (foldM (\current (group, generation) -> either (Left . (.message)) Right (selectGroupGeneration packageSet group generation current)) lock selections))
+    selected <- ExceptT (pure (selectPackageSet catalog selectedLock packageSet))
     let firstParty = Map.fromList [(name, Text.pack (prettyShow pin.version)) | family <- selected, package <- family.packages, Lock.PackageName name <- [package.name], Just pin <- [package.hackage]]
     pure (inventories, nix, firstParty, policy)
