@@ -869,6 +869,110 @@
         },
         {
             "discoveryPolicy": {
+                "excludedPackages": [],
+                "packageOverrides": {}
+            },
+            "family": "baikai",
+            "generation": 10,
+            "packages": [
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-vPieQ7hrbF046FBI9E8Lo0n2i2P/pHk6Qn8Cv/7RQuc=",
+                        "version": "0.10.1.1"
+                    },
+                    "name": "baikai",
+                    "path": "baikai",
+                    "version": "0.10.1.1"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-+3Iy4r6mVqAqfKG9YEqcU6OO7XmLb6SWN+mtthCfUWs=",
+                        "version": "0.2.0.4"
+                    },
+                    "name": "baikai-agent",
+                    "path": "baikai-agent",
+                    "version": "0.2.0.4"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-O82VBJQAy9Jpwp+OgWO54WJ6vRUEPGLuh95ltCsv5r8=",
+                        "version": "0.7.3.0"
+                    },
+                    "name": "baikai-claude",
+                    "path": "baikai-claude",
+                    "version": "0.7.3.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-Wp2h9jVLu0C9u9huqqrSSPl1EV1O9LKN/jvUoTvBbIU=",
+                        "version": "0.4.0.5"
+                    },
+                    "name": "baikai-effectful",
+                    "path": "baikai-effectful",
+                    "version": "0.5.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-xDdV6xGW2vpQrI0NkqlNYrR4QmEM/b75HfySd0ey0l4=",
+                        "version": "0.4.0.3"
+                    },
+                    "name": "baikai-kit",
+                    "path": "baikai-kit",
+                    "version": "0.4.0.3"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-45N4RapXHKL29VeIoTn3KkhU8UHGWjb9keto3Tu6RaM=",
+                        "version": "0.7.3.1"
+                    },
+                    "name": "baikai-openai",
+                    "path": "baikai-openai",
+                    "version": "0.7.3.1"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": null,
+                    "name": "baikai-smoke",
+                    "path": "baikai-smoke",
+                    "version": "0.1.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-VprdLrFYVfCxC3zfl86Bq/YMkxM0bEWr8yRXtVAwvIs=",
+                        "version": "0.4.1.1"
+                    },
+                    "name": "baikai-trace-otel",
+                    "path": "baikai-trace-otel",
+                    "version": "0.4.1.1"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-B5QfLSylQe5jI2jsZPE0/5Edj78Oe80m0fjzx/A98Vg=",
+                        "version": "0.1.0.1"
+                    },
+                    "name": "baikai-typesafe",
+                    "path": "baikai-typesafe",
+                    "version": "0.1.0.1"
+                }
+            ],
+            "source": {
+                "narHash": "sha256-zVbvCGBWV3aCJlupC1g/esjPLd/pEEkqiLK3Gp38MuM=",
+                "owner": "shinzui",
+                "repo": "baikai",
+                "rev": "7a1d45ee7437e5f572cec741bcf68e464a3e43c2",
+                "type": "github"
+            }
+        },
+        {
+            "discoveryPolicy": {
                 "additionalPackagePaths": [
                     "adapters/heni-hspec",
                     "adapters/heni-tasty"
@@ -6863,6 +6967,21 @@
             "compatibilityProfile": "default",
             "families": [
                 {
+                    "family": "baikai",
+                    "generation": 10
+                },
+                {
+                    "family": "shikumi",
+                    "generation": 9
+                }
+            ],
+            "generation": 12,
+            "group": "shikumi-baikai"
+        },
+        {
+            "compatibilityProfile": "default",
+            "families": [
+                {
                     "family": "shoko",
                     "generation": 1
                 }
@@ -6942,7 +7061,7 @@
                     "group": "shibuya"
                 },
                 {
-                    "generation": 11,
+                    "generation": 12,
                     "group": "shikumi-baikai"
                 },
                 {
