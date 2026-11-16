@@ -95,6 +95,35 @@ Keiro 0.24 projection-status page items now wrap the frozen status record in `st
 Follow the upstream [Keiro](mori://shinzui/keiro) and
 [Kiroku](mori://shinzui/kiroku) migration guidance when adopting these APIs.
 
+Generation 9 selects the latest runtime releases as of November 16:
+[Keiro](mori://shinzui/keiro) 0.25.1.0,
+[Shibuya](mori://shinzui/shibuya) 0.13.0.1,
+[Kiroku Store](mori://shinzui/kiroku/packages/kiroku-store) 0.13.0.2,
+[the Kiroku adapter](mori://shinzui/kiroku/packages/shibuya-kiroku-adapter) 0.8.0.0,
+[`shibuya-pgmq-adapter`](mori://shinzui/shibuya-pgmq-adapter/packages/shibuya-pgmq-adapter) 0.19.0.0 and
+[`shibuya-kafka-adapter`](mori://shinzui/shibuya-kafka-adapter/packages/shibuya-kafka-adapter) 0.13.0.0.
+It retains generation 8's 325 owned packages and 37 roots; those 13 versions are the only
+source identity changes. The Cabal index moves to `2026-11-16T21:27:35Z`.
+Both pinned source profiles solve successfully. All 37 roots, frozen package parity
+and inspection executable checks pass in both channels on `aarch64-darwin` with
+GHC 9.12.4. Linux builds remain untested, so broad platform support stays `unverified`.
+See [the generation receipt](../evidence/keiro-025-runtime.json).
+
+Select `generation = 9`, materialize imports into `cabal/runtime/keiro-runtime/9`,
+and build the explicit `keiro-runtime-9` or `keiro-runtime-9-hackage` outputs.
+Use application selections `kioku=11`, `shikumi-baikai=12` and `okf=6`; each application's
+declared bounds still apply. [Kioku](mori://shinzui/kioku) 0.13.0.0 requires Keiro 0.24
+and Shibuya 0.12, so it stays on generation 8 until it migrates.
+
+Applications adopting generation 9 must apply Keiro migration `0033` (timer trace columns),
+set the new `telemetry` field on Shibuya `Adapter` values and on full
+`KirokuAdapterConfig`/`KirokuConsumerGroupConfig` literals, add `traceContext` to
+`TimerRequest`/`TimerRow` and `tracePolicy` to `IntegrationProducer`, and update trace
+queries for the renamed `process <destination>` and `command <category>` spans. The Kiroku
+adapter now defaults to linked-root processing traces. Follow the upstream
+[Keiro](mori://shinzui/keiro), [Shibuya](mori://shinzui/shibuya) and
+[Kiroku](mori://shinzui/kiroku) changelogs when adopting these APIs.
+
 ## 1. Pin the channel and record selections
 
 Follow [the flake adoption guide](adopt-in-an-existing-flake.md) to share the toolchain.

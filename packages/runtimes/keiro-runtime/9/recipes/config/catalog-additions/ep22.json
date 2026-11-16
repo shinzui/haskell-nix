@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 2,
+  "families": [
+    {
+      "name": "heni",
+      "moriProject": "shinzui/heni",
+      "github": "shinzui/heni",
+      "githubInput": "heni-src",
+      "packageOverrides": {},
+      "excludedPackages": [],
+      "additionalPackagePaths": [
+        "adapters/heni-hspec",
+        "adapters/heni-tasty"
+      ]
+    },
+    {
+      "name": "hinagata",
+      "moriProject": "shinzui/hinagata",
+      "github": "shinzui/hinagata",
+      "githubInput": "hinagata-src",
+      "packageOverrides": {},
+      "excludedPackages": []
+    },
+    {
+      "name": "shoko",
+      "moriProject": "shinzui/shoko",
+      "github": "shinzui/shoko",
+      "githubInput": "shoko-src",
+      "packageOverrides": {},
+      "excludedPackages": []
+    },
+    {
+      "name": "typesafe-hs",
+      "moriProject": "shinzui/typesafe-hs",
+      "github": "shinzui/typesafe-hs",
+      "githubInput": "typesafe-hs-src",
+      "packageOverrides": {},
+      "excludedPackages": []
+    }
+  ],
+  "updateGroups": []
+}

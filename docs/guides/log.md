@@ -1,5 +1,8 @@
 # Bundle Update Log
 
+## 2026-11-16
+* **Update**: DOC-6 documents explicit Keiro 0.25 and Shibuya 0.13 runtime generation 9, Keiro migration 0033, the adapter telemetry fields and Kioku's retention on generation 8.
+
 ## 2026-11-08
 * **Update**: DOC-6 documents explicit Keiro 0.24 runtime generation 8, migration 0017 and Kioku's retained application bounds.
 

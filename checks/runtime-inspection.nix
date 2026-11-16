@@ -4,7 +4,7 @@ pkgs.runCommand "runtime-inspection-${channel}"
 {
   nativeBuildInputs = [ scope.keiro-ops-http scope.pgmq-inspect ];
   # Retain the older generation's mori://shinzui/kioku consumer qualification.
-  # Generation 8 awaits its migration to mori://shinzui/keiro 0.24.
+  # Generations 8 and 9 exclude it: its released bounds require an older Keiro runtime.
   buildInputs = [ scope.shibuya-metrics scope.settei-preflight ]
     ++ pkgs.lib.optionals includeKioku [ scope.kioku-core scope.kioku-migrations ];
 } ''

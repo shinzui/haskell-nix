@@ -1,0 +1,20 @@
+{
+  "hw-kafka-client": {
+    "hash": "sha256-0ojh/7ScAm+ZDKch8x0oL946QA8gQUyXz+07k4lA348=",
+    "owner": "shinzui",
+    "project": "mori://shinzui/hw-kafka-client",
+    "repo": "hw-kafka-client",
+    "rev": "6caed636898a78e9f6e5a9c93eeb5562cbb2580a",
+    "subdirectory": ".",
+    "version": "5.3.0"
+  },
+  "hw-kafka-streamly": {
+    "hash": "sha256-KYsg7+mkGfW6wNHDI/pjZztuiuSHa7tUdXg0thrWnq8=",
+    "owner": "shinzui",
+    "project": "mori://shinzui/hw-kafka-streamly",
+    "repo": "hw-kafka-streamly",
+    "rev": "945b5bdb2b96f2a3f13c380552ac5d17f13e3d92",
+    "subdirectory": "hw-kafka-streamly",
+    "version": "0.2.0.0"
+  }
+}
