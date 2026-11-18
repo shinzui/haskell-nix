@@ -2,6 +2,7 @@
 
 ## 2026-11-17
 
+* **Addition**: IR-5 requests shomei-core, shomei-jwt and jose for the Rei cohort and its retained runtime, from Rei ExecPlan 292.
 * **Addition**: IR-4 requests a checked application complement for generation 9 HTTP service consumers.
 
 ## 2026-10-20
