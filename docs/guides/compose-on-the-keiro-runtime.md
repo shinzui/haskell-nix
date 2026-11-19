@@ -124,6 +124,32 @@ adapter now defaults to linked-root processing traces. Follow the upstream
 [Keiro](mori://shinzui/keiro), [Shibuya](mori://shinzui/shibuya) and
 [Kiroku](mori://shinzui/kiroku) changelogs when adopting these APIs.
 
+Generation 10 selects [Keiro](mori://shinzui/keiro) 0.26.0.0, released November 18, for
+all eight Keiro packages. It retains generation 9's Shibuya, Kiroku, PGMQ, Settei, Keiki,
+pg-migrate and Kafka releases, none of which has a newer release. It keeps generation 9's
+325 owned packages and 37 roots; those 8 Keiro versions are the only source identity
+changes. The Cabal index moves to `2026-11-19T03:32:46Z`. Both pinned source profiles
+solve successfully. All 37 roots, frozen package parity and inspection executable checks
+pass in both channels on `aarch64-darwin` with GHC 9.12.4. Linux builds remain untested,
+so broad platform support stays `unverified`.
+See [the generation receipt](../evidence/keiro-026-runtime.json).
+
+Select `generation = 10`, materialize imports into `cabal/runtime/keiro-runtime/10`,
+and build the explicit `keiro-runtime-10` or `keiro-runtime-10-hackage` outputs.
+Use application selections `kioku=11`, `shikumi-baikai=12` and `okf=6`; each application's
+declared bounds still apply. [Kioku](mori://shinzui/kioku) 0.13.0.0 still requires Keiro 0.24,
+so it stays on generation 8.
+
+Keiro 0.26 adds no database migration. Applications adopting generation 10 must supply
+`serviceTopology` (use `Nothing` for the previous behavior) when constructing `AppHooks`
+directly, or keep extending `emptyAppHooks`. They must set `topology` on `HostOptions` and
+handle the new `Keiro.Ops.Command` `Topology` constructor in exhaustive matches. Code that
+builds or matches the `keiro-dsl` grammar must handle `COptional`, the
+`ContractDiscriminator` type and the new `InputDecl.source` field. Generated modules for
+existing `.keiro` sources do not change. Follow the upstream [Keiro](mori://shinzui/keiro)
+changelogs and its upgrade blueprint
+`blueprints/keiro-upgrade/migrations/0.25.1.0-to-0.26.0.0.md` when adopting these APIs.
+
 ## 1. Pin the channel and record selections
 
 Follow [the flake adoption guide](adopt-in-an-existing-flake.md) to share the toolchain.

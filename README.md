@@ -7,12 +7,12 @@ A shared flake that provides GHC compatibility patches (jailbreaks, version pins
 For a retained transitive runtime baseline, use `lib.mkRuntimePackageSet` and the
 [Keiro runtime composition guide](docs/guides/compose-on-the-keiro-runtime.md). It pairs
 hash-checked Cabal imports with one checked Nix scope and explicit application selections.
-The latest runtime releases are retained as generation 9, exposed through the
-`keiro-runtime-9*` outputs: [Keiro](mori://shinzui/keiro) 0.25.1.0,
+The latest runtime releases are retained as generation 10, exposed through the
+`keiro-runtime-10*` outputs: [Keiro](mori://shinzui/keiro) 0.26.0.0,
 [Shibuya](mori://shinzui/shibuya) 0.13.0.1 and
 [Kiroku Store](mori://shinzui/kiroku/packages/kiroku-store) 0.13.0.2, with the matching
-Kiroku, PGMQ and Kafka adapters. Generation 8 (`keiro-runtime-8*`, Keiro 0.24.0.0) stays
-available. Select a generation explicitly; the default application cohort retains Keiro 0.22
+Kiroku, PGMQ and Kafka adapters. Generations 9 (`keiro-runtime-9*`, Keiro 0.25.1.0) and
+8 (`keiro-runtime-8*`, Keiro 0.24.0.0) stay available. Select a generation explicitly; the default application cohort retains Keiro 0.22
 for [Kioku](mori://shinzui/kioku) compatibility.
 
 For everyday build performance, follow

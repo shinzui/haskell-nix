@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "selections": [
+    {
+      "id": "bytestring-lexing-ghc9124-native-v1",
+      "package": "bytestring-lexing",
+      "profile": "verified-bytestring-lexing-ghc9124-v1",
+      "owner": "mori://shinzui/haskell-nix",
+      "reason": "Run the complete test-all suite and enforce bounds for the exact source tested on native Apple Silicon and the user-selected translated x86 Linux guest. Other compiler/platform selections retain their explicit legacy policy.",
+      "evidence": [
+        "docs/evidence/ep21/bytestring-lexing-native-policy-pilot.json"
+      ],
+      "eligibility": {
+        "compilers": ["9.12.4"],
+        "systems": ["aarch64-darwin", "x86_64-linux"],
+        "channels": ["github", "hackage"],
+        "version": "0.5.0.16",
+        "sha256": "sha256-Fi3+KzDIHA6y/WZ8SVdBQhi9tHhHfw8qEcT6nvW4YXs=",
+        "revision": null
+      }
+    }
+  ]
+}

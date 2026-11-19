@@ -1,5 +1,8 @@
 # Bundle Update Log
 
+## 2026-11-18
+* **Update**: DOC-6 documents explicit Keiro 0.26 runtime generation 10, its `AppHooks.serviceTopology`, `HostOptions.topology` and keiro-dsl grammar breaking changes, and Kioku's retention on generation 8.
+
 ## 2026-11-16
 * **Update**: DOC-6 documents explicit Keiro 0.25 and Shibuya 0.13 runtime generation 9, Keiro migration 0033, the adapter telemetry fields and Kioku's retention on generation 8.
 

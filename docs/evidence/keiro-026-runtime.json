@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "runtime": "keiro-runtime",
+  "generation": 10,
+  "fingerprint": "cd40dbc6b3003afe5abd385c51d2ee87f20a00e0f3b1c3d1fc9e5012a1f843f0",
+  "indexState": "2026-11-19T03:32:46Z",
+  "roots": 37,
+  "ownedPackages": 325,
+  "versions": {
+    "keiro": {
+      "before": "0.25.1.0",
+      "after": "0.26.0.0"
+    },
+    "keiro-core": {
+      "before": "0.25.1.0",
+      "after": "0.26.0.0"
+    },
+    "keiro-dsl": {
+      "before": "0.25.1.0",
+      "after": "0.26.0.0"
+    },
+    "keiro-migrations": {
+      "before": "0.25.1.0",
+      "after": "0.26.0.0"
+    },
+    "keiro-ops": {
+      "before": "0.25.1.0",
+      "after": "0.26.0.0"
+    },
+    "keiro-ops-http": {
+      "before": "0.25.1.0",
+      "after": "0.26.0.0"
+    },
+    "keiro-pgmq": {
+      "before": "0.25.1.0",
+      "after": "0.26.0.0"
+    },
+    "keiro-test-support": {
+      "before": "0.25.1.0",
+      "after": "0.26.0.0"
+    }
+  },
+  "otherSourceIdentityChanges": [],
+  "transitiveVersionsRetained": true,
+  "sourceProfileSolves": {
+    "github": "passed",
+    "hackage": "passed"
+  },
+  "defaultCohort": "retained for mori://shinzui/kioku compatibility",
+  "broadSupport": "unverified",
+  "nativeValidation": {
+    "system": "aarch64-darwin",
+    "compiler": "ghc9124",
+    "checkedAt": "2026-11-19T05:04:37.416272+00:00",
+    "rootsPerChannel": 37,
+    "channels": [
+      "github",
+      "hackage"
+    ],
+    "runtimeBuilds": "passed",
+    "frozenParity": "passed",
+    "inspectionExecutables": "passed",
+    "artifacts": {
+      "inspection": {
+        "github": "/nix/store/qjpkw6dzxfdxcnhx447rbyswnyw747gq-runtime-inspection-github",
+        "hackage": "/nix/store/y7qs57jj99bplrnr5k2qj423nm839mby-runtime-inspection-hackage"
+      },
+      "parity": {
+        "github": "/nix/store/aby68j1i6027a9jdk8sgkfgkkgiclh85-retained-runtime-frozen-parity",
+        "hackage": "/nix/store/wh06xnv1nq4phryyfaamlk5i93d0bj93-retained-runtime-frozen-parity"
+      },
+      "roots": {
+        "github": "/nix/store/5bx9v2hmlmbqywzrcy5n17i2mycc2g1v-keiro-runtime-roots",
+        "hackage": "/nix/store/pygpds903n7w2954x8jlwj182iifqdpg-keiro-runtime-roots"
+      }
+    },
+    "applicationQualification": "Kioku excluded; its released bounds require Keiro 0.24 and Shibuya 0.12",
+    "linuxBuilds": "not run"
+  },
+  "repositoryValidation": {
+    "flakeEvaluation": "nix flake check --no-build --no-eval-cache: passed",
+    "retainedRuntimeIntegrity": "10 generations validated",
+    "historicalSnapshotsAndNamedSelections": "unchanged",
+    "broadApplicationFreeze": "unchanged"
+  }
+}
