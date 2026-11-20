@@ -1,5 +1,9 @@
 # Bundle Update Log
 
+## 2026-11-20
+
+* **Addition**: IR-6 requests a singleton kenshou family after the first Hackage release.
+
 ## 2026-11-17
 
 * **Addition**: IR-5 requests shomei-core, shomei-jwt and jose for the Rei cohort and its retained runtime, from Rei ExecPlan 292.
