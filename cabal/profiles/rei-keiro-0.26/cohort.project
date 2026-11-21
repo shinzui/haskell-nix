@@ -1,0 +1,5 @@
+packages: profile.cabal
+import: common.config
+import: retained.config
+import: ../../runtimes/keiro-runtime/11/configuration.project
+index-state: hackage.haskell.org 2026-11-21T20:27:57Z

@@ -1,0 +1,46 @@
+{
+  "runtimes": {
+    "keiro-runtime": {
+      "basePolicyFingerprint": "1454decc0402e63a9c07a86e00fa0bcb0967d666b79a51123aedb7d7dacfee45",
+      "configurations": [
+        {
+          "channel": "github",
+          "compiler": "ghc9124",
+          "contextFile": "config/generated-recipes/keiro-runtime/aarch64-darwin/github/inputs/context.json",
+          "disableHaddock": true,
+          "disableProfiling": true,
+          "recipeDirectory": "config/generated-recipes/keiro-runtime/aarch64-darwin/github/recipes",
+          "system": "aarch64-darwin"
+        },
+        {
+          "channel": "hackage",
+          "compiler": "ghc9124",
+          "contextFile": "config/generated-recipes/keiro-runtime/aarch64-darwin/hackage/inputs/context.json",
+          "disableHaddock": true,
+          "disableProfiling": true,
+          "recipeDirectory": "config/generated-recipes/keiro-runtime/aarch64-darwin/hackage/recipes",
+          "system": "aarch64-darwin"
+        },
+        {
+          "channel": "github",
+          "compiler": "ghc9124",
+          "contextFile": "config/generated-recipes/keiro-runtime/x86_64-linux/github/inputs/context.json",
+          "disableHaddock": true,
+          "disableProfiling": true,
+          "recipeDirectory": "config/generated-recipes/keiro-runtime/x86_64-linux/github/recipes",
+          "system": "x86_64-linux"
+        },
+        {
+          "channel": "hackage",
+          "compiler": "ghc9124",
+          "contextFile": "config/generated-recipes/keiro-runtime/x86_64-linux/hackage/inputs/context.json",
+          "disableHaddock": true,
+          "disableProfiling": true,
+          "recipeDirectory": "config/generated-recipes/keiro-runtime/x86_64-linux/hackage/recipes",
+          "system": "x86_64-linux"
+        }
+      ]
+    }
+  },
+  "schemaVersion": 1
+}

@@ -326,6 +326,11 @@
             okf = 6;
             shikumi-baikai = 12;
           });
+          runtimeOutputs11 = runtimeOutputsFor 11 (runtimeApplicationSelections // {
+            kioku = 12;
+            okf = 6;
+            shikumi-baikai = 12;
+          });
           runtimeImport = pkgsPlain.writeShellApplication {
             name = "runtime-import";
             runtimeInputs = [ pkgsPlain.python3 ];
@@ -474,6 +479,13 @@
             keiro-runtime-10-manifest = runtimeOutputs10.github.manifest;
             keiro-runtime-10-hackage-manifest = runtimeOutputs10.hackage.manifest;
             keiro-runtime-10-proof = runtimeOutputs10.github.proof;
+            keiro-runtime-11 = runtimeOutputs11.github.roots;
+            keiro-runtime-11-hackage = runtimeOutputs11.hackage.roots;
+            keiro-runtime-11-closure = runtimeOutputs11.github.closure;
+            keiro-runtime-11-hackage-closure = runtimeOutputs11.hackage.closure;
+            keiro-runtime-11-manifest = runtimeOutputs11.github.manifest;
+            keiro-runtime-11-hackage-manifest = runtimeOutputs11.hackage.manifest;
+            keiro-runtime-11-proof = runtimeOutputs11.github.proof;
             cohort-manifest = cohortManifest;
             cohort-closure = cohortFarm "cohort-closure" cohortNames;
             cohort-roots = cohortFarm "cohort-roots" [
@@ -695,6 +707,30 @@
             runtime-10-hackage-inspection = import ./checks/runtime-inspection.nix {
               pkgs = pkgsPlain;
               scope = runtimeOutputs10.hackage.scope;
+              channel = "hackage";
+              includeKioku = false;
+            };
+            runtime-11-github-parity = import ./checks/runtime-parity.nix {
+              inherit lib updater;
+              pkgs = pkgsPlain;
+              manifest = runtimeOutputs11.github.manifest;
+              record = runtimeOutputs11.github.selected.metadata;
+            };
+            runtime-11-hackage-parity = import ./checks/runtime-parity.nix {
+              inherit lib updater;
+              pkgs = pkgsPlain;
+              manifest = runtimeOutputs11.hackage.manifest;
+              record = runtimeOutputs11.hackage.selected.metadata;
+            };
+            runtime-11-github-inspection = import ./checks/runtime-inspection.nix {
+              pkgs = pkgsPlain;
+              scope = runtimeOutputs11.github.scope;
+              channel = "github";
+              includeKioku = false;
+            };
+            runtime-11-hackage-inspection = import ./checks/runtime-inspection.nix {
+              pkgs = pkgsPlain;
+              scope = runtimeOutputs11.hackage.scope;
               channel = "hackage";
               includeKioku = false;
             };

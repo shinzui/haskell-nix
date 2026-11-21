@@ -3089,6 +3089,73 @@
         {
             "discoveryPolicy": {
                 "excludedPackages": [],
+                "packageOverrides": {}
+            },
+            "family": "kioku",
+            "generation": 12,
+            "packages": [
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-gqLdYn4o1WvhbZ8juJULiso1buGeeVa6xoXIlnKPLeQ=",
+                        "version": "0.14.0.0"
+                    },
+                    "name": "kioku-api",
+                    "path": "kioku-api",
+                    "version": "0.14.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-iziYp8HaG/S56uB1JLDdEEMBHtVNzfG4x9Qv3JJTX34=",
+                        "version": "0.14.0.0"
+                    },
+                    "name": "kioku-cli",
+                    "path": "kioku-cli",
+                    "version": "0.14.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-aOixieGrP+vrWo1Icyh5fASdI6vbQ+QSj5cUnYKVGoE=",
+                        "version": "0.14.0.0"
+                    },
+                    "name": "kioku-core",
+                    "path": "kioku-core",
+                    "version": "0.14.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-RCCagVPy/D91iz5GAehXh0Jz3b2u1//eZgt2/orJrCc=",
+                        "version": "0.14.0.0"
+                    },
+                    "name": "kioku-migrate",
+                    "path": "kioku-migrate",
+                    "version": "0.14.0.0"
+                },
+                {
+                    "cabal2nixOptions": "",
+                    "hackage": {
+                        "hash": "sha256-3Z0nvyqm94/NK+K5hqpdokqRZdP1n4/QlbF5AVz/dkM=",
+                        "version": "0.14.0.0"
+                    },
+                    "name": "kioku-migrations",
+                    "path": "kioku-migrations",
+                    "version": "0.14.0.0"
+                }
+            ],
+            "source": {
+                "narHash": "sha256-fvEBI5C3qqZcGKhncmJ/nOL6quk/tS9OrWmKqpbw8xg=",
+                "owner": "shinzui",
+                "repo": "kioku",
+                "rev": "545fa1c8964676e53dcd426005bf917ed7811082",
+                "type": "github"
+            }
+        },
+        {
+            "discoveryPolicy": {
+                "excludedPackages": [],
                 "packageOverrides": {
                     "kiroku-metrics": {
                         "cabal2nixOptions": "-f-example"
@@ -6842,6 +6909,17 @@
                 }
             ],
             "generation": 11,
+            "group": "kioku"
+        },
+        {
+            "compatibilityProfile": "default",
+            "families": [
+                {
+                    "family": "kioku",
+                    "generation": 12
+                }
+            ],
+            "generation": 12,
             "group": "kioku"
         },
         {
